@@ -1,0 +1,641 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{microtype}
+\geometry{margin=2.5cm}
+
+\title{\textbf{Propuesta de Evolución Gradual del Algoritmo Sargon}\\
+Aprendizaje de pesos, valor contextual de piezas y profundidad adaptativa}
+\author{Nota de trabajo}
+\date{\today}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  frame=single,
+  breaklines=true,
+  columns=fullflexible,
+  showstringspaces=false
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Esta nota propone una evolución incremental y controlable del algoritmo Sargon mediante aprendizaje a partir de partidas propias y partidas expertas en formato PGN. La idea rectora es preservar en todo momento una línea base estable: cuando no existe experiencia acumulada, el comportamiento del sistema debe coincidir exactamente con el Sargon clásico. A partir de esa base se introducen, de manera independiente y medible, tres mecanismos de aprendizaje: ajuste de los pesos de la función de valor, estimación contextual del valor de las piezas y profundidad adaptativa de búsqueda. Se propone además un esquema de autoridad de las fuentes de experiencia, un mecanismo de confianza gradual y una estrategia experimental que permita verificar el aporte de cada componente antes de avanzar hacia modelos más complejos.
+\end{abstract}
+
+\section{Principio rector}
+El objetivo no es reemplazar Sargon por una arquitectura completamente distinta, sino construir una evolución progresiva del algoritmo existente.
+
+La condición fundamental es:
+\[
+\boxed{\text{sin experiencia} \Rightarrow \text{Sargon clásico}}
+\]
+
+y, a medida que se acumula evidencia:
+\[
+\boxed{
+\text{Sargon adaptativo}
+=
+\text{Sargon clásico}
++
+\text{correcciones aprendidas}
+}
+\]
+
+En ausencia de experiencia:
+\[
+\Delta w = 0,\qquad
+\Delta v = 0,\qquad
+\Delta d = 0,
+\]
+por lo que:
+\[
+\boxed{
+Sargon_{\text{adaptativo}}
+=
+Sargon_{\text{clásico}}
+}
+\]
+
+Esta propiedad debe verificarse mediante pruebas automáticas.
+
+\section{Arquitectura conceptual}
+Se propone separar el aprendizaje en tres módulos independientes:
+\[
+\boxed{
+\text{Sargon adaptativo}
+=
+\text{Valor aprendido}
++
+\text{Material contextual}
++
+\text{Profundidad adaptativa}
+}
+\]
+
+\section{Módulo I: aprendizaje de pesos de la función de valor}
+Supóngase que la evaluación clásica de Sargon puede escribirse como:
+\[
+V_S(s)=\sum_{i=1}^{n} w_i^{(0)} f_i(s),
+\]
+donde $f_i(s)$ son características posicionales y $w_i^{(0)}$ los pesos originales.
+
+Entre las características pueden encontrarse material, movilidad, control del centro, estructura de peones, seguridad del rey, desarrollo, espacio, actividad e iniciativa.
+
+La evolución propuesta consiste en mantener el peso original y aprender sólo una corrección:
+\[
+w_i = w_i^{(0)} + \Delta w_i.
+\]
+
+Inicialmente:
+\[
+\Delta w_i = 0.
+\]
+
+La evaluación efectiva será:
+\[
+V(s)=\sum_i
+\left(w_i^{(0)}+\Delta w_i\right)f_i(s).
+\]
+
+Esto mantiene el modelo interpretable.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Factor & Sargon clásico & Valor aprendido \\
+\midrule
+Material & 1.00 & 0.98 \\
+Movilidad & 0.12 & 0.19 \\
+Seguridad del rey & 0.30 & 0.44 \\
+Peón aislado & -0.18 & -0.15 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Módulo II: valor contextual de las piezas}
+Se mantienen como referencia los valores base:
+\[
+P=1,\qquad N=3,\qquad B=3,\qquad R=5,\qquad Q=9.
+\]
+
+Para cada tipo de pieza:
+\[
+v_p(s)=v_p^{(0)}+\Delta v_p(s).
+\]
+
+Por ejemplo, para un caballo:
+\[
+v_N(s)
+=
+3+
+\alpha_1 C(s)
++
+\alpha_2 M(s)
++
+\alpha_3 O(s)
++
+\alpha_4 F(s),
+\]
+donde $C$ mide centralización, $M$ movilidad, $O$ calidad de un puesto avanzado y $F$ fase de la partida.
+
+Así, una pieza puede adquirir un valor efectivo dependiente del contexto. Sin experiencia:
+\[
+\Delta v_p(s)=0.
+\]
+
+El mismo principio puede aplicarse a pareja de alfiles, torres en columnas abiertas, dama activa, peones pasados y piezas menores en finales.
+
+\section{Módulo III: profundidad adaptativa}
+Sea $d_0$ la profundidad base de Sargon. La profundidad efectiva se define como:
+\[
+d(s)=d_0+\Delta d(s).
+\]
+
+Inicialmente:
+\[
+\Delta d(s)=0.
+\]
+
+Con experiencia, el sistema puede aprender que algunas posiciones merecen más análisis y otras menos.
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Tipo de posición & Profundidad sugerida \\
+\midrule
+Tranquila & 3 \\
+Normal & 4 \\
+Compleja & 5 \\
+Crítica o táctica & 7 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Debe imponerse:
+\[
+d_{\min}\leq d(s)\leq d_{\max}.
+\]
+
+\section{Fuentes de experiencia}
+Se consideran dos fuentes principales.
+
+\subsection{Partidas propias}
+Las partidas jugadas por el propio motor son válidas, pero su autoridad debe ser moderada:
+\[
+\omega_{\text{self}}=1.
+\]
+
+\subsection{Partidas expertas en PGN}
+Las partidas de grandes maestros, motores fuertes o corpus validados reciben mayor autoridad:
+\[
+\omega_{\text{expert}}>\omega_{\text{self}}.
+\]
+
+Por ejemplo:
+\[
+\omega_{\text{expert}}=5.
+\]
+
+Una actualización genérica puede escribirse como:
+\[
+\Delta \theta
+=
+\alpha\,
+\omega_{\text{source}}\,
+\delta\,
+\nabla_\theta V.
+\]
+
+La procedencia debe conservarse:
+\begin{lstlisting}
+source=self
+source=pgn
+source=master
+source=engine
+\end{lstlisting}
+
+y opcionalmente:
+\begin{lstlisting}
+authority=1.0
+authority=5.0
+authority=10.0
+\end{lstlisting}
+
+\section{Aprendizaje desde PGN experto}
+Sea una posición $s$ donde el experto elige:
+\[
+a^*.
+\]
+
+Sean:
+\[
+a_1,\ldots,a_n
+\]
+las jugadas legales.
+
+El PGN aporta evidencia de preferencia:
+\[
+Q(s,a^*) \gtrsim Q(s,a_j),
+\qquad \forall j.
+\]
+
+No se asume que $a^*$ sea la única jugada correcta, sino una observación de alta autoridad.
+
+Puede usarse una pérdida de ranking:
+\[
+L=
+\sum_{a\neq a^*}
+\max
+\left(
+0,\,
+m-
+\left[
+V(T(s,a^*))-V(T(s,a))
+\right]
+\right),
+\]
+donde $m$ es un margen mínimo.
+
+\section{Aprendizaje desde partidas propias}
+El resultado final es:
+\[
+z=
+\begin{cases}
++1 & \text{victoria},\\
+0 & \text{tablas},\\
+-1 & \text{derrota}.
+\end{cases}
+\]
+
+Puede aplicarse TD:
+\[
+\delta_t
+=
+r_{t+1}
++
+\gamma V(s_{t+1})
+-
+V(s_t).
+\]
+
+Con trazas de elegibilidad:
+\[
+e_t=
+\gamma\lambda e_{t-1}
++
+\nabla V(s_t),
+\]
+y:
+\[
+\theta_{t+1}
+=
+\theta_t
++
+\alpha\delta_t e_t.
+\]
+
+Conviene que:
+\[
+\alpha_{\text{self}}
+<
+\alpha_{\text{expert}}.
+\]
+
+\section{Qué debe aprender cada módulo}
+\subsection*{Pesos posicionales}
+Los PGN expertos son especialmente útiles porque proporcionan gran cantidad de decisiones:
+\[
+a^*\succ a.
+\]
+
+\subsection*{Valor contextual de piezas}
+Debe concentrarse en posiciones informativas: intercambios, sacrificios, simplificaciones, finales, cambios de piezas menores, cambios de dama y entregas de calidad.
+
+\subsection*{Profundidad adaptativa}
+El PGN no contiene la profundidad mental del experto, pero puede construirse una señal propia del motor.
+
+Para cada posición experta se ejecuta Sargon a profundidades crecientes:
+\[
+d=1,2,\ldots,D.
+\]
+
+Se define:
+\[
+d^*
+=
+\min
+\left\{
+d:
+a_{\text{Sargon}}(s,d)=a_{\text{expert}}
+\right\}.
+\]
+
+Así se genera un dataset:
+\[
+(s,d^*).
+\]
+
+Este $d^*$ no representa cuánto calculó el maestro, sino cuánto necesita Sargon para reproducir su decisión.
+
+\section{Confianza gradual}
+Cada parámetro aprendido debe asociarse con:
+\[
+(\text{valor aprendido},N,c),
+\]
+donde $N$ es la evidencia acumulada y $c$ la confianza.
+
+La integración puede formularse como:
+\[
+w_i^{\text{eff}}
+=
+(1-c_i)w_i^{(0)}
++
+c_iw_i^{(L)},
+\]
+con:
+\[
+0\leq c_i\leq1.
+\]
+
+Una función sencilla:
+\[
+c(N)=\frac{N}{N+K}.
+\]
+
+Por ejemplo, con $K=1000$:
+\[
+N=0 \Rightarrow c=0,
+\qquad
+N=1000 \Rightarrow c=0.5,
+\qquad
+N=9000 \Rightarrow c=0.9.
+\]
+
+La evidencia experta puede incrementar el número efectivo:
+\[
+N_{\text{efectivo}}
+=
+\omega_{\text{source}}N.
+\]
+
+\section{Evolución por niveles}
+\subsection*{Nivel 0: Sargon clásico}
+\[
+\Delta w=0,\qquad
+\Delta v=0,\qquad
+\Delta d=0.
+\]
+
+\subsection*{Nivel 1: aprendizaje de pesos}
+Se habilita únicamente:
+\[
+w_i^{(0)}\rightarrow w_i.
+\]
+
+\subsection*{Nivel 2: valor contextual de piezas}
+Se habilita:
+\[
+v_p(s)
+=
+v_p^{(0)}
++
+\Delta v_p(s).
+\]
+
+\subsection*{Nivel 3: profundidad adaptativa}
+Se incorpora:
+\[
+d(s)=d_0+\Delta d(s).
+\]
+
+Esta etapa debe introducirse sólo después de demostrar que los niveles anteriores son estables.
+
+\section{Por qué no comenzar con una red neuronal grande}
+En las primeras fases conviene utilizar modelos pequeños e interpretables.
+
+Para los pesos:
+\[
+\Delta w_i
+\]
+puede ser un conjunto directo de parámetros.
+
+Para material contextual:
+\[
+\Delta v_p(s)
+=
+\beta^\top g_p(s).
+\]
+
+Para profundidad:
+\[
+\Delta d(s)
+=
+\operatorname{round}
+\left(
+\eta^\top h(s)
+\right).
+\]
+
+Sólo si una aproximación lineal muestra una limitación objetiva debería reemplazarse por una red neuronal pequeña.
+
+\section{Persistencia}
+Se propone una base:
+\begin{lstlisting}
+sargon_learning.sqlite
+\end{lstlisting}
+
+con:
+\begin{lstlisting}
+learned_weights
+piece_context
+depth_model
+\end{lstlisting}
+
+y estadísticas:
+\begin{lstlisting}
+source
+samples
+wins
+losses
+draws
+confidence
+last_update
+\end{lstlisting}
+
+Además:
+\begin{lstlisting}
+model_version
+created
+games_seen
+expert_games_seen
+\end{lstlisting}
+
+Esto permite auditoría y rollback.
+
+\section{Interfaz de línea de comandos}
+Una interfaz posible:
+\begin{lstlisting}
+sargon --learn-game
+sargon --learn-pgn masters.pgn
+sargon --learn-pgn masters.pgn --authority 5
+
+sargon --learning off
+sargon --learning weights
+sargon --learning pieces
+sargon --learning full
+\end{lstlisting}
+
+\section{Métricas obligatorias}
+Deben conservarse simultáneamente:
+\[
+V_S(s)
+\]
+y:
+\[
+V_L(s).
+\]
+
+Además:
+\begin{lstlisting}
+move_baseline
+move_learned
+\end{lstlisting}
+
+Una métrica importante es:
+\[
+P
+\left(
+a_{\text{learned}}
+\neq
+a_{\text{Sargon}}
+\right).
+\]
+
+También deben medirse:
+
+\begin{itemize}
+    \item coincidencia con jugadas expertas;
+    \item error de valoración;
+    \item estabilidad de pesos;
+    \item variación por fuente;
+    \item profundidad media;
+    \item nodos buscados;
+    \item resultados de partidas;
+    \item diferencia entre evaluación clásica y aprendida.
+\end{itemize}
+
+\section{Arquitectura resumida}
+\begin{verbatim}
+                    +----------------------+
+                    |   Sargon baseline    |
+                    | pesos originales     |
+                    | piezas clasicas      |
+                    | depth original       |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | learned corrections  |
+                    |                      |
+                    | Delta pesos          |
+                    | Delta piezas         |
+                    | Delta profundidad    |
+                    +----------+-----------+
+                               |
+                        confianza c(N)
+                               |
+                               v
+                    +----------------------+
+                    |  Sargon adaptativo   |
+                    +----------------------+
+\end{verbatim}
+
+Fuentes:
+\begin{verbatim}
+partidas propias --- autoridad baja ----+
+                                         +--> aprendizaje
+PGN expertos ------ autoridad alta -----+
+\end{verbatim}
+
+La integración conceptual:
+\[
+\boxed{
+\theta_{\text{eff}}
+=
+(1-c)\theta_{\text{Sargon}}
++
+c\theta_{\text{learned}}
+}
+\]
+
+con:
+\[
+c(0)=0.
+\]
+
+\section{Plan experimental recomendado}
+La primera implementación debería limitarse al aprendizaje de pesos de evaluación.
+
+La persistencia, sin embargo, debe diseñarse desde el comienzo para admitir:
+\begin{itemize}
+    \item \texttt{piece\_context};
+    \item \texttt{depth\_model}.
+\end{itemize}
+
+Antes de avanzar al segundo nivel deberían demostrarse:
+\[
+\text{PGN experto}
+\rightarrow
+\text{cambio estable de pesos},
+\]
+
+\[
+\text{más experiencia}
+\rightarrow
+\text{mayor confianza},
+\]
+
+y:
+\[
+\text{pesos aprendidos}
+\rightarrow
+\text{mejor coincidencia con decisiones expertas}.
+\]
+
+Sólo entonces debería incorporarse el valor contextual de las piezas.
+
+La profundidad adaptativa debe ser la tercera etapa porque no sólo incorpora conocimiento ajedrecístico, sino también una decisión sobre cuánto recurso computacional asignar.
+
+\section{Conclusión}
+La propuesta organiza la evolución de Sargon alrededor de tres capacidades:
+
+\begin{enumerate}
+    \item aprender cuánto pesan los factores posicionales;
+    \item aprender cuánto vale una pieza según el contexto;
+    \item aprender cuánto análisis merece una posición.
+\end{enumerate}
+
+Las tres comparten una propiedad esencial:
+\[
+\boxed{
+\text{experiencia cero}
+\Rightarrow
+\text{Sargon clásico}
+}
+\]
+
+y sólo modifican el comportamiento cuando existe evidencia suficiente.
+
+Esto permite construir un Sargon progresivamente adaptativo manteniendo interpretabilidad, control experimental, posibilidad de rollback y separación clara entre conocimiento original y conocimiento aprendido.
+
+\end{document}

@@ -1,0 +1,2 @@
+[console_scripts]
+challenger = challenger.cli:main
