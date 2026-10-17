@@ -16,20 +16,24 @@ Dr. Pedro E. Colla
 |              **Fecha:** | 11 de Octubre de 2026                     |
 |          **Audiencia:** | Operación, pruebas, extensión y auditoría |
 
-Manual de referencia consolidado de la arquitectura funcional de Sargon-NNUE. Se distingue el comportamiento implementado del alcance aún no verificado; la cronología de entregas se conserva exclusivamente como apéndice. La instalación operativa puede incorporar modificaciones locales: donde corresponda se debe verificar el contrato real con `--help` y los manifiestos de la corrida.
+Manual de referencia consolidado de la arquitectura funcional del proyecto Akkad. El proyecto está formado por los siguientes paquetes:
+
+* Sargon-NNUE. Plataforma de motores y evaluadores.
+* Challenger. Plataforma de jugado independiente.
+* micro Sargon. Port restringido de Sargon-NNUE a Raspberry Pico W1/2.
 
 
 # Propósito y principio arquitectónico
 
 ## Objetivo general
 
-Sargon-NNUE es una plataforma experimental para separar dos fuentes de fuerza a menudo entremezcladas en motores de ajedrez:
+Sargon-NNUE es una plataforma experimental para separar dos fuentes de táctica a menudo entremezcladas en motores de ajedrez:
 
 1.  el algoritmo que explora el árbol de juego (*player*);
 
 2.  la función que asigna valor a una posición (*evaluator*).
 
-El contrato conceptual continúa siendo:
+El API dominante continúa siendo:
 
 ``` python
 Evaluator:
@@ -61,51 +65,123 @@ El proyecto intenta que puedan compararse por separado:
 
 - coste del backend de evaluación.
 
-Esta separación es fundamental para interpretar correctamente experimentos del tipo:
+Esta separación permite definir en forma aislada el módulo de jugada (player) y el de evaluación de jugada (evaluador). Los API de es fundamental para interpretar correctamente experimentos del tipo:
 
     SARGON depth=3 + CLASSIC
     SARGON depth=3 + CEREBRUM
     SARGON depth=3 + STOCKFISH evaluator
 
-porque el algoritmo de búsqueda puede mantenerse fijo mientras cambia únicamente la función de evaluación.
+porque el algoritmo de búsqueda puede mantenerse fijo mientras cambia únicamente la función de evaluación en la medida que se trate de pares
+compatibles.
 
 # Evolución del proyecto
 
+El proyecto se podría sumarizar como "nunca fue en realidad ajedrez".
+El proyecto nace y evoluciona a partir de un esfuerzo de exploración 
+sobre posibles estrategias y plataformas para implementarlas, con énfasis
+en el uso de distintas arquitecturas de redes neurales para dar soporte
+a la evaluación.
+
+La configuración, interfaz y proceso de entrenamiento de las distintas
+redes es una de las fuentes prioritarias de exploración del proyecto.
+
+## Sargon: the old buddy
+
+Sargón fue el primer motor de juego para ajedrez automático comercialmente
+accesible, si bien existieron esfuerzos anteriores estaban normalmente
+implementados en grandes plataformas de cómputos (mainframe, VAX y otras) que tenían escasas opciones de accederlas. 
+Sargón implementó un algoritmo de ajedrez suficientemente efectivo como 
+para sorprender y batir a un jugador casual. Aun así su plataforma de 
+implementación era un procesador dedicado alrededor del chip Z80 con
+una cantidad ridículamente baja de memoria (8K RAM).
+Sargón usa un método de búsqueda llamado *MiniMax* optimizado para 
+reducir el número de exploraciones mediante una lógica de poda (*prunning*) de opciones basada en un algoritmo denominado *alpha/beta*.
+El ajedrez presenta una cantidad incomensurable de combinaciones posibles,
+en el orden de $10^{130}$ lo que garantiza que ni aún utilizando cada átomo en el universo conocido como un computador cuántico sería imposible (por 40 órdenes de magnitud) calcular todas las alternativas.
+Sargón utiliza un algoritmo relativamente simple de evaluación. En ajedrez 
+cada turno de movida se denomina *ply*. Sargon evalúa que jugadas son
+posibles en un momento dado del juego, toma cada una y simula hacerla. La nueva configuración del tablero es evaluada por una función heurística única
+que combina un promedio ponderado de distintos factores tales como 
+valor de las piezas involucradas, ciertas preferencias de juego (por ejemplo dominar el centro) y alternativas ganadoras tales como jaque mate (checkmate). En función del valor resultante a cada posible movida se le otorga un valor. Si se mira solo una jugada adelante Sargón juega con 
+*1 ply* de horizonte. Ese algoritmo se puede expandir para que cada jugada en 1 ply se explote en las jugadas posibles para luego evaluar cada una, y 
+así sucesivamente. 
+A medida que aumenta el número de ply utilizados el número de posiciones evaluadas aumenta geométricamente. Para limitar el tiempo de respuesta
+el algoritmo se define de una profundidad (depth) objetivo, usualmente
+2-ply.
+La mejor jugada del análisis es la que se realiza.
+El análisis se hace desde la perspectiva de las piezas blancas, por lo tanto
+si quien evalúa la jugada lo hace con blancas intentará optimizar el valor
+y si lo hace con negras minimizarlo.
+Posteriormente se explorará el algoritmo con mas detalle.
+Por su perspectiva histórica y por considerarse que Sargón permitía un
+nivel de ajedrez básico se toma como referencia de éste proyecto. Si el
+resultado puede batir en promedio a un programa con el algoritmo Sargón se
+lo considerará aceptable. 
+
 ## Bobby: conocimiento almacenado frente a política jugable
 
-Bobby fue el punto de partida de la línea de investigación: un entorno de juego de ajedrez apoyado en conocimiento adquirido y almacenado en una base de datos de gran volumen. Podía acumular experiencias, posiciones y resultados, pero una colección extensa de datos no equivale a una *política* fiable para seleccionar jugadas. Se constató que aumentar la base implicaba mayor costo de almacenamiento y consulta sin garantizar una estimación consistente de la calidad de cada alternativa legal. El problema no era exclusivamente de escala: faltaba generalización a posiciones no observadas y un criterio de decisión robusto.
+Bobby fue el punto de partida de la línea de investigación. El mismo 
+intenta un enfoque basado en la ecuación de Bellman para el aprendizaje
+por refuerzos. Básicamente se establece un ambiente que define las reglas
+de ajedrez y se expone al motor principal a jugadas históricas o 
+aleatorias. Las partidas jugadas de esa manera terminan eventualmente
+y el resultado se propaga (backpropagation) a la política de todas 
+las jugadas previas desde la perspectiva de las piezas blancas. El refuerzo será positivo si ganan las blancas y negativo si fueron las negras. Eventualmente la ecuación de Bellman generará una política en cada uno de
+los estados del tablero para cada una de las jugadas posibles. Esa política se utilizará para determinar, a igualdad del tablero, la mejor jugada
+posible.
+De esa manera se despliega un entorno de juego de ajedrez apoyado en conocimiento adquirido y almacenado en una base de datos de gran volumen
+que no depende de una heurística fija y es capaz de acumular experiencias, posiciones y resultados.
+Sin embargo la experimentación concluye que una colección extensa de datos no equivale a una *política* fiable para seleccionar jugadas. Se constató que el aumento de la base de datos resulta geométrico encareciendo el aprendizaje y la consulta sin garantizar una estimación consistente de la calidad de cada alternativa posible. El problema no era exclusivamente de escala, el
+88% de las posiciones de tablero tenía una sola visita,  faltaba por lo tanto la generalización a posiciones no observadas y un criterio de decisión robusto.
+El programa era capaz de aprender mediante partidas históricas en formato 
+PGN y por autojuego (random y guiado por el mismo mecanismo de evaluación).
+Claramente el experimento encontró sus límites rápidamente, pero permitió desarrollar el criterio con que se representaría el estado del tablero en todas las evoluciones posteriores.
+La evolución del tablero debe tener en cuenta cada una de las posiciones del mismo, la posición de cada pieza remanente en una jugada en particular, el registro de las condiciones sobre derechos de enroque y paso, la condición de mate, el número de jugadas redundantes (para tablas por repetición) y las reglas de 75 movidas (para tablas).
+El algoritmo utilizado se discute en un apéndice posterior.
 
 ## Nyx: otra infraestructura, mismo cuello de botella estratégico
 
-Nyx buscó superar el límite de Bobby mediante una organización diferente de los componentes y de los datos de aprendizaje. La nueva infraestructura facilitó experimentación, pero dejó visible un problema de fondo: el mecanismo de selección de jugadas seguía siendo débil. Mejorar la fuente de datos o la red no corregía automáticamente la lógica que exploraba las respuestas del adversario.
+Nyx buscó superar el límite de Bobby mediante una organización diferente de los componentes donde se capturaban los elementos de política de juego y decisión de movida a partir de los datos de aprendizaje. La nueva infraestructura facilitó experimentación, pero dejó visible un problema de fondo: el mecanismo de selección de jugadas seguía siendo débil. Mejorar la fuente de datos o la red no corregía automáticamente la lógica que exploraba las respuestas del adversario.
+La gran contribución de ésta etapa fue comprender que elementos de infraestructura son necesarios para operar un motor de ésta indole, nació la necesidad de tener componentes *listener* en un puerto TCP, mediante entrada/salida estándar, soportar el protocolo UCI, poder hacer bridge con los principales motores externos tales como *lichess.org* (integrando su componente *lichess-bot*) y separar las funciones de *auto-juego* y *entrenamiento*. 
 
 ## Akkad: búsqueda, aprendizaje y necesidad de auditoría
 
-Akkad incorporó experimentación más explícita con profundidad, extensiones y mecanismos de aprendizaje de la búsqueda. Esto hizo evidente la necesidad de registrar por separado cómo se elegían candidatas, cuánto se exploraba y de dónde provenía una puntuación. La arquitectura, todavía demasiado monolítica, dificultaba aislar el origen de una regresión: evaluación, búsqueda, integración y control temporal quedaban entremezclados.
+Akkad incorporó experimentación más explícita con profundidad, extensiones y mecanismos de aprendizaje de la búsqueda. Esto hizo evidente la necesidad de registrar por separado cómo se elegían candidatas, cuánto se exploraba y de dónde provenía una puntuación. 
+La arquitectura, originalmente monolítica se transformó en sub-sistemas independientes que permitían aislar el origen de una regresión: evaluación, búsqueda, integración y control temporal quedaban entremezclados.
+Nació de esa forma el componente sargon-NNUE descripto en mas detalle 
+luego.
+El esfuerzo demostró la importancia de estabilizar el proceso de evaluación con otros mecanismos que no fueran el *auto-juego* puesto que mientras la 
+plataforma está evolucionando es dificil catalizar análisis sobre las
+mejoras o deterioros asociados a una acción. Para solucionar eso se creo una plataforma auxiliar denominada *challenger*, el cual es básicamente un jugador automático capaz de jugar con un motor Sargon simple o permitir a un humano hacer una partida contra el motor principal. 
 
-## Sargon-NNUE: modularidad como principio científico
+## Sargon-NNUE: modularidad como principio de arquitectura
 
-Sargon-NNUE separa *player* (genera y selecciona movimientos) de *evaluator* (estima valor posicional), y ubica fuera de ambos la preparación de datos, el entrenamiento, la comparación UCI y la auditoría. Challenger puede actuar como infraestructura de ejecución externa; MATCH y RALLY organizan enfrentamientos. El diseño permite usar una misma búsqueda con varios evaluadores y un evaluador con distintas búsquedas, conservar configuraciones reproducibles y diagnosticar límites concretos sin reemplazar subsistemas completos.
+Sargon-NNUE tiene un enfoque arquitectónico orientado al plug-in de 
+componentes especializados sobre un bus común de interfaces API establecidas (o contratos). De esa manera se separa al  *player* (genera y selecciona movimientos) de *evaluator* (estima valor posicional), y ubica fuera de ambos la preparación de datos, el entrenamiento, la comparación UCI y la auditoría. Challenger puede actuar como infraestructura de ejecución externa. Dado
+que la evaluación sobre si la arquitectura es adecuada y si las modificaciones la mejoran o no se incorporan componentes de *match* que permiten jugar a diferentes combinaciones de player/evaluador entre si. Incluso se puede organizar verdaderos torneos o *rally* donde una dada
+mezcla de combinaciones player/evaluador compiten entre si pudiendo observar con algo mas de rigor las fortalezas relativas. El diseño permite usar una misma búsqueda con varios evaluadores y un evaluador con distintas búsquedas, conservar configuraciones reproducibles y diagnosticar límites concretos sin reemplazar subsistemas completos.
 
 # Arquitectura
 
 ## Visión por capas
 
-    PGN / partidas externas / maestros
-            | prepare / resample / etiquetas
+    PGN (partidas externas / maestros)
+            |
+        (prepare) selecciona partidas y etiquetas
+            |  
             v
-    SQLite .pb --- audit dataset --- train --- checkpoint NPZ
+    SQLite .pb --- audit dataset --- train --- (checkpoint) .npz
             |                               |
             +-------------> evaluators <---+
                                ^
+                               |
                             players
-                        Sargon / Sargon-Plus /
-                        Cerebrum / Stockfish / Random
+          Sargon/Sargon-Plus/Cerebrum/Stockfish/LC0/Random
                                |
                             UCI API
                       stdin / TCP listen
                                |
-                        MATCH / SELFPLAY
+                MATCH / SELFPLAY / (external player)
                                |
                              RALLY
                                |
@@ -113,7 +189,13 @@ Sargon-NNUE separa *player* (genera y selecciona movimientos) de *evaluator* (es
                                |
                  sargon_audit / judge / differential
 
-La *factory* resuelve una configuración de brain a una pareja player–evaluator; el controlador UCI recibe una posición y una instrucción de búsqueda. Los motores propios deben respetar la convención pública de evaluación en centipawns con signo positivo para las blancas y signo negativo para las negras. La implementación interna de negamax puede usar perspectiva del bando que mueve, pero debe convertir en los límites del contrato.
+Para gestionar las múltiples combinaciones de una pareja player/evaluator se almacenan los mismos bajo un nombre clave (de fantasía) en un repositorio
+denominado *brains.json* los programas refieren a ese repositorio no solo
+para obtener el par player/evaluator sino también la configuración de los
+mismos, esa configuración recibe el nombre de *brain*.
+El API de los players respetan la convensión es valorar las jugadas en
+terminos de *centipawns* con signo positivo para las blancas y signo negativo para las negras.
+
 
 ## Perfiles de brain y prioridades de configuración
 
@@ -125,19 +207,22 @@ Para cada posición legal, el player considera jugadas, consulta el evaluador cu
 
 ## Trazabilidad y reproducibilidad
 
-Una corrida posee configuración de RALLY, perfiles de brains, manifiestos, procesos de motor, movimientos FEN y resultados. Las auditorías persistentes deben mantener el vínculo `run_id`, `match_id`, `game_id`, `ply` y `search_id` o equivalentes que permitan correlación sin ambigüedad. Los datos originales son JSONL; los CSV se derivan a posteriori y permanecen dentro del directorio de la misma corrida. Los hashes ayudan a identificar código y checkpoints, pero no sustituyen el control de versiones ni verifican por sí solos el comportamiento.
+Una corrida posee configuración de jugadores, perfiles de brains, manifiestos, procesos de motor, movimientos FEN y resultados. 
+Las auditorías persistentes deben mantener el vínculo `run_id`, `match_id`, `game_id`, `ply` y `search_id` o equivalentes que permitan correlación sin ambigüedad. 
+Los datos originales son JSONL; los CSV se derivan a posteriori y permanecen dentro del directorio de la misma corrida. Los hashes ayudan a identificar código y checkpoints, pero no sustituyen el control de versiones ni verifican por sí solos el comportamiento.
 
-# Players: contratos, parámetros y algoritmos
+# Players: API de contratos, parámetros y algoritmos
 
 ## Resumen de motores
 
 | Player        | Evaluadores admisibles                | Criterio de selección                                                               |
 |:--------------|:--------------------------------------|:------------------------------------------------------------------------------------|
 | `sargon`      | classic, npz, cerebrum-1.1, stockfish | Exploración clásica sobre árbol y valoración de hojas.                              |
-| `sargon-plus` | Ídem                                  | SargonCore con BOOST (optimizaciones de búsqueda) y TURBO (presupuesto adaptativo). |
+| `sargon-plus` | Ídem sargon                           | SargonCore con BOOST (optimizaciones de búsqueda) y TURBO (presupuesto adaptativo). |
 | `cerebrum`    | Principalmente cerebrum-1.1           | Selección a un ply mediante red y quiescence opcional, sin el conjunto BOOST.       |
 | `stockfish`   | Sólo null                             | Stockfish selecciona y evalúa internamente.                                         |
-| `random`      | null                                  | Jugada legal aleatoria; referencia de piso no basada en evaluación.                 |
+| `lc0`   | Sólo null                             | Leela Chess (lc0.exe) selecciona y evalúa internamente.                                         |
+| `random`      | null                                  | Jugada legal aleatoria; referencia de minima no basada en evaluación.                 |
 
 ## Parámetros comunes y de selección
 
