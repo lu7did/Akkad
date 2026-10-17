@@ -1,0 +1,91 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Motivación general}{5}{section.1}%
+\contentsline {section}{\numberline {2}Marco matemático: juegos como procesos de decisión}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Estados, acciones y transición}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Recompensa terminal}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Política}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Función de valor}{6}{subsection.2.4}%
+\contentsline {section}{\numberline {3}El problema de ``la mejor estrategia''}{7}{section.3}%
+\contentsline {section}{\numberline {4}La red neuronal de política y valor}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Función conjunta}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Cabeza de política}{8}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Cabeza de valor}{8}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Representación del tablero}{8}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Arquitectura residual}{8}{section.5}%
+\contentsline {section}{\numberline {6}Monte Carlo Tree Search}{9}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Idea básica}{9}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Las cuatro fases conceptuales}{9}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Selección mediante PUCT}{9}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Regla básica}{9}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Interpretación}{10}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Efecto de \(c_{\mathrm {puct}}\)}{10}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Expansión de un nodo}{10}{section.8}%
+\contentsline {section}{\numberline {9}Retropropagación}{10}{section.9}%
+\contentsline {section}{\numberline {10}De las visitas del árbol a una política mejorada}{11}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Temperatura alta}{11}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Temperatura baja}{11}{subsection.10.2}%
+\contentsline {section}{\numberline {11}Ruido de Dirichlet}{12}{section.11}%
+\contentsline {section}{\numberline {12}El ciclo de autojuego}{12}{section.12}%
+\contentsline {section}{\numberline {13}El objetivo de aprendizaje}{12}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Pérdida de valor}{13}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Pérdida de política}{13}{subsection.13.2}%
+\contentsline {subsection}{\numberline {13.3}Regularización}{13}{subsection.13.3}%
+\contentsline {section}{\numberline {14}Actualización por descenso de gradiente}{13}{section.14}%
+\contentsline {section}{\numberline {15}Por qué la búsqueda puede ser mejor que la red}{13}{section.15}%
+\contentsline {section}{\numberline {16}AlphaZero como iteración de políticas generalizada}{14}{section.16}%
+\contentsline {section}{\numberline {17}Relación con Bellman}{14}{section.17}%
+\contentsline {section}{\numberline {18}Valor de una acción}{15}{section.18}%
+\contentsline {section}{\numberline {19}Cómo se define una jugada ``mejor''}{15}{section.19}%
+\contentsline {section}{\numberline {20}Política de entrenamiento versus política de juego}{15}{section.20}%
+\contentsline {section}{\numberline {21}Aprendizaje desde cero}{16}{section.21}%
+\contentsline {section}{\numberline {22}Bootstrap y problema inicial}{16}{section.22}%
+\contentsline {section}{\numberline {23}Replay buffer}{16}{section.23}%
+\contentsline {section}{\numberline {24}Distribución cambiante de datos}{17}{section.24}%
+\contentsline {section}{\numberline {25}La interacción búsqueda--red}{17}{section.25}%
+\contentsline {section}{\numberline {26}Por qué el valor terminal puede afectar decisiones lejanas}{17}{section.26}%
+\contentsline {section}{\numberline {27}Diferencia entre retropropagación MCTS y backpropagation neuronal}{18}{section.27}%
+\contentsline {subsection}{\numberline {27.1}Backup en MCTS}{18}{subsection.27.1}%
+\contentsline {subsection}{\numberline {27.2}Backpropagation neuronal}{18}{subsection.27.2}%
+\contentsline {section}{\numberline {28}No existe una garantía práctica de optimalidad}{18}{section.28}%
+\contentsline {section}{\numberline {29}Error de aproximación}{19}{section.29}%
+\contentsline {section}{\numberline {30}Presupuesto de búsqueda}{19}{section.30}%
+\contentsline {section}{\numberline {31}Uso de batching}{19}{section.31}%
+\contentsline {section}{\numberline {32}Virtual loss}{19}{section.32}%
+\contentsline {section}{\numberline {33}Entrenamiento síncrono y asíncrono}{20}{section.33}%
+\contentsline {section}{\numberline {34}Distribución de visitas como mejora de política}{20}{section.34}%
+\contentsline {section}{\numberline {35}Interpretación como búsqueda amortizada}{20}{section.35}%
+\contentsline {section}{\numberline {36}Relación entre política y valor}{21}{section.36}%
+\contentsline {section}{\numberline {37}Aperturas}{21}{section.37}%
+\contentsline {section}{\numberline {38}Finales}{21}{section.38}%
+\contentsline {section}{\numberline {39}Estados transpuestos}{22}{section.39}%
+\contentsline {section}{\numberline {40}Simetrías}{22}{section.40}%
+\contentsline {section}{\numberline {41}Calibración del valor}{22}{section.41}%
+\contentsline {section}{\numberline {42}Política multimodal}{22}{section.42}%
+\contentsline {section}{\numberline {43}Crédito temporal}{23}{section.43}%
+\contentsline {section}{\numberline {44}Una formulación compacta del algoritmo}{23}{section.44}%
+\contentsline {section}{\numberline {45}Pseudocódigo conceptual}{24}{section.45}%
+\contentsline {section}{\numberline {46}Qué significa que AlphaZero ``aprende estrategia''}{24}{section.46}%
+\contentsline {section}{\numberline {47}Conocimiento implícito}{25}{section.47}%
+\contentsline {section}{\numberline {48}Auditabilidad}{25}{section.48}%
+\contentsline {section}{\numberline {49}Diagnóstico de aprendizaje}{25}{section.49}%
+\contentsline {section}{\numberline {50}Sobreajuste al autojuego}{26}{section.50}%
+\contentsline {section}{\numberline {51}Evaluación externa}{26}{section.51}%
+\contentsline {section}{\numberline {52}Catastrophic forgetting}{26}{section.52}%
+\contentsline {section}{\numberline {53}Parámetros esenciales}{26}{section.53}%
+\contentsline {section}{\numberline {54}Efecto del número de simulaciones}{27}{section.54}%
+\contentsline {section}{\numberline {55}Profundidad versus anchura}{27}{section.55}%
+\contentsline {section}{\numberline {56}Comparación con minimax}{27}{section.56}%
+\contentsline {section}{\numberline {57}Comparación con Q-learning}{27}{section.57}%
+\contentsline {section}{\numberline {58}Comparación con policy gradient puro}{28}{section.58}%
+\contentsline {section}{\numberline {59}El papel de MCTS como ``teacher''}{28}{section.59}%
+\contentsline {section}{\numberline {60}Riesgo de auto-confirmación}{28}{section.60}%
+\contentsline {section}{\numberline {61}Convergencia: qué puede y qué no puede afirmarse}{29}{section.61}%
+\contentsline {section}{\numberline {62}Una lectura sistémica}{29}{section.62}%
+\contentsline {section}{\numberline {63}Implicancias para implementaciones experimentales}{29}{section.63}%
+\contentsline {section}{\numberline {64}Qué debería medirse}{30}{section.64}%
+\contentsline {section}{\numberline {65}Desacople entre generación y aprendizaje}{30}{section.65}%
+\contentsline {section}{\numberline {66}Edad de política y coherencia}{31}{section.66}%
+\contentsline {section}{\numberline {67}Conclusiones}{31}{section.67}%
+\contentsline {section}{\numberline {68}Resumen matemático final}{32}{section.68}%
+\contentsline {section}{\numberline {A}Glosario}{32}{section.A}%
+\contentsline {section}{\numberline {B}Referencias conceptuales sugeridas}{33}{section.B}%

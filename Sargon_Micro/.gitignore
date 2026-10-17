@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.vscode/.ropeproject
+# WiFi credentials (plaintext inside binary)
+device/config.bin

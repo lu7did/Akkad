@@ -1,0 +1,654 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{microtype}
+\geometry{margin=2.35cm}
+\definecolor{codegray}{gray}{0.96}
+\lstset{basicstyle=\ttfamily\small,frame=single,backgroundcolor=\color{codegray},breaklines=true,columns=fullflexible,showstringspaces=false}
+\newcommand{\Sargon}{\textsc{Sargon}}
+\newcommand{\ValueNet}{\textsc{ValueNet}}
+\newcommand{\PieceNet}{\textsc{PieceNet}}
+\newcommand{\DepthNet}{\textsc{DepthNet}}
+\newcommand{\Model}{\mathcal{M}}
+\title{\textbf{Especificación del Motor Sargon Adaptativo}\\Aprendizaje neuronal de valor posicional, valor contextual de piezas y profundidad de análisis}
+\author{Especificación de trabajo}
+\date{\today}
+\begin{document}
+\maketitle
+\begin{abstract}
+Este documento especifica una evolución gradual del algoritmo \Sargon{} mediante tres redes neuronales especializadas: una red de valor posicional, una red de valor contextual de las piezas y una red de profundidad de análisis. La arquitectura se diseña con dos prioridades: preservar el comportamiento de \Sargon{} como línea base cuando no existe aprendizaje efectivo, y hacer que todo progreso sea observable, medible y auditable.
+
+La especificación define la interacción entre las fuentes de juego UCI, \texttt{learn}, workers y archivos PGN; establece un mecanismo uniforme de backpressure por productor; fija la coherencia de un único modelo durante toda una partida; determina cómo se aprende a partir de análisis realizados, resultados de partida y jugadas expertas de PGN; y establece las métricas mínimas que deben registrarse para demostrar si el sistema aprende realmente.
+
+El objetivo explícito es evitar arquitecturas opacas en las que el volumen de datos, la concurrencia o la complejidad de la infraestructura oculten un aprendizaje débil o inexistente.
+\end{abstract}
+\tableofcontents
+\newpage
+
+\section{Propósito y alcance}
+El propósito de esta especificación es definir un motor de ajedrez adaptativo basado en \Sargon{} que:
+\begin{enumerate}
+\item utilice \Sargon{} clásico como conocimiento inicial;
+\item introduzca aprendizaje exclusivamente mediante redes neuronales;
+\item mantenga separadas tres capacidades aprendidas: valor posicional, valor contextual de las piezas y profundidad necesaria de análisis;
+\item pueda aprender de partidas UCI, partidas generadas mediante \texttt{learn}, partidas producidas por workers y archivos PGN;
+\item trate todo PGN importado como experiencia experta;
+\item mantenga un modelo coherente durante una partida completa;
+\item impida que cualquier productor comience una nueva partida hasta que la anterior haya sido incorporada al aprendizaje;
+\item disponga de métricas suficientes para determinar si cada red aprende, cuánto aprende y si ese aprendizaje mejora el comportamiento del motor.
+\end{enumerate}
+
+Queda fuera del alcance de esta versión:
+\begin{itemize}
+\item aprendizaje directo mediante tablas persistentes por posición exacta;
+\item uso del estado histórico de una posición como conocimiento operativo principal;
+\item redes de política separadas;
+\item MCTS o variantes tipo AlphaZero;
+\item actualización directa de redes desde UCI, workers o \texttt{learn};
+\item escritura concurrente sobre los parámetros del modelo.
+\end{itemize}
+
+\section{Principios de diseño}
+\subsection{Sargon como línea base}
+La primera propiedad requerida es:
+\[
+\boxed{\text{sin aprendizaje efectivo}\Rightarrow\text{\Sargon{} clásico}}
+\]
+Sea $V_S(s)$ la evaluación clásica de \Sargon{} para una posición $s$. El sistema debe comenzar cumpliendo
+\[
+V_{\mathrm{eff}}(s)=V_S(s).
+\]
+Análogamente, el valor contextual inicial de cada pieza debe coincidir con el valor clásico y la profundidad inicial con la profundidad base de \Sargon{}.
+
+\subsection{Aprendizaje neuronal exclusivo}
+Toda adaptación se realizará mediante tres redes neuronales:
+\[
+N_V,\qquad N_P,\qquad N_D.
+\]
+Sus tamaños serán configurables para permitir experimentación controlada.
+
+\subsection{Separación de responsabilidades}
+Se establece la regla:
+\[
+\boxed{\text{los productores generan experiencia; sólo el learner modifica el modelo}}
+\]
+Los productores son UCI, \texttt{learn}, cada worker y el importador PGN. Ninguno actualiza pesos neuronales directamente.
+
+\subsection{Coherencia por partida}
+Toda partida debe jugarse utilizando un único snapshot del modelo:
+\[
+\Model_k.
+\]
+Una partida que comienza con $\Model_k$ termina con $\Model_k$. No se permite reemplazar el modelo en mitad de la partida.
+
+\subsection{Backpressure por productor}
+Cada productor queda bloqueado para iniciar una nueva partida hasta recibir confirmación de que su partida anterior fue incorporada al aprendizaje. La espera es independiente por productor:
+\[
+\boxed{G_i\rightarrow\text{learn}(G_i)\rightarrow ACK(G_i)\rightarrow G_{i+1}}
+\]
+
+\section{Modelo global}
+Una versión del conocimiento operativo se define como
+\[
+\Model_k=\{N_V^{(k)},N_P^{(k)},N_D^{(k)},\Theta_k,\mathcal{H}_k\},
+\]
+donde $\Theta_k$ contiene parámetros de moderación y $\mathcal{H}_k$ metadata, métricas y versión. Cada partida almacena la versión de modelo que la produjo.
+
+\section{Red de valor posicional}
+\subsection{Objetivo}
+La \ValueNet{} aprende la corrección posicional que \Sargon{} no representa adecuadamente:
+\[
+N_V(x_V(s))=\Delta V_{\mathrm{pos}}(s).
+\]
+La evaluación efectiva será
+\[
+V_{\mathrm{eff}}(s)=V_S(s)+\mu_V\Delta V_{\mathrm{pos}}(s)+\Delta V_{\mathrm{piece}}(s),
+\]
+donde $\mu_V$ es un moderador.
+
+\subsection{Entrada}
+$x_V(s)$ deberá contener una representación normalizada y versionada de, al menos: diferencia material, movilidad, control del centro, desarrollo, seguridad del rey, estructura de peones, peones pasados, actividad de piezas, espacio, iniciativa, lado al turno y fase de partida.
+
+\subsection{Arquitectura configurable}
+Ejemplos:
+\begin{lstlisting}
+--value-net 32
+--value-net 64,32
+--value-net 128,64,32
+--value-net 256,128,64
+\end{lstlisting}
+La arquitectura usada se persistirá con el modelo.
+
+\subsection{Target de entrenamiento}
+Para una posición $s_t$, sean $V_S(s_t)$ la evaluación estática clásica y $V_{d_t}(s_t)$ el resultado de la búsqueda realmente realizada a profundidad $d_t$. La búsqueda proporciona
+\[
+Y_t^{\mathrm{search}}=V_{d_t}(s_t).
+\]
+El resultado posterior produce un retorno temporal $Y_t^{\mathrm{TD}}$. El target combinado es
+\[
+Y_t^V=\alpha_tY_t^{\mathrm{search}}+(1-\alpha_t)Y_t^{\mathrm{TD}}.
+\]
+La red aprende la corrección residual
+\[
+\boxed{T_t^V=Y_t^V-V_S(s_t)-\Delta V_{\mathrm{piece}}(s_t)}.
+\]
+La pérdida básica es
+\[
+L_V=\frac1B\sum_{t=1}^{B}\left(N_V(x_V(s_t))-T_t^V\right)^2.
+\]
+
+\subsection{Retroalimentación por resultado}
+No se asignará directamente el resultado final a todas las posiciones. Sea
+\[
+z\in\{-1,0,+1\}.
+\]
+Se utilizará aprendizaje temporal con
+\[
+\delta_t=r_{t+1}+\gamma V_{\mathrm{eff}}(s_{t+1})-V_{\mathrm{eff}}(s_t),
+\]
+y TD$(\lambda)$ para controlar la propagación de consecuencias tardías hacia posiciones anteriores. El retorno se calcula una vez terminada la partida.
+
+\section{Red de valor contextual de piezas}
+\subsection{Objetivo}
+La \PieceNet{} aprende cuánto difiere el valor efectivo de una pieza de su valor clásico en función de la posición:
+\[
+N_P(x_P(s))=(\Delta P,\Delta N,\Delta B,\Delta R,\Delta Q).
+\]
+Los valores efectivos serán
+\[
+v_X(s)=v_X^{(0)}+\mu_P\Delta X(s),\qquad X\in\{P,N,B,R,Q\}.
+\]
+
+\subsection{Separación semántica}
+La \PieceNet{} sólo podrá intervenir en términos asociados directamente con valor contextual de piezas. La evaluación se descompone como
+\[
+V_{\mathrm{eff}}(s)=V_S(s)+\Delta V_{\mathrm{piece}}(s)+\Delta V_{\mathrm{pos}}(s).
+\]
+Así se evita que \ValueNet{} y \PieceNet{} aprendan de manera indistinguible el mismo fenómeno.
+
+\subsection{Entrada}
+$x_P(s)$ contendrá como mínimo: tipo y cantidad de piezas, movilidad por tipo, centralización, control de casillas, puestos avanzados, columnas abiertas y semiabiertas, diagonales activas, actividad relativa, estructura de peones, fase de partida, seguridad de reyes y relaciones pieza-estructura.
+
+\subsection{Arquitectura configurable}
+\begin{lstlisting}
+--piece-net 32
+--piece-net 64,32
+--piece-net 128,64
+\end{lstlisting}
+La salida tendrá siempre cinco valores.
+
+\subsection{Aprendizaje}
+La \PieceNet{} se entrena a partir del mismo target global de valor, pero el gradiente queda restringido a la contribución material contextual. El error global es
+\[
+E_t=Y_t^V-V_{\mathrm{eff}}(s_t).
+\]
+
+\section{Red de profundidad}
+\subsection{Objetivo}
+La \DepthNet{} aprende cuánto análisis adicional necesita una posición futura:
+\[
+N_D(x_D(s))=q(s).
+\]
+La profundidad aplicada es
+\[
+d_{\mathrm{eff}}(s)=\operatorname{clip}(d_0+\Delta d(s),d_{\min},d_{\max}).
+\]
+
+\subsection{Moderadores obligatorios}
+La salida neuronal se aplica siempre moderada:
+\[
+\Delta d(s)=\operatorname{round}(\mu_DN_D(x_D(s))).
+\]
+Inicialmente
+\[
+0\le\mu_D\le1,
+\qquad
+0\le\Delta d(s)\le\Delta d_{\max}.
+\]
+En la etapa inicial la red puede agregar profundidad, pero no reducir la profundidad base.
+
+\subsection{Target de profundidad}
+Durante una búsqueda se conservan
+\[
+V_1,V_2,\ldots,V_D.
+\]
+Sea $V_D$ el valor a la mayor profundidad alcanzada. Se define
+\[
+d^*=\min\{d:|V_d-V_D|<\epsilon\ \text{y la estabilidad se mantiene}\}.
+\]
+La estabilidad deberá mantenerse durante un número configurable de profundidades posteriores. El target es
+\[
+T^D=d^*-d_0,
+\]
+y la pérdida básica
+\[
+L_D=\frac1B\sum\left(N_D(x_D(s))-T^D\right)^2.
+\]
+
+\subsection{Aplicación futura}
+El aprendizaje de profundidad no se guarda como regla por posición exacta. Queda codificado en $N_D$. Cuando una posición futura presenta características similares, la red puede solicitar análisis adicional antes de que \Sargon{} descubra tardíamente su dificultad.
+
+\section{Fuentes de experiencia}
+\subsection{UCI}
+UCI utiliza un snapshot fijo durante toda la partida. Al finalizar genera experiencia, la envía al learner, queda bloqueado y sólo acepta una nueva partida después del ACK.
+
+\subsection{Modo learn}
+\texttt{learn} sigue exactamente el mismo protocolo:
+\[
+\boxed{\texttt{learn game}\rightarrow\text{learner}\rightarrow ACK\rightarrow\text{next learn game}}.
+\]
+
+\subsection{Workers}
+Cada worker es un productor independiente. El worker $i$ ejecuta
+\[
+G_i^k\rightarrow\text{learner}\rightarrow ACK_i\rightarrow G_i^{k+1}.
+\]
+El ACK de un worker no bloquea a otros. Cada worker utiliza el último modelo disponible al iniciar su partida, mantiene ese modelo hasta el final, no entrena redes y produce experiencia adversarial.
+
+\subsection{PGN}
+Todo PGN importado se considera fuente experta:
+\[
+\boxed{\text{PGN importado}=\text{experiencia experta}}.
+\]
+No existirán categorías separadas de PGN genérico, maestro o engine.
+
+\section{Aprendizaje desde PGN}
+\subsection{Preferencia experta}
+Para una posición $s_t$, sea $a_t^*$ la jugada del PGN y $a_1,\ldots,a_n$ las jugadas legales. El sistema incorpora
+\[
+Q(s_t,a_t^*)\gtrsim Q(s_t,a_j),\qquad a_j\ne a_t^*.
+\]
+No se exige que $a_t^*$ sea la única jugada buena; se trata como evidencia experta de preferencia.
+
+\subsection{Procesamiento}
+Al importar una partida se reconstruye cada posición, se extraen features para las tres redes, se ejecuta \Sargon{} con el modelo vigente, se analiza la jugada experta, se comparan alternativas relevantes, se incorpora el resultado final y se generan targets para valor, piezas y profundidad.
+
+\subsection{Pérdida de preferencia}
+Se utilizará una pérdida de ranking
+\[
+L_{\mathrm{PGN}}=\sum_{a\ne a^*}\max\left(0,m-[Q(s,a^*)-Q(s,a)]\right),
+\]
+con margen $m$ configurable. La experiencia PGN tendrá un peso superior al de experiencia autocreada:
+\[
+\omega_{\mathrm{PGN}}>1.
+\]
+
+\section{Representación de una partida aprendible}
+Cada partida producirá un objeto lógico:
+\begin{lstlisting}
+GameExperience
+    game_id
+    source
+    model_version
+    result
+    positions[]
+\end{lstlisting}
+Cada posición contendrá:
+\begin{lstlisting}
+PositionExperience
+    ply
+    side_to_move
+    features_value
+    features_piece
+    features_depth
+    sargon_static_value
+    effective_value
+    search_depth
+    search_values_by_depth[]
+    best_move
+    candidate_moves[]
+        move
+        value
+        depth
+    played_move
+    expert_move      # si source=PGN
+\end{lstlisting}
+Al terminar la partida se calculan los targets TD, de valor y de profundidad.
+
+\section{Ciclo de aprendizaje de una partida}
+\begin{verbatim}
+productor toma Model Mk
+        |
+        v
+ juega partida completa
+        |
+        +-- posicion 1: evaluacion + busqueda
+        +-- posicion 2: evaluacion + busqueda
+        +-- ...
+        +-- posicion N
+        |
+        v
+   resultado final
+        |
+        v
+ GameExperience completo
+        |
+        v
+      learner
+        |
+        +-- calcula retornos TD(lambda)
+        +-- genera targets ValueNet
+        +-- genera targets PieceNet
+        +-- genera targets DepthNet
+        +-- aplica preferencia PGN cuando corresponda
+        +-- actualiza redes
+        |
+        v
+    publica Model Mk+1
+        |
+        v
+     ACK(game_id)
+\end{verbatim}
+
+\section{Definición de partida aprendida}
+Una partida se considera aprendida cuando:
+\begin{enumerate}
+\item su resultado final fue registrado;
+\item sus posiciones fueron convertidas en ejemplos;
+\item se calcularon los targets temporales;
+\item se aplicaron los targets de análisis;
+\item se ejecutó al menos una actualización de todas las redes habilitadas;
+\item el modelo resultante fue publicado;
+\item la experiencia quedó persistida;
+\item se emitió el ACK al productor.
+\end{enumerate}
+No se requiere entrenar múltiples epochs antes del ACK. La experiencia queda disponible para replay posterior.
+
+\section{Backpressure}
+La regla uniforme para UCI, \texttt{learn} y cada worker es
+\[
+\boxed{\text{máximo una partida pendiente por productor}}.
+\]
+Con $W$ workers, un UCI y un \texttt{learn}, el máximo teórico de partidas finalizadas pendientes es aproximadamente $W+2$. No existe una barrera global: el bloqueo es local a cada productor.
+
+\section{Snapshots y publicación de modelos}
+Al comenzar una partida:
+\[
+local\_model\leftarrow current\_model.
+\]
+Toda la partida utiliza ese objeto. El learner no modifica el modelo actual en el lugar: construye $\Model_{k+1}$ y lo publica atómicamente. Los productores que ya juegan conservan $\Model_k$; los que comienzan una nueva partida después del ACK toman la versión más reciente.
+
+\section{Persistencia}
+\subsection{Objetivos}
+La persistencia sirve para guardar modelos, experiencia, replay, auditoría, rollback y reconstrucción de métricas. No es el mecanismo primario de decisión durante el juego.
+
+\subsection{Modelo}
+Debe persistirse, como mínimo:
+\begin{lstlisting}
+model_version
+created_at
+value_net_arch
+piece_net_arch
+depth_net_arch
+value_net_weights
+piece_net_weights
+depth_net_weights
+moderators
+training_counters
+metrics
+\end{lstlisting}
+
+\subsection{Experiencia}
+\begin{lstlisting}
+game_id
+source
+model_version
+result
+positions
+targets
+learned_at
+\end{lstlisting}
+
+\subsection{Reuso del conocimiento}
+No se utilizará una posición histórica exacta como fuente primaria de decisión futura. El conocimiento reutilizado se encuentra en $N_V,N_P,N_D$:
+\[
+\boxed{\text{experiencia histórica}\rightarrow\text{pesos neuronales}\rightarrow\text{generalización futura}}.
+\]
+
+\section{Moderadores}
+Cada red tendrá un moderador independiente:
+\[
+\mu_V,\qquad\mu_P,\qquad\mu_D.
+\]
+La configuración inicial será
+\[
+\mu_V=\mu_P=\mu_D=0.
+\]
+Ejemplo de interfaz:
+\begin{lstlisting}
+--value-influence 0.25
+--piece-influence 0.25
+--depth-influence 0.20
+\end{lstlisting}
+Esto permite distinguir capacidad de aprendizaje de influencia efectiva sobre el juego.
+
+\section{Métricas obligatorias}
+La auditabilidad es un requisito funcional.
+
+\subsection{Métricas por red}
+Para cada red se registrará: ejemplos vistos, loss de entrenamiento, loss de validación, media y desviación de salida, magnitud media del gradiente, cambio medio de parámetros, influencia efectiva y composición por fuente.
+
+\subsection{ValueNet}
+Se comparará
+\[
+MAE(V_S,Y^V)
+\]
+con
+\[
+MAE(V_{\mathrm{eff}},Y^V).
+\]
+La mejora es
+\[
+\Delta MAE=MAE(V_S,Y^V)-MAE(V_{\mathrm{eff}},Y^V).
+\]
+Reducir sólo el loss interno no es evidencia suficiente.
+
+\subsection{PieceNet}
+Se medirán corrección media por pieza, distribución por fase, contribución al error total, estabilidad temporal y magnitud relativa respecto del valor base.
+
+\subsection{DepthNet}
+Se medirá
+\[
+MAE(d_{\mathrm{pred}},d^*)
+\]
+y además profundidad media solicitada y efectiva, porcentaje de posiciones extendidas, nodos adicionales, error de valor evitado y costo computacional por mejora.
+
+\subsection{Coincidencia con PGN}
+Sobre validación PGN no usada para entrenamiento:
+\[
+A_{\mathrm{top1}}=P(a_{\mathrm{engine}}=a_{\mathrm{expert}}),
+\]
+\[
+A_{\mathrm{topK}}=P(a_{\mathrm{expert}}\in\mathrm{TopK}).
+\]
+
+\subsection{Impacto sobre decisiones}
+Se registrarán la jugada base $a_S$ y la jugada con redes $a_L$, midiendo
+\[
+P(a_S\ne a_L).
+\]
+
+\subsection{Resultados por generación}
+Cada versión registrará cantidad de partidas, victorias, derrotas, tablas, fuente, modelo adversario cuando corresponda, duración media, nodos por jugada, profundidad media y tiempo por jugada.
+
+\section{Validación y conjuntos de prueba}
+Deben existir conjuntos congelados de validación: posiciones PGN no usadas en entrenamiento, posiciones tácticas y posicionales de referencia, partidas reproducibles con seeds fijas y enfrentamientos entre generaciones de modelos. No se permitirá evaluar progreso únicamente sobre datos de entrenamiento.
+
+\section{Criterios mínimos para afirmar que una red aprende}
+\subsection{ValueNet}
+Debe disminuir el error de validación, mejorar $MAE(V_{\mathrm{eff}},Y^V)$ frente a \Sargon{}, generalizar a datos no vistos y no degradar sistemáticamente el resultado del motor.
+
+\subsection{PieceNet}
+Sus correcciones deben ser estables, mejorar el target global, generalizar y no colapsar a correcciones extremas.
+
+\subsection{DepthNet}
+Debe predecir $d^*$ mejor que una profundidad constante, reducir error de evaluación mediante extensiones, justificar el costo de nodos adicionales y permanecer dentro de límites de profundidad.
+
+\section{Auditoría obligatoria}
+Cada entrenamiento deberá permitir reconstruir: partida origen, versión del modelo, evaluación Sargon, correcciones neuronales, profundidad usada, target posterior al resultado, pérdidas producidas y modelo resultante. Cada modelo debe ser trazable a
+\[
+\text{modelo anterior}+\text{partidas aprendidas}+\text{configuración}+\text{seed}
+\]
+cuando sea posible.
+
+\section{Logging de consola}
+El sistema deberá reportar de forma compacta:
+\begin{lstlisting}
+[game-start] source=worker-3 model=42
+[game-end] source=worker-3 game=918 result=0-1 plies=83
+[learn-start] game=918 model_in=42
+[learn-value] samples=83 loss=...
+[learn-piece] samples=83 loss=...
+[learn-depth] samples=... loss=...
+[learn-end] game=918 model_out=43 elapsed=...
+[ack] source=worker-3 game=918
+\end{lstlisting}
+Cada productor reportará cuándo espera ACK y cuándo queda habilitado para una nueva partida.
+
+\section{Configuración mínima}
+La CLI deberá permitir, como mínimo:
+\begin{lstlisting}
+--value-net <layers>
+--piece-net <layers>
+--depth-net <layers>
+--value-influence <float>
+--piece-influence <float>
+--depth-influence <float>
+--depth-base <int>
+--depth-min <int>
+--depth-max <int>
+--depth-max-extra <int>
+--gamma <float>
+--lambda <float>
+--pgn-weight <float>
+--learning-rate-value <float>
+--learning-rate-piece <float>
+--learning-rate-depth <float>
+\end{lstlisting}
+La configuración exacta se almacenará en cada modelo.
+
+\section{Secuencia de activación}
+Aunque la infraestructura soporte las tres redes desde el comienzo, la activación funcional será escalonada.
+
+\subsection{Etapa 0}
+\[
+\mu_V=\mu_P=\mu_D=0.
+\]
+Debe coincidir con \Sargon{} base.
+
+\subsection{Etapa 1}
+\[
+\mu_V>0,\qquad\mu_P=0,\qquad\mu_D=0.
+\]
+Se entrena y audita \ValueNet{}.
+
+\subsection{Etapa 2}
+\[
+\mu_V>0,\qquad\mu_P>0,\qquad\mu_D=0.
+\]
+Se incorpora \PieceNet{}.
+
+\subsection{Etapa 3}
+Se incorpora \DepthNet{} con moderación y sólo extensiones:
+\[
+\mu_D>0,\qquad\Delta d\ge0.
+\]
+
+\section{Arquitectura general}
+\begin{verbatim}
+                       current Model Mk
+                  NV + NP + ND + Sargon
+                            |
+      +---------------------+----------------------+
+      |                     |                      |
+     UCI                worker 1...N             learn
+      |                     |                      |
+      +----------- GameExperience ----------------+
+                            |
+                            v
+                         Learner
+                            |
+        +-------------------+-------------------+
+        |                   |                   |
+      ValueNet            PieceNet            DepthNet
+        |                   |                   |
+        +-------------------+-------------------+
+                            |
+                            v
+                        Model Mk+1
+                            |
+              +-------------+-------------+
+              |             |             |
+             ACK           ACK           ACK
+             UCI         worker i       learn
+\end{verbatim}
+PGN entra como experiencia experta:
+\begin{verbatim}
+PGN ---> parser ---> GameExperience(expert) ---> Learner
+\end{verbatim}
+
+\section{Ciclo conceptual del conocimiento}
+Para valor:
+\[
+\boxed{\text{posición}\rightarrow\text{evaluación Sargon}\rightarrow\text{análisis}\rightarrow\text{target provisional}\rightarrow\text{resultado}\rightarrow\text{target temporal}\rightarrow\text{redes}\rightarrow\text{modelo futuro}}
+\]
+Para PGN:
+\[
+\boxed{\text{posición}\rightarrow\text{jugada experta}\rightarrow\text{comparación con alternativas}\rightarrow\text{pérdida de preferencia}\rightarrow\text{redes}}
+\]
+Para profundidad:
+\[
+\boxed{V_1,\ldots,V_D\rightarrow d^*\rightarrow N_D\rightarrow\text{profundidad futura moderada}}
+\]
+
+\section{Invariantes arquitectónicos}
+Se establecen como invariantes:
+\begin{enumerate}
+\item sólo existe un escritor lógico del modelo;
+\item ningún productor modifica pesos;
+\item una partida usa un único modelo;
+\item una fuente no inicia una nueva partida antes del ACK;
+\item cada worker posee su propia espera independiente;
+\item todos los modelos son versionados;
+\item todas las experiencias indican el modelo que las produjo;
+\item todos los PGN son experiencia experta;
+\item el conocimiento operativo reside en las redes, no en tablas por posición exacta;
+\item la profundidad neuronal siempre está moderada y limitada;
+\item ninguna mejora se considera demostrada sin validación fuera de muestra.
+\end{enumerate}
+
+\section{Objetivo experimental}
+La arquitectura debe permitir responder cuantitativamente:
+\begin{enumerate}
+\item ¿disminuye el error de valor?;
+\item ¿cambia de manera estable la valoración contextual de piezas?;
+\item ¿DepthNet identifica posiciones que realmente requieren más análisis?;
+\item ¿las redes generalizan a posiciones no vistas?;
+\item ¿los PGN aumentan la coincidencia con decisiones expertas?;
+\item ¿los workers producen experiencia que mejora generaciones posteriores?;
+\item ¿el modelo nuevo supera al anterior en métricas independientes?;
+\item ¿el aumento de complejidad produce una mejora proporcional y verificable?
+\end{enumerate}
+Si estas preguntas no pueden responderse con datos del propio sistema, la implementación no cumple esta especificación.
+
+\section{Conclusión}
+La arquitectura queda definida por cuatro ideas fundamentales. Primero, \Sargon{} continúa siendo la línea base y proporciona estructura, evaluación y búsqueda. Segundo, el aprendizaje se concentra en tres redes neuronales especializadas:
+\[
+\boxed{N_V,\quad N_P,\quad N_D}
+\]
+para valor posicional, valor contextual de piezas y profundidad. Tercero, toda fuente de juego produce experiencia, pero sólo el learner actualiza el modelo:
+\[
+\boxed{\text{todos producen; uno aprende}}.
+\]
+Cuarto, el progreso debe ser demostrable mediante métricas reproducibles y validación independiente.
+
+La especificación prioriza deliberadamente simplicidad, trazabilidad y capacidad de falsar la hipótesis de aprendizaje. El sistema debe poder demostrar no sólo que sus pesos cambian, sino que esos cambios reducen error, mejoran decisiones, utilizan mejor la profundidad y producen generaciones de juego progresivamente superiores.
+\end{document}
