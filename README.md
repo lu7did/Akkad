@@ -246,45 +246,74 @@ El núcleo de búsqueda implementa exploración de árbol adversarial con altern
 
 ## Sargon-Plus
 
-La variante Sargon-Plus reutiliza Core y agrega un conjunto de optimizaciones independientes controladas por bits. BOOST cambia la estructura u orden del árbol; TURBO decide si continuar a profundidad mayor, reducir candidatos o abortar el siguiente nivel. Ningún bit BOOST debe interpretarse como aumento garantizado de fuerza competitiva; puede mejorar velocidad y perjudicar selección bajo determinadas condiciones.
+La variante Sargon-Plus reutiliza SargonCore y agrega un conjunto de optimizaciones independientes controladas por bits. BOOST cambia la estructura u orden del árbol; TURBO decide si continuar a profundidad mayor, reducir candidatos o abortar el siguiente nivel. Ningún bit BOOST debe interpretarse como aumento garantizado de fuerza competitiva; puede mejorar velocidad y perjudicar selección bajo determinadas condiciones.
 
 ## CerebrumPlayer
 
-CerebrumPlayer considera las jugadas legales, aplica cada candidata y obtiene su valor de Cerebrum 1.1. Con `qdepth=0` conserva selección a un ply; con `qdepth>0` agrega negamax alpha–beta táctico, evaluando stand-pat en posiciones estables, capturas/promociones relevantes y todas las evasiones legales cuando está en jaque. La profundidad quiescence no representa una segunda búsqueda principal full-width. La red incremental reutiliza información del tablero padre cuando el contrato del evaluador lo permite. La evaluación terminal prevalece sobre el valor estimado de red.
+Implementa un player simple capaz de operar con la red neural *Cerebrum V1.1*
+CerebrumPlayer considera las jugadas legales, aplica cada candidata y obtiene su valor de la red neural Cerebrum 1.1. Con `qdepth=0` conserva selección a un ply; con `qdepth>0` agrega negamax alpha–beta táctico, evaluando stand-pat en posiciones estables, capturas/promociones relevantes y todas las evasiones legales cuando está en jaque. La profundidad quiescence no representa una segunda búsqueda principal full-width. La red incremental reutiliza información del tablero padre cuando el API del evaluador lo permite. La evaluación terminal prevalece sobre el valor estimado de red.
 
-## StockfishPlayer y RandomPlayer
+## StockfishPlayer, LC0Player y RandomPlayer
 
-StockfishPlayer delega selección y evaluación al ejecutable externo y aplica límites `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash`, `timeout` y `engine-path`, según perfil. Su único evaluador admisible es `null`. RandomPlayer obtiene una jugada legal sin optimización; puede utilizar `null` como evaluador y no interpreta `depth/qdepth` como búsqueda estratégica.
+*StockfishPlayer* delega selección y evaluación al ejecutable *Stockfish* externo y aplica límites `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash`, `timeout` y `engine-path`, según perfil. Su único evaluador admisible es `null`. 
+*LC0Player* delega selección y evaluación al ejecutable *lc0.exe* externo y aplica límites `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash`, `timeout` y `engine-path`, según perfil. Su único evaluador admisible es `null`. 
+RandomPlayer obtiene una jugada legal sin optimización y la juega; puede utilizar `null` como evaluador y no interpreta `depth/qdepth` como búsqueda estratégica. Su objetivo es confrontar la efectividad última de una estrategia respecto a como se comporta comparada con un jugador al azar.
 
 # Evaluadores: estructura y semántica de valor
 
-## Contrato y casos terminales
+## API (contrato) y casos terminales
 
 El evaluador responde un escalar en centipawns desde la perspectiva blanca, salvo contratos de entrenamiento que expresamente definan objetivos normalizados. $e(s)>0$ favorece blancas; $e(s)<0$ favorece negras. Jaque mate, ahogado, repetición y cincuenta movimientos pertenecen a la lógica de juego y pueden requerir historial no contenido en el vector de características; no se deben interpretar como una simple inferencia estática.
 
-## CLASSIC
+## Evaluador *Classic*
 
-El evaluador clásico es una función determinista basada en características ajedrecísticas definidas por el código del proyecto, independiente del entrenamiento. Permite construir un baseline reproducible y etiquetar posiciones sin búsqueda principal. No debe confundirse la evaluación estática CLASSIC con las jugadas elegidas por Sargon usando esa evaluación.
+El evaluador clásico es la implementación interna, con la mejor fidelidad
+histórica posible, del algoritmo *Sargón* original. Utiliza una función determinista basada en características ajedrecísticas definidas por el código del proyecto y que no evoluciona mediante entrenamiento. 
+Permite construir un baseline reproducible y etiquetar posiciones sin búsqueda principal. No debe confundirse la evaluación estática con las jugadas elegidas por Sargon usando esa evaluación.
 
-## NPZ: red entrenada del proyecto
+## Evaluador SargonPlus: red entrenada del proyecto
 
-La variante NPZ utiliza el contrato de características posicionales de longitud lógica 781. En la arquitectura inicial consolidada se emplea una red densa $781\to64\to1$ con ReLU intermedia y un término de corrección de halfmove. Para un vector $x$, una formulación representativa es: $$h=\operatorname{ReLU}(W_1x+b_1),\qquad z=W_2h+b_2,\qquad e_{\mathrm{cp}}=400z+g_{\mathrm{hm}}(s).$$ La función concreta de halfmove y los nombres de tensores deben verificarse en el checkpoint/código; la fórmula describe el contrato funcional y no presupone una clave interna de archivo no verificada. El guardado `.npz` debe conservar dimensiones, pesos, sesgos y metadatos suficientes para comprobar compatibilidad. Un archivo existente ilegible no debe tratarse como si no existiera ni inicializar pesos aleatorios silenciosamente.
+Este evaluador utiliza una red *NNUE* nativa del proyecto (formato npz) que captura las  características posicionales mediante una longitud lógica 781. En la arquitectura inicial se emplea una red densa $781\to64\to1$ con ReLU intermedia y un término de corrección de halfmove. Para un vector $x$, una formulación representativa es: $$h=\operatorname{ReLU}(W_1x+b_1),\qquad z=W_2h+b_2,\qquad e_{\mathrm{cp}}=400z+g_{\mathrm{hm}}(s).$$ 
+La función concreta de halfmove y los nombres de tensores deben verificarse en el checkpoint/código; la fórmula describe el API funcional y no presupone una clave interna de archivo no verificada. El formato guardado `.npz`  conserva dimensiones, pesos, sesgos y metadatos suficientes para comprobar compatibilidad para agregar integridad al uso de la misma.
 
-## Cerebrum 1.1
+## Evaluador Cerebrum 1.1
 
+Dado que el alcance del proyecto intenta evaluar tanto implementaciones de redes neurales diferentes así como diferentes estrategias para usarlas uno
+de los objetivos ha sido poder integrar redes neuranales creadas y
+entrenadas bajo otras arquitecturas. Esto es importante porque en ocasiones
+ciertas arquitecturas de redes representan un costo de entrenamiento 
+vastamente superior al disponible en éste proyecto, aún así se intenta
+capturar la generalización estratégica del juego que proponen mediante 
+algoritmos y enfoques que si son parte del proyecto.
 Cerebrum 1.1 consume una representación posicional propia y expone evaluación ordinaria y, cuando existe estado anterior compatible, evaluación incremental. La interfaz especializada admite `evaluate_with_hint(incremental=True, previous_state=...)` o su equivalente interno; la factory decide el evaluador. La inferencia incremental actualiza acumuladores de características a partir de la transición padre–hijo en lugar de reconstruir todo el estado; *no* cambia intencionalmente la semántica del puntaje. No se debe suponer compatibilidad binaria entre redes Cerebrum y NPZ.
 
-## Evaluación Stockfish
+## Evaluador Stockfish
 
-Stockfish empleado como evaluador externo puede entregar la evaluación posicional de su NNUE sin entregar las candidatas de su algoritmo de búsqueda. Ese uso se distingue estrictamente de StockfishPlayer. Los valores terminales, la salida textual del motor y la perspectiva blanca requieren normalización, parsing robusto y tratamiento separado de estados en jaque.
+*Stockfish* es claramente la referencia en materia de motores de ajedrez,
+su impresionante plataforma de tratamiento y la enorme cantidad de 
+heurísticas que aplica lo hacen, para un dado nivel de competencia ser muy
+cercano a imbatible. No se experimentó, como en el caso de Cerebrum 1.1, con intentar integrar la red que utiliza Stockfish. Por un lado porque la red probablemente sea poco valiosa sin las heurísticas aplicadas para determinar movidas y por el otro porque desarrollar un player se escapa de la escala y el propósito del proyecto.
+Pero Stockfish tiene modalidades que permiten utilizarlo como evaluador de jugadas, y en tal sentido es posible alimentarlo con una determinada configuración de tablero y mediante un protocolo UCI utilizarlo como
+como evaluador externo para entregar la evaluación posicional de su NNUE sin entregar las candidatas de su algoritmo de búsqueda. Ese uso se distingue estrictamente implementar un player, pues el valor posicional obtenido se puede armonizar con las necesidades de los otros players disponibles (por ejemplo Sargon) o utilizar como una "*opinión*"de entrenamiento. Los valores terminales, la salida textual del motor y la perspectiva blanca requieren normalización, parsing apropiado y tratamiento separado de estados en jaque; pero su resultado se compatibiliza mediante un *wrapper* para que pueda ser
+consumido mediante un API compatible por el resto de los players de la plataforma, excepto restricciones de API específicamente documentadas.
 
-## NULL
+## Evaluador lc0
 
-Indica que el player no requiere evaluador externo. Es mandatorio semánticamente para StockfishPlayer y aplicable a RandomPlayer. No significa evaluación cero para todos los players.
+Al igual que en el caso de Stockfish el motor implementado por el proyecto *Leela Chess (lc)" aporta una plataforma muy robusta basada en el uso de redes neuronales convolucionales de alta capacidad junto con la implementación de algoritmos tipo *Monte Carlo Search Tree (MCST)* , sin embargo y a diferencia del caso de Stockfish se implementa un player propio utilizando el algoritmo MCST puesto que representa un potencial de juego muy grande que es importante explorar. Aun así el entrenamiento de las redes que utiliza lc0 implica ejercitar millones de partidas (cientos de millones de movimientos) lo que escapa en términos de capacidad de cómputo a los disponibles por el proyecto. Sin embargo al ser las redes públicas en su 
+estructura y siendo disponible su matriz de coeficientes es natural el interés para poder reusarlas, cosa que logra éste evaluador. El mismo puede proveer del valor posicional no solo al player Sargon/SargonPlus sino también a un jugador con algoritmo MCST llamado *AlphaZero* en honor al legendario programa que lo implementó por primera vez.
+Desde el punto de vista de la arquitectura el evaluador provee la doble salida $f(V_i,\{P_i\})$ para poder evaluar el valor posicional y las preferencias de política a-priori que utiliza el algoritmo, este evaluador lo pueden utilizar tanto el player *AlphaZero* como *Sargon/Sargon+*. 
+
+## Evaluador Null
+
+Indica que el player no requiere evaluador externo. Es mandatorio semánticamente para los players Stockfish, lc0 y  Random.
 
 # BOOST: optimizaciones de Sargon-Plus
 
-## Máscara y activación
+El player *Sargon Plus* se diferencia del *Sargon* clásico por la
+disponibilidad de varias heurísticas adicionales de evaluación (boost) y gestión de performance (turbo)
+
+
+## Máscara BOOST y activación
 
 BOOST se interpreta como una máscara $B\in[0,2^{16}-1]$ de bits independientes, no como nivel ordinal. La optimización $i$ se activa cuando $(B\ \&\ 2^i)\neq 0$. La composición usa OR bit a bit; por ejemplo History más PVS equivale a `0x0001 | 0x0004 = 0x0005`. No se garantiza aditividad de sus efectos competitivos.
 
@@ -388,19 +417,29 @@ BOOST modifica el costo efectivo $t_d$ y la ramificación observada, lo que camb
 
 ## Stockfish como evaluador
 
-En esta modalidad Sargon, Sargon-Plus o CerebrumPlayer, según compatibilidad de implementación, gobiernan la selección de jugadas y piden a Stockfish un valor posicional de una posición. No debe asumirse que el motor Stockfish entrega su árbol de candidatos como parte de ese contrato. La salida se normaliza a centipawns con perspectiva blanca, se distingue evaluación NNUE de búsqueda principal y se controlan terminales. El wrapper puede gestionar proceso persistente y cache LRU cuando está configurado.
+En esta modalidad los player Sargon, Sargon-Plus o Cerebrum, según compatibilidad de implementación, gobiernan la selección de jugadas y piden a Stockfish un valor posicional de una posición. No debe asumirse que el motor Stockfish entrega su árbol de candidatos como parte de ese API. La salida se normaliza a centipawns con perspectiva blanca, se distingue evaluación NNUE de búsqueda principal y se controlan terminales. El wrapper puede gestionar proceso persistente y cache LRU cuando está configurado.
 
 ## Stockfish como player
 
-Stockfish decide internamente la mejor jugada con sus métodos propios; por contrato, el evaluador externo es `null`. Los controles del perfil incluyen `engine-path`, `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash` y `timeout`. La omisión de evaluator se interpreta como null; la indicación explícita de otro evaluador es incompatible.
+Stockfish decide internamente la mejor jugada con sus métodos propios; por el API utilizado, en éste caso el evaluador externo es `null` puesto que no es posible controlar el funcionamiento de stockfish en forma externa para que provea solo la función de player. Los controles del perfil incluyen `engine-path`, `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash` y `timeout`. La omisión de evaluator se interpreta como null; la indicación explícita de otro evaluador es incompatible.
 
-## Performance, diagnóstico y límites de comparación
+### Performance, diagnóstico y límites de comparación
 
 La velocidad y fuerza de Stockfish como player no son comparables directamente con un player propio al que Stockfish sólo ofrece evaluación: el primero controla orden, poda y red interna; el segundo retiene la política de Sargon. Existen riesgos específicos en cargar redes NNUE, extraer *Final evaluation*, interpretar `readyok`, distinguir errores de `bestmove`, y terminar procesos. Los parámetros restrictivos, como `nodes=1`, pueden reducir drásticamente la fuerza y deben registrarse antes de interpretar cualquier resultado. La auditoría conserva respuesta UCI y tiempo interno por separado.
 
+## Leela Chess Zero como Player
+Similar al caso de Stockfish, en éste caso se entrega el cuadro posicional a lc0.exe (mediante su interfaz UCI) y se obtiee la jugada que recomienda. Puesto que el proceso de inferencia es completamente realizado dentro de la llamada el evaluador en éste caso es *null*.
+
 # Entrenamiento y preparación de redes
 
-## Cadena de producción
+La plataforma es capaz de construir y entrenar su propia red NNUE, para ello
+se dispone de una cadena de construcción para almacenar jugadas históricas,
+realizar muestras, etiquetar valores objetivos y realizar el entrenamiento.
+El entrenamiento se realiza con movidas aisladas seleccionadas al azar.
+Al comenzar el entrenamiento,  un porcentaje de las movidas es separada 
+y reservada para validación, no usandola en el entrenamiento mismo.
+
+## Cadena de entrenamiento
 
     PGN --> sargon_prepare --> SQLite .pb
                  |             |       |
@@ -491,7 +530,7 @@ El conjunto de validación se define por partida, para que posiciones vecinas de
 
 Un checkpoint existente debe cargarse y verificarse; un fallo de carga no autoriza reinicializar aleatoriamente los parámetros. Un checkpoint inexistente puede iniciar una red nueva si la operación lo pide explícitamente. El estado CPU/dispositivo de halfmove debe sincronizarse para evitar pérdida de aprendizaje entre sesiones. El entrenamiento conserva validación y exporta pesos con metadatos suficientes para reproducir arquitectura, escala y función objetivo.
 
-## Herramientas adicionales de entrenamiento
+## Herramientas adicionales de creación
 
 `sargon_brainmaker.py` organiza la creación/evolución de brains, su experimentación y metadatos de rating; `sargon_selfplay.py` produce partidas de entrenamiento o evaluación consigo mismo, según perfil. Los scripts de pipeline PowerShell coordinan prepare, train, evaluación y rutas. El uso actual de redes Cerebrum 1.1 se refiere a inferencia a partir de un modelo ya entrenado; su entrenamiento externo no se identifica con el `sargon_train` que produce checkpoints NPZ.
 
@@ -526,18 +565,11 @@ Los eventos primarios se registran como JSONL independientes por motor y por enf
 
 La validación comprueba la correspondencia uno a uno entre jugadas y búsquedas, ausencia de huérfanas y consistencia de manifiestos. Un informe `PASS` estructural no demuestra eficacia de BOOST ni exhaustividad de todos los eventos de cada algoritmo. `boost_audit_coverage.py` clasifica bits desactivados, habilitados sin oportunidad y observados; no atribuye causalidad individual a contadores de ordenación conjuntos.
 
-## Auditor diferencial externo
-
-`boost_differential.py` acepta FEN ya presentes en un `moves.jsonl`, ejecuta en procesos UCI separados el baseline y el experimento sobre cada misma posición, y genera `decisions.csv`, `divergences.jsonl`, `summary.json` y trazas independientes. Compara `bestmove`, puntuación, nodos, tiempo interno y latencia UCI. Por sí solo no demuestra cuál jugada es objetivamente mejor ni traza la primera rama de divergencia del árbol.
-
-    .\sargon_boost_differential.ps1 -Base classic -Test s0001 `
-      -Moves '..\data\test\audit\RUN\match_001\moves.jsonl' -Limit 20
-
 ## Reproducción y almacenamiento
 
 Cada ejecución crea un directorio único. Es incorrecto reutilizar uno que ya contiene ; ello mezclaría evidencia de corridas distintas. Los CSV analíticos deben generarse por defecto al lado de los JSONL que los originaron, no en un directorio compartido global. La velocidad percibida se mide tanto en `response_ms` (UCI) como `elapsed_ms` (búsqueda interna); la diferencia corresponde a comunicación y overhead del entorno.
 
-# Referencia de uso y ejemplos
+# APPENDIX A - Referencia de uso y ejemplos
 
 ## Definir un brain
 
@@ -575,7 +607,7 @@ Cada ejecución crea un directorio único. Es incorrecto reutilizar uno que ya c
 
 La puntuación competitiva es $P=W+\frac12D$, con rendimiento $p=P/N$. Para optimizaciones se comparan por separado puntos, errores UCI, latencias $\overline t$, percentil 95 y nodos. A igualdad de tiempo, una variante rápida puede profundizar más; a profundidad fija, puede producir otra jugada sin mejorar su calidad. Una coincidencia de puntaje raíz no demuestra igualdad de valor individual de cada jugada candidata. Partidas deterministas repetidas no equivalen a muestras independientes de aperturas diversas.
 
-# Deuda técnica, límites y trabajo pendiente
+# Appendix B  - Deuda técnica, límites y trabajo pendiente
 
 ## Capacidad explicativa de la auditoría
 
@@ -601,7 +633,7 @@ LMR, Null Move, Futility, Delta, Razoring y MultiCut modifican el espacio efecti
 
 Un RALLY todos contra todos puede consumir muchas horas o días. Es imprescindible preservar directorios por corrida, resultados originales y configuración constante. Las aperturas únicas, determinismo y mezcla de colores pueden producir muestras correlacionadas. Evitar concluir que una modalidad es equivalente a otra sólo porque la diferencia no resulte significativa en pocos juegos. *Este capítulo agrupa los controles pendientes; no se incluye checklist operativo separado.*
 
-# Arquitectura de módulos
+# Appendix C - Arquitectura de módulos
 
 | Componente                   | Responsabilidad funcional                                              |
 |:-----------------------------|:-----------------------------------------------------------------------|
@@ -647,7 +679,7 @@ Separar MSE de train/validation, proporción de etiquetas válidas y rendimiento
 
 Validar peso y sesgo, escala, codificación, estado CPU/dispositivo y semántica de objetivo. Rechazar archivo existente corrupto; registrar hash y entrenamiento de origen. La inferencia en NumPy debe preservar evaluación blanca y reproducibilidad, incluyendo corrección de medio movimiento cuando se implemente.
 
-# Cerebrum 1.1: modelo, incrementalidad y evaluación
+# Appendix D - Cerebrum 1.1: modelo, incrementalidad y evaluación
 
 ## Alcance de la documentación
 
@@ -669,9 +701,9 @@ El proceso de entrenamiento externo de Cerebrum no es el de NPZ y no debe presen
 
 Con `qdepth=0` evalúa candidatas a un ply; con `qdepth>0` utiliza una continuación quiescence sobre capturas, promociones y jaques. En un RALLY reducido, `qdepth=3` presentó competitividad superior a otras variantes, pero esa evidencia no constituye una demostración universal de optimalidad. La mejora se atribuye al sistema completo de selección y evaluación, no únicamente a un checkpoint.
 
-# Redes MCTS: fundamentos y posible integración
+# Appendix E - Redes MCTS: fundamentos e integración
 
-## Estado actual y nomenclatura
+## Introducción
 
 Monte Carlo Tree Search (MCTS) es un algoritmo de búsqueda por simulaciones; no constituye por sí mismo una red neuronal. Una integración moderna suele entrenar una red de *política* $p_\theta(a\mid s)$ y una red de *valor* $v_\theta(s)$, que alimentan la selección de nodos. Este apéndice describe una alternativa todavía no incorporada como evaluador/plataforma operativa de Sargon-NNUE; no presenta comandos ficticios.
 
@@ -687,7 +719,7 @@ En un ciclo de autojuego, la política objetivo se obtiene de frecuencias de vis
 
 Un player Sargon requiere un valor para las posiciones resultantes de jugadas candidatas, mientras que un sistema MCTS entrenado entrega tanto distribución de política como valor. Hay tres posibilidades: usar $v_\theta(T(s,a))$ como evaluador de cada jugada de Sargon; usar $p_\theta(a\mid s)$ sólo como ordenamiento; o utilizar MCTS como player completo. La primera mantiene la separación player–evaluator, pero desperdicia información de política; la segunda necesita cuidado para no confundir prior con valor; la tercera requiere un nuevo player. La semántica terminal, normalización de signos, gestión de tiempo y adquisición de entrenamiento deben definirse antes de adoptar cualquiera.
 
-# Cronología de versiones y entregas
+# Appendix - Cronología de versiones y entregas
 
 Este apéndice es el único lugar donde se documenta la secuencia de versiones. Los títulos de los paquetes señalan el ámbito de cada entrega, pero no equivalen a una especificación completa de su contenido. Las versiones sin paquete local verificable se identifican como hitos registrados en la documentación precedente.
 
