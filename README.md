@@ -1,4 +1,4 @@
-# Sargon-NNUE
+# Akkad
 
 *“A new mind for the old buddy”*
 
@@ -18,8 +18,8 @@ Dr. Pedro E. Colla
 
 Manual de referencia consolidado de la arquitectura funcional del proyecto Akkad. El proyecto está formado por los siguientes paquetes:
 
-* Sargon-NNUE. Plataforma de motores y evaluadores.
-* Challenger. Plataforma de jugado independiente.
+* Sargon-NNUE. Plataforma de motores y evaluadores para juego de ajedrez.
+* Challenger. Plataforma de juego de ajedrez independiente.
 * micro Sargon. Port restringido de Sargon-NNUE a Raspberry Pico W1/2.
 
 
@@ -27,42 +27,42 @@ Manual de referencia consolidado de la arquitectura funcional del proyecto Akkad
 
 ## Objetivo general
 
-Sargon-NNUE es una plataforma experimental para separar dos fuentes de táctica a menudo entremezcladas en motores de ajedrez:
+En ésta documentación se expone en detalle la arquitectura de *Sargon-NNUE*, los otros aplicativos se puede referir a su documentación de base.
+
+Se desarrolla a partir de módulos jugadores y evaluadores que implementan como base el algoritmo Sargón original y evolucionan a partir de el.
+
+Sargon-NNUE es una plataforma experimental que integra redes neuronales
+de distinta arquitectura al motor de juego, la arquitectura integra 
+varios formatos de redes neuronales de otros paquetes (Cerebrum, Leela, etc) y un formato nativo de red neuronal NNUE (Efficiently Updatable Neural Network).
+
+Desde un punto de vista de arquitectura separa dos fuentes de táctica a menudo entremezcladas en motores de ajedrez:
 
 1.  el algoritmo que explora el árbol de juego (*player*);
-
 2.  la función que asigna valor a una posición (*evaluator*).
 
-El API dominante continúa siendo:
+El API dominante será entonces modelado alrededor de una interfaz:
 
 ``` python
 Evaluator:
-    evaluate(board) -> score_cp
+    evaluate(board) -> score_cp (desde el punto de vista de blancas)
 
 Player:
     choose(board) -> MoveChoice
 ```
 
-Los evaluators devuelven centipawns desde perspectiva blanca. Los players deciden qué posiciones deben ser evaluadas y cómo convertir esas evaluaciones en una jugada.
+Los evaluadores devuelven centipawns desde perspectiva blanca. Los players deciden qué posiciones deben ser evaluadas y cómo convertir esas evaluaciones en una jugada.
 
 ## Qué se intenta aislar
 
-El proyecto intenta que puedan compararse por separado:
+El proyecto intenta que puedan compararse por separado mediante diferentes players:
 
 - profundidad y política de búsqueda;
-
 - ordenamiento de jugadas;
-
 - quiescence;
-
 - evaluación estática;
-
 - redes aprendidas;
-
 - podas selectivas;
-
 - límites de tiempo y de nodos;
-
 - coste del backend de evaluación.
 
 Esta separación permite definir en forma aislada el módulo de jugada (player) y el de evaluación de jugada (evaluador). Los API de es fundamental para interpretar correctamente experimentos del tipo:
@@ -243,9 +243,165 @@ Los datos originales son JSONL; los CSV se derivan a posteriori y permanecen den
 
 Los defaults exactos dependen del entry point y del tipo de player, por lo que el perfil explícito es el contrato reproducible; no se deben inventar valores únicos para todos los lanzadores. En los perfiles de competición actualmente utilizados se fijan `depth=2`, `qdepth=2`, `tmax=15000` para Sargon-Plus.
 
-## Sargon y SargonCore
+# Algoritmos de evaluación de jugadas
+
+## Algoritmo Sargon
 
 El núcleo de búsqueda implementa exploración de árbol adversarial con alternancia MAX/MIN o su forma negamax, poda alpha–beta, manejo terminal, niveles iterativos y protección del resultado completo más reciente. En negamax: $$V(s,d,\alpha,\beta)=\max_{a\in A(s)}\{-V(T(s,a),d-1,-\beta,-\alpha)\}.$$ La poda es legítima cuando $\alpha\geq\beta$, siempre que la evaluación y los límites sean coherentes. El resultado elegido por la raíz puede depender del orden ante empates; una búsqueda selectiva puede depender del orden también por reducciones y podas. Los guardrails conservan el último nivel completo si el intento posterior agota el presupuesto. El núcleo conserva responsabilidades compartidas para evitar duplicar semántica terminal en Sargon-Plus.
+
+## Algoritmo Monte Carlo Tree Search (MCTS)
+# MCTS con red neuronal: política, valor y búsqueda PUCT
+
+## 1. Propósito
+
+**Monte Carlo Tree Search (MCTS)** es un algoritmo de búsqueda que construye incrementalmente un árbol de posiciones mediante simulaciones. En la variante utilizada por motores de estilo **AlphaZero/Leela Chess Zero**, una red neuronal guía la exploración mediante una **política** de movimientos y estima el **valor** de las posiciones. No es necesario terminar cada simulación en un resultado de partida: la evaluación neuronal puede sustituir a un *rollout* hasta el final.
+
+## 2. Información de cada nodo y arista
+
+Una posición de ajedrez define un estado \(s\), con el jugador al turno y su información relevante (incluido historial cuando la red o las reglas lo requieren). Para cada movimiento legal \(a\) que parte de \(s\), el árbol almacena típicamente:
+
+| Dato | Símbolo | Significado |
+|---|---|---|
+| Prior de política | \(P(s,a)\) | Probabilidad inicial atribuida al movimiento por la red, normalizada entre movimientos legales. |
+| Visitas | \(N(s,a)\) | Cantidad de simulaciones que atravesaron esa arista. |
+| Valor acumulado | \(W(s,a)\) | Suma de las evaluaciones retropropagadas, con perspectiva coherente. |
+| Valor medio | \(Q(s,a)\) | \(W(s,a)/N(s,a)\) si \(N>0\). |
+| Hijo | \(s'\) | Estado resultante de aplicar \(a\) a \(s\). |
+
+También se mantiene el total de visitas del nodo \(N(s)=\sum_b N(s,b)\). Una implementación puede almacenar estadísticas en nodos o aristas y aprovechar transposiciones, siempre que preserve la semántica de los valores.
+
+## 3. Las cuatro etapas de una simulación
+
+### A. Selección (PUCT)
+
+Desde la raíz, se elige repetidamente la arista que maximiza una combinación de explotación y exploración:
+
+\[
+a^*=\arg\max_{a\in\mathcal A(s)}\left[Q(s,a)+U(s,a)\right]
+\]
+
+\[
+U(s,a)=c_{\mathrm{puct}}\,P(s,a)\,\frac{\sqrt{\sum_b N(s,b)}}{1+N(s,a)}.
+\]
+
+Aquí \(Q\) representa la utilidad observada y \(U\) favorece inicialmente movimientos con alta probabilidad de política y pocas visitas. A medida que crece \(N(s,a)\), su bonificación de exploración disminuye. Esta es una formulación simplificada de PUCT: implementaciones concretas, como LC0, pueden usar constantes dinámicas y otros ajustes.
+
+### B. Expansión
+
+Cuando se alcanza una posición no expandida, se generan sus movimientos legales y se consulta la red neuronal. La red produce dos salidas principales:
+
+- **Política**: puntuaciones o *logits* \(z_a\), convertidos a probabilidades legales, por ejemplo mediante *softmax*:
+
+  \[
+  P(s,a)=\frac{e^{z_a}}{\sum_{b\in\mathcal A(s)}e^{z_b}}.
+  \]
+
+- **Valor**: una estimación \(v(s)\in[-1,1]\), donde \(+1\) indica victoria esperada para el jugador que debe mover, \(0\) empate y \(-1\) derrota. Si la red devuelve probabilidades WDL, puede formarse una utilidad escalar \(v=p_{\mathrm{win}}-p_{\mathrm{loss}}\), conservando WDL por separado cuando interesa.
+
+Las probabilidades \(P(s,a)\) se asignan como *priors* a las aristas nuevas. El valor \(v(s)\) se utiliza para actualizar las estadísticas del trayecto. **La política no es un valor de posición ni garantiza que el movimiento más probable sea el mejor**; dirige el presupuesto de búsqueda.
+
+### C. Evaluación terminal
+
+Si la posición alcanzada es terminal, no hace falta consultar la red: se utiliza el resultado real de la partida desde la perspectiva apropiada (victoria \(+1\), empate \(0\), derrota \(-1\)).
+
+### D. Retropropagación (*backup*)
+
+Al volver de la hoja hacia la raíz se actualizan las aristas recorridas:
+
+\[
+N(s,a)\leftarrow N(s,a)+1,\qquad
+W(s,a)\leftarrow W(s,a)+v,\qquad
+Q(s,a)\leftarrow\frac{W(s,a)}{N(s,a)}.
+\]
+
+En un juego de suma cero, **al cambiar de jugador se invierte el signo del valor**: \(v\leftarrow-v\). La convención debe fijarse claramente; en las fórmulas de selección, \(Q(s,a)\) debe expresar la expectativa desde la perspectiva del jugador que elige en \(s\).
+
+## 4. Elección del movimiento efectivo
+
+Se realizan simulaciones hasta agotar un presupuesto, generalmente de nodos o tiempo. **Durante la búsqueda se maximiza \(Q+U\); al decidir el movimiento real normalmente se utilizan las visitas**, no el máximo \(Q+U\):
+
+\[
+a_{\mathrm{juego}}=\arg\max_a N(s_0,a).
+\]
+
+En autojuego o entrenamiento puede aplicarse muestreo con temperatura \(\tau\):
+
+\[
+\pi(a\mid s_0)=\frac{N(s_0,a)^{1/\tau}}{\sum_b N(s_0,b)^{1/\tau}}.
+\]
+
+La distribución de visitas \(\pi\) puede constituir la señal de entrenamiento para mejorar la política neuronal.
+
+## 5. Estructura de datos orientativa
+
+```python
+class Edge:
+    move: str       # jugada, por ejemplo UCI
+    prior: float    # P(s,a)
+    visits: int     # N(s,a)
+    value_sum: float  # W(s,a), desde el punto de vista del jugador en s
+    child: "Node | None"
+
+    @property
+    def q(self):
+        return self.value_sum / self.visits if self.visits else 0.0
+
+class Node:
+    position: object
+    expanded: bool
+    edges: list[Edge]
+    # Opcional: estado terminal, transposiciones, historial y metadatos
+```
+
+## 6. Pseudocódigo resumido
+
+```text
+repetir mientras quede presupuesto:
+    nodo = raíz
+    recorrido = []
+    mientras nodo esté expandido y no sea terminal:
+        arista = argmax(Q + U)
+        recorrido.agregar(arista)
+        nodo = hijo(arista)
+    si nodo es terminal:
+        v = resultado_terminal(nodo)
+    si no:
+        P, v = red_neuronal(nodo.posición)
+        crear_aristas_legales(nodo, normalizar(P))
+    para cada arista del recorrido, en orden inverso:
+        v = -v   # invertir perspectiva entre jugadores
+        actualizar N, W y Q de la arista con v
+jugar la acción con mayor cantidad de visitas en la raíz
+```
+
+## 7. Rol efectivo de la red neuronal
+
+La red cumple **dos funciones distintas y complementarias**. La política \(P\) decide dónde conviene concentrar la exploración; el valor \(v\) aproxima la calidad de las posiciones descubiertas. MCTS acumula evidencia mediante visitas y promedios \(Q\), por lo que sus decisiones no son una simple lectura directa de la red. Una red sin entrenamiento puede guiar mal la búsqueda, y aumentar simulaciones no garantiza por sí solo buena calidad ajedrecística.
+
+## 8. Diferencia respecto de Sargon Plus
+
+Sargon Plus, con alfa-beta y *quiescence*, explora variantes hasta cierta profundidad y solicita valoraciones de posiciones al evaluador. MCTS/PUCT selecciona dinámicamente qué ramas visitar usando \(P\), \(N\) y \(Q\), incorpora el valor neuronal en hojas y elige normalmente la jugada por visitas. Si se usa una red LC0 como evaluador de Sargon Plus, se puede aprovechar su **valor** sin que el player se transforme automáticamente en MCTS: la estrategia de exploración sigue siendo alfa-beta.
+
+**Nota de alcance:** exposición conceptual de AlphaZero/PUCT; las estructuras, convenciones y constantes exactas pueden variar entre implementaciones.
+
+## Uso combinado
+
+La arquitectura permite intercambiar, con cierta libertad, players y 
+evaluadores. En tal sentido puedo utilizar un evaluador stockfish con un
+algoritmo de jugada Sargon o éste con un evaluador basado en la red
+Cerebrus. Es decir el jugador no necesariamente tiene que usar la
+representación de evaluación que le es nativa (Classic para Sargon, 
+NPZ para SargonPlus, Cerebrum para Cerebrum, etc). En todos los casos 
+el evaluador retorna un valor de posición normalizado y consistente
+entre todos los posibles evaluadores. Algunas combinaciones son, por supuesto, mas efectivas que otras.
+En el caso de evaluación lc0, que es la requerida por el jugador 
+AlphaZero, hay una diferencia. El algoritmo MCTS requiere dos valores
+provenientes del evaluador, el valor de la posición y un vector con la
+política para las jugadas permitidas. Eso es provisto por el evaluador
+lc0 a partir de la evaluación de la red del mismo origen (fija y pre-entrenada). También es posible usar el evaluador lc0 con jugadores como SargonPlus, simplemente se ignora el resultado de política y el resultado es aún así suficientemente bueno.
+Sin embargo la evaluación del algoritmo MCTS con una red NNUE nativa no da buen resultado, al faltar el dato de la política a priori la misma no puede ser sintetizada facilmente solo con los datos de valor. El resultado, si bien técnicamente posible, es una muy mala estrategia donde jugadas o encuadres posicionales muy triviales no son reconocidos. Debido a eso tal combinación no es utilizada.
+
+# Arquitectura de Jugadores
 
 ## Player Sargon-Plus
 
@@ -255,6 +411,144 @@ La variante Sargon-Plus reutiliza SargonCore y agrega un conjunto de optimizacio
 
 Implementa un player simple capaz de operar con la red neural *Cerebrum V1.1*
 CerebrumPlayer considera las jugadas legales, aplica cada candidata y obtiene su valor de la red neural Cerebrum 1.1. Con `qdepth=0` conserva selección a un ply; con `qdepth>0` agrega negamax alpha–beta táctico, evaluando stand-pat en posiciones estables, capturas/promociones relevantes y todas las evasiones legales cuando está en jaque. La profundidad quiescence no representa una segunda búsqueda principal full-width. La red incremental reutiliza información del tablero padre cuando el API del evaluador lo permite. La evaluación terminal prevalece sobre el valor estimado de red.
+
+## Player AlphaZero
+
+Se trata de implementar un algoritmo MCTS con red neuronal de manera de poder establecer la  política, valor y búsqueda PUCT.
+
+## 1. Propósito
+
+**Monte Carlo Tree Search (MCTS)** es un algoritmo de búsqueda que construye incrementalmente un árbol de posiciones mediante simulaciones. En la variante utilizada por motores de estilo **AlphaZero/Leela Chess Zero**, una red neuronal guía la exploración mediante una **política** de movimientos y estima el **valor** de las posiciones. No es necesario terminar cada simulación en un resultado de partida: la evaluación neuronal puede sustituir a un *rollout* hasta el final.
+
+## 2. Información de cada nodo y arista
+
+Una posición de ajedrez define un estado \(s\), con el jugador al turno y su información relevante (incluido historial cuando la red o las reglas lo requieren). Para cada movimiento legal \(a\) que parte de \(s\), el árbol almacena típicamente:
+
+| Dato | Símbolo | Significado |
+|---|---|---|
+| Prior de política | \(P(s,a)\) | Probabilidad inicial atribuida al movimiento por la red, normalizada entre movimientos legales. |
+| Visitas | \(N(s,a)\) | Cantidad de simulaciones que atravesaron esa arista. |
+| Valor acumulado | \(W(s,a)\) | Suma de las evaluaciones retropropagadas, con perspectiva coherente. |
+| Valor medio | \(Q(s,a)\) | \(W(s,a)/N(s,a)\) si \(N>0\). |
+| Hijo | \(s'\) | Estado resultante de aplicar \(a\) a \(s\). |
+
+También se mantiene el total de visitas del nodo \(N(s)=\sum_b N(s,b)\). Una implementación puede almacenar estadísticas en nodos o aristas y aprovechar transposiciones, siempre que preserve la semántica de los valores.
+
+## 3. Las cuatro etapas de una simulación
+
+### A. Selección (PUCT)
+
+Desde la raíz, se elige repetidamente la arista que maximiza una combinación de explotación y exploración:
+
+\[
+a^*=\arg\max_{a\in\mathcal A(s)}\left[Q(s,a)+U(s,a)\right]
+\]
+
+\[
+U(s,a)=c_{\mathrm{puct}}\,P(s,a)\,\frac{\sqrt{\sum_b N(s,b)}}{1+N(s,a)}.
+\]
+
+Aquí \(Q\) representa la utilidad observada y \(U\) favorece inicialmente movimientos con alta probabilidad de política y pocas visitas. A medida que crece \(N(s,a)\), su bonificación de exploración disminuye. Esta es una formulación simplificada de PUCT: implementaciones concretas, como LC0, pueden usar constantes dinámicas y otros ajustes.
+
+### B. Expansión
+
+Cuando se alcanza una posición no expandida, se generan sus movimientos legales y se consulta la red neuronal. La red produce dos salidas principales:
+
+- **Política**: puntuaciones o *logits* \(z_a\), convertidos a probabilidades legales, por ejemplo mediante *softmax*:
+
+  \[
+  P(s,a)=\frac{e^{z_a}}{\sum_{b\in\mathcal A(s)}e^{z_b}}.
+  \]
+
+- **Valor**: una estimación \(v(s)\in[-1,1]\), donde \(+1\) indica victoria esperada para el jugador que debe mover, \(0\) empate y \(-1\) derrota. Si la red devuelve probabilidades WDL, puede formarse una utilidad escalar \(v=p_{\mathrm{win}}-p_{\mathrm{loss}}\), conservando WDL por separado cuando interesa.
+
+Las probabilidades \(P(s,a)\) se asignan como *priors* a las aristas nuevas. El valor \(v(s)\) se utiliza para actualizar las estadísticas del trayecto. **La política no es un valor de posición ni garantiza que el movimiento más probable sea el mejor**; dirige el presupuesto de búsqueda.
+
+### C. Evaluación terminal
+
+Si la posición alcanzada es terminal, no hace falta consultar la red: se utiliza el resultado real de la partida desde la perspectiva apropiada (victoria \(+1\), empate \(0\), derrota \(-1\)).
+
+### D. Retropropagación (*backup*)
+
+Al volver de la hoja hacia la raíz se actualizan las aristas recorridas:
+
+\[
+N(s,a)\leftarrow N(s,a)+1,\qquad
+W(s,a)\leftarrow W(s,a)+v,\qquad
+Q(s,a)\leftarrow\frac{W(s,a)}{N(s,a)}.
+\]
+
+En un juego de suma cero, **al cambiar de jugador se invierte el signo del valor**: \(v\leftarrow-v\). La convención debe fijarse claramente; en las fórmulas de selección, \(Q(s,a)\) debe expresar la expectativa desde la perspectiva del jugador que elige en \(s\).
+
+## 4. Elección del movimiento efectivo
+
+Se realizan simulaciones hasta agotar un presupuesto, generalmente de nodos o tiempo. **Durante la búsqueda se maximiza \(Q+U\); al decidir el movimiento real normalmente se utilizan las visitas**, no el máximo \(Q+U\):
+
+\[
+a_{\mathrm{juego}}=\arg\max_a N(s_0,a).
+\]
+
+En autojuego o entrenamiento puede aplicarse muestreo con temperatura \(\tau\):
+
+\[
+\pi(a\mid s_0)=\frac{N(s_0,a)^{1/\tau}}{\sum_b N(s_0,b)^{1/\tau}}.
+\]
+
+La distribución de visitas \(\pi\) puede constituir la señal de entrenamiento para mejorar la política neuronal.
+
+## 5. Estructura de datos orientativa
+
+```python
+class Edge:
+    move: str       # jugada, por ejemplo UCI
+    prior: float    # P(s,a)
+    visits: int     # N(s,a)
+    value_sum: float  # W(s,a), desde el punto de vista del jugador en s
+    child: "Node | None"
+
+    @property
+    def q(self):
+        return self.value_sum / self.visits if self.visits else 0.0
+
+class Node:
+    position: object
+    expanded: bool
+    edges: list[Edge]
+    # Opcional: estado terminal, transposiciones, historial y metadatos
+```
+
+## 6. Pseudocódigo resumido
+
+```text
+repetir mientras quede presupuesto:
+    nodo = raíz
+    recorrido = []
+    mientras nodo esté expandido y no sea terminal:
+        arista = argmax(Q + U)
+        recorrido.agregar(arista)
+        nodo = hijo(arista)
+    si nodo es terminal:
+        v = resultado_terminal(nodo)
+    si no:
+        P, v = red_neuronal(nodo.posición)
+        crear_aristas_legales(nodo, normalizar(P))
+    para cada arista del recorrido, en orden inverso:
+        v = -v   # invertir perspectiva entre jugadores
+        actualizar N, W y Q de la arista con v
+jugar la acción con mayor cantidad de visitas en la raíz
+```
+
+## 7. Rol efectivo de la red neuronal
+
+La red cumple **dos funciones distintas y complementarias**. La política \(P\) decide dónde conviene concentrar la exploración; el valor \(v\) aproxima la calidad de las posiciones descubiertas. MCTS acumula evidencia mediante visitas y promedios \(Q\), por lo que sus decisiones no son una simple lectura directa de la red. Una red sin entrenamiento puede guiar mal la búsqueda, y aumentar simulaciones no garantiza por sí solo buena calidad ajedrecística.
+
+## 8. Diferencia respecto de Sargon Plus
+
+Sargon Plus, con alfa-beta y *quiescence*, explora variantes hasta cierta profundidad y solicita valoraciones de posiciones al evaluador. MCTS/PUCT selecciona dinámicamente qué ramas visitar usando \(P\), \(N\) y \(Q\), incorpora el valor neuronal en hojas y elige normalmente la jugada por visitas. Si se usa una red LC0 como evaluador de Sargon Plus, se puede aprovechar su **valor** sin que el player se transforme automáticamente en MCTS: la estrategia de exploración sigue siendo alfa-beta.
+
+---
+
+**Nota de alcance:** exposición conceptual de AlphaZero/PUCT; las estructuras, convenciones y constantes exactas pueden variar entre implementaciones.
 
 ## Players Stockfish, Leela y Random
 
@@ -315,8 +609,24 @@ Indica que el player no requiere evaluador externo. Es mandatorio semánticament
 # Optimizaciones Sargón Plus
 
 El player *Sargon Plus* se diferencia del *Sargon* clásico por la
-disponibilidad de varias heurísticas adicionales de evaluación (*boost*) y gestión de performance (*turbo*)
+disponibilidad de varias heurísticas adicionales de evaluación (*boost*) y gestión de performance (*turbo*), implementa además el algoritmo de *quiescence* en la exploración de jugadas.
 
+## Quiescence
+
+Esta opción de performance se activa con el argumento (*--qdepth*) y en
+evaluaciones preliminares aporta un margen de mejora apreciable al 
+algoritmo Sargon nativo.
+Se trata de una extensión selectiva del algoritmo de búsqueda alfa-beta que, al alcanzar la profundidad nominal (--depth), continúa explorando jugadas tácticamente relevantes hasta alcanzar una posición relativamente estable.
+Su objetivo es evitar el *efecto horizonte*, por el cual el motor evalúa una posición justo antes de una captura, recaptura u otro acontecimiento táctico importante, produciendo una valoración engañosa.
+En Sargon Plus:
+- --qdepth 0: desactiva la búsqueda de quiescence.
+- --qdepth N: permite explorar hasta N niveles adicionales de movimientos tácticos.
+- Se priorizan capturas, recapturas y, según la implementación, otras jugadas forzadas.
+- Las posiciones alcanzadas se valoran mediante el evaluador configurado (NNUE, LC0, Stockfish, etc.).
+Por ejemplo con --depth 3 --qdepth 2, Sargon Plus realiza una búsqueda principal de 3 plies y puede extender determinadas variantes tácticas hasta 5 plies.
+Como beneficio se encontró experimentalmente que mejora la estabilidad de la evaluación táctica sin explorar exhaustivamente todas las jugadas de los niveles adicionales.
+El costo es incrementar el número de nodos evaluados y el tiempo de búsqueda; el incremento depende de la cantidad de movimientos tácticos disponibles.
+En resumen, el modo Quiescence evita que Sargon Plus detenga el análisis en medio de una secuencia táctica que todavía no se ha resuelto.
 
 ## Máscara BOOST y activación
 
@@ -400,23 +710,23 @@ tiempo máximo y profundidad máxima de análisis.
 En tal sentido se utilizan excedentes de tiempo para profundizar el análisis o deficit de tiempo para restringirlos.
 TURBO es independiente de BOOST. Se habilita mediante `0x01` (Adaptive Full Width), `0x02` (Adaptive Candidate Selection) y `0x03` (ambos). Los modos gestionan la decisión de iniciar el siguiente nivel, no reemplazan el evaluador ni el resultado terminal.
 
-## Modelo de crecimiento
+### Modelo de crecimiento
 
 Sea $t_d$ el tiempo observado para completar profundidad $d$. Se estima un factor $\hat g_d=t_d/t_{d-1}$ y el costo del próximo nivel $\hat t_{d+1}=t_d\hat g_d$, ajustable por el controlador. La decisión de iniciar un nivel considera el tiempo restante $T_{rem}$ y un margen de seguridad $\eta$: $$\hat t_{d+1}\leq\eta T_{rem}.$$ El factor observado no debe tratarse como constante teórica: ramificación, ordenamiento y quiescence producen alta variabilidad. Datos censurados (nivel incompleto por timeout) no equivalen a una medición de nivel terminado.
 
-## Adaptive Full Width
+### Adaptive Full Width
 
 Evalúa si una búsqueda completa de todas las candidatas raíz es admisible bajo el presupuesto. Si no lo es, no inicia un nivel que previsiblemente no podrá completar y conserva la última búsqueda terminada. La respuesta final nunca debería proceder de un nivel parcial cuya comparación de candidatas no sea válida.
 
-## Adaptive Candidate Selection
+### Adaptive Candidate Selection
 
 Puede estimar un subconjunto $K$ de las $N$ jugadas raíz. La fracción $f=K/N$ controla trabajo y riesgo de exclusión. Los guardrails evitan casos degenerados como $K=1$ cuando no habría comparación útil o no existe presupuesto para un solo candidato. Para posiciones similares, la decisión de reducir candidatos debe preservar la trazabilidad del conjunto seleccionado y la cobertura del nivel anterior.
 
-## Reglas de fallback y criterios de seguridad
+### Reglas de fallback y criterios de seguridad
 
 Si un nivel es interrumpido, se devuelve el mejor resultado del último nivel *completo*. Si la proyección excede tiempo restante se registra el descarte de nivel; si ninguna candidatura puede completarse se detiene. El costo de ordenar y auditar no debe ocultarse bajo el tiempo de búsqueda. Los límites deben tener prioridad sobre heurísticas de avance.
 
-## Interacciones con BOOST
+### Interacciones con BOOST
 
 BOOST modifica el costo efectivo $t_d$ y la ramificación observada, lo que cambia la estimación de TURBO. Una aceleración de BOOST no implica mejor juego si el nivel completado o conjunto de candidatas cambia. La fuerza se evalúa con partidas; el costo con medidas de latencia/nodos; y las decisiones de TURBO con eventos de presupuesto, intentos y fallback.
 
@@ -438,6 +748,10 @@ La velocidad y fuerza de Stockfish como player no son comparables directamente c
 
 ## Leela Chess Zero como Player
 Similar al caso de Stockfish, en éste caso se entrega el cuadro posicional a lc0.exe (mediante su interfaz UCI) y se obtiee la jugada que recomienda. Puesto que el proceso de inferencia es completamente realizado dentro de la llamada el evaluador en éste caso es *null*.
+
+
+
+
 
 # Entrenamiento y preparación de redes
 
@@ -563,20 +877,11 @@ Un checkpoint existente debe cargarse y verificarse; un fallo de carga no autori
 
 `sargon_audit.py` puede analizar datasets de entrenamiento o el directorio completo de auditoría BOOST/TURBO. `sargon_judge.py` examina resultados y, cuando hay evaluación por posición, fidelidad numérica y discrepancias de decisiones. Las funciones no son intercambiables: AUDIT comprueba integridad/cobertura de capturas; JUDGE interpreta resultados competitivos.
 
-## Auditoría persistente
-
-Los eventos primarios se registran como JSONL independientes por motor y por enfrentamiento, con manifiesto de RALLY, configuración, FEN, jugada, tiempo de respuesta del supervisor y tiempo interno del motor. Las métricas de búsqueda incluyen nodos, profundidad completa, intentos, timeout y contadores específicos de BOOST/TURBO. Los informes derivados se conservan en la *misma carpeta de corrida*: `boost_report.csv`, `boost_report_moves.csv`, `boost_report_paired.csv`, `boost_report_levels.csv`, `boost_report_turbo_events.csv`, validación y cobertura.
-
-    .\sargon_audit.ps1 --boost-audit --input ..\data\test\audit\RUN
-    .\sargon_audit.ps1 --validate --input ..\data\test\audit\RUN
-
-La validación comprueba la correspondencia uno a uno entre jugadas y búsquedas, ausencia de huérfanas y consistencia de manifiestos. Un informe `PASS` estructural no demuestra eficacia de BOOST ni exhaustividad de todos los eventos de cada algoritmo. `boost_audit_coverage.py` clasifica bits desactivados, habilitados sin oportunidad y observados; no atribuye causalidad individual a contadores de ordenación conjuntos.
-
 ## Reproducción y almacenamiento
 
 Cada ejecución crea un directorio único. Es incorrecto reutilizar uno que ya contiene ; ello mezclaría evidencia de corridas distintas. Los CSV analíticos deben generarse por defecto al lado de los JSONL que los originaron, no en un directorio compartido global. La velocidad percibida se mide tanto en `response_ms` (UCI) como `elapsed_ms` (búsqueda interna); la diferencia corresponde a comunicación y overhead del entorno.
 
-# APPENDIX A - Referencia de uso y ejemplos
+# APPENDIX - Referencia de uso y ejemplos
 
 ## Definir un brain
 
@@ -614,33 +919,7 @@ Cada ejecución crea un directorio único. Es incorrecto reutilizar uno que ya c
 
 La puntuación competitiva es $P=W+\frac12D$, con rendimiento $p=P/N$. Para optimizaciones se comparan por separado puntos, errores UCI, latencias $\overline t$, percentil 95 y nodos. A igualdad de tiempo, una variante rápida puede profundizar más; a profundidad fija, puede producir otra jugada sin mejorar su calidad. Una coincidencia de puntaje raíz no demuestra igualdad de valor individual de cada jugada candidata. Partidas deterministas repetidas no equivalen a muestras independientes de aperturas diversas.
 
-# Appendix B  - Deuda técnica, límites y trabajo pendiente
-
-## Capacidad explicativa de la auditoría
-
-La auditoría persistente conserva resultados, tiempo, profundidad y actividad interna, pero no garantiza atribución causal de una derrota a un bit específico. Los algoritmos de ordenamiento pueden producir diferencias por desempate o por interacción con búsquedas selectivas. No se almacenan todos los nodos ni se demuestra el contrafáctico de ramas podadas. La separación universal de nodos principales y de quiescence en `SargonCore` no está disponible en todas las rutas documentadas.
-
-## Cobertura y coste de instrumentación
-
-Es necesario comprobar cada bit en posiciones donde pueda intervenir; un bit habilitado sin eventos queda *no ejercitado*, no aprobado. Los contadores de reordenación conjunta no permiten atribuir causalidad si varios bits están activos. La auditoría puede agregar overhead, de modo que los tiempos auditados no sustituyen benchmark sin instrumentación.
-
-## Trazabilidad completa
-
-Algunos manifiestos pueden conservar una identificación de versión anterior a los módulos efectivamente desplegados; no deben confundirse versión de manifiesto/esquema con hash real de implementación. Mantener hashes de código, configuración, checkpoint y etiquetas de fuente; tratar los resultados de preflight como validación de conectividad, no como prueba de fuerza.
-
-## Integridad del entrenamiento
-
-Verificar continuidad de halfmove entre CPU y dispositivo, manejo atómico de checkpoints, separación por partida y estabilidad del objetivo al reanudar. No inferir convergencia a partir del MSE de entrenamiento aislado ni extrapolar jugadas necesarias desde una regresión lineal sin validación de fuerza de juego.
-
-## Seguridad de heurísticas selectivas
-
-LMR, Null Move, Futility, Delta, Razoring y MultiCut modifican el espacio efectivamente explorado; necesitan contrastación ajedrecística si aparecen deterioros. No modificar código por mera sospecha: cualquier corrección se fundamentará en un defecto confirmado y reproducible.
-
-## Limitaciones experimentales conocidas
-
-Un RALLY todos contra todos puede consumir muchas horas o días. Es imprescindible preservar directorios por corrida, resultados originales y configuración constante. Las aperturas únicas, determinismo y mezcla de colores pueden producir muestras correlacionadas. Evitar concluir que una modalidad es equivalente a otra sólo porque la diferencia no resulte significativa en pocos juegos. *Este capítulo agrupa los controles pendientes; no se incluye checklist operativo separado.*
-
-# Appendix C - Arquitectura de módulos
+# Appendix - Arquitectura de módulos
 
 | Componente                   | Responsabilidad funcional                                              |
 |:-----------------------------|:-----------------------------------------------------------------------|
@@ -686,7 +965,7 @@ Separar MSE de train/validation, proporción de etiquetas válidas y rendimiento
 
 Validar peso y sesgo, escala, codificación, estado CPU/dispositivo y semántica de objetivo. Rechazar archivo existente corrupto; registrar hash y entrenamiento de origen. La inferencia en NumPy debe preservar evaluación blanca y reproducibilidad, incluyendo corrección de medio movimiento cuando se implemente.
 
-# Appendix D - Cerebrum 1.1: modelo, incrementalidad y evaluación
+# Appendix - Cerebrum 1.1: modelo, incrementalidad y evaluación
 
 ## Alcance de la documentación
 
