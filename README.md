@@ -153,6 +153,9 @@ luego.
 El esfuerzo demostró la importancia de estabilizar el proceso de evaluación con otros mecanismos que no fueran el *auto-juego* puesto que mientras la 
 plataforma está evolucionando es dificil catalizar análisis sobre las
 mejoras o deterioros asociados a una acción. Para solucionar eso se creo una plataforma auxiliar denominada *challenger*, el cual es básicamente un jugador automático capaz de jugar con un motor Sargon simple o permitir a un humano hacer una partida contra el motor principal. 
+Esta instancia, si bien no prosperó como un programa independiente quedó
+como nombre del contenedor que tiene los distintos componentes y del 
+proyecto en general (la relación entre Sargon y Akkad es demasiado atractiva para perderla).
 
 ## Sargon-NNUE: modularidad como principio de arquitectura
 
@@ -203,7 +206,7 @@ Un archivo JSON contiene `schema_version` y el objeto `brains`. Cada brain selec
 
 ## Flujo de búsqueda y valor
 
-Para cada posición legal, el player considera jugadas, consulta el evaluador cuando corresponde, aplica la semántica terminal (mate, tablas, jugadas ilegales) y entrega `bestmove`. La profundidad principal mide plies; `qdepth` extiende de manera selectiva situaciones tácticamente no estabilizadas. No es correcto identificar `qdepth=3` con una búsqueda exhaustiva adicional de tres plies.
+Para cada posición legal, el player elegido considera jugadas, consulta el evaluador cuando corresponde, aplica la semántica terminal (mate, tablas, jugadas ilegales) y entrega `bestmove`. Cada player utiliza la heurística que se le diseñe y solo depende de sus parámetros externos de configuración y de los valores entregados por el evaluador para una determinada posición. La profundidad principal mide plies; `qdepth` extiende de manera selectiva situaciones tácticamente no estabilizadas. No es correcto identificar `qdepth=3` con una búsqueda exhaustiva adicional de tres plies.
 
 ## Trazabilidad y reproducibilidad
 
@@ -244,24 +247,26 @@ Los defaults exactos dependen del entry point y del tipo de player, por lo que e
 
 El núcleo de búsqueda implementa exploración de árbol adversarial con alternancia MAX/MIN o su forma negamax, poda alpha–beta, manejo terminal, niveles iterativos y protección del resultado completo más reciente. En negamax: $$V(s,d,\alpha,\beta)=\max_{a\in A(s)}\{-V(T(s,a),d-1,-\beta,-\alpha)\}.$$ La poda es legítima cuando $\alpha\geq\beta$, siempre que la evaluación y los límites sean coherentes. El resultado elegido por la raíz puede depender del orden ante empates; una búsqueda selectiva puede depender del orden también por reducciones y podas. Los guardrails conservan el último nivel completo si el intento posterior agota el presupuesto. El núcleo conserva responsabilidades compartidas para evitar duplicar semántica terminal en Sargon-Plus.
 
-## Sargon-Plus
+## Player Sargon-Plus
 
 La variante Sargon-Plus reutiliza SargonCore y agrega un conjunto de optimizaciones independientes controladas por bits. BOOST cambia la estructura u orden del árbol; TURBO decide si continuar a profundidad mayor, reducir candidatos o abortar el siguiente nivel. Ningún bit BOOST debe interpretarse como aumento garantizado de fuerza competitiva; puede mejorar velocidad y perjudicar selección bajo determinadas condiciones.
 
-## CerebrumPlayer
+## Player Cerebrum
 
 Implementa un player simple capaz de operar con la red neural *Cerebrum V1.1*
 CerebrumPlayer considera las jugadas legales, aplica cada candidata y obtiene su valor de la red neural Cerebrum 1.1. Con `qdepth=0` conserva selección a un ply; con `qdepth>0` agrega negamax alpha–beta táctico, evaluando stand-pat en posiciones estables, capturas/promociones relevantes y todas las evasiones legales cuando está en jaque. La profundidad quiescence no representa una segunda búsqueda principal full-width. La red incremental reutiliza información del tablero padre cuando el API del evaluador lo permite. La evaluación terminal prevalece sobre el valor estimado de red.
 
-## StockfishPlayer, LC0Player y RandomPlayer
+## Players Stockfish, Leela y Random
 
+Estos players en realidad no operan con el supuesto arquitectónico de 
+obtener la evaluación de las jugadas desde un módulo evaluador.
 *StockfishPlayer* delega selección y evaluación al ejecutable *Stockfish* externo y aplica límites `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash`, `timeout` y `engine-path`, según perfil. Su único evaluador admisible es `null`. 
-*LC0Player* delega selección y evaluación al ejecutable *lc0.exe* externo y aplica límites `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash`, `timeout` y `engine-path`, según perfil. Su único evaluador admisible es `null`. 
-RandomPlayer obtiene una jugada legal sin optimización y la juega; puede utilizar `null` como evaluador y no interpreta `depth/qdepth` como búsqueda estratégica. Su objetivo es confrontar la efectividad última de una estrategia respecto a como se comporta comparada con un jugador al azar.
+*lc0* (leela chess zero)  delega selección y evaluación al ejecutable *lc0.exe* externo y aplica límites `depth`, `nodes`, `movetime`, `elo`, `stockfish-threads`, `stockfish-hash`, `timeout` y `engine-path`, según perfil. Su único evaluador admisible es `null`. 
+Random obtiene una jugada legal sin optimización y la juega; puede utilizar `null` como evaluador y no interpreta `depth/qdepth` como búsqueda estratégica. Su objetivo es confrontar la efectividad última de una estrategia respecto a como se comporta comparada con un jugador al azar.
 
-# Evaluadores: estructura y semántica de valor
+# Evaluadores
 
-## API (contrato) y casos terminales
+## API (contrato)
 
 El evaluador responde un escalar en centipawns desde la perspectiva blanca, salvo contratos de entrenamiento que expresamente definan objetivos normalizados. $e(s)>0$ favorece blancas; $e(s)<0$ favorece negras. Jaque mate, ahogado, repetición y cincuenta movimientos pertenecen a la lógica de juego y pueden requerir historial no contenido en el vector de características; no se deben interpretar como una simple inferencia estática.
 
@@ -271,7 +276,7 @@ El evaluador clásico es la implementación interna, con la mejor fidelidad
 histórica posible, del algoritmo *Sargón* original. Utiliza una función determinista basada en características ajedrecísticas definidas por el código del proyecto y que no evoluciona mediante entrenamiento. 
 Permite construir un baseline reproducible y etiquetar posiciones sin búsqueda principal. No debe confundirse la evaluación estática con las jugadas elegidas por Sargon usando esa evaluación.
 
-## Evaluador SargonPlus: red entrenada del proyecto
+## Evaluador SargonPlus
 
 Este evaluador utiliza una red *NNUE* nativa del proyecto (formato npz) que captura las  características posicionales mediante una longitud lógica 781. En la arquitectura inicial se emplea una red densa $781\to64\to1$ con ReLU intermedia y un término de corrección de halfmove. Para un vector $x$, una formulación representativa es: $$h=\operatorname{ReLU}(W_1x+b_1),\qquad z=W_2h+b_2,\qquad e_{\mathrm{cp}}=400z+g_{\mathrm{hm}}(s).$$ 
 La función concreta de halfmove y los nombres de tensores deben verificarse en el checkpoint/código; la fórmula describe el API funcional y no presupone una clave interna de archivo no verificada. El formato guardado `.npz`  conserva dimensiones, pesos, sesgos y metadatos suficientes para comprobar compatibilidad para agregar integridad al uso de la misma.
@@ -297,7 +302,7 @@ Pero Stockfish tiene modalidades que permiten utilizarlo como evaluador de jugad
 como evaluador externo para entregar la evaluación posicional de su NNUE sin entregar las candidatas de su algoritmo de búsqueda. Ese uso se distingue estrictamente implementar un player, pues el valor posicional obtenido se puede armonizar con las necesidades de los otros players disponibles (por ejemplo Sargon) o utilizar como una "*opinión*"de entrenamiento. Los valores terminales, la salida textual del motor y la perspectiva blanca requieren normalización, parsing apropiado y tratamiento separado de estados en jaque; pero su resultado se compatibiliza mediante un *wrapper* para que pueda ser
 consumido mediante un API compatible por el resto de los players de la plataforma, excepto restricciones de API específicamente documentadas.
 
-## Evaluador lc0
+## Evaluador Leela Chess Zero (lc0)
 
 Al igual que en el caso de Stockfish el motor implementado por el proyecto *Leela Chess (lc)" aporta una plataforma muy robusta basada en el uso de redes neuronales convolucionales de alta capacidad junto con la implementación de algoritmos tipo *Monte Carlo Search Tree (MCST)* , sin embargo y a diferencia del caso de Stockfish se implementa un player propio utilizando el algoritmo MCST puesto que representa un potencial de juego muy grande que es importante explorar. Aun así el entrenamiento de las redes que utiliza lc0 implica ejercitar millones de partidas (cientos de millones de movimientos) lo que escapa en términos de capacidad de cómputo a los disponibles por el proyecto. Sin embargo al ser las redes públicas en su 
 estructura y siendo disponible su matriz de coeficientes es natural el interés para poder reusarlas, cosa que logra éste evaluador. El mismo puede proveer del valor posicional no solo al player Sargon/SargonPlus sino también a un jugador con algoritmo MCST llamado *AlphaZero* en honor al legendario programa que lo implementó por primera vez.
@@ -307,10 +312,10 @@ Desde el punto de vista de la arquitectura el evaluador provee la doble salida $
 
 Indica que el player no requiere evaluador externo. Es mandatorio semánticamente para los players Stockfish, lc0 y  Random.
 
-# BOOST: optimizaciones de Sargon-Plus
+# Optimizaciones Sargón Plus
 
 El player *Sargon Plus* se diferencia del *Sargon* clásico por la
-disponibilidad de varias heurísticas adicionales de evaluación (boost) y gestión de performance (turbo)
+disponibilidad de varias heurísticas adicionales de evaluación (*boost*) y gestión de performance (*turbo*)
 
 
 ## Máscara BOOST y activación
@@ -335,62 +340,64 @@ BOOST se interpreta como una máscara $B\in[0,2^{16}-1]$ de bits independientes,
 |    13 | `0x2000`    | Evaluación incremental cuando el evaluador lo soporta |
 | 14–15 | `0xC000`    | Reservados                                            |
 
-## History Heuristic y Killer Moves
+### History Heuristic y Killer Moves
 
 History asigna a una jugada tranquila $m$ una prioridad acumulada $H[m]$, incrementada cuando produce cortes beta. Un incremento típico es $\Delta H\propto d^2$; su papel es ordenar candidatas, no eliminar alternativas. Killer conserva jugadas tranquilas que anteriormente produjeron cortes a la misma profundidad o ply y las promueve en el ordenamiento. Una búsqueda alfa–beta exacta debería preservar el valor minimax aunque cambie el orden; las jugadas elegidas pueden diferir si existe empate o búsqueda selectiva.
 
-## PVS y búsqueda de ventanas
+### PVS y búsqueda de ventanas
 
 Después de examinar la primera candidata con ventana completa $[\alpha,\beta]$, PVS prueba otras jugadas con una ventana de ancho mínimo $[\alpha,\alpha+\epsilon]$, donde $\epsilon$ es la granularidad de puntuación. Si el resultado supera $\alpha$ sin alcanzar el corte beta, reanaliza con ventana completa. La re-búsqueda no es opcional si el resultado de ventana estrecha es un límite insuficiente.
 
-## TT Bounds y Hash Move First
+### TT Bounds y Hash Move First
 
 La tabla indexa una clave Zobrist o equivalente, conserva profundidad, jugada y tipo de bound. Una entrada EXACT puede devolver el valor bajo condiciones de profundidad compatibles; LOWER y UPPER actualizan respectivamente los límites inferior y superior. El uso incorrecto de bounds puede cambiar la decisión. Hash Move First prioriza la jugada almacenada por TT, tras comprobar legalidad, para elevar la probabilidad de cortes tempranos.
 
-## SEE y poda por intercambios
+### SEE y poda por intercambios
 
 SEE estima el balance de un intercambio sobre una casilla mediante capturas y recapturas. Conceptualmente, para ganancias alternadas $g_k$, la secuencia satisface una recurrencia minimax local; podar una candidata por SEE negativo puede ahorrar nodos, pero no equivale a demostrar que la jugada sea globalmente mala (amenazas, jaques o tácticas intermedias pueden prevalecer).
 
-## Aspiration Windows
+### Aspiration Windows
 
 Cuando existe una evaluación anterior $v_{d-1}$, la nueva búsqueda puede usar $[v_{d-1}-\delta,\,v_{d-1}+\delta]$. Si se obtiene *fail-low* o *fail-high*, se ensancha la ventana y se vuelve a buscar hasta disponer de un resultado utilizable. La elección de $\delta$ afecta costo y frecuencia de re-búsqueda.
 
-## Late Move Reductions
+### Late Move Reductions
 
 LMR reduce profundidad para jugadas tardías consideradas menos críticas: $d'=d-1-r(d,i)$, con $r\geq 1$, aplicado solo si se cumplen guardrails tácticos, de profundidad y orden $i$. Si la búsqueda reducida contradice la ventana se puede requerir re-búsqueda a profundidad completa. La relación exacta $r(d,i)$ y umbrales se define en código, no en el contrato externo.
 
-## Futility y Reverse Futility
+### Futility y Reverse Futility
 
 Futility contrasta evaluación estática $e(s)$ y margen $M(d)$ con el límite alfa: $e(s)+M(d)\leq\alpha$ puede indicar que ciertas jugadas tranquilas no alcanzarán el límite. Reverse Futility compara $e(s)-M(d)\geq\beta$ para posibles cortes por límite inferior. Son heurísticas selectivas, no demostraciones exactas.
 
-## Delta pruning en quiescence
+### Delta pruning en quiescence
 
 Con evaluación $e(s)$, máxima ganancia material esperada $G(m)$ y margen $\Delta$, se puede omitir una captura si $e(s)+G(m)+\Delta <\alpha$, salvo excepciones tácticas necesarias. En posiciones de jaque deben contemplarse evasiones legales; stand-pat no es una alternativa legal a responder al jaque.
 
-## Razoring
+### Razoring
 
 Prueba si un nodo de profundidad reducida, con $e(s)+R(d)$ claramente bajo alfa, puede resolverse por quiescence en lugar de búsqueda completa. La prueba debe respetar posiciones tácticamente peligrosas y las condiciones del motor.
 
-## Null Move Pruning
+### Null Move Pruning
 
 Realiza una búsqueda de prueba pasando turno bajo condiciones restringidas. Si $-V(s_{null},d-R-1,-\beta,-\beta+\epsilon)\geq\beta$, considera un corte beta. Se debe proteger frente a posiciones de zugzwang, jaque y materiales reducidos; el hecho de que la máscara esté disponible no demuestra que el corte sea ajedrecísticamente seguro.
 
-## ProbCut y MultiCut
+### ProbCut y MultiCut
 
 ProbCut usa una búsqueda reducida y un umbral probabilístico sobre el bound beta para intentar un corte temprano, por ejemplo $V_{reducida}\geq\beta+\sigma$. MultiCut examina un subconjunto de jugadas a profundidad reducida y corta si suficientes producen fail-high. Son aproximaciones de selectividad con parámetros empíricos.
 
-## Inferencia incremental
+### Inferencia incremental
 
 El bit `0x2000` solicita al evaluador aprovechar el estado anterior. Si éste implementa el contrato incremental (Cerebrum 1.1), puede evitar recomputación; NPZ y CLASSIC permanecen en evaluación convencional. Debe conservarse equivalencia de resultados dentro de tolerancias numéricas apropiadas.
 
-## Alcance matemático y verificación
+### Alcance matemático y verificación
 
 Estas ecuaciones describen la familia de algoritmos y sus desigualdades esenciales. No constituyen una especificación exacta de constantes ni umbrales locales: para un diagnóstico reproducible deben cotejarse con `players/sargon_plus.py` instalado. Activar un bit no prueba que el mecanismo haya encontrado oportunidades; los contadores de auditoría distinguen cobertura, intervención y efecto observado.
 
-# TURBO: gestión adaptativa del presupuesto
+## Gestión adaptativa de performance (TURBO)
 
-## Modos y máscara
-
+Esto expresa un conjunto de heurísticas tomando el proceso para la 
+decisión de la movida como restringido por un conjunto de supuestos de
+tiempo máximo y profundidad máxima de análisis.
+En tal sentido se utilizan excedentes de tiempo para profundizar el análisis o deficit de tiempo para restringirlos.
 TURBO es independiente de BOOST. Se habilita mediante `0x01` (Adaptive Full Width), `0x02` (Adaptive Candidate Selection) y `0x03` (ambos). Los modos gestionan la decisión de iniciar el siguiente nivel, no reemplazan el evaluador ni el resultado terminal.
 
 ## Modelo de crecimiento
@@ -427,14 +434,14 @@ Stockfish decide internamente la mejor jugada con sus métodos propios; por el A
 
 La velocidad y fuerza de Stockfish como player no son comparables directamente con un player propio al que Stockfish sólo ofrece evaluación: el primero controla orden, poda y red interna; el segundo retiene la política de Sargon. Existen riesgos específicos en cargar redes NNUE, extraer *Final evaluation*, interpretar `readyok`, distinguir errores de `bestmove`, y terminar procesos. Los parámetros restrictivos, como `nodes=1`, pueden reducir drásticamente la fuerza y deben registrarse antes de interpretar cualquier resultado. La auditoría conserva respuesta UCI y tiempo interno por separado.
 
+# Integración de Leela Chess Zero 
+
 ## Leela Chess Zero como Player
 Similar al caso de Stockfish, en éste caso se entrega el cuadro posicional a lc0.exe (mediante su interfaz UCI) y se obtiee la jugada que recomienda. Puesto que el proceso de inferencia es completamente realizado dentro de la llamada el evaluador en éste caso es *null*.
 
 # Entrenamiento y preparación de redes
 
-La plataforma es capaz de construir y entrenar su propia red NNUE, para ello
-se dispone de una cadena de construcción para almacenar jugadas históricas,
-realizar muestras, etiquetar valores objetivos y realizar el entrenamiento.
+Se puede entrenar y producir redes propias de tipo NNUE (formato npz) para lo cual se dispone de una cadena de construcción para almacenar jugadas históricas, realizar muestras, etiquetar valores objetivos y realizar el entrenamiento.
 El entrenamiento se realiza con movidas aisladas seleccionadas al azar.
 Al comenzar el entrenamiento,  un porcentaje de las movidas es separada 
 y reservada para validación, no usandola en el entrenamiento mismo.
@@ -530,7 +537,7 @@ El conjunto de validación se define por partida, para que posiciones vecinas de
 
 Un checkpoint existente debe cargarse y verificarse; un fallo de carga no autoriza reinicializar aleatoriamente los parámetros. Un checkpoint inexistente puede iniciar una red nueva si la operación lo pide explícitamente. El estado CPU/dispositivo de halfmove debe sincronizarse para evitar pérdida de aprendizaje entre sesiones. El entrenamiento conserva validación y exporta pesos con metadatos suficientes para reproducir arquitectura, escala y función objetivo.
 
-## Herramientas adicionales de creación
+# Herramientas adicionales de creación
 
 `sargon_brainmaker.py` organiza la creación/evolución de brains, su experimentación y metadatos de rating; `sargon_selfplay.py` produce partidas de entrenamiento o evaluación consigo mismo, según perfil. Los scripts de pipeline PowerShell coordinan prepare, train, evaluación y rutas. El uso actual de redes Cerebrum 1.1 se refiere a inferencia a partir de un modelo ya entrenado; su entrenamiento externo no se identifica con el `sargon_train` que produce checkpoints NPZ.
 
