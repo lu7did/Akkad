@@ -301,11 +301,11 @@ El núcleo de búsqueda implementa exploración de árbol adversarial con altern
 ## Algoritmo Monte Carlo Tree Search (MCTS)
 # MCTS con red neuronal: política, valor y búsqueda PUCT
 
-## 1. Propósito
+## Propósito
 
 **Monte Carlo Tree Search (MCTS)** es un algoritmo de búsqueda que construye incrementalmente un árbol de posiciones mediante simulaciones. En la variante utilizada por motores de estilo **AlphaZero/Leela Chess Zero**, una red neuronal guía la exploración mediante una **política** de movimientos y estima el **valor** de las posiciones. No es necesario terminar cada simulación en un resultado de partida: la evaluación neuronal puede sustituir a un *rollout* hasta el final.
 
-## 2. Información de cada nodo y arista
+## Información de cada nodo y arista
 
 Una posición de ajedrez define un estado \(s\), con el jugador al turno y su información relevante (incluido historial cuando la red o las reglas lo requieren). Para cada movimiento legal \(a\) que parte de \(s\), el árbol almacena típicamente:
 
@@ -319,7 +319,7 @@ Una posición de ajedrez define un estado \(s\), con el jugador al turno y su in
 
 También se mantiene el total de visitas del nodo \(N(s)=\sum_b N(s,b)\). Una implementación puede almacenar estadísticas en nodos o aristas y aprovechar transposiciones, siempre que preserve la semántica de los valores.
 
-## 3. Las cuatro etapas de una simulación
+## Las cuatro etapas de una simulación
 
 ### A. Selección (PUCT)
 
@@ -365,7 +365,7 @@ Q(s,a)\leftarrow\frac{W(s,a)}{N(s,a)}.
 
 En un juego de suma cero, **al cambiar de jugador se invierte el signo del valor**: \(v\leftarrow-v\). La convención debe fijarse claramente; en las fórmulas de selección, \(Q(s,a)\) debe expresar la expectativa desde la perspectiva del jugador que elige en \(s\).
 
-## 4. Elección del movimiento efectivo
+## Elección del movimiento efectivo
 
 Se realizan simulaciones hasta agotar un presupuesto, generalmente de nodos o tiempo. **Durante la búsqueda se maximiza \(Q+U\); al decidir el movimiento real normalmente se utilizan las visitas**, no el máximo \(Q+U\):
 
@@ -381,7 +381,7 @@ En autojuego o entrenamiento puede aplicarse muestreo con temperatura \(\tau\):
 
 La distribución de visitas \(\pi\) puede constituir la señal de entrenamiento para mejorar la política neuronal.
 
-## 5. Estructura de datos orientativa
+## Estructura de datos orientativa
 
 ```python
 class Edge:
@@ -402,7 +402,7 @@ class Node:
     # Opcional: estado terminal, transposiciones, historial y metadatos
 ```
 
-## 6. Pseudocódigo resumido
+## Pseudocódigo resumido
 
 ```text
 repetir mientras quede presupuesto:
@@ -423,11 +423,11 @@ repetir mientras quede presupuesto:
 jugar la acción con mayor cantidad de visitas en la raíz
 ```
 
-## 7. Rol efectivo de la red neuronal
+## Rol efectivo de la red neuronal
 
 La red cumple **dos funciones distintas y complementarias**. La política \(P\) decide dónde conviene concentrar la exploración; el valor \(v\) aproxima la calidad de las posiciones descubiertas. MCTS acumula evidencia mediante visitas y promedios \(Q\), por lo que sus decisiones no son una simple lectura directa de la red. Una red sin entrenamiento puede guiar mal la búsqueda, y aumentar simulaciones no garantiza por sí solo buena calidad ajedrecística.
 
-## 8. Diferencia respecto de Sargon Plus
+## Diferencia respecto de Sargon Plus
 
 Sargon Plus, con alfa-beta y *quiescence*, explora variantes hasta cierta profundidad y solicita valoraciones de posiciones al evaluador. MCTS/PUCT selecciona dinámicamente qué ramas visitar usando \(P\), \(N\) y \(Q\), incorpora el valor neuronal en hojas y elige normalmente la jugada por visitas. Si se usa una red LC0 como evaluador de Sargon Plus, se puede aprovechar su **valor** sin que el player se transforme automáticamente en MCTS: la estrategia de exploración sigue siendo alfa-beta.
 
@@ -668,7 +668,7 @@ En Sargon Plus:
 Por ejemplo con --depth 3 --qdepth 2, Sargon Plus realiza una búsqueda principal de 3 plies y puede extender determinadas variantes tácticas hasta 5 plies.
 Como beneficio se encontró experimentalmente que mejora la estabilidad de la evaluación táctica sin explorar exhaustivamente todas las jugadas de los niveles adicionales.
 El costo es incrementar el número de nodos evaluados y el tiempo de búsqueda; el incremento depende de la cantidad de movimientos tácticos disponibles.
-En resumen, el modo Quiescence evita que Sargon Plus detenga el análisis en medio de una secuencia táctica que todavía no se ha resuelto.
+En resumen, el modo Quiescence evita que Sargon Plus detenga el análisis en medio de una secuencia táctica que todavía no se ha resuelto. En la práctica el algoritmo ha probado mejorar el nivel promedio del player cuando está activado (qdepth>0).
 
 ## Máscara BOOST y activación
 
@@ -1095,7 +1095,8 @@ Mucho mas útil es trabajar mediante juegos internos, de esa manera se pueden ha
 * Uso del programa *challenger* el cual es un jugador estable que puede jugar con algoritmo Sargon (clásico) o con Stockfish como motor de jugadas. Se pueden jugar automáticamente un número de partidas contra una instancia de listener teniendo una determinada combinación de player/evaluador con su respectiva configuración. El criterio de evaluación es que una combinación player/evaluador supere en promedio al algoritmo sargón y que sea capaz de ganar una proporción minoritaria de las partidas con el algoritmo stockfish.
 * El uso del programa *sargon_match* permite establecer rondas de juegos de a pares entre dos combinaciones cualquiera de player/evaluador, normalmente se lo emplea contra una configuración de referencia para medir mejora.
 * El uso del programa *sargon_match* permite establecer *rallies* (torneos) con un número arbitrario de combinaciones player/evaluador de manera que todos compitan contra todos un número de partidas por enfrentamiento.
-El resultado de las evaluaciones anteriores permite ir, incrementalmente, identificando las fortalezas relativas entre players, evaluadores y distintas estrategias de configuración (por ejemplo redes NNUE entrenadas a distinto nivel o de distinto tamaño). 
+El resultado de las evaluaciones anteriores permite ir, incrementalmente, identificando las fortalezas relativas entre players, evaluadores y distintas estrategias de configuración (por ejemplo redes NNUE entrenadas a distinto nivel o de distinto tamaño). El poder asignar una variante de puntuación basada en el algoritmo ELO (sargon.brainmaker.py) permite estudiar la capacidad relativa entre distintas combinaciones player/evaluador (brain) aunque esa medida no es en realidad comparable con el puntaje ELO asignado por plataformas como lichess.org. 
+Sin embargo, cuando un brain está suficientemente estable y su performance es aceptable respecto a otras combinaciones es importante abrirlo a juegos online donde será desafiado por otros bots de distintas capacidades y será entonces posible evaluar su performance con mas realismo. Al presente la combinación AlphaZero/lc0 con red pequeña converge a un ELO asignado por lichess.org en el entorno de 2500-2600. 
 
 # Appendix - Cronología de versiones
 
