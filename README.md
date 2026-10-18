@@ -914,6 +914,11 @@ normalizadas y midiendo los tiempos de ejecución. Este análisis no tiene nada 
 Programa utilitario para manipular archivos en formato .pgn, contar
 partidas y jugadas y segmentar archivos.
 
+## sargon_arbiter
+
+Programa para evaluar comparativamente dos combinaciones player/evaluador ante un número fijo de posiciones de tablero codificadas en formato FEN.
+Es una evaluación indirecta sobre la convergencia en el resultado de dos configuraciones o la performance respecto a una combinación de referencia.
+
 # Infraestructura operativa
 
 Es el conjunto de programas cuyo propósito es sostener las comunicaciones

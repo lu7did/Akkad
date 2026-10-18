@@ -26,8 +26,10 @@ class Board:
   self.halfmove=int(parts[4]) if len(parts)>4 else 0
   self.fullmove=int(parts[5]) if len(parts)>5 else 1
   if self.halfmove<0 or self.fullmove<1:raise ValueError('FEN clocks')
+  self._history=[self.position_key()]
+  self._undos=[]
  def clone(self):
-  b=Board.__new__(Board);b.squares=self.squares[:];b.turn=self.turn;b.castle=self.castle[:];b.ep=self.ep;b.halfmove=self.halfmove;b.fullmove=self.fullmove;return b
+  b=Board.__new__(Board);b.squares=self.squares[:];b.turn=self.turn;b.castle=self.castle[:];b.ep=self.ep;b.halfmove=self.halfmove;b.fullmove=self.fullmove;b._history=self._history[:];b._undos=[];return b
  def fen_key(self):return (tuple(self.squares),self.turn,tuple(self.castle),self.ep)
  def attacks(self,target,by):
   s=self.squares;x=target%8;y=target//8
@@ -115,6 +117,7 @@ class Board:
   self.halfmove=0 if abs(v)==1 or capt else self.halfmove+1
   if self.turn==-1:self.fullmove+=1
   self.turn=-self.turn
+  self._history.append(self.position_key())
  def legal(self):
   result=[];side=self.turn
   for m in self.pseudo():
@@ -139,3 +142,92 @@ class Board:
  def notation(m):
   a,b,p=m
   return chr(97+a%8)+str(a//8+1)+chr(97+b%8)+str(b//8+1)+(' PNBRQK'[p].lower() if p else '')
+
+ # Additional compatibility methods for Doc-style search. Only built-in Python used.
+ def position_key(self):
+  # Repetition identity: en-passant only if an actual legal EP capture exists.
+  # Avoid recursively constructing Board/apply while calculating this key.
+  ep=self.ep
+  if ep>=0:
+   side=self.turn
+   rank=ep//8; capture_rank=rank-side
+   valid=False
+   for dx in (-1,1):
+    file=ep%8+dx
+    if 0<=file<8 and 0<=capture_rank<8:
+     fr=capture_rank*8+file
+     if self.squares[fr]==side:
+      # En-passant can be pseudolegal yet pinned: simulate piece placement.
+      ss=self.squares
+      oldfr,oldto,oldcap=ss[fr],ss[ep],ss[ep-8*side]
+      ss[fr]=0;ss[ep]=side;ss[ep-8*side]=0
+      safe=not self.in_check(side)
+      ss[fr],ss[ep],ss[ep-8*side]=oldfr,oldto,oldcap
+      if safe:valid=True;break
+   if not valid:ep=-1
+  return (tuple(self.squares),self.turn,tuple(self.castle),ep)
+ def push(self,move):
+  # Undo snapshot, intentionally small/simple rather than compressed delta.
+  snapshot=(self.squares[:],self.turn,self.castle[:],self.ep,self.halfmove,self.fullmove,len(self._history))
+  self._undos.append(snapshot)
+  try:self.apply(move)
+  except Exception:
+   self.pop()
+   raise
+ def pop(self):
+  if not self._undos:raise IndexError('empty move stack')
+  ss,side,castle,ep,half,full,nh=self._undos.pop()
+  self.squares=ss;self.turn=side;self.castle=castle;self.ep=ep
+  self.halfmove=half;self.fullmove=full
+  del self._history[nh:]
+ def is_capture(self,move):
+  fr,to,_=move
+  return self.squares[to]!=0 or (abs(self.squares[fr])==1 and to==self.ep and fr%8!=to%8)
+ def is_checkmate(self):return self.in_check() and not self.legal()
+ def is_stalemate(self):return not self.in_check() and not self.legal()
+ def repetition_count(self):
+  key=self.position_key()
+  return self._history.count(key)
+ def can_claim_threefold(self):
+  # Includes current threefold or an immediately playable repetition claim.
+  if self.repetition_count()>=3:return True
+  for move in self.legal():
+   self.push(move)
+   n=self.repetition_count()
+   self.pop()
+   if n>=3:return True
+  return False
+ def is_fivefold(self):return self.repetition_count()>=5
+ def can_claim_fifty_moves(self):
+  if self.halfmove>=100:return True
+  if self.halfmove!=99:return False
+  for m in self.legal():
+   self.push(m);qualifies=self.halfmove>=100;self.pop()
+   if qualifies:return True
+  return False
+ def is_seventyfive_moves(self):return self.halfmove>=150
+ def insufficient_material(self):
+  # Conservative FIDE automatic insufficient-material cases.
+  pieces=[(abs(p),sq,p) for sq,p in enumerate(self.squares) if p and abs(p)!=6]
+  if not pieces:return True
+  if any(kind in (1,4,5) for kind,_,_ in pieces):return False
+  if len(pieces)==1 and pieces[0][0] in (2,3):return True
+  if all(kind==3 for kind,_,_ in pieces):
+   # Every bishop inhabits the same-colour square.
+   return len(set(((sq//8+sq%8)&1) for _,sq,_ in pieces))==1
+  return False
+ def outcome(self,claim_draw=False):
+  # Return (reason, winner), where winner +1 white, -1 black, 0 draw.
+  moves=self.legal()
+  if not moves:
+   if self.in_check():return ('checkmate',-self.turn)
+   return ('stalemate',0)
+  if self.insufficient_material():return ('insufficient_material',0)
+  if self.is_fivefold():return ('fivefold_repetition',0)
+  if self.is_seventyfive_moves():return ('seventyfive_moves',0)
+  if claim_draw:
+   if self.can_claim_threefold():return ('threefold_claim',0)
+   if self.can_claim_fifty_moves():return ('fifty_move_claim',0)
+  return None
+ def is_game_over(self,claim_draw=False):return self.outcome(claim_draw) is not None
+ def uci_push(self,uci):self.push(self.parse(uci))
