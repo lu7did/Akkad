@@ -149,15 +149,15 @@ aleatorias.
 
 Un agente aprende a elegir acciones que maximicen la **recompensa acumulada esperada**, no simplemente la recompensa inmediata. La ecuación de Bellman expresa que el valor de una posición depende de la recompensa obtenida ahora y del valor esperado de las posiciones futuras:
 
-\[
+$\[
 V^\pi(s)=\mathbb{E}_{a\sim\pi,\,s'\sim P}\left[r(s,a,s')+\gamma V^\pi(s')\right]
-\]
+\]$
 
 Para aprender directamente qué acción conviene, puede utilizarse una función de acción-valor:
 
-\[
+$\[
 Q^*(s,a)=\mathbb{E}\left[r(s,a,s')+\gamma\max_{a'}Q^*(s',a')\right]
-\]
+\]$
 
 Aquí, \(s\) es el estado del tablero, \(a\) una jugada legal, \(r\) la recompensa, \(\gamma\) el descuento de recompensas futuras y \(Q(s,a)\) una estimación de la conveniencia de jugar \(a\) en \(s\).
 
