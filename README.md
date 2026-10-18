@@ -87,13 +87,33 @@ redes es una de las fuentes prioritarias de exploración del proyecto.
 
 ## Sargon: the old buddy
 
+
 Sargón fue el primer motor de juego para ajedrez automático comercialmente
 accesible, si bien existieron esfuerzos anteriores estaban normalmente
 implementados en grandes plataformas de cómputos (mainframe, VAX y otras) que tenían escasas opciones de accederlas. 
+**Sargon** fue desarrollado por **Dan y Kathe Spracklen** y presentado en 1978. Ese año ganó las cinco partidas del torneo de ajedrez para microcomputadoras celebrado en la **West Coast Computer Faire**, uno de los primeros hitos competitivos del ajedrez en computadoras personales.
+Su importancia no radica en haber inventado la búsqueda ajedrecística, sino en demostrar que una microcomputadora de 8 bits, con memoria y potencia muy limitadas, podía ejecutar un jugador competitivo para su época. También contribuyó a popularizar el ajedrez informático entre aficionados y programadores.
+Sargon fue escrito en **lenguaje ensamblador Z80**. Según la descripción de sus autores, ocupaba aproximadamente **8 KB de RAM**, distribuidos en unos 4 KB de lógica de juego, 2 KB de datos y 2 KB de interfaz gráfica.
+Sus principales componentes eran:
+
+- **Representación del tablero y generación de movimientos:** rutinas especializadas por pieza, con comprobaciones de legalidad, jaques, enroque y captura al paso.
+- **Búsqueda:** exploración en profundidad de un árbol de movimientos mediante **poda alfa-beta**, para descartar ramas que no podían mejorar la decisión.
+- **Evaluación:** puntuación heurística de las posiciones, basada en material y consideraciones ajedrecísticas; incluía análisis de intercambios para reducir errores tácticos con un costo computacional contenido.
+- **Interfaz:** visualización del tablero e interacción con el usuario, adaptadas a las capacidades de los equipos de la época.
+No utilizaba redes neuronales ni aprendizaje automático: sus decisiones procedían de reglas, búsqueda y evaluación diseñadas explícitamente.
+Sargon ayudó a consolidar el ajedrez como demostración práctica de **búsqueda heurística en hardware restringido**. El libro *Sargon: A Computer Chess Program* (1978), que incluía su código fuente comentado, facilitó el estudio, la adaptación y la enseñanza de técnicas de programación de motores de ajedrez. La familia Sargon tuvo posteriores versiones y adaptaciones para diversas computadoras personales.
+Su legado resulta especialmente relevante para proyectos contemporáneos que combinan motores clásicos y evaluadores neuronales: permite observar qué aporta la búsqueda y qué aporta el mecanismo de evaluación, dos componentes conceptualmente separables. Esta última comparación es una interpretación tecnológica, no una característica de la arquitectura original.
+
+### Fuentes
+
+- Computer History Museum, [*Sargon: A Computer Chess Program*](https://www.computerhistory.org/chess/sft-431614f63c4c4/).
+- Dan y Kathe Spracklen, [*Sargon: A Computer Chess Program* (1978), texto y listado histórico](https://chessforeva.bitbucket.io/govs/Oldies/Sargon.htm).
+- Computer History Museum, [Dan y Kathe Spracklen en el campeonato ACM de 1978](https://www.computerhistory.org/chess/stl-431f4cc14ba4b/).
+
+### Algoritmo "*Sargon*"
 Sargón implementó un algoritmo de ajedrez suficientemente efectivo como 
-para sorprender y batir a un jugador casual. Aun así su plataforma de 
-implementación era un procesador dedicado alrededor del chip Z80 con
-una cantidad ridículamente baja de memoria (8K RAM).
+para sorprender y batir a un jugador casual, aunque no así a jugadores 
+mas expertos.
 Sargón usa un método de búsqueda llamado *MiniMax* optimizado para 
 reducir el número de exploraciones mediante una lógica de poda (*prunning*) de opciones basada en un algoritmo denominado *alpha/beta*.
 El ajedrez presenta una cantidad incomensurable de combinaciones posibles,
@@ -121,27 +141,58 @@ lo considerará aceptable.
 ## Bobby: conocimiento almacenado frente a política jugable
 
 Bobby fue el punto de partida de la línea de investigación. El mismo 
-intenta un enfoque basado en la ecuación de Bellman para el aprendizaje
+intenta un enfoque basado en la *ecuación de Bellman* para el aprendizaje
 por refuerzos. Básicamente se establece un ambiente que define las reglas
-de ajedrez y se expone al motor principal a jugadas históricas o 
-aleatorias. Las partidas jugadas de esa manera terminan eventualmente
-y el resultado se propaga (backpropagation) a la política de todas 
-las jugadas previas desde la perspectiva de las piezas blancas. El refuerzo será positivo si ganan las blancas y negativo si fueron las negras. Eventualmente la ecuación de Bellman generará una política en cada uno de
-los estados del tablero para cada una de las jugadas posibles. Esa política se utilizará para determinar, a igualdad del tablero, la mejor jugada
-posible.
-De esa manera se despliega un entorno de juego de ajedrez apoyado en conocimiento adquirido y almacenado en una base de datos de gran volumen
-que no depende de una heurística fija y es capaz de acumular experiencias, posiciones y resultados.
-Sin embargo la experimentación concluye que una colección extensa de datos no equivale a una *política* fiable para seleccionar jugadas. Se constató que el aumento de la base de datos resulta geométrico encareciendo el aprendizaje y la consulta sin garantizar una estimación consistente de la calidad de cada alternativa posible. El problema no era exclusivamente de escala, el
-88% de las posiciones de tablero tenía una sola visita,  faltaba por lo tanto la generalización a posiciones no observadas y un criterio de decisión robusto.
-El programa era capaz de aprender mediante partidas históricas en formato 
-PGN y por autojuego (random y guiado por el mismo mecanismo de evaluación).
+de ajedrez y se expone al motor principal a una combinación de jugadas históricas recreadas desde los archivos .png que las describen o 
+aleatorias. 
+
+### Idea fundamental
+
+Un agente aprende a elegir acciones que maximicen la **recompensa acumulada esperada**, no simplemente la recompensa inmediata. La ecuación de Bellman expresa que el valor de una posición depende de la recompensa obtenida ahora y del valor esperado de las posiciones futuras:
+
+\[
+V^\pi(s)=\mathbb{E}_{a\sim\pi,\,s'\sim P}\left[r(s,a,s')+\gamma V^\pi(s')\right]
+\]
+
+Para aprender directamente qué acción conviene, puede utilizarse una función de acción-valor:
+
+\[
+Q^*(s,a)=\mathbb{E}\left[r(s,a,s')+\gamma\max_{a'}Q^*(s',a')\right]
+\]
+
+Aquí, \(s\) es el estado del tablero, \(a\) una jugada legal, \(r\) la recompensa, \(\gamma\) el descuento de recompensas futuras y \(Q(s,a)\) una estimación de la conveniencia de jugar \(a\) en \(s\).
+
+### Cómo funciona en ajedrez
+
+1. **Jugar y explorar:** el agente disputa partidas, por ejemplo mediante autojuego, usando su política actual y cierta exploración.
+2. **Registrar experiencias:** almacena transiciones \((s,a,r,s',\text{fin})\), o trayectorias completas, en un *replay buffer*.
+3. **Construir un objetivo:** combina la recompensa y una estimación del valor futuro; en posiciones terminales utiliza el resultado definitivo de la partida.
+4. **Actualizar la red:** ajusta sus parámetros para reducir la diferencia entre el valor predicho y el objetivo de entrenamiento.
+5. **Repetir y evaluar:** genera nuevas partidas y contrasta la fuerza del agente frente a una referencia estable.
+
+### ¿Qué aprende?
+
+Aprende una **función de valor** \(V(s)\) o **función de acción-valor** \(Q(s,a)\), que permite comparar posiciones o jugadas según su contribución probable al resultado final. Si se incorpora una cabeza de política, también aprende qué jugadas priorizar. No aprende necesariamente reglas explícitas como «desarrollar piezas»; estas preferencias pueden emerger estadísticamente de las experiencias.
+
+### Dificultades prácticas: experiencia en Bobby
+
+- **Recompensa escasa y tardía:** muchas jugadas preceden al resultado final; asignar correctamente el mérito o la culpa es difícil. Una partida que dura 100 movimientos y termina de una forma proyecta una señal de recompensa muy ruidosa sobre las posiciones mas alejadas del final.
+- **Arranque con una red aleatoria:** las primeras decisiones son casi arbitrarias. Terminar una partida proporciona una señal válida, pero no garantiza que sea suficiente para aprender buen ajedrez.
+- **Propagación inestable:** los objetivos de Bellman dependen de predicciones que la propia red está modificando (*bootstrapping*); pueden aparecer oscilaciones y estimaciones erróneas que se refuerzan mutuamente.
+- **Exploración frente a explotación:** si se explora poco, se repiten malas decisiones; si se explora demasiado, las partidas contienen poca información estratégica aprovechable.
+- **Costo computacional y cobertura:** el espacio de estados del ajedrez es enorme; generar suficientes partidas y entrenar con ellas consume tiempo y recursos.
+- **Perspectiva del jugador:** al alternar turnos, los valores deben manejar correctamente el cambio de signo y los resultados de victoria, derrota y tablas.
+- **Validación de progreso:** una pérdida de entrenamiento menor no implica un motor más fuerte. Se necesitan partidas de evaluación contra rivales fijos y pruebas reproducibles.
+
+**Bellman proporciona el principio de aprendizaje, pero no resuelve por sí sola el problema de entrenar un buen jugador.** En Bobby, el obstáculo central no era lograr que el motor completara partidas, sino convertir esas experiencias en señales confiables que mejorasen progresivamente la selección de jugadas.
+Una estrategia práctica es empezar con un motor y evaluador de referencia, verificar el mecanismo de actualización con problemas pequeños y recién después escalar el autojuego y el entrenamiento.
 Claramente el experimento encontró sus límites rápidamente, pero permitió desarrollar el criterio con que se representaría el estado del tablero en todas las evoluciones posteriores.
 La evolución del tablero debe tener en cuenta cada una de las posiciones del mismo, la posición de cada pieza remanente en una jugada en particular, el registro de las condiciones sobre derechos de enroque y paso, la condición de mate, el número de jugadas redundantes (para tablas por repetición) y las reglas de 75 movidas (para tablas).
-El algoritmo utilizado se discute en un apéndice posterior.
 
 ## Nyx: otra infraestructura, mismo cuello de botella estratégico
 
 Nyx buscó superar el límite de Bobby mediante una organización diferente de los componentes donde se capturaban los elementos de política de juego y decisión de movida a partir de los datos de aprendizaje. La nueva infraestructura facilitó experimentación, pero dejó visible un problema de fondo: el mecanismo de selección de jugadas seguía siendo débil. Mejorar la fuente de datos o la red no corregía automáticamente la lógica que exploraba las respuestas del adversario.
+Es decir, el final de la partida como señal de aprendizaje resulta muy ruidoso en el entrenamiento de una red NNUE que solo capture el valor de una posición.
 La gran contribución de ésta etapa fue comprender que elementos de infraestructura son necesarios para operar un motor de ésta indole, nació la necesidad de tener componentes *listener* en un puerto TCP, mediante entrada/salida estándar, soportar el protocolo UCI, poder hacer bridge con los principales motores externos tales como *lichess.org* (integrando su componente *lichess-bot*) y separar las funciones de *auto-juego* y *entrenamiento*. 
 
 ## Akkad: búsqueda, aprendizaje y necesidad de auditoría
@@ -160,8 +211,7 @@ proyecto en general (la relación entre Sargon y Akkad es demasiado atractiva pa
 ## Sargon-NNUE: modularidad como principio de arquitectura
 
 Sargon-NNUE tiene un enfoque arquitectónico orientado al plug-in de 
-componentes especializados sobre un bus común de interfaces API establecidas (o contratos). De esa manera se separa al  *player* (genera y selecciona movimientos) de *evaluator* (estima valor posicional), y ubica fuera de ambos la preparación de datos, el entrenamiento, la comparación UCI y la auditoría. Challenger puede actuar como infraestructura de ejecución externa. Dado
-que la evaluación sobre si la arquitectura es adecuada y si las modificaciones la mejoran o no se incorporan componentes de *match* que permiten jugar a diferentes combinaciones de player/evaluador entre si. Incluso se puede organizar verdaderos torneos o *rally* donde una dada
+componentes especializados sobre un bus común de interfaces API establecidas (o contratos). De esa manera se separa al  *player* (genera y selecciona movimientos) de *evaluator* (estima valor posicional), y ubica fuera de ambos la preparación de datos, el entrenamiento, la comparación UCI y la auditoría. Challenger puede actuar como infraestructura de ejecución externa. Dado que la evaluación sobre si la arquitectura es adecuada y si las modificaciones la mejoran o no se incorporan componentes de *match* que permiten jugar a diferentes combinaciones de player/evaluador entre si. Incluso se puede organizar verdaderos torneos o *rally* donde una dada
 mezcla de combinaciones player/evaluador compiten entre si pudiendo observar con algo mas de rigor las fortalezas relativas. El diseño permite usar una misma búsqueda con varios evaluadores y un evaluador con distintas búsquedas, conservar configuraciones reproducibles y diagnosticar límites concretos sin reemplazar subsistemas completos.
 
 # Arquitectura
