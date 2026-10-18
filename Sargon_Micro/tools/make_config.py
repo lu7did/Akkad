@@ -11,4 +11,4 @@ def make(output,name,ssid,password,port):
  with open(output,'wb') as f:f.write(blob+struct.pack('<I',zlib.adler32(blob)&0xffffffff))
  print('config saved:',output,'(password is stored unencrypted; protect this file)')
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--name',default='Pico SargonPlus NPZ');p.add_argument('--ssid',required=True);p.add_argument('--password');p.add_argument('--port',type=int,default=6110);p.add_argument('-o','--output',default='device/config.bin');a=p.parse_args();make(a.output,a.name,a.ssid,a.password if a.password is not None else getpass.getpass('WiFi password: '),a.port)
+ p=argparse.ArgumentParser();p.add_argument('--name',default='Pico Doc Grumpy');p.add_argument('--ssid',required=True);p.add_argument('--password');p.add_argument('--port',type=int,default=6110);p.add_argument('-o','--output',default='device/config.bin');a=p.parse_args();make(a.output,a.name,a.ssid,a.password if a.password is not None else getpass.getpass('WiFi password: '),a.port)

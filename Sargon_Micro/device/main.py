@@ -5,7 +5,7 @@ except ImportError: select=None
 try: import network, socket
 except ImportError: import socket;network=None
 from chesscore import Board,START
-from nnue import NNUE
+from grumpy import Grumpy
 from engine import Engine
 from statusled import StatusLED
 CONFIG_FMT='<8s32s32s64sH'
@@ -126,8 +126,8 @@ def serve(led=None):
  if led is None:led=StatusLED()
  led.set('initializing')
  name,ssid,pw,port=configuration()
- net=NNUE();engine=Engine(net)
- log('NNUE resident SRAM bytes=%d heap_before=%d heap_after=%d'%(len(net.weights),net.heap_before,net.heap_after))
+ net=Grumpy();engine=Engine(net)
+ gc.collect();log('GRUMPY model loaded; free_heap='+str(gc.mem_free() if hasattr(gc,'mem_free') else 'desktop'))
  if network is None:raise RuntimeError('WiFi requires Pico W MicroPython')
  sta=network.WLAN(network.STA_IF);sta.active(True)
  while True:

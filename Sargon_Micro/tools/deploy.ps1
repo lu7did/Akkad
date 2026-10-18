@@ -1,2 +1,1 @@
-python tools/deploy.py --port COM6
-
+python "$PSScriptRoot/deploy.py" @args
