@@ -76,7 +76,7 @@ compatibles.
 
 # Evolución del proyecto
 
-El proyecto se podría sumarizar como "nunca fue en realidad ajedrez".
+El proyecto se podría sumarizar como "*nunca fue en realidad ajedrez*".
 El proyecto nace y evoluciona a partir de un esfuerzo de exploración 
 sobre posibles estrategias y plataformas para implementarlas, con énfasis
 en el uso de distintas arquitecturas de redes neurales para dar soporte
@@ -122,8 +122,7 @@ Sargón utiliza un algoritmo relativamente simple de evaluación. En ajedrez
 cada turno de movida se denomina *ply*. Sargon evalúa que jugadas son
 posibles en un momento dado del juego, toma cada una y simula hacerla. La nueva configuración del tablero es evaluada por una función heurística única
 que combina un promedio ponderado de distintos factores tales como 
-valor de las piezas involucradas, ciertas preferencias de juego (por ejemplo dominar el centro) y alternativas ganadoras tales como jaque mate (checkmate). En función del valor resultante a cada posible movida se le otorga un valor. Si se mira solo una jugada adelante Sargón juega con 
-*1 ply* de horizonte. Ese algoritmo se puede expandir para que cada jugada en 1 ply se explote en las jugadas posibles para luego evaluar cada una, y 
+valor de las piezas involucradas, ciertas preferencias de juego (por ejemplo dominar el centro) y alternativas ganadoras tales como jaque mate (checkmate). Como resultado de la evaluación se pondera en que medida esa nueva posición favorece a uno u otro jugador. El objetivo es maximizar el valor de quien juega o negar el valor al oponente (*NegaMax*).  Si se mira solo una jugada adelante Sargón juega con *1 ply* de horizonte. Ese algoritmo se puede expandir para que cada jugada en 1 ply se explote en las jugadas posibles para luego evaluar cada una, y 
 así sucesivamente. 
 A medida que aumenta el número de ply utilizados el número de posiciones evaluadas aumenta geométricamente. Para limitar el tiempo de respuesta
 el algoritmo se define de una profundidad (depth) objetivo, usualmente
