@@ -415,12 +415,9 @@ CerebrumPlayer considera las jugadas legales, aplica cada candidata y obtiene su
 ## Player AlphaZero
 
 Se trata de implementar un algoritmo MCTS con red neuronal de manera de poder establecer la  política, valor y búsqueda PUCT.
-
-## 1. Propósito
-
 **Monte Carlo Tree Search (MCTS)** es un algoritmo de búsqueda que construye incrementalmente un árbol de posiciones mediante simulaciones. En la variante utilizada por motores de estilo **AlphaZero/Leela Chess Zero**, una red neuronal guía la exploración mediante una **política** de movimientos y estima el **valor** de las posiciones. No es necesario terminar cada simulación en un resultado de partida: la evaluación neuronal puede sustituir a un *rollout* hasta el final.
 
-## 2. Información de cada nodo y arista
+### Información de cada nodo y arista
 
 Una posición de ajedrez define un estado \(s\), con el jugador al turno y su información relevante (incluido historial cuando la red o las reglas lo requieren). Para cada movimiento legal \(a\) que parte de \(s\), el árbol almacena típicamente:
 
@@ -434,9 +431,9 @@ Una posición de ajedrez define un estado \(s\), con el jugador al turno y su in
 
 También se mantiene el total de visitas del nodo \(N(s)=\sum_b N(s,b)\). Una implementación puede almacenar estadísticas en nodos o aristas y aprovechar transposiciones, siempre que preserve la semántica de los valores.
 
-## 3. Las cuatro etapas de una simulación
+### Las cuatro etapas de una simulación
 
-### A. Selección (PUCT)
+#### A. Selección (PUCT)
 
 Desde la raíz, se elige repetidamente la arista que maximiza una combinación de explotación y exploración:
 
@@ -450,7 +447,7 @@ U(s,a)=c_{\mathrm{puct}}\,P(s,a)\,\frac{\sqrt{\sum_b N(s,b)}}{1+N(s,a)}.
 
 Aquí \(Q\) representa la utilidad observada y \(U\) favorece inicialmente movimientos con alta probabilidad de política y pocas visitas. A medida que crece \(N(s,a)\), su bonificación de exploración disminuye. Esta es una formulación simplificada de PUCT: implementaciones concretas, como LC0, pueden usar constantes dinámicas y otros ajustes.
 
-### B. Expansión
+#### Expansión
 
 Cuando se alcanza una posición no expandida, se generan sus movimientos legales y se consulta la red neuronal. La red produce dos salidas principales:
 
@@ -464,11 +461,11 @@ Cuando se alcanza una posición no expandida, se generan sus movimientos legales
 
 Las probabilidades \(P(s,a)\) se asignan como *priors* a las aristas nuevas. El valor \(v(s)\) se utiliza para actualizar las estadísticas del trayecto. **La política no es un valor de posición ni garantiza que el movimiento más probable sea el mejor**; dirige el presupuesto de búsqueda.
 
-### C. Evaluación terminal
+#### Evaluación terminal
 
 Si la posición alcanzada es terminal, no hace falta consultar la red: se utiliza el resultado real de la partida desde la perspectiva apropiada (victoria \(+1\), empate \(0\), derrota \(-1\)).
 
-### D. Retropropagación (*backup*)
+#### Retropropagación (*backup*)
 
 Al volver de la hoja hacia la raíz se actualizan las aristas recorridas:
 
@@ -480,7 +477,7 @@ Q(s,a)\leftarrow\frac{W(s,a)}{N(s,a)}.
 
 En un juego de suma cero, **al cambiar de jugador se invierte el signo del valor**: \(v\leftarrow-v\). La convención debe fijarse claramente; en las fórmulas de selección, \(Q(s,a)\) debe expresar la expectativa desde la perspectiva del jugador que elige en \(s\).
 
-## 4. Elección del movimiento efectivo
+### Elección del movimiento efectivo
 
 Se realizan simulaciones hasta agotar un presupuesto, generalmente de nodos o tiempo. **Durante la búsqueda se maximiza \(Q+U\); al decidir el movimiento real normalmente se utilizan las visitas**, no el máximo \(Q+U\):
 
@@ -496,7 +493,7 @@ En autojuego o entrenamiento puede aplicarse muestreo con temperatura \(\tau\):
 
 La distribución de visitas \(\pi\) puede constituir la señal de entrenamiento para mejorar la política neuronal.
 
-## 5. Estructura de datos orientativa
+### Estructura de datos orientativa
 
 ```python
 class Edge:
@@ -517,7 +514,7 @@ class Node:
     # Opcional: estado terminal, transposiciones, historial y metadatos
 ```
 
-## 6. Pseudocódigo resumido
+### Pseudocódigo resumido
 
 ```text
 repetir mientras quede presupuesto:
@@ -538,17 +535,13 @@ repetir mientras quede presupuesto:
 jugar la acción con mayor cantidad de visitas en la raíz
 ```
 
-## 7. Rol efectivo de la red neuronal
+### Rol efectivo de la red neuronal
 
 La red cumple **dos funciones distintas y complementarias**. La política \(P\) decide dónde conviene concentrar la exploración; el valor \(v\) aproxima la calidad de las posiciones descubiertas. MCTS acumula evidencia mediante visitas y promedios \(Q\), por lo que sus decisiones no son una simple lectura directa de la red. Una red sin entrenamiento puede guiar mal la búsqueda, y aumentar simulaciones no garantiza por sí solo buena calidad ajedrecística.
 
-## 8. Diferencia respecto de Sargon Plus
+### Diferencia respecto de Sargon Classic/Sargon Plus
 
 Sargon Plus, con alfa-beta y *quiescence*, explora variantes hasta cierta profundidad y solicita valoraciones de posiciones al evaluador. MCTS/PUCT selecciona dinámicamente qué ramas visitar usando \(P\), \(N\) y \(Q\), incorpora el valor neuronal en hojas y elige normalmente la jugada por visitas. Si se usa una red LC0 como evaluador de Sargon Plus, se puede aprovechar su **valor** sin que el player se transforme automáticamente en MCTS: la estrategia de exploración sigue siendo alfa-beta.
-
----
-
-**Nota de alcance:** exposición conceptual de AlphaZero/PUCT; las estructuras, convenciones y constantes exactas pueden variar entre implementaciones.
 
 ## Players Stockfish, Leela y Random
 
@@ -650,6 +643,8 @@ BOOST se interpreta como una máscara $B\in[0,2^{16}-1]$ de bits independientes,
 |    13 | `0x2000`    | Evaluación incremental cuando el evaluador lo soporta |
 | 14–15 | `0xC000`    | Reservados                                            |
 
+No todas las optimizaciones tienen un efecto neto positivo, y en determinadas partidas distintos mecanismos pueden actuar como detractor de otros. La variedad de algoritmos de optimización tienen un efecto mayormente de experimentación.
+
 ### History Heuristic y Killer Moves
 
 History asigna a una jugada tranquila $m$ una prioridad acumulada $H[m]$, incrementada cuando produce cortes beta. Un incremento típico es $\Delta H\propto d^2$; su papel es ordenar candidatas, no eliminar alternativas. Killer conserva jugadas tranquilas que anteriormente produjeron cortes a la misma profundidad o ply y las promueve en el ordenamiento. Una búsqueda alfa–beta exacta debería preservar el valor minimax aunque cambie el orden; las jugadas elegidas pueden diferir si existe empate o búsqueda selectiva.
@@ -750,9 +745,6 @@ La velocidad y fuerza de Stockfish como player no son comparables directamente c
 Similar al caso de Stockfish, en éste caso se entrega el cuadro posicional a lc0.exe (mediante su interfaz UCI) y se obtiee la jugada que recomienda. Puesto que el proceso de inferencia es completamente realizado dentro de la llamada el evaluador en éste caso es *null*.
 
 
-
-
-
 # Entrenamiento y preparación de redes
 
 Se puede entrenar y producir redes propias de tipo NNUE (formato npz) para lo cual se dispone de una cadena de construcción para almacenar jugadas históricas, realizar muestras, etiquetar valores objetivos y realizar el entrenamiento.
@@ -797,7 +789,7 @@ Los objetivos de aprendizaje no son intercambiables: (i) resultado de partida $R
 
 NumPy resuelve entrenamiento matricial CPU; PyTorch ofrece autograd, optimizadores, batch tensors y elección de dispositivo `cpu`, `cuda` o `xpu` si el entorno soporta la GPU. PyTorch no reemplaza el contrato de características ni resuelve por sí mismo una mala etiqueta. Entrenar en XPU obliga a validar tipos, operadores soportados y consistencia con checkpoints anteriores.
 
-## SARGON TRAIN: argumentos y defaults documentados
+## SARGON TRAIN: argumentos y defaults
 
 | Argumento               | Descripción                                                                                |
 |:------------------------|:-------------------------------------------------------------------------------------------|
@@ -851,11 +843,32 @@ El conjunto de validación se define por partida, para que posiciones vecinas de
 
 Un checkpoint existente debe cargarse y verificarse; un fallo de carga no autoriza reinicializar aleatoriamente los parámetros. Un checkpoint inexistente puede iniciar una red nueva si la operación lo pide explícitamente. El estado CPU/dispositivo de halfmove debe sincronizarse para evitar pérdida de aprendizaje entre sesiones. El entrenamiento conserva validación y exporta pesos con metadatos suficientes para reproducir arquitectura, escala y función objetivo.
 
-# Herramientas adicionales de creación
+# Herramientas adicionales
+
+## Brainmaker
 
 `sargon_brainmaker.py` organiza la creación/evolución de brains, su experimentación y metadatos de rating; `sargon_selfplay.py` produce partidas de entrenamiento o evaluación consigo mismo, según perfil. Los scripts de pipeline PowerShell coordinan prepare, train, evaluación y rutas. El uso actual de redes Cerebrum 1.1 se refiere a inferencia a partir de un modelo ya entrenado; su entrenamiento externo no se identifica con el `sargon_train` que produce checkpoints NPZ.
 
-# Infraestructura operativa y herramientas
+El programa tiene ademas dos modos auxiliares:
+
+*   ELO, permite calcular el ELO de los jugadores en base a la performance en una competencia (rally) respecto a un player/evaluador de referencia
+(en esta plataforma ese es normalmente sargon/classic). El mismo puede salvarse en brains.json para uso futuro.
+*   Level, permite nivelar el ELO de distintos players/evaluadores en función de los resultados relativos en un rally determinado.
+
+## Benchmark
+
+Es una herramienta para evaluar la performance relativa de distintas combinaciones de player/evaluador, esto se logra jugando un set de movidas
+normalizadas y midiendo los tiempos de ejecución. Este análisis no tiene nada que ver con la calidad de juego del motor, solo su performance absoluta.
+
+## Pgn_Splitter
+
+Programa utilitario para manipular archivos en formato .pgn, contar
+partidas y jugadas y segmentar archivos.
+
+# Infraestructura operativa
+
+Es el conjunto de programas cuyo propósito es sostener las comunicaciones
+con otros jugadores y evaluaciones de entrenamiento.
 
 ## LISTEN y STDIN (UCI)
 
@@ -943,7 +956,7 @@ La puntuación competitiva es $P=W+\frac12D$, con rendimiento $p=P/N$. Para opti
 
 El nombre físico exacto de alguna clase o archivo auxiliar puede variar entre despliegues incrementales. La lista es un mapa funcional comprobable con los scripts y parches disponibles; debe contrastarse con el repositorio instalado antes de una intervención de mantenimiento.
 
-# Red NPZ: arquitectura, valor y convergencia
+# Red NNUE Nativa (NPZ) arquitectura
 
 ## Representación de estado
 
@@ -981,13 +994,13 @@ Para pasar de un padre $s$ a su hijo $s'$, se actualiza el acumulador mediante $
 
 ## Entrenamiento y convergencia
 
-El proceso de entrenamiento externo de Cerebrum no es el de NPZ y no debe presentarse como si fuera intercambiable. Las métricas necesarias serían loss de aprendizaje, error de validación, calidad frente a maestro, saturaciones, estabilidad de pesos y rendimiento competitivo por checkpoint; los parches examinados sólo verifican la integración de inferencia y no aportan una serie auditable de esas métricas. Los modelos de época deben conservar su identificación y hash para comparar competencias sin introducir variaciones inadvertidas.
+El proceso de entrenamiento externo de Cerebrum no es el de NPZ y no es compatible. De hecho, la red utilizada por Cerebrum si bien es también de arquitectura NNUE no tiene la misma configuración ni resultados. La misma puede ser entrenada con herramientas provistas por la plataforma Cerebrum o utilizarse una versión ya entrenada. Durante su entrenamiento las métricas son las usuales en entrenamiento de redes neurales loss de aprendizaje, error de validación, calidad frente a maestro, saturaciones, estabilidad de pesos y rendimiento competitivo por checkpoint; los parches examinados sólo verifican la integración de inferencia y no aportan una serie auditable de esas métricas. Los modelos de época deben conservar su identificación y hash para comparar competencias sin introducir variaciones inadvertidas.
 
 ## CerebrumPlayer y alcance táctico
 
 Con `qdepth=0` evalúa candidatas a un ply; con `qdepth>0` utiliza una continuación quiescence sobre capturas, promociones y jaques. En un RALLY reducido, `qdepth=3` presentó competitividad superior a otras variantes, pero esa evidencia no constituye una demostración universal de optimalidad. La mejora se atribuye al sistema completo de selección y evaluación, no únicamente a un checkpoint.
 
-# Appendix E - Redes MCTS: fundamentos e integración
+# Appendix - Redes MCTS: fundamentos e integración
 
 ## Introducción
 
@@ -1005,7 +1018,37 @@ En un ciclo de autojuego, la política objetivo se obtiene de frecuencias de vis
 
 Un player Sargon requiere un valor para las posiciones resultantes de jugadas candidatas, mientras que un sistema MCTS entrenado entrega tanto distribución de política como valor. Hay tres posibilidades: usar $v_\theta(T(s,a))$ como evaluador de cada jugada de Sargon; usar $p_\theta(a\mid s)$ sólo como ordenamiento; o utilizar MCTS como player completo. La primera mantiene la separación player–evaluator, pero desperdicia información de política; la segunda necesita cuidado para no confundir prior con valor; la tercera requiere un nuevo player. La semántica terminal, normalización de signos, gestión de tiempo y adquisición de entrenamiento deben definirse antes de adoptar cualquiera.
 
-# Appendix - Cronología de versiones y entregas
+# Appendix - Evaluación de entrenamiento
+
+El entrenamiento de las redes neuronales tiene dos etapas bien diferenciadas:
+
+*   Convergencia durante el entrenamiento.
+*   Evaluación de performance.
+
+## Convergencia durante el entrenamiento
+
+Durante el entrenamiento el principal problema es que la red memorice el set de entrenamiento en vez de aprenderlo por generalización. No hay una heurística única para analizarlo pero es util evaluar dos factores durante el entrenamiento:
+*   El MSE del lote de entrenamiento se reduce entre epoch sucesivos.
+*   El MSE del lote de validación se reduce entre epoch sucesivos.
+*   El MSE entre ambos grupos tiene valores similares.
+
+Lo que se observa con mas frecuencia es que el MSE de entrenamiento disminuye pero no asi el de validación, eso significa que la red está memorizando el set de entrenamiento pero no está pudiendo generalizar el resultado al conjunto de validación, el cual metodológicamente desconoce.
+Otro aspecto notable es que el MSE de validación se reduzca pero permanezca alto comparado con el MSE de entrenamiento, eso suele significar ruido en la señal de refuerzo.
+La solución a éstos problemas es mayormente empírica, y el conjunto de entrenamiento está preparado para correr muchas sesiones de entrenamiento con la misma base de ejemplos. Usualmente es una combinación de un learning rate mas pequeño y una disminución periódica del learning rate a medida que progresan los epochs. No necesariamente el último epoch es el mejor, es mejor aquel que es el punto de inflexión en el MSE de validación, los scripts configuran PyTorch para que guarde el mejor.
+
+## Evaluación de performance
+
+La evaluación de performance es también mayormente carente de una heurística clara, básicamente consiste en que el motor juegue y se pueda observar las bondades (o pobrezas) de su juego.
+Esto se puede lograr habilitando el motor para competir en plataformas
+como liches.org, el programa lichess-bot.py puede ser configurado exitorsamente para conectar con el programa sargon_listen.py mediante el programa sargon_bridge.py.
+No obstante las partidas en ésta plataforma son usualmente lentas de acuerdo al modo y el número de ellas que se puede hacer por día es limitado. Adicionalmente la gestión de la plataforma detecta rápidamente un jugador que se comporte en forma errática, por ejemplo que pierda muy rápido o pierda mucho. Situaciones que no son raras al experimentar una nueva configuración, una red nueva o simplemente un algoritmo fallido.
+Mucho mas útil es trabajar mediante juegos internos, de esa manera se pueden hacer cientos de partidas por hora y establecer un ranking entre configuraciones. Los mecanismos son básicamente tres:
+* Uso del programa *challenger* el cual es un jugador estable que puede jugar con algoritmo Sargon (clásico) o con Stockfish como motor de jugadas. Se pueden jugar automáticamente un número de partidas contra una instancia de listener teniendo una determinada combinación de player/evaluador con su respectiva configuración. El criterio de evaluación es que una combinación player/evaluador supere en promedio al algoritmo sargón y que sea capaz de ganar una proporción minoritaria de las partidas con el algoritmo stockfish.
+* El uso del programa *sargon_match* permite establecer rondas de juegos de a pares entre dos combinaciones cualquiera de player/evaluador, normalmente se lo emplea contra una configuración de referencia para medir mejora.
+* El uso del programa *sargon_match* permite establecer *rallies* (torneos) con un número arbitrario de combinaciones player/evaluador de manera que todos compitan contra todos un número de partidas por enfrentamiento.
+El resultado de las evaluaciones anteriores permite ir, incrementalmente, identificando las fortalezas relativas entre players, evaluadores y distintas estrategias de configuración (por ejemplo redes NNUE entrenadas a distinto nivel o de distinto tamaño). 
+
+# Appendix - Cronología de versiones
 
 Este apéndice es el único lugar donde se documenta la secuencia de versiones. Los títulos de los paquetes señalan el ámbito de cada entrega, pero no equivalen a una especificación completa de su contenido. Las versiones sin paquete local verificable se identifican como hitos registrados en la documentación precedente.
 
@@ -1105,7 +1148,3 @@ Este apéndice es el único lugar donde se documenta la secuencia de versiones. 
 | `v0.6.91` | Paquete: boost turbo coverage parche                                                                                                    |
 | `v0.6.92` | Paquete: audit same run directory                                                                                                       |
 | `v0.6.93` | Paquete: boost differential audit                                                                                                       |
-
-## Hitos de consolidación de la línea vigente
-
-La configuración operativa incluye brains declarativos, evaluación NPZ y Cerebrum 1.1, CerebrumPlayer con quiescence opcional, BOOST por máscara independiente hasta `0x2000`, TURBO por máscara, competición MATCH/RALLY y auditoría persistente/diferencial. Un manual con fecha fija representa una instantánea de la instalación hasta el último paquete identificado, no una garantía de que todo script local contenga los mismos archivos.
