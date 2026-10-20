@@ -1,1 +1,7 @@
 .\Sargon-NNUE\data\pb\*
+.\Sargon-NNUE/data/pb/zod_sample.pb
+.\Sargon-NNUE/data/runs/lczero/t1-512x15x8h-distilled-swa-3395000.pb.gz
+.\Sargon-NNUE/data/pb/boot.pb
+.\Sargon-NNUE/data/pb/lex.pb
+.\Sargon-NNUE/data/pb/zod.pb
+.\Sargon-NNUE/data/pb/lex_sample.pb
