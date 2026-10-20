@@ -1,0 +1,22 @@
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "A: sargon | classic"]
+[Black "B: sargon-plus | grumpy"]
+[Result "0-1"]
+[Termination "CHECKMATE"]
+
+1. Nf3 Nf6 2. Ne5 d6 3. Nc4 b5 4. Nca3 b4 5. Nb5 Nc6 6. d4 a6 7. Bg5 axb5 8. d5 Ne4 9. Bf4 Ne5 10. Qd4 Bf5 11. Qxb4 Qd7 12. Bxe5 Ra4 13. Qb3 dxe5 14. g4 Bxg4 15. Bg2 Nc5 16. Qe3 Rc4 17. Na3 Rd4 18. O-O f6 19. c4 bxc4 20. Nc2 Rxd5 21. Bxd5 Qxd5 22. Nb4 Qd4 23. Nc2 Qxe3 24. fxe3 Bxe2 25. Rf2 Bg4 26. Raf1 Nd3 27. Rg2 Bh3 28. e4 Bxg2 29. Kxg2 Nxb2 30. Ne3 Kf7 31. Nd5 c6 32. Ne3 c3 33. Rf2 Nd3 34. Rf1 Nf4+ 35. Kh1 e6 36. Ng4 Bc5 37. Rf3 Rd8 38. Rf1 Rd2 39. a3 h5 40. Nxe5+ fxe5 41. a4 Re2 42. a5 Rxe4 43. a6 Kg8 44. a7 Bxa7 45. Rc1 Bc5 46. h4 Ne2 47. Rf1 c2 48. Kg2 Rxh4 49. Kf3 e4+ 50. Kxe2 Rh2+ 51. Rf2 Rxf2+ 52. Ke1 c1=Q# 0-1
+
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "B: sargon-plus | grumpy"]
+[Black "A: sargon | classic"]
+[Result "*"]
+[Termination "MAX_PLIES_INCOMPLETE"]
+
+1. Nc3 Nf6 2. Nh3 Ng4 3. e4 h5 4. Ng5 e5 5. d4 exd4 6. Qxd4 Nc6 7. Qd5 Qf6 8. Qf5 Qe7 9. Nd5 d6 10. Nxe7 Bxf5 11. Nxf5 g6 12. Ne3 Nf6 13. Bb5 Kd7 14. Bxc6+ Kxc6 15. Nxf7 Rh7 16. Ng5 Re7 17. f3 Bh6 18. h4 b5 19. Bd2 Rh8 20. Ke2 Re5 21. Bc3 Bxg5 22. hxg5 Nxe4 23. Bxe5 Rf8 24. Bg7 Ng3+ 25. Kd2 Re8 26. Rh3 h4 27. Bd4 d5 28. Re1 Nh5 29. Nxd5 Rxe1 30. Nb4+ Kd7 31. Kxe1 Nf4 32. Rh2 a5 33. Nd3 Nxd3+ 34. cxd3 c5 35. Bxc5 Kc6 36. d4 Kb7 37. Rxh4 b4 38. Rf4 Kc6 39. Rf6+ Kd7 40. Rxg6 Kc7 41. Bb6+ Kb8 42. Bxa5 b3 43. axb3 Kb7 44. Re6 Kc8 45. d5 Kb8 46. g6 Kb7 47. g7 Kb8 48. g8=R+ Kb7 49. Kf1 Ka7 50. Bc3 Kb7 51. Bf6 Kc7 52. Ke2 Kd7 53. b4 Kc7 54. Bh4 Kb7 55. Kd1 Kc7 56. g4 Kb7 57. f4 Kc7 58. Rh8 Kb7 59. Ke2 Kc7 60. Rg6 Kb7 61. Kd1 Kc7 62. g5 Kd7 63. Kd2 Ke7 64. Rf6 Kd7 65. g6 Kc7 66. Kc3 Kd7 67. Be1 Kc7 68. Kc2 Kb7 69. Re6 Kc7 70. Bc3 Kd7 71. f5 Kc7 72. Kd1 Kd7 73. Ke1 Kc7 74. Rc6+ Kb7 75. b3 Ka7 76. Kf2 Kb7 77. Rf8 Ka7 78. Kf3 Kb7 79. Bd2 Ka7 80. Ke2 Kb7 81. Bh6 Ka7 82. Kd2 Kb7 83. Rh8 Ka7 84. Be3+ Kb7 85. Bf4 Ka7 86. Rf8 Kb7 87. Rc5 Kb6 88. Rfc8 Kb7 89. Ke1 Kb6 90. Rc1 Kb5 91. Bd6 Kb6 92. Bg3 Kb5 93. Be5 Kxb4 94. Ra8 Kxb3 95. d6 Kb4 96. Kd2 Kb5 97. Ra2 Kb6 98. Kd3 Kb7 99. Ra3 Kb8 100. Kd2 Kb7 *
+

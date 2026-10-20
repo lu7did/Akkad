@@ -1,0 +1,31 @@
+🧠 SARGON JUDGE v0.6.53
+⚙️ Argumentos: {'input': 'C:\\Users\\pedro\\github\\bobby\\sargon-nnue\\sargon-nnue\\data\\runs\\brainiac_match\\brainiac_match.csv', 'positions': 'C:\\Users\\pedro\\github\\bobby\\sargon-nnue\\sargon-nnue\\data\\runs\\brainiac_match\\brainiac_positions.csv'}
+📊 Análisis
+📊 Partidas=10, completas=10, incompletas=0, tablas=7, decisivas=3
+📊 Movimientos(plies)=856 | media=85.6 mediana=72.0 min=56 max=150
+📊 Tiempo total=933.86s | promedio por partida=93.39s
+📊 Jugador A: puntos=5.5/10; score=55.00%; blancas ganadas=1; negras ganadas=1
+📊 Jugador B: puntos=4.5/10; score=45.00%; blancas ganadas=0; negras ganadas=1
+📊 Terminaciones: THREEFOLD_REPETITION=7, CHECKMATE=3
+📊 Final Winner(sargon-plus|classic) Score(5.5 | 4.5)
+📊 Incertidumbre: score A=0.550; error estándar aproximado=0.090; n=10 (partidas correlacionadas por parejas de apertura)
+📊 Auditoría CLASSIC: posiciones=846; partidas=10
+📊 GLOBAL: N=846 MAE=14.85cp RMSE=19.75cp bias=+1.42cp Top1=68.56% regret=590.34cp
+📊 opening: N=230 MAE=6.07cp RMSE=8.18cp bias=+4.18cp Top1=84.35% regret=2.16cp
+📊 middlegame: N=545 MAE=17.54cp RMSE=22.01cp bias=+3.34cp Top1=64.95% regret=914.12cp
+📊 endgame: N=71 MAE=22.72cp RMSE=26.73cp bias=-22.21cp Top1=45.07% regret=10.42cp
+📊 Auditoría de jugadas NO terminales (mates/tablas inmediatos excluidos):
+📊 GLOBAL no-terminal: positions=846/846 candidate_terminal=15 mates=7 draws=8 Top1=69.27% regret=4.50cp regret>=10000=0
+📊 opening no-terminal: positions=230/230 candidate_terminal=0 mates=0 draws=0 Top1=84.35% regret=2.16cp regret>=10000=0
+📊 middlegame no-terminal: positions=545/545 candidate_terminal=12 mates=7 draws=5 Top1=65.87% regret=5.16cp regret>=10000=0
+📊 endgame no-terminal: positions=71/71 candidate_terminal=3 mates=0 draws=3 Top1=46.48% regret=6.96cp regret>=10000=0
+📊 Regret NO TERMINAL Game(5) ply(88) CLASSIC(d1d6) NNUE(b8f8) regret=45cp FEN=1R6/6pr/2k4p/5p2/P4P2/4P1n1/1PP3P1/2KR4 w - - 6 45
+📊 Regret NO TERMINAL Game(5) ply(117) CLASSIC(g7d7) NNUE(g6g5) regret=45cp FEN=8/2k3r1/1R4p1/P4p1p/5P2/2P1P3/1P1K2P1/8 b - - 0 59
+📊 Regret NO TERMINAL Game(5) ply(138) CLASSIC(c6e6) NNUE(c6c8) regret=42cp FEN=8/8/2R5/P4p1p/1P6/2P1k3/2r5/6K1 w - - 0 70
+📊 Regret NO TERMINAL Game(3) ply(36) CLASSIC(h3e6) NNUE(b5d5) regret=34cp FEN=r4b1r/1pq2kpp/4pp2/pQ1p3n/3P4/4BNPB/PP2PP1P/3K3R w - - 0 19
+📊 Regret NO TERMINAL Game(3) ply(58) CLASSIC(h5h7) NNUE(h5f5) regret=34cp FEN=r5kr/1p5p/4pb2/p4p1Q/q3pB2/1N4P1/PP3P1P/3K3R w - - 4 30
+📊 Regret máximo Game(1) ply(112) CLASSIC(h5f3) NNUE(h5g6) regret=100135cp FEN=5r1k/6p1/4Q3/2p4B/5p2/3r4/PPq1PK2/7R w - - 4 57
+📊 Regret máximo Game(1) ply(114) CLASSIC(h1h3) NNUE(g6c2) regret=99249cp FEN=5r1k/6p1/4Q1B1/2p5/5p2/7r/PPq1PK2/7R w - - 6 58
+📊 Regret máximo Game(3) ply(77) CLASSIC(c2d2) NNUE(d1h1) regret=98875cp FEN=6kr/7p/1p2pQ2/p4p2/4p3/P3K1P1/1Pq2P1P/3r3R b - - 5 39
+📊 Regret máximo Game(3) ply(75) CLASSIC(c1d2) NNUE(d1h1) regret=98867cp FEN=6kr/7p/1p2pQ2/p4p2/4p3/P5P1/1P2KP1P/2qr3R b - - 3 38
+📊 Regret máximo Game(4) ply(71) CLASSIC(c3a1) NNUE(c3e1) regret=98048cp FEN=6k1/1rp2ppp/p4b2/3p1p1P/1n3P1P/1Pq3B1/P1P5/1K2R3 b - - 3 36

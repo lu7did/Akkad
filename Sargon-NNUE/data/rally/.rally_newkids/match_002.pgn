@@ -1,0 +1,22 @@
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "A: sargon-plus | npz"]
+[Black "B: doc | grumpy"]
+[Result "1/2-1/2"]
+[Termination "THREEFOLD_REPETITION"]
+
+1. Nf3 Nc6 2. Nc3 Nf6 3. d4 e6 4. Bf4 Bb4 5. Rb1 Nd5 6. Bg3 Nxc3 7. bxc3 Bxc3+ 8. Nd2 Nxd4 9. e3 Nf5 10. Bf4 O-O 11. e4 Nd4 12. Bc4 Qh4 13. g4 Qf6 14. Bxc7 Nf3+ 15. Ke2 Nxd2 16. Qxd2 Bxd2 17. Bd6 Qd4 18. Bxf8 Qxc4+ 19. Kxd2 Kxf8 20. f3 d5 21. exd5 Qxd5+ 22. Ke3 Qxa2 23. Rbd1 Qxc2 24. Rc1 Qb3+ 25. Ke2 Qb5+ 26. Kf2 Bd7 27. h4 Qb6+ 28. Kg2 Re8 29. Rb1 Qc6 30. Rbc1 Qb6 31. Rb1 Qc6 32. Rbc1 1/2-1/2
+
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "B: doc | grumpy"]
+[Black "A: sargon-plus | npz"]
+[Result "1-0"]
+[Termination "CHECKMATE"]
+
+1. Nc3 Nc6 2. Nf3 d5 3. e3 Nf6 4. Bb5 Be6 5. Ng5 Bg4 6. f3 Bf5 7. g4 Bg6 8. O-O e5 9. d4 exd4 10. Qxd4 Nd7 11. Qxd5 Bb4 12. Bd2 Bxc3 13. Bxc3 Qe7 14. Bxg7 Qxe3+ 15. Rf2 Rg8 16. Bc3 Nb6 17. Bxc6+ Kf8 18. Bb4+ Kg7 19. Bc3+ Kh6 20. Nxf7+ Bxf7 21. Qxf7 Rxg4+ 22. fxg4 Qxf2+ 23. Kxf2 Rh8 24. Qg7# 1-0
+

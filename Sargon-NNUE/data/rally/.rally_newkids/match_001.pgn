@@ -1,0 +1,22 @@
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "A: sargon-plus | npz"]
+[Black "B: sargon | classic"]
+[Result "1-0"]
+[Termination "CHECKMATE"]
+
+1. Nh3 d5 2. Nc3 d4 3. Ne4 Qd5 4. d3 Bf5 5. Bf4 Qa5+ 6. Qd2 Qxd2+ 7. Nxd2 e5 8. Bxe5 Bb4 9. Bxg7 Bxd2+ 10. Kxd2 Bxh3 11. gxh3 Nf6 12. Bxh8 Nbd7 13. Bg2 O-O-O 14. Bg7 Re8 15. Kd1 Re5 16. f4 Rc5 17. b4 Rc3 18. f5 Kb8 19. h4 c6 20. Rb1 h6 21. a4 h5 22. Rg1 Ka8 23. Rh1 Kb8 24. Kc1 Kc8 25. Kb2 Kb8 26. e3 Ka8 27. exd4 Nd5 28. Bxd5 Rxd3 29. Bxc6 Rxd4 30. Bxb7+ Kxb7 31. Bxd4 Nb6 32. a5 Nc4+ 33. Ka1 a6 34. Rbe1 Kc6 35. Re7 Na3 36. Kb2 Nc4+ 37. Ka2 Nd6 38. Re5 Nb7 39. f6 Kd6 40. Rxh5 Kc6 41. Rg5 Kd7 42. Rg7 Nd6 43. c3 Kc6 44. Rg5 Ne4 45. Re5 Nxf6 46. Rc5+ Kb7 47. Bxf6 Kb8 48. Re1 Kb7 49. Re7+ Kb8 50. b5 axb5 51. Bg7 f5 52. Bf6 f4 53. Rh5 Kc8 54. a6 Kd8 55. c4 Kc8 56. Rg5 Kd8 57. h3 Kc8 58. a7 Kd8 59. Rf5 Kc8 60. Rfe5 Kd8 61. Bh8 Kc8 62. a8=Q# 1-0
+
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "B: sargon | classic"]
+[Black "A: sargon-plus | npz"]
+[Result "1-0"]
+[Termination "CHECKMATE"]
+
+1. Nf3 Nf6 2. Ne5 d6 3. Nc4 Be6 4. Nba3 Ne4 5. d4 Nc6 6. d5 b5 7. Nxb5 Qb8 8. a4 a6 9. dxe6 axb5 10. exf7+ Kd8 11. Ne3 Rxa4 12. Rxa4 bxa4 13. c3 Qa7 14. Qd5 Nxc3 15. Qxc6 Kc8 16. bxc3 e5 17. Qe8+ Kb7 18. Nd5 Qc5 19. e4 c6 20. Be3 Qa5 21. Bb6 Qxd5 22. exd5 Kxb6 23. dxc6 g5 24. Bc4 Kc7 25. O-O Kb6 26. Rb1+ Ka5 27. Qd8# 1-0
+

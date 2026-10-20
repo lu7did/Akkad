@@ -1,0 +1,718 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "warmup": {
+      "name": "Test bed for boost/turbo algorithms before candidature",
+      "brains": [
+        "buddy",
+        "classic",
+        "smart",
+        "fenix",
+        "chimera"
+      ],
+      "plays_per_pair": 4,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 1200,
+      "pgn": "../data/rally/alien.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 1,
+            "game": 1,
+            "white": "buddy",
+            "black": "classic",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 47,
+            "elapsed_seconds": 41.467,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 1,
+            "white": "buddy",
+            "black": "smart",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 108,
+            "elapsed_seconds": 60.133,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 2,
+            "white": "smart",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 97,
+            "elapsed_seconds": 74.259,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "classic",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 90,
+            "elapsed_seconds": 137.239,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 3,
+            "white": "buddy",
+            "black": "smart",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 97,
+            "elapsed_seconds": 63.592,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 3,
+            "white": "buddy",
+            "black": "classic",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 46,
+            "elapsed_seconds": 45.835,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 4,
+            "white": "smart",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 67,
+            "elapsed_seconds": 98.985,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 4,
+            "white": "classic",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 61,
+            "elapsed_seconds": 86.273,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 1,
+            "white": "buddy",
+            "black": "fenix",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 50,
+            "elapsed_seconds": 20.734,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 4,
+            "game": 1,
+            "white": "buddy",
+            "black": "chimera",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 53,
+            "elapsed_seconds": 23.018,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 2,
+            "white": "fenix",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 87,
+            "elapsed_seconds": 41.059,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 3,
+            "white": "buddy",
+            "black": "fenix",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 54,
+            "elapsed_seconds": 24.739,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 4,
+            "game": 2,
+            "white": "chimera",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 86,
+            "elapsed_seconds": 57.022,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 4,
+            "white": "fenix",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 59,
+            "elapsed_seconds": 31.235,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 4,
+            "game": 3,
+            "white": "buddy",
+            "black": "chimera",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 62,
+            "elapsed_seconds": 32.238,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 4,
+            "game": 4,
+            "white": "chimera",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 90,
+            "elapsed_seconds": 48.105,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 5,
+            "game": 1,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 56,
+            "elapsed_seconds": 62.875,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 6,
+            "game": 1,
+            "white": "classic",
+            "black": "fenix",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 85,
+            "elapsed_seconds": 72.251,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 5,
+            "game": 2,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 72,
+            "elapsed_seconds": 103.88,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 2,
+            "white": "fenix",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 60,
+            "elapsed_seconds": 82.359,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 5,
+            "game": 3,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 87,
+            "elapsed_seconds": 74.645,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 3,
+            "white": "classic",
+            "black": "fenix",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 37,
+            "elapsed_seconds": 38.533,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 4,
+            "white": "fenix",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 32,
+            "elapsed_seconds": 45.321,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 5,
+            "game": 4,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 72,
+            "elapsed_seconds": 120.118,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 7,
+            "game": 1,
+            "white": "classic",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 99,
+            "elapsed_seconds": 70.193,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 8,
+            "game": 1,
+            "white": "smart",
+            "black": "fenix",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 100,
+            "elapsed_seconds": 52.589,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 7,
+            "game": 2,
+            "white": "chimera",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 76,
+            "elapsed_seconds": 65.095,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 8,
+            "game": 2,
+            "white": "fenix",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 83,
+            "elapsed_seconds": 36.825,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 8,
+            "game": 3,
+            "white": "smart",
+            "black": "fenix",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 112,
+            "elapsed_seconds": 47.715,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 7,
+            "game": 3,
+            "white": "classic",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 89,
+            "elapsed_seconds": 90.183,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 8,
+            "game": 4,
+            "white": "fenix",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 146,
+            "elapsed_seconds": 57.246,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 9,
+            "game": 1,
+            "white": "smart",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 64,
+            "elapsed_seconds": 48.376,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 9,
+            "game": 2,
+            "white": "chimera",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 117,
+            "elapsed_seconds": 49.959,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 7,
+            "game": 4,
+            "white": "chimera",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 84,
+            "elapsed_seconds": 154.39,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 9,
+            "game": 3,
+            "white": "smart",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 49,
+            "elapsed_seconds": 46.942,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 10,
+            "game": 1,
+            "white": "fenix",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 112,
+            "elapsed_seconds": 31.421,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 9,
+            "game": 4,
+            "white": "chimera",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 68,
+            "elapsed_seconds": 27.064,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 10,
+            "game": 2,
+            "white": "chimera",
+            "black": "fenix",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 96,
+            "elapsed_seconds": 33.938,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 10,
+            "game": 3,
+            "white": "fenix",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 110,
+            "elapsed_seconds": 26.289,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 10,
+            "game": 4,
+            "white": "chimera",
+            "black": "fenix",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 131,
+            "elapsed_seconds": 31.101,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "classic",
+          "points": 13.5,
+          "played": 16,
+          "wins": 11,
+          "draws": 5,
+          "losses": 0,
+          "against": {
+            "buddy": {
+              "points": 2.5,
+              "games": 4
+            },
+            "smart": {
+              "points": 3.0,
+              "games": 4
+            },
+            "fenix": {
+              "points": 4.0,
+              "games": 4
+            },
+            "chimera": {
+              "points": 4.0,
+              "games": 4
+            }
+          }
+        },
+        {
+          "id": "smart",
+          "points": 8.5,
+          "played": 16,
+          "wins": 4,
+          "draws": 9,
+          "losses": 3,
+          "against": {
+            "buddy": {
+              "points": 3.0,
+              "games": 4
+            },
+            "classic": {
+              "points": 1.0,
+              "games": 4
+            },
+            "fenix": {
+              "points": 2.0,
+              "games": 4
+            },
+            "chimera": {
+              "points": 2.5,
+              "games": 4
+            }
+          }
+        },
+        {
+          "id": "fenix",
+          "points": 8.0,
+          "played": 16,
+          "wins": 6,
+          "draws": 4,
+          "losses": 6,
+          "against": {
+            "buddy": {
+              "points": 4.0,
+              "games": 4
+            },
+            "classic": {
+              "points": 0.0,
+              "games": 4
+            },
+            "smart": {
+              "points": 2.0,
+              "games": 4
+            },
+            "chimera": {
+              "points": 2.0,
+              "games": 4
+            }
+          }
+        },
+        {
+          "id": "chimera",
+          "points": 5.5,
+          "played": 16,
+          "wins": 2,
+          "draws": 7,
+          "losses": 7,
+          "against": {
+            "buddy": {
+              "points": 2.0,
+              "games": 4
+            },
+            "classic": {
+              "points": 0.0,
+              "games": 4
+            },
+            "smart": {
+              "points": 1.5,
+              "games": 4
+            },
+            "fenix": {
+              "points": 2.0,
+              "games": 4
+            }
+          }
+        },
+        {
+          "id": "buddy",
+          "points": 4.5,
+          "played": 16,
+          "wins": 1,
+          "draws": 7,
+          "losses": 8,
+          "against": {
+            "classic": {
+              "points": 1.5,
+              "games": 4
+            },
+            "smart": {
+              "points": 1.0,
+              "games": 4
+            },
+            "fenix": {
+              "points": 0.0,
+              "games": 4
+            },
+            "chimera": {
+              "points": 2.0,
+              "games": 4
+            }
+          }
+        }
+      ],
+      "match_incidents": [],
+      "status": "COMPLETE",
+      "elapsed_seconds": 1214.67
+    }
+  }
+}

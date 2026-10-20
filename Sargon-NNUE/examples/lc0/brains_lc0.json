@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "alphazero_lc0": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "data/lc0/model.pb.gz",
+      "lc0-backend": "blas",
+      "lc0-history": "allow-incomplete",
+      "lc0-cache": 10000,
+      "az-simulations": 128,
+      "az-cpuct": 1.5
+    },
+    "sargonplus_classic": {
+      "player": "sargon-plus",
+      "evaluator": "classic",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000
+    }
+  }
+}

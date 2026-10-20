@@ -1,0 +1,439 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "blitzkrieg": {
+      "name": "Play-off Confirmation turby",
+      "brains": [
+        "classic",
+        "smart",
+        "turby",
+        "njord",
+        "chimera"
+      ],
+      "plays_per_pair": 2,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 1200,
+      "pgn": "../data/rally/alien.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 1,
+            "game": 1,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 57,
+            "elapsed_seconds": 84.892,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 1,
+            "white": "classic",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 81,
+            "elapsed_seconds": 194.126,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 60,
+            "elapsed_seconds": 131.838,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 1,
+            "white": "classic",
+            "black": "njord",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 100,
+            "elapsed_seconds": 148.602,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 2,
+            "white": "turby",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 95,
+            "elapsed_seconds": 278.617,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 2,
+            "white": "njord",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 62,
+            "elapsed_seconds": 131.124,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 4,
+            "game": 1,
+            "white": "classic",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 103,
+            "elapsed_seconds": 158.604,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 5,
+            "game": 1,
+            "white": "smart",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 82,
+            "elapsed_seconds": 144.687,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 4,
+            "game": 2,
+            "white": "chimera",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 28,
+            "elapsed_seconds": 30.731,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 1,
+            "white": "smart",
+            "black": "njord",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 80,
+            "elapsed_seconds": 101.495,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 5,
+            "game": 2,
+            "white": "turby",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 61,
+            "elapsed_seconds": 123.993,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 7,
+            "game": 1,
+            "white": "smart",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 70,
+            "elapsed_seconds": 58.801,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 2,
+            "white": "njord",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 59,
+            "elapsed_seconds": 80.671,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 7,
+            "game": 2,
+            "white": "chimera",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 62,
+            "elapsed_seconds": 43.16,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 9,
+            "game": 1,
+            "white": "turby",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 51,
+            "elapsed_seconds": 77.694,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 8,
+            "game": 1,
+            "white": "turby",
+            "black": "njord",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 131,
+            "elapsed_seconds": 124.747,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 9,
+            "game": 2,
+            "white": "chimera",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 94,
+            "elapsed_seconds": 85.846,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 10,
+            "game": 1,
+            "white": "njord",
+            "black": "chimera",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 71,
+            "elapsed_seconds": 90.124,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 8,
+            "game": 2,
+            "white": "njord",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 82,
+            "elapsed_seconds": 168.453,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 10,
+            "game": 2,
+            "white": "chimera",
+            "black": "njord",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 71,
+            "elapsed_seconds": 54.236,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "turby",
+          "points": 6.5,
+          "played": 8,
+          "wins": 6,
+          "draws": 1,
+          "losses": 1,
+          "against": {
+            "classic": {
+              "points": 1.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 2.0,
+              "games": 2
+            },
+            "njord": {
+              "points": 1.5,
+              "games": 2
+            },
+            "chimera": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "classic",
+          "points": 4.5,
+          "played": 8,
+          "wins": 3,
+          "draws": 3,
+          "losses": 2,
+          "against": {
+            "smart": {
+              "points": 1.5,
+              "games": 2
+            },
+            "turby": {
+              "points": 1.0,
+              "games": 2
+            },
+            "njord": {
+              "points": 0.5,
+              "games": 2
+            },
+            "chimera": {
+              "points": 1.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "njord",
+          "points": 4.0,
+          "played": 8,
+          "wins": 2,
+          "draws": 4,
+          "losses": 2,
+          "against": {
+            "classic": {
+              "points": 1.5,
+              "games": 2
+            },
+            "smart": {
+              "points": 1.5,
+              "games": 2
+            },
+            "turby": {
+              "points": 0.5,
+              "games": 2
+            },
+            "chimera": {
+              "points": 0.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "chimera",
+          "points": 3.0,
+          "played": 8,
+          "wins": 2,
+          "draws": 2,
+          "losses": 4,
+          "against": {
+            "classic": {
+              "points": 0.5,
+              "games": 2
+            },
+            "smart": {
+              "points": 1.0,
+              "games": 2
+            },
+            "turby": {
+              "points": 0.0,
+              "games": 2
+            },
+            "njord": {
+              "points": 1.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "smart",
+          "points": 2.0,
+          "played": 8,
+          "wins": 1,
+          "draws": 2,
+          "losses": 5,
+          "against": {
+            "classic": {
+              "points": 0.5,
+              "games": 2
+            },
+            "turby": {
+              "points": 0.0,
+              "games": 2
+            },
+            "njord": {
+              "points": 0.5,
+              "games": 2
+            },
+            "chimera": {
+              "points": 1.0,
+              "games": 2
+            }
+          }
+        }
+      ],
+      "match_incidents": [],
+      "status": "COMPLETE",
+      "abnormal_terminations": [],
+      "elapsed_seconds": 1178.3
+    }
+  }
+}

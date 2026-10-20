@@ -1,0 +1,4 @@
+chess==1.11.2
+numpy>=1.26
+pygame>=2.5
+pytest>=8

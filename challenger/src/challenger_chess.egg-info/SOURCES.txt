@@ -1,6 +1,7 @@
 README.md
 pyproject.toml
 src/challenger/__init__.py
+src/challenger/brain.py
 src/challenger/cli.py
 src/challenger/game.py
 src/challenger/gui.py
@@ -14,9 +15,14 @@ src/challenger_chess.egg-info/dependency_links.txt
 src/challenger_chess.egg-info/entry_points.txt
 src/challenger_chess.egg-info/requires.txt
 src/challenger_chess.egg-info/top_level.txt
+tests/test_brain.py
 tests/test_cli.py
+tests/test_human_brain.py
 tests/test_persistence.py
+tests/test_persistence_v04.py
 tests/test_pgnlog.py
 tests/test_sargon.py
+tests/test_sargon_exchange.py
+tests/test_sargon_fidelity.py
 tests/test_terminal_rules.py
 tests/test_uci_client.py

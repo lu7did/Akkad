@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "mdqopen": {
+      "name": "MDQ Open Liga Sargon-NNUE",
+      "brains": [
+        "classic",
+        "smart"
+      ],
+      "plays_per_pair": 2,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 600,
+      "pgn": "../data/rally/MDQOpen_01.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 1,
+            "game": 1,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 56,
+            "elapsed_seconds": 294.491,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 30,
+            "elapsed_seconds": 237.696,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "classic",
+          "points": 1.0,
+          "played": 2,
+          "wins": 0,
+          "draws": 2,
+          "losses": 0,
+          "against": {
+            "smart": {
+              "points": 1.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "smart",
+          "points": 1.0,
+          "played": 2,
+          "wins": 0,
+          "draws": 2,
+          "losses": 0,
+          "against": {
+            "classic": {
+              "points": 1.0,
+              "games": 2
+            }
+          }
+        }
+      ],
+      "status": "COMPLETE",
+      "elapsed_seconds": 532.6
+    }
+  }
+}

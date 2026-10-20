@@ -1,0 +1,24 @@
+SARGON-NNUE ALPHAZERO PATCH 0.6.116 — SOLO ADITIVO
+
+README_Sargon_AlphaZero_Semilla_v0.6.116.md
+scripts/sargon_az_00_reservar_validacion.ps1
+scripts/sargon_az_01_muestrear_partidas.ps1
+scripts/sargon_az_02_valor_stockfish.ps1
+scripts/sargon_az_03_valor_sargon_clasico.ps1
+scripts/sargon_az_04_valor_resultado_suavizado.ps1
+scripts/sargon_az_05_reunir_validacion.ps1
+scripts/sargon_az_06_construir_politicas.ps1
+scripts/sargon_az_07_muestrear_movimientos.ps1
+scripts/sargon_az_08_entrenar_semilla.ps1
+scripts/sargon_az_prepare_finalize.ps1
+scripts/sargon_az_prepare_import.ps1
+scripts/sargon_az_prepare_init.ps1
+scripts/sargon_az_train_refine.ps1
+src/sargon_nnue/az_core.py
+src/sargon_nnue/az_model.py
+src/sargon_nnue/az_policy.py
+src/sargon_nnue/az_prepare.py
+src/sargon_nnue/az_seed_train.py
+src/sargon_nnue/az_train.py
+src/sargon_nnue/az_workflow.py
+tests/test_az_workflow_v06116.py

@@ -1,0 +1,45 @@
+//================================================================================================================*
+//* Proyecto sargon-nnue
+//* Chess player using different Neural Networks as the game evaluation engine
+//*
+//* A new mind for the old buddy
+//* Created as a learning experience
+//*
+//* By Dr. Pedro E. Colla 2026 (UADER Teoria de la Comunicación / UFASTA Gestión de Redes)
+//* License: CC AS BY 4.0
+//*================================================================================================================*
+//* board.cpp
+//* Define e implementa la representación de tablero de Sargon 
+//* v0.6.153
+//*=================================================================================================================*
+#include "board.hpp"
+#include <algorithm>
+#include <sstream>
+#include <stdexcept>
+#include <cmath>
+#include <cctype>
+namespace picoSargon {
+namespace {constexpr uint8_t OFF=255;constexpr int KN[]={-21,-19,-12,-8,8,12,19,21};constexpr int BI[]={-11,-9,9,11};constexpr int RO[]={-10,-1,1,10};constexpr int KI[]={-11,-9,9,11,-10,-1,1,10};
+int decode(char c){int v=0;switch(std::tolower(static_cast<unsigned char>(c))){case 'p':v=1;break;case 'n':v=2;break;case 'b':v=3;break;case 'r':v=4;break;case 'q':v=5;break;case 'k':v=6;break;default:throw std::runtime_error("invalid FEN piece");}return std::isupper(static_cast<unsigned char>(c))?v:-v;}
+void add(std::vector<Move>& out,int fr,int to,int pr=0){out.push_back(Move{static_cast<uint8_t>(fr),static_cast<uint8_t>(to),static_cast<uint8_t>(pr)});} }
+Board::Board(){reset();} Board::Board(const std::string& f){set_fen(f);}
+void Board::reset(){set_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
+void Board::set_fen(const std::string& fen){cells.fill(OFF);for(int i=0;i<64;++i)cells[at120(i)]=6; std::istringstream ss(fen);std::string layout,side,rights,ept;ss>>layout>>side>>rights>>ept>>halfmove>>fullmove;if(!ss && !ss.eof())throw std::runtime_error("invalid FEN");int rank=7,file=0;for(char c:layout){if(c=='/'){if(file!=8)throw std::runtime_error("FEN rank");--rank;file=0;continue;}if(c>='1'&&c<='8'){file+=c-'0';continue;}if(rank<0||file>=8)throw std::runtime_error("FEN layout");cells[at120(rank*8+file)]=static_cast<uint8_t>(6+decode(c));++file;}if(rank!=0||file!=8)throw std::runtime_error("FEN incomplete");turn=side=="w"?1:side=="b"?-1:throw std::runtime_error("FEN side");castling=0;if(rights.find('K')!=std::string::npos)castling|=1;if(rights.find('Q')!=std::string::npos)castling|=2;if(rights.find('k')!=std::string::npos)castling|=4;if(rights.find('q')!=std::string::npos)castling|=8;ep=-1;if(ept!="-"){if(ept.size()!=2||ept[0]<'a'||ept[0]>'h'||ept[1]<'1'||ept[1]>'8')throw std::runtime_error("FEN ep");ep=(ept[1]-'1')*8+ept[0]-'a';}undos_.clear();history_.clear();history_.push_back(position_key());}
+int Board::piece(int sq)const{return int(cells[at120(sq)])-6;}
+bool Board::attacked(int sq,int by)const{for(int d:{-9*by,-11*by})if(cells[sq+d]==6+by)return true;for(int d:KN)if(cells[sq+d]==6+2*by)return true;for(int d:KI)if(cells[sq+d]==6+6*by)return true;for(int d:BI){int p=sq+d;while(cells[p]!=OFF){int v=int(cells[p])-6;if(v){if(v*by==3||v*by==5)return true;break;}p+=d;}}for(int d:RO){int p=sq+d;while(cells[p]!=OFF){int v=int(cells[p])-6;if(v){if(v*by==4||v*by==5)return true;break;}p+=d;}}return false;}
+bool Board::in_check(int color)const{if(!color)color=turn;int king=6+6*color;for(int i=0;i<64;++i)if(cells[at120(i)]==king)return attacked(at120(i),-color);return true;}
+void Board::pseudo(std::vector<Move>& out)const{out.clear();const int side=turn;for(int sq=0;sq<64;++sq){int a=at120(sq),v=int(cells[a])-6;if(v*side<=0)continue;int kind=std::abs(v),y=sq/8,x=sq%8;if(kind==1){int dest=a+10*side;if(cells[dest]==6){int z=sq+8*side; if(z/8==0||z/8==7){for(int p:{5,4,3,2})add(out,sq,z,p);}else add(out,sq,z);if(y==(side==1?1:6)&&cells[a+20*side]==6)add(out,sq,sq+16*side);}for(int dx:{-1,1}){if(x+dx<0||x+dx>7)continue;int z=sq+8*side+dx,t=cells[a+10*side+dx];if((t!=OFF&&(int(t)-6)*side<0&&std::abs(int(t)-6)!=6)||z==ep){if(z/8==0||z/8==7){for(int p:{5,4,3,2})add(out,sq,z,p);}else add(out,sq,z);}}}
+else if(kind==2||kind==6){const int* dirs=kind==2?KN:KI;for(int j=0;j<8;++j){int z=a+dirs[j],p=cells[z];if(p!=OFF&&(int(p)-6)*side<=0&&std::abs(int(p)-6)!=6)add(out,sq,from120(z));}if(kind==6&&!in_check(side)){if(side==1&&sq==4){if((castling&1)&&cells[at120(7)]==10&&cells[at120(5)]==6&&cells[at120(6)]==6&&!attacked(at120(5),-side)&&!attacked(at120(6),-side))add(out,4,6);if((castling&2)&&cells[at120(0)]==10&&cells[at120(1)]==6&&cells[at120(2)]==6&&cells[at120(3)]==6&&!attacked(at120(3),-side)&&!attacked(at120(2),-side))add(out,4,2);}else if(side==-1&&sq==60){if((castling&4)&&cells[at120(63)]==2&&cells[at120(61)]==6&&cells[at120(62)]==6&&!attacked(at120(61),-side)&&!attacked(at120(62),-side))add(out,60,62);if((castling&8)&&cells[at120(56)]==2&&cells[at120(57)]==6&&cells[at120(58)]==6&&cells[at120(59)]==6&&!attacked(at120(59),-side)&&!attacked(at120(58),-side))add(out,60,58);}}}
+else{const int*dirs=kind==3?BI:kind==4?RO:KI;int n=kind==3||kind==4?4:8;for(int j=0;j<n;++j){int z=a+dirs[j];while(cells[z]!=OFF){int p=int(cells[z])-6;if(p*side>0||std::abs(p)==6)break;add(out,sq,from120(z));if(p)break;z+=dirs[j];}}}}}
+void Board::save(Undo& u,int i){u.indices[u.count]=static_cast<uint8_t>(i);u.values[u.count]=cells[i];++u.count;}
+void Board::push(Move m){int fr=m.from,to=m.to,a=at120(fr),z=at120(to),v=piece(fr),capt=piece(to),side=turn; if(v*side<=0)throw std::runtime_error("push invalid source");Undo u{};u.move=m;u.turn=turn;u.castle=castling;u.ep=ep;u.halfmove=halfmove;u.fullmove=fullmove;save(u,a);save(u,z);if(std::abs(v)==1&&to==ep&&!capt){int cap=at120(to-8*side);capt=int(cells[cap])-6;save(u,cap);cells[cap]=6;}if(std::abs(v)==6&&std::abs(to-fr)==2){int rf=to==6?7:to==2?0:to==62?63:56;int rt=to==6?5:to==2?3:to==62?61:59;int ra=at120(rf),rz=at120(rt);save(u,ra);save(u,rz);cells[rz]=cells[ra];cells[ra]=6;}undos_.push_back(u);cells[a]=6;cells[z]=static_cast<uint8_t>(6+(m.promo?side*m.promo:v));if(v==6)castling&=~3;if(v==-6)castling&=~12;if(fr==7||to==7)castling&=~1;if(fr==0||to==0)castling&=~2;if(fr==63||to==63)castling&=~4;if(fr==56||to==56)castling&=~8;ep=std::abs(v)==1&&std::abs(to-fr)==16?(fr+to)/2:-1;halfmove=std::abs(v)==1||capt?0:halfmove+1;if(side==-1)++fullmove;turn=-side;history_.push_back(position_key());}
+void Board::pop(){if(undos_.empty())throw std::runtime_error("pop empty");Undo u=undos_.back();undos_.pop_back();for(int j=0;j<u.count;++j)cells[u.indices[j]]=u.values[j];turn=u.turn;castling=u.castle;ep=u.ep;halfmove=u.halfmove;fullmove=u.fullmove;history_.pop_back();}
+void Board::legal(std::vector<Move>& out){std::vector<Move> candidates;pseudo(candidates);out.clear();int side=turn;for(Move m:candidates){push(m);bool safe=!in_check(side);pop();if(safe)out.push_back(m);}}
+std::string Board::notation(Move m){std::string s; s+=char('a'+m.from%8);s+=char('1'+m.from/8);s+=char('a'+m.to%8);s+=char('1'+m.to/8);if(m.promo){const char* p=" pnbrq";s+=p[m.promo];}return s;}
+Move Board::parse(const std::string& uci){std::vector<Move> moves;legal(moves);for(Move m:moves)if(notation(m)==uci)return m;throw std::runtime_error("illegal move: "+uci);}
+bool Board::is_capture(Move m)const{return piece(m.to)!=0||(std::abs(piece(m.from))==1&&int(m.to)==ep&&m.from%8!=m.to%8);}
+PositionKey Board::position_key()const{PositionKey k;for(int i=0;i<64;++i)k.cells[i]=cells[at120(i)];k.turn=static_cast<int8_t>(turn);k.castling=castling;k.ep=static_cast<int8_t>(ep);if(ep>=0){bool possible=false;for(int dx:{-1,1}){int fr=ep-8*turn+dx;if(fr>=0&&fr<64&&std::abs(fr%8-ep%8)==1&&piece(fr)==turn){Board* self=const_cast<Board*>(this);int a=at120(fr),z=at120(ep),cap=at120(ep-8*turn);uint8_t va=self->cells[a],vz=self->cells[z],vc=self->cells[cap];self->cells[a]=6;self->cells[z]=static_cast<uint8_t>(6+turn);self->cells[cap]=6;bool safe=!in_check(turn);self->cells[a]=va;self->cells[z]=vz;self->cells[cap]=vc;if(safe){possible=true;break;}}}if(!possible)k.ep=-1;}return k;}
+int Board::repetitions()const{auto k=position_key();return static_cast<int>(std::count(history_.begin(),history_.end(),k));}
+bool Board::insufficient_material()const{int count=0,bc=-1;bool only_bishops=true;for(int i=0;i<64;++i){int v=std::abs(piece(i));if(!v||v==6)continue;if(v==1||v==4||v==5)return false;++count;if(v!=3)only_bishops=false;else{int col=(i/8+i%8)&1;if(bc<0)bc=col;else if(bc!=col)only_bishops=false;}}return count==0||(count==1)||only_bishops;}
+bool Board::draw()const{return halfmove>=100||repetitions()>=3||insufficient_material();}
+}

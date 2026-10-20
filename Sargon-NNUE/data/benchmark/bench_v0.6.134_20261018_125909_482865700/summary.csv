@@ -1,0 +1,5 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+aegir,sargon-plus,npz,,6,6,0,9.421,1570.107,1015.784,4290.124,803.429,4290.124,18389,6,9413.000,1953.6,0.512298,OK
+dwarf,doc,grumpy,,6,6,0,6.066,1011.051,1048.646,1529.778,565.661,1529.778,17561,6,6058.000,2898.8,0.345442,OK
+zephir,doc,npz,,6,6,0,11.323,1887.161,1371.009,4746.902,990.766,4746.902,32432,6,11315.000,2866.3,0.349129,OK
+kiddo,sargon-plus,grumpy,,6,6,0,90.007,15001.187,15001.164,15001.608,15000.853,15001.608,166487,6,90000.000,1849.9,0.540626,OK

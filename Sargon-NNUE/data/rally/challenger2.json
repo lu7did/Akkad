@@ -1,0 +1,1756 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "challenger2": {
+      "name": "Challenger II Tournament",
+      "brains": [
+        "classic",
+        "buddy",
+        "smart",
+        "blitzy",
+        "boost",
+        "turbo",
+        "alien",
+        "cerebrum",
+        "stockfish",
+        "messy"
+      ],
+      "plays_per_pair": 2,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 1200,
+      "pgn": "../data/rally/Challenger_02.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 1,
+            "game": 1,
+            "white": "classic",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 49,
+            "elapsed_seconds": 302.163,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 1,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 86,
+            "elapsed_seconds": 533.848,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "buddy",
+            "black": "classic",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 92,
+            "elapsed_seconds": 421.722,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 2,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 30,
+            "elapsed_seconds": 249.579,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 1,
+            "white": "classic",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 54,
+            "elapsed_seconds": 303.936,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 4,
+            "game": 1,
+            "white": "classic",
+            "black": "boost",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 75,
+            "elapsed_seconds": 361.252,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 2,
+            "white": "blitzy",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 38,
+            "elapsed_seconds": 191.863,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 4,
+            "game": 2,
+            "white": "boost",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 70,
+            "elapsed_seconds": 437.475,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 5,
+            "game": 1,
+            "white": "classic",
+            "black": "turbo",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 49,
+            "elapsed_seconds": 429.596,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 1,
+            "white": "classic",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 142,
+            "elapsed_seconds": 349.796,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 5,
+            "game": 2,
+            "white": "turbo",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 38,
+            "elapsed_seconds": 354.777,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 7,
+            "game": 1,
+            "white": "classic",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 21,
+            "elapsed_seconds": 102.078,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 2,
+            "white": "alien",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 66,
+            "elapsed_seconds": 197.753,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 7,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "classic",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 12,
+            "elapsed_seconds": 30.664,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 9,
+            "game": 1,
+            "white": "classic",
+            "black": "messy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 23,
+            "elapsed_seconds": 119.974,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 9,
+            "game": 2,
+            "white": "messy",
+            "black": "classic",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 24,
+            "elapsed_seconds": 110.575,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 8,
+            "game": 1,
+            "white": "classic",
+            "black": "stockfish",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 67,
+            "elapsed_seconds": 280.519,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 8,
+            "game": 2,
+            "white": "stockfish",
+            "black": "classic",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 17,
+            "elapsed_seconds": 85.909,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 11,
+            "game": 1,
+            "white": "buddy",
+            "black": "blitzy",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 75,
+            "elapsed_seconds": 50.663,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 11,
+            "game": 2,
+            "white": "blitzy",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 74,
+            "elapsed_seconds": 63.167,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 10,
+            "game": 1,
+            "white": "buddy",
+            "black": "smart",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 95,
+            "elapsed_seconds": 243.28,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 12,
+            "game": 1,
+            "white": "buddy",
+            "black": "boost",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 101,
+            "elapsed_seconds": 162.158,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 12,
+            "game": 2,
+            "white": "boost",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 56,
+            "elapsed_seconds": 109.223,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 10,
+            "game": 2,
+            "white": "smart",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 64,
+            "elapsed_seconds": 323.401,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 14,
+            "game": 1,
+            "white": "buddy",
+            "black": "alien",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 104,
+            "elapsed_seconds": 175.444,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 14,
+            "game": 2,
+            "white": "alien",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 59,
+            "elapsed_seconds": 71.928,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 15,
+            "game": 1,
+            "white": "buddy",
+            "black": "cerebrum",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 11,
+            "elapsed_seconds": 3.604,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 13,
+            "game": 1,
+            "white": "buddy",
+            "black": "turbo",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 59,
+            "elapsed_seconds": 311.941,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 15,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "buddy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 48,
+            "elapsed_seconds": 30.952,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 16,
+            "game": 1,
+            "white": "buddy",
+            "black": "stockfish",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 73,
+            "elapsed_seconds": 50.097,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 16,
+            "game": 2,
+            "white": "stockfish",
+            "black": "buddy",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 60,
+            "elapsed_seconds": 24.124,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 17,
+            "game": 1,
+            "white": "buddy",
+            "black": "messy",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 25,
+            "elapsed_seconds": 22.083,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 17,
+            "game": 2,
+            "white": "messy",
+            "black": "buddy",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 160,
+            "elapsed_seconds": 61.86,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 13,
+            "game": 2,
+            "white": "turbo",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 64,
+            "elapsed_seconds": 306.74,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 18,
+            "game": 1,
+            "white": "smart",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 45,
+            "elapsed_seconds": 243.223,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 18,
+            "game": 2,
+            "white": "blitzy",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 58,
+            "elapsed_seconds": 226.475,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 19,
+            "game": 1,
+            "white": "smart",
+            "black": "boost",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 83,
+            "elapsed_seconds": 408.077,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 19,
+            "game": 2,
+            "white": "boost",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 66,
+            "elapsed_seconds": 350.553,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 21,
+            "game": 1,
+            "white": "smart",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 49,
+            "elapsed_seconds": 100.526,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 20,
+            "game": 1,
+            "white": "smart",
+            "black": "turbo",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 57,
+            "elapsed_seconds": 544.619,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 21,
+            "game": 2,
+            "white": "alien",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 96,
+            "elapsed_seconds": 172.407,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 22,
+            "game": 1,
+            "white": "smart",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 35,
+            "elapsed_seconds": 88.673,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 22,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "smart",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 42,
+            "elapsed_seconds": 109.191,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 20,
+            "game": 2,
+            "white": "turbo",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 66,
+            "elapsed_seconds": 485.62,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 24,
+            "game": 1,
+            "white": "smart",
+            "black": "messy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 45,
+            "elapsed_seconds": 116.294,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 24,
+            "game": 2,
+            "white": "messy",
+            "black": "smart",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 28,
+            "elapsed_seconds": 44.316,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 23,
+            "game": 1,
+            "white": "smart",
+            "black": "stockfish",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 92,
+            "elapsed_seconds": 317.906,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 25,
+            "game": 1,
+            "white": "blitzy",
+            "black": "boost",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 53,
+            "elapsed_seconds": 39.998,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 25,
+            "game": 2,
+            "white": "boost",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 64,
+            "elapsed_seconds": 71.036,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 26,
+            "game": 1,
+            "white": "blitzy",
+            "black": "turbo",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 75,
+            "elapsed_seconds": 269.995,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 23,
+            "game": 2,
+            "white": "stockfish",
+            "black": "smart",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 82,
+            "elapsed_seconds": 442.079,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 27,
+            "game": 1,
+            "white": "blitzy",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 72,
+            "elapsed_seconds": 58.869,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 27,
+            "game": 2,
+            "white": "alien",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 77,
+            "elapsed_seconds": 41.279,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 28,
+            "game": 1,
+            "white": "blitzy",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 11,
+            "elapsed_seconds": 0.158,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 28,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "blitzy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 12,
+            "elapsed_seconds": 0.153,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 29,
+            "game": 1,
+            "white": "blitzy",
+            "black": "stockfish",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 91,
+            "elapsed_seconds": 3.908,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 29,
+            "game": 2,
+            "white": "stockfish",
+            "black": "blitzy",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 37,
+            "elapsed_seconds": 0.51,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 30,
+            "game": 1,
+            "white": "blitzy",
+            "black": "messy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 41,
+            "elapsed_seconds": 1.068,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 30,
+            "game": 2,
+            "white": "messy",
+            "black": "blitzy",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 42,
+            "elapsed_seconds": 1.011,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 26,
+            "game": 2,
+            "white": "turbo",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 76,
+            "elapsed_seconds": 280.081,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 32,
+            "game": 1,
+            "white": "boost",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 60,
+            "elapsed_seconds": 89.415,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 32,
+            "game": 2,
+            "white": "alien",
+            "black": "boost",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 43,
+            "elapsed_seconds": 45.404,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 33,
+            "game": 1,
+            "white": "boost",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 31,
+            "elapsed_seconds": 26.101,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 33,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "boost",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 124,
+            "elapsed_seconds": 92.708,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 34,
+            "game": 1,
+            "white": "boost",
+            "black": "stockfish",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 88,
+            "elapsed_seconds": 77.664,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 34,
+            "game": 2,
+            "white": "stockfish",
+            "black": "boost",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 116,
+            "elapsed_seconds": 54.992,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 35,
+            "game": 1,
+            "white": "boost",
+            "black": "messy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 31,
+            "elapsed_seconds": 23.086,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 35,
+            "game": 2,
+            "white": "messy",
+            "black": "boost",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 68,
+            "elapsed_seconds": 94.427,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 36,
+            "game": 1,
+            "white": "turbo",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 62,
+            "elapsed_seconds": 326.094,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 31,
+            "game": 1,
+            "white": "boost",
+            "black": "turbo",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 200,
+            "elapsed_seconds": 963.459,
+            "result": "*",
+            "reason": "MAX_PLIES_INCOMPLETE"
+          },
+          {
+            "match": 31,
+            "game": 2,
+            "white": "turbo",
+            "black": "boost",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 40,
+            "elapsed_seconds": 210.109,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 36,
+            "game": 2,
+            "white": "alien",
+            "black": "turbo",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 65,
+            "elapsed_seconds": 314.173,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 37,
+            "game": 1,
+            "white": "turbo",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 143,
+            "elapsed_seconds": 504.934,
+            "result": "1/2-1/2",
+            "reason": "INSUFFICIENT_MATERIAL"
+          },
+          {
+            "match": 38,
+            "game": 1,
+            "white": "turbo",
+            "black": "stockfish",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 157,
+            "elapsed_seconds": 668.683,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 37,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "turbo",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 114,
+            "elapsed_seconds": 437.478,
+            "result": "1/2-1/2",
+            "reason": "INSUFFICIENT_MATERIAL"
+          },
+          {
+            "match": 38,
+            "game": 2,
+            "white": "stockfish",
+            "black": "turbo",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 101,
+            "elapsed_seconds": 450.891,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 40,
+            "game": 1,
+            "white": "alien",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 51,
+            "elapsed_seconds": 19.828,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 40,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "alien",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 40,
+            "elapsed_seconds": 17.594,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 41,
+            "game": 1,
+            "white": "alien",
+            "black": "stockfish",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 35,
+            "elapsed_seconds": 16.182,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 41,
+            "game": 2,
+            "white": "stockfish",
+            "black": "alien",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 99,
+            "elapsed_seconds": 26.103,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 42,
+            "game": 1,
+            "white": "alien",
+            "black": "messy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 33,
+            "elapsed_seconds": 17.257,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 42,
+            "game": 2,
+            "white": "messy",
+            "black": "alien",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 34,
+            "elapsed_seconds": 11.557,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 43,
+            "game": 1,
+            "white": "cerebrum",
+            "black": "stockfish",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 32,
+            "elapsed_seconds": 0.124,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 43,
+            "game": 2,
+            "white": "stockfish",
+            "black": "cerebrum",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 86,
+            "elapsed_seconds": 0.174,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 44,
+            "game": 1,
+            "white": "cerebrum",
+            "black": "messy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 127,
+            "elapsed_seconds": 0.281,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 44,
+            "game": 2,
+            "white": "messy",
+            "black": "cerebrum",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 72,
+            "elapsed_seconds": 0.207,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 45,
+            "game": 1,
+            "white": "stockfish",
+            "black": "messy",
+            "white_player": "stockfish",
+            "white_evaluator": "null",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 53,
+            "elapsed_seconds": 0.034,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 45,
+            "game": 2,
+            "white": "messy",
+            "black": "stockfish",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "stockfish",
+            "black_evaluator": "null",
+            "moves": 24,
+            "elapsed_seconds": 0.014,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 39,
+            "game": 1,
+            "white": "turbo",
+            "black": "messy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "random",
+            "black_evaluator": "null",
+            "moves": 95,
+            "elapsed_seconds": 492.745,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 39,
+            "game": 2,
+            "white": "messy",
+            "black": "turbo",
+            "white_player": "random",
+            "white_evaluator": "null",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 200,
+            "elapsed_seconds": 813.654,
+            "result": "*",
+            "reason": "MAX_PLIES_INCOMPLETE"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "classic",
+          "points": 14.5,
+          "played": 18,
+          "wins": 11,
+          "draws": 7,
+          "losses": 0,
+          "against": {
+            "buddy": {
+              "points": 2.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 1.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 1.5,
+              "games": 2
+            },
+            "boost": {
+              "points": 1.5,
+              "games": 2
+            },
+            "turbo": {
+              "points": 2.0,
+              "games": 2
+            },
+            "alien": {
+              "points": 1.5,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 2.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 1.0,
+              "games": 2
+            },
+            "messy": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "smart",
+          "points": 14.0,
+          "played": 18,
+          "wins": 10,
+          "draws": 8,
+          "losses": 0,
+          "against": {
+            "classic": {
+              "points": 1.0,
+              "games": 2
+            },
+            "buddy": {
+              "points": 1.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 1.5,
+              "games": 2
+            },
+            "boost": {
+              "points": 2.0,
+              "games": 2
+            },
+            "turbo": {
+              "points": 2.0,
+              "games": 2
+            },
+            "alien": {
+              "points": 1.5,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 2.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 1.0,
+              "games": 2
+            },
+            "messy": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "alien",
+          "points": 13.0,
+          "played": 18,
+          "wins": 11,
+          "draws": 4,
+          "losses": 3,
+          "against": {
+            "classic": {
+              "points": 0.5,
+              "games": 2
+            },
+            "buddy": {
+              "points": 2.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 0.5,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 1.5,
+              "games": 2
+            },
+            "boost": {
+              "points": 2.0,
+              "games": 2
+            },
+            "turbo": {
+              "points": 2.0,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 2.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 0.5,
+              "games": 2
+            },
+            "messy": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "buddy",
+          "points": 12.0,
+          "played": 18,
+          "wins": 10,
+          "draws": 4,
+          "losses": 4,
+          "against": {
+            "classic": {
+              "points": 0.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 1.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 1.5,
+              "games": 2
+            },
+            "boost": {
+              "points": 2.0,
+              "games": 2
+            },
+            "turbo": {
+              "points": 2.0,
+              "games": 2
+            },
+            "alien": {
+              "points": 0.0,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 2.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 1.5,
+              "games": 2
+            },
+            "messy": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "stockfish",
+          "points": 11.5,
+          "played": 18,
+          "wins": 6,
+          "draws": 11,
+          "losses": 1,
+          "against": {
+            "classic": {
+              "points": 1.0,
+              "games": 2
+            },
+            "buddy": {
+              "points": 0.5,
+              "games": 2
+            },
+            "smart": {
+              "points": 1.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 1.5,
+              "games": 2
+            },
+            "boost": {
+              "points": 1.0,
+              "games": 2
+            },
+            "turbo": {
+              "points": 1.5,
+              "games": 2
+            },
+            "alien": {
+              "points": 1.5,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 1.5,
+              "games": 2
+            },
+            "messy": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "blitzy",
+          "points": 10.0,
+          "played": 18,
+          "wins": 7,
+          "draws": 6,
+          "losses": 5,
+          "against": {
+            "classic": {
+              "points": 0.5,
+              "games": 2
+            },
+            "buddy": {
+              "points": 0.5,
+              "games": 2
+            },
+            "smart": {
+              "points": 0.5,
+              "games": 2
+            },
+            "boost": {
+              "points": 1.5,
+              "games": 2
+            },
+            "turbo": {
+              "points": 2.0,
+              "games": 2
+            },
+            "alien": {
+              "points": 0.5,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 2.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 0.5,
+              "games": 2
+            },
+            "messy": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "boost",
+          "points": 7.0,
+          "played": 17,
+          "wins": 5,
+          "draws": 4,
+          "losses": 8,
+          "against": {
+            "classic": {
+              "points": 0.5,
+              "games": 2
+            },
+            "buddy": {
+              "points": 0.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 0.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 0.5,
+              "games": 2
+            },
+            "turbo": {
+              "points": 1.0,
+              "games": 1
+            },
+            "alien": {
+              "points": 0.0,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 2.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 1.0,
+              "games": 2
+            },
+            "messy": {
+              "points": 2.0,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "cerebrum",
+          "points": 3.0,
+          "played": 18,
+          "wins": 1,
+          "draws": 4,
+          "losses": 13,
+          "against": {
+            "classic": {
+              "points": 0.0,
+              "games": 2
+            },
+            "buddy": {
+              "points": 0.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 0.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 0.0,
+              "games": 2
+            },
+            "boost": {
+              "points": 0.0,
+              "games": 2
+            },
+            "turbo": {
+              "points": 1.0,
+              "games": 2
+            },
+            "alien": {
+              "points": 0.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 0.5,
+              "games": 2
+            },
+            "messy": {
+              "points": 1.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "turbo",
+          "points": 2.5,
+          "played": 16,
+          "wins": 1,
+          "draws": 3,
+          "losses": 12,
+          "against": {
+            "classic": {
+              "points": 0.0,
+              "games": 2
+            },
+            "buddy": {
+              "points": 0.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 0.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 0.0,
+              "games": 2
+            },
+            "boost": {
+              "points": 0.0,
+              "games": 1
+            },
+            "alien": {
+              "points": 0.0,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 1.0,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 0.5,
+              "games": 2
+            },
+            "messy": {
+              "points": 1.0,
+              "games": 1
+            }
+          }
+        },
+        {
+          "id": "messy",
+          "points": 0.5,
+          "played": 17,
+          "wins": 0,
+          "draws": 1,
+          "losses": 16,
+          "against": {
+            "classic": {
+              "points": 0.0,
+              "games": 2
+            },
+            "buddy": {
+              "points": 0.0,
+              "games": 2
+            },
+            "smart": {
+              "points": 0.0,
+              "games": 2
+            },
+            "blitzy": {
+              "points": 0.0,
+              "games": 2
+            },
+            "boost": {
+              "points": 0.0,
+              "games": 2
+            },
+            "turbo": {
+              "points": 0.0,
+              "games": 1
+            },
+            "alien": {
+              "points": 0.0,
+              "games": 2
+            },
+            "cerebrum": {
+              "points": 0.5,
+              "games": 2
+            },
+            "stockfish": {
+              "points": 0.0,
+              "games": 2
+            }
+          }
+        }
+      ],
+      "status": "INCOMPLETE",
+      "elapsed_seconds": 9028.66,
+      "errors": [
+        "MATCH boost vs turbo terminó código 2 (2/2 partidas)",
+        "MATCH turbo vs messy terminó código 2 (2/2 partidas)"
+      ]
+    }
+  }
+}

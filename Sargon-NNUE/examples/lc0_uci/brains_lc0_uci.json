@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "lc0_monolithic": {
+      "player": "lc0",
+      "evaluator": "null",
+      "lc0-uci-path": "data/lc0/lc0.exe",
+      "lc0-weights": "data/lc0/model.pb.gz",
+      "lc0-backend": "blas",
+      "lc0-uci-nodes": 800,
+      "lc0-uci-threads": 1
+    },
+    "sargonplus_classic": {
+      "player": "sargon-plus",
+      "evaluator": "classic",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000
+    }
+  }
+}
