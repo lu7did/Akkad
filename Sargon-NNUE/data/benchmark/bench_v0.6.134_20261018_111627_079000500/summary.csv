@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+aegir,sargon-plus,npz,,6,6,0,11.193,1865.512,1334.981,4869.383,939.188,4869.383,18389,6,11185.000,1644.1,0.608683,OK
+dwarf,doc,grumpy,,6,6,0,6.380,1063.313,1125.249,1619.328,560.022,1619.328,17561,6,6371.000,2756.4,0.363298,OK

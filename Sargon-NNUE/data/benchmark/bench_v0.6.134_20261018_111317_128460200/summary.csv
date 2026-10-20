@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+sophie,alphazero,lc0,onnx-dml,6,6,0,60.113,10018.772,10013.431,10039.592,10005.766,10039.592,1833,6,60099.000,30.5,32.794671,OK
+dwarf,doc,grumpy,,6,6,0,6.355,1059.094,1096.620,1654.876,587.346,1654.876,17561,6,6345.000,2767.7,0.361857,OK

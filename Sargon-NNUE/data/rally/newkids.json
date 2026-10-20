@@ -1,0 +1,457 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "newkids": {
+      "name": "Evaluation of new kids",
+      "brains": [
+        "aegir",
+        "buddy",
+        "dwarf",
+        "zephir",
+        "kiddo"
+      ],
+      "plays_per_pair": 2,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 1200,
+      "pgn": "../data/rally/alien.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 2,
+            "game": 1,
+            "white": "aegir",
+            "black": "dwarf",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "doc",
+            "black_evaluator": "grumpy",
+            "moves": 63,
+            "elapsed_seconds": 226.135,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 2,
+            "white": "dwarf",
+            "black": "aegir",
+            "white_player": "doc",
+            "white_evaluator": "grumpy",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 47,
+            "elapsed_seconds": 251.848,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 1,
+            "white": "aegir",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 123,
+            "elapsed_seconds": 627.412,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 1,
+            "white": "aegir",
+            "black": "zephir",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "doc",
+            "black_evaluator": "npz",
+            "moves": 56,
+            "elapsed_seconds": 204.388,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 2,
+            "white": "zephir",
+            "black": "aegir",
+            "white_player": "doc",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 93,
+            "elapsed_seconds": 287.935,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "buddy",
+            "black": "aegir",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 53,
+            "elapsed_seconds": 369.132,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 5,
+            "game": 1,
+            "white": "buddy",
+            "black": "dwarf",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "doc",
+            "black_evaluator": "grumpy",
+            "moves": 72,
+            "elapsed_seconds": 150.9,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 5,
+            "game": 2,
+            "white": "dwarf",
+            "black": "buddy",
+            "white_player": "doc",
+            "white_evaluator": "grumpy",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 96,
+            "elapsed_seconds": 380.704,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 4,
+            "game": 1,
+            "white": "aegir",
+            "black": "kiddo",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "grumpy",
+            "moves": 118,
+            "elapsed_seconds": 617.61,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 6,
+            "game": 1,
+            "white": "buddy",
+            "black": "zephir",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "doc",
+            "black_evaluator": "npz",
+            "moves": 40,
+            "elapsed_seconds": 282.995,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 6,
+            "game": 2,
+            "white": "zephir",
+            "black": "buddy",
+            "white_player": "doc",
+            "white_evaluator": "npz",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 75,
+            "elapsed_seconds": 483.835,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 4,
+            "game": 2,
+            "white": "kiddo",
+            "black": "aegir",
+            "white_player": "sargon-plus",
+            "white_evaluator": "grumpy",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 143,
+            "elapsed_seconds": 721.008,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 8,
+            "game": 1,
+            "white": "dwarf",
+            "black": "zephir",
+            "white_player": "doc",
+            "white_evaluator": "grumpy",
+            "black_player": "doc",
+            "black_evaluator": "npz",
+            "moves": 87,
+            "elapsed_seconds": 78.565,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 8,
+            "game": 2,
+            "white": "zephir",
+            "black": "dwarf",
+            "white_player": "doc",
+            "white_evaluator": "npz",
+            "black_player": "doc",
+            "black_evaluator": "grumpy",
+            "moves": 63,
+            "elapsed_seconds": 142.753,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 7,
+            "game": 1,
+            "white": "buddy",
+            "black": "kiddo",
+            "white_player": "sargon",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "grumpy",
+            "moves": 104,
+            "elapsed_seconds": 643.323,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 9,
+            "game": 1,
+            "white": "dwarf",
+            "black": "kiddo",
+            "white_player": "doc",
+            "white_evaluator": "grumpy",
+            "black_player": "sargon-plus",
+            "black_evaluator": "grumpy",
+            "moves": 93,
+            "elapsed_seconds": 466.692,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 9,
+            "game": 2,
+            "white": "kiddo",
+            "black": "dwarf",
+            "white_player": "sargon-plus",
+            "white_evaluator": "grumpy",
+            "black_player": "doc",
+            "black_evaluator": "grumpy",
+            "moves": 125,
+            "elapsed_seconds": 421.056,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 10,
+            "game": 1,
+            "white": "zephir",
+            "black": "kiddo",
+            "white_player": "doc",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "grumpy",
+            "moves": 51,
+            "elapsed_seconds": 222.718,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 7,
+            "game": 2,
+            "white": "kiddo",
+            "black": "buddy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "grumpy",
+            "black_player": "sargon",
+            "black_evaluator": "classic",
+            "moves": 200,
+            "elapsed_seconds": 843.963,
+            "result": "*",
+            "reason": "MAX_PLIES_INCOMPLETE"
+          },
+          {
+            "match": 10,
+            "game": 2,
+            "white": "kiddo",
+            "black": "zephir",
+            "white_player": "sargon-plus",
+            "white_evaluator": "grumpy",
+            "black_player": "doc",
+            "black_evaluator": "npz",
+            "moves": 80,
+            "elapsed_seconds": 391.046,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "zephir",
+          "points": 7.0,
+          "played": 8,
+          "wins": 6,
+          "draws": 2,
+          "losses": 0,
+          "against": {
+            "aegir": {
+              "points": 2.0,
+              "games": 2
+            },
+            "buddy": {
+              "points": 2.0,
+              "games": 2
+            },
+            "dwarf": {
+              "points": 1.5,
+              "games": 2
+            },
+            "kiddo": {
+              "points": 1.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "dwarf",
+          "points": 5.0,
+          "played": 8,
+          "wins": 3,
+          "draws": 4,
+          "losses": 1,
+          "against": {
+            "aegir": {
+              "points": 1.5,
+              "games": 2
+            },
+            "buddy": {
+              "points": 1.5,
+              "games": 2
+            },
+            "zephir": {
+              "points": 0.5,
+              "games": 2
+            },
+            "kiddo": {
+              "points": 1.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "kiddo",
+          "points": 3.5,
+          "played": 7,
+          "wins": 2,
+          "draws": 3,
+          "losses": 2,
+          "against": {
+            "aegir": {
+              "points": 1.5,
+              "games": 2
+            },
+            "buddy": {
+              "points": 1.0,
+              "games": 1
+            },
+            "dwarf": {
+              "points": 0.5,
+              "games": 2
+            },
+            "zephir": {
+              "points": 0.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "aegir",
+          "points": 2.0,
+          "played": 8,
+          "wins": 1,
+          "draws": 2,
+          "losses": 5,
+          "against": {
+            "buddy": {
+              "points": 1.0,
+              "games": 2
+            },
+            "dwarf": {
+              "points": 0.5,
+              "games": 2
+            },
+            "zephir": {
+              "points": 0.0,
+              "games": 2
+            },
+            "kiddo": {
+              "points": 0.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "buddy",
+          "points": 1.5,
+          "played": 7,
+          "wins": 1,
+          "draws": 1,
+          "losses": 5,
+          "against": {
+            "aegir": {
+              "points": 1.0,
+              "games": 2
+            },
+            "dwarf": {
+              "points": 0.5,
+              "games": 2
+            },
+            "zephir": {
+              "points": 0.0,
+              "games": 2
+            },
+            "kiddo": {
+              "points": 0.0,
+              "games": 1
+            }
+          }
+        }
+      ],
+      "status": "INCOMPLETE",
+      "match_incidents": [],
+      "abnormal_terminations": [
+        {
+          "type": "GAME_INCOMPLETE",
+          "reason": "MAX_PLIES_INCOMPLETE",
+          "match": 7,
+          "game": 2,
+          "brains": [
+            "kiddo",
+            "buddy"
+          ],
+          "white": "kiddo",
+          "black": "buddy",
+          "moves": 200,
+          "elapsed_seconds": 843.963
+        }
+      ],
+      "elapsed_seconds": 4038.23,
+      "errors": [
+        "MATCH buddy vs kiddo terminó código 2 (2/2 partidas)"
+      ]
+    }
+  }
+}

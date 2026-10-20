@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "dummy": {
+      "name": "Dummy short test",
+      "brains": [
+        "classic",
+        "s0001"
+      ],
+      "plays_per_pair": 2,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 1200,
+      "pgn": "../data/rally/alien.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 1,
+            "game": 1,
+            "white": "classic",
+            "black": "s0001",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 153,
+            "elapsed_seconds": 67.19,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "s0001",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 118,
+            "elapsed_seconds": 99.295,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "classic",
+          "points": 1.5,
+          "played": 2,
+          "wins": 1,
+          "draws": 1,
+          "losses": 0,
+          "against": {
+            "s0001": {
+              "points": 1.5,
+              "games": 2
+            }
+          }
+        },
+        {
+          "id": "s0001",
+          "points": 0.5,
+          "played": 2,
+          "wins": 0,
+          "draws": 1,
+          "losses": 1,
+          "against": {
+            "classic": {
+              "points": 0.5,
+              "games": 2
+            }
+          }
+        }
+      ],
+      "status": "COMPLETE",
+      "elapsed_seconds": 166.89
+    }
+  }
+}

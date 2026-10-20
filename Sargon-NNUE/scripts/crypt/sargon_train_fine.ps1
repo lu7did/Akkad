@@ -1,0 +1,18 @@
+python -m sargon_nnue.sargon_train `
+    --input "..\data\pb\boot_classic.pb" `
+    --network "..\data\nnue\classic\nnue_epoch_009.npz" `
+    --nnuedir "..\data\nnue\classic_refined" `
+    --pytorch `
+    --device xpu `
+    --torch-foreach off `
+    --torch-dtype float64 `
+    --classic `
+    --weight-classic 1 `
+    --fine-tune `
+    --refine-stockfish-max-cp 10 `
+    --shuffle 20 `
+    --validation 5 `
+    --optimizer adamw `
+    --lr 0.00001 `
+    --epoch 5 `
+    --seed 42

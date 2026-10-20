@@ -1,0 +1,35 @@
+Creating backend [onnx-dml]...
+\U0001f9e0 LC0 v0.6.117 network=1fdb1519e5b02e03 history=allow-incomplete cache=per-game
+\u2699\ufe0f EXEC player=alphazero | evaluator=lc0 | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=10000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.153 \U0001f9e0 evaluator=LC0 \U0001f3ae player=ALPHAZERO
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=188 best=d2d4 visits=61 q=+0.0804 elapsed_ms=10048.6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 e7e5 g1f3 b8c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=150 best=f1b5 visits=71 q=+0.0767 elapsed_ms=10041.3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 d7d5 c2c4 e7e6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=198 best=g1f3 visits=77 q=+0.1071 elapsed_ms=10035.9
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 c7c5 g1f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=169 best=e7e6 visits=88 q=-0.1448 elapsed_ms=10031.9
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 g7g6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=177 best=e2e3 visits=110 q=+0.1843 elapsed_ms=10003.4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves c2c4 e7e5 b1c3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=195 best=g8f6 visits=155 q=-0.0264 elapsed_ms=10021.8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves g1f3 d7d5 d2d4 g8f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=198 best=c2c4 visits=107 q=+0.0798 elapsed_ms=10003.1
+\u2b05\ufe0f quit

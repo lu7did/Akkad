@@ -1,0 +1,22 @@
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "A: sargon-plus | npz"]
+[Black "B: sargon-plus | grumpy"]
+[Result "1/2-1/2"]
+[Termination "THREEFOLD_REPETITION"]
+
+1. Nh3 Nf6 2. Nc3 Nc6 3. d4 e5 4. Be3 exd4 5. Bxd4 Nxd4 6. Qxd4 c5 7. Qe5+ Be7 8. Rb1 O-O 9. e4 Ng4 10. Qd5 Nf6 11. Qf5 d5 12. Qe5 Bxh3 13. gxh3 dxe4 14. Bc4 Bd6 15. Qf5 Qc8 16. Qxc8 Rfxc8 17. Kd1 Rd8 18. Ke2 Re8 19. h4 Rac8 20. a4 Bf4 21. b3 Re5 22. Ra1 Ng4 23. h3 Nh2 24. Nd5 Rxd5 25. Bxd5 Rd8 26. Bxe4 Rd2+ 27. Ke1 f5 28. Bxb7 Rxc2 29. Rd1 h6 30. b4 cxb4 31. Bd5+ Kh7 32. Rd4 Bd6 33. Rd2 Rc3 34. f3 Bg3+ 35. Ke2 b3 36. Rb2 Rc2+ 37. Rxc2 bxc2 38. Kd2 Kg6 39. Rg1 Kf6 40. h5 c1=B+ 41. Kxc1 f4 42. h4 Bxh4 43. Rg2 Bg3 44. Re2 Nf1 45. Re6+ Kg5 46. Re7 Kxh5 47. Rxg7 Ne3 48. Rxa7 Nxd5 49. Ra5 Kh4 50. Rxd5 Bf2 51. Kd1 Kh3 52. Ke2 Kg2 53. Rh5 Be3 54. Rxh6 Bf2 55. Rg6+ Bg3 56. Rg7 Kg1 57. Rf7 Kg2 58. Rg7 Kg1 59. Rf7 Kg2 1/2-1/2
+
+[Event "Sargon Match"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "B: sargon-plus | grumpy"]
+[Black "A: sargon-plus | npz"]
+[Result "1-0"]
+[Termination "CHECKMATE"]
+
+1. Nf3 Nf6 2. Na3 Nc6 3. Nc4 d6 4. Ng5 d5 5. Ne3 h6 6. Nf3 Be6 7. c3 Ne4 8. Qb3 Nc5 9. Qa3 Ne4 10. d3 Nf6 11. Nd4 Nxd4 12. cxd4 c6 13. Nc2 Qc7 14. Be3 Ng4 15. g3 Nxe3 16. fxe3 g5 17. Bg2 Bg7 18. O-O O-O 19. Rfd1 Rfe8 20. Qc3 Qd6 21. Nb4 a5 22. Nc2 a4 23. Nb4 Rab8 24. Bf3 g4 25. Bg2 Kh7 26. Rac1 f5 27. a3 h5 28. Ra1 Bh6 29. Qd2 Bg5 30. Rac1 Rbd8 31. Rc5 Rg8 32. Ra5 b5 33. Ra6 Bc8 34. Rxc6 Qd7 35. Bxd5 Rg6 36. Rxg6 Kxg6 37. Rc1 Bb7 38. Bxb7 Qxb7 39. Rc6+ Kh7 40. Rc5 Rxd4 41. Rxf5 Rxb4 42. axb4 Kg6 43. Re5 Bf6 44. Rc5 h4 45. gxh4 Bxh4 46. Qc2 e6 47. Qd2 Qf7 48. Rc1 Qf5 49. Rf1 Qd5 50. Rf4 Kg5 51. Qc3 e5 52. Re4 Bf2+ 53. Kxf2 Qf7+ 54. Kg1 Kg6 55. Qxe5 Qf5 56. Qxf5+ Kxf5 57. Kg2 Kg5 58. Re5+ Kh6 59. Rxb5 Kg6 60. Ra5 Kh7 61. Rxa4 Kh6 62. Ra6+ Kg7 63. Ra7+ Kg8 64. Kg3 Kh8 65. b5 Kg8 66. b6 Kf8 67. Rc7 Kg8 68. b7 Kh8 69. b4 Kg8 70. Kxg4 Kh8 71. Kg3 Kg8 72. b8=Q# 1-0
+

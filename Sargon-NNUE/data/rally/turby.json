@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "turby": {
+      "name": "Play-off Classic-Smart-Turby",
+      "brains": [
+        "classic",
+        "smart",
+        "turby"
+      ],
+      "plays_per_pair": 10,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 1200,
+      "pgn": "../data/rally/alien.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 1,
+            "game": 1,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 58,
+            "elapsed_seconds": 92.951,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 1,
+            "white": "classic",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 140,
+            "elapsed_seconds": 202.154,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 68,
+            "elapsed_seconds": 141.689,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 3,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 56,
+            "elapsed_seconds": 74.531,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 2,
+            "white": "turby",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 82,
+            "elapsed_seconds": 203.176,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 4,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 64,
+            "elapsed_seconds": 138.144,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 5,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 79,
+            "elapsed_seconds": 101.221,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 3,
+            "white": "classic",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 53,
+            "elapsed_seconds": 216.59,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 6,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 74,
+            "elapsed_seconds": 166.502,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 4,
+            "white": "turby",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 95,
+            "elapsed_seconds": 242.528,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 7,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 158,
+            "elapsed_seconds": 185.83,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 8,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 72,
+            "elapsed_seconds": 110.074,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 5,
+            "white": "classic",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 85,
+            "elapsed_seconds": 190.069,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 9,
+            "white": "classic",
+            "black": "smart",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "npz",
+            "moves": 137,
+            "elapsed_seconds": 131.709,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 6,
+            "white": "turby",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 61,
+            "elapsed_seconds": 154.636,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 10,
+            "white": "smart",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "npz",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 68,
+            "elapsed_seconds": 121.445,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 7,
+            "white": "classic",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 54,
+            "elapsed_seconds": 95.53,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 8,
+            "white": "turby",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 88,
+            "elapsed_seconds": 216.289,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 9,
+            "white": "classic",
+            "black": "turby",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 77,
+            "elapsed_seconds": 99.898,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 10,
+            "white": "turby",
+            "black": "classic",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 149,
+            "elapsed_seconds": 166.167,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "classic",
+          "points": 10.5,
+          "played": 20,
+          "wins": 4,
+          "draws": 13,
+          "losses": 3,
+          "against": {
+            "smart": {
+              "points": 6.5,
+              "games": 10
+            },
+            "turby": {
+              "points": 4.0,
+              "games": 10
+            }
+          }
+        },
+        {
+          "id": "turby",
+          "points": 6.0,
+          "played": 10,
+          "wins": 3,
+          "draws": 6,
+          "losses": 1,
+          "against": {
+            "classic": {
+              "points": 6.0,
+              "games": 10
+            },
+            "smart": {
+              "points": 0.0,
+              "games": 0
+            }
+          }
+        },
+        {
+          "id": "smart",
+          "points": 3.5,
+          "played": 10,
+          "wins": 0,
+          "draws": 7,
+          "losses": 3,
+          "against": {
+            "classic": {
+              "points": 3.5,
+              "games": 10
+            },
+            "turby": {
+              "points": 0.0,
+              "games": 0
+            }
+          }
+        }
+      ],
+      "match_incidents": [],
+      "status": "INCOMPLETE",
+      "abnormal_terminations": [],
+      "elapsed_seconds": 1787.5,
+      "errors": [
+        "parámetros desconocidos: dmax"
+      ]
+    }
+  }
+}

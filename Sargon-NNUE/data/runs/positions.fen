@@ -1,0 +1,4 @@
+# FEN de ejemplo, sin historial de jugadas
+inicial	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+apertura	rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2
+final	8/8/2k5/8/4K3/8/4P3/8 w - - 0 1

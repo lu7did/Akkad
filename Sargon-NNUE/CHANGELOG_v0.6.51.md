@@ -1,0 +1,2 @@
+- Nuevo `--refine-pgn-max-cp` opcional, incompatible con un refinamiento Stockfish en la misma ejecución.
+- Nuevas columnas para terminalidad de candidatas y regret/top1 no terminal en MATCH, reporte en JUDGE.

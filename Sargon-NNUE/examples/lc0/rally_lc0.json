@@ -1,0 +1,15 @@
+{
+  "tournaments": {
+    "lc0_vs_sargonplus": {
+      "name": "Prueba AlphaZero LC0 vs Sargon Plus",
+      "brains": [
+        "alphazero_lc0",
+        "sargonplus_classic"
+      ],
+      "plays_per_pair": 2,
+      "max_simultaneous_games": 1,
+      "max_game_seconds": 7200,
+      "pgn": "lc0_vs_sargonplus.pgn"
+    }
+  }
+}

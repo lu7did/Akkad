@@ -1,0 +1,33 @@
+\u2699\ufe0f EXEC player=sargon-plus | evaluator=npz | depth=3 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x00/0 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+\u26a1 TURBO mask=0x00 baseline=ON adaptive-actuators=OFF
+\U0001f9e9 Sargon-NNUE v0.6.27 \U0001f9e0 evaluator=SARGON-NPZ \U0001f3ae player=SARGON-PLUS
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3
+\u2b05\ufe0f go
+\u2b05\ufe0f position fen r1bqkbnr/pppp1ppp/8/4n3/4P3/8/PPPP1PPP/RNBQKB1R w KQkq - 0 4
+\u2b05\ufe0f go
+\u2b05\ufe0f position fen r1b1kbnr/pppp1ppp/5q2/4n2Q/4P3/8/PPPP1PPP/RNB1KB1R w KQkq - 2 5
+\u2b05\ufe0f go
+\u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/3 attempted=3 root=35/37 root_pct=94.6% nodes=52036 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+\u2b05\ufe0f position fen r1b1kbnr/pppp1ppp/8/4n2Q/4Pq2/8/PPPP2PP/RNB1KB1R w KQkq - 0 6
+\u2b05\ufe0f go
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\pedro\github\bobby\sargon-nnue\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 254, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\pedro\github\bobby\sargon-nnue\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 154, in main
+    return _run_stdin(args)
+  File "C:\Users\pedro\github\bobby\sargon-nnue\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 140, in _run_stdin
+    UCISession(player, sys.stdin, sys.stdout, log).loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pedro\github\bobby\sargon-nnue\sargon-nnue\src\sargon_nnue\uci.py", line 34, in loop
+    for raw in self.reader:
+               ^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Local\Programs\Python\Python314\Lib\encodings\cp1252.py", line 22, in decode
+    def decode(self, input, final=False):
+    
+KeyboardInterrupt

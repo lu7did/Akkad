@@ -1,0 +1,587 @@
+⚙️ EXEC player=sargon-plus | evaluator=grumpy | depth=4 [default=2] | qdepth=4 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x01/1 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+⚡ TURBO 0x01 bit=0 adaptive-full-width=ON mask=0x01 actuator=ACTIVE
+🧩 Sargon-NNUE v0.6.162 🧠 evaluator=GRUMPY 🎮 player=SARGON-PLUS
+⬅️ uci
+⬅️ isready
+⬅️ ucinewgame
+⬅️ position startpos moves b1c3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=416.7 growth=21.242
+⚡ TURBO cost depth=3 elapsed_ms=3028.1 growth=14.254
+⚡ TURBO full-width SKIP depth=4 projected_ms=43163.7 remaining_ms=11533.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=g8f6 score_cp=10
+⬅️ position startpos moves b1c3 g8f6 g1f3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=507.7 growth=20.722
+⚡ TURBO cost depth=3 elapsed_ms=3533.3 growth=13.994
+⚡ TURBO full-width SKIP depth=4 projected_ms=49445.9 remaining_ms=10934.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=b8c6 score_cp=6
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=973.4 growth=18.071
+⚡ TURBO full-width SKIP depth=3 projected_ms=17591.1 remaining_ms=13972.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=h7h5 score_cp=44
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=984.2 growth=12.785
+⚡ TURBO cost depth=3 elapsed_ms=7994.7 growth=8.123
+⚡ TURBO full-width SKIP depth=4 projected_ms=64944.0 remaining_ms=5889.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=c6b4 score_cp=69
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1078.0 growth=7.811
+⚡ TURBO cost depth=3 elapsed_ms=5520.2 growth=7.383
+⚡ TURBO full-width SKIP depth=4 projected_ms=40753.2 remaining_ms=8240.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=b4a6 score_cp=67
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1055.7 growth=7.811
+⚡ TURBO cost depth=3 elapsed_ms=13684.0 growth=7.811
+⚡ TURBO full-width SKIP depth=4 projected_ms=106883.9 remaining_ms=135.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=c7c6 score_cp=87
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2180.3 growth=7.811
+⚡ TURBO full-width SKIP depth=3 projected_ms=17030.3 remaining_ms=12241.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=a6c5 score_cp=142
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=5138.6 growth=7.811
+⚡ TURBO full-width SKIP depth=3 projected_ms=40137.0 remaining_ms=9273.3 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c5d3 score_cp=70
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2333.2 growth=7.407
+⚡ TURBO full-width SKIP depth=3 projected_ms=17281.6 remaining_ms=12237.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c6d5 score_cp=105
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2026.8 growth=7.444
+⚡ TURBO full-width SKIP depth=3 projected_ms=15088.0 remaining_ms=12725.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d8b6 score_cp=220
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3864.9 growth=8.331
+⚡ TURBO full-width SKIP depth=3 projected_ms=32198.6 remaining_ms=10805.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=f6g4 score_cp=283
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=8240.2 growth=8.604
+⚡ TURBO full-width SKIP depth=3 projected_ms=70895.2 remaining_ms=5958.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=f7f5 score_cp=253
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=4747.6 growth=8.471
+⚡ TURBO full-width SKIP depth=3 projected_ms=40216.7 remaining_ms=9403.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b6g6 score_cp=320
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=4333.9 growth=7.388
+⚡ TURBO full-width SKIP depth=3 projected_ms=32018.9 remaining_ms=10006.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=h8g8 score_cp=377
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2176.4 growth=7.388
+⚡ TURBO full-width SKIP depth=3 projected_ms=16079.0 remaining_ms=12272.3 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=e7e6 score_cp=436
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3074.9 growth=7.388
+⚡ TURBO full-width SKIP depth=3 projected_ms=22717.4 remaining_ms=11566.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=g6h7 score_cp=479
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2483.5 growth=8.358
+⚡ TURBO full-width SKIP depth=3 projected_ms=20757.8 remaining_ms=12224.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=g7g6 score_cp=500
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2057.5 growth=7.548
+⚡ TURBO full-width SKIP depth=3 projected_ms=15529.9 remaining_ms=12559.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=g4h6 score_cp=606
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2964.4 growth=6.087
+⚡ TURBO full-width SKIP depth=3 projected_ms=18045.5 remaining_ms=11491.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=h6f7 score_cp=560
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1823.4 growth=5.526
+⚡ TURBO cost censored depth=3 observed_ms=12723.0 root=13/22 projected_full_ms=21531.3
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=13/22 root_pct=59.1% nodes=26269 elapsed_ms=15000.8 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1577.0 growth=5.418
+⚡ TURBO cost censored depth=3 observed_ms=12955.9 root=9/19 projected_full_ms=27351.4
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=9/19 root_pct=47.4% nodes=27768 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=4602.6 growth=5.418
+⚡ TURBO full-width SKIP depth=3 projected_ms=24936.1 remaining_ms=8804.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=g7f6 score_cp=1662
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=223.2 growth=4.698
+⚡ TURBO cost depth=3 elapsed_ms=2679.5 growth=4.736
+⚡ TURBO full-width SKIP depth=4 projected_ms=12690.0 remaining_ms=12026.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=e8f7 score_cp=2220
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=207.3 growth=3.697
+⚡ TURBO cost depth=3 elapsed_ms=1967.0 growth=6.433
+⚡ TURBO cost depth=4 elapsed_ms=7483.5 growth=3.591
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=233.0 growth=3.704
+⚡ TURBO cost depth=3 elapsed_ms=2331.2 growth=3.704
+⚡ TURBO cost depth=4 elapsed_ms=10850.6 growth=4.230
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=459.8 growth=4.487
+⚡ TURBO cost depth=3 elapsed_ms=4873.5 growth=4.487
+⚡ TURBO full-width SKIP depth=4 projected_ms=21866.5 remaining_ms=9559.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=d7e6 score_cp=2180
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2377.2 growth=4.487
+⚡ TURBO cost censored depth=3 observed_ms=11612.5 root=5/16 projected_full_ms=37159.9
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=5/16 root_pct=31.2% nodes=27627 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2216.3 growth=4.487
+⚡ TURBO cost censored depth=3 observed_ms=11883.2 root=11/21 projected_full_ms=22686.1
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=11/21 root_pct=52.4% nodes=25694 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2275.8 growth=4.487
+⚡ TURBO cost censored depth=3 observed_ms=12086.2 root=12/22 projected_full_ms=22158.1
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=12/22 root_pct=54.5% nodes=27392 elapsed_ms=15001.1 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=200.9 growth=6.769
+⚡ TURBO cost depth=3 elapsed_ms=1636.5 growth=5.973
+⚡ TURBO cost depth=4 elapsed_ms=9638.6 growth=7.017
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2098.8 growth=6.542
+⚡ TURBO full-width SKIP depth=3 projected_ms=13729.2 remaining_ms=12609.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=g8b8 score_cp=2967
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2148.8 growth=7.200
+⚡ TURBO full-width SKIP depth=3 projected_ms=15472.0 remaining_ms=12552.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=a7a5 score_cp=2970
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1717.7 growth=6.542
+⚡ TURBO cost censored depth=3 observed_ms=12961.2 root=9/15 projected_full_ms=21601.9
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=9/15 root_pct=60.0% nodes=28763 elapsed_ms=15001.2 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1394.3 growth=6.542
+⚡ TURBO cost censored depth=3 observed_ms=13160.9 root=13/15 projected_full_ms=15185.7
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=13/15 root_pct=86.7% nodes=30526 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1000.2 growth=6.542
+⚡ TURBO cost censored depth=3 observed_ms=13715.3 root=12/14 projected_full_ms=16001.2
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=12/14 root_pct=85.7% nodes=32597 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1447.3 growth=6.271
+⚡ TURBO cost censored depth=3 observed_ms=12937.1 root=9/12 projected_full_ms=17249.4
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=9/12 root_pct=75.0% nodes=37290 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2037.3 growth=7.205
+⚡ TURBO full-width SKIP depth=3 projected_ms=14679.9 remaining_ms=12228.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b7a6 score_cp=3860
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=340.5 growth=3.327
+⚡ TURBO cost depth=3 elapsed_ms=2537.7 growth=5.487
+⚡ TURBO full-width SKIP depth=4 projected_ms=13924.0 remaining_ms=12010.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=h8g8 score_cp=3992
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=671.4 growth=3.286
+⚡ TURBO cost depth=3 elapsed_ms=2914.6 growth=3.696
+⚡ TURBO cost depth=4 elapsed_ms=8513.3 growth=2.986
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8 g8f7 b8f4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1278.9 growth=3.287
+⚡ TURBO cost depth=3 elapsed_ms=11485.0 growth=3.287
+⚡ TURBO full-width SKIP depth=4 projected_ms=37755.6 remaining_ms=1872.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=f7g7 score_cp=4141
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8 g8f7 b8f4 f7g7 f4g5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=363.4 growth=3.287
+⚡ TURBO cost depth=3 elapsed_ms=5384.8 growth=3.932
+⚡ TURBO full-width SKIP depth=4 projected_ms=21174.1 remaining_ms=9109.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=g7f7 score_cp=4375
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8 g8f7 b8f4 f7g7 f4g5 g7f7 g5h5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=764.6 growth=3.446
+⚡ TURBO cost depth=3 elapsed_ms=6972.7 growth=3.932
+⚡ TURBO full-width SKIP depth=4 projected_ms=27418.0 remaining_ms=7035.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=f7g7 score_cp=4468
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8 g8f7 b8f4 f7g7 f4g5 g7f7 g5h5 f7g7 h5a5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=576.8 growth=3.446
+⚡ TURBO cost depth=3 elapsed_ms=6839.4 growth=6.252
+⚡ TURBO full-width SKIP depth=4 projected_ms=42759.4 remaining_ms=7362.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=g7h7 score_cp=4546
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8 g8f7 b8f4 f7g7 f4g5 g7f7 g5h5 f7g7 h5a5 g7h7 a5a6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=219.0 growth=6.175
+⚡ TURBO cost depth=3 elapsed_ms=3422.4 growth=6.245
+⚡ TURBO full-width SKIP depth=4 projected_ms=21371.7 remaining_ms=11276.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=h7g7 score_cp=4612
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8 g8f7 b8f4 f7g7 f4g5 g7f7 g5h5 f7g7 h5a5 g7h7 a5a6 h7g7 f1e1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=845.4 growth=6.343
+⚡ TURBO cost depth=3 elapsed_ms=8367.7 growth=6.343
+⚡ TURBO full-width SKIP depth=4 projected_ms=53073.6 remaining_ms=5549.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=g7f8 score_cp=100000
+⬅️ position startpos moves b1c3 g8f6 g1f3 b8c6 d2d4 h7h5 d4d5 c6b4 a2a3 b4a6 c1g5 c7c6 e2e4 a6c5 f1d3 c5d3 d1d3 c6d5 e4d5 d8b6 e1g1 f6g4 c3e4 f7f5 e4d2 b6g6 a1e1 h8g8 d5d6 e7e6 d2c4 g6h7 a3a4 g7g6 h2h3 g4h6 d3d5 h6f7 d5b5 f7g5 f3g5 h7g7 g5e6 g7f6 e6c7 e8f7 b5d5 f6e6 c4e5 f7g7 c7e6 d7e6 d5d4 g7h7 d6d7 c8d7 e5d7 f8g7 d7f6 h7h8 e1e6 g8b8 e6e1 a7a5 e1e6 g6g5 d4e5 f5f4 e5g5 g7f6 e6f6 a8a6 f6a6 b7a6 g5e5 h8g8 e5b8 g8f7 b8f4 f7g7 f4g5 g7f7 g5h5 f7g7 h5a5 g7h7 a5a6 h7g7 f1e1 g7f8 a6b7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=191.8 growth=6.343
+⚡ TURBO cost depth=3 elapsed_ms=1352.6 growth=5.308
+⚡ TURBO cost depth=4 elapsed_ms=4091.4 growth=5.308
+⬅️ ucinewgame
+⬅️ position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=342.8 growth=5.308
+⚡ TURBO cost depth=3 elapsed_ms=2141.7 growth=6.650
+⚡ TURBO full-width SKIP depth=4 projected_ms=14241.0 remaining_ms=12499.3 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=g1f3 score_cp=51
+⬅️ position startpos moves g1f3 b8c6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=451.2 growth=6.650
+⚡ TURBO cost depth=3 elapsed_ms=4354.1 growth=8.351
+⚡ TURBO full-width SKIP depth=4 projected_ms=36360.5 remaining_ms=10172.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=b1a3 score_cp=28
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=529.5 growth=8.351
+⚡ TURBO cost depth=3 elapsed_ms=6511.3 growth=10.974
+⚡ TURBO full-width SKIP depth=4 projected_ms=71452.4 remaining_ms=7933.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=a3c4 score_cp=-10
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=704.6 growth=11.624
+⚡ TURBO cost depth=3 elapsed_ms=4052.8 growth=11.624
+⚡ TURBO full-width SKIP depth=4 projected_ms=47108.1 remaining_ms=10177.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=c4e5 score_cp=-24
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1162.0 growth=10.301
+⚡ TURBO cost depth=3 elapsed_ms=9311.6 growth=10.301
+⚡ TURBO full-width SKIP depth=4 projected_ms=95917.0 remaining_ms=4385.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=c2c4 score_cp=-21
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1430.1 growth=8.959
+⚡ TURBO cost depth=3 elapsed_ms=5807.8 growth=8.140
+⚡ TURBO full-width SKIP depth=4 projected_ms=47274.6 remaining_ms=7425.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=e5c6 score_cp=-19
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1143.7 growth=7.516
+⚡ TURBO cost depth=3 elapsed_ms=5753.1 growth=6.385
+⚡ TURBO full-width SKIP depth=4 projected_ms=36734.4 remaining_ms=7939.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=c4b5 score_cp=43
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1062.7 growth=6.385
+⚡ TURBO cost depth=3 elapsed_ms=8878.4 growth=7.516
+⚡ TURBO full-width SKIP depth=4 projected_ms=66730.3 remaining_ms=4984.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=f3d4 score_cp=42
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1292.2 growth=7.516
+⚡ TURBO cost depth=3 elapsed_ms=10937.1 growth=7.686
+⚡ TURBO full-width SKIP depth=4 projected_ms=84066.3 remaining_ms=2682.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=d1b3 score_cp=55
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3736.8 growth=8.409
+⚡ TURBO full-width SKIP depth=3 projected_ms=31423.3 remaining_ms=11023.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d4b5 score_cp=26
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1572.9 growth=9.777
+⚡ TURBO full-width SKIP depth=3 projected_ms=15379.0 remaining_ms=13284.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d2d4 score_cp=-25
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2473.3 growth=9.777
+⚡ TURBO full-width SKIP depth=3 projected_ms=24182.7 remaining_ms=11880.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c1e3 score_cp=-40
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=265.2 growth=9.777
+⚡ TURBO cost depth=3 elapsed_ms=6137.3 growth=9.777
+⚡ TURBO full-width SKIP depth=4 projected_ms=60007.3 remaining_ms=8550.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=e1d1 score_cp=-36
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2945.8 growth=9.777
+⚡ TURBO full-width SKIP depth=3 projected_ms=28802.4 remaining_ms=11405.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b3c2 score_cp=-11
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2361.5 growth=7.059
+⚡ TURBO full-width SKIP depth=3 projected_ms=16669.7 remaining_ms=12211.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b2b3 score_cp=600
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=528.9 growth=5.595
+⚡ TURBO cost depth=3 elapsed_ms=1056.9 growth=5.173
+⚡ TURBO cost depth=4 elapsed_ms=7182.9 growth=5.173
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1927.5 growth=5.595
+⚡ TURBO cost censored depth=3 observed_ms=12942.5 root=25/34 projected_full_ms=17601.8
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=25/34 root_pct=73.5% nodes=26181 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2668.5 growth=5.549
+⚡ TURBO full-width SKIP depth=3 projected_ms=14808.1 remaining_ms=11851.3 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c2d3 score_cp=655
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3121.1 growth=5.549
+⚡ TURBO full-width SKIP depth=3 projected_ms=17319.9 remaining_ms=10915.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d3b5 score_cp=668
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2711.1 growth=5.186
+⚡ TURBO full-width SKIP depth=3 projected_ms=14060.9 remaining_ms=11396.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c1c2 score_cp=621
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2849.4 growth=4.759
+⚡ TURBO full-width SKIP depth=3 projected_ms=13559.4 remaining_ms=11429.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=h1g1 score_cp=612
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3026.1 growth=5.121
+⚡ TURBO full-width SKIP depth=3 projected_ms=15496.7 remaining_ms=11326.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c2d2 score_cp=658
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=5639.2 growth=5.121
+⚡ TURBO full-width SKIP depth=3 projected_ms=28878.1 remaining_ms=9031.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=f2d4 score_cp=637
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=5152.6 growth=5.121
+⚡ TURBO full-width SKIP depth=3 projected_ms=26386.4 remaining_ms=9493.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d4c5 score_cp=836
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=4509.0 growth=5.121
+⚡ TURBO full-width SKIP depth=3 projected_ms=23090.3 remaining_ms=10038.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c5b4 score_cp=873
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2293.7 growth=4.359
+⚡ TURBO cost censored depth=3 observed_ms=12137.9 root=22/39 projected_full_ms=21517.2
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=22/39 root_pct=56.4% nodes=28998 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3193.5 growth=8.282
+⚡ TURBO full-width SKIP depth=3 projected_ms=26449.0 remaining_ms=11361.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b5b6 score_cp=985
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2784.2 growth=8.681
+⚡ TURBO full-width SKIP depth=3 projected_ms=24170.1 remaining_ms=11866.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d2d4 score_cp=985
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2436.3 growth=8.681
+⚡ TURBO full-width SKIP depth=3 projected_ms=21149.8 remaining_ms=11965.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d4d3 score_cp=942
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2252.4 growth=7.582
+⚡ TURBO full-width SKIP depth=3 projected_ms=17077.9 remaining_ms=12060.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d3e3 score_cp=904
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2849.7 growth=5.681
+⚡ TURBO full-width SKIP depth=3 projected_ms=16190.5 remaining_ms=11468.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d1c2 score_cp=864
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3127.3 growth=4.128
+⚡ TURBO full-width SKIP depth=3 projected_ms=12909.5 remaining_ms=10984.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b6b4 score_cp=302
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=3704.9 growth=4.128
+⚡ TURBO full-width SKIP depth=3 projected_ms=15294.0 remaining_ms=10258.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b4a5 score_cp=302
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=789.2 growth=4.128
+⚡ TURBO cost depth=3 elapsed_ms=3528.8 growth=4.128
+⚡ TURBO full-width SKIP depth=4 projected_ms=14567.2 remaining_ms=10568.3 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=e3e4 score_cp=342
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=923.3 growth=4.128
+⚡ TURBO cost depth=3 elapsed_ms=6318.4 growth=4.326
+⚡ TURBO full-width SKIP depth=4 projected_ms=27332.2 remaining_ms=7602.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=e4c4 score_cp=352
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1247.9 growth=5.208
+⚡ TURBO cost depth=3 elapsed_ms=9607.0 growth=6.394
+⚡ TURBO full-width SKIP depth=4 projected_ms=61423.2 remaining_ms=3994.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=c4e4 score_cp=342
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1434.7 growth=6.394
+⚡ TURBO cost depth=3 elapsed_ms=13259.4 growth=6.905
+⚡ TURBO full-width SKIP depth=4 projected_ms=91556.3 remaining_ms=28.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=e2e3 score_cp=285
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=539.9 growth=7.271
+⚡ TURBO cost depth=3 elapsed_ms=7986.3 growth=8.019
+⚡ TURBO full-width SKIP depth=4 projected_ms=64041.8 remaining_ms=6438.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=f1c4 score_cp=309
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=4724.3 growth=8.791
+⚡ TURBO full-width SKIP depth=3 projected_ms=41530.2 remaining_ms=10129.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=g1d1 score_cp=348
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=7206.7 growth=12.016
+⚡ TURBO full-width SKIP depth=3 projected_ms=86599.0 remaining_ms=7482.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d1d5 score_cp=348
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=5095.6 growth=15.209
+⚡ TURBO full-width SKIP depth=3 projected_ms=77498.5 remaining_ms=9579.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=h2h4 score_cp=375
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1463.7 growth=15.209
+⚡ TURBO full-width SKIP depth=3 projected_ms=22262.0 remaining_ms=13282.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=e4d4 score_cp=371
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1761.2 growth=15.209
+⚡ TURBO full-width SKIP depth=3 projected_ms=26786.9 remaining_ms=12885.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=a2a4 score_cp=352
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=2335.3 growth=15.209
+⚡ TURBO full-width SKIP depth=3 projected_ms=35518.1 remaining_ms=12455.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c2d3 score_cp=441
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=963.9 growth=12.975
+⚡ TURBO cost depth=3 elapsed_ms=8138.7 growth=9.801
+⚡ TURBO full-width SKIP depth=4 projected_ms=79770.2 remaining_ms=5718.7 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=d4f4 score_cp=523
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1845.8 growth=8.427
+⚡ TURBO full-width SKIP depth=3 projected_ms=15554.5 remaining_ms=12934.3 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=c4b5 score_cp=538
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1592.3 growth=7.087
+⚡ TURBO cost censored depth=3 observed_ms=13064.3 root=14/29 projected_full_ms=27061.7
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=14/29 root_pct=48.3% nodes=31201 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1268.4 growth=6.907
+⚡ TURBO cost censored depth=3 observed_ms=13346.3 root=21/23 projected_full_ms=14617.3
+⚠️ GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=21/23 root_pct=91.3% nodes=30570 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=423.0 growth=8.427
+⚡ TURBO cost depth=3 elapsed_ms=6669.7 growth=9.984
+⚡ TURBO full-width SKIP depth=4 projected_ms=66589.7 remaining_ms=7888.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=d3e4 score_cp=292
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=733.6 growth=9.967
+⚡ TURBO cost depth=3 elapsed_ms=10247.9 growth=12.746
+⚡ TURBO full-width SKIP depth=4 projected_ms=130624.8 remaining_ms=3793.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=a4a5 score_cp=406
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1557.3 growth=12.799
+⚡ TURBO full-width SKIP depth=3 projected_ms=19932.0 remaining_ms=13308.4 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=a5a6 score_cp=317
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1509.7 growth=11.577
+⚡ TURBO full-width SKIP depth=3 projected_ms=17478.3 remaining_ms=13358.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=e4f4 score_cp=323
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=312.6 growth=12.799
+⚡ TURBO cost depth=3 elapsed_ms=1375.1 growth=12.799
+⚡ TURBO full-width SKIP depth=4 projected_ms=17600.3 remaining_ms=13298.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=f4e4 score_cp=332
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1220.3 growth=11.573
+⚡ TURBO full-width SKIP depth=3 projected_ms=14122.6 remaining_ms=13640.1 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=e4f3 score_cp=295
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1488.9 growth=11.573
+⚡ TURBO full-width SKIP depth=3 projected_ms=17231.8 remaining_ms=13404.8 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=f3g4 score_cp=337
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1690.7 growth=12.799
+⚡ TURBO full-width SKIP depth=3 projected_ms=21640.2 remaining_ms=13227.0 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b3b4 score_cp=328
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3 b3b4 f6e6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1264.2 growth=11.573
+⚡ TURBO full-width SKIP depth=3 projected_ms=14630.9 remaining_ms=13617.6 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b5c4 score_cp=334
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3 b3b4 f6e6 b5c4 e6f6
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1627.2 growth=12.791
+⚡ TURBO full-width SKIP depth=3 projected_ms=20813.3 remaining_ms=13303.9 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=b4b5 score_cp=384
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3 b3b4 f6e6 b5c4 e6f6 b4b5 d8d7
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=940.9 growth=14.211
+⚡ TURBO cost depth=3 elapsed_ms=4300.9 growth=12.398
+⚡ TURBO full-width SKIP depth=4 projected_ms=53324.3 remaining_ms=9692.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=c4d3 score_cp=433
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3 b3b4 f6e6 b5c4 e6f6 b4b5 d8d7 c4d3 d7d8
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1222.4 growth=14.211
+⚡ TURBO full-width SKIP depth=3 projected_ms=17370.8 remaining_ms=13708.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d3f5 score_cp=413
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3 b3b4 f6e6 b5c4 e6f6 b4b5 d8d7 c4d3 d7d8 d3f5 e3g1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1363.1 growth=16.064
+⚡ TURBO full-width SKIP depth=3 projected_ms=21897.8 remaining_ms=13580.5 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=f5d3 score_cp=417
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3 b3b4 f6e6 b5c4 e6f6 b4b5 d8d7 c4d3 d7d8 d3f5 e3g1 f5d3 g1e3
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1275.6 growth=17.886
+⚡ TURBO full-width SKIP depth=3 projected_ms=22815.3 remaining_ms=13653.3 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=d3f5 score_cp=413
+⬅️ position startpos moves g1f3 b8c6 b1a3 g8f6 a3c4 b7b5 c4e5 c8b7 c2c4 d7d6 e5c6 b7c6 c4b5 c6b5 f3d4 a7a6 d1b3 c7c6 d4b5 a6b5 d2d4 f6e4 c1e3 d8a5 e1d1 a8d8 b3c2 a5a4 b2b3 e4f2 e3f2 a4a8 a1c1 c6c5 c2d3 b5b4 d3b5 d8d7 c1c2 h8g8 h1g1 h7h6 c2d2 c5d4 f2d4 a8a3 d4c5 a3a8 c5b4 a8a7 b4a5 h6h5 b5b6 a7a8 d2d4 e7e5 d4d3 e5e4 d3e3 f8e7 d1c2 e7d8 b6b4 a8a5 b4a5 d8a5 e3e4 e8f8 e4c4 f8e7 c4e4 e7f6 e2e3 g8c8 f1c4 f6g5 g1d1 a5b4 d1d5 f7f5 h2h4 g5f6 e4d4 c8a8 a2a4 a8d8 c2d3 b4c5 d4f4 g7g6 c4b5 d7e7 e3e4 e7e4 f4e4 f5e4 d3e4 c5f2 a4a5 f2h4 a5a6 h4f2 e4f4 g6g5 f4e4 f2g1 e4f3 h5h4 f3g4 g1e3 b3b4 f6e6 b5c4 e6f6 b4b5 d8d7 c4d3 d7d8 d3f5 e3g1 f5d3 g1e3 d3f5 e3g1
+⬅️ go
+⚡ TURBO cost depth=2 elapsed_ms=1432.0 growth=17.886
+⚡ TURBO full-width SKIP depth=3 projected_ms=25614.2 remaining_ms=13505.2 action=do-not-start-full-level
+⚡ TURBO RETURN last-complete depth=2 attempted=3 reason=candidate-disabled-or-unavailable bestmove=f5d3 score_cp=417
+⬅️ quit

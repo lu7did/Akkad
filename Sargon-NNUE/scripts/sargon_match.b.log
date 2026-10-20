@@ -1,0 +1,317 @@
+Creating backend [onnx-dml]...
+\U0001f9e0 LC0 v0.6.117 network=bc27a6cae8ad36f2 history=allow-incomplete cache=per-game
+\u2699\ufe0f EXEC player=alphazero | evaluator=lc0 | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=10000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=LC0 \U0001f3ae player=ALPHAZERO
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves b1c3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=492 best=d7d5 visits=263 q=-0.0092 elapsed_ms=10005.5
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=411 best=d5d4 visits=131 q=+0.0421 elapsed_ms=10023.0
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=458 best=e7e5 visits=263 q=+0.0333 elapsed_ms=10015.8
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=452 best=f7f5 visits=452 q=+0.9645 elapsed_ms=10005.4
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=445 best=f5e4 visits=445 q=+0.9890 elapsed_ms=10012.1
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=574 best=d8d5 visits=226 q=+0.9871 elapsed_ms=10016.8
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=596 best=b8c6 visits=245 q=+0.9860 elapsed_ms=10003.2
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=536 best=d5e6 visits=224 q=+0.9875 elapsed_ms=10005.5
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=447 best=g8f6 visits=135 q=+0.9814 elapsed_ms=10009.6
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=426 best=b7c6 visits=251 q=+0.9809 elapsed_ms=10017.9
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=483 best=e6d7 visits=239 q=+0.9862 elapsed_ms=10015.3
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=483 best=a7a5 visits=109 q=+0.9877 elapsed_ms=10003.8
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=419 best=f8c5 visits=116 q=+0.9916 elapsed_ms=10004.1
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=490 best=e8g8 visits=218 q=+0.9951 elapsed_ms=10011.8
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=454 best=d7f5 visits=128 q=+0.9962 elapsed_ms=10020.9
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=429 best=c8d7 visits=152 q=+0.9990 elapsed_ms=10015.7
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=486 best=e4e3 visits=107 q=+0.9989 elapsed_ms=10016.4
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=496 best=f8c8 visits=99 q=+0.9986 elapsed_ms=10011.6
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1 f8c8 c7b7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=502 best=a8b8 visits=213 q=+0.9990 elapsed_ms=10018.6
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1 f8c8 c7b7 a8b8 b7f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=425 best=c5a3 visits=130 q=+0.9994 elapsed_ms=10029.0
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1 f8c8 c7b7 a8b8 b7f3 c5a3 f3f5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=499 best=d7f5 visits=170 q=+0.9997 elapsed_ms=10018.2
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1 f8c8 c7b7 a8b8 b7f3 c5a3 f3f5 d7f5 d2d3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1065 best=b8b2 visits=737 q=+0.9999 elapsed_ms=10001.0
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1 f8c8 c7b7 a8b8 b7f3 c5a3 f3f5 d7f5 d2d3 b8b2 d1d2
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1143 best=b2d2 visits=324 q=+1.0000 elapsed_ms=10005.5
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1 f8c8 c7b7 a8b8 b7f3 c5a3 f3f5 d7f5 d2d3 b8b2 d1d2 b2d2 c1b1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=993 best=c8c4 visits=180 q=+1.0000 elapsed_ms=10011.1
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8c6 c2c4 d5e6 d1a4 g8f6 e5c6 b7c6 f4f5 e6d7 b2b4 a7a5 b4a5 f8c5 c1b2 e8g8 h2h4 d7f5 a4c6 c8d7 c6c7 e4e3 e1c1 f8c8 c7b7 a8b8 b7f3 c5a3 f3f5 d7f5 d2d3 b8b2 d1d2 b2d2 c1b1 c8c4 b1a1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=2000 best=c4c1 visits=255 q=+1.0000 elapsed_ms=7876.0
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=496 best=d2d4 visits=187 q=+0.0871 elapsed_ms=10003.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=412 best=d4d5 visits=370 q=+0.2927 elapsed_ms=10004.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=407 best=a2a3 visits=248 q=+0.4619 elapsed_ms=10000.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=681 best=e2e4 visits=460 q=+0.4745 elapsed_ms=10010.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=414 best=e4e5 visits=404 q=+0.8057 elapsed_ms=10020.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=357 best=f1a6 visits=132 q=+0.9599 elapsed_ms=10016.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=446 best=d1d4 visits=425 q=+0.9718 elapsed_ms=10012.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=602 best=f2f3 visits=592 q=+0.9738 elapsed_ms=10024.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=636 best=d4a4 visits=189 q=+0.9767 elapsed_ms=10016.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=384 best=f3e4 visits=309 q=+0.9882 elapsed_ms=10011.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=529 best=b1c3 visits=302 q=+0.9901 elapsed_ms=10006.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=409 best=g1e2 visits=263 q=+0.9916 elapsed_ms=10015.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=384 best=e1g1 visits=119 q=+0.9884 elapsed_ms=10002.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=366 best=f1f3 visits=166 q=+0.9901 elapsed_ms=10021.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=424 best=e2g3 visits=184 q=+0.9917 elapsed_ms=10011.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=392 best=c3e2 visits=173 q=+0.9911 elapsed_ms=10021.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=380 best=f3d3 visits=118 q=+0.9980 elapsed_ms=10017.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=362 best=c1f4 visits=342 q=+0.9917 elapsed_ms=10021.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=508 best=a1f1 visits=177 q=+0.9878 elapsed_ms=10007.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2 a1f1 d6f4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=377 best=a4f4 visits=294 q=+0.9957 elapsed_ms=10017.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2 a1f1 d6f4 a4f4 b2c2
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=353 best=d3d2 visits=78 q=+0.9974 elapsed_ms=10018.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2 a1f1 d6f4 a4f4 b2c2 d3d2 c2g6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=382 best=g3e4 visits=205 q=+0.9973 elapsed_ms=10023.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2 a1f1 d6f4 a4f4 b2c2 d3d2 c2g6 g3e4 d7d5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=322 best=e2c3 visits=99 q=+0.9980 elapsed_ms=10026.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2 a1f1 d6f4 a4f4 b2c2 d3d2 c2g6 g3e4 d7d5 e2c3 d5e4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=401 best=f4c7 visits=198 q=+0.9993 elapsed_ms=10032.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2 a1f1 d6f4 a4f4 b2c2 d3d2 c2g6 g3e4 d7d5 e2c3 d5e4 f4c7 g6f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=714 best=f1f6 visits=338 q=+1.0000 elapsed_ms=10017.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 a2a3 b4a6 e2e4 g8f6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 f2f3 c7c5 d4a4 d8c7 f3e4 c7e5 b1c3 f5e4 g1e2 e4e3 e1g1 e7e6 f1f3 f8d6 e2g3 e3e2 c3e2 e5d5 f3d3 d5e5 c1f4 e5b2 a1f1 d6f4 a4f4 b2c2 d3d2 c2g6 g3e4 d7d5 e2c3 d5e4 f4c7 g6f6 f1f6 g7f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1170 best=d2d8 visits=809 q=+1.0000 elapsed_ms=10011.6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves g1f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=351 best=d7d5 visits=182 q=-0.0550 elapsed_ms=10017.0
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=355 best=d5d4 visits=122 q=+0.0434 elapsed_ms=10030.0
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=401 best=e7e5 visits=232 q=+0.0267 elapsed_ms=10021.7
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=336 best=f7f5 visits=336 q=+0.9637 elapsed_ms=10001.4
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=350 best=f5e4 visits=350 q=+0.9887 elapsed_ms=10022.9
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=509 best=d8d5 visits=198 q=+0.9867 elapsed_ms=10015.3
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=462 best=b8d7 visits=188 q=+0.9892 elapsed_ms=10005.2
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=428 best=d5e6 visits=185 q=+0.9900 elapsed_ms=10012.0
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=509 best=f8d6 visits=140 q=+0.9897 elapsed_ms=10010.2
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=461 best=c8d7 visits=442 q=+0.9930 elapsed_ms=10004.5
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=635 best=g8f6 visits=94 q=+0.9914 elapsed_ms=10012.0
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=495 best=e8g8 visits=358 q=+0.9956 elapsed_ms=10012.5
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=550 best=d4d3 visits=159 q=+0.9943 elapsed_ms=10011.0
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=531 best=a8b8 visits=166 q=+0.9973 elapsed_ms=10003.3
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=511 best=e6g4 visits=161 q=+0.9948 elapsed_ms=10016.6
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=509 best=f6h5 visits=175 q=+0.9984 elapsed_ms=10006.0
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1 f6h5 c3a5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=514 best=h5f4 visits=146 q=+0.9994 elapsed_ms=10005.7
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1 f6h5 c3a5 h5f4 e3f4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=519 best=f8f4 visits=199 q=+0.9993 elapsed_ms=10009.7
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1 f6h5 c3a5 h5f4 e3f4 f8f4 g2g3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=531 best=f4f1 visits=181 q=+0.9996 elapsed_ms=10009.5
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1 f6h5 c3a5 h5f4 e3f4 f8f4 g2g3 f4f1 e1f1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=740 best=b8f8 visits=254 q=+0.9999 elapsed_ms=10011.0
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1 f6h5 c3a5 h5f4 e3f4 f8f4 g2g3 f4f1 e1f1 b8f8 f1g1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=769 best=g4d1 visits=245 q=+0.9999 elapsed_ms=10014.3
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1 f6h5 c3a5 h5f4 e3f4 f8f4 g2g3 f4f1 e1f1 b8f8 f1g1 g4d1 g1g2
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1542 best=d1e2 visits=866 q=+1.0000 elapsed_ms=10015.7
+\u2b05\ufe0f position startpos moves g1f3 d7d5 b1c3 d5d4 c3e4 e7e5 f3g5 f7f5 g5f3 f5e4 f3e5 d8d5 f2f4 b8d7 c2c4 d5e6 d1a4 f8d6 e5d7 c8d7 a4b3 g8f6 b3b7 e8g8 e2e3 d4d3 b7b3 a8b8 b3c3 e6g4 a1b1 f6h5 c3a5 h5f4 e3f4 f8f4 g2g3 f4f1 e1f1 b8f8 f1g1 g4d1 g1g2 d1e2 g2g1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=2000 best=f8f1 visits=495 q=+1.0000 elapsed_ms=5140.5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=502 best=d2d4 visits=190 q=+0.0868 elapsed_ms=10012.5
+\u2b05\ufe0f position startpos moves d2d4 g8f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=574 best=c2c4 visits=307 q=+0.0936 elapsed_ms=10013.6
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=476 best=c4d5 visits=476 q=+0.4041 elapsed_ms=10002.7
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=498 best=g1f3 visits=494 q=+0.5759 elapsed_ms=10006.1
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=609 best=b1c3 visits=332 q=+0.6817 elapsed_ms=10008.9
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=684 best=d1b3 visits=657 q=+0.6369 elapsed_ms=10021.3
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=996 best=b2c3 visits=993 q=+0.6371 elapsed_ms=10011.3
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=503 best=f3g5 visits=408 q=+0.9357 elapsed_ms=10001.5
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=557 best=f2f3 visits=279 q=+0.9308 elapsed_ms=10001.0
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=690 best=d4d5 visits=656 q=+0.9719 elapsed_ms=10008.9
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=523 best=d5c6 visits=518 q=+0.9775 elapsed_ms=10014.2
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=577 best=b3a4 visits=172 q=+0.9808 elapsed_ms=10008.6
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=527 best=g5e4 visits=338 q=+0.9762 elapsed_ms=10020.1
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=533 best=e2e3 visits=183 q=+0.9790 elapsed_ms=10010.0
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=549 best=g2g4 visits=111 q=+0.9624 elapsed_ms=10004.8
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=512 best=h2h4 visits=277 q=+0.9807 elapsed_ms=10023.7
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=582 best=g4g5 visits=542 q=+0.9655 elapsed_ms=10011.5
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=542 best=f1a6 visits=113 q=+0.9651 elapsed_ms=10020.0
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=557 best=c1d2 visits=102 q=+0.9714 elapsed_ms=10001.4
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=520 best=g5f6 visits=360 q=+0.9955 elapsed_ms=10010.2
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=566 best=e1c1 visits=531 q=+0.9908 elapsed_ms=10022.9
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6 e1c1 f6e7
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=686 best=h1g1 visits=266 q=+0.9895 elapsed_ms=10014.7
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6 e1c1 f6e7 h1g1 g6e6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=595 best=g1g7 visits=156 q=+0.9912 elapsed_ms=10018.8
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6 e1c1 f6e7 h1g1 g6e6 g1g7 e7h4
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=520 best=e4c5 visits=180 q=+0.9931 elapsed_ms=10015.1
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6 e1c1 f6e7 h1g1 g6e6 g1g7 e7h4 e4c5 b6c5
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1490 best=a4b5 visits=1368 q=+0.9946 elapsed_ms=10022.7
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6 e1c1 f6e7 h1g1 g6e6 g1g7 e7h4 e4c5 b6c5 a4b5 b8a8
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=2000 best=a6b7 visits=1013 q=+0.9965 elapsed_ms=5086.7
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6 e1c1 f6e7 h1g1 g6e6 g1g7 e7h4 e4c5 b6c5 a4b5 b8a8 a6b7 a8b8
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=2000 best=b7c6 visits=1945 q=+0.9993 elapsed_ms=5553.5
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 d7d5 c4d5 d8d6 g1f3 c8f5 b1c3 f6d5 d1b3 d5c3 b2c3 f5e4 f3g5 d6g6 f2f3 e4c6 d4d5 b7b6 d5c6 b8c6 b3a4 h7h6 g5e4 e7e5 e2e3 e8c8 g2g4 f8e7 h2h4 h6h5 g4g5 c8b7 f1a6 b7b8 c1d2 f7f5 g5f6 e7f6 e1c1 f6e7 h1g1 g6e6 g1g7 e7h4 e4c5 b6c5 a4b5 b8a8 a6b7 a8b8 b7c6 b8c8
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=2000 best=b5b7 visits=1485 q=+1.0000 elapsed_ms=1525.2
+\u2b05\ufe0f quit

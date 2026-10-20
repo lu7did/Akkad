@@ -1,0 +1,499 @@
+{
+  "schema_version": 1,
+  "tournaments": {
+    "alien2": {
+      "name": "Alien vs. Blitzy (1ply)",
+      "brains": [
+        "blitzy",
+        "alien",
+        "cerebrum"
+      ],
+      "plays_per_pair": 10,
+      "max_simultaneous_games": 2,
+      "max_game_seconds": 1200,
+      "pgn": "../data/rally/alien.pgn",
+      "ranking": {
+        "resultados": [
+          {
+            "match": 2,
+            "game": 1,
+            "white": "blitzy",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 11,
+            "elapsed_seconds": 0.156,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "blitzy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 12,
+            "elapsed_seconds": 0.143,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 3,
+            "white": "blitzy",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 11,
+            "elapsed_seconds": 0.175,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 4,
+            "white": "cerebrum",
+            "black": "blitzy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 12,
+            "elapsed_seconds": 0.151,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 5,
+            "white": "blitzy",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 83,
+            "elapsed_seconds": 1.331,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 6,
+            "white": "cerebrum",
+            "black": "blitzy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 48,
+            "elapsed_seconds": 1.357,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 7,
+            "white": "blitzy",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 70,
+            "elapsed_seconds": 1.142,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 8,
+            "white": "cerebrum",
+            "black": "blitzy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 48,
+            "elapsed_seconds": 1.467,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 2,
+            "game": 9,
+            "white": "blitzy",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 67,
+            "elapsed_seconds": 1.046,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 1,
+            "white": "blitzy",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 47,
+            "elapsed_seconds": 8.341,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 2,
+            "game": 10,
+            "white": "cerebrum",
+            "black": "blitzy",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 48,
+            "elapsed_seconds": 1.41,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 2,
+            "white": "alien",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 63,
+            "elapsed_seconds": 9.265,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 1,
+            "white": "alien",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 92,
+            "elapsed_seconds": 9.153,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 2,
+            "white": "cerebrum",
+            "black": "alien",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 74,
+            "elapsed_seconds": 4.072,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 3,
+            "white": "alien",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 73,
+            "elapsed_seconds": 4.809,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 3,
+            "white": "blitzy",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 83,
+            "elapsed_seconds": 12.826,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 4,
+            "white": "cerebrum",
+            "black": "alien",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 62,
+            "elapsed_seconds": 4.885,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 4,
+            "white": "alien",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 67,
+            "elapsed_seconds": 8.49,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 5,
+            "white": "alien",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 83,
+            "elapsed_seconds": 9.009,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 6,
+            "white": "cerebrum",
+            "black": "alien",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 54,
+            "elapsed_seconds": 6.009,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 5,
+            "white": "blitzy",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 51,
+            "elapsed_seconds": 9.427,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 7,
+            "white": "alien",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 77,
+            "elapsed_seconds": 8.083,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 8,
+            "white": "cerebrum",
+            "black": "alien",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 58,
+            "elapsed_seconds": 5.551,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 6,
+            "white": "alien",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 92,
+            "elapsed_seconds": 13.787,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 7,
+            "white": "blitzy",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 70,
+            "elapsed_seconds": 10.934,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 3,
+            "game": 9,
+            "white": "alien",
+            "black": "cerebrum",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "cerebrum",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 131,
+            "elapsed_seconds": 13.494,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 3,
+            "game": 10,
+            "white": "cerebrum",
+            "black": "alien",
+            "white_player": "cerebrum",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 48,
+            "elapsed_seconds": 5.003,
+            "result": "0-1",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 8,
+            "white": "alien",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 75,
+            "elapsed_seconds": 11.347,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          },
+          {
+            "match": 1,
+            "game": 9,
+            "white": "blitzy",
+            "black": "alien",
+            "white_player": "sargon-plus",
+            "white_evaluator": "classic",
+            "black_player": "sargon-plus",
+            "black_evaluator": "cerebrum-1.1",
+            "moves": 29,
+            "elapsed_seconds": 3.29,
+            "result": "1/2-1/2",
+            "reason": "THREEFOLD_REPETITION"
+          },
+          {
+            "match": 1,
+            "game": 10,
+            "white": "alien",
+            "black": "blitzy",
+            "white_player": "sargon-plus",
+            "white_evaluator": "cerebrum-1.1",
+            "black_player": "sargon-plus",
+            "black_evaluator": "classic",
+            "moves": 95,
+            "elapsed_seconds": 8.48,
+            "result": "1-0",
+            "reason": "CHECKMATE"
+          }
+        ]
+      },
+      "scores": [
+        {
+          "id": "blitzy",
+          "points": 14.5,
+          "played": 20,
+          "wins": 11,
+          "draws": 7,
+          "losses": 2,
+          "against": {
+            "alien": {
+              "points": 5.0,
+              "games": 10
+            },
+            "cerebrum": {
+              "points": 9.5,
+              "games": 10
+            }
+          }
+        },
+        {
+          "id": "alien",
+          "points": 14.0,
+          "played": 20,
+          "wins": 10,
+          "draws": 8,
+          "losses": 2,
+          "against": {
+            "blitzy": {
+              "points": 5.0,
+              "games": 10
+            },
+            "cerebrum": {
+              "points": 9.0,
+              "games": 10
+            }
+          }
+        },
+        {
+          "id": "cerebrum",
+          "points": 1.5,
+          "played": 20,
+          "wins": 0,
+          "draws": 3,
+          "losses": 17,
+          "against": {
+            "blitzy": {
+              "points": 0.5,
+              "games": 10
+            },
+            "alien": {
+              "points": 1.0,
+              "games": 10
+            }
+          }
+        }
+      ],
+      "status": "COMPLETE",
+      "elapsed_seconds": 96.66
+    }
+  }
+}

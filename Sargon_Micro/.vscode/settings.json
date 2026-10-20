@@ -1,6 +1,0 @@
-{
-  "python.analysis.extraPaths": ["./device"],
-  "micropico.syncFolder": "device",
-  "micropico.syncAllFileTypes": true,
-  "files.associations": {"*.bin": "binary", "*.nnx": "plaintext"}
-}
