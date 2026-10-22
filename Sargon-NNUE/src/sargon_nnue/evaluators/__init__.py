@@ -64,6 +64,11 @@ def create_evaluator(kind: str, network: str | None = None, *, allow_new_npz: bo
         return ZNpzEvaluator(network, temperature=z_temperature,
                              value_scale=z_value_scale, uniform_mix=z_uniform_mix,
                              policy=z_policy)
+    if key == "tinygyal":
+        from .tinygyal import TinyGyalEvaluator
+        return TinyGyalEvaluator(network or lc0_weights, backend=lc0_backend,
+            backend_options=lc0_backend_options, history_mode=lc0_history,
+            cache_size=lc0_cache_size, cp_scale=lc0_cp_scale)
     if key == "lc0":
         from .lc0 import LC0Evaluator
         return LC0Evaluator(lc0_weights or network, backend=lc0_backend,

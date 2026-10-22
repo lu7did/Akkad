@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
+    evaluator, player = build_engine(args)
+                        ~~~~~~~~~~~~^^^^^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\factory.py", line 154, in build_engine
+    evaluator = create_evaluator(
+        evaluator_kind,
+    ...<12 lines>...
+        z_uniform_mix=g("z_uniform_mix",0.01),z_policy=g("z_policy","uniform"),audit=audit,
+    )
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\evaluators\__init__.py", line 69, in create_evaluator
+    return TinyGyalEvaluator(network or lc0_weights, backend=lc0_backend,
+        backend_options=lc0_backend_options, history_mode=lc0_history,
+        cache_size=lc0_cache_size, cp_scale=lc0_cp_scale)
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\evaluators\tinygyal.py", line 23, in __init__
+    raise EvaluatorError(f'TinyGyal weights no existe: {file}')
+sargon_nnue.evaluators.base.EvaluatorError: TinyGyal weights no existe: C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\networks\tinygyal-8.pb.gz

@@ -66,7 +66,7 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
     # default to NULL while composable players continue to default to CLASSIC.
     p.add_argument(
         opt("evaluator"), dest=dest("evaluator"), default=None,
-        choices=["null", "classic", "npz", "cerebrum", "cerebrum-1.1", "cerebrum-2", "stockfish", "lc0", "znpz", "zclassic", "grumpy"],
+        choices=["null", "classic", "npz", "cerebrum", "cerebrum-1.1", "cerebrum-2", "stockfish", "lc0", "tinygyal", "znpz", "zclassic", "grumpy"],
         help="evaluator; omitido => NULL para player=stockfish, CLASSIC para los demás",
     )
     p.add_argument(
@@ -75,7 +75,7 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
     )
     p.add_argument(
         opt("player"), dest=dest("player"), default="sargon",
-        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc"],
+        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon", "picoalpha"],
     )
 
     # Dynamic default: SARGON uses depth=2, while STOCKFISH uses a deliberately
@@ -99,6 +99,7 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
     )
 
     p.add_argument(opt("engine-path"), dest=dest("engine_path"), default=None)
+    p.add_argument(opt("url"), dest=dest("url"), default=None, help="player=external: servidor UCI TCP host:puerto")
     p.add_argument(opt("movetime"), dest=dest("movetime"), type=int, default=1000,
                    help="ms para players UCI genéricos; player=stockfish lo ignora")
     p.add_argument(opt("timeout"), dest=dest("timeout"), type=int, default=30000)

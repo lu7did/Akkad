@@ -57,6 +57,44 @@
       "turbo": 0,
       "rating_elo": 572.8
     },
+
+    "tinyAlpha": {
+      "player": "alphazero",
+      "evaluator": "tinygyal",
+      "network": "C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/data/runs/lczero/tinygyal-8.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-history": "allow-incomplete",
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 400
+    },
+    "picoalpha" : {
+      "player": "picoalpha",
+      "evaluator": "null",
+      "engine-path": "C:/Users/pedro/github/bobby/akkad/sargon-nnue/native/picoAlpha/build_windows/Release/picoAlpha.exe",
+      "network": "C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/data/runs/lczero/tinygyal-8.pb.gz",
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "timeout": 30000
+    },
+    "pico": {
+      "player": "picosargon",
+      "evaluator": "null",
+      "engine-path": "C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoSargon/build-host-windows/Release/picoSargon_host.exe",
+      "depth": 6,
+      "qdepth": 4,
+      "tmax": 15000,
+      "timeout": 30000,
+      "rating_elo": 400
+    },
+    "picoSargon": {
+      "player": "external",
+      "evaluator": "null",
+      "url" :  "picosargon.local:6110",
+      "rating_elo": 400
+    },
     "alphie": {
       "player": "alphazero",
       "evaluator": "lc0",
@@ -75,7 +113,7 @@
       "lc0-weights": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
       "lc0-backend": "onnx-dml",
       "lc0-backend-options": "gpu=0",
-      "az-simulations": 2000,
+      "az-simulations": 1000,
       "az-cpuct": 1.5,
       "tmax": 10000,
       "rating_elo": 1474.37
@@ -147,7 +185,7 @@
       "lc0-backend": "eigen",
       "az-simulations": 2000,
       "az-cpuct": 1.5,
-      "tmax": 15000,
+      "tmax": 10000,
       "rating_elo": 1330.37
     },
     "butthead": {

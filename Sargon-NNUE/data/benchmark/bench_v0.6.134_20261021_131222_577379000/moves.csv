@@ -1,0 +1,13 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+tinyAlpha,alphazero,tinygyal,auto,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,f1b5,10736.795,10728,2000,0,OK,
+tinyAlpha,alphazero,tinygyal,auto,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,g1f3,13664.901,13655,2000,0,OK,
+tinyAlpha,alphazero,tinygyal,auto,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,d7d6,11304.279,11295,2000,0,OK,
+tinyAlpha,alphazero,tinygyal,auto,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,10558.126,10549,2000,0,OK,
+tinyAlpha,alphazero,tinygyal,auto,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,g8f6,12997.604,12989,2000,0,OK,
+tinyAlpha,alphazero,tinygyal,auto,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,c2c4,12831.637,12822,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,f1b5,4103.545,4096,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,g1f3,3409.985,3403,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,d7d6,3218.201,3212,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,3227.860,3221,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,g8f6,3519.766,3512,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,c2c4,6095.903,6087,2000,0,OK,

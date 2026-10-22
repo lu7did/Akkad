@@ -35,6 +35,9 @@
 #define LWIP_IGMP                       1
 #define MEMP_NUM_UDP_PCB                5
 #define LWIP_NUM_NETIF_CLIENT_DATA      1
+// mDNS schedules additional timers beyond lwIP core defaults.
+// Reserve explicit timer slots to prevent MEMP_SYS_TIMEOUT exhaustion.
+#define MEMP_NUM_SYS_TIMEOUT            16
 #else
 #define LWIP_MDNS_RESPONDER             0
 #endif

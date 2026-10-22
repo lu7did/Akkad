@@ -91,8 +91,8 @@ def build_engine(args, prefix: str = ""):
     requested_evaluator = g("evaluator", None)
 
     if player_kind == "alphazero":
-        if requested_evaluator is not None and str(requested_evaluator).strip().lower() not in {"lc0", "znpz", "zclassic"}:
-            raise PlayerError('player=alphazero sólo admite evaluator=lc0, znpz o zclassic')
+        if requested_evaluator is not None and str(requested_evaluator).strip().lower() not in {"lc0", "tinygyal", "znpz", "zclassic"}:
+            raise PlayerError('player=alphazero sólo admite evaluator=lc0, tinygyal, znpz o zclassic')
         if requested_evaluator is None:
             requested_evaluator = "lc0"
 
@@ -100,7 +100,7 @@ def build_engine(args, prefix: str = ""):
     # - STOCKFISH and player LC0-UCI are monolithic; require NULL.
     # - RANDOM does not evaluate positions; requires NULL.
     # - Other players require a real evaluator (CLASSIC by default).
-    if player_kind in {"stockfish", "random", "lc0"}:
+    if player_kind in {"stockfish", "random", "lc0", "picosargon", "external", "picoalpha"}:
         if requested_evaluator is None:
             evaluator_kind = "null"
         else:
@@ -115,11 +115,11 @@ def build_engine(args, prefix: str = ""):
         else:
             evaluator_kind = str(requested_evaluator).strip().lower()
             if evaluator_kind == "null":
-                raise PlayerError("evaluator=null sólo es válido con player=stockfish, player=lc0 o player=random")
+                raise PlayerError("evaluator=null sólo es válido con player=stockfish, player=lc0, player=picosargon, player=external o player=random")
 
     raw_depth = g("depth", None)
     if raw_depth is None:
-        depth = STOCKFISH_DEFAULT_DEPTH if player_kind == "stockfish" else SARGON_DEFAULT_DEPTH
+        depth = STOCKFISH_DEFAULT_DEPTH if player_kind == "stockfish" else (4 if player_kind == "picosargon" else SARGON_DEFAULT_DEPTH)
     else:
         depth = int(raw_depth)
 
@@ -183,6 +183,8 @@ def build_engine(args, prefix: str = ""):
         boost=boost,
         turbo=turbo,
         engine_path=g("engine_path", None),
+        network=g("network", None),
+        url=g("url", None),
         movetime_ms=g("movetime", 1000),
         timeout_ms=g("timeout", 30000),
         nodes=nodes,
