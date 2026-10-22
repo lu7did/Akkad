@@ -1,0 +1,4 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+picoalpha,picoalpha,null,,6,6,0,15.016,2502.719,2500.265,2590.591,2419.586,2590.591,12000,6,15010.000,799.5,1.251359,OK
+beavys,alphazero,lc0,eigen,6,6,0,20.772,3461.990,3433.328,3755.485,3271.711,3755.485,12000,6,20732.000,578.8,1.730995,OK
+sophie,alphazero,lc0,onnx-dml,6,6,0,60.065,10010.845,10008.208,10021.239,10003.006,10021.239,3111,6,60045.000,51.8,19.307320,OK

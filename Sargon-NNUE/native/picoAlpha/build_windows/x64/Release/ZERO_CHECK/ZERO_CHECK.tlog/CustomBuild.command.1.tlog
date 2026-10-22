@@ -1,0 +1,10 @@
+^C:\USERS\PEDRO\GITHUB\BOBBY\AKKAD\SARGON-NNUE\NATIVE\PICOALPHA\BUILD_WINDOWS\CMAKEFILES\4F341D314DE94C2FE07F369467C6D4EB\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoAlpha -BC:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoAlpha/build_windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoAlpha/build_windows/picoAlpha.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,10 @@
+^C:\USERS\PEDRO\GITHUB\BOBBY\AKKAD\SARGON-NNUE\NATIVE\TINYALPHA\BUILD_WINDOWS\CMAKEFILES\00D5B7A7F0927ECB344B1ABF3CDD0C4B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/tinyAlpha -BC:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/tinyAlpha/build_windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/tinyAlpha/build_windows/tinyAlpha.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

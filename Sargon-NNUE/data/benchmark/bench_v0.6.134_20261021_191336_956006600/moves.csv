@@ -1,0 +1,14 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+picoalpha,picoalpha,null,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor picoalpha cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.134_20261021_191336_956006600\engine_01.log
+beavys,alphazero,lc0,eigen,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,f1b5,6906.636,6898,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,g1f3,5918.169,5908,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,d7d6,3918.110,3910,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,5873.816,5866,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,g8f6,4098.370,4090,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,c2c4,3860.008,3853,2000,0,OK,
+sophie,alphazero,lc0,onnx-dml,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,f1b5,10018.629,10016,505,0,OK,
+sophie,alphazero,lc0,onnx-dml,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,g1f3,10010.068,10007,507,0,OK,
+sophie,alphazero,lc0,onnx-dml,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,e7e6,10003.244,10000,325,0,OK,
+sophie,alphazero,lc0,onnx-dml,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,e2e3,10018.223,10015,409,0,OK,
+sophie,alphazero,lc0,onnx-dml,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,g8f6,10016.507,10013,322,0,OK,
+sophie,alphazero,lc0,onnx-dml,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,c2c4,10009.871,10006,332,0,OK,

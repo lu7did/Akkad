@@ -1,0 +1,166 @@
+#*================================================================================================================*
+#* Proyecto sargon-nnue
+#* Chess player using different Neural Networks as the game evaluation engine
+#*
+#* A new mind for the old buddy
+#* Created as a learning experience
+#*
+#* By Dr. Pedro E. Colla 2026 (UADER Teoria de la Comunicación / UFASTA Gestión de Redes)
+#* License: CC AS BY 4.0
+#*================================================================================================================*
+#* cli_common.py
+#* Implementa funciones del modulo cli common
+#* v0.6.160
+#=================================================================================================================*
+from __future__ import annotations
+import argparse
+
+
+def _parse_elo(value: str):
+    text = str(value).strip().lower()
+    if text in {"max", "full", "unlimited"}:
+        return "max"
+    try:
+        return int(text)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("ELO debe ser un entero o 'max'") from exc
+
+
+def _parse_mask(value: str, *, bits: int, name: str) -> int:
+    text = str(value).strip().lower().replace("_", "")
+    try:
+        if text.endswith("b") and not text.startswith("0x"):
+            digits = text[:-1]
+            if not digits or any(ch not in "01" for ch in digits):
+                raise ValueError
+            number = int(digits, 2)
+        else:
+            # int(..., 0) accepts decimal, 0xHEX and conventional 0bBIN.
+            number = int(text, 0)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            f"{name} debe ser decimal, hexadecimal 0x..., o binario ...b"
+        ) from exc
+    max_value = (1 << bits) - 1
+    if not 0 <= number <= max_value:
+        raise argparse.ArgumentTypeError(
+            f"{name} debe estar entre 0 y {max_value} ({bits} bits)"
+        )
+    return number
+
+
+def _parse_boost_mask(value: str) -> int:
+    return _parse_mask(value, bits=16, name="--boost")
+
+
+def _parse_turbo_mask(value: str) -> int:
+    return _parse_mask(value, bits=8, name="--turbo")
+
+
+def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
+    opt = (lambda n: "--" + (prefix.replace("_", "-") if prefix else "") + n)
+    dest = (lambda n: (prefix+n).replace("-", "_"))
+
+    # evaluator=None is intentional: build_engine() must distinguish an omitted
+    # evaluator from an explicitly requested one.  This lets player=stockfish
+    # default to NULL while composable players continue to default to CLASSIC.
+    p.add_argument(
+        opt("evaluator"), dest=dest("evaluator"), default=None,
+        choices=["null", "classic", "npz", "cerebrum", "cerebrum-1.1", "cerebrum-2", "stockfish", "lc0", "tinygyal", "znpz", "zclassic", "grumpy"],
+        help="evaluator; omitido => NULL para player=stockfish, CLASSIC para los demás",
+    )
+    p.add_argument(
+        opt("network"), dest=dest("network"), default=None,
+        help="archivo de red; para evaluator=stockfish es opcional y, si se omite, se usa la red default/embebida del ejecutable",
+    )
+    p.add_argument(
+        opt("player"), dest=dest("player"), default="sargon",
+        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon"],
+    )
+
+    # Dynamic default: SARGON uses depth=2, while STOCKFISH uses a deliberately
+    # high default depth=20.  Keeping argparse at None lets build_engine choose
+    # the appropriate default without losing whether the user supplied --depth.
+    p.add_argument(opt("depth"), dest=dest("depth"), type=int, default=None,
+                   help="profundidad: default 2 para SARGON, 20 para player=stockfish")
+    p.add_argument(opt("dmax"), dest=dest("dmax"), type=int, default=None,
+                   help="profundidad máxima para extensiones TURBO (por defecto depth)")
+    p.add_argument(opt("qdepth"), dest=dest("qdepth"), type=int, default=2,
+                   help="profundidad de quiescence para SARGON")
+    p.add_argument(opt("tmax"), dest=dest("tmax"), type=int, default=15000,
+                   help="guard rail ms para SARGON/SARGON-PLUS")
+    p.add_argument(
+        opt("boost"), dest=dest("boost"), type=_parse_boost_mask, default=0,
+        help="máscara independiente de 16 bits SARGON+; acepta decimal, 0xHEX o binario ...b",
+    )
+    p.add_argument(
+        opt("turbo"), dest=dest("turbo"), type=_parse_turbo_mask, default=0,
+        help="máscara adaptativa de 8 bits SARGON+; acepta decimal, 0xHEX o binario ...b",
+    )
+
+    p.add_argument(opt("engine-path"), dest=dest("engine_path"), default=None)
+    p.add_argument(opt("url"), dest=dest("url"), default=None, help="player=external: servidor UCI TCP host:puerto")
+    p.add_argument(opt("movetime"), dest=dest("movetime"), type=int, default=1000,
+                   help="ms para players UCI genéricos; player=stockfish lo ignora")
+    p.add_argument(opt("timeout"), dest=dest("timeout"), type=int, default=30000)
+
+    # Stockfish-player controls.  They are intentionally accepted for every
+    # configuration and ignored when the selected player is not Stockfish.
+    p.add_argument(opt("nodes"), dest=dest("nodes"), type=int, default=None,
+                   help="límite de nodos para player=stockfish; 0=sin límite, default 5000000")
+    p.add_argument(opt("elo"), dest=dest("elo"), type=_parse_elo, default=None,
+                   help="fuerza de player=stockfish: entero UCI_Elo o 'max' (default)")
+    p.add_argument(opt("stockfish-threads"), dest=dest("stockfish_threads"), type=int, default=1,
+                   help="Threads para player=stockfish (default 1)")
+    p.add_argument(opt("stockfish-hash"), dest=dest("stockfish_hash"), type=int, default=256,
+                   help="Hash MB para player=stockfish (default 256)")
+
+    p.add_argument(opt("cerebrum-a"), dest=dest("cerebrum_a"), type=int, default=None)
+    p.add_argument(opt("cerebrum-b"), dest=dest("cerebrum_b"), type=int, default=None)
+    p.add_argument(opt("stockfish-path"), dest=dest("stockfish_path"), default=None,
+                   help="ejecutable Stockfish usado como backend del evaluator STOCKFISH")
+    p.add_argument(opt("stockfish-timeout"), dest=dest("stockfish_timeout"), type=int, default=5000,
+                   help="timeout ms por consulta del evaluator STOCKFISH")
+    p.add_argument(opt("stockfish-check-depth"), dest=dest("stockfish_check_depth"), type=int, default=1,
+                   help="depth excepcional para resolver posiciones en jaque que `eval` no acepta")
+    p.add_argument(opt("stockfish-cache"), dest=dest("stockfish_cache"), type=int, default=100000,
+                   help="entradas LRU del cache del evaluator Stockfish; 0=desactivado")
+
+    # Lc0.exe monolithic UCI: always evaluator=null; distinct from neural evaluator=lc0.
+    p.add_argument(opt("lc0-uci-path"), dest=dest("lc0_uci_path"), default=None)
+    p.add_argument(opt("lc0-uci-threads"), dest=dest("lc0_uci_threads"), type=int, default=1)
+    p.add_argument(opt("lc0-uci-nncache"), dest=dest("lc0_uci_nncache"), type=int, default=200000)
+    p.add_argument(opt("lc0-uci-options"), dest=dest("lc0_uci_options"), default="",
+                   help="JSON de opciones UCI adicionales admitidas por el motor")
+    p.add_argument(opt("lc0-uci-depth"), dest=dest("lc0_uci_depth"), type=int, default=0)
+    p.add_argument(opt("lc0-uci-nodes"), dest=dest("lc0_uci_nodes"), type=int, default=800)
+    p.add_argument(opt("lc0-uci-movetime"), dest=dest("lc0_uci_movetime"), type=int, default=0)
+    p.add_argument(opt("lc0-uci-timeout"), dest=dest("lc0_uci_timeout"), type=int, default=60000)
+
+    # Lc0/AlphaZero: optional neural inference backend, never replaces legacy evaluators.
+    p.add_argument(opt("lc0-weights"), dest=dest("lc0_weights"), default=None)
+    p.add_argument(opt("lc0-backend"), dest=dest("lc0_backend"), default="auto",
+                   help="auto, blas, onnx-cpu, onnx-dml (according to installed bindings)")
+    p.add_argument(opt("lc0-backend-options"), dest=dest("lc0_backend_options"), default="")
+    p.add_argument(opt("lc0-history"), dest=dest("lc0_history"), choices=["strict","allow-incomplete"],default="allow-incomplete")
+    p.add_argument(opt("lc0-cache"), dest=dest("lc0_cache"), type=int,default=10000)
+    p.add_argument(opt("lc0-cp-scale"), dest=dest("lc0_cp_scale"), type=float,default=400.)
+    p.add_argument(opt("az-simulations"), dest=dest("az_simulations"), type=int,default=128)
+    p.add_argument(opt("az-cpuct"), dest=dest("az_cpuct"), type=float,default=1.5)
+    # Value-only adapters: uniform priors require only one evaluation per leaf.
+    p.add_argument(opt("z-policy"), dest=dest("z_policy"), choices=["uniform", "softmax"],
+                   default="uniform", help="uniform (una evaluación por hoja) o softmax (sucesoras)")
+    # Heuristic policy adapters (only relevant for evaluator=znpz/zclassic).
+    p.add_argument(opt("z-temperature"), dest=dest("z_temperature"), type=float, default=100.0,
+                   help="temperatura Softmax de las evaluaciones sucesoras, en cp (> 0)")
+    p.add_argument(opt("z-value-scale"), dest=dest("z_value_scale"), type=float, default=800.0,
+                   help="escala tanh para convertir centipawns a V (-1..1)")
+    p.add_argument(opt("z-uniform-mix"), dest=dest("z_uniform_mix"), type=float, default=0.01,
+                   help="fracción de mezcla uniforme en la política, 0 <= valor < 1")
+
+    p.add_argument(opt("audit"), dest=dest("audit"), action="store_true",
+                   help="activa auditoría JSONL de la ruta UCI/Stockfish sin cambiar la decisión de juego")
+    p.add_argument(opt("audit-file"), dest=dest("audit_file"), default="sargon_audit.jsonl",
+                   help="archivo JSONL de auditoría")
+    p.add_argument(opt("audit-eval-max"), dest=dest("audit_eval_max"), type=int, default=5000,
+                   help="máximo de evaluaciones Stockfish detalladas a registrar por sesión")

@@ -1,0 +1,4 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+tinyAlpha,alphazero,tinygyal,eigen,6,6,0,56.254,9375.735,9469.219,10009.933,8412.600,10009.933,11350,6,56201.000,202.0,4.956336,OK
+beavys,alphazero,lc0,eigen,6,6,0,19.990,3331.745,3326.146,3560.386,3101.082,3560.386,12000,6,19950.000,601.5,1.665873,OK
+picoalpha,tinyalpha,null,,6,6,0,42.032,7005.397,7046.815,7112.325,6830.055,7112.325,12000,6,42023.000,285.6,3.502698,OK

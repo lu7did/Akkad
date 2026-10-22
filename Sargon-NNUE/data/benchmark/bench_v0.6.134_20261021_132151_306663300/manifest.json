@@ -1,0 +1,49 @@
+{
+  "tool": "sargon_benchmark",
+  "version": "0.6.134",
+  "brain_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\brains\\brains.json",
+  "brain_ids": [
+    "tinyAlpha",
+    "beavys"
+  ],
+  "brains": {
+    "tinyAlpha": {
+      "player": "alphazero",
+      "evaluator": "tinygyal",
+      "network": "C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/data/runs/lczero/tinygyal-8.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-history": "allow-incomplete",
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "rating_elo": 400
+    },
+    "beavys": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\lczero\\tinygyal-8.pb.gz",
+      "lc0-backend": "eigen",
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "rating_elo": 1330.37
+    }
+  },
+  "mode": "positions",
+  "positions": 6,
+  "plies": null,
+  "rounds": 1,
+  "warmup": 1,
+  "timeout_s": 90,
+  "python": "C:\\Users\\pedro\\ufasta\\Scripts\\python.exe",
+  "fixed_fens": [
+    "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+    "rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2",
+    "rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3"
+  ],
+  "opening": [],
+  "fens": []
+}

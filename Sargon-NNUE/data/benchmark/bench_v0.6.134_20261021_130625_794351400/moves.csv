@@ -1,0 +1,8 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+tinyAlpha,alphazero,tinygyal,auto,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor tinyAlpha cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.134_20261021_130625_794351400\engine_01.log
+beavys,alphazero,lc0,eigen,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,f1b5,4560.526,4553,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,g1f3,5801.785,5791,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,d7d6,5477.210,5467,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,6400.175,6388,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,g8f6,6870.511,6857,2000,0,OK,
+beavys,alphazero,lc0,eigen,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,c2c4,7230.711,7217,2000,0,OK,
