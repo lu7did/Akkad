@@ -92,6 +92,35 @@ def make_model(torch, dtype, device, initial_network=None, classic=False):
     return NNUE()
 
 
+def make_small_model(torch, dtype, device):
+    """Compact two-perspective/eight-channel experiment; not a Grumpy .bin exporter."""
+    class Small(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.perspectives=torch.nn.Parameter(torch.randn(2, INPUT_SIZE, 8,dtype=dtype,device=device)*0.01)
+            self.bias=torch.nn.Parameter(torch.zeros(2,8,dtype=dtype,device=device))
+            self.head=torch.nn.Linear(16,1,device=device,dtype=dtype)
+        def forward(self, features, halfmoves):
+            hidden=torch.clamp(torch.einsum('bi,pih->bph',features,self.perspectives)+self.bias,0,32)
+            return torch.sigmoid(self.head(hidden.reshape(-1,16)).squeeze(-1))
+    return Small()
+
+
+def _save_small(model,dest,metadata):
+    """Distinct training artifact, never misidentified as picoSargon GRMP0001."""
+    dest=Path(dest);tmp=dest.with_suffix('.tmp')
+    try:
+        with tmp.open('wb') as f:
+            np.savez(f,perspectives=model.perspectives.detach().cpu().numpy(),
+              bias=model.bias.detach().cpu().numpy(),
+              head_weight=model.head.weight.detach().cpu().numpy(),
+              head_bias=model.head.bias.detach().cpu().numpy(),
+              architecture=np.array('grumpy-small-experimental-v1'),
+              training_metadata=np.array(json.dumps(metadata)))
+            f.flush();os.fsync(f.fileno())
+        os.replace(tmp,dest)
+    finally:tmp.unlink(missing_ok=True)
+
 def make_optimizer(torch, model, a):
     names = {
         'sgd': 'SGD', 'adam': 'Adam', 'adamw': 'AdamW', 'rmsprop': 'RMSprop',
@@ -129,15 +158,16 @@ def make_scheduler(torch, optimizer, a):
     raise ValueError('Scheduler desconocido')
 
 
-def _batch(db, ids, classic=False, lc0_source="neural", mcts_weight=0.0):
+def _batch(db, ids, classic=False, lc0_source="neural", mcts_weight=0.0, secondary_weight=0.0):
     placeholders = ','.join('?' for _ in ids)
     # Retrieve by indexed ID: game is joined, and results remain white-oriented.
     prefix='lc0_uci' if lc0_source=='uci' else 'lc0'
     has_lc0 = {prefix+'_w',prefix+'_d',prefix+'_l'}.issubset({r[1] for r in db.execute('PRAGMA table_info(positions)')})
     lc0_fields = ','.join('p.'+prefix+'_'+kind for kind in 'wdl') if has_lc0 else 'NULL,NULL,NULL'
+    secondary_fields = 'p.lc0_secondary_w,p.lc0_secondary_d,p.lc0_secondary_l' if secondary_weight else 'NULL,NULL,NULL'
     mcts_fields = 'p.az_mcts_value' if mcts_weight else 'NULL'
     rows = db.execute(
-        f'SELECT p.id,p.features,p.halfmove,g.result,p.w,p.d,p.classic_cp,p.stockfish_value,p.result_value,{lc0_fields},{mcts_fields} FROM positions p '
+        f'SELECT p.id,p.features,p.halfmove,g.result,p.w,p.d,p.classic_cp,p.stockfish_value,p.result_value,{lc0_fields},{mcts_fields},{secondary_fields} FROM positions p '
         f'JOIN games g ON g.id=p.game_id WHERE p.id IN ({placeholders})',
         tuple(int(x) for x in ids)).fetchall()
     by_id={int(r[0]):r for r in rows}
@@ -150,6 +180,7 @@ def _batch(db, ids, classic=False, lc0_source="neural", mcts_weight=0.0):
     result_smoothed=np.zeros(len(ids), dtype=np.float64)
     lc0=np.zeros(len(ids),dtype=np.float64)
     mcts=np.zeros(len(ids),dtype=np.float64)
+    secondary=np.zeros(len(ids),dtype=np.float64)
     for j,pid in enumerate(ids):
         row=by_id[int(pid)]
         _, blob, hm, r, w, d = row[:6]
@@ -159,23 +190,24 @@ def _batch(db, ids, classic=False, lc0_source="neural", mcts_weight=0.0):
         if row[9] is not None and row[10] is not None and row[11] is not None:
             lc0[j]=float(row[9])+0.5*float(row[10])
         if row[12] is not None:mcts[j]=float(row[12])
+        if row[13] is not None and row[14] is not None:secondary[j]=float(row[13])+0.5*float(row[14])
         if len(blob) != (INPUT_SIZE+7)//8: raise ValueError(f'Longitud de features inválida: posición {pid}')
         x[j] = np.unpackbits(np.frombuffer(blob,dtype=np.uint8),bitorder='little')[:INPUT_SIZE]
         half[j]=hm
         result[j]=r/2.0
-    return x,half,result_smoothed,sf,cp,lc0,mcts
+    return x,half,result_smoothed,sf,cp,lc0,mcts,secondary
 
 
-def _iter_batches(db, ids, batch_size, classic=False, lc0_source="neural", mcts_weight=0.0):
+def _iter_batches(db, ids, batch_size, classic=False, lc0_source="neural", mcts_weight=0.0,secondary_weight=0.0):
     for begin in range(0,len(ids),batch_size):
-        yield _batch(db, ids[begin:begin+batch_size],classic,lc0_source,mcts_weight)
+        yield _batch(db, ids[begin:begin+batch_size],classic,lc0_source,mcts_weight,secondary_weight)
 
 
-def _forward_batch(torch, model, arrays, weight, dtype, device, classic_weight=0.0, refine_cp=0.0, refine_pgn_cp=0.0, lc0_weight=0.0,mcts_weight=0.0,result_weight=None):
-    x,half,r,s,cp,lc0,mcts=arrays
+def _forward_batch(torch, model, arrays, weight, dtype, device, classic_weight=0.0, refine_cp=0.0, refine_pgn_cp=0.0, lc0_weight=0.0,mcts_weight=0.0,result_weight=None,secondary_weight=0.0):
+    x,half,r,s,cp,lc0,mcts,secondary=arrays
     xt=torch.as_tensor(x,device=device,dtype=dtype)
     hm=torch.as_tensor(half,device=device,dtype=dtype)
-    target=(result_weight if result_weight is not None else 1-classic_weight-lc0_weight-mcts_weight)*r+weight*s+classic_weight*cp+lc0_weight*lc0+mcts_weight*mcts
+    target=(result_weight if result_weight is not None else 1-classic_weight-lc0_weight-mcts_weight-secondary_weight)*r+weight*s+classic_weight*cp+lc0_weight*lc0+mcts_weight*mcts+secondary_weight*secondary
     if refine_cp and refine_pgn_cp:
         raise ValueError('Refinamiento PGN y Stockfish son excluyentes')
     if refine_cp:
@@ -193,12 +225,12 @@ def _forward_batch(torch, model, arrays, weight, dtype, device, classic_weight=0
     return model(xt,hm),label
 
 
-def _evaluate(torch, db, model, ids, batch_size, weight, dtype, device, title, progress, classic_weight=0.0, refine_cp=0.0, refine_pgn_cp=0.0, lc0_weight=0.0,lc0_source="neural",mcts_weight=0.0,result_weight=None):
+def _evaluate(torch, db, model, ids, batch_size, weight, dtype, device, title, progress, classic_weight=0.0, refine_cp=0.0, refine_pgn_cp=0.0, lc0_weight=0.0,lc0_source="neural",mcts_weight=0.0,result_weight=None,secondary_weight=0.0):
     squared=0.0; count=0
     model.eval()
     with torch.no_grad():
-        for arrays in _iter_batches(db,ids,batch_size,classic_weight>0,lc0_source,mcts_weight):
-            pred,y=_forward_batch(torch,model,arrays,weight,dtype,device,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,mcts_weight,result_weight)
+        for arrays in _iter_batches(db,ids,batch_size,classic_weight>0,lc0_source,mcts_weight,secondary_weight):
+            pred,y=_forward_batch(torch,model,arrays,weight,dtype,device,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,mcts_weight,result_weight,secondary_weight)
             squared+=torch.sum((pred-y).square()).item()
             count+=len(y)
             if count%max(batch_size*20,1)<batch_size or count==len(ids):
@@ -261,6 +293,7 @@ def run(a, progress):
         classic_weight=a.weight_classic if a.classic else 0.0
         lc0_weight=getattr(a,"weight_lc0",0.0)
         mcts_weight=getattr(a,"weight_mcts",0.0)
+        secondary_weight=getattr(a,"weight_lc0_secondary",0.0)
         refine_cp=a.refine_stockfish_max_cp if a.fine_tune else 0.0
         refine_pgn_cp=a.refine_pgn_max_cp if a.fine_tune else 0.0
         if refine_cp and refine_pgn_cp:raise ValueError('PGN y Stockfish no se mezclan en el mismo refinamiento')
@@ -272,6 +305,15 @@ def run(a, progress):
             if db.execute('SELECT COUNT(*) FROM positions WHERE az_mcts_value IS NULL OR az_mcts_q_white IS NULL OR az_mcts_network_id IS NULL OR az_mcts_config_id IS NULL').fetchone()[0]:raise ValueError('Existen posiciones sin etiqueta MCTS: entrenamiento cancelado')
             if db.execute('SELECT COUNT(DISTINCT az_mcts_config_id) FROM positions').fetchone()[0]!=1:raise ValueError('No mezclar configuraciones MCTS')
             if db.execute('SELECT COUNT(*) FROM positions WHERE az_mcts_value < 0 OR az_mcts_value > 1 OR ABS(az_mcts_value-(1+az_mcts_q_white)/2)>0.00001').fetchone()[0]:raise ValueError('Etiquetas MCTS inválidas')
+        if secondary_weight:
+            required={'lc0_secondary_w','lc0_secondary_d','lc0_secondary_l','lc0_secondary_network_id','lc0_secondary_history_mode'}
+            if not required.issubset(columns):raise ValueError('Faltan etiquetas LC0-secondary: ejecutar prepare --update lc0-secondary')
+            if db.execute('SELECT COUNT(*) FROM positions WHERE lc0_secondary_w IS NULL OR lc0_secondary_d IS NULL OR lc0_secondary_l IS NULL OR lc0_secondary_network_id IS NULL').fetchone()[0]:
+                raise ValueError('Etiquetas LC0-secondary incompletas')
+            if db.execute('SELECT COUNT(DISTINCT lc0_secondary_network_id) FROM positions').fetchone()[0]!=1:
+                raise ValueError('LC0-secondary contiene varias redes')
+            if db.execute('SELECT COUNT(*) FROM positions WHERE lc0_secondary_w < 0 OR lc0_secondary_d < 0 OR lc0_secondary_l < 0 OR lc0_secondary_w > 1 OR lc0_secondary_d > 1 OR lc0_secondary_l > 1 OR ABS(lc0_secondary_w+lc0_secondary_d+lc0_secondary_l-1)>0.002').fetchone()[0]:
+                raise ValueError('LC0-secondary WDL inválido')
         if lc0_weight:
             prefix='lc0_uci' if getattr(a,'lc0_source','neural')=='uci' else 'lc0'
             for col in (prefix+'_w',prefix+'_d',prefix+'_l',prefix+'_network_id',prefix+'_history_mode'):
@@ -327,7 +369,7 @@ def run(a, progress):
             if out.exists() and any(out.iterdir()):
                 raise ValueError('FINE-TUNE: directorio de destino no vacío')
         out.mkdir(parents=True,exist_ok=True)
-        manifest={'weights':{'classic':classic_weight,'stockfish':effective,'result':a.weight_result,'lc0':lc0_weight,'lc0_source':getattr(a,'lc0_source','neural'),'mcts':mcts_weight},'seed':a.seed,'quick':quick,'validation_pct':5.0 if quick else a.validation,
+        manifest={'weights':{'classic':classic_weight,'stockfish':effective,'result':a.weight_result,'lc0':lc0_weight,'lc0_source':getattr(a,'lc0_source','neural'),'mcts':mcts_weight,'lc0_secondary':secondary_weight},'seed':a.seed,'quick':quick,'validation_pct':5.0 if quick else a.validation,
                   'train_pct':5.0 if quick else 100.0-a.validation,
                   'train_games':sorted(tg),'validation_games':sorted(vg),
                   'omitted_games':len(shuffled)-len(tg)-len(vg),
@@ -378,11 +420,11 @@ def run(a, progress):
                 metadata=json.loads(str(checkpoint['training_metadata'].item()))
                 if metadata.get('target_mode')!='classic_cp':
                     raise ValueError('--network no es checkpoint CLASSIC; no se permite heredar pesos WDL')
-        model=make_model(torch,dtype,device,a.network,False)
+        model=(make_small_model(torch,dtype,device) if getattr(a,"architecture","npz")=="grumpy-small" else make_model(torch,dtype,device,a.network,False))
         if a.fine_tune:
             print(f'🧬 FINE-TUNE origen={a.network} destino={out} señal={"STOCKFISH" if refine_cp else "PGN" if refine_pgn_cp else "CLASSIC"} max_delta_cp={refine_cp or refine_pgn_cp:g}')
             baseline_combined=_evaluate(torch,db,model,val_ids,a.batch_size,effective,dtype,device,
-                                        '📊 BASELINE combinado',progress,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,getattr(a,'lc0_source','neural'),mcts_weight,a.weight_result)
+                                        '📊 BASELINE combinado',progress,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,getattr(a,'lc0_source','neural'),mcts_weight,a.weight_result,secondary_weight)
             baseline_classic=_evaluate(torch,db,model,val_ids,a.batch_size,effective,dtype,device,
                                        '📊 BASELINE CLASSIC',progress,classic_weight,0.0)
             print(f'📊 BASELINE combined_MSE={baseline_combined:.10f} classic_MSE={baseline_classic:.10f} '
@@ -400,8 +442,8 @@ def run(a, progress):
             began=time.monotonic();order=rng.permutation(train_ids)
             print(f'\n🔄 Epoch {epoch:03d}/{a.epoch:03d} | lr={opt.param_groups[0]["lr"]:.8g}')
             model.train();online_sum=0.0;seen=0
-            for arrays in _iter_batches(db,order,a.batch_size,classic_weight>0,getattr(a,"lc0_source","neural"),mcts_weight):
-                pred,y=_forward_batch(torch,model,arrays,effective,dtype,device,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,mcts_weight,a.weight_result)
+            for arrays in _iter_batches(db,order,a.batch_size,classic_weight>0,getattr(a,"lc0_source","neural"),mcts_weight,secondary_weight):
+                pred,y=_forward_batch(torch,model,arrays,effective,dtype,device,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,mcts_weight,a.weight_result,secondary_weight)
                 loss=((pred-y)**2).mean()
                 opt.zero_grad(set_to_none=True)
                 loss.backward()
@@ -411,8 +453,8 @@ def run(a, progress):
                 online_sum+=float(loss.detach().item())*bs;seen+=bs
                 if seen%max(a.batch_size*20,1)<a.batch_size or seen==len(order):
                     progress('📈 TRAIN online',seen,len(order),online_sum/seen)
-            fixed=_evaluate(torch,db,model,train_ids,a.batch_size,effective,dtype,device,'📌 TRAIN fijo',progress,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,getattr(a,'lc0_source','neural'),mcts_weight,a.weight_result)
-            val=_evaluate(torch,db,model,val_ids,a.batch_size,effective,dtype,device,'🔬 VALIDATION',progress,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,getattr(a,'lc0_source','neural'),mcts_weight,a.weight_result) if len(val_ids) else float('nan')
+            fixed=_evaluate(torch,db,model,train_ids,a.batch_size,effective,dtype,device,'📌 TRAIN fijo',progress,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,getattr(a,'lc0_source','neural'),mcts_weight,a.weight_result,secondary_weight)
+            val=_evaluate(torch,db,model,val_ids,a.batch_size,effective,dtype,device,'🔬 VALIDATION',progress,classic_weight,refine_cp,refine_pgn_cp,lc0_weight,getattr(a,'lc0_source','neural'),mcts_weight,a.weight_result,secondary_weight) if len(val_ids) else float('nan')
             if a.fine_tune:
                 classic_val=_evaluate(torch,db,model,val_ids,a.batch_size,effective,dtype,device,
                                       '🔬 VALIDATION classic',progress,classic_weight,0.0)
@@ -428,7 +470,7 @@ def run(a, progress):
                   'train_positions':len(order),'validation_positions':len(val_ids),'elapsed_sec':elapsed,
                   'backend':'pytorch','torch_version':torch.__version__, 'device':str(device),
                   'optimizer':a.optimizer,'lr':opt.param_groups[0]['lr'],'batch_size':a.batch_size,
-                  'weight_stockfish':effective,'weight_classic':classic_weight,'weight_mcts':mcts_weight,'weight_lc0':lc0_weight,'lc0_source':getattr(a,'lc0_source','neural'),'weight_result':a.weight_result,'target_mode':'normalized_blend','target_scale_cp':400,'fine_tune':bool(a.fine_tune),
+                  'weight_stockfish':effective,'weight_classic':classic_weight,'weight_mcts':mcts_weight,'weight_lc0':lc0_weight,'lc0_source':getattr(a,'lc0_source','neural'),'weight_result':a.weight_result,'weight_lc0_secondary':secondary_weight,'architecture':a.architecture,'target_mode':'normalized_blend','target_scale_cp':400,'fine_tune':bool(a.fine_tune),
                    'refine_stockfish_max_cp':refine_cp,
                                    'refine_pgn_max_cp':refine_pgn_cp,
                    'origin_checkpoint':str(Path(a.network).resolve()) if a.fine_tune else None,
@@ -436,8 +478,8 @@ def run(a, progress):
                    'baseline_combined_mse':baseline_combined if a.fine_tune else None,
                    'baseline_classic_mse':baseline_classic if a.fine_tune else None,'seed':a.seed,'dtype':a.torch_dtype,
                   'quick':quick,'shuffle_pct':a.shuffle,'validation_target':('CLASSIC_CP' if classic_weight==1.0 else 'CLASSIC_HYBRID' if classic_weight>0 else 'STOCKFISH' if effective==1.0 else 'HYBRID' if effective>0 else 'PGN')}
-            file=out/f'nnue_epoch_{epoch:03d}.npz'
-            _save_npz(model,file,meta)
+            file=out/(f'grumpy_small_epoch_{epoch:03d}.npz' if a.architecture=='grumpy-small' else f'nnue_epoch_{epoch:03d}.npz')
+            (_save_small if a.architecture=='grumpy-small' else _save_npz)(model,file,meta)
             if a.save_optimizer_state:
                 _save_training_state(torch,out/f'optimizer_epoch_{epoch:03d}.pt',model,opt,sched,epoch,a)
             print(f'💾 {file.name} MSE(📈 {online:.10f} 📌 {fixed:.12f} 🔬 {val:.12f}) '
@@ -446,7 +488,7 @@ def run(a, progress):
             if improved:
                 best=val;no_improvement=0
                 if a.save_best:
-                    _save_npz(model,out/'nnue_best.npz',dict(meta,best_epoch=epoch))
+                    (_save_small if a.architecture=='grumpy-small' else _save_npz)(model,out/('grumpy_small_best.npz' if a.architecture=='grumpy-small' else 'nnue_best.npz'),dict(meta,best_epoch=epoch))
             elif len(val_ids):no_improvement+=1
             if sched:
                 if a.scheduler=='plateau':sched.step(val if len(val_ids) else fixed)
