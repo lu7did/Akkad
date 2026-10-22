@@ -30,7 +30,7 @@ def parser():
     p.add_argument('--resample', type=float, metavar='NN', help='Porcentaje de partidas completas a extraer del .pb')
     p.add_argument('--seed', type=int, default=42, help='Semilla aleatoria del muestreo')
     p.add_argument('--override', action='store_true', help='Permite reemplazar un .pb existente sólo después de preparar correctamente el nuevo')
-    p.add_argument('--update', choices=['classic','stockfish','result','lc0','lc0-uci'], help='Actualiza independientemente etiquetas de una base existente (--input)')
+    p.add_argument('--update', choices=['classic','stockfish','result','lc0','lc0-uci','lc0-secondary'], help='Actualiza independientemente etiquetas de una base existente (--input)')
     p.add_argument('--result-smoothing', type=float, default=0.15, help='Fracción de partida usada para suavizar el resultado final (0 < factor <= 1)')
     p.add_argument('--stockfish', action='store_true')
     p.add_argument('--classic', action='store_true', help='Etiquetar posiciones con evaluación estática Sargon CLASSIC (cp blancos)')
@@ -45,6 +45,7 @@ def parser():
     p.add_argument('--lc0-uci-nodes',type=int,default=800)
     p.add_argument('--lc0-uci-timeout',type=int,default=60000)
     p.add_argument('--lc0-uci-overwrite',action='store_true')
+    p.add_argument('--lc0-secondary-weights',help='Red LC0 independiente para segunda etiqueta (bindings)')
     p.add_argument('--lc0-weights',help='Lc0 .pb.gz weights for --update lc0')
     p.add_argument('--lc0-backend',default='auto')
     p.add_argument('--lc0-backend-options',default='')
@@ -262,6 +263,9 @@ def _ensure_labels(db):
 
 def update_labels(a):
     """Actualización in-place, independiente y reanudable por transacción de partida."""
+    if a.update == 'lc0-secondary':
+        from .lc0_secondary_label import label_database
+        return label_database(a)
     if a.update == 'lc0-uci':
         from .lc0_uci_label import label_database
         return label_database(a)

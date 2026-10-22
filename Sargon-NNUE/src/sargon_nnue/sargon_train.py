@@ -32,6 +32,8 @@ def parser():
     p.add_argument('--weight-classic',type=float,default=0.0)
     p.add_argument('--lc0-source',choices=['neural','uci'],default='neural',help='Cuarta fuente: neural LC0 o lc0.exe UCI; sin mezclar ambas')
     p.add_argument('--weight-mcts',type=float,default=0.0,help='Peso independiente de az_mcts_value; requiere --pytorch')
+    p.add_argument('--architecture',choices=['npz','grumpy-small'],default='npz',help='Arquitectura: NNUE existente o red compacta experimental')
+    p.add_argument('--weight-lc0-secondary',type=float,default=0.0,help='Peso adicional para segunda red LC0 bindings')
     p.add_argument('--weight-lc0',type=float,default=0.0,help='LC0 WDL weight (requires --pytorch and annotated PB)')
     p.add_argument('--weight-stockfish',type=float,default=0.0)
     p.add_argument('--weight-result',type=float,default=None,help='Peso del resultado suavizado (implícito=1-suma de otros pesos en PyTorch)')
@@ -168,10 +170,14 @@ def main(argv=None):
     elif a.refine_stockfish_max_cp or a.refine_pgn_max_cp:
         parser().error('Las correcciones PGN/Stockfish requieren --fine-tune')
     if not(0<=a.weight_classic<=1): parser().error('--weight-classic debe estar entre 0 y 1')
-    if a.weight_result is None:a.weight_result=max(0.0,1-a.weight_classic-a.weight_stockfish-a.weight_lc0-a.weight_mcts)
-    if min(a.weight_classic,a.weight_stockfish,a.weight_result,a.weight_lc0,a.weight_mcts)<0 or abs(a.weight_classic+a.weight_stockfish+a.weight_result+a.weight_lc0+a.weight_mcts-1)>1e-9:parser().error('pesos CLASSIC/Stockfish/Result/LC0/MCTS deben sumar 1')
+    if a.weight_result is None:a.weight_result=max(0.0,1-a.weight_classic-a.weight_stockfish-a.weight_lc0-a.weight_lc0_secondary-a.weight_mcts)
+    if min(a.weight_classic,a.weight_stockfish,a.weight_result,a.weight_lc0,a.weight_lc0_secondary,a.weight_mcts)<0 or abs(a.weight_classic+a.weight_stockfish+a.weight_result+a.weight_lc0+a.weight_lc0_secondary+a.weight_mcts-1)>1e-9:parser().error('pesos CLASSIC/Stockfish/Result/LC0/LC0-secondary/MCTS deben sumar 1')
+    if a.weight_lc0_secondary and not a.pytorch: parser().error('--weight-lc0-secondary requiere --pytorch')
+    if a.architecture!='npz' and not a.pytorch: parser().error('--architecture grumpy-small requiere --pytorch')
+    if a.architecture!='npz' and (a.network or a.fine_tune): parser().error('grumpy-small no admite checkpoints NPZ ni fine-tune actual')
     if a.weight_mcts and not a.pytorch: parser().error('--weight-mcts requiere --pytorch')
     if a.weight_lc0 and not a.pytorch: parser().error('--weight-lc0 requiere --pytorch')
+    if not(0<=a.weight_lc0_secondary<=1):parser().error('--weight-lc0-secondary debe estar entre 0 y 1')
     if not(0<=a.weight_lc0<=1): parser().error('--weight-lc0 debe estar entre 0 y 1')
     if not(0<=a.weight_stockfish<=1): parser().error('--weight-stockfish debe estar entre 0 y 1')
     if not(0<=a.validation<100):parser().error('--validation debe estar en [0,100)')
@@ -186,7 +192,7 @@ def main(argv=None):
     a.stockfish = a.weight_stockfish > 0
     effective=a.weight_stockfish
     classic_weight=a.weight_classic
-    print(f'🧠 SARGON TRAIN v{VERSION}\n⚙️ Argumentos: {vars(a)}\n⚖️ PGN={a.weight_result:.3f} MCTS={a.weight_mcts:.3f} LC0={a.weight_lc0:.3f} Stockfish={effective:.3f} CLASSIC={classic_weight:.3f}')
+    print(f'🧠 SARGON TRAIN v{VERSION}\n⚙️ Argumentos: {vars(a)}\n⚖️ PGN={a.weight_result:.3f} MCTS={a.weight_mcts:.3f} LC0={a.weight_lc0:.3f} LC0-secondary={a.weight_lc0_secondary:.3f} Stockfish={effective:.3f} CLASSIC={classic_weight:.3f}')
     if a.pytorch:
         from .torch_train import run
         try:
