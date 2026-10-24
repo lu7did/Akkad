@@ -1,0 +1,33 @@
+\u2699\ufe0f EXEC player=alphazero | evaluator=tinygyal | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=10000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=TINYGYAL \U0001f3ae player=ALPHAZERO
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1000 best=e2e4 visits=765 q=+0.1003 elapsed_ms=2326.2
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 e7e5 g1f3 b8c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1000 best=f1b5 visits=637 q=+0.1226 elapsed_ms=2522.7
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 d7d5 c2c4 e7e6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1000 best=g1f3 visits=402 q=+0.0858 elapsed_ms=2404.1
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 c7c5 g1f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1000 best=e7e6 visits=324 q=-0.0831 elapsed_ms=2358.8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 g7g6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1000 best=b1c3 visits=733 q=+0.1549 elapsed_ms=2460.3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves c2c4 e7e5 b1c3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1000 best=g8f6 visits=588 q=-0.0168 elapsed_ms=2515.6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves g1f3 d7d5 d2d4 g8f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=1000 best=c2c4 visits=557 q=+0.0753 elapsed_ms=2485.2
+\u2b05\ufe0f quit

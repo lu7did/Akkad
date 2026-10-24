@@ -1,0 +1,39 @@
+Creating backend [eigen]...
+Detected 8 core(s) and 8 thread(s) in 1 group(s).
+Group 0 has 8 core(s) and 8 thread(s).
+Using Eigen version 3.4.0
+Eigen max batch size is 256.
+\U0001f9e0 LC0 v0.6.117 network=bc27a6cae8ad36f2 history=allow-incomplete cache=per-game
+\u2699\ufe0f EXEC player=alphazero | evaluator=lc0 | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=LC0 \U0001f3ae player=ALPHAZERO
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=387 best=d2d4 visits=147 q=+0.0935 elapsed_ms=15036.9
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 e7e5 g1f3 b8c6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=379 best=f1b5 visits=215 q=+0.0951 elapsed_ms=15032.7
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 d7d5 c2c4 e7e6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=382 best=g1f3 visits=196 q=+0.1389 elapsed_ms=15006.2
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 c7c5 g1f3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=379 best=e7e6 visits=193 q=-0.1529 elapsed_ms=15033.9
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 g7g6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=362 best=e2e3 visits=180 q=+0.1272 elapsed_ms=15027.6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves c2c4 e7e5 b1c3
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=377 best=g8f6 visits=295 q=-0.0220 elapsed_ms=15027.3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves g1f3 d7d5 d2d4 g8f6
+\u2b05\ufe0f go
+\U0001f9e0 ALPHAZERO sims=374 best=c2c4 visits=263 q=+0.1129 elapsed_ms=15008.6
+\u2b05\ufe0f quit

@@ -74,7 +74,27 @@ Write-Host "PIOASM: $PioasmDir"
 Write-Host "PICOTOOL: $PicotoolDir"
 
 if (-not (Test-Path (Join-Path $Project 'include\generated_tinygyal.hpp'))) { throw 'Falta include\generated_tinygyal.hpp: ejecutar el conversor de TinyGyal' }
-& $CMake -S $Project -B $Build -G Ninja `
+
+# Una caché CMake generada antes del traslado del proyecto no es portable.
+# Regenerarla SOLO si el origen o el directorio build que registra difiere
+# de la ubicación actual. No borrar fuentes, configuración ni redes.
+$CachePath = Join-Path $Build 'CMakeCache.txt'
+$FreshArgs = @()
+if (Test-Path -LiteralPath $CachePath -PathType Leaf) {
+    $CacheLines = Get-Content -LiteralPath $CachePath
+    $OldSource = $CacheLines | Where-Object { $_ -match '^CMAKE_HOME_DIRECTORY:INTERNAL=' } | Select-Object -First 1
+    $OldBuild = $CacheLines | Where-Object { $_ -match '^CMAKE_CACHEFILE_DIR:INTERNAL=' } | Select-Object -First 1
+    $CurrentSource = [System.IO.Path]::GetFullPath($Project).Replace('\','/').TrimEnd('/')
+    $CurrentBuild = [System.IO.Path]::GetFullPath($Build).Replace('\','/').TrimEnd('/')
+    $CachedSource = if ($OldSource) { ($OldSource -split '=',2)[1].Replace('\','/').TrimEnd('/') } else { '' }
+    $CachedBuild = if ($OldBuild) { ($OldBuild -split '=',2)[1].Replace('\','/').TrimEnd('/') } else { '' }
+    if (-not $CachedSource.Equals($CurrentSource, [System.StringComparison]::OrdinalIgnoreCase) -or
+        -not $CachedBuild.Equals($CurrentBuild, [System.StringComparison]::OrdinalIgnoreCase)) {
+        Write-Warning "CMakeCache de otra ubicación detectada. Origen anterior: '$CachedSource'. Se regenerará la configuración."
+        $FreshArgs = @('--fresh')
+    }
+}
+& $CMake @FreshArgs -S $Project -B $Build -G Ninja `
     "-DPICO_BOARD=$Board" `
     "-DPICO_SDK_PATH=$Sdk" `
     "-DCMAKE_MAKE_PROGRAM=$Ninja" `

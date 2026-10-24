@@ -1,0 +1,10 @@
+^C:\USERS\PEDRO\GITHUB\BOBBY\AKKAD\PICOSARGON\X86\PICOSARGON\BUILD\CMAKEFILES\ED939B08F481DA81545F470FBC7A5A0F\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/pedro/github/Bobby/Akkad/picoSargon/x86/picoSargon -BC:/Users/pedro/github/Bobby/Akkad/picoSargon/x86/picoSargon/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/pedro/github/Bobby/Akkad/picoSargon/x86/picoSargon/build/picoSargon.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

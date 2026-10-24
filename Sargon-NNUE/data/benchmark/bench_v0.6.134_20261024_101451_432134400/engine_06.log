@@ -1,0 +1,51 @@
+\u2699\ufe0f EXEC player=sargon-plus | evaluator=cerebrum-1.1 | depth=4 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000] | boost=0x2000/8192 [default=0] | turbo=0x01/1 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+\U0001f680 BOOST 0x2000 bit=13 incremental-eval=ON mask=0x2000
+\u26a1 TURBO 0x01 bit=0 adaptive-full-width=ON mask=0x01 actuator=ACTIVE
+\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=CEREBRUM-1.1 \U0001f3ae player=SARGON-PLUS
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\u26a1 TURBO cost depth=2 elapsed_ms=52.6 growth=5.439
+\u26a1 TURBO cost depth=3 elapsed_ms=621.2 growth=8.624
+\u26a1 TURBO cost depth=4 elapsed_ms=4702.1 growth=7.570
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 e7e5 g1f3 b8c6
+\u2b05\ufe0f go
+\u26a1 TURBO cost depth=2 elapsed_ms=254.6 growth=9.690
+\u26a1 TURBO cost depth=3 elapsed_ms=2195.5 growth=8.623
+\u26a1 TURBO full-width SKIP depth=4 projected_ms=18932.0 remaining_ms=12532.0 action=do-not-start-full-level
+\u26a1 TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=f1e2 score_cp=46
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 d7d5 c2c4 e7e6
+\u2b05\ufe0f go
+\u26a1 TURBO cost depth=2 elapsed_ms=90.6 growth=8.096
+\u26a1 TURBO cost depth=3 elapsed_ms=757.4 growth=8.358
+\u26a1 TURBO cost depth=4 elapsed_ms=4615.2 growth=7.964
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 c7c5 g1f3
+\u2b05\ufe0f go
+\u26a1 TURBO cost depth=2 elapsed_ms=112.5 growth=8.491
+\u26a1 TURBO cost depth=3 elapsed_ms=1237.0 growth=8.491
+\u26a1 TURBO cost depth=4 elapsed_ms=12059.1 growth=9.186
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 g7g6
+\u2b05\ufe0f go
+\u26a1 TURBO cost depth=2 elapsed_ms=88.9 growth=8.491
+\u26a1 TURBO cost depth=3 elapsed_ms=1089.2 growth=9.053
+\u26a1 TURBO cost depth=4 elapsed_ms=4278.6 growth=9.053
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves c2c4 e7e5 b1c3
+\u2b05\ufe0f go
+\u26a1 TURBO cost depth=2 elapsed_ms=124.3 growth=8.886
+\u26a1 TURBO cost depth=3 elapsed_ms=1805.4 growth=9.781
+\u26a1 TURBO full-width SKIP depth=4 projected_ms=17659.2 remaining_ms=13054.4 action=do-not-start-full-level
+\u26a1 TURBO RETURN last-complete depth=3 attempted=4 reason=candidate-disabled-or-unavailable bestmove=d8h4 score_cp=0
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves g1f3 d7d5 d2d4 g8f6
+\u2b05\ufe0f go
+\u26a1 TURBO cost depth=2 elapsed_ms=111.0 growth=8.886
+\u26a1 TURBO cost depth=3 elapsed_ms=1278.4 growth=8.886
+\u26a1 TURBO cost depth=4 elapsed_ms=13455.1 growth=9.274
+\u2b05\ufe0f quit

@@ -1,1 +1,0 @@
-v0.6.48: maestro CLASSIC en PREPARE; objetivo CLASSIC en Torch TRAIN; match sin aperturas forzadas y auditoría CLASSIC para posiciones/candidatas; Judge procesa CSV CLASSIC. Sin cambio de búsqueda ni protocolos UCI.

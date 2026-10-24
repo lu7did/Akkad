@@ -1,0 +1,200 @@
+{
+  "tool": "sargon_benchmark",
+  "version": "0.6.134",
+  "brain_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\brains\\brains.json",
+  "brain_ids": [
+    "sophie",
+    "aegir",
+    "stockfish",
+    "buddy",
+    "classic",
+    "alien",
+    "cerebrum",
+    "messy",
+    "alphie",
+    "locus",
+    "picoAlpha",
+    "picoSargon",
+    "smallAlpha",
+    "tinyAlpha",
+    "tinySargon"
+  ],
+  "brains": {
+    "sophie": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\lc0\\t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 1474.37
+    },
+    "aegir": {
+      "evaluator": "npz",
+      "player": "sargon-plus",
+      "network": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\lex\\checkpoints\\nnue_best.npz",
+      "depth": 4,
+      "qdepth": 2,
+      "tmax": 15000,
+      "dmax": 9,
+      "boost": "0x0000",
+      "turbo": "0x01",
+      "rating_elo": 1154.37
+    },
+    "stockfish": {
+      "evaluator": "null",
+      "player": "stockfish",
+      "engine-path": "C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe",
+      "movetime": 1000,
+      "timeout": 60000,
+      "rating_elo": 1022.4,
+      "depth": 20,
+      "nodes": 0,
+      "elo": "max",
+      "stockfish-threads": 2,
+      "stockfish-hash": 256
+    },
+    "buddy": {
+      "evaluator": "classic",
+      "player": "sargon",
+      "depth": 3,
+      "qdepth": 0,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 974.4
+    },
+    "classic": {
+      "evaluator": "classic",
+      "player": "sargon-plus",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 974.4
+    },
+    "alien": {
+      "evaluator": "cerebrum-1.1",
+      "network": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\cerebrum\\epoch-11-q.txt",
+      "player": "sargon-plus",
+      "depth": 4,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": "0x2000",
+      "turbo": "0x01",
+      "cerebrum-a": null,
+      "cerebrum-b": null,
+      "rating_elo": 830.86
+    },
+    "cerebrum": {
+      "evaluator": "cerebrum-1.1",
+      "network": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\cerebrum\\epoch-11-q.txt",
+      "player": "cerebrum",
+      "depth": null,
+      "qdepth": 3,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "cerebrum-a": null,
+      "cerebrum-b": null,
+      "rating_elo": 618.3
+    },
+    "messy": {
+      "evaluator": "null",
+      "player": "random",
+      "depth": null,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 572.8
+    },
+    "alphie": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\lc0\\t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-uci-nodes": 800,
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "lc0-uci-threads": 1,
+      "rating_elo": 400.0
+    },
+    "locus": {
+      "player": "lc0",
+      "evaluator": "null",
+      "lc0-uci-path": "C:\\Users\\pedro\\github\\Bobby\\lc0\\lc0.exe",
+      "lc0-weights": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\lc0\\t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-cpu",
+      "lc0-uci-nodes": 800,
+      "lc0-uci-threads": 1,
+      "lc0-uci-nncache": 200000,
+      "lc0-uci-timeout": 60000,
+      "rating_elo": 400.0
+    },
+    "picoAlpha": {
+      "player": "external",
+      "evaluator": "null",
+      "url": "picoalpha.local:6110",
+      "rating_elo": 400
+    },
+    "picoSargon": {
+      "player": "external",
+      "evaluator": "null",
+      "url": "picosargon.local:6110",
+      "rating_elo": 400
+    },
+    "smallAlpha": {
+      "player": "alphazero",
+      "evaluator": "tinygyal",
+      "network": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoAlpha\\data\\runs\\lc0\\tinygyal-8.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-history": "allow-incomplete",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 400
+    },
+    "tinyAlpha": {
+      "player": "picoalpha",
+      "evaluator": "null",
+      "engine-path": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoAlpha\\x86\\picoAlpha\\build\\picoAlpha.exe",
+      "network": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoAlpha\\data\\runs\\lc0\\tinygyal-8.pb.gz",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "timeout": 30000
+    },
+    "tinySargon": {
+      "player": "picosargon",
+      "evaluator": "null",
+      "engine-path": "../../picoSargon/x86/picoSargon/build/picoSargon_host.exe",
+      "depth": 6,
+      "qdepth": 4,
+      "tmax": 15000,
+      "timeout": 30000,
+      "rating_elo": 400
+    }
+  },
+  "mode": "positions",
+  "positions": 6,
+  "plies": null,
+  "rounds": 1,
+  "warmup": 1,
+  "timeout_s": 90,
+  "python": "C:\\Users\\pedro\\ufasta\\Scripts\\python.exe",
+  "fixed_fens": [
+    "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+    "rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2",
+    "rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3"
+  ],
+  "opening": [],
+  "fens": []
+}

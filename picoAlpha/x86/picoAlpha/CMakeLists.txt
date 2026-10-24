@@ -24,3 +24,13 @@ if(MSVC)
 else()
  target_compile_options(picoAlpha32 PRIVATE -O3 -Wall -Wextra)
 endif()
+
+# Keep both Windows outputs directly in ./build, including multi-config VS generators.
+foreach(_target picoAlpha picoAlpha32)
+  set_target_properties(${_target} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}")
+endforeach()
