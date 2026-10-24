@@ -1,0 +1,4 @@
+C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoAlpha/build_windows/CMakeFiles/picoAlpha.dir
+C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoAlpha/build_windows/CMakeFiles/picoAlpha32.dir
+C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoAlpha/build_windows/CMakeFiles/ALL_BUILD.dir
+C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoAlpha/build_windows/CMakeFiles/ZERO_CHECK.dir

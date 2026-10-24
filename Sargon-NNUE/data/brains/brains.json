@@ -95,6 +95,12 @@
       "url" :  "picosargon.local:6110",
       "rating_elo": 400
     },
+    "picoAlpha": {
+      "player": "external",
+      "evaluator": "null",
+      "url" :  "picoalpha.local:6110",
+      "rating_elo": 400
+    },
     "alphie": {
       "player": "alphazero",
       "evaluator": "lc0",

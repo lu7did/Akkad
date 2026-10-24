@@ -11,4 +11,4 @@
 #* run_benchmark.ps1
 #* Benchmarks Sargon-NNUE
 #=================================================================================================================*
-.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids picoalpha beavys sophie
+.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids picoAlpha picoSargon

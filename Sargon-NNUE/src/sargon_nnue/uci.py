@@ -63,7 +63,7 @@ class UCISession:
                 elif line.startswith("position "): self.set_position(line)
                 elif line.startswith("go"):
                     self._go_index += 1
-                    board = self.board.copy(stack=True) if getattr(self.player,"name","") in ("ALPHAZERO","LC0-UCI") else self.board.copy(stack=False)
+                    board = self.board.copy(stack=True) if getattr(self.player,"name","") in ("ALPHAZERO","LC0-UCI","EXTERNAL") else self.board.copy(stack=False)
                     if self.audit is not None and self.audit.enabled:
                         self.audit.event("uci_go_begin", go_index=self._go_index, command=line, fen=board.fen(), turn="white" if board.turn else "black", legal_moves=len(list(board.legal_moves)))
                     choice = self.player.choose(board)
@@ -82,5 +82,7 @@ class UCISession:
                     break
                 else: self.log(f"⚠️ comando UCI ignorado: {line}")
             except Exception as exc:
-                self.log(f"❌ UCI: {exc}")
-                if line.startswith("go"): self.send("bestmove (none)")
+                self.log(f"❌ UCI: {type(exc).__name__}: {exc}")
+                if line.startswith("go"):
+                    self.send(f"info string error {type(exc).__name__}: {exc}")
+                    self.send("bestmove (none)")
