@@ -13,6 +13,10 @@ $Asm = $Gcc
 $SdkRoot = 'C:\Users\pedro\.pico-sdk'
 $Python = 'C:\Users\pedro\ufasta\Scripts\python.exe'
 $Build = Join-Path $Project ('build-' + $Board.Replace('_','-') + '-v025')
+$Tools = Join-Path (Split-Path -Parent $Project) 'tools'
+$Embed = Join-Path $Tools 'embed_grumpy.py'
+$Weights = Join-Path $Project 'assets\grumpy.bin'
+$Header = Join-Path $Project 'include\generated_grumpy.hpp'
 
 foreach ($File in @($CMake,$Ninja,$Gcc,$Gxx,$Python)) {
     if (-not (Test-Path -LiteralPath $File -PathType Leaf)) { throw "No existe: $File" }
@@ -69,8 +73,14 @@ Write-Host "GCC:   $Gcc"
 Write-Host "PIOASM: $PioasmDir"
 Write-Host "PICOTOOL: $PicotoolDir"
 
-& $Python (Join-Path $Project 'tools\embed_grumpy.py')
+if (-not (Test-Path -LiteralPath $Embed -PathType Leaf)) { throw "Falta utilitario: $Embed" }
+if (-not (Test-Path -LiteralPath $Weights -PathType Leaf)) { throw "Faltan pesos: $Weights" }
+& $Python $Embed --input $Weights --output $Header
 if ($LASTEXITCODE -ne 0) { throw 'Error generando pesos Grumpy' }
+if (Test-Path -LiteralPath $Build) {
+    Write-Host "Descartando cache y artefactos obsoletos: $Build"
+    Remove-Item -LiteralPath $Build -Recurse -Force
+}
 & $CMake -S $Project -B $Build -G Ninja `
     "-DPICOSARGON_PICO=ON" `
     "-DPICO_BOARD=$Board" `

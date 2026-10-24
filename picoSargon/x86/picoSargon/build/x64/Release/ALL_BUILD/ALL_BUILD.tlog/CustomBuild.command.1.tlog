@@ -1,0 +1,10 @@
+^C:\USERS\PEDRO\GITHUB\BOBBY\AKKAD\PICOSARGON\X86\PICOSARGON\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/pedro/github/Bobby/Akkad/picoSargon/x86/picoSargon -BC:/Users/pedro/github/Bobby/Akkad/picoSargon/x86/picoSargon/build --check-stamp-file C:/Users/pedro/github/Bobby/Akkad/picoSargon/x86/picoSargon/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

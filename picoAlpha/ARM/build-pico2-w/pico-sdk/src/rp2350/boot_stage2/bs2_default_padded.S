@@ -1,4 +1,4 @@
-// Padded version of: C:/Users/pedro/github/Bobby/Akkad/picoAlpha/build-pico2-w/pico-sdk/src/rp2350/boot_stage2/bs2_default.bin
+// Padded version of: C:/Users/pedro/github/Bobby/Akkad/picoAlpha/ARM/build-pico2-w/pico-sdk/src/rp2350/boot_stage2/bs2_default.bin
 
 .section .boot2, "ax"
 

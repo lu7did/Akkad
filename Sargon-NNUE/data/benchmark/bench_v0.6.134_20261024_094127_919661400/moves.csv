@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+tinyAlpha,picoalpha,null,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor tinyAlpha cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.134_20261024_094127_919661400\engine_01.log

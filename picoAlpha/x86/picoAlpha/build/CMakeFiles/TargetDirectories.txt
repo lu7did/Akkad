@@ -1,0 +1,4 @@
+C:/Users/pedro/github/Bobby/Akkad/picoAlpha/x86/picoAlpha/build/CMakeFiles/picoAlpha.dir
+C:/Users/pedro/github/Bobby/Akkad/picoAlpha/x86/picoAlpha/build/CMakeFiles/picoAlpha32.dir
+C:/Users/pedro/github/Bobby/Akkad/picoAlpha/x86/picoAlpha/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/pedro/github/Bobby/Akkad/picoAlpha/x86/picoAlpha/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,0 +1,32 @@
+\u265f\ufe0f LC0-UCI engine=C:\Users\pedro\github\Bobby\lc0\lc0.exe backend=onnx-cpu nodes=800
+<UciProtocol (pid=33380)>: stderr >>        _
+<UciProtocol (pid=33380)>: stderr >> |   _ | |
+<UciProtocol (pid=33380)>: stderr >> |_ |_ |_| v0.32.1 built Nov 23 2025
+<UciProtocol (pid=33380)>: stderr >> Search algorithm: classic
+\u2699\ufe0f EXEC player=lc0 | evaluator=null | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=NULL \U0001f3ae player=LC0-UCI
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+<UciProtocol (pid=33380)>: stderr >> Loading weights file from: C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\runs\lc0\t1-256x10-distilled-swa-2432500.pb.gz
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 e7e5 g1f3 b8c6
+\u2b05\ufe0f go
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 d7d5 c2c4 e7e6
+\u2b05\ufe0f go
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 c7c5 g1f3
+\u2b05\ufe0f go
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 g7g6
+\u2b05\ufe0f go
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves c2c4 e7e5 b1c3
+\u2b05\ufe0f go
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves g1f3 d7d5 d2d4 g8f6
+\u2b05\ufe0f go
+\u2b05\ufe0f quit

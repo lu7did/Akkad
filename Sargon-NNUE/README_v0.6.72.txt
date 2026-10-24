@@ -1,2 +1,0 @@
-v0.6.72 - MATCH: cleanup child on UCI handshake exception; RALLY: preserve failed preflight logs and show listener stderr. RANDOM/NULL: guarded local patch to factory.py.
-Instalar dos Python modules, colocar script en scripts, ejecutar: C:\Users\pedro\ufasta\Scripts\python.exe .\patch_factory_random_null_v072.py desde scripts. Primero probar --preflight-only. No reemplaza factory.py entero, para evitar regresiones.
