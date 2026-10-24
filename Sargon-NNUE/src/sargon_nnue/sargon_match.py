@@ -116,7 +116,10 @@ class UCI:
         # Este Sargon-NNUE usa la profundidad configurada al iniciar el motor.
         self.send('go')
         reply = self.until('bestmove ', timeout)
-        u = reply.split()[1]
+        parts=reply.split()
+        if len(parts)<2 or parts[1] in ('(none)','0000'):
+            raise RuntimeError(f'fallo del motor {self.label}: {reply}; consultar {self.log.name}')
+        u=parts[1]
         try: move = chess.Move.from_uci(u)
         except ValueError: raise RuntimeError(f'bestmove inválido: {reply}')
         if move not in board.legal_moves: raise RuntimeError(f'bestmove ilegal: {reply}')
@@ -141,7 +144,7 @@ class UCI:
 
 # Private protocol for RALLY: line-framed updates over a redirected stdout pipe.
 # Keeping real terminal updates separate avoids PowerShell/Python CR translation.
-VERSION='0.6.161'
+VERSION='0.6.168'
 import json
 import chess.pgn
 
@@ -489,10 +492,19 @@ def main(argv=None):
                         f'⚪ {white_label} ⚫ {black_label}')
                 print(prefix + ' ♟️ -- ⏱️ --.-s (IN_PROGRESS)', flush=True)
                 trace('game_start',game=game_no,white=white,black=black,fen=board.fen(),opening=moves[:])
-                for eng in engines.values():eng.send('ucinewgame')
                 start=time.monotonic();reason='';result='*'
+                game_fault_side=None
+                try:
+                    for eng in engines.values():
+                        eng.send('ucinewgame')
+                        eng.send('isready')
+                        eng.until('readyok', min(a.timeout, 10))
+                except Exception as exc:
+                    reason=f'ENGINE_INIT:{type(exc).__name__}:{exc}'
+                    game_fault_side='INIT'
                 player_times={'A':0.0,'B':0.0}
                 try:
+                    if game_fault_side is not None: raise RuntimeError(reason)
                     while not board.is_game_over(claim_draw=True) and board.ply()<a.max_plies:
                         side=white if board.turn else black
                         ply=board.ply()+1
@@ -528,6 +540,27 @@ def main(argv=None):
                     print('🛑 Ctrl+C: interrumpiendo MATCH; guardando partida parcial y resultados...', flush=True)
                 except Exception as exc:
                     reason=f'ERROR:{type(exc).__name__}:{exc}'
+                    if game_fault_side is None: game_fault_side=side if 'side' in locals() else 'INIT'
+                    if game_fault_side in ('A','B'):
+                        # A technical loss is not confused with a legal checkmate.
+                        result='0-1' if game_fault_side==white else '1-0'
+                        reason='TECHNICAL_FORFEIT:'+game_fault_side+':'+reason
+                # Recreate subprocess bridges after faults; a poisoned UCI stream must never be reused.
+                if game_fault_side is not None:
+                    for key in ('A','B'):
+                        try: engines[key].close()
+                        except Exception: pass
+                    engines.clear()
+                    for key in ('A','B'):
+                        side_key=key.lower()
+                        try:
+                            engines[key]=UCI(cmd_side(a,side_key),str(Path(a.csv or a.pgn or 'sargon_match'))+f'.{side_key}.recovery.game{game_no}.log', key, a.heartbeat if a.verbose else None,f'({getattr(a,side_key+"_player")} | {getattr(a,side_key+"_evaluator")})', verbose=a.verbose)
+                            print(f'🔄 Recovery Game({game_no}) {key}: UCI ready',flush=True)
+                        except Exception as recovery_exc:
+                            print(f'❌ Recovery Game({game_no}) {key}: {recovery_exc}',flush=True)
+                            interrupted=True
+                            reason+=';RECOVERY_FAILED:'+key
+                            break
                 elapsed=time.monotonic()-start;tot_plies+=board.ply()
                 recorded_games+=1
                 for participant in ('A','B'):

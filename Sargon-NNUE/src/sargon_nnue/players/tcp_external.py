@@ -62,7 +62,7 @@ class TCPExternalUCIPlayer(Player):
         try: self.sock.sendall((command+'\n').encode('utf-8'))
         except OSError as exc: raise PlayerError(f'external: error enviando {command}: {exc}') from exc
 
-    def _await(self, prefix):
+    def _await(self, prefix, on_line=None):
         end=time.monotonic()+self.timeout_ms/1000
         while True:
             remaining=end-time.monotonic()
@@ -71,13 +71,49 @@ class TCPExternalUCIPlayer(Player):
             except queue.Empty: raise PlayerError(f'external: timeout esperando {prefix}')
             if line is None: raise PlayerError('external: el servidor cerró la sesión')
             if line.startswith(prefix): return line
+            if on_line is not None: on_line(line)
 
     def choose(self, board: chess.Board) -> MoveChoice:
         start=time.monotonic()
-        self._send('position fen '+board.fen())
+        # A FEN alone loses repetition history. Rebuild exact UCI game history
+        # from python-chess, including Chess960/custom-root games.
+        root = board.root()
+        if board.move_stack:
+            moves = ' '.join(m.uci() for m in board.move_stack)
+            if root.fen() == chess.STARTING_FEN:
+                position_cmd = 'position startpos moves ' + moves
+            else:
+                position_cmd = 'position fen ' + root.fen() + ' moves ' + moves
+        else:
+            position_cmd = 'position fen ' + board.fen()
+        self._send(position_cmd)
         # The remote server owns search limits. Bare UCI go passes no tuning.
         self._send('go')
-        line=self._await('bestmove ')
+        # Capture UCI search information before bestmove. Never reuse metrics
+        # from a previous position; remote engines may omit individual fields.
+        stats = {'depth': 0, 'nodes': 0, 'score_cp': 0}
+        def observe(line: str):
+            words = line.split()
+            if not words or words[0] != 'info':
+                return
+            for idx, item in enumerate(words[:-1]):
+                if item in ('depth', 'nodes'):
+                    try:
+                        value = int(words[idx+1])
+                    except ValueError:
+                        continue
+                    if value >= 0:
+                        stats[item] = value
+                elif item == 'score' and idx+2 < len(words):
+                    try:
+                        value = int(words[idx+2])
+                    except ValueError:
+                        continue
+                    if words[idx+1] == 'cp':
+                        stats['score_cp'] = value
+                    elif words[idx+1] == 'mate':
+                        stats['score_cp'] = (MATE_CP - abs(value)) * (1 if value > 0 else -1)
+        line=self._await('bestmove ', on_line=observe)
         parts=line.split()
         if len(parts)<2: raise PlayerError('external: bestmove sin jugada')
         token=parts[1]
@@ -89,7 +125,7 @@ class TCPExternalUCIPlayer(Player):
             try: move=chess.Move.from_uci(token)
             except ValueError as exc: raise PlayerError(f'external: bestmove inválido: {token}') from exc
             if move not in board.legal_moves: raise PlayerError(f'external: bestmove ilegal: {token}')
-        return MoveChoice(move, 0, 0, 0, (time.monotonic()-start)*1000, self.name)
+        return MoveChoice(move, stats['score_cp'], stats['depth'], stats['nodes'], (time.monotonic()-start)*1000, self.name)
 
     def close(self):
         if self._closed: return

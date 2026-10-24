@@ -1,0 +1,64 @@
+{
+  "header": {
+    "schema_version": 2,
+    "json_file": "picoAlpha.json",
+    "created_at": "2026-10-24T01:13:38-03:00",
+    "last_modified_at": "2026-10-24T01:27:31-03:00",
+    "games": 1,
+    "wins": 1,
+    "wins_pct": 100.0,
+    "draws": 0,
+    "draws_pct": 0.0,
+    "losses": 0,
+    "losses_pct": 0.0
+  },
+  "events": {
+    "Pruebas de picoAlpha": {
+      "event": "Pruebas de picoAlpha",
+      "started_at": "2026-10-24T01:13:38-03:00",
+      "last_run_at": "2026-10-24T01:27:31-03:00",
+      "games": 1,
+      "wins": 1,
+      "wins_pct": 100.0,
+      "draws": 0,
+      "draws_pct": 0.0,
+      "losses": 0,
+      "losses_pct": 0.0,
+      "games_detail": {
+        "20261024T042731.817898Z-09c4955a": {
+          "game_id": "20261024T042731.817898Z-09c4955a",
+          "result": "0-1",
+          "outcome": "win",
+          "reason": "CHECKMATE",
+          "challenger_color": "black",
+          "finished_at": "2026-10-24T01:27:31-03:00",
+          "brain": "sargon",
+          "challenger_version": "0.2.0",
+          "execution_arguments": {
+            "ip": "192.168.68.105",
+            "port": 6110,
+            "color": "random",
+            "brain": "sargon",
+            "stockfish": null,
+            "stockfish_movetime": 2000,
+            "plies": 4,
+            "qdepth": 0,
+            "verbose": false,
+            "gui": true,
+            "forever": true,
+            "run": null,
+            "pgn": null,
+            "evento": "Pruebas de picoAlpha",
+            "json": "..\\data\\picoAlpha.json",
+            "gametime": 30.0,
+            "timeout": 60000,
+            "seed": null
+          },
+          "move_count": 21,
+          "duration_seconds": 832.935,
+          "opponent_id": "picoAlpha v0.2.53"
+        }
+      }
+    }
+  }
+}
