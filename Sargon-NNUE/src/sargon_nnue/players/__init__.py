@@ -36,6 +36,9 @@ def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
         from .tcp_external import TCPExternalUCIPlayer
         if not url:raise PlayerError("player=external requiere --url host:puerto")
         return TCPExternalUCIPlayer(url, timeout_ms=timeout_ms)
+    if key == "alphazero-x86":
+        from .alphazero_x86_uci import AlphaZeroX86UCIPlayer
+        return AlphaZeroX86UCIPlayer(engine_path,network,simulations=az_simulations,cpuct=az_cpuct,tmax_ms=tmax_ms,backend=lc0_backend,backend_options=lc0_backend_options,timeout_ms=timeout_ms)
     if key == "picoalpha":
         from .picoalpha_uci import PicoAlphaUCIPlayer
         return PicoAlphaUCIPlayer(engine_path, network, simulations=az_simulations, cpuct=az_cpuct, tmax_ms=tmax_ms, timeout_ms=timeout_ms)

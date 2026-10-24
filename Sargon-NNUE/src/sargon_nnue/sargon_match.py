@@ -370,9 +370,9 @@ def main(argv=None):
     # --opening '' permite disputar partidas desde la posición inicial.
     if not openings:ap.error('debe existir al menos una apertura')
     for side in ['a','b']:
-        player=getattr(a,side+'_player');ev=getattr(a,side+'_evaluator')
-        if player in ('stockfish','lc0','picosargon','external','picoalpha') and ev not in ('null',None):ap.error(f'--{side}-player {player} requiere --{side}-evaluator null')
-        if ev=='null' and player not in ('stockfish','lc0','random','picosargon','external','picoalpha'):ap.error(f'--{side}-evaluator null requiere player stockfish, lc0, random, picosargon, external o picoalpha')
+        player=str(getattr(a,side+'_player')).strip().lower();ev=getattr(a,side+'_evaluator')
+        if player in ('stockfish','lc0','picosargon','external','picoalpha','alphazero-x86') and ev not in ('null',None):ap.error(f'--{side}-player {player} requiere --{side}-evaluator null')
+        if ev=='null' and player not in ('stockfish','lc0','random','picosargon','external','picoalpha','alphazero-x86'):ap.error(f'--{side}-evaluator null requiere un player compatible con evaluator null (incluido AlphaZero-X86)')
         if ev=='npz' and not getattr(a,side+'_network'):ap.error(f'--{side}-evaluator npz requiere --{side}-network')
         if ev=='npz' and not Path(getattr(a,side+'_network')).is_file():ap.error(f'--{side}-network no existe')
     if a.audit_classic and a.audit_stockfish_path:ap.error('Elegir auditoría CLASSIC o Stockfish')

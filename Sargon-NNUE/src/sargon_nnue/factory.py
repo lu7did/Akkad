@@ -100,7 +100,7 @@ def build_engine(args, prefix: str = ""):
     # - STOCKFISH and player LC0-UCI are monolithic; require NULL.
     # - RANDOM does not evaluate positions; requires NULL.
     # - Other players require a real evaluator (CLASSIC by default).
-    if player_kind in {"stockfish", "random", "lc0", "picosargon", "external", "picoalpha"}:
+    if player_kind in {"stockfish", "random", "lc0", "picosargon", "external", "picoalpha", "alphazero-x86"}:
         if requested_evaluator is None:
             evaluator_kind = "null"
         else:
@@ -115,7 +115,7 @@ def build_engine(args, prefix: str = ""):
         else:
             evaluator_kind = str(requested_evaluator).strip().lower()
             if evaluator_kind == "null":
-                raise PlayerError("evaluator=null sólo es válido con player=stockfish, player=lc0, player=picosargon, player=external o player=random")
+                raise PlayerError("evaluator=null sólo es válido con player=stockfish, player=lc0, player=picosargon, player=picoalpha, player=AlphaZero-X86, player=external o player=random")
 
     raw_depth = g("depth", None)
     if raw_depth is None:
@@ -183,7 +183,7 @@ def build_engine(args, prefix: str = ""):
         boost=boost,
         turbo=turbo,
         engine_path=g("engine_path", None),
-        network=g("network", None),
+        network=(g("lc0_weights", None) or g("network", None)) if player_kind == "alphazero-x86" else g("network", None),
         url=g("url", None),
         movetime_ms=g("movetime", 1000),
         timeout_ms=g("timeout", 30000),

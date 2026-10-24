@@ -1,0 +1,52 @@
+{
+  "tool": "sargon_benchmark",
+  "version": "0.6.134",
+  "brain_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\brains\\brains.json",
+  "brain_ids": [
+    "daphne",
+    "emma"
+  ],
+  "brains": {
+    "daphne": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine-path": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\x86\\AlphaZero\\build\\AlphaZero.exe",
+      "lc0-weights": "C:\\Users\\pedro\\github\\Bobby\\Chess_History_pb\\lc0\\t1-512x15x8h-distilled-swa-3395000.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 1200,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "rating_elo": 400
+    },
+    "emma": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine-path": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\x86\\AlphaZero\\build\\AlphaZero.exe",
+      "lc0-weights": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\lc0\\t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 1200,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 400
+    }
+  },
+  "mode": "positions",
+  "positions": 6,
+  "plies": null,
+  "rounds": 1,
+  "warmup": 1,
+  "timeout_s": 90,
+  "python": "C:\\Users\\pedro\\ufasta\\Scripts\\python.exe",
+  "fixed_fens": [
+    "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+    "rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2",
+    "rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3"
+  ],
+  "opening": [],
+  "fens": []
+}

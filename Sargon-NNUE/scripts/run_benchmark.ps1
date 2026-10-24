@@ -11,7 +11,4 @@
 #* run_benchmark.ps1
 #* Benchmarks Sargon-NNUE
 #=================================================================================================================*
-.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids sophie aegir stockfish `
-                                                                buddy classic  alien cerebrum messy alphie `
-                                                                locus picoAlpha picoSargon smallAlpha `
-                                                                tinyAlpha tinySargon
+.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids daphne emma

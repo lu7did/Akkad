@@ -75,7 +75,7 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
     )
     p.add_argument(
         opt("player"), dest=dest("player"), default="sargon",
-        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon", "picoalpha"],
+        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon", "picoalpha", "AlphaZero-X86", "alphazero-x86"],
     )
 
     # Dynamic default: SARGON uses depth=2, while STOCKFISH uses a deliberately

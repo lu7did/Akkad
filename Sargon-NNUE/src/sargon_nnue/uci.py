@@ -63,7 +63,7 @@ class UCISession:
                 elif line.startswith("position "): self.set_position(line)
                 elif line.startswith("go"):
                     self._go_index += 1
-                    board = self.board.copy(stack=True) if getattr(self.player,"name","") in ("ALPHAZERO","LC0-UCI","EXTERNAL") else self.board.copy(stack=False)
+                    board = self.board.copy(stack=True) if str(getattr(self.player,"name","")).upper() in ("ALPHAZERO","LC0-UCI","EXTERNAL","ALPHAZERO-X86") else self.board.copy(stack=False)
                     if self.audit is not None and self.audit.enabled:
                         self.audit.event("uci_go_begin", go_index=self._go_index, command=line, fen=board.fen(), turn="white" if board.turn else "black", legal_moves=len(list(board.legal_moves)))
                     choice = self.player.choose(board)

@@ -17,11 +17,36 @@
       "lc0-weights": "../data/runs/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
       "lc0-backend": "onnx-dml",
       "lc0-backend-options": "gpu=0",
-      "az-simulations": 1000,
+      "az-simulations": 1200,
       "az-cpuct": 1.5,
       "tmax": 10000,
       "rating_elo": 1474.37
     },
+    "emma": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine-path": "../x86/AlphaZero/build/AlphaZero.exe",
+      "lc0-weights": "../data/runs/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 1200,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 400
+    },
+    "daphne": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine-path": "../x86/AlphaZero/build/AlphaZero.exe",
+      "lc0-weights": "../../../Chess_History_pb/lc0/t1-512x15x8h-distilled-swa-3395000.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 1200,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "rating_elo": 400
+    },
+
     "aegir": {
       "evaluator": "npz",
       "player": "sargon-plus",

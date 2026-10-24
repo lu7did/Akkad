@@ -27,7 +27,7 @@ VERSION='0.6.162'
 # `rating_elo` is metadata, never a listener CLI parameter.
 ENGINE_KEYS = ['player', 'evaluator', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout']
 METADATA_KEYS = {'rating_elo'}
-PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha')
+PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86')
 EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy')
 
 def engine_parser():
@@ -36,15 +36,17 @@ def engine_parser():
     return p
 
 def defaults(player,evaluator):
+    player = player.strip().lower() if isinstance(player,str) else player
     p=engine_parser()
     defaults={}
     allowed = {'player','evaluator','depth','qdepth','tmax','boost','turbo'}
     if player == 'sargon-plus':
         allowed.add('dmax')
-    if player in ('stockfish','sunfish','external','lc0','picosargon','picoalpha'):
+    if player in ('stockfish','sunfish','external','lc0','picosargon','picoalpha','alphazero-x86','AlphaZero-X86'):
         allowed={'player','evaluator','engine-path','depth','movetime','timeout'}
         if player=='picosargon': allowed|={'qdepth','tmax'}
-        if player=='picoalpha': allowed|={'network','az-simulations','az-cpuct','tmax'}
+        if player in ('picoalpha','alphazero-x86','AlphaZero-X86'): allowed|={'network','az-simulations','az-cpuct','tmax'}
+        if player=='alphazero-x86': allowed|={'lc0-weights','lc0-backend','lc0-backend-options'}
         if player=='external': allowed={'player','evaluator','url'}
         if player=='stockfish': allowed|={'nodes','elo','stockfish-threads','stockfish-hash'}
         if player=='lc0': allowed|={'lc0-uci-path','lc0-weights','lc0-backend','lc0-backend-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-options','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout'}
@@ -70,8 +72,10 @@ def validate(config, *, check_files=False):
     if 'rating_elo' in config and (isinstance(config['rating_elo'], bool) or not isinstance(config['rating_elo'], (int, float)) or not __import__('math').isfinite(config['rating_elo'])):
         raise ValueError('rating_elo debe ser número finito')
     if extra:raise ValueError('parámetros desconocidos: '+', '.join(sorted(extra)))
-    player=config.get('player'); ev=config.get('evaluator')
-    if player not in PLAYER_CHOICES:raise ValueError('player inválido: '+str(player))
+    player_raw=config.get('player')
+    player=player_raw.strip().lower() if isinstance(player_raw,str) else player_raw
+    ev=config.get('evaluator')
+    if player not in PLAYER_CHOICES:raise ValueError('player inválido: '+str(player_raw))
     if ev not in EVALUATOR_CHOICES:raise ValueError('evaluator inválido: '+str(ev))
     if player=='external' and ev!='null':raise ValueError('player external requiere evaluator null')
     if player=='external':
@@ -80,6 +84,9 @@ def validate(config, *, check_files=False):
         parse_endpoint(config['url'])
         forbidden=set(config)-{'player','evaluator','url','rating_elo'}
         if forbidden:raise ValueError('player external solo admite url; no parámetros remotos: '+', '.join(sorted(forbidden)))
+    if player=='alphazero-x86' and ev!='null':raise ValueError('player AlphaZero-X86 requiere evaluator null')
+    if player=='alphazero-x86' and not config.get('engine-path'):raise ValueError('player AlphaZero-X86 requiere engine-path')
+    if player=='alphazero-x86' and not (config.get('lc0-weights') or config.get('network')):raise ValueError('player AlphaZero-X86 requiere lc0-weights')
     if player=='picoalpha' and ev!='null':raise ValueError('player picoalpha requiere evaluator null')
     if player=='picoalpha' and not config.get('engine-path'):raise ValueError('player picoalpha requiere engine-path')
     if player=='picoalpha' and not config.get('network'):raise ValueError('player picoalpha requiere network')
@@ -91,7 +98,7 @@ def validate(config, *, check_files=False):
     if player=='alphazero' and ev not in ('lc0','tinygyal','znpz','zclassic','grumpy'):raise ValueError('player alphazero requiere evaluator lc0, tinygyal, znpz o zclassic')
     if ev=='tinygyal' and not (config.get('network') or config.get('lc0-weights')):raise ValueError('evaluator tinygyal requiere network o lc0-weights')
     if ev=='lc0' and not config.get('lc0-weights'):raise ValueError('evaluator lc0 requiere lc0-weights')
-    if player not in ('stockfish','random','lc0','picosargon','external','picoalpha') and ev=='null':raise ValueError('evaluator null solo válido para stockfish o random')
+    if player not in ('stockfish','random','lc0','picosargon','external','picoalpha','alphazero-x86','AlphaZero-X86') and ev=='null':raise ValueError('evaluator null solo válido para stockfish o random')
     if ev in ('npz','znpz','grumpy') and not config.get('network'):raise ValueError(f'evaluator {ev} requiere network')
     if player == 'sunfish' and not config.get('engine-path'):raise ValueError('player externo requiere engine-path')
     if ev=='stockfish' and not config.get('stockfish-path'):raise ValueError('evaluator stockfish requiere stockfish-path')
