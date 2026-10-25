@@ -626,6 +626,45 @@ No es posible extrapolar los tiempos de 2 a 4 ply con un factor constante: creci
 
 ---
 
+# Apéndice A - Ejecución continua
+
+Para ejecutar en forma continua el firmware en Raspberry Pi Pico puede ser gestionado de dos formas diferentes
+
+## Headless
+
+En ésta modalidad las credenciales de conectividad y parametrización de juego son provistas en tiempo de construcción.
+Se debe configurar el parámetro "debug" como *False* en el include de parametrización config.h para prevenir que el 
+firmware espere una conexión serial antes de completar el proceso de boot.
+
+En ésta modalidad de funcionamiento el firmware recibirá conexiones TCP/IP en cuanto sea energizado, la única referencia de
+su estado es la modalidad de blink de su LED
+
+## Conectado
+
+En éste modalidad si bien las credenciales de conectividad y parametrización de juego son provistas en tiempo de construcción
+el parámetro "debug" debe ser configurado como *True* haciendo que el firmware espere por ua conexión serie durante el proceso
+de boot.
+
+Se necesita activar una conexión serie por medio de la conexión USB mediante *putty* o *minicom* u otro terminal serie.
+En el directorio tools/bash se ubica un script llamado *startSargon.sh* que automatiza el proceso de arranque
+
+*	Permite completar el proceso de boot al realizar una conexión serie y permitiendo su acceso posterior con *screen*
+*	Espera que el stack TCP/IP de la placa Raspberry Pi Pico esté activo (mediante *ping* )
+*	Levanta el API de lichess.com (*lichess-bot* ), esto es necesario si se desea que el firmware juegue online, puede
+simplemente usarse mediante conexión TCP/IP.
+
+Para visualizar el estado del firmware una vez arrancado desde un Linux al que esté conectado:
+	* screen -S picoSargon
+	* screen -S lichess-bot
+	* screen -ls  (para ver sesiones activadas)
+	* screen -d -m -S picoSargon {commando} (para arrancar una sesión en forma detached)
+	* screen -d -r nnnn.{sessionId}  para ver la sesión
+	* screen -X -S nnnn.{sessionId} quit  (para terminar una sesión.
+
+Para terminar una screen al ser visualizada Ctl+A y D (dettach) 
+
+
+
 ## Referencias técnicas
 
 **Primarias del proyecto:** `src/board.cpp`, `src/engine.cpp`, `src/grumpy.cpp`, `src/pico_main.cpp`, `include/config.h`, `CMakeLists.txt`, `build.ps1`, `tools/*.py`, `reference/*.py`. Toda fórmula de arquitectura y comportamiento en este README describe esos fuentes. Las medidas empíricas proceden de pruebas comunicadas del hardware Pico W en octubre de 2026.
