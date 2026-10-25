@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "AlphaZero-X86": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine_path": "../x86/AlphaZero/build/AlphaZero.exe",
+      "network": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "rating_elo": 400
+    }
+  }
+}

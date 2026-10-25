@@ -1,0 +1,21 @@
+\u2699\ufe0f EXEC player=external | evaluator=null | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=NULL \U0001f3ae player=EXTERNAL
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f isready
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\u2b05\ufe0f position startpos moves b1c3 d7d5
+\u2b05\ufe0f go
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 e7e6
+\u2b05\ufe0f go
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 e7e6 e2e4 d5d4
+\u2b05\ufe0f go
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 e7e6 e2e4 d5d4 c3b5 c7c5
+\u2b05\ufe0f go
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 e7e6 e2e4 d5d4 c3b5 c7c5 f3e5 a7a6
+\u2b05\ufe0f go
+\u2b05\ufe0f position startpos moves b1c3 d7d5 g1f3 e7e6 e2e4 d5d4 c3b5 c7c5 f3e5 a7a6 d1h5 a6b5
+\u2b05\ufe0f go
+\u2b05\ufe0f quit
