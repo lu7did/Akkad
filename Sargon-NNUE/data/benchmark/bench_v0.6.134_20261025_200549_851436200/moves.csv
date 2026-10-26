@@ -1,0 +1,7 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+picoAlpha,external,null,,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,b1c3,14260.830,14260,1233,0,OK,
+picoAlpha,external,null,,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,14720.229,14719,1245,0,OK,
+picoAlpha,external,null,,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,b8c6,14551.197,14550,1237,0,OK,
+picoAlpha,external,null,,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,14647.023,14646,1239,0,OK,
+picoAlpha,external,null,,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,b8c6,14561.432,14560,1233,0,OK,
+picoAlpha,external,null,,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,f3d2,14310.302,14309,1236,0,OK,

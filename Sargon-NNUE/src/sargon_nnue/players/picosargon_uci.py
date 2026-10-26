@@ -1,5 +1,6 @@
 # Sargon-NNUE v0.6.164 - monolithic picoSargon host UCI player
 from __future__ import annotations
+import sys
 import time
 from pathlib import Path
 import chess
@@ -10,7 +11,7 @@ from ..types import MoveChoice
 class PicoSargonUCIPlayer(ExternalUCIPlayer):
     name = "PICOSARGON"
 
-    def __init__(self, executable: str, *, depth=4, qdepth=2, tmax_ms=15000, timeout_ms=30000):
+    def __init__(self, executable: str, *, weights_path: str | None = None, depth=4, qdepth=2, tmax_ms=15000, timeout_ms=30000):
         executable = str(Path(executable).expanduser().resolve())
         if not Path(executable).is_file():
             raise PlayerError(f"picoSargon UCI no existe: {executable}")
@@ -19,11 +20,24 @@ class PicoSargonUCIPlayer(ExternalUCIPlayer):
         self.tmax_ms = int(tmax_ms)
         if self.depth < 1 or self.qdepth < 0 or self.tmax_ms < 0:
             raise PlayerError("picosargon: depth>=1, qdepth>=0, tmax>=0 requeridos")
-        # Runtime weights from SAME picoSargon reference model; the native engine
-        # uses its own Mailbox120 and Grumpy; Sargon-NNUE evaluator stays NULL.
-        weights = Path(__file__).resolve().parents[3] / 'native' / 'picoSargon' / 'assets' / 'grumpy.bin'
+        # The x86 UCI engine loads the Grumpy binary from argv[1].
+        # --network / brains["network"] overrides the deployment default.
+        # Without an explicit path, use the model distributed with picoSargon,
+        # never a fixed path inside Sargon-NNUE.
+        weights = (Path(weights_path).expanduser().resolve()
+                   if weights_path else Path(executable).parent.parent / "assets" / "grumpy.bin")
         if not weights.is_file():
-            raise PlayerError(f"faltan pesos Grumpy de picoSargon: {weights}")
+            raise PlayerError(f"picoSargon: pesos Grumpy inexistentes: {weights} "
+                              f"(defina 'network' en brains.json)")
+        with weights.open("rb") as f:
+            header = f.read(12)
+            f.seek(0, 2)
+            length = f.tell()
+        if length != 1304 or header[:8] != b"GRMP0001" or header[8:12] != b"\x69\x00\x00\x00":
+            raise PlayerError(f"picoSargon: formato Grumpy incompatible: {weights} "
+                              "(se requieren 1304 bytes y firma GRMP0001)")
+        self.weights_path = str(weights)
+        print(f"PICOSARGON ADAPTER v0.6.181 engine={executable} network={weights}", file=sys.stderr, flush=True)
         effective_timeout = max(int(timeout_ms), self.tmax_ms + 10000)
         super().__init__([executable, str(weights)], movetime_ms=self.tmax_ms,
                          timeout_ms=effective_timeout, label="PICOSARGON")

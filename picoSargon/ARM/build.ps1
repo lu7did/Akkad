@@ -1,7 +1,7 @@
-﻿# picoSargon - compilacion local Windows. Sin cambios permanentes al sistema.
+# picoSargon - compilacion local Windows. Sin cambios permanentes al sistema.
 # Uso: .\build.ps1                   (Pico W)
 #      .\build.ps1 -Board pico2_w    (Pico 2 W)
-param([ValidateSet('pico_w','pico2_w')][string]$Board = 'pico_w')
+param([ValidateSet('pico_w','pico2_w')][string]$Board = 'pico_w', [bool]$steroids = $true)
 $ErrorActionPreference = 'Stop'
 $Project = $PSScriptRoot
 $CMake = 'C:\Program Files\CMake\bin\cmake.exe'
@@ -65,7 +65,7 @@ if (-not (@(Get-ChildItem -LiteralPath $PicotoolDir -Filter '*config.cmake' -Fil
     throw "Falta archivo *Config.cmake para picotool en: $PicotoolDir; listar el directorio antes de continuar."
 }
 Set-Location -LiteralPath $Project
-Write-Host "BOARD: $Board"
+Write-Host "BOARD: $Board / STEROIDS=$steroids"
 Write-Host "SDK:   $Sdk"
 Write-Host "CMAKE: $CMake"
 Write-Host "NINJA: $Ninja"
@@ -83,6 +83,7 @@ if (Test-Path -LiteralPath $Build) {
 }
 & $CMake -S $Project -B $Build -G Ninja `
     "-DPICOSARGON_PICO=ON" `
+    "-DSTEROIDS=$($steroids.ToString().ToUpperInvariant())" `
     "-DPICO_BOARD=$Board" `
     "-DPICO_SDK_PATH=$Sdk" `
     "-DCMAKE_MAKE_PROGRAM=$Ninja" `

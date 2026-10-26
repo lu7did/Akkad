@@ -37,11 +37,13 @@ if (Test-Path -LiteralPath $cache) {
 }
 $triplet = 'x64-windows'
 $cmakeArgs = @('-S', $Source, '-B', $Build, '-G', $Generator, '-A', $Architecture,
-    "-DCMAKE_TOOLCHAIN_FILE=$toolchain", "-DVCPKG_TARGET_TRIPLET=$triplet")
+    "-DCMAKE_TOOLCHAIN_FILE=$toolchain", "-DVCPKG_TARGET_TRIPLET=$triplet",
+    "-DPA_X86_FC1_TILED=ON", "-DCMAKE_BUILD_TYPE=Release")
 Write-Host "Origen: $Source"
 Write-Host "Compilacion: $Build"
 Write-Host "Generador: $Generator / $Architecture"
 Write-Host "vcpkg: $VcpkgRoot"
+Write-Host "Configuracion predeterminada: INT8=ON, FC1_TILED=ON; picoAlpha32=referencia FP32; carga .pb.gz directa"
 & cmake @cmakeArgs
 if ($LASTEXITCODE -ne 0) { throw 'Fallo la configuracion de CMake. Verifique Visual Studio C++, zlib y vcpkg.' }
 & cmake --build $Build --config Release

@@ -183,6 +183,7 @@ def build_engine(args, prefix: str = ""):
         boost=boost,
         turbo=turbo,
         engine_path=g("engine_path", None),
+        model=g("model", None),
         network=(g("lc0_weights", None) or g("network", None)) if player_kind == "alphazero-x86" else g("network", None),
         url=g("url", None),
         movetime_ms=g("movetime", 1000),

@@ -152,7 +152,7 @@ def add_side(ap, side):
     p='--'+side+'-'
     ap.add_argument(p+'player', choices=PLAYER_CHOICES, default='sargon-plus')
     ap.add_argument(p+'evaluator', choices=EVALUATOR_CHOICES, default='classic')
-    for key in ['network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','lc0-uci-path','lc0-uci-options','lc0-weights','lc0-backend','lc0-backend-options','lc0-history']:
+    for key in ['model','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','lc0-uci-path','lc0-uci-options','lc0-weights','lc0-backend','lc0-backend-options','lc0-history']:
         ap.add_argument(p+key)
     for key,default in [('depth',2),('qdepth',2),('dmax',None),('tmax',15000),('movetime',1000),('timeout',30000),('nodes',None),('stockfish-threads',1),('stockfish-hash',256),('stockfish-timeout',5000),('stockfish-check-depth',1),('stockfish-cache',100000),('lc0-cache',10000),('az-simulations',128),('lc0-uci-threads',1),('lc0-uci-nncache',200000),('lc0-uci-depth',0),('lc0-uci-nodes',800),('lc0-uci-movetime',0),('lc0-uci-timeout',60000)]:
         ap.add_argument(p+key,type=int,default=default)
@@ -168,7 +168,7 @@ def add_side(ap, side):
 def cmd_side(a,side):
     import shlex
     base=[a.python,'-m','sargon_nnue.sargon_listen','--mode','STDIN']
-    keys=['player','evaluator','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','depth','qdepth','dmax','tmax','movetime','timeout','nodes','stockfish-threads','stockfish-hash','stockfish-timeout','stockfish-check-depth','stockfish-cache','lc0-uci-path','lc0-uci-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout','lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale','az-simulations','az-cpuct','z-policy','z-temperature','z-value-scale','z-uniform-mix','boost','turbo']
+    keys=['player','evaluator','model','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','depth','qdepth','dmax','tmax','movetime','timeout','nodes','stockfish-threads','stockfish-hash','stockfish-timeout','stockfish-check-depth','stockfish-cache','lc0-uci-path','lc0-uci-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout','lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale','az-simulations','az-cpuct','z-policy','z-temperature','z-value-scale','z-uniform-mix','boost','turbo']
     for key in keys:
         value=getattr(a,side+'_'+key.replace('-','_'))
         if value is not None:base += ['--'+key,str(value)]

@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <new>
 #include <cstdint>
+#include <cstring>
 namespace picoalpha {
 using namespace picoSargon;
 // 20 bytes instead of 28. 8576 nodes fit the former 172 KiB budget.
@@ -60,6 +61,114 @@ static Node s_node_arena[PA_STATIC_TREE_NODES];
 // Exactly one UCI search executes at a time. This persistent scratch buffer
 // removes the 28 KiB automatic tensor from the recursive traverse() call.
 static std::array<float,112*64> s_encode_planes{};
+// Reuse the neural encoding scratch ONLY BETWEEN searches for compacting nodes.
+// memcpy provides defined aliasing and adds no permanent SRAM allocation.
+static_assert(sizeof(s_encode_planes)>=PA_STATIC_TREE_NODES*sizeof(uint16_t),"scratch map too small");
+static void map_put(unsigned i,uint16_t v){std::memcpy(reinterpret_cast<unsigned char*>(s_encode_planes.data())+i*sizeof(v),&v,sizeof(v));}
+static uint16_t map_get(unsigned i){uint16_t v;std::memcpy(&v,reinterpret_cast<const unsigned char*>(s_encode_planes.data())+i*sizeof(v),sizeof(v));return v;}
+// Compact reachable nodes, preserving existing visits and Q; all nodes are
+// appended after their parent, making this forward remapping safe in-place.
+static bool compact_reachable(uint16_t root,size_t& used,uint16_t& new_root){
+ if(!used||root>=used||used>PA_STATIC_TREE_NODES)return false;
+ std::memset(s_encode_planes.data(),0,used*sizeof(uint16_t));
+ if(root)map_put(root,1);
+ else {
+  for(uint16_t j=s_node_arena[0].first;j;j=s_node_arena[j].next){
+   if(j>=used)return false;
+   map_put(j,1);
+  }
+ }
+ for(size_t i=1;i<used;++i){
+  if(!map_get(unsigned(i)))continue;
+  const Node& n=s_node_arena[i];
+  uint16_t j=n.first;unsigned guard=0;
+  while(j){
+   if(j<=i||j>=used||++guard>used)return false;
+   map_put(j,1);j=s_node_arena[j].next;
+  }
+ }
+ uint16_t next=1;
+ for(size_t i=1;i<used;++i)if(map_get(unsigned(i)))map_put(unsigned(i),next++);
+ const uint16_t mapped=root?map_get(root):0;
+ if(!root && s_node_arena[0].first)s_node_arena[0].first=map_get(s_node_arena[0].first);
+ for(size_t i=1;i<used;++i){
+  const uint16_t dest=map_get(unsigned(i));if(!dest)continue;
+  Node n=s_node_arena[i];
+  if(n.first)n.first=map_get(n.first);
+  if(n.next)n.next=map_get(n.next);
+  s_node_arena[dest]=n;
+ }
+ used=next;new_root=mapped;return true;
+}
+
+
+// Minimal allocation-free port of Sargon CLASSIC ranking components:
+// material, central control/occupation, development and king-check pressure.
+// Computed ONCE at the speculative opponent root, never used as MCTS value.
+#ifndef PA_EPE_CLASSIC_GUIDE
+#define PA_EPE_CLASSIC_GUIDE 0
+#endif
+#ifndef PA_EPE_GUIDE_TOPK
+#define PA_EPE_GUIDE_TOPK 6
+#endif
+#if EPE && PA_EPE_CLASSIC_GUIDE
+struct ClassicRootGuide {
+ Move moves[256]{};int scores[256]{};uint8_t ranks[256]{};
+ unsigned count=0,topk=0,elapsed_ms=0;
+ bool enabled=false;
+ float factor(Move m)const {
+  if(!enabled)return 1.f;
+  for(unsigned i=0;i<count;++i)if(moves[i]==m){
+   if(ranks[i]<topk)return 1.65f-0.095f*float(ranks[i]);
+   return 0.63f;
+  }
+  return 1.f;
+ }
+};
+static int classic_piece_cp(int v){static constexpr int cp[7]={0,100,320,330,500,900,0};return cp[std::abs(v)];}
+static int classic_light_score(Board& b,int perspective){
+ int score=0,bishop_w=0,bishop_b=0;
+ for(int sq=0;sq<64;++sq){
+  const int v=b.piece(sq);if(!v)continue;
+  const int sign=v>0?1:-1,kind=std::abs(v),file=sq%8,rank=sq/8;
+  int val=classic_piece_cp(v);
+  // Challenger/Sargon Classic: occupied centre 10cp and extended centre 2.5cp.
+  if(file>=3&&file<=4&&rank>=3&&rank<=4)val+=kind<=3?10:4;
+  else if(file>=2&&file<=5&&rank>=2&&rank<=5)val+=3;
+  if(kind==2&&((sign>0&&rank==0)||(sign<0&&rank==7))&&(file==1||file==6))val-=8;
+  if(kind==3&&((sign>0&&rank==0)||(sign<0&&rank==7))&&(file==2||file==5))val-=6;
+  if(kind==3){if(sign>0)++bishop_w;else ++bishop_b;}
+  score+=sign*val;
+ }
+ if(bishop_w>=2)score+=12;if(bishop_b>=2)score-=12;
+ // If side to move is in check, last move delivered check: tactical urgency.
+ if(b.in_check(b.turn))score+=35*perspective;
+ return score*perspective;
+}
+static void build_classic_guide(ClassicRootGuide& g,Board& b,const MoveList& legal,
+                                uint64_t(*now)(),bool(*pump)()){
+ if(!legal.size())return;
+ const uint64_t before=now?now():0;
+ const int side=b.turn;
+ g.count=0;g.topk=std::min<unsigned>(PA_EPE_GUIDE_TOPK,unsigned(legal.size()));
+ for(const Move& m:legal){
+  if(pump&&pump())break;
+  b.push(m);
+  const int score=classic_light_score(b,side);
+  b.pop();
+  const unsigned i=g.count++;g.moves[i]=m;g.scores[i]=score;
+ }
+ // Rank without allocations or sorting MCTS children; descending score.
+ for(unsigned i=0;i<g.count;++i){
+  unsigned rank=0;
+  for(unsigned j=0;j<g.count;++j)
+   if(g.scores[j]>g.scores[i]||(g.scores[j]==g.scores[i]&&j<i))++rank;
+  g.ranks[i]=uint8_t(rank);
+ }
+ g.enabled=(g.count==legal.size());
+ g.elapsed_ms=unsigned(now?now()-before:0u);
+}
+#endif
 
 struct NodeStore {
  static constexpr size_t BLOCK=128;
@@ -93,6 +202,20 @@ static picoSargon::Move s_previous_best{};
 static size_t s_previous_used=0;
 static uint16_t s_previous_root=0;
 static bool s_previous_valid=false;
+#if EPE
+// EPE adds to the EXISTING tree (the opponent child of the chosen move).
+// It never replaces the legitimate tree; on a miss, original branches remain.
+struct EpeVisitBaseline {Move move{};uint16_t visits=0;};
+static EpeVisitBaseline s_epe_base[256]{};
+static unsigned s_epe_base_count=0;
+static bool s_epe_has_data=false;
+static unsigned s_epe_sims=0,s_epe_ms=0,s_epe_nn=0,s_epe_terminal=0,s_epe_new_nodes=0,s_epe_covered=0,s_epe_total_delta=0;
+static uint16_t epe_baseline_visits(Move m){
+ for(unsigned k=0;k<s_epe_base_count;++k)
+  if(s_epe_base[k].move==m)return s_epe_base[k].visits;
+ return 0;
+}
+#endif
 static bool history_matches(const SearchHistory& now){
  if(!s_previous_valid || now.size()!=s_previous_history.size()+2)return false;
  for(size_t i=0;i<s_previous_history.size();++i){
@@ -130,6 +253,9 @@ struct Tree {
 // PA22_TRAVERSE_GUARDS_END
  const Network& net;NodeStore nodes;unsigned capacity;float cpuct;bool capped=false;bool memory_limited=false;unsigned pool_target=0,pool_reserved=0,pool_preflight_denied=0;unsigned growth_events=0;unsigned growth_attempts=0,growth_denied=0,growth_alloc_failed=0;unsigned growth_last_from=0,growth_last_to=0;unsigned growth_request_bytes=0;
  int root_idx=0;
+#if EPE && PA_EPE_CLASSIC_GUIDE
+ const ClassicRootGuide* guide=nullptr;
+#endif
  Tree(const Network& n,unsigned cap,float c,int reuse_idx=-1,size_t reuse_used=0):net(n),capacity(0),cpuct(c){
   const unsigned initial=std::max(128u,cap);
 #if PA_SEGMENTED_TREE
@@ -147,7 +273,7 @@ struct Tree {
   }else nodes.emplace_back();
  }
  bool ensure(size_t required){
-  if(required<=nodes.capacity()) return true;
+  if(required<=capacity) return true;
   ++growth_attempts;growth_last_from=unsigned(nodes.capacity());
   growth_last_to=unsigned(nodes.capacity());growth_request_bytes=0;
 #if PA_SEGMENTED_TREE
@@ -203,7 +329,11 @@ struct Tree {
     size_t chosen=legal.size();float highest=-1.f;
     for(size_t i=0;i<legal.size();++i){
      bool exists=false;for(uint16_t j=nodes[idx].first;j!=0;j=nodes[j].next)if(nodes[j].move==legal[i]){exists=true;break;}
-     if(!exists && prob[i]>highest){highest=prob[i];chosen=i;}
+     float priority=prob[i];
+#if EPE && PA_EPE_CLASSIC_GUIDE
+     if(guide && idx==root_idx)priority*=guide->factor(legal[i]);
+#endif
+     if(!exists && priority>highest){highest=priority;chosen=i;}
     }
     if(chosen==legal.size())break;
     const uint16_t at=uint16_t(nodes.size());Node child;child.move=legal[chosen];child.p=prob[chosen]/total;nodes.push_back(child);
@@ -234,10 +364,14 @@ struct Tree {
     size_t chosen=candidates.size();float high=-1e30f;
     for(size_t k=0;k<candidates.size();++k){
      bool present=false;for(uint16_t j=nodes[idx].first;j;j=nodes[j].next)if(nodes[j].move==candidates[k]){present=true;break;}
-     if(!present && prediction.policy[k]>high){high=prediction.policy[k];chosen=k;}
+     float priority=prediction.policy[k];
+#if EPE && PA_EPE_CLASSIC_GUIDE
+     if(guide && idx==root_idx)priority+=std::log(guide->factor(candidates[k]));
+#endif
+     if(!present && priority>high){high=priority;chosen=k;}
     }
     if(chosen<candidates.size()){
-     const uint16_t at=uint16_t(nodes.size());Node child;child.move=candidates[chosen];child.p=std::exp(high-mx)/sum;nodes.push_back(child);
+     const uint16_t at=uint16_t(nodes.size());Node child;child.move=candidates[chosen];child.p=std::exp(prediction.policy[chosen]-mx)/sum;nodes.push_back(child);
      uint16_t last=nodes[idx].first;while(nodes[last].next)last=nodes[last].next;
      nodes[last].next=at;++nodes[idx].count;
     }
@@ -245,7 +379,14 @@ struct Tree {
   }
   // An expanded nonterminal node was already checked for draw when expanded.
   int best=-1;float best_score=-1e30f;float n=std::sqrt(float(std::max<uint32_t>(1, nodes[idx].visits)));
-  for(uint16_t j=nodes[idx].first;j!=0;j=nodes[j].next){if(j<0 || size_t(j)>=nodes.size()){++guard_index;throw TraverseAbort{"bad_child_index"};}const auto& child=nodes[j];if((child.flags & NODE_BLOCKED))continue;float q=child.visits?child.qsum/child.visits:0;float u=cpuct*child.p*n/(1+child.visits);float score=-q+u;if(score>best_score){best_score=score;best=j;}}
+  for(uint16_t j=nodes[idx].first;j!=0;j=nodes[j].next){if(j<0 || size_t(j)>=nodes.size()){++guard_index;throw TraverseAbort{"bad_child_index"};}const auto& child=nodes[j];if((child.flags & NODE_BLOCKED))continue;float q=child.visits?child.qsum/child.visits:0;float prior=child.p;
+#if EPE && PA_EPE_CLASSIC_GUIDE
+   if(guide && idx==root_idx)prior*=guide->factor(child.move);
+#endif
+   float u=cpuct*prior*n/(1+child.visits);float score=-q+u;if(score>best_score){best_score=score;best=j;}}
+#if EPE && PA_EPE_CLASSIC_GUIDE
+
+#endif
   if(best<0){if(!(nodes[idx].flags & NODE_BLOCKED)){nodes[idx].flags|=NODE_BLOCKED;++blocked_branches;}throw NoMemoryExpansion{};}
   if(progress)progress(7,unsigned(depth));
   b.push(nodes[best].move);
@@ -270,7 +411,7 @@ struct Tree {
   nodes[idx].visits++;nodes[idx].qsum+=value;return value;
  }
 };
-SearchResult search(const Network& net,const Board& source_board,const SearchHistory& history,bool fen_only,unsigned simulations,float cpuct,unsigned max_nodes,unsigned timeout_ms,NowFn now,PumpFn pump,ProgressFn progress){
+SearchResult search(const Network& net,const Board& source_board,const SearchHistory& history,bool fen_only,unsigned simulations,float cpuct,unsigned max_nodes,unsigned timeout_ms,NowFn now,PumpFn pump,ProgressFn progress,bool speculative){
  SearchResult out;
  Board& board=s_search_board; board=source_board;
  static SearchHistory h;h=history;
@@ -279,31 +420,85 @@ SearchResult search(const Network& net,const Board& source_board,const SearchHis
  if(board.draw()){out.reason="draw";return out;}
  int reuse_idx=-1;
 #if PA_MCTS_REUSE && PA_SEGMENTED_TREE && PA_COMPACT_HISTORY
- if(history_matches(history) && s_previous_used+4096<PA_STATIC_TREE_NODES){
+#if EPE
+ if(speculative){
+  // Safe precondition: only extend the retained tree for the move actually
+  // returned by the preceding normal search, never replace that tree.
+  bool valid=s_previous_valid && history.size()==s_previous_history.size()+1 &&
+   s_previous_used+256<PA_STATIC_TREE_NODES;
+  if(valid){
+   for(size_t k=0;k<s_previous_history.size();++k){
+    const auto& a=history[k];const auto& b=s_previous_history[k];
+    if(a.packed!=b.packed||a.turn!=b.turn||a.castling!=b.castling||
+       a.halfmove!=b.halfmove||a.repeated!=b.repeated){valid=false;break;}
+   }
+  }
+  if(valid && s_last_root_board.history_length()+1<256){
+   s_last_root_board.push(s_previous_best);
+   valid=s_last_root_board.position_key()==source_board.position_key() &&
+      s_last_root_board.halfmove==source_board.halfmove;
+   s_last_root_board.pop();
+  }else valid=false;
+  if(valid){
+   const auto& root=s_node_arena[s_previous_root];
+   if(root.flags & NODE_EXPANDED){
+    for(uint16_t j=root.first;j;j=s_node_arena[j].next){
+     if(j>=s_previous_used)break;
+     if(s_node_arena[j].move==s_previous_best){reuse_idx=j;break;}
+    }
+   }
+  }
+  if(reuse_idx<0 || s_previous_used>=PA_STATIC_TREE_NODES-256){out.reason="epe_no_safe_tree";return out;}
+  s_epe_base_count=0;
+  for(uint16_t j=s_node_arena[reuse_idx].first;j && s_epe_base_count<256;
+      j=s_node_arena[j].next){
+   if(j>=s_previous_used)break;
+   s_epe_base[s_epe_base_count++]={s_node_arena[j].move,s_node_arena[j].visits};
+  }
+  s_epe_has_data=false;
+ }else
+#endif
+ if(history_matches(history) && s_previous_used+256<PA_STATIC_TREE_NODES){
   const auto& root=s_node_arena[s_previous_root];
   if((root.flags & NODE_EXPANDED) && root.count){
    int played=-1;
-   for(int i=0;i<root.count;++i){int j=int(root.first); for(int skip=0;skip<i;++skip)j=int(s_node_arena[j].next);
-    if(j<int(s_previous_used) && s_node_arena[j].move==s_previous_best){played=j;break;}}
+   for(uint16_t j=root.first;j;j=s_node_arena[j].next){
+    if(j>=s_previous_used)break;
+    if(s_node_arena[j].move==s_previous_best){played=j;break;}
+   }
    if(played>=0){
-    const auto& p=s_node_arena[played];
-    if((p.flags & NODE_EXPANDED) && p.count){
-     // Match the actual final position by replaying each previous opponent edge.
-     // The prefix check above protects history-dependent network input.
-     // Replay on the single retained base Board, push/pop each candidate;
-     // avoid an additional 26 KiB static Board just for continuation matching.
-     if(s_last_root_board.history_length()+2<256){
-      s_last_root_board.push(s_previous_best);
-      for(int k=0;k<p.count;++k){int j=int(p.first);for(int skip=0;skip<k;++skip)j=int(s_node_arena[j].next);
-       if(j>=int(s_previous_used))break;
-       s_last_root_board.push(s_node_arena[j].move);
-       const bool match=s_last_root_board.position_key()==source_board.position_key() &&
-         s_last_root_board.halfmove==source_board.halfmove;
-       s_last_root_board.pop();
-       if(match){reuse_idx=j;break;}
-      }
+    const auto& node=s_node_arena[played];
+    if((node.flags & NODE_EXPANDED) && node.count &&
+        s_last_root_board.history_length()+2<256){
+     s_last_root_board.push(s_previous_best);
+     for(uint16_t j=node.first;j;j=s_node_arena[j].next){
+      if(j>=s_previous_used)break;
+      s_last_root_board.push(s_node_arena[j].move);
+      const bool match=s_last_root_board.position_key()==source_board.position_key() &&
+          s_last_root_board.halfmove==source_board.halfmove;
       s_last_root_board.pop();
+      if(match){reuse_idx=j;break;}
      }
+     s_last_root_board.pop();
+    }
+   }
+  }
+ }
+#endif
+#if EPE && PA_MCTS_REUSE && PA_SEGMENTED_TREE && PA_COMPACT_HISTORY
+ if(!speculative && s_epe_has_data){
+  out.epe_total_sims=s_epe_sims;out.epe_total_ms=s_epe_ms;out.epe_nn_calls=s_epe_nn;out.epe_terminal=s_epe_terminal;out.epe_created_nodes=s_epe_new_nodes;out.epe_covered_branches=s_epe_covered;out.epe_delta_visits=s_epe_total_delta;
+  if(reuse_idx>=0){
+   const Node& chosen=s_node_arena[reuse_idx];
+   out.epe_branch_found=1;
+   const unsigned before=epe_baseline_visits(chosen.move);
+   out.epe_reused_sims=std::min(s_epe_sims,
+      chosen.visits>before?unsigned(chosen.visits-before):0u);
+   uint16_t stack[64];unsigned top=0;
+   stack[top++]=uint16_t(reuse_idx);
+   while(top){const uint16_t k=stack[--top];++out.epe_reused_nodes;
+    for(uint16_t j=s_node_arena[k].first;j;j=s_node_arena[j].next){
+     if(top<64)stack[top++]=j;
     }
    }
   }
@@ -316,7 +511,21 @@ SearchResult search(const Network& net,const Board& source_board,const SearchHis
   0
 #endif
  );
+#if EPE
+ if(speculative)t.capacity=std::min(t.capacity,unsigned(PA_STATIC_TREE_NODES-256u)); // reserve a bounded safety margin
+#endif
  if(reuse_idx>=0){out.reused_root=unsigned(reuse_idx);out.reused_prior_nodes=unsigned(t.nodes.size());}
+#if EPE && PA_EPE_CLASSIC_GUIDE
+ ClassicRootGuide guide;
+ if(speculative){
+  build_classic_guide(guide,board,root_legal,now,pump);
+  if(guide.enabled)t.guide=&guide;
+  out.epe_guide_candidates=guide.count;out.epe_guide_topk=guide.enabled?guide.topk:0;
+  out.epe_guide_ms=guide.elapsed_ms;
+ }
+#endif
+ const unsigned nn_before=net.profile().inferences;
+ const unsigned initial_nodes=unsigned(t.nodes.size());
  uint64_t begin=now();t.now=now;t.pump=pump;t.progress=progress;t.deadline=timeout_ms?begin+timeout_ms:0;
  // mallinfo: heap del asignador C/C++; no mide pila, reservas estaticas ni todos los pools lwIP.
  auto sample_heap=[&](){
@@ -342,6 +551,8 @@ SearchResult search(const Network& net,const Board& source_board,const SearchHis
   sample_heap();
  }
  sample_heap();
+#if EPE && PA_EPE_CLASSIC_GUIDE
+#endif
  out.guard_depth=t.guard_depth;out.guard_cycle=t.guard_cycle;out.guard_index=t.guard_index;
  out.guard_timeout=t.guard_timeout;out.guard_stop=t.guard_stop;out.max_depth=t.max_depth_seen;
  out.traverse_checks=t.visit_checks;out.inner_service_calls=t.service_calls;
@@ -354,11 +565,46 @@ SearchResult search(const Network& net,const Board& source_board,const SearchHis
  if(best>=0){const Node& n=t.nodes[best];out.move=n.move;out.has=true;out.q=n.visits?-n.qsum/n.visits:0;}
  else if(!root_legal.empty()){out.move=root_legal.front();out.has=true;if(out.reason==std::string("complete"))out.reason="no_root_expansion";}
 #if PA_MCTS_REUSE && PA_SEGMENTED_TREE && PA_COMPACT_HISTORY
- // Persist only when a legal move was selected and sufficient nodes remain.
- s_previous_valid=out.has && t.nodes.size()+4096<t.nodes.capacity();
- if(s_previous_valid){
-  s_previous_used=t.nodes.size();s_previous_root=uint16_t(t.root_idx);
-  s_previous_history=history;s_previous_best=out.move;s_last_root_board=source_board;
+ // Pre-emptive work is TRANSACTIONAL: retain the original legitimate root
+ // and its chosen move, only update its arena high-water mark.
+#if EPE
+ if(speculative){
+  s_previous_used=t.nodes.size();
+  s_epe_sims=out.simulations;
+  s_epe_ms=unsigned(now()-begin);
+  s_epe_nn=net.profile().inferences-nn_before;
+  s_epe_terminal=out.terminal_backups;
+  s_epe_new_nodes=out.tree_nodes-initial_nodes;
+  s_epe_covered=0;s_epe_total_delta=0;
+  if(reuse_idx>=0){
+   for(uint16_t j=s_node_arena[reuse_idx].first;j;j=s_node_arena[j].next){
+    const unsigned before=epe_baseline_visits(s_node_arena[j].move);
+    const unsigned now_visits=s_node_arena[j].visits;
+    if(now_visits>before){++s_epe_covered;s_epe_total_delta+=now_visits-before;}
+   }
+  }
+  out.epe_nn_calls=s_epe_nn;out.epe_terminal=s_epe_terminal;
+  out.epe_created_nodes=s_epe_new_nodes;out.epe_covered_branches=s_epe_covered;
+  out.epe_delta_visits=s_epe_total_delta;
+  s_epe_has_data=out.simulations>0;
+ }else
+#endif
+ {
+  s_previous_valid=out.has;
+  if(s_previous_valid){
+   size_t compact_used=t.nodes.size();uint16_t compact_root=uint16_t(t.root_idx);
+   // Post-search only: no inference accesses the reused scratch here.
+   const bool compact_ok=compact_reachable(compact_root,compact_used,compact_root);
+   out.epe_compact_ok=unsigned(compact_ok);
+   out.epe_compacted_nodes=compact_ok?unsigned(t.nodes.size()-compact_used):0u;
+   s_previous_used=compact_ok?compact_used:t.nodes.size();
+   s_previous_root=compact_ok?compact_root:uint16_t(t.root_idx);
+   s_previous_valid=(s_previous_used+256<PA_STATIC_TREE_NODES);
+   if(s_previous_valid){s_previous_history=history;s_previous_best=out.move;s_last_root_board=source_board;}
+  }
+#if EPE
+  s_epe_has_data=false;
+#endif
  }
 #endif
  return out;

@@ -62,11 +62,40 @@ def losses(net,batch,device):
     loss_v=F.mse_loss(pred_value,value)
     return weighted_p,loss_v
 
+def make_optimizer_groups(net, lr_trunk, lr_policy, lr_value):
+    """Create disjoint parameter groups without changing the network topology."""
+    heads_policy=('policy_conv1', 'policy_bn1', 'policy_conv2')
+    heads_value=('value_conv', 'value_bn', 'value_fc1', 'value_fc2')
+    groups={'trunk':[], 'policy':[], 'value':[]}
+    for name, parameter in net.named_parameters():
+        if name.startswith(heads_policy):
+            groups['policy'].append(parameter)
+        elif name.startswith(heads_value):
+            groups['value'].append(parameter)
+        else:
+            groups['trunk'].append(parameter)
+    assert all(groups.values()), 'Empty optimizer group'
+    assert sum(len(g) for g in groups.values())==len(list(net.parameters())), 'Parameter partition mismatch'
+    return [dict(params=groups[name], lr=rate, name=name)
+            for name,rate in (('trunk',lr_trunk),('policy',lr_policy),('value',lr_value))]
+
+
+def scheduled_lr(initial, floor, epoch, epochs):
+    return floor+(initial-floor)*0.5*(1+math.cos(math.pi*(epoch-1)/max(1,epochs-1)))
+
+
 def main():
     p=argparse.ArgumentParser(description='picoAlpha TinyGyal P/V student trainer')
     p.add_argument('--input',required=True);p.add_argument('--out',required=True)
     p.add_argument('--epoch',type=int,default=10);p.add_argument('--lr',type=float,default=0.0001)
     p.add_argument('--min-lr',type=float,default=0.000001)
+    p.add_argument('--lr-trunk',type=float,default=None,help='Initial trunk LR; defaults to --lr')
+    p.add_argument('--lr-policy',type=float,default=None,help='Initial policy-head LR; defaults to --lr')
+    p.add_argument('--lr-value',type=float,default=None,help='Initial value-head LR; defaults to --lr')
+    p.add_argument('--value-lr-after-epoch',type=int,default=2,
+                   help='Reduce only value-head LR after this epoch (default 2)')
+    p.add_argument('--value-lr-factor',type=float,default=0.2,
+                   help='Value-head LR multiplier after selected epoch (default 0.2; use 1 for legacy behavior)')
     p.add_argument('--validation',type=float,default=20.,help='Percent of complete games reserved for validation')
     p.add_argument('--batch-size',type=int,default=64);p.add_argument('--seed',type=int,default=42)
     p.add_argument('--device',choices=['auto','cpu','cuda','xpu'],default='auto')
@@ -74,8 +103,17 @@ def main():
     a=p.parse_args()
     if a.epoch<1 or a.batch_size<1 or a.lr<=0 or a.min_lr<=0 or a.min_lr>a.lr or not 0<a.validation<100:
         p.error('Invalid epochs, batch size, lr/min-lr or validation percentage')
+    if a.value_lr_after_epoch<0 or not 0<a.value_lr_factor<=1:
+        p.error('Value LR epoch must be nonnegative and factor in (0,1]')
+    initial_lrs={'trunk': a.lr if a.lr_trunk is None else a.lr_trunk,
+                 'policy': a.lr if a.lr_policy is None else a.lr_policy,
+                 'value': a.lr if a.lr_value is None else a.lr_value}
+    if any(not math.isfinite(x) or x<=0 for x in initial_lrs.values()):
+        p.error('All group learning rates must be finite and positive')
+    # Preserve relative cosine schedule and floor for each group.
+    floor_lrs={name:a.min_lr*rate/a.lr for name,rate in initial_lrs.items()}
     start=time.monotonic()
-    print(f'picoDistiller v0.2.47 | input={a.input} | device={a.device} | epochs={a.epoch}',flush=True)
+    print(f'picoDistiller v0.2.76 | input={a.input} | device={a.device} | epochs={a.epoch}',flush=True)
     print('Opening database and validating labels...',flush=True)
     random.seed(a.seed);np.random.seed(a.seed);torch.manual_seed(a.seed)
     device=('cuda' if torch.cuda.is_available() else 'xpu' if hasattr(torch,'xpu') and torch.xpu.is_available() else 'cpu') if a.device=='auto' else a.device
@@ -110,10 +148,12 @@ def main():
     # Intel XPU: foreach/fused may crash the Level Zero backend on successive steps.
     # CPU/CUDA behavior remains unchanged.
     adam_options={'foreach':False,'fused':False} if device=='xpu' else {}
-    optimizer=torch.optim.Adam(net.parameters(),lr=a.lr,**adam_options)
+    optimizer=torch.optim.Adam(make_optimizer_groups(net,initial_lrs['trunk'],initial_lrs['policy'],initial_lrs['value']),**adam_options)
     print(f'Optimizer Adam | device={device} foreach={adam_options.get("foreach", "default")} fused={adam_options.get("fused", "default")}',flush=True)
+    print(f'LR groups initial={initial_lrs} value_after_epoch={a.value_lr_after_epoch} '
+          f'value_factor={a.value_lr_factor}',flush=True)
     out=Path(a.out).expanduser().resolve();out.mkdir(parents=True,exist_ok=True)
-    (out/'training_manifest.json').write_text(json.dumps({'input':str(Path(a.input).resolve()),'teacher_sha256':signature,'train_games':train_ids,'validation_games':val_ids,'seed':a.seed,'model':'tinygyal_compatible_112p_1b8f_policy4672','history':'COMPLETE'},indent=2),encoding='utf-8')
+    (out/'training_manifest.json').write_text(json.dumps({'input':str(Path(a.input).resolve()),'teacher_sha256':signature,'train_games':train_ids,'validation_games':val_ids,'seed':a.seed,'model':'tinygyal_compatible_112p_1b8f_policy4672','history':'COMPLETE','learning_rates':initial_lrs,'value_lr_after_epoch':a.value_lr_after_epoch,'value_lr_factor':a.value_lr_factor},indent=2),encoding='utf-8')
     best=float('inf')
     current_epoch=0
     completed_epoch=0
@@ -121,9 +161,18 @@ def main():
       for epoch in range(1,a.epoch+1):
         current_epoch=epoch
         # slow monotonic LR decay, from user-provided low starting rate
-        lr=a.min_lr+(a.lr-a.min_lr)*0.5*(1+math.cos(math.pi*(epoch-1)/max(1,a.epoch-1)))
-        for g in optimizer.param_groups:g['lr']=lr
-        print(f'\nEpoch {epoch}/{a.epoch} lr={lr:.8g}')
+        actual_lrs={}
+        for group in optimizer.param_groups:
+            name=group['name']
+            lr=scheduled_lr(initial_lrs[name],floor_lrs[name],epoch,a.epoch)
+            if name=='value' and epoch>a.value_lr_after_epoch:
+                lr*=a.value_lr_factor
+            group['lr']=lr
+            actual_lrs[name]=lr
+        print(f'\nEpoch {epoch}/{a.epoch} '
+              f'lr_trunk={actual_lrs["trunk"]:.8g} '
+              f'lr_policy={actual_lrs["policy"]:.8g} '
+              f'lr_value={actual_lrs["value"]:.8g}')
         loader=DataLoader(train,batch_size=a.batch_size,shuffle=True,num_workers=0)
         net.train();n=0;psum=vsum=0.
         for batch in loader:

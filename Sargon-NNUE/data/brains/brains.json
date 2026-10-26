@@ -93,6 +93,16 @@
       "tmax": 10000,
       "rating_elo": 400
     },
+    "badGyal" : {
+      "player": "picoalpha",
+      "evaluator": "null",
+      "engine-path": "../../picoAlpha/x86/picoAlpha/build/picoAlpha.exe",
+      "network": "../../picoAlpha/data/runs/lc0/picogyal-20261026.pb.gz",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "timeout": 30000
+    },
     "tinyAlpha" : {
       "player": "picoalpha",
       "evaluator": "null",
@@ -112,7 +122,8 @@
     "tinySargon": {
       "player": "picosargon",
       "evaluator": "null",
-      "engine-path": "../../picoSargon/x86/picoSargon/build/picoSargon_host.exe",
+      "engine-path": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
+      "network"    : "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
       "depth": 6,
       "qdepth": 4,
       "tmax": 15000,

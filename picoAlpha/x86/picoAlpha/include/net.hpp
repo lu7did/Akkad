@@ -14,9 +14,10 @@ class Network {
  std::array<Layer,4> residual_;std::array<SE,2> se_;
  std::vector<float> v1w_,v1b_,v2w_,v2b_;
  std::vector<int8_t> v1q_;std::vector<float> v1qs_;
- bool int8_=false; int filters_=16,blocks_=2;
+ bool int8_=false; int filters_=16,blocks_=2; std::string model_;
 public:
- explicit Network(const std::string& path,bool int8=false,const std::string& model="tinygyal");
+ explicit Network(const std::string& path,bool int8=false,const std::string& model="auto");
+ const std::string& model()const{return model_;}
  Result evaluate(const std::array<float,112*64>& planes)const;
 };
 std::array<float,112*64> encode(const std::vector<picoSargon::Board>& history,bool fen_only);

@@ -7,12 +7,79 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <fstream>
+#include <filesystem>
+#include <cctype>
+// Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
+// No LC0 dependency; only retrieves brains[brain]["network"].
+namespace {
+struct JsonCursor {
+ const std::string& s; size_t i=0;
+ void ws(){while(i<s.size() && std::isspace(static_cast<unsigned char>(s[i])))++i;}
+ void expect(char c){ws();if(i>=s.size()||s[i]!=c)throw std::runtime_error("brains.json: formato JSON incorrecto");++i;}
+ std::string str(){expect('"');std::string out;bool closed=false;
+  while(i<s.size()){char c=s[i++];if(c=='"'){closed=true;break;}if(c=='\\'){
+    if(i>=s.size())throw std::runtime_error("brains.json: escape incompleto");
+    c=s[i++];switch(c){case 'n':c='\n';break;case 't':c='\t';break;case 'r':c='\r';break;
+      case '"':break;case '\\':break;case '/':break;
+      case 'u':throw std::runtime_error("brains.json: escape unicode no soportado en rutas");
+      default:throw std::runtime_error("brains.json: escape invalido");}
+  }out+=c;}if(!closed)throw std::runtime_error("brains.json: cadena incompleta");return out;}
+ void skip(){ws();if(i>=s.size())throw std::runtime_error("brains.json: valor incompleto");
+  if(s[i]=='"'){str();return;}
+  if(s[i]=='{'||s[i]=='['){char open=s[i++],close=open=='{'?'}':']';ws();
+   if(i<s.size()&&s[i]==close){++i;return;}
+   while(true){ws();if(i>=s.size())throw std::runtime_error("brains.json: estructura incompleta");
+    if(open=='{'){str();expect(':');}skip();ws();
+    if(i<s.size()&&s[i]==close){++i;break;}expect(',');}
+   return;}
+  size_t start=i;while(i<s.size()&&s[i]!=','&&s[i]!=']'&&s[i]!='}'&&!std::isspace(static_cast<unsigned char>(s[i])))++i;
+  if(start==i)throw std::runtime_error("brains.json: valor invalido");
+ }
+ // Reads one exact string key from object; leaves cursor at value if found.
+ bool key(const std::string& wanted){expect('{');ws();if(i<s.size()&&s[i]=='}'){++i;return false;}
+  while(true){auto k=str();expect(':');if(k==wanted)return true;skip();ws();
+   if(i<s.size()&&s[i]=='}'){++i;return false;}expect(',');}
+ }
+};
+std::string get_weights_from_brains(const std::string& filename,const std::string& brain){
+ std::ifstream in(filename,std::ios::binary);if(!in)throw std::runtime_error("no se puede abrir brains.json: "+filename);
+ std::string contents((std::istreambuf_iterator<char>(in)),std::istreambuf_iterator<char>());
+ JsonCursor j{contents};if(!j.key("brains")||!j.key(brain)||!j.key("network"))
+  throw std::runtime_error("brains.json: falta brains."+brain+".network");
+ const auto network=j.str();if(network.empty())throw std::runtime_error("brains.json: network vacio");
+ namespace fs=std::filesystem;fs::path path(network);
+ if(path.is_absolute())return path.string();
+ // Prefer the original working-directory convention used by Sargon-NNUE scripts.
+ if(fs::is_regular_file(path))return fs::absolute(path).string();
+ fs::path file=fs::absolute(filename).parent_path();
+ for(const fs::path& base:{file,file/"scripts",file.parent_path()/"scripts"}){
+  auto candidate=(base/path).lexically_normal();if(fs::is_regular_file(candidate))return candidate.string();
+ }
+ throw std::runtime_error("brains.json: no existe network para "+brain+": "+network);
+}
+std::string weights_argument(int argc,char** argv){
+ std::string weights,brains,brain="tinySargon";
+ for(int i=1;i<argc;++i){std::string a=argv[i];
+  if(a=="--brains"||a=="--brain"||a=="--weights"){
+   if(++i>=argc)throw std::runtime_error("falta valor para "+a);
+   if(a=="--brains")brains=argv[i];else if(a=="--brain")brain=argv[i];else weights=argv[i];
+  }else if(!a.empty()&&a[0]=='-')throw std::runtime_error("opcion desconocida: "+a);
+  else if(weights.empty())weights=a;
+  else throw std::runtime_error("argumentos de pesos duplicados");
+ }
+ if(!weights.empty())return weights;
+ if(!brains.empty())return get_weights_from_brains(brains,brain);
+ throw std::runtime_error("uso: picoSargon.exe <grumpy.bin> | --weights <grumpy.bin> | --brains <brains.json> [--brain tinySargon]");
+}
+}
+
 using namespace picoSargon;
 static uint64_t milliseconds(){return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();}
 int main(int argc,char**argv){
  try{
-  if(argc<2)throw std::runtime_error("uso: picoSargon_host <grumpy.bin>");
-  Grumpy net;net.load(argv[1]);Board board;
+  const auto weights=weights_argument(argc,argv);
+  Grumpy net;net.load(weights);Board board;
   int qdepth=2;std::string line;
   while(std::getline(std::cin,line)){
    std::istringstream ss(line);std::string cmd;ss>>cmd;

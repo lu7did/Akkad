@@ -117,12 +117,31 @@ std::vector<float> dense_int8(const std::vector<float>& x,const std::vector<int8
 Bytes gzread(const std::string& path){gzFile f=gzopen(path.c_str(),"rb");if(!f)throw std::runtime_error("No se puede abrir pesos: "+path);Bytes buf;unsigned char tmp[65536];int n;while((n=gzread(f,tmp,sizeof(tmp)))>0)buf.insert(buf.end(),tmp,tmp+n);int code=0;const char* err=gzerror(f,&code);if(n<0){std::string detail=err?err:"gzip";gzclose(f);throw std::runtime_error(detail);}gzclose(f);return buf;}
 }
 Network::Network(const std::string& path,bool int8,const std::string& model):int8_(int8){
- if(model=="tinygyal"){filters_=16;blocks_=2;}
- else if(model=="picogyal"){filters_=8;blocks_=1;}
- else throw std::runtime_error("modelo no disponible: "+model);
- auto root=fields(gzread(path));auto fmt=fields(get(fields(get(root,4).data),2).data);
+ // Inspect the actual protobuf tensors, never the filename. Parse gzip only once.
+ auto root=fields(gzread(path));
+ const auto w=fields(get(root,10).data);
+ const auto conv0=fields(get(w,1).data);
+ const auto conv0_weights=fields(get(conv0,1).data);
+ const auto& quantized=get(conv0_weights,3).data;
+ // 112 input planes, 3x3 convolution, LINEAR16 (2 bytes per weight).
+ constexpr size_t bytes_per_filter=112u*3u*3u*2u;
+ if(quantized.size()%bytes_per_filter!=0)
+  throw std::runtime_error("LC0: primera convolucion incompatible con 112 planos / LINEAR16");
+ const size_t detected_filters=quantized.size()/bytes_per_filter;
+ int detected_blocks=0;
+ for(const auto& f:w)if(f.id==2)++detected_blocks;
+ std::string detected;
+ if(detected_filters==8 && detected_blocks==1)detected="picogyal";
+ else if(detected_filters==16 && detected_blocks==2)detected="tinygyal";
+ else throw std::runtime_error("LC0: arquitectura no soportada (filters="+
+      std::to_string(detected_filters)+", blocks="+std::to_string(detected_blocks)+
+      "); admitidas: picogyal 1x8 y tinygyal 2x16");
+ if(model!="auto" && model!=detected)
+  throw std::runtime_error("--model "+model+" no coincide con la red detectada: "+detected);
+ filters_=int(detected_filters);blocks_=detected_blocks;model_=detected;
+ auto fmt=fields(get(fields(get(root,4).data),2).data);
  for(int k=1;k<=5;++k){const int expect[]={0,1,1,4,2,1};if(int(get(fmt,k).value)!=expect[k])throw std::runtime_error("LC0: formato incompatible LINEAR16/classical conv/value");}
- auto w=fields(get(root,10).data);input_=layer(get(w,1),112,filters_,3);
+ input_=layer(get(w,1),112,filters_,3);
  std::vector<Field> res;for(auto& f:w)if(f.id==2)res.push_back(f);
  if(int(res.size())!=blocks_)throw std::runtime_error("LC0: cantidad de bloques residuales no coincide con --model");
  for(int j=0;j<blocks_;++j){auto f=fields(res[j].data);

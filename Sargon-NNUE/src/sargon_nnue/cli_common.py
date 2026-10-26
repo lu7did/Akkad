@@ -69,6 +69,8 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
         choices=["null", "classic", "npz", "cerebrum", "cerebrum-1.1", "cerebrum-2", "stockfish", "lc0", "tinygyal", "znpz", "zclassic", "grumpy"],
         help="evaluator; omitido => NULL para player=stockfish, CLASSIC para los demás",
     )
+    p.add_argument(opt("model"), dest=dest("model"), default=None, choices=["tinygyal", "picogyal"],
+                   help="arquitectura de red para el jugador nativo picoAlpha (2x16 o 1x8)")
     p.add_argument(
         opt("network"), dest=dest("network"), default=None,
         help="archivo de red; para evaluator=stockfish es opcional y, si se omite, se usa la red default/embebida del ejecutable",

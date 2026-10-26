@@ -11,5 +11,5 @@
 #* run_match.ps1
 #* Runs chess matches using Sargon-NNUE
 #=================================================================================================================*
-.\sargon_match.ps1 --brain ../data/brains/brains.json --pairs 5 --idA sophie --idB emma
+.\sargon_match.ps1 --brain ../data/brains/brains.json --pairs 5 --idA buddy --idB badGyal
 

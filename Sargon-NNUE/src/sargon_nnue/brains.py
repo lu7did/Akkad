@@ -25,7 +25,7 @@ from .cli_common import add_engine_args
 
 VERSION='0.6.162'
 # `rating_elo` is metadata, never a listener CLI parameter.
-ENGINE_KEYS = ['player', 'evaluator', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout']
+ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout']
 METADATA_KEYS = {'rating_elo'}
 PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86')
 EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy')
@@ -46,6 +46,7 @@ def defaults(player,evaluator):
         allowed={'player','evaluator','engine-path','depth','movetime','timeout'}
         if player=='picosargon': allowed|={'qdepth','tmax'}
         if player in ('picoalpha','alphazero-x86','AlphaZero-X86'): allowed|={'network','az-simulations','az-cpuct','tmax'}
+        if player=='picoalpha': allowed.add('model')
         if player=='alphazero-x86': allowed|={'lc0-weights','lc0-backend','lc0-backend-options'}
         if player=='external': allowed={'player','evaluator','url'}
         if player=='stockfish': allowed|={'nodes','elo','stockfish-threads','stockfish-hash'}
@@ -90,6 +91,8 @@ def validate(config, *, check_files=False):
     if player=='picoalpha' and ev!='null':raise ValueError('player picoalpha requiere evaluator null')
     if player=='picoalpha' and not config.get('engine-path'):raise ValueError('player picoalpha requiere engine-path')
     if player=='picoalpha' and not config.get('network'):raise ValueError('player picoalpha requiere network')
+    if config.get('model') is not None and player!='picoalpha':raise ValueError('model solo válido para player picoalpha')
+    if config.get('model') is not None and config['model'] not in ('tinygyal','picogyal'):raise ValueError('model debe ser tinygyal o picogyal')
     if player=='picosargon' and ev!='null':raise ValueError('player picosargon requiere evaluator null')
     if player=='picosargon' and not config.get('engine-path'):raise ValueError('player picosargon requiere engine-path')
     if player=='lc0' and ev!='null':raise ValueError('player lc0 requiere evaluator null')

@@ -1,8 +1,14 @@
 python .\picoDistiller.py `
     --input "../../../../Chess_History_pb/pb/zod_sample.pb" `
     --out "../data/runs" `
-    --epoch 10 `
-    --lr 0.0001 `
-    --validation 20 `
+    --epoch 20 `
     --batch-size 256 `
+    --lr 0.0001 `
+    --min-lr 0.000001 `
+    --lr-trunk 0.0001 `
+    --lr-policy 0.0001 `
+    --lr-value 0.0001 `
+    --value-lr-after-epoch 2 `
+    --value-lr-factor 0.2 `
+    --validation 20 `
     --device xpu

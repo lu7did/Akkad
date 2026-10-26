@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+picoAlpha,external,null,,6,6,0,87.051,14508.502,14556.315,14720.229,14260.830,14720.229,7423,6,87044.000,85.3,11.727201,OK

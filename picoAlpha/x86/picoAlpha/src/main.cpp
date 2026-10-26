@@ -38,6 +38,7 @@ public:
  explicit EngineNetwork(const std::string& name,const std::string& path,bool use_int8){
   tiny_=std::make_unique<picoalpha::Network>(path,use_int8,name);
  }
+ const std::string& model()const{return tiny_->model();}
  picoalpha::Result evaluate(const std::array<float,112*64>& planes,const picoSargon::Board* board=nullptr)const{
   uint64_t h1=0,h2=0;
   if(board){auto h=cache_key(planes,*board);h1=h.first;h2=h.second;
@@ -183,18 +184,18 @@ class Search {
 };
 int main(int argc,char** argv){
  try {
-  std::string path;std::string model="tinygyal";int default_nodes=2000;float cpuct=1.5f;
+  std::string path;std::string model="auto";int default_nodes=2000;float cpuct=1.5f;
 #ifdef PICOALPHA_DEFAULT_INT8
   bool use_int8=true;
 #else
   bool use_int8=false;
 #endif
-  for(int i=1;i<argc;++i){std::string a=argv[i];if((a=="--network"||a=="-n")&&i+1<argc)path=argv[++i];else if(a=="--model"&&i+1<argc)model=argv[++i];else if(a=="--simulations"&&i+1<argc)default_nodes=std::stoi(argv[++i]);else if(a=="--cpuct"&&i+1<argc)cpuct=std::stof(argv[++i]);else if(a=="--precision"&&i+1<argc){std::string mode=argv[++i];if(mode=="int8")use_int8=true;else if(mode=="fp32")use_int8=false;else throw std::runtime_error("--precision fp32|int8");}else throw std::runtime_error("uso: picoAlpha --model tinygyal|picogyal --network weights.pb.gz [--simulations N] [--cpuct C]");}
-  if(path.empty())throw std::runtime_error("--network obligatorio: ruta a la red LC0 .pb.gz, tanto para tinygyal como picogyal");EngineNetwork net(model,path,use_int8);Search persistent_search(net,cpuct,default_nodes);Board board;std::vector<Board> history{board};bool fen_only=false;std::string line;
+  for(int i=1;i<argc;++i){std::string a=argv[i];if((a=="--network"||a=="-n")&&i+1<argc)path=argv[++i];else if(a=="--model"&&i+1<argc)model=argv[++i];else if(a=="--simulations"&&i+1<argc)default_nodes=std::stoi(argv[++i]);else if(a=="--cpuct"&&i+1<argc)cpuct=std::stof(argv[++i]);else if(a=="--precision"&&i+1<argc){std::string mode=argv[++i];if(mode=="int8")use_int8=true;else if(mode=="fp32")use_int8=false;else throw std::runtime_error("--precision fp32|int8");}else throw std::runtime_error("uso: picoAlpha --network weights.pb.gz [--model auto|tinygyal|picogyal] [--simulations N] [--cpuct C]");}
+  if(path.empty())throw std::runtime_error("--network obligatorio: ruta a la red LC0 .pb.gz, tanto para tinygyal como picogyal");EngineNetwork net(model,path,use_int8);model=net.model();Search persistent_search(net,cpuct,default_nodes);Board board;std::vector<Board> history{board};bool fen_only=false;std::string line;
   while(std::getline(std::cin,line)){
    try {
     std::istringstream ss(line);std::string command;ss>>command;
-    if(command=="uci")std::cout<<"id name picoAlpha C++ 0.6.182 (PUCT + "<<model<<" native)\nid author Dr. Pedro E. Colla\noption name Simulations type spin default "<<default_nodes<<" min 1 max 1000000\noption name Cpuct type string default "<<cpuct<<"\nuciok\n";
+    if(command=="uci")std::cout<<"id name picoAlpha C++ v0.2.80 (PUCT + "<<model<<" native)\nid author Dr. Pedro E. Colla\noption name Simulations type spin default "<<default_nodes<<" min 1 max 1000000\noption name Cpuct type string default "<<cpuct<<"\nuciok\n";
     else if(command=="isready")std::cout<<"readyok\n";
     else if(command=="setoption"){
      std::string s,name,value;ss>>s;if(s=="name"){while(ss>>s&&s!="value"){if(!name.empty())name+=' ';name+=s;}std::getline(ss,value);if(!value.empty()&&value[0]==' ')value.erase(0,1);if(name=="Simulations")default_nodes=std::max(1,std::stoi(value));else if(name=="Cpuct")cpuct=std::stof(value);}

@@ -11,17 +11,34 @@ from ..types import MoveChoice
 class PicoAlphaUCIPlayer(ExternalUCIPlayer):
     name = 'PICOALPHA'
 
-    def __init__(self, executable, network, *, simulations=2000, cpuct=1.5, tmax_ms=15000, timeout_ms=30000):
+    def __init__(self, executable, network, *, model=None, simulations=2000, cpuct=1.5, tmax_ms=15000, timeout_ms=30000):
         exe=Path(executable).expanduser().resolve()
         weights=Path(network).expanduser().resolve() if network else None
         if not exe.is_file():raise PlayerError(f'picoAlpha executable missing: {exe}')
         if weights is None or not weights.is_file():raise PlayerError(f'picoAlpha external network missing: {weights}')
+        # The native C++ reader requires the architecture at startup, before UCI.
+        # An explicit brains.json "model" wins; otherwise infer from the network filename.
+        if model is None or not str(model).strip():
+            filename = weights.name.lower()
+            if "picogyal" in filename:
+                model = "picogyal"
+            elif "tinygyal" in filename:
+                model = "tinygyal"
+            else:
+                raise PlayerError(
+                    f"No puedo inferir la arquitectura desde {weights.name}; "
+                    "indicar model=picogyal o model=tinygyal en brains.json"
+                )
+        model = str(model).strip().lower()
+        if model not in ("picogyal", "tinygyal"):
+            raise PlayerError(f"modelo picoAlpha no soportado: {model}")
+        self.model = model
         self.simulations=int(simulations)
         self.cpuct=float(cpuct)
         self.tmax_ms=int(tmax_ms)
         if self.simulations<1 or self.cpuct<=0 or self.tmax_ms<1:
             raise PlayerError('picoAlpha requires simulations>=1 cpuct>0 tmax>=1')
-        super().__init__([str(exe),'--network',str(weights), '--simulations',str(self.simulations), '--cpuct',str(self.cpuct)],
+        super().__init__([str(exe),'--model',self.model,'--network',str(weights), '--simulations',str(self.simulations), '--cpuct',str(self.cpuct)],
                          movetime_ms=self.tmax_ms, timeout_ms=max(int(timeout_ms),self.tmax_ms+10000), label=self.name)
 
     def choose(self, board:chess.Board)->MoveChoice:

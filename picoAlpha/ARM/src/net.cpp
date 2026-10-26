@@ -53,14 +53,25 @@ struct ParallelJob {void (*fn)(void*,int,int)=nullptr; void* ctx=nullptr; int ha
 static ParallelJob parallel_job;
 static volatile uint32_t published_generation=0;
 static volatile uint32_t finished_generation=0;
+// Dedicated 16 KiB stack: the Pico SDK default core-1 stack may be insufficient
+// for the quantized DSP kernels and diagnostic call chains.
+#ifndef PA_CORE1_STACK_BYTES
+#define PA_CORE1_STACK_BYTES 16384
+#endif
+static_assert(PA_CORE1_STACK_BYTES >= 8192 && (PA_CORE1_STACK_BYTES % 8)==0,
+              "Invalid core 1 stack size");
+alignas(8) static uint32_t pa_core1_stack[PA_CORE1_STACK_BYTES / sizeof(uint32_t)];
+static constexpr uint32_t PA_CORE1_STACK_GUARD=0xC01DCAFEu;
 static bool worker_ready=false;
+static volatile uint32_t worker_started=0;
 static uint64_t parallel_wait_us=0,parallel_core1_us=0;
 static uint32_t parallel_jobs=0,parallel_timeouts=0;
 static void core1_loop(){
  uint32_t handled=0;
+ __atomic_store_n(&worker_started,1u,__ATOMIC_RELEASE);
  for(;;){
   uint32_t incoming=__atomic_load_n(&published_generation,__ATOMIC_ACQUIRE);
-  if(incoming==handled){__asm__ volatile("wfe");continue;}
+  if(incoming==handled){__asm__ volatile("nop" ::: "memory");continue;}
   handled=incoming;
   ParallelJob job=parallel_job;
   const uint64_t t=micros_now();
@@ -73,9 +84,18 @@ static void core1_loop(){
 }
 #endif
 } // close anonymous namespace for qualified picoalpha definitions
+picoalpha::FC1Detail picoalpha::fc1_detail_profile(){return {};}
+void picoalpha::fc1_detail_reset(){}
 void picoalpha::dual_core_start(){
 #if PA_DUAL_CORE_NN && defined(PICO_ON_DEVICE)
- if(!worker_ready){multicore_launch_core1(core1_loop);worker_ready=true;}
+ if(!worker_ready){
+  pa_core1_stack[0]=PA_CORE1_STACK_GUARD;
+  multicore_launch_core1_with_stack(core1_loop,pa_core1_stack,sizeof(pa_core1_stack));
+  const uint64_t deadline=micros_now()+1000000u;
+  while(!__atomic_load_n(&worker_started,__ATOMIC_ACQUIRE) && micros_now()<deadline)
+   __asm__ volatile("nop" ::: "memory");
+  worker_ready=__atomic_load_n(&worker_started,__ATOMIC_ACQUIRE)!=0;
+ }
 #endif
 }
 picoalpha::DualCoreProfile picoalpha::dual_core_profile(){

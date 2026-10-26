@@ -21,7 +21,7 @@ CMAKE_ADDR2LINE:FILEPATH=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/
 CMAKE_AR:FILEPATH=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/11.2 2022.02/bin/arm-none-eabi-ar.exe
 
 //ASM compiler
-CMAKE_ASM_COMPILER:STRING=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/11.2 2022.02/bin/arm-none-eabi-gcc.exe
+CMAKE_ASM_COMPILER:FILEPATH=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/11.2 2022.02/bin/arm-none-eabi-gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -50,8 +50,8 @@ CMAKE_ASM_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 // MinSizeRel ...
 CMAKE_BUILD_TYPE:STRING=Release
 
-//CXX compiler
-CMAKE_CXX_COMPILER:STRING=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/11.2 2022.02/bin/arm-none-eabi-g++.exe
+//C++ compiler
+CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/11.2 2022.02/bin/arm-none-eabi-g++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -77,7 +77,7 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-g -O3 -DNDEBUG
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //C compiler
-CMAKE_C_COMPILER:STRING=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/11.2 2022.02/bin/arm-none-eabi-gcc.exe
+CMAKE_C_COMPILER:FILEPATH=C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/11.2 2022.02/bin/arm-none-eabi-gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -184,7 +184,7 @@ CMAKE_PROJECT_NAME:STATIC=picoAlpha_firmware
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION:STATIC=0.2.54
+CMAKE_PROJECT_VERSION:STATIC=0.2.75
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_MAJOR:STATIC=0
@@ -193,7 +193,7 @@ CMAKE_PROJECT_VERSION_MAJOR:STATIC=0
 CMAKE_PROJECT_VERSION_MINOR:STATIC=2
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_PATCH:STATIC=54
+CMAKE_PROJECT_VERSION_PATCH:STATIC=75
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_TWEAK:STATIC=
@@ -272,6 +272,9 @@ DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
 //Doxygen documentation generation tool (https://www.doxygen.nl)
 DOXYGEN_EXECUTABLE:FILEPATH=DOXYGEN_EXECUTABLE-NOTFOUND
 
+//Enable pre-emptive MCTS during opponent thinking
+EPE:BOOL=ON
+
 //Directory under which to collect all populated content
 FETCHCONTENT_BASE_DIR:PATH=C:/Users/pedro/github/Bobby/Akkad/picoAlpha/ARM/build-pico2-w/_deps
 
@@ -285,8 +288,60 @@ FETCHCONTENT_QUIET:BOOL=ON
 //Enables UPDATE_DISCONNECTED behavior for all content population
 FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
 
-//Disabled for stability validation in v0.2.28
-PA_DUAL_CORE_NN:BOOL=OFF
+//Direct 112x8x8 sparse/binary convolution
+PA_BINARY_FIRST_CONV:BOOL=ON
+
+//Enable expensive activation histograms
+PA_CALIBRATION_RUN:BOOL=OFF
+
+//Activation histograms
+PA_CALIBRATION_TELEMETRY:BOOL=OFF
+
+//Dedicated core 1 stack bytes
+PA_CORE1_STACK_BYTES:STRING=16384
+
+//Instrument each search for bottleneck analysis regardless of
+// cached telemetry options
+PA_DIAGNOSTIC_RUN:BOOL=ON
+
+//RP2350 dual-core inference
+PA_DUAL_CORE_NN:BOOL=ON
+
+//Lightweight Sargon Classic root guidance during EPE only
+PA_EPE_CLASSIC_GUIDE:BOOL=ON
+
+//Classic-guided root branches (1..32)
+PA_EPE_GUIDE_TOPK:STRING=6
+
+//Maximum speculative compute duration per opponent turn
+PA_EPE_MAX_MS:STRING=30000
+
+//Maximum speculative MCTS simulations
+PA_EPE_SIMULATIONS:STRING=400
+
+//FC1 4-output groups assigned to core 0 (1..31)
+PA_FC1_CORE0_GROUPS:STRING=17
+
+//Use packed operand extraction for SMLAD
+PA_FC1_DSP_PACKED:BOOL=ON
+
+//Prefetch subsequent FC1 weight tiles in XIP Flash
+PA_FC1_FLASH_PREFETCH:BOOL=ON
+
+//Four-row tile packed FC1 kernel
+PA_FC1_PREPACK:BOOL=ON
+
+//Legacy option: select picoGyal 1x8
+PA_FORCE_PICOGYAL:BOOL=OFF
+
+//Emergency fallback: core 0 only
+PA_FORCE_SINGLE_CORE:BOOL=OFF
+
+//Explicitly select original TinyGyal 2x16
+PA_FORCE_TINYGYAL:BOOL=OFF
+
+//Static-scale INT8 residual convolution and SE path
+PA_INT8_ACTIVATIONS:BOOL=ON
 
 //Explicit rollback to monolithic tree (unsafe for long matches)
 PA_LEGACY_MCTS_TREE:BOOL=OFF
@@ -309,14 +364,21 @@ PA_NN_FC_INT8:BOOL=ON
 //Profile TinyGyal layers
 PA_NN_PROFILE:BOOL=ON
 
+//Verbose per-stage serial trace (emergency only)
+PA_NN_TRACE:BOOL=OFF
+
 //Reusable TinyGyal buffers
 PA_NN_WORKSPACE:BOOL=ON
+
+//Deprecated recovery alias
+PA_RECOVERY_SINGLE_CORE:BOOL=OFF
 
 //Derived, do not edit
 PA_SEGMENTED_TREE:BOOL=ON
 
-//MCTS static SRAM nodes, 20 bytes each
-PA_STATIC_TREE_NODES:STRING=8576
+//MCTS static SRAM nodes, 20 bytes each; reserve RAM for dual-core
+// stack
+PA_STATIC_TREE_NODES:STRING=7500
 
 //Enable optional diagnostics (MCTS, NN, MEM)
 PA_TELEM_DETAIL:BOOL=OFF
@@ -330,7 +392,7 @@ PA_TELEM_MEM:BOOL=OFF
 //Neural compute telemetry
 PA_TELEM_NN:BOOL=OFF
 
-//Network selected at compile time: 1x8 or 2x16
+//Network
 PICOALPHA_NET:STRING=1x8
 
 //PICO target board (e.g. pico, pico2)

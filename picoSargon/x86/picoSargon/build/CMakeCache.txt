@@ -103,7 +103,7 @@ CMAKE_PROJECT_NAME:STATIC=picoSargon
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION:STATIC=0.2.14
+CMAKE_PROJECT_VERSION:STATIC=0.2.16
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_MAJOR:STATIC=0
@@ -112,7 +112,7 @@ CMAKE_PROJECT_VERSION_MAJOR:STATIC=0
 CMAKE_PROJECT_VERSION_MINOR:STATIC=2
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_PATCH:STATIC=14
+CMAKE_PROJECT_VERSION_PATCH:STATIC=16
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_TWEAK:STATIC=
@@ -187,6 +187,9 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Enable aspiration windows, SEE and razoring (experimental)
+STEROIDS:BOOL=ON
 
 //Value Computed by CMake
 picoSargon_BINARY_DIR:STATIC=C:/Users/pedro/github/Bobby/Akkad/picoSargon/x86/picoSargon/build

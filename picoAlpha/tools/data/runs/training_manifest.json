@@ -1,6 +1,6 @@
 {
   "input": "C:\\Users\\pedro\\github\\Bobby\\Chess_History_pb\\pb\\zod_sample.pb",
-  "teacher_sha256": "b6b55cb12f653f7321b79adfa5c87067762f23284f7799858b5db855add961a2",
+  "teacher_sha256": "bc27a6cae8ad36f2b9a80a6ad9dabb0d6fda25b1e7f481a79bc359e14f563406",
   "train_games": [
     3044,
     2266,
@@ -8195,5 +8195,12 @@
   ],
   "seed": 42,
   "model": "tinygyal_compatible_112p_1b8f_policy4672",
-  "history": "COMPLETE"
+  "history": "COMPLETE",
+  "learning_rates": {
+    "trunk": 0.0001,
+    "policy": 0.0001,
+    "value": 0.0001
+  },
+  "value_lr_after_epoch": 2,
+  "value_lr_factor": 0.2
 }

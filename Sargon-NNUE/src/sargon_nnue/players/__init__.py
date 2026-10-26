@@ -23,7 +23,7 @@ from .uci_external import ExternalUCIPlayer, StockfishUCIPlayer
 
 def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
                   tmax_ms: int = 15000, seed: int | None = None, boost: int = 0, turbo: int = 0,
-                  engine_path: str | None = None, network: str | None = None, url: str | None = None, movetime_ms: int = 1000,
+                  engine_path: str | None = None, network: str | None = None, model: str | None = None, url: str | None = None, movetime_ms: int = 1000,
                   timeout_ms: int = 30000, nodes: int = 5_000_000,
                   elo: int | str | None = "max", audit=None, telemetry=None,
                   stockfish_threads: int = 1, stockfish_hash: int = 256,
@@ -41,12 +41,12 @@ def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
         return AlphaZeroX86UCIPlayer(engine_path,network,simulations=az_simulations,cpuct=az_cpuct,tmax_ms=tmax_ms,backend=lc0_backend,backend_options=lc0_backend_options,timeout_ms=timeout_ms)
     if key == "picoalpha":
         from .picoalpha_uci import PicoAlphaUCIPlayer
-        return PicoAlphaUCIPlayer(engine_path, network, simulations=az_simulations, cpuct=az_cpuct, tmax_ms=tmax_ms, timeout_ms=timeout_ms)
+        return PicoAlphaUCIPlayer(engine_path, network, model=model, simulations=az_simulations, cpuct=az_cpuct, tmax_ms=tmax_ms, timeout_ms=timeout_ms)
     if key == "picosargon":
         from .picosargon_uci import PicoSargonUCIPlayer
         if not engine_path:
             raise PlayerError("player=picosargon requiere --engine-path al ejecutable UCI nativo")
-        return PicoSargonUCIPlayer(engine_path, depth=depth, qdepth=qdepth, tmax_ms=tmax_ms, timeout_ms=timeout_ms)
+        return PicoSargonUCIPlayer(engine_path, weights_path=network, depth=depth, qdepth=qdepth, tmax_ms=tmax_ms, timeout_ms=timeout_ms)
     if key == "doc":
         from .doc import DocPlayer
         return DocPlayer(evaluator,depth=depth,qdepth=qdepth,tmax_ms=tmax_ms,telemetry=telemetry)

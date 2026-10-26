@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+picoAlpha,external,null,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: fallo del motor picoAlpha: bestmove (none); consultar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.134_20261025_202052_365628900\engine_01.log

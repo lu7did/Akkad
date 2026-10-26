@@ -88,6 +88,11 @@ void run_search(){
  auto r=e.search(board,config::DEPTH,config::TIMEOUT_MS);
  for(const auto& l:r.levels)debug_log("LEVEL depth=%d status=%s elapsed_ms=%llu nodes=%llu qnodes=%llu heap_used=%ld heap_free=%ld stack_gap_approx=%ld\n",l.depth,l.complete?"complete":"aborted",(unsigned long long)l.ms,(unsigned long long)l.nodes,(unsigned long long)l.qnodes,(long)l.mem.heap_used,(long)l.mem.heap_free,(long)l.mem.stack_margin);
  debug_log("SEARCH elapsed_ms=%llu nodes=%llu qnodes=%llu nps=%llu depth=%d tt_hits=%llu tt_stores=%llu cutoffs=%llu reason=%s\n",(unsigned long long)r.elapsed_ms,(unsigned long long)r.nodes,(unsigned long long)r.qnodes,(unsigned long long)(r.nodes*1000/(r.elapsed_ms?r.elapsed_ms:1)),r.depth,(unsigned long long)r.tt_hits,(unsigned long long)r.tt_stores,(unsigned long long)r.cutoffs,r.reason.c_str());
+#ifdef PICOSARGON_STEROIDS
+ debug_log("STEROIDS asp_attempts=%llu asp_retries=%llu asp_fail_low=%llu asp_fail_high=%llu see_calls=%llu see_negative=%llu razor_attempts=%llu razor_cuts=%llu nodes=%llu\n",
+  (unsigned long long)r.asp_attempts,(unsigned long long)r.asp_retries,(unsigned long long)r.asp_fail_low,(unsigned long long)r.asp_fail_high,
+  (unsigned long long)r.see_calls,(unsigned long long)r.see_rejected,(unsigned long long)r.razor_attempts,(unsigned long long)r.razor_cuts,(unsigned long long)r.nodes);
+#endif
  debug_log("SEARCH_ID=%lu phase=finished reason=%s\n",(unsigned long)search_id,r.reason.c_str());
  if(!request_quit&&connected){send_line("info depth "+std::to_string(r.depth)+" score cp "+std::to_string(r.score)+" nodes "+std::to_string(r.nodes));send_line("bestmove "+(r.has_move?Board::notation(r.best):"0000"));}
  }catch(const std::exception& ex){debug_log("SEARCH error: %s\n",ex.what());session_error=true;++recoverable_errors;if(connected){send_line(std::string("info string error SEARCH ")+ex.what());send_line("bestmove 0000");}}
