@@ -9,9 +9,9 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 AKKAD_ROOT="$(cd -- "$SCRIPT_DIR/../../.." && pwd -P)"
 SARGON_ROOT="$AKKAD_ROOT/Sargon-NNUE"
-BRAINS_JSON="$SARGON_ROOT/data/brains/brains.json"
+BRAINS_JSON="$SARGON_ROOT/data/brains/brains_amelia.json"
 
-BRAIN_ID="${1:-${LISTEN_BRAIN:-tinySargon}}"
+BRAIN_ID="${1:-${LISTEN_BRAIN:-amelia}}"
 PORT="${2:-${LISTEN_PORT:-6200}}"
 HOST="${3:-${LISTEN_HOST:-0.0.0.0}}"
 PYTHON_BIN="${LISTEN_PYTHON:-${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/python}}"
