@@ -1,0 +1,1 @@
+picoKeras 0.1.15. Prepare schema from schema.fbs with flatc independently. Execute scripts/prepare_TFLM_schema.ps1 -Flatc C:\path\flatc.exe and then build.ps1 -Clean. No network conversion in build. Full Windows TFLM build not tested.

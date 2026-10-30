@@ -1,0 +1,29 @@
+{
+  "version": "0.1.21",
+  "source_keras": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\keras\\medium.keras",
+  "format": "FP32 TFLite",
+  "input_shape": [
+    null,
+    8,
+    8,
+    12
+  ],
+  "output_shape": [
+    null,
+    1
+  ],
+  "gelu_approx_layers": [
+    "dense_1",
+    "dense_3",
+    "dense_5",
+    "dense_7",
+    "dense_9",
+    "dense_11",
+    "dense_13",
+    "dense_15"
+  ],
+  "samples": 8,
+  "max_abs_error_fp32clone_vs_tflite": 6.854534149169922e-07,
+  "mean_abs_error_fp32clone_vs_tflite": 1.5273690223693848e-07,
+  "warning": "Clone FP32 and approximated GELU change numeric results vs original mixed_float16."
+}

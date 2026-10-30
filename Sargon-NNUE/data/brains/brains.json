@@ -103,6 +103,35 @@
       "tmax": 15000,
       "timeout": 30000
     },
+    "keras": {
+      "player": "keras",
+      "evaluator": "keras",
+      "network": "../data/runs/keras/small.INT8.tf",
+      "nodes" : 1,
+      "rating_elo": 400
+    },
+    "penelope": {
+      "player": "picokeras",
+      "evaluator": "null",
+      "engine-path": "../../picoKeras/X86/picoKeras/build/Release/picoKeras.exe",
+      "network": "../data/runs/keras/medium.tf",
+      "nodes" : 1,
+      "rating_elo": 400
+    },
+    "argos": {
+      "player": "keras",
+      "evaluator": "keras",
+      "network": "../data/runs/keras/small.tf",
+      "nodes" : 1,
+      "rating_elo": 400
+    },
+    "odiseo": {
+      "player": "keras",
+      "evaluator": "keras",
+      "network": "../data/runs/keras/medium.tf",
+      "nodes" : 1,
+      "rating_elo": 400
+    },
     "tinyAlpha" : {
       "player": "picoalpha",
       "evaluator": "null",
@@ -127,6 +156,17 @@
       "depth": 6,
       "qdepth": 4,
       "tmax": 15000,
+      "timeout": 30000,
+      "rating_elo": 400
+    },
+    "fastSargon": {
+      "player": "picosargon",
+      "evaluator": "null",
+      "engine-path": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
+      "network"    : "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
+      "depth": 2,
+      "qdepth": 1,
+      "tmax": 5000,
       "timeout": 30000,
       "rating_elo": 400
     },

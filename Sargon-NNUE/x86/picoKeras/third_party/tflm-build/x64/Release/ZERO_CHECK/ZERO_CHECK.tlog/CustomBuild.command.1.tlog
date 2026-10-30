@@ -1,0 +1,10 @@
+^C:\USERS\PEDRO\GITHUB\BOBBY\AKKAD\SARGON-NNUE\X86\PICOKERAS\THIRD_PARTY\TFLM-BUILD\CMAKEFILES\B826484BFCD4CA747781D5A239F55456\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/x86/picoKeras/third_party/tflm-tree -BC:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/x86/picoKeras/third_party/tflm-build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/x86/picoKeras/third_party/tflm-build/tflm_static.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,6 @@
+Patch incremental v0.6.191; aplicar desde raíz Akkad.
+Jugadores: picokeras|null con engine-path y network .tflite.
+Afecta registro CLI, factory, brains y match.
+No se modifica picoKerasUCIPlayer: ya existe en la línea base.
+Pruebas: ast, validate penelope, argparse, create_player simulado.
+No se ha probado el ejecutable Windows picoKeras.exe en este entorno.

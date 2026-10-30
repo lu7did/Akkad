@@ -1,0 +1,1 @@
+v0.1.41: Staticize dynamic RESHAPE of TFLite INT8 for batch=1, verifying exact output equivalence before writing. Run scripts/staticize_and_try.ps1. Requires TensorFlow + flatbuffers. This is NOT a runtime-validated solution; it must be tested with the user model. No changes to baseline model or C++ files.

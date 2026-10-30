@@ -1,0 +1,62 @@
+{
+  "name": "make",
+  "version": "4.4.1",
+  "build": "h29ce079_4",
+  "build_number": 4,
+  "channel": "https://conda.anaconda.org/conda-forge/win-64",
+  "subdir": "win-64",
+  "fn": "make-4.4.1-h29ce079_4.conda",
+  "md5": "4205044e49d912c61cf6e076b91f3353",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/make-4.4.1-h29ce079_4.conda",
+  "sha256": "81086f78db91dc8a740ff144857facf859b9cb46bf8169fb268db87257937501",
+  "depends": [
+    "libwinpthread >=12.0.0.r4.gg4f2fc60ca",
+    "libgcc >=15",
+    "ucrt >=10.0.20348.0"
+  ],
+  "constrains": [],
+  "license": "GPL-3.0-or-later",
+  "timestamp": 1792070306376,
+  "size": 2643608,
+  "requested_spec": "make",
+  "package_tarball_full_path": "C:\\Users\\pedro\\anaconda3\\pkgs\\make-4.4.1-h29ce079_4.conda",
+  "extracted_package_dir": "C:\\Users\\pedro\\anaconda3\\pkgs\\make-4.4.1-h29ce079_4",
+  "files": [
+    "Library/bin/gnumake.exe",
+    "Library/bin/make.exe",
+    "Library/bin/mingw32-make.exe"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "Library/bin/gnumake.exe",
+        "path_type": "hardlink",
+        "sha256": "39b37a2c309e7a08a4bbf42872014afc43b96f49b377cdd486bfd96c1607bfb2",
+        "size_in_bytes": 17527588,
+        "sha256_in_prefix": "39b37a2c309e7a08a4bbf42872014afc43b96f49b377cdd486bfd96c1607bfb2"
+      },
+      {
+        "_path": "Library/bin/make.exe",
+        "path_type": "hardlink",
+        "sha256": "39b37a2c309e7a08a4bbf42872014afc43b96f49b377cdd486bfd96c1607bfb2",
+        "size_in_bytes": 17527588,
+        "sha256_in_prefix": "39b37a2c309e7a08a4bbf42872014afc43b96f49b377cdd486bfd96c1607bfb2"
+      },
+      {
+        "_path": "Library/bin/mingw32-make.exe",
+        "path_type": "hardlink",
+        "sha256": "39b37a2c309e7a08a4bbf42872014afc43b96f49b377cdd486bfd96c1607bfb2",
+        "size_in_bytes": 17527588,
+        "sha256_in_prefix": "39b37a2c309e7a08a4bbf42872014afc43b96f49b377cdd486bfd96c1607bfb2"
+      }
+    ]
+  },
+  "link": {
+    "source": "C:\\Users\\pedro\\anaconda3\\pkgs\\make-4.4.1-h29ce079_4",
+    "type": 1
+  },
+  "requested_specs": [
+    "make"
+  ]
+}

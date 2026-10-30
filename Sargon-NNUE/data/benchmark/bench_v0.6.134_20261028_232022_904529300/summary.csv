@@ -1,0 +1,5 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+keras,keras,keras,,6,6,0,1.132,188.672,166.103,287.162,120.835,287.162,168,6,1126.000,149.2,6.738280,OK
+argos,keras,keras,,6,6,0,0.622,103.694,112.477,133.151,70.377,133.151,168,6,616.000,272.7,3.703351,OK
+penelope,picokeras,null,,1,0,1,0.000,,,,,,,0,,,,ERROR
+odiseo,keras,keras,,6,6,0,1.598,266.382,262.531,346.535,210.602,346.535,168,6,1591.000,105.6,9.513625,OK

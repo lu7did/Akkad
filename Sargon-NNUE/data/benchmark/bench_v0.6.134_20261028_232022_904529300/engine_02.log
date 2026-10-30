@@ -1,0 +1,42 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793240429.174709   18028 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793240430.705690   18028 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793240432.143967   18028 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI AVX_VNNI_INT8 AVX_NE_CONVERT FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+\u2699\ufe0f EXEC player=keras | evaluator=keras | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.192 \U0001f9e0 evaluator=KERAS \U0001f3ae player=KERAS
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+I0000 00:00:1793240432.742581   47204 service.cc:154] XLA service 0x245b3dca890 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1793240432.742654   47204 service.cc:170]   StreamExecutor [0]: Host, Default Version (Driver: 0.0.0; Runtime: 0.0.0; Toolkit: 0.0.0; DNN: 0.0.0)
+I0000 00:00:1793240432.774313   47204 device_compiler.h:208] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=d2d4 cp=1 ms=303.8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 e7e5 g1f3 b8c6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=27 nodes=27 evals=27 batches=1 best=d2d4 cp=2 ms=132.5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 d7d5 c2c4 e7e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=g1f3 cp=15 ms=116.9
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves e2e4 c7c5 g1f3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=g8f6 cp=-17 ms=122.2
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves d2d4 g8f6 c2c4 g7g6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=g1f3 cp=11 ms=70.6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves c2c4 e7e5 b1c3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=g8f6 cp=-17 ms=69.8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position startpos moves g1f3 d7d5 d2d4 g8f6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=c2c4 cp=0 ms=107.0
+\u2b05\ufe0f quit

@@ -11,4 +11,4 @@
 #* run_benchmark.ps1
 #* Benchmarks Sargon-NNUE
 #=================================================================================================================*
-.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids picoAlpha
+.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids keras argos penelope odiseo

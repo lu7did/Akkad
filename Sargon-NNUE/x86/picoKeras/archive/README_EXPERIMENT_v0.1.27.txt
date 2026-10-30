@@ -1,0 +1,1 @@
+v0.1.27: corrige validación de ejes LayerNorm usando config y rank efectivo. Corrige preflight de archivo y mensaje de reporte ausente. PROTOTIPO: no genera TFLite INT8. Comprobación sintáctica y test numérico offline aprobados. Ejecución Keras/TensorFlow real no comprobada en este entorno.

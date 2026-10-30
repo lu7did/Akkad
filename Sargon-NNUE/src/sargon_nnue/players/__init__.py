@@ -32,6 +32,9 @@ def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
                   lc0_uci_nncache=200000, lc0_uci_options="", lc0_uci_depth=0,
                   lc0_uci_nodes=800, lc0_uci_movetime=0,lc0_uci_timeout=60000):
     key = kind.strip().lower()
+    if key == "keras":
+        from .keras_player import KerasPlayer
+        return KerasPlayer(evaluator, telemetry=telemetry, nodes=1 if nodes is None else nodes)
     if key == "external":
         from .tcp_external import TCPExternalUCIPlayer
         if not url:raise PlayerError("player=external requiere --url host:puerto")
@@ -39,6 +42,9 @@ def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
     if key == "alphazero-x86":
         from .alphazero_x86_uci import AlphaZeroX86UCIPlayer
         return AlphaZeroX86UCIPlayer(engine_path,network,simulations=az_simulations,cpuct=az_cpuct,tmax_ms=tmax_ms,backend=lc0_backend,backend_options=lc0_backend_options,timeout_ms=timeout_ms)
+    if key == "picokeras":
+        from .picokeras_uci import PicoKerasUCIPlayer
+        return PicoKerasUCIPlayer(engine_path, network, timeout_ms=timeout_ms, tmax_ms=tmax_ms)
     if key == "picoalpha":
         from .picoalpha_uci import PicoAlphaUCIPlayer
         return PicoAlphaUCIPlayer(engine_path, network, model=model, simulations=az_simulations, cpuct=az_cpuct, tmax_ms=tmax_ms, timeout_ms=timeout_ms)

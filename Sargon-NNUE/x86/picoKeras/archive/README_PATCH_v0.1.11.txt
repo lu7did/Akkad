@@ -1,0 +1,1 @@
+picoKeras v0.1.11: replace obsolete TFLM AllOpsResolver with explicit MicroMutableOpResolver. Build and network conversion remain separate. This change fixes the missing header only; actual ViT operator support requires runtime validation.

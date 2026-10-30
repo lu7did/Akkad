@@ -1,0 +1,23 @@
+
+# fics_uci.py v0.2.2 | prioridad: CLI > config.yml > defaults
+ip: 127.0.0.1
+port: 6110
+ip_fics: freechess.org
+port_fics: 5000
+user: guest
+password: ""
+accept: true
+rated: true
+unrated: true
+# Tipos FICS: standard, blitz, lightning, untimed.
+# Alias aceptados: classical -> standard; bullet -> lightning.
+types: [standard, blitz, lightning]
+min_time: 0
+max_time: 180
+max_increment: 180
+movetime: 0
+connect_timeout: 15
+engine_timeout: 90
+seek_timeout: 15
+seek_retry: 60
+verbose: false

@@ -1,295 +1,923 @@
-\u2699\ufe0f EXEC player=picoalpha | evaluator=null | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
-\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=NULL \U0001f3ae player=PICOALPHA
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793135544.691727   21760 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793135545.804777   21760 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793135547.156658   21760 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI AVX_VNNI_INT8 AVX_NE_CONVERT FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+\u2699\ufe0f EXEC player=keras | evaluator=keras | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.162 \U0001f9e0 evaluator=KERAS \U0001f3ae player=KERAS
 \u2b05\ufe0f uci
 \u2b05\ufe0f isready
 \u2b05\ufe0f ucinewgame
 \u2b05\ufe0f isready
-\u2b05\ufe0f position startpos moves g1f3
+\u2b05\ufe0f position startpos moves b1c3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=g8f6 cp=-10 ms=385.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=d7d5 cp=-3 ms=141.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e7e6 cp=8 ms=184.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=c7c5 cp=38 ms=195.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=d5d4 cp=84 ms=188.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=a7a6 cp=126 ms=202.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=f8c5 cp=265 ms=186.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=c5b6 cp=268 ms=226.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4 g8f6 d1a4
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=a6b5 cp=340 ms=199.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3
 \u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=a8a4 cp=403 ms=235.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=b5a4 cp=361 ms=199.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=c8d7 cp=415 ms=200.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=b6d4 cp=414 ms=177.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=d8b6 cp=441 ms=219.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=d4a1 cp=391 ms=223.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=e8g8 cp=393 ms=222.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=b6b4 cp=385 ms=220.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=b4a3 cp=333 ms=254.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=26 nodes=26 evals=26 batches=1 best=a1e5 cp=30 ms=163.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=d7c6 cp=65 ms=183.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=e5d6 cp=221 ms=202.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=b8a6 cp=406 ms=201.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=a6c5 cp=597 ms=230.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=f6e4 cp=680 ms=230.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=a4a3 cp=661 ms=216.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=a3a2 cp=635 ms=203.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=36 nodes=36 evals=36 batches=1 best=d6e5 cp=937 ms=234.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=c5b3 cp=736 ms=246.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=a2a1q cp=897 ms=288.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=b3a1 cp=860 ms=281.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=f8d8 cp=1300 ms=246.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=f7f5 cp=1300 ms=284.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=27 nodes=27 evals=27 batches=1 best=d8d5 cp=1989 ms=267.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=g8f7 cp=10000 ms=272.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=d5d3 cp=10000 ms=301.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=f7g8 cp=10000 ms=360.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=g8f7 cp=10000 ms=273.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=7 nodes=7 evals=7 batches=1 best=f7e8 cp=10000 ms=71.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e8e7 cp=10000 ms=226.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=e7f8 cp=10000 ms=249.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=f8e8 cp=10000 ms=242.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=e8f7 cp=10000 ms=229.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=36 nodes=36 evals=36 batches=1 best=f7e8 cp=10000 ms=251.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=e8f7 cp=10000 ms=223.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=g7h6 cp=10000 ms=245.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=f7e8 cp=10000 ms=235.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e8f8 cp=10000 ms=221.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=f8g8 cp=10000 ms=233.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=g8f7 cp=10000 ms=219.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=4 nodes=4 evals=4 batches=1 best=f7e8 cp=10000 ms=41.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=e8f8 cp=10000 ms=216.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f8g8 cp=10000 ms=225.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=g8h8 cp=10000 ms=218.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1 g8h8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=h8g8 cp=10000 ms=222.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1 g8h8 g1h2 h8g8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=g8h8 cp=10000 ms=255.4
 \u2b05\ufe0f ucinewgame
 \u2b05\ufe0f isready
 \u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=d2d4 cp=2 ms=163.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=d4d5 cp=16 ms=213.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=e2e4 cp=39 ms=207.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=c2c3 cp=62 ms=295.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2
+\u265f\ufe0f KERAS plies=1 legal=40 nodes=40 evals=40 batches=1 best=e4e5 cp=59 ms=351.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=f1a6 cp=95 ms=369.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=d1d4 cp=70 ms=340.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=e5f6 cp=110 ms=357.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6
+\u265f\ufe0f KERAS plies=1 legal=42 nodes=42 evals=42 batches=1 best=g1f3 cp=33 ms=399.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5
+\u265f\ufe0f KERAS plies=1 legal=45 nodes=45 evals=45 batches=1 best=c3c4 cp=37 ms=439.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=e1g1 cp=95 ms=425.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=h2h3 cp=218 ms=378.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=d4e4 cp=218 ms=387.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=c1g5 cp=236 ms=389.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=f1f2 cp=306 ms=429.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8 d1d2 e2d2
+\u265f\ufe0f KERAS plies=1 legal=46 nodes=46 evals=46 batches=1 best=e4d5 cp=553 ms=441.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6
 \u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=46 nodes=46 evals=46 batches=1 best=d5d7 cp=413 ms=435.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=g5f6 cp=280 ms=305.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=b1c3 cp=221 ms=246.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=c3e4 cp=267 ms=316.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f3g5 cp=308 ms=319.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=f2f6 cp=102 ms=307.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=f6f7 cp=99 ms=336.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=a1d1 cp=201 ms=359.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=45 nodes=45 evals=45 batches=1 best=d1d8 cp=164 ms=422.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f7h7 cp=163 ms=312.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=h7h8 cp=236 ms=283.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=h8f8 cp=494 ms=252.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=f8a8 cp=814 ms=328.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=a8a7 cp=1018 ms=281.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=g2h3 cp=1283 ms=282.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=a7a6 cp=1303 ms=253.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=18 nodes=18 evals=18 batches=1 best=a6c6 cp=1323 ms=158.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=21 nodes=21 evals=21 batches=1 best=g1f2 cp=1967 ms=170.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=c6c8 cp=10000 ms=184.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=c8h8 cp=10000 ms=174.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=h8g8 cp=10000 ms=170.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=g8d8 cp=10000 ms=180.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=24 nodes=24 evals=24 batches=1 best=f2e3 cp=10000 ms=175.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=c4c5 cp=10000 ms=176.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=24 nodes=24 evals=24 batches=1 best=d8h8 cp=10000 ms=171.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=h8g8 cp=10000 ms=157.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=g8h8 cp=10000 ms=164.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5 g8h8 f5g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=h8g8 cp=10000 ms=156.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5 g8h8 f5g4 h8g8 g4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=g8h8 cp=10000 ms=162.6
 \u2b05\ufe0f ucinewgame
 \u2b05\ufe0f isready
-\u2b05\ufe0f position startpos moves g1f3
+\u2b05\ufe0f position startpos moves b1c3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=g8f6 cp=-10 ms=147.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=d7d5 cp=-3 ms=159.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e7e6 cp=8 ms=214.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=c7c5 cp=38 ms=229.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=d5d4 cp=84 ms=218.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=a7a6 cp=126 ms=227.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=f8c5 cp=265 ms=272.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=c5b6 cp=268 ms=288.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4 g8f6 d1a4
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=a6b5 cp=340 ms=258.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3
 \u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=a8a4 cp=403 ms=317.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=b5a4 cp=361 ms=318.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=c8d7 cp=415 ms=326.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=b6d4 cp=414 ms=284.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=d8b6 cp=441 ms=357.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=d4a1 cp=391 ms=352.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=e8g8 cp=393 ms=355.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=b6b4 cp=385 ms=346.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=b4a3 cp=333 ms=412.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=26 nodes=26 evals=26 batches=1 best=a1e5 cp=30 ms=269.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=d7c6 cp=65 ms=317.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=e5d6 cp=221 ms=335.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=b8a6 cp=406 ms=336.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=a6c5 cp=597 ms=375.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=f6e4 cp=680 ms=382.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=a4a3 cp=661 ms=358.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=a3a2 cp=635 ms=332.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=36 nodes=36 evals=36 batches=1 best=d6e5 cp=937 ms=341.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=c5b3 cp=736 ms=305.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=a2a1q cp=897 ms=308.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=b3a1 cp=860 ms=284.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=f8d8 cp=1300 ms=239.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=f7f5 cp=1300 ms=279.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=27 nodes=27 evals=27 batches=1 best=d8d5 cp=1989 ms=258.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=g8f7 cp=10000 ms=260.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=d5d3 cp=10000 ms=291.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=f7g8 cp=10000 ms=337.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=g8f7 cp=10000 ms=307.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=7 nodes=7 evals=7 batches=1 best=f7e8 cp=10000 ms=86.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e8e7 cp=10000 ms=281.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=e7f8 cp=10000 ms=315.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=f8e8 cp=10000 ms=311.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=e8f7 cp=10000 ms=275.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=36 nodes=36 evals=36 batches=1 best=f7e8 cp=10000 ms=284.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=e8f7 cp=10000 ms=248.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=g7h6 cp=10000 ms=261.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=f7e8 cp=10000 ms=233.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e8f8 cp=10000 ms=228.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=f8g8 cp=10000 ms=224.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=g8f7 cp=10000 ms=217.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=4 nodes=4 evals=4 batches=1 best=f7e8 cp=10000 ms=38.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=e8f8 cp=10000 ms=221.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f8g8 cp=10000 ms=226.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=g8h8 cp=10000 ms=218.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1 g8h8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=h8g8 cp=10000 ms=217.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1 g8h8 g1h2 h8g8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=g8h8 cp=10000 ms=233.3
 \u2b05\ufe0f ucinewgame
 \u2b05\ufe0f isready
 \u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=d2d4 cp=2 ms=155.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=d4d5 cp=16 ms=205.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=e2e4 cp=39 ms=207.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=c2c3 cp=62 ms=275.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2
+\u265f\ufe0f KERAS plies=1 legal=40 nodes=40 evals=40 batches=1 best=e4e5 cp=59 ms=277.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=f1a6 cp=95 ms=272.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=d1d4 cp=70 ms=246.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=e5f6 cp=110 ms=263.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6
+\u265f\ufe0f KERAS plies=1 legal=42 nodes=42 evals=42 batches=1 best=g1f3 cp=33 ms=285.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5
+\u265f\ufe0f KERAS plies=1 legal=45 nodes=45 evals=45 batches=1 best=c3c4 cp=37 ms=303.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=e1g1 cp=95 ms=297.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=h2h3 cp=218 ms=266.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=d4e4 cp=218 ms=267.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=c1g5 cp=236 ms=271.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=f1f2 cp=306 ms=306.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8 d1d2 e2d2
+\u265f\ufe0f KERAS plies=1 legal=46 nodes=46 evals=46 batches=1 best=e4d5 cp=553 ms=361.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6
 \u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=46 nodes=46 evals=46 batches=1 best=d5d7 cp=413 ms=397.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=g5f6 cp=280 ms=293.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=b1c3 cp=221 ms=242.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=c3e4 cp=267 ms=318.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f3g5 cp=308 ms=318.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=f2f6 cp=102 ms=330.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=f6f7 cp=99 ms=349.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=a1d1 cp=201 ms=366.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=45 nodes=45 evals=45 batches=1 best=d1d8 cp=164 ms=431.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f7h7 cp=163 ms=323.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=h7h8 cp=236 ms=295.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=h8f8 cp=494 ms=250.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=f8a8 cp=814 ms=330.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=a8a7 cp=1018 ms=271.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=g2h3 cp=1283 ms=279.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=a7a6 cp=1303 ms=266.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=18 nodes=18 evals=18 batches=1 best=a6c6 cp=1323 ms=185.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=21 nodes=21 evals=21 batches=1 best=g1f2 cp=1967 ms=227.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=c6c8 cp=10000 ms=227.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=c8h8 cp=10000 ms=229.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=h8g8 cp=10000 ms=231.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=g8d8 cp=10000 ms=244.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=24 nodes=24 evals=24 batches=1 best=f2e3 cp=10000 ms=238.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=c4c5 cp=10000 ms=241.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=24 nodes=24 evals=24 batches=1 best=d8h8 cp=10000 ms=233.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=h8g8 cp=10000 ms=219.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=g8h8 cp=10000 ms=222.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5 g8h8 f5g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=h8g8 cp=10000 ms=214.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5 g8h8 f5g4 h8g8 g4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=g8h8 cp=10000 ms=225.0
 \u2b05\ufe0f ucinewgame
 \u2b05\ufe0f isready
-\u2b05\ufe0f position startpos moves g1f3
+\u2b05\ufe0f position startpos moves b1c3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=g8f6 cp=-10 ms=203.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=d7d5 cp=-3 ms=220.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e7e6 cp=8 ms=290.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=c7c5 cp=38 ms=308.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=d5d4 cp=84 ms=293.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=a7a6 cp=126 ms=294.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=f8c5 cp=265 ms=247.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=c5b6 cp=268 ms=286.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4 g8f6 d1a4
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=a6b5 cp=340 ms=248.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3
 \u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=a8a4 cp=403 ms=263.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=b5a4 cp=361 ms=236.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=c8d7 cp=415 ms=234.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=b6d4 cp=414 ms=205.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=d8b6 cp=441 ms=255.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=d4a1 cp=391 ms=261.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=e8g8 cp=393 ms=268.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=b6b4 cp=385 ms=259.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=b4a3 cp=333 ms=308.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=26 nodes=26 evals=26 batches=1 best=a1e5 cp=30 ms=191.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=d7c6 cp=65 ms=214.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=e5d6 cp=221 ms=235.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=b8a6 cp=406 ms=238.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=a6c5 cp=597 ms=265.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=f6e4 cp=680 ms=262.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=a4a3 cp=661 ms=252.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=a3a2 cp=635 ms=244.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=36 nodes=36 evals=36 batches=1 best=d6e5 cp=937 ms=244.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=c5b3 cp=736 ms=221.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=a2a1q cp=897 ms=225.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=b3a1 cp=860 ms=200.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=f8d8 cp=1300 ms=172.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=f7f5 cp=1300 ms=202.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=27 nodes=27 evals=27 batches=1 best=d8d5 cp=1989 ms=186.3
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=g8f7 cp=10000 ms=195.5
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=d5d3 cp=10000 ms=234.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=f7g8 cp=10000 ms=310.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=g8f7 cp=10000 ms=302.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=7 nodes=7 evals=7 batches=1 best=f7e8 cp=10000 ms=89.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e8e7 cp=10000 ms=297.8
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=e7f8 cp=10000 ms=333.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=f8e8 cp=10000 ms=321.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=e8f7 cp=10000 ms=313.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=36 nodes=36 evals=36 batches=1 best=f7e8 cp=10000 ms=347.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=e8f7 cp=10000 ms=309.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=g7h6 cp=10000 ms=333.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=f7e8 cp=10000 ms=299.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=e8f8 cp=10000 ms=285.0
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=f8g8 cp=10000 ms=301.2
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=g8f7 cp=10000 ms=287.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=4 nodes=4 evals=4 batches=1 best=f7e8 cp=10000 ms=52.1
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=e8f8 cp=10000 ms=296.4
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f8g8 cp=10000 ms=305.7
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=g8h8 cp=10000 ms=296.9
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1 g8h8 g1h2
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=30 nodes=30 evals=30 batches=1 best=h8g8 cp=10000 ms=283.6
+\u2b05\ufe0f position startpos moves b1c3 g8f6 g1f3 d7d5 a2a3 e7e6 f3d4 c7c5 d4b5 d5d4 c3a4 a7a6 a4c5 f8c5 b2b4 c5b6 a3a4 a6b5 c2c3 a8a4 a1a4 b5a4 d1c2 c8d7 c3d4 b6d4 c2d3 d8b6 e2e3 d4a1 f1e2 e8g8 e1g1 b6b4 c1a3 b4a3 d3a3 a1e5 f1c1 d7c6 c1c5 e5d6 e2a6 b8a6 a3c3 a6c5 c3d4 f6e4 f2f3 a4a3 f3e4 a3a2 e4e5 d6e5 d4e5 c5b3 e5b2 a2a1q b2a1 b3a1 g1h1 f8d8 d2d4 f7f5 d4d5 d8d5 h2h3 g8f7 h1h2 d5d3 g2g4 f7g8 g4f5 g8f7 f5e6 f7e8 h2g1 e8e7 e3e4 e7f8 e4e5 f8e8 e6e7 e8f7 h3h4 f7e8 h4h5 e8f7 h5h6 g7h6 e7e8r f7e8 e5e6 e8f8 g1h2 f8g8 e6e7 g8f7 e7e8q f7e8 h2g1 e8f8 g1h2 f8g8 h2g1 g8h8 g1h2 h8g8 h2g1
+\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=g8h8 cp=10000 ms=293.7
 \u2b05\ufe0f ucinewgame
 \u2b05\ufe0f isready
 \u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=d2d4 cp=2 ms=202.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=d4d5 cp=16 ms=273.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=e2e4 cp=39 ms=300.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=c2c3 cp=62 ms=358.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2
+\u265f\ufe0f KERAS plies=1 legal=40 nodes=40 evals=40 batches=1 best=e4e5 cp=59 ms=375.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=f1a6 cp=95 ms=381.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=d1d4 cp=70 ms=342.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=e5f6 cp=110 ms=385.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6
+\u265f\ufe0f KERAS plies=1 legal=42 nodes=42 evals=42 batches=1 best=g1f3 cp=33 ms=411.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5
+\u265f\ufe0f KERAS plies=1 legal=45 nodes=45 evals=45 batches=1 best=c3c4 cp=37 ms=438.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=e1g1 cp=95 ms=430.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=h2h3 cp=218 ms=357.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=d4e4 cp=218 ms=316.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6
+\u265f\ufe0f KERAS plies=1 legal=39 nodes=39 evals=39 batches=1 best=c1g5 cp=236 ms=316.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8
+\u265f\ufe0f KERAS plies=1 legal=44 nodes=44 evals=44 batches=1 best=f1f2 cp=306 ms=405.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8 d1d2 e2d2
+\u265f\ufe0f KERAS plies=1 legal=46 nodes=46 evals=46 batches=1 best=e4d5 cp=553 ms=370.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6
 \u2b05\ufe0f go
-\u2b05\ufe0f ucinewgame
-\u2b05\ufe0f isready
-\u2b05\ufe0f position startpos moves g1f3
+\u265f\ufe0f KERAS plies=1 legal=46 nodes=46 evals=46 batches=1 best=d5d7 cp=413 ms=335.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=g5f6 cp=280 ms=222.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=b1c3 cp=221 ms=187.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=c3e4 cp=267 ms=243.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f3g5 cp=308 ms=291.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7
+\u265f\ufe0f KERAS plies=1 legal=32 nodes=32 evals=32 batches=1 best=f2f6 cp=102 ms=264.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=f6f7 cp=99 ms=244.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=a1d1 cp=201 ms=277.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4
+\u265f\ufe0f KERAS plies=1 legal=45 nodes=45 evals=45 batches=1 best=d1d8 cp=164 ms=306.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4 g8f6 d1a4
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f7h7 cp=163 ms=261.7
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4
 \u2b05\ufe0f go
-\u2b05\ufe0f ucinewgame
-\u2b05\ufe0f isready
-\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=h7h8 cp=236 ms=242.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=h8f8 cp=494 ms=217.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=f8a8 cp=814 ms=246.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=a8a7 cp=1018 ms=191.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3
+\u265f\ufe0f KERAS plies=1 legal=29 nodes=29 evals=29 batches=1 best=g2h3 cp=1283 ms=204.3
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2
+\u265f\ufe0f KERAS plies=1 legal=28 nodes=28 evals=28 batches=1 best=a7a6 cp=1303 ms=196.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3
+\u265f\ufe0f KERAS plies=1 legal=18 nodes=18 evals=18 batches=1 best=a6c6 cp=1323 ms=138.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8
+\u265f\ufe0f KERAS plies=1 legal=21 nodes=21 evals=21 batches=1 best=g1f2 cp=1967 ms=207.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=c6c8 cp=10000 ms=192.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=c8h8 cp=10000 ms=182.1
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=h8g8 cp=10000 ms=169.6
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=g8d8 cp=10000 ms=178.0
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5
+\u265f\ufe0f KERAS plies=1 legal=24 nodes=24 evals=24 batches=1 best=f2e3 cp=10000 ms=173.5
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2
+\u265f\ufe0f KERAS plies=1 legal=25 nodes=25 evals=25 batches=1 best=c4c5 cp=10000 ms=183.4
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6
+\u265f\ufe0f KERAS plies=1 legal=24 nodes=24 evals=24 batches=1 best=d8h8 cp=10000 ms=184.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=h8g8 cp=10000 ms=173.8
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8 d1d2 e2d2
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=g8h8 cp=10000 ms=174.2
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5 g8h8 f5g4
 \u2b05\ufe0f go
-\u2b05\ufe0f ucinewgame
-\u2b05\ufe0f isready
-\u2b05\ufe0f position startpos moves g1f3
+\u265f\ufe0f KERAS plies=1 legal=22 nodes=22 evals=22 batches=1 best=h8g8 cp=10000 ms=166.9
+\u2b05\ufe0f position startpos moves d2d4 b8c6 d4d5 c6b4 e2e4 g8f6 c2c3 b4a6 e4e5 f6e4 f1a6 b7a6 d1d4 f7f5 e5f6 e4f6 g1f3 c8b7 c3c4 h7h5 e1g1 f6g4 h2h3 e7e5 d4e4 d8f6 c1g5 g4f2 f1f2 b7d5 e4d5 c7c6 d5d7 e8d7 g5f6 g7f6 b1c3 f8b4 c3e4 d7e6 f3g5 f6g5 f2f6 e6d7 f6f7 d7c8 a1d1 h8d8 d1d8 c8d8 f7h7 g5g4 h7h8 b4f8 h8f8 d8e7 f8a8 g4h3 a8a7 e7e6 g2h3 e6f5 a7a6 f5e4 a6c6 e4f5 g1f2 e5e4 c6c8 f5g6 c8h8 g6g5 h8g8 g5h4 g8d8 h4h3 f2e3 h5h4 c4c5 h3g4 d8h8 h4h3 h8g8 g4f5 g8h8 f5g4 h8g8 g4f5
 \u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1f3 b8c6 f3g5 d7d5 b1c3 c8e6 g5e6 a8c8 e6d8 c6d4 d8b7 c7c5 c3d5 c8c6 c2c3 c5c4 c3d4 g8f6 d1a4
-\u2b05\ufe0f go
-\u2b05\ufe0f ucinewgame
-\u2b05\ufe0f isready
-\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8
-\u2b05\ufe0f go
-\u2b05\ufe0f position startpos moves g1h3 d7d5 b1c3 d5d4 e2e4 b8c6 f1c4 d4c3 e1g1 c3d2 c1d2 c8h3 a1c1 h3c8 c4d5 c6e5 d2a5 c8e6 d1e1 e6d5 e4d5 d8d5 e1e5 d5e5 a5c7 e5e2 c1d1 g8f6 c7g3 a8c8 d1d2 e2d2
-\u2b05\ufe0f go
+\u265f\ufe0f KERAS plies=1 legal=23 nodes=23 evals=23 batches=1 best=g8h8 cp=10000 ms=176.5
 \u2b05\ufe0f quit

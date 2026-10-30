@@ -1,0 +1,24 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793122016.652373   45576 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793122017.756660   45576 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793122018.974640   45576 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI AVX_VNNI_INT8 AVX_NE_CONVERT FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
+    evaluator, player = build_engine(args)
+                        ~~~~~~~~~~~~^^^^^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\factory.py", line 176, in build_engine
+    player = create_player(
+        player_kind,
+    ...<26 lines>...
+        lc0_uci_timeout=g("lc0_uci_timeout",60000),
+    )
+TypeError: create_player() got an unexpected keyword argument 'model'. Did you mean 'nodes'?

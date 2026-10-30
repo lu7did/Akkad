@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\pedro\github\Bobby\Akkad\picoKeras\x86\picoKeras\build\CMakeFiles\38769441ddfee703a873d6fa98632fcc\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{74C8E224-85EB-35D1-98BA-8E5AD84AA91C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

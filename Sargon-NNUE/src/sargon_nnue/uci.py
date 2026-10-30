@@ -54,7 +54,7 @@ class UCISession:
                 self.audit.event("uci_rx", line=line)
             try:
                 if line=="uci":
-                    self.send(f"id name sargon_nnue({self.brain_name}) v{__version__}"); self.send("id author Pedro E. Colla")
+                    self.send(f"id name {self.brain_name}"); self.send("id author Pedro E. Colla")
                     self.send("option name SargonResult type string default none"); self.send("uciok")
                 elif line=="isready": self.send("readyok")
                 elif line=="ucinewgame":
