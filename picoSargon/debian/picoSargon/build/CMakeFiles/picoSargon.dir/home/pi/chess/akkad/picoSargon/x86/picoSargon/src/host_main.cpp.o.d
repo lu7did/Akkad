@@ -204,4 +204,11 @@ CMakeFiles/picoSargon.dir/home/pi/chess/akkad/picoSargon/x86/picoSargon/src/host
  /usr/include/c++/14/bits/unique_ptr.h /usr/include/c++/14/bits/fs_dir.h \
  /usr/include/c++/14/bits/fs_ops.h /usr/include/c++/14/map \
  /usr/include/c++/14/bits/stl_tree.h /usr/include/c++/14/bits/stl_map.h \
- /usr/include/c++/14/bits/stl_multimap.h
+ /usr/include/c++/14/bits/stl_multimap.h /usr/include/c++/14/algorithm \
+ /usr/include/c++/14/bits/stl_algo.h \
+ /usr/include/c++/14/bits/algorithmfwd.h \
+ /usr/include/c++/14/bits/stl_heap.h \
+ /usr/include/c++/14/bits/uniform_int_dist.h \
+ /usr/include/c++/14/bits/stl_tempbuf.h \
+ /usr/include/c++/14/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/14/pstl/execution_defs.h
