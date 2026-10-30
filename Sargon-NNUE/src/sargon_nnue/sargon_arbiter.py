@@ -111,7 +111,7 @@ def evaluate(brain_file, selected, positions, tolerance):
     for name in selected:
         ev = None
         try:
-            config = catalog[name]
+            config = brains.resolve_platform_paths(catalog[name])
             # Do not call brains.validate: its v0.6.156 registry can reject newly
             # added experimental evaluator=grumpy before v0.6.159 integration.
             if not isinstance(config, dict) or not config.get('evaluator'):

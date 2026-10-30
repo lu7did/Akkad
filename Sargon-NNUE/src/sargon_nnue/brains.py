@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 from .cli_common import add_engine_args
 
@@ -68,8 +69,33 @@ def defaults(player,evaluator):
     defaults['player']=player;defaults['evaluator']=evaluator
     return defaults
 
+PATH_KEYS = frozenset({'network','engine-path','stockfish-path','lc0-weights','lc0-uci-path','cerebrum-a','cerebrum-b'})
+
+def resolve_platform_paths(config):
+    """Resolve platform-specific paths without changing the serialized profile.
+
+    Example: "network": {"windows": "C:/models/grumpy.bin", "debian": "/opt/grumpy.bin"}.
+    Missing platform alternatives raise an error rather than running the wrong binary.
+    """
+    result = dict(config)
+    platform = 'windows' if os.name == 'nt' else 'debian'
+    for key in PATH_KEYS:
+        value = result.get(key)
+        if not isinstance(value, dict):
+            continue
+        if not value or any(not isinstance(k, str) or not isinstance(v, str) for k, v in value.items()):
+            raise ValueError(f'{key}: mapa de rutas inválido')
+        choices = (('windows', 'win32', 'default') if platform == 'windows'
+                   else ('debian', 'linux', 'default'))
+        chosen = next((value[k] for k in choices if isinstance(value.get(k), str) and value[k]), None)
+        if chosen is None:
+            raise ValueError(f'{key}: falta ruta para {platform}')
+        result[key] = chosen
+    return result
+
 def validate(config, *, check_files=False):
     if not isinstance(config,dict):raise ValueError('brain debe ser objeto JSON')
+    config = resolve_platform_paths(config)
     extra=set(config)-set(ENGINE_KEYS)-METADATA_KEYS
     if 'rating_elo' in config and (isinstance(config['rating_elo'], bool) or not isinstance(config['rating_elo'], (int, float)) or not __import__('math').isfinite(config['rating_elo'])):
         raise ValueError('rating_elo debe ser número finito')
@@ -118,6 +144,7 @@ def validate(config, *, check_files=False):
     return config
 
 def to_argv(config):
+    config = resolve_platform_paths(config)
     args=[]
     for k,v in config.items():
         if k in METADATA_KEYS or v is None:continue

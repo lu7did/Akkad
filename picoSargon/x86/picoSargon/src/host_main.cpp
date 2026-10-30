@@ -10,6 +10,7 @@
 #include <fstream>
 #include <filesystem>
 #include <cctype>
+#include <map>
 // Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
 // No LC0 dependency; only retrieves brains[brain]["network"].
 namespace {
@@ -42,12 +43,30 @@ struct JsonCursor {
    if(i<s.size()&&s[i]=='}'){++i;return false;}expect(',');}
  }
 };
+std::string platform_path(JsonCursor& j){
+ j.ws(); if(j.i>=j.s.size())throw std::runtime_error("brains.json: network incompleta");
+ if(j.s[j.i]=='"')return j.str();
+ if(j.s[j.i]!='{')throw std::runtime_error("brains.json: network debe ser cadena u objeto");
+ j.expect('{');std::map<std::string,std::string> paths;
+ j.ws();if(j.i<j.s.size()&&j.s[j.i]=='}')++j.i;
+ else while(true){auto k=j.str();j.expect(':');paths[k]=j.str();j.ws();
+  if(j.i<j.s.size()&&j.s[j.i]=='}'){++j.i;break;}j.expect(',');}
+#ifdef _WIN32
+ const char* primary="windows";
+#else
+ const char* primary="debian";
+#endif
+ for(const char* k:{primary,"linux","default"}){
+  auto it=paths.find(k);if(it!=paths.end()&&!it->second.empty())return it->second;
+ }
+ throw std::runtime_error(std::string("brains.json: falta network para plataforma ")+primary);
+}
 std::string get_weights_from_brains(const std::string& filename,const std::string& brain){
  std::ifstream in(filename,std::ios::binary);if(!in)throw std::runtime_error("no se puede abrir brains.json: "+filename);
  std::string contents((std::istreambuf_iterator<char>(in)),std::istreambuf_iterator<char>());
  JsonCursor j{contents};if(!j.key("brains")||!j.key(brain)||!j.key("network"))
   throw std::runtime_error("brains.json: falta brains."+brain+".network");
- const auto network=j.str();if(network.empty())throw std::runtime_error("brains.json: network vacio");
+ const auto network=platform_path(j);if(network.empty())throw std::runtime_error("brains.json: network vacio");
  namespace fs=std::filesystem;fs::path path(network);
  if(path.is_absolute())return path.string();
  // Prefer the original working-directory convention used by Sargon-NNUE scripts.
