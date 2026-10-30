@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
+    evaluator, player = build_engine(args)
+                        ~~~~~~~~~~~~^^^^^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\factory.py", line 176, in build_engine
+    player = create_player(
+        player_kind,
+    ...<26 lines>...
+        lc0_uci_timeout=g("lc0_uci_timeout",60000),
+    )
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\players\__init__.py", line 44, in create_player
+    return AlphaZeroX86UCIPlayer(engine_path,network,simulations=az_simulations,cpuct=az_cpuct,tmax_ms=tmax_ms,backend=lc0_backend,backend_options=lc0_backend_options,timeout_ms=timeout_ms)
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\players\alphazero_x86_uci.py", line 23, in __init__
+    super().__init__([str(exe),'--weights',str(weights),'--backend',self.backend,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      '--backend-options',self.backend_options],
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     movetime_ms=max(self.tmax_ms,1), timeout_ms=max(int(timeout_ms),self.tmax_ms+10000),label=self.name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\players\uci_external.py", line 68, in __init__
+    self._wait("uciok")
+    ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\pedro\github\Bobby\akkad\sargon-nnue\src\sargon_nnue\players\uci_external.py", line 96, in _wait
+    raise TimeoutError(f"timeout esperando {token} de {self.name}")
+TimeoutError: timeout esperando uciok de AlphaZero-X86

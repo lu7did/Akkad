@@ -1,0 +1,8 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+circe,external,null,,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,f1b5,335.808,334,7294,4,OK,
+circe,external,null,,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,412.263,410,8037,4,OK,
+circe,external,null,,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,b8c6,217.373,214,4958,4,OK,
+circe,external,null,,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,234.600,233,5318,4,OK,
+circe,external,null,,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,b8c6,480.277,479,12326,4,OK,
+circe,external,null,,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,b1c3,264.996,264,5342,4,OK,
+tinySargon,picosargon,null,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor tinySargon cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.134_20261030_145039_004466600\engine_02.log

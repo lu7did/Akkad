@@ -8,9 +8,9 @@
 .\picoKeras\x86\picoKeras\build\Release\tensorflow.dll
 .\Sargon-NNUE\data\runs\keras\medium.keras
 .\Sargon-NNUE\data\runs\keras\small.keras
-.\Sargon-NNUE\x86\AlphaZero\build\deps\directml.zip
-.\Sargon-NNUE\x86\AlphaZero\build\lc0-build\subprojects\abseil-cpp-20240722.0\libabsl_strings.a
-.\Sargon-NNUE\x86\AlphaZero\build\lc0-build\subprojects\abseil-cpp-20240722.0\libabsl_time.a
+.\AlphaZero\build\deps\directml.zip
+.\AlphaZero\build\lc0-build\subprojects\abseil-cpp-20240722.0\libabsl_strings.a
+.\AlphaZero\build\lc0-build\subprojects\abseil-cpp-20240722.0\libabsl_time.a
 .\Sargon-NNUE\x86\picoKeras\third_party\tflite-micro
 # Bloquear extensiones pesadas de modelos y librerías en cualquier parte del proyecto
 *.keras
@@ -20,3 +20,7 @@
 Sargon-NNUE/data/runs/keras/
 Sargon-NNUE/data/pb/
 **/tensorflow.dll
+
+# AlphaZero standalone build artifacts
+/AlphaZero/build/
+/AlphaZero/.meson/

@@ -1,6 +1,6 @@
 # AlphaZero-x86 — Akkad / Sargon-NNUE
 
-**Ubicación:** `Akkad/Sargon-NNUE/x86/AlphaZero/`
+**Ubicación:** `Akkad/AlphaZero/`
 
 Motor UCI C++ independiente con búsqueda PUCT, basado en el comportamiento de
 `src/sargon_nnue/players/alphazero.py` de la línea de base adjunta. Utiliza
@@ -15,7 +15,7 @@ puede ser necesario un entorno de compilación LC0 funcional. El proyecto
 separa el código propio del checkout de LC0 en `build/lc0-src`.
 
 ```powershell
-cd .\Sargon-NNUE\x86\AlphaZero
+cd .\AlphaZero
 .\build.ps1 -Backend eigen
 ```
 
@@ -29,7 +29,7 @@ El script configura **desde cero** un directorio Meson de compilación,
 inserta el punto de entrada de Akkad en la copia de LC0, enlaza los
 componentes del backend y copia el resultado como:
 
-`Sargon-NNUE/x86/AlphaZero/build/AlphaZero.exe`
+`AlphaZero/build/AlphaZero.exe`
 
 No instala `lc0.exe` ni lo lanza. El backend C++ queda enlazado al binario.
 LC0 usa **Meson** para sus bibliotecas y generación de protobuf; el

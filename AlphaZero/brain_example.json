@@ -4,7 +4,7 @@
     "AlphaZero-X86": {
       "player": "AlphaZero-X86",
       "evaluator": "null",
-      "engine_path": "../x86/AlphaZero/build/AlphaZero.exe",
+      "engine-path": {"windows": "C:/Users/pedro/github/bobby/akkad/AlphaZero/build/AlphaZero.exe", "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero"},
       "network": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
       "az-simulations": 1000,
       "az-cpuct": 1.5,

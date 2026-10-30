@@ -60,14 +60,18 @@ src = src.replace('kBackendOptions = "gpu=0"', 'kBackendOptions = ""')
 Path(sys.argv[2]).write_text(src, encoding='utf-8')
 PY
 # Meson retains settings across builds; clean setup so every invocation applies default settings.
-rm -rf "$MESON_DIR"
+if [ "${CLEAN_BUILD:-0}" = 1 ]; then rm -rf "$MESON_DIR"; fi
 meson_args=(setup "$MESON_DIR" "$VENDOR" --backend=ninja --buildtype=release -Ddefault_library=static -Dlc0=true -Dgtest=false -Donnx=false -Dblas=true -Ddnnl=false -Dispc=false)
 if [ "$PLATFORM" = debian ]; then
   meson_args+=(-Dopenblas=true)
 else
   meson_args+=(-Dopenblas=false)
 fi
-meson "${meson_args[@]}"
+if [ -f "$MESON_DIR/build.ninja" ]; then
+  meson setup --reconfigure "$MESON_DIR" || { echo "ERROR: Meson reconfigure falló (usar CLEAN_BUILD=1)" >&2; exit 2; }
+else
+  meson "${meson_args[@]}"
+fi
 meson compile -C "$MESON_DIR" -j "$JOBS" lc0
 bin="$(find "$MESON_DIR" -type f -name lc0 -perm -u+x -print -quit)"
 [ -n "$bin" ] || { echo 'ERROR: compiled lc0 binary not found' >&2; exit 2; }

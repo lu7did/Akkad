@@ -1,13 +1,13 @@
 # AlphaZero v0.1.4 — Apple Silicon / Raspberry Pi 4 Debian ARM64
 
-Este parche incremental se extrae desde `Akkad/`, y modifica exclusivamente los scripts de `sargon-NNUE/x86/AlphaZero/`. No modifica C++ ni Windows. `x86` es el nombre histórico de la carpeta, **no** una restricción de la arquitectura compilada.
+Este parche incremental se extrae desde `Akkad/`, y modifica exclusivamente los scripts de `AlphaZero/`. No modifica C++ ni Windows. La raíz independiente `AlphaZero/` contiene las compilaciones por plataforma.
 
 ## macOS Apple Silicon (arm64)
 Instalar herramientas de Xcode (`xcode-select --install`) y Homebrew arm64 (usualmente `/opt/homebrew`):
 
 ```bash
 brew install cmake meson ninja pkg-config git protobuf eigen
-cd sargon-NNUE/x86/AlphaZero
+cd AlphaZero
 chmod +x build_*.sh
 ./build_macos.sh
 ```
@@ -21,7 +21,7 @@ Confirmar `uname -m` = `aarch64` y `getconf LONG_BIT` = `64`. En Debian ARM32 no
 sudo apt update
 sudo apt install -y build-essential cmake git meson ninja-build pkg-config python3 \
   libopenblas-dev libeigen3-dev zlib1g-dev libprotobuf-dev protobuf-compiler
-cd sargon-NNUE/x86/AlphaZero
+cd AlphaZero
 chmod +x build_*.sh
 ./build_raspberrypi.sh
 ```

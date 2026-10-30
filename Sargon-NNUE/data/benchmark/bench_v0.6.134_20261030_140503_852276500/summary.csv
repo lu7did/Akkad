@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+circe,external,null,,6,6,0,18.970,3161.603,2960.132,4216.145,2248.393,4216.145,493733,6,18958.000,26043.5,0.038421,OK
+tinySargon,picosargon,null,,1,0,1,0.000,,,,,,,0,,,,ERROR

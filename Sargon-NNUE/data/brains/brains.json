@@ -25,7 +25,10 @@
     "emma": {
       "player": "AlphaZero-X86",
       "evaluator": "null",
-      "engine-path": "../x86/AlphaZero/build/AlphaZero.exe",
+      "engine-path": {
+         "windows": "../../AlphaZero/build/AlphaZero.exe",
+         "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero"
+      },
       "lc0-weights": "../data/runs/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
       "lc0-backend": "onnx-dml",
       "lc0-backend-options": "gpu=0",
@@ -148,15 +151,21 @@
       "url" :  "picoalpha.local:6110",
       "rating_elo": 400
     },
+    "circe": {
+      "player": "external",
+      "evaluator": "null",
+      "url" :  "amelia.local:6200",
+      "rating_elo": 400
+    },
     "tinySargon": {
       "player": "picosargon",
       "evaluator": "null",
       "engine-path": {
-        "windows": "C:/Akkad/picoSargon/x86/picoSargon/build/picoSargon.exe",
+        "windows": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon"
       },
       "network": {
-        "windows": "C:/Akkad/picoSargon/x86/picoSargon/assets/grumpy.bin",
+        "windows": "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
       },
       "depth": 6,

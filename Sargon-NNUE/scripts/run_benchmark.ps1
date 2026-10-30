@@ -11,4 +11,4 @@
 #* run_benchmark.ps1
 #* Benchmarks Sargon-NNUE
 #=================================================================================================================*
-.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids circe tinySargon
+.\sargon_benchmark.ps1 --brain ..\data\brains\brains.json --ids emma
