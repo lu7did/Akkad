@@ -1,6 +1,0 @@
-{
-  "status": "FAIL",
-  "source_sha256": "6aa050f391b2a939b6b5ff5fc5c9b7107b13ae7bd1804ee5b21d8026be247356",
-  "samples": 4,
-  "error": "ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()"
-}

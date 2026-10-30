@@ -1,1 +1,0 @@
-picoKeras v0.1.12: include TensorFlow Lite schema_generated.h from the installed upstream tflite-micro source clone when create_tflm_tree.py omits it. No network conversion/build installation. Requires matching upstream TFLM clone.

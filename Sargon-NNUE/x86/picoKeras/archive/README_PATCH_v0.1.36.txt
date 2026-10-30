@@ -1,1 +1,0 @@
-v0.1.36: Separacion de cuantizacion, validacion numerica y compatibilidad TFLM. Corrige la interrupcion prematura al faltar GELU/REDUCE_PROD. El artefacto numericamente valido, si supera la comparacion FP32 vs INT8, queda como *.runtime_unverified.tflite, sin publicarse bajo el nombre final. No incorpora kernels TFLM. Ejecute el mismo comando de v0.1.35. Requiere v0.1.35.

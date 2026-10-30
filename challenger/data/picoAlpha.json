@@ -3,14 +3,14 @@
     "schema_version": 2,
     "json_file": "picoAlpha.json",
     "created_at": "2026-10-24T01:13:38-03:00",
-    "last_modified_at": "2026-10-24T01:27:31-03:00",
-    "games": 1,
+    "last_modified_at": "2026-10-30T16:49:15-03:00",
+    "games": 2,
     "wins": 1,
-    "wins_pct": 100.0,
+    "wins_pct": 50.0,
     "draws": 0,
     "draws_pct": 0.0,
-    "losses": 0,
-    "losses_pct": 0.0
+    "losses": 1,
+    "losses_pct": 50.0
   },
   "events": {
     "Pruebas de picoAlpha": {
@@ -57,6 +57,53 @@
           "move_count": 21,
           "duration_seconds": 832.935,
           "opponent_id": "picoAlpha v0.2.53"
+        }
+      }
+    },
+    "Pruebas de AlphaZero-X86": {
+      "event": "Pruebas de AlphaZero-X86",
+      "started_at": "2026-10-30T16:23:26-03:00",
+      "last_run_at": "2026-10-30T16:49:15-03:00",
+      "games": 1,
+      "wins": 0,
+      "wins_pct": 0.0,
+      "draws": 0,
+      "draws_pct": 0.0,
+      "losses": 1,
+      "losses_pct": 100.0,
+      "games_detail": {
+        "20261030T194915.282778Z-874b0796": {
+          "game_id": "20261030T194915.282778Z-874b0796",
+          "result": "0-1",
+          "outcome": "loss",
+          "reason": "CHECKMATE",
+          "challenger_color": "white",
+          "finished_at": "2026-10-30T16:49:15-03:00",
+          "brain": "sargon",
+          "challenger_version": "0.2.0",
+          "execution_arguments": {
+            "ip": "127.0.0.1",
+            "port": 6200,
+            "color": "random",
+            "brain": "sargon",
+            "stockfish": null,
+            "stockfish_movetime": 2000,
+            "plies": 4,
+            "qdepth": 0,
+            "verbose": false,
+            "gui": true,
+            "forever": true,
+            "run": null,
+            "pgn": null,
+            "evento": "Pruebas de AlphaZero-X86",
+            "json": "..\\data\\picoAlpha.json",
+            "gametime": 30.0,
+            "timeout": 60000,
+            "seed": null
+          },
+          "move_count": 28,
+          "duration_seconds": 1548.94,
+          "opponent_id": "emma"
         }
       }
     }

@@ -1,1 +1,0 @@
-picoKeras v0.1.14: Replace incorrect Git header recovery in CMake. Prepare schema independently with scripts/repair_TFLM_schema.ps1; build.ps1 remains C++ only. This is not a verified MSVC/TFLM build. A header downloaded from main may be incompatible with a locally compiled older TFLM version.
