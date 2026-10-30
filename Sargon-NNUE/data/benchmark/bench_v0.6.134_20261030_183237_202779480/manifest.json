@@ -1,0 +1,35 @@
+{
+  "tool": "sargon_benchmark",
+  "version": "0.6.134",
+  "brain_file": "/home/pi/chess/akkad/Sargon-NNUE/data/brains/.emma_arm64_WYAllRev.json",
+  "brain_ids": [
+    "emma"
+  ],
+  "brains": {
+    "emma": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine-path": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
+      "lc0-weights": "/home/pi/chess/akkad/Sargon-NNUE/data/runs/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "eigen",
+      "az-simulations": 8,
+      "az-cpuct": 1.5,
+      "tmax": 30000,
+      "rating_elo": 400
+    }
+  },
+  "mode": "positions",
+  "positions": 3,
+  "plies": null,
+  "rounds": 1,
+  "warmup": 1,
+  "timeout_s": 180.0,
+  "python": "/home/pi/chess/picoSargon/bin/python",
+  "fixed_fens": [
+    "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
+  ],
+  "opening": [],
+  "fens": []
+}
