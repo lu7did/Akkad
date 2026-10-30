@@ -19,4 +19,4 @@
 # Bloquear carpetas enteras de ejecución, compilación y datos pesados
 Sargon-NNUE/data/runs/keras/
 Sargon-NNUE/data/pb/
-
+**/tensorflow.dll
