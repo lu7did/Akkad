@@ -24,3 +24,4 @@ Sargon-NNUE/data/pb/
 # AlphaZero standalone build artifacts
 /AlphaZero/build/
 /AlphaZero/.meson/
+**/tensorflow

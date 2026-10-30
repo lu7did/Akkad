@@ -1,0 +1,21 @@
+# ninja log v6
+1	60	1793398137861742041	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-mkdir	a4a52a57a66c395b
+1	60	1793398137861742041	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-mkdir	a4a52a57a66c395b
+60	2107	1793398139909727888	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-download	169ec9160be57bea
+60	2107	1793398139909727888	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-download	169ec9160be57bea
+2107	2157	1793398139913727860	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-update	ac4a0348a63a8f20
+2107	2157	1793398139913727860	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-update	ac4a0348a63a8f20
+2157	2214	1793398140017727141	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-patch	3e8a1abc3a160b64
+2157	2214	1793398140017727141	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-patch	3e8a1abc3a160b64
+2214	2272	1793398140077726727	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-configure	8ac20a53caa416ca
+2214	2272	1793398140077726727	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-configure	8ac20a53caa416ca
+2272	2328	1793398140133726340	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-build	7becc34291f3b779
+2272	2328	1793398140133726340	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-build	7becc34291f3b779
+2328	2385	1793398140189725952	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-install	4bf698a7f4c82ecd
+2328	2385	1793398140189725952	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-install	4bf698a7f4c82ecd
+2385	2442	1793398140245725565	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-test	bdb26d3f5f11db93
+2385	2442	1793398140245725565	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-test	bdb26d3f5f11db93
+2442	2527	1793398140329724984	CMakeFiles/farmhash-populate-complete	78dad9165e3e460e
+2442	2527	1793398140329724984	farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-done	78dad9165e3e460e
+2442	2527	1793398140329724984	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/CMakeFiles/farmhash-populate-complete	78dad9165e3e460e
+2442	2527	1793398140329724984	/home/pi/chess/akkad/picoKeras/debian/build/_deps/farmhash-subbuild/farmhash-populate-prefix/src/farmhash-populate-stamp/farmhash-populate-done	78dad9165e3e460e

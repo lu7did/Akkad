@@ -1,0 +1,21 @@
+# ninja log v6
+1	61	1793398140821721583	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-mkdir	69f90316a177de6
+1	61	1793398140821721583	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-mkdir	69f90316a177de6
+61	949	1793398141709715443	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-download	de2673927bc81448
+61	949	1793398141709715443	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-download	de2673927bc81448
+949	1006	1793398141765715055	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-update	514ca69f5fc89d46
+949	1006	1793398141765715055	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-update	514ca69f5fc89d46
+1006	1063	1793398141821714668	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-patch	5356188f09af3b47
+1006	1063	1793398141821714668	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-patch	5356188f09af3b47
+1063	1119	1793398141877714281	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-configure	da4913f5aa2d98c5
+1063	1119	1793398141877714281	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-configure	da4913f5aa2d98c5
+1119	1177	1793398141933713893	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-build	1caccb1ae120a81c
+1119	1177	1793398141933713893	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-build	1caccb1ae120a81c
+1177	1233	1793398141993713479	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-install	671e226da855874
+1177	1233	1793398141993713479	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-install	671e226da855874
+1234	1290	1793398142049713091	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-test	f8f2875a4ae4bf90
+1234	1290	1793398142049713091	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-test	f8f2875a4ae4bf90
+1290	1373	1793398142133712510	CMakeFiles/fft2d-populate-complete	1d702131851c17ef
+1290	1373	1793398142133712510	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-done	1d702131851c17ef
+1290	1373	1793398142133712510	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/CMakeFiles/fft2d-populate-complete	1d702131851c17ef
+1290	1373	1793398142133712510	/home/pi/chess/akkad/picoKeras/debian/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-done	1d702131851c17ef

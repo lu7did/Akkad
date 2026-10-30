@@ -1,0 +1,21 @@
+# ninja log v6
+1	61	1793398158093601907	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-mkdir	de447be0cccd8d7b
+1	61	1793398158093601907	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-mkdir	de447be0cccd8d7b
+61	30445	1793398188477390177	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-download	313973a4766492cc
+61	30445	1793398188477390177	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-download	313973a4766492cc
+30445	30493	1793398188481390149	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-update	e918b7a1c4fdc625
+30445	30493	1793398188481390149	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-update	e918b7a1c4fdc625
+30493	30549	1793398188581389449	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-patch	8991bf24f794b57b
+30493	30549	1793398188581389449	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-patch	8991bf24f794b57b
+30549	30606	1793398188641389030	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-configure	1a122734e7da280f
+30549	30606	1793398188641389030	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-configure	1a122734e7da280f
+30607	30662	1793398188697388638	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-build	758bc1ab08ed9172
+30607	30662	1793398188697388638	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-build	758bc1ab08ed9172
+30663	30719	1793398188753388247	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-install	4f73773dcfe46f6c
+30663	30719	1793398188753388247	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-install	4f73773dcfe46f6c
+30719	30776	1793398188809387855	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-test	c5f39c73a06e42c9
+30719	30776	1793398188809387855	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-test	c5f39c73a06e42c9
+30776	30862	1793398188897387240	CMakeFiles/ml_dtypes-populate-complete	3084c1e630b6187f
+30776	30862	1793398188897387240	ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-done	3084c1e630b6187f
+30776	30862	1793398188897387240	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/CMakeFiles/ml_dtypes-populate-complete	3084c1e630b6187f
+30776	30862	1793398188897387240	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ml_dtypes-subbuild/ml_dtypes-populate-prefix/src/ml_dtypes-populate-stamp/ml_dtypes-populate-done	3084c1e630b6187f

@@ -1,0 +1,12 @@
+# ninja log v6
+1	65	1793398201477299137	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-mkdir	2047efc3d937b5d2
+66	72018	1793398273428790725	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-download	fb29d4a225caa9bd
+72018	72067	1793398273432790697	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-update	4044034f001118b
+72067	72124	1793398273532789985	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-patch	9acf397631d76c86
+72124	72180	1793398273588789587	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-configure	177f8bd1979334cb
+72180	72237	1793398273648789160	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-build	1821e2d596f100f2
+72237	72295	1793398273704788761	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-install	496150237205a935
+72295	72352	1793398273760788363	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-test	5b41ee9af3875687
+72352	72436	1793398273844787765	CMakeFiles/protobuf-populate-complete	cf57ce8d8b6bbe77
+72352	72436	1793398273844787765	/home/pi/chess/akkad/picoKeras/debian/build/src/protobuf-populate-stamp/protobuf-populate-done	cf57ce8d8b6bbe77
+72352	72436	1793398273844787765	/home/pi/chess/akkad/picoKeras/debian/build/_deps/protobuf-subbuild/CMakeFiles/protobuf-populate-complete	cf57ce8d8b6bbe77

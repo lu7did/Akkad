@@ -1,0 +1,12 @@
+# ninja log v6
+0	60	1793398106301959203	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-mkdir	1e7afc19c29a7da6
+60	6240	1793398112477916848	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-download	2d90ad6acdefa97a
+6240	6289	1793398112481916821	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-update	d297a30543a4430c
+6289	6346	1793398112585916107	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-patch	84ea44d37aa288f8
+6346	6401	1793398112641915723	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-configure	896d153403ba098
+6402	6458	1793398112697915338	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-build	9f4e7c8e2c5c7c07
+6458	6515	1793398112753914954	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-install	e16db47a5b7d99dc
+6515	6570	1793398112809914570	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-test	c49c8c32405ad4ca
+6571	6653	1793398112893913993	CMakeFiles/abseil-cpp-populate-complete	9178c3c76dee4c7f
+6571	6653	1793398112893913993	/home/pi/chess/akkad/picoKeras/debian/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-done	9178c3c76dee4c7f
+6571	6653	1793398112893913993	/home/pi/chess/akkad/picoKeras/debian/build/_deps/abseil-cpp-subbuild/CMakeFiles/abseil-cpp-populate-complete	9178c3c76dee4c7f

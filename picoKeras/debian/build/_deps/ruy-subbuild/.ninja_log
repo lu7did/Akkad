@@ -1,0 +1,21 @@
+# ninja log v6
+1	59	1793398189177385281	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-mkdir	4a61cbab82c86fcf
+1	59	1793398189177385281	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-mkdir	4a61cbab82c86fcf
+60	11359	1793398200477306149	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-download	7196838361bc5b4f
+60	11359	1793398200477306149	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-download	7196838361bc5b4f
+11359	11409	1793398200477306149	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-update	6b8aad3a2b2e704a
+11359	11409	1793398200477306149	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-update	6b8aad3a2b2e704a
+11409	11466	1793398200581305420	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-patch	8f0497d679fe109a
+11409	11466	1793398200581305420	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-patch	8f0497d679fe109a
+11466	11522	1793398200637305027	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-configure	f0ccc3b579b63
+11466	11522	1793398200637305027	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-configure	f0ccc3b579b63
+11522	11579	1793398200697304606	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-build	9631a8978d4057ff
+11522	11579	1793398200697304606	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-build	9631a8978d4057ff
+11579	11635	1793398200753304214	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-install	47554b36123b0577
+11579	11635	1793398200753304214	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-install	47554b36123b0577
+11635	11692	1793398200809303821	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-test	db0a41763f54b8b7
+11635	11692	1793398200809303821	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-test	db0a41763f54b8b7
+11692	11776	1793398200893303232	CMakeFiles/ruy-populate-complete	9c4ce1c005e097d7
+11692	11776	1793398200893303232	ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-done	9c4ce1c005e097d7
+11692	11776	1793398200893303232	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/CMakeFiles/ruy-populate-complete	9c4ce1c005e097d7
+11692	11776	1793398200893303232	/home/pi/chess/akkad/picoKeras/debian/build/_deps/ruy-subbuild/ruy-populate-prefix/src/ruy-populate-stamp/ruy-populate-done	9c4ce1c005e097d7

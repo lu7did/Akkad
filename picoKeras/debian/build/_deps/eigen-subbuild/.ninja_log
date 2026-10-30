@@ -1,0 +1,12 @@
+# ninja log v6
+0	59	1793398113817907650	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-mkdir	55cb7380ed216514
+60	23408	1793398137165746849	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-download	db32e073bd838584
+23408	23456	1793398137169746822	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-update	7df7c35b631f7800
+23456	23513	1793398137269746131	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-patch	10bfde4e8cab9960
+23513	23569	1793398137325745744	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-configure	7403a370c11e40cf
+23570	23626	1793398137381745357	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-build	8ccabae54479e5a6
+23627	23688	1793398137445744915	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-install	2274f156babcc0e5
+23689	23744	1793398137501744528	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-test	581795f408a3d595
+23745	23828	1793398137585743948	CMakeFiles/eigen-populate-complete	4ff95fedf7be6641
+23745	23828	1793398137585743948	/home/pi/chess/akkad/picoKeras/debian/build/src/eigen-populate-stamp/eigen-populate-done	4ff95fedf7be6641
+23745	23828	1793398137585743948	/home/pi/chess/akkad/picoKeras/debian/build/_deps/eigen-subbuild/CMakeFiles/eigen-populate-complete	4ff95fedf7be6641

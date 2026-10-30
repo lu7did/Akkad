@@ -1,0 +1,21 @@
+# ninja log v6
+1	60	1793398154301628225	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-mkdir	e48d65bba494eb05
+1	60	1793398154301628225	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-mkdir	e48d65bba494eb05
+60	3146	1793398157385606822	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-download	cbb83474b5d9dcf1
+60	3146	1793398157385606822	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-download	cbb83474b5d9dcf1
+3146	3202	1793398157389606795	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-update	2fe5a6ab078fb718
+3146	3202	1793398157389606795	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-update	2fe5a6ab078fb718
+3202	3259	1793398157501606017	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-patch	cea492926658f385
+3202	3259	1793398157501606017	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-patch	cea492926658f385
+3259	3317	1793398157557605628	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-configure	242c8d7591a74378
+3259	3317	1793398157557605628	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-configure	242c8d7591a74378
+3317	3373	1793398157613605239	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-build	53f4b92a61259658
+3317	3373	1793398157613605239	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-build	53f4b92a61259658
+3373	3428	1793398157669604851	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-install	de0fc2bb07a053a4
+3373	3428	1793398157669604851	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-install	de0fc2bb07a053a4
+3429	3486	1793398157725604462	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-test	2d7edcfddc7df243
+3429	3486	1793398157725604462	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-test	2d7edcfddc7df243
+3486	3569	1793398157809603879	CMakeFiles/cpuinfo-populate-complete	a040f9c2d240a33a
+3486	3569	1793398157809603879	cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-done	a040f9c2d240a33a
+3486	3569	1793398157809603879	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/CMakeFiles/cpuinfo-populate-complete	a040f9c2d240a33a
+3486	3569	1793398157809603879	/home/pi/chess/akkad/picoKeras/debian/build/_deps/cpuinfo-subbuild/cpuinfo-populate-prefix/src/cpuinfo-populate-stamp/cpuinfo-populate-done	a040f9c2d240a33a
