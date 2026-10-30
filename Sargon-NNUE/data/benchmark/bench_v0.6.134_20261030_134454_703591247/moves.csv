@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+tinySargon,picosargon,null,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor tinySargon cerró salida esperando uciok; revisar /home/pi/chess/akkad/Sargon-NNUE/data/benchmark/bench_v0.6.134_20261030_134454_703591247/engine_01.log

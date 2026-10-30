@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/pi/chess/akkad/Sargon-NNUE/src/sargon_nnue/sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pi/chess/akkad/Sargon-NNUE/src/sargon_nnue/sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "/home/pi/chess/akkad/Sargon-NNUE/src/sargon_nnue/sargon_listen.py", line 154, in _run_stdin
+    evaluator, player = build_engine(args)
+                        ~~~~~~~~~~~~^^^^^^
+  File "/home/pi/chess/akkad/Sargon-NNUE/src/sargon_nnue/factory.py", line 176, in build_engine
+    player = create_player(
+        player_kind,
+    ...<26 lines>...
+        lc0_uci_timeout=g("lc0_uci_timeout",60000),
+    )
+  File "/home/pi/chess/akkad/Sargon-NNUE/src/sargon_nnue/players/__init__.py", line 55, in create_player
+    return PicoSargonUCIPlayer(engine_path, weights_path=network, depth=depth, qdepth=qdepth, tmax_ms=tmax_ms, timeout_ms=timeout_ms)
+  File "/home/pi/chess/akkad/Sargon-NNUE/src/sargon_nnue/players/picosargon_uci.py", line 30, in __init__
+    raise PlayerError(f"picoSargon: pesos Grumpy inexistentes: {weights} "
+                      f"(defina 'network' en brains.json)")
+sargon_nnue.players.base.PlayerError: picoSargon: pesos Grumpy inexistentes: /home/pi/Akkad/picoSargon/debian/picoSargon/assets/grumpy.bin (defina 'network' en brains.json)

@@ -1,0 +1,1 @@
+/home/pi/chess/picoSargon/bin/python3: Error while finding module specification for 'sargon_nnue.sargon_listen' (ModuleNotFoundError: No module named 'sargon_nnue')

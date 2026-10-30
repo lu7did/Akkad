@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+tinySargon,picosargon,null,,3,3,0,9.458,3152.816,2970.386,4117.402,2370.659,4117.402,243376,3,9454.000,25743.2,0.038864,OK

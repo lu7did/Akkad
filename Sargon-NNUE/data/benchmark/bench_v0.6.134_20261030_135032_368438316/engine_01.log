@@ -1,0 +1,18 @@
+PICOSARGON ADAPTER v0.6.181 engine=/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon network=/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin
+⚙️ EXEC player=picosargon | evaluator=null | depth=6 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+🧩 Sargon-NNUE v0.6.193 🧠 evaluator=NULL 🎮 player=PICOSARGON
+⬅️ uci
+⬅️ isready
+⬅️ ucinewgame
+⬅️ position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+⬅️ go
+⬅️ ucinewgame
+⬅️ position startpos moves e2e4 e7e5 g1f3 b8c6
+⬅️ go
+⬅️ ucinewgame
+⬅️ position startpos moves d2d4 d7d5 c2c4 e7e6
+⬅️ go
+⬅️ ucinewgame
+⬅️ position startpos moves e2e4 c7c5 g1f3
+⬅️ go
+⬅️ quit

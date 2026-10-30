@@ -1,0 +1,33 @@
+{
+  "tool": "sargon_benchmark",
+  "version": "0.6.134",
+  "brain_file": "/home/pi/chess/akkad/Sargon-NNUE/data/brains/brains.json",
+  "brain_ids": [
+    "tinySargon"
+  ],
+  "brains": {
+    "tinySargon": {
+      "player": "picosargon",
+      "evaluator": "null",
+      "engine-path": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon",
+      "network": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
+      "depth": 4,
+      "qdepth": 2,
+      "tmax": 15000
+    }
+  },
+  "mode": "positions",
+  "positions": 3,
+  "plies": null,
+  "rounds": 1,
+  "warmup": 1,
+  "timeout_s": 90.0,
+  "python": "/home/pi/chess/picoSargon/bin/python",
+  "fixed_fens": [
+    "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
+  ],
+  "opening": [],
+  "fens": []
+}

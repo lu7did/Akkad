@@ -153,13 +153,13 @@
       "evaluator": "null",
       "engine-path": {
         "windows": "C:/Akkad/picoSargon/x86/picoSargon/build/picoSargon.exe",
-        "debian": "/home/pi/Akkad/picoSargon/debian/picoSargon/build/picoSargon"
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon"
       },
       "network": {
         "windows": "C:/Akkad/picoSargon/x86/picoSargon/assets/grumpy.bin",
-        "debian": "/home/pi/Akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
       },
-      "depth": 4,
+      "depth": 6,
       "qdepth": 2,
       "tmax": 15000
     },
