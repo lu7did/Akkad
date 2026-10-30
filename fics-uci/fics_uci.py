@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""fics_uci.py v0.2.19 — puente FICS/Telnet ↔ UCI/TCP con historial verificado.
+"""fics_uci.py v0.2.17 — puente FICS/Telnet ↔ UCI/TCP con historial verificado.
 
 Requiere: pip install python-chess
 No utiliza motores externos por subprocess: --ip/--port apuntan a un servidor UCI TCP.
@@ -24,7 +24,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.19"
+VERSION = "0.2.17"
 
 VERBOSE = False
 
@@ -33,23 +33,7 @@ VERBOSE = False
 # el icono: este se asigna exclusivamente por el origen del mensaje.
 BRIDGE_SOURCES = frozenset({"APP", "SYNC", "PARTIDA", "SEEK", "JSON", "BRIDGE"})
 
-def highlight_own_player_in_creation(message, username, is_tty=None):
-    """Highlight only the exact account in FICS game-creation announcements."""
-    if not username or not (re.match(r"^Creating:\s", message) or
-                            re.match(r"^\{Game\s+\d+\s+\([^)]*\)\s+Creating\b", message)):
-        return message
-    if is_tty is None:
-        is_tty = sys.stdout.isatty()
-    # Names must match as whole FICS tokens (not prefixes of another account).
-    pattern = re.compile(r"(?<![A-Za-z0-9_-])" + re.escape(username) + r"(?![A-Za-z0-9_-])", re.I)
-    def decorate(match):
-        player = match.group(0)
-        return (f"\033[1;4m{player}\033[0m" if is_tty
-                else f"__**{player}**__")
-    return pattern.sub(decorate, message)
-
-
-def log(emoji, source, message, detail=False, own_player=None):
+def log(emoji, source, message, detail=False):
     if detail and not VERBOSE:
         return
     origin = str(source).upper()
@@ -61,8 +45,6 @@ def log(emoji, source, message, detail=False, own_player=None):
         emoji = "✅"
     else:
         emoji = "📊"
-    if origin == "FICS" and own_player:
-        message = highlight_own_player_in_creation(str(message), own_player)
     print(f"{time.strftime('%H:%M:%S')} {emoji} [{source}] {message}", flush=True)
 
 
@@ -444,7 +426,7 @@ class Bridge:
         def mark_player(player):
             if self.username and player.casefold() == self.username.casefold():
                 return (f"\033[1;4m{player}\033[0m" if sys.stdout.isatty()
-                        else f"__**{player}**__")
+                        else f"__**{player}**__ [NOSOTROS]")
             return player
 
         log("♟️", "PARTIDA", f"#{game} ⚪ Blancas: {mark_player(white)} | ⚫ Negras: {mark_player(black)}")
@@ -921,8 +903,7 @@ class Bridge:
     def fics_line(self, line):
         if line:
             self.capture_ratings(line)
-            log("🌐", "FICS", line, detail=(line.strip() == "fics%" or line.startswith("<12> ")),
-                own_player=self.username)
+            log("🌐", "FICS", line, detail=(line.strip() == "fics%" or line.startswith("<12> ")))
         elif VERBOSE:
             log("🌐", "FICS", "", detail=True)
         # Rechazo de una jugada enviada: no continuar hasta recuperar sincronía.

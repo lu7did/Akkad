@@ -4,7 +4,7 @@
 # v0.2.13 - cabecera de ejecución con nombre, versión y fuente JSON
 import argparse
 
-VERSION = "0.2.14"
+VERSION = "0.2.20"
 PROGRAMA = "fics_stats.py"
 from collections import defaultdict, Counter
 import math
@@ -36,6 +36,55 @@ def elo_label(values):
     """Latest observed nonempty ELO, preserving FICS placeholders as-is."""
     return values[-1] if values else '-'
 
+
+def numeric_elo(values):
+    """Último ELO numérico positivo conocido (se ignoran ++++ y otros marcadores)."""
+    for raw in reversed(values):
+        label = str(raw).strip()
+        if re.fullmatch(r"[0-9]+", label) and int(label) > 0:
+            return int(label)
+    return None
+
+
+def estimated_elo(rival_elo, values):
+    n = sum(values)
+    if n <= 0:
+        return None
+    score = (values[0] + 0.5 * values[1]) / n
+    if score == 0:
+        adjustment = -800.0
+    elif score == 1:
+        adjustment = 800.0
+    else:
+        adjustment = 400.0 * math.log10(score / (1.0 - score))
+    return rival_elo + adjustment
+
+
+def print_elo_analysis(kind, entries, names, elos, own_elo):
+    print(f"\nESTIMACION ELO - {kind.upper()} (ELO propio de referencia: {own_elo})")
+    print(f"{'MOTOR':<32} {'RIVAL':<22} {'PJ':>5} {'ELO RIVAL':>10} {'ELO EST.':>10} {'AJUSTE':>10}")
+    print('-' * 99)
+    weighted_delta = 0.0
+    total_games = 0
+    omitted = 0
+    for key, values in entries:
+        rival_elo = numeric_elo(elos[key])
+        n = sum(values)
+        if rival_elo is None:
+            omitted += n
+            continue
+        result = estimated_elo(rival_elo, values)
+        delta = result - own_elo
+        weighted_delta += n * delta
+        total_games += n
+        print(f"{key[1][:32]:<32} {names[key][:22]:<22} {n:5d} {rival_elo:10d} {result:10.1f} {delta:+10.1f}")
+    print('-' * 99)
+    if total_games:
+        avg_delta = weighted_delta / total_games
+        print(f"ELO propio estimado ponderado: {own_elo + avg_delta:.1f}")
+        print(f"Ajuste ELO ponderado: {avg_delta:+.1f} (partidas con ELO: {total_games}; excluidas: {omitted})")
+    else:
+        print(f"Sin rivales con ELO numérico válido; partidas excluidas: {omitted}")
 
 def show_row(motor, rival, values, elo='-'):
     n = sum(values)
@@ -171,7 +220,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description='Estadisticas FICS por modalidad, motor y rival')
     parser.add_argument('--in', dest='input', required=True, metavar='ARCHIVO.json')
     parser.add_argument('--stats', action='store_true', help='Histogramas por modalidad: segundos/movida y motivos de resultado')
+    parser.add_argument('--ELO', dest='own_elo', type=int, metavar='NNNN', help='ELO propio usado como referencia para el ajuste ponderado')
     args = parser.parse_args(argv)
+    if args.own_elo is not None and args.own_elo <= 0:
+        parser.error('--ELO debe ser un entero positivo')
     try:
         obj = json.loads(Path(args.input).read_text(encoding='utf-8-sig'))
         games = obj['partidas'] if isinstance(obj, dict) else obj
@@ -227,6 +279,8 @@ def main(argv=None):
         subtotal = aggregate(v for _, v in entries)
         print('=' * len(hdr))
         show_row('TOTAL ' + kind, '', subtotal)
+        if args.own_elo is not None:
+            print_elo_analysis(kind, entries, names, elos, args.own_elo)
         if args.stats:
             print_detailed_stats(kind, classified_games[kind])
 

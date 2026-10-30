@@ -1,0 +1,7 @@
+FICS-UCI v0.2.20 - PARCHE INCREMENTAL
+Instalar sobre el proyecto actual. Solo modifica fics-uci/fics_stats.py.
+Opcion --ELO NNNN: calcula ELO implicito por rival con puntuacion (G+0.5T)/PJ,
+R_est=R_rival+400log10(S/(1-S)), con limites +/-800 para S=0 o 1.
+El ajuste mostrado es R_est-ELO_propio. El promedio por modalidad se pondera
+por la cantidad de partidas ante cada rival con ELO numerico valido.
+No se incluyen rivales ++++ en las cuentas. Orden decreciente por PJ.
