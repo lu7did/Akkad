@@ -1,2 +1,0 @@
-fics-uci v0.2.14 + Sargon-NNUE v0.6.193
-UCI id name = brain name. fics-uci normalizes previous UCI IDs. fics_stats groups old and new records by brain. picoKeras standalone is unchanged.
