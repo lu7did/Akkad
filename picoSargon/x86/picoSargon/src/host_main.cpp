@@ -11,6 +11,8 @@
 #include <filesystem>
 #include <cctype>
 #include <map>
+#include <iomanip>
+#include <algorithm>
 // Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
 // No LC0 dependency; only retrieves brains[brain]["network"].
 namespace {
@@ -93,6 +95,58 @@ std::string weights_argument(int argc,char** argv){
 }
 }
 
+
+#ifndef PICOSARGON_VERSION
+#define PICOSARGON_VERSION "0.2.23"
+#endif
+namespace {
+std::string trim_uci(std::string x) {
+ auto b=x.find_first_not_of(" \t\r\n");
+ if(b==std::string::npos)return {};
+ auto e=x.find_last_not_of(" \t\r\n");
+ x=x.substr(b,e-b+1);
+ if(x.size()>=2 && x.front()=='"' && x.back()=='"')x=x.substr(1,x.size()-2);
+ for(char& c:x)if(c=='\n'||c=='\r')c=' ';
+ return x;
+}
+std::string system_release(){
+#ifdef _WIN32
+ return "Windows";
+#else
+ std::ifstream in("/etc/os-release");
+ std::string line;
+ while(std::getline(in,line)){
+  constexpr const char* k="PRETTY_NAME=";
+  if(line.compare(0,12,k)==0)return trim_uci(line.substr(12));
+ }
+ return "Linux";
+#endif
+}
+std::string total_memory(){
+#ifdef _WIN32
+ // Keep the Windows identifier stable without introducing new OS dependencies.
+ return "RAM n/d";
+#else
+ std::ifstream in("/proc/meminfo");
+ std::string name,unit;unsigned long long kib=0;
+ while(in>>name>>kib>>unit){
+  if(name=="MemTotal:"){
+   std::ostringstream os;os<<std::fixed<<std::setprecision(2)<<(static_cast<double>(kib)/1048576.0)<<" GiB RAM";
+   return os.str();
+  }
+ }
+ return "RAM n/d";
+#endif
+}
+std::string uci_identity(){
+#ifdef _WIN32
+ return std::string("picoSargon C++ v")+PICOSARGON_VERSION+" (Windows)";
+#else
+ return std::string("picoSargon C++ v")+PICOSARGON_VERSION+" (debian "+system_release()+" / "+total_memory()+")";
+#endif
+}
+}
+
 using namespace picoSargon;
 static uint64_t milliseconds(){return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();}
 int main(int argc,char**argv){
@@ -103,7 +157,7 @@ int main(int argc,char**argv){
   while(std::getline(std::cin,line)){
    std::istringstream ss(line);std::string cmd;ss>>cmd;
    if(cmd=="uci"){
-    std::cout<<"id name picoSargon C++ native / Pico W search core\nid author Dr. Pedro E. Colla\noption name QDepth type spin default 2 min 0 max 32\nuciok\n";
+    std::cout<<"id name "<<uci_identity()<<"\nid author Dr. Pedro E. Colla\noption name QDepth type spin default 2 min 0 max 32\nuciok\n";
    }else if(cmd=="isready")std::cout<<"readyok\n";
    else if(cmd=="setoption"){
     std::string name,parameter,value;ss>>name>>parameter>>value;
@@ -124,8 +178,12 @@ int main(int argc,char**argv){
     while(ss>>t){if(t=="depth")ss>>depth;else if(t=="movetime")ss>>timelimit;}
     if(depth<1||depth>40)throw std::runtime_error("depth out of range");
     Engine engine(net,milliseconds,[]{return false;},{},qdepth);
+    const auto search_start=std::chrono::steady_clock::now();
     auto result=engine.search(board,depth,timelimit);
-    std::cout<<"info depth "<<result.depth<<" score cp "<<result.score<<" nodes "<<result.nodes<<"\n";
+    const auto elapsed_ms=std::chrono::duration_cast<std::chrono::milliseconds>(
+      std::chrono::steady_clock::now()-search_start).count();
+    std::cout<<"info depth "<<result.depth<<" score cp "<<result.score
+             <<" nodes "<<result.nodes<<" time "<<elapsed_ms<<"\n";
     std::cout<<"bestmove "<<(result.has_move?Board::notation(result.best):"0000")<<"\n";
    }else if(cmd=="quit")break;
    std::cout.flush();
