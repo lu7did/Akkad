@@ -25,3 +25,9 @@ Sargon-NNUE/data/pb/
 /AlphaZero/build/
 /AlphaZero/.meson/
 **/tensorflow
+
+
+C:\Users\pedro\github\bobby\akkad\AlphaZero\build\DirectML.dll
+C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime.dll
+C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime_providers_shared.dll
+
