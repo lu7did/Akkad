@@ -828,7 +828,7 @@ utilizará un algoritmo de normalización matemática llamado *Algoritmo de Elo 
 
 🧪 El Algoritmo: Elo Corregido por Eficiencia de Silicio (ECES)
 
-El objetivo del algoritmo es calcular un Elo Base de Software (\(Elo_{Base}\)). Este indicador representa la fuerza táctica intrínseca del código del motor si todos compitieran exactamente sobre la misma máquina de referencia.
+El objetivo del algoritmo es calcular un Elo Base de Software ($Elo_{Base}$). Este indicador representa la fuerza táctica intrínseca del código del motor si todos compitieran exactamente sobre la misma máquina de referencia.
 
 Paso 1: Obtener el Factor de Rendimiento Bruto (NPS)
 
@@ -836,46 +836,51 @@ En lugar de multiplicar GHz por RAM por núcleos, dejamos que el motor corra en 
 • Para motores tradicionales (CPU): El NPS mide posiciones tradicionales evaluadas por segundo.
 • Para motores de redes neuronales puras (GPU como Lc0): El NPS suele medir "Nodos de Búsqueda" o evaluaciones de la red por segundo.
 
-Paso 2: Calcular el Factor de Penalización/Bonificación por Hardware (\(F_{H}\))
+Paso 2: Calcular el Factor de Penalización/Bonificación por Hardware ($F_{H}$)
 
-Definimos una Máquina de Referencia Estándar (por ejemplo: 1 CPU de 4 núcleos a 3.0 GHz, sin GPU, 8 GB RAM). Esta máquina produce un número de nodos de referencia conocido como \(NPS_{Ref}\) para un motor base.
-Calculamos el coeficiente de ventaja de hardware (\(F_{H}\)) mediante la siguiente fórmula logarítmica (el logaritmo es crucial porque en ajedrez, duplicar la velocidad del hardware no duplica la fuerza, sino que ofrece retornos decrecientes):
-\(F_{H}=\log _{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right)\)
-Si un motor corre en una supercomputadora y genera 16 veces más NPS que la máquina de referencia, su \(F_{H}\) será \(\log_{2}(16) = 4\).
+Definimos una Máquina de Referencia Estándar (por ejemplo: 1 CPU de 4 núcleos a 3.0 GHz, sin GPU, 8 GB RAM). Esta máquina produce un número de nodos de referencia conocido como $NPS_{Ref}$ para un motor base.
+Calculamos el coeficiente de ventaja de hardware ($F_{H}$ mediante la siguiente fórmula logarítmica (el logaritmo es crucial porque en ajedrez, duplicar la velocidad del hardware no duplica la fuerza, sino que ofrece retornos decrecientes):
+$F_{H}=\log _{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right)$
+Si un motor corre en una supercomputadora y genera 16 veces más NPS que la máquina de referencia, su
 
-Paso 3: Aplicar la Equivalencia de Elo por Duplicación de Velocidad (\(\Delta Elo_{NPS}\))
+ $F_{H}$ será $\log_{2}(16) = 4$
+
+Paso 3: Aplicar la Equivalencia de Elo por Duplicación de Velocidad 
+
+$\Delta Elo_{NPS}$
 
 Históricamente, en el desarrollo de motores como Stockfish, se ha demostrado una regla empírica constante: Duplicar la velocidad de cálculo (nodos por segundo) equivale a un aumento de aproximadamente entre 50 y 70 puntos de Elo reales (utilizaremos el estándar de la industria de 60 puntos de Elo).
-El factor de corrección por hardware en puntos de Elo (\(C_{Elo}\)) es:
-\(C_{Elo}=F_{H}\times 60\)
+El factor de corrección por hardware en puntos de Elo $C_{Elo}$ es:
+$C_{Elo}=F_{H}\times 60$
 
-Paso 4: Calcular el Elo Neto de Software (\(Elo_{Base}\))
+Paso 4: Calcular el Elo Neto de Software ($Elo_{Base}$)
 
-Finalmente, tomamos el Elo observado en las partidas del torneo (\(Elo_{Medido}\)) y le restamos la ventaja otorgada por la potencia de su computadora:
-\(Elo_{Base}=Elo_{Medido}-C_{Elo}\)
+Finalmente, tomamos el Elo observado en las partidas del torneo $Elo_{Medido}$ y le restamos la ventaja otorgada por la potencia de su computadora:
+
+$Elo_{Base}=Elo_{Medido}-C_{Elo}$
 
 📝 Ejemplo Práctico de Aplicación
 
 Imaginemos que ponemos a competir a dos motores en un torneo en línea y obtenemos sus Elos medidos tras 100 partidas. Queremos saber cuál software es mejor si corrieran en igualdad de condiciones.
-• Establecemos el \(NPS_{Ref}\) de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
+• Establecemos el $NPS_{Ref}$ de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
 
 Caso Motor A: Stockfish (Corriendo en una Laptop Modesta)
 
 • Hardware: CPU 4 núcleos, 2.5 GHz, 8 GB RAM.
 • Rendimiento: Genera 2,000,000 de nodos por segundo (2 MNPS).
 • Elo Medido en el torneo: 3300.
-1. \(F_H = \log_{2}(2,000,000 / 1,000,000) = \log_{2}(2) = 1\)
-2. \(C_{Elo} = 1 \times 60 = 60\) puntos de ventaja por hardware.
-3. \(Elo_{Base} = 3300 - 60 = \mathbf{3240}\)
+1. $F_H = \log_{2}(2,000,000 / 1,000,000) = \log_{2}(2) = 1$
+2. $C_{Elo} = 1 \times 60 = 60$ puntos de ventaja por hardware.
+3. $Elo_{Base} = 3300 - 60 = \mathbf{3240}$
 
 Caso Motor B: Leela Chess Zero (Corriendo en una PC Gamer de Gama Alta)
 
 • Hardware: CPU 16 núcleos, 5.0 GHz, 64 GB RAM, Tarjeta Gráfica dedicada (GPU RTX 4090).
 • Rendimiento: Gracias a su potente GPU, su equivalencia de procesamiento alcanza los 16,000,000 de nodos por segundo (16 MNPS).
 • Elo Medido en el torneo: 3450 (Ganó el torneo).
-1. \(F_H = \log_{2}(16,000,000 / 1,000,000) = \log_{2}(16) = 4\)
-2. \(C_{Elo} = 4 \times 60 = 240\) puntos de ventaja por hardware.
-3. \(Elo_{Base} = 3450 - 240 = \mathbf{3210}\)
+1. $F_H = \log_{2}(16,000,000 / 1,000,000) = \log_{2}(16) = 4$
+2. $C_{Elo} = 4 \times 60 = 240$ puntos de ventaja por hardware.
+3. $Elo_{Base} = 3450 - 240 = \mathbf{3210}$
 
 🏆 Conclusión del Algoritmo
 
@@ -894,60 +899,67 @@ Añadiremos un nuevo factor independiente de penalización por el tamaño de las
 Paso 1: Definir los Parámetros de la RAM de Referencia
 
 Establecemos un tamaño estándar de Tablas de Hash en RAM para la comunidad informática como base neutra:
-• \(Hash_{Ref} = 1024 \text{ MB}\) (1 GB asignado exclusivamente al motor).
+• $Hash_{Ref} = 1024 \text{ MB}$ (1 GB asignado exclusivamente al motor).
 
-Paso 2: Calcular el Coeficiente de Ventaja por Hash (\(F_{Hash}\))
+Paso 2: Calcular el Coeficiente de Ventaja por Hash $F_{Hash}$
 
 De acuerdo con las pruebas empíricas acumuladas en torneos informáticos como el TCEC (Top Chess Engine Championship), duplicar de forma constante el tamaño del Hash ofrece un retorno decreciente que equivale a un aumento de entre 8 y 12 puntos de Elo (fijaremos el estándar de la industria en 10 puntos de Elo por cada duplicación).
 Calculamos el factor logarítmico de ventaja por memoria:
-\(F_{Hash}=\log _{2}\left(\frac{Hash_{Motor}}{Hash_{Ref}}\right)\)
+
+
+$F_{Hash}=\log _{2}\left(\frac{Hash_{Motor}}{Hash_{Ref}}\right)$
+
 El factor de corrección por RAM en puntos de Elo (\(C_{RAM}\)) es:
-\(C_{RAM}=F_{Hash}\times 10\)
+
+
+$C_{RAM}=F_{Hash}\times 10$
 
 Paso 3: Combinar los Factores en la Fórmula Final de Elo Base
 
-Ahora, el cálculo del Elo Neto de Software (\(Elo_{Base}\)) restará tanto la potencia bruta de procesamiento (\(C_{Elo}\)) calculada previamente, como la ventaja táctica de memoria caché (\(C_{RAM}\)):
-\(Elo_{Base}=Elo_{Medido}-C_{Elo}-C_{RAM}\)
+Ahora, el cálculo del Elo Neto de Software $Elo_{Base}$ restará tanto la potencia bruta de procesamiento $C_{Elo}$ calculada previamente, como la ventaja táctica de memoria caché $C_{RAM}$:
+
+$Elo_{Base}=Elo_{Medido}-C_{Elo}-C_{RAM}$
+
 Donde (recordando el paso anterior):
-• \(C_{Elo} = \log_{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right) \times 60\)
+$C_{Elo} = \log_{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right) \times 60$
 
 📝 Ejemplo Práctico con Corrección de RAM
 
 Ponemos a competir a dos versiones del mismo motor en dos servidores diferentes:
-• Máquina de Referencia Común: \(NPS_{Ref} = 1 \text{ MNPS}\)  |  \(Hash_{Ref} = 1024 \text{ MB}\) (1 GB).
+• Máquina de Referencia Común: $NPS_{Ref} = 1 \text{ MNPS}$  |  $Hash_{Ref} = 1024 \text{ MB}$ (1 GB).
 
 Caso Motor A: (Poco Procesamiento, pero mucha RAM)
 
 • Rendimiento Bruto: Genera 2,000,000 de nodos por segundo (2 MNPS).
 • Memoria Asignada: 16,384 MB (16 GB de Hash).
 • Elo Medido en el torneo: 3200.
-1. Corrección por CPU (\(C_{Elo}\)):
-	• \(F_H = \log_{2}(2 / 1) = 1\)
-	• \(C_{Elo} = 1 \times 60 = \mathbf{60}\)
-2. Corrección por RAM (\(C_{RAM}\)):
-	• \(F_{Hash} = \log_{2}(16384 / 1024) = \log_{2}(16) = 4\) (Ha duplicado 4 veces la RAM de referencia)
-	• \(C_{RAM} = 4 \times 10 = \mathbf{40}\)
+1. Corrección por CPU $C_{Elo}$:
+	• $F_H = \log_{2}(2 / 1) = 1$
+	• $C_{Elo} = 1 \times 60 = \mathbf{60}$
+2. Corrección por RAM $C_{RAM}$:
+	• $F_{Hash} = \log_{2}(16384 / 1024) = \log_{2}(16) = 4$ (Ha duplicado 4 veces la RAM de referencia)
+	• $C_{RAM} = 4 \times 10 = \mathbf{40}$
 3. Resultado Elo Base:
-	• \(Elo_{Base} = 3200 - 60 - 40 = \mathbf{3100}\)
+	• $Elo_{Base} = 3200 - 60 - 40 = \mathbf{3100}$
 
 Caso Motor B: (Mucho Procesamiento, pero "ahogado" en RAM)
 
 • Rendimiento Bruto: Genera 8,000,000 de nodos por segundo (8 MNPS).
 • Memoria Asignada: Solo 1,024 MB (1 GB de Hash, igual al de referencia).
 • Elo Medido en el torneo: 3210.
-1. Corrección por CPU (\(C_{Elo}\)):
-	• \(F_H = \log_{2}(8 / 1) = 3\) (Ha duplicado 3 veces los nodos por segundo)
-	• \(C_{Elo} = 3 \times 60 = \mathbf{180}\)
+1. Corrección por CPU $C_{Elo}$:
+	• $F_H = \log_{2}(8 / 1) = 3$ (Ha duplicado 3 veces los nodos por segundo)
+	• $C_{Elo} = 3 \times 60 = \mathbf{180}$
 2. Corrección por RAM (\(C_{RAM}\)):
-	• \(F_{Hash} = \log_{2}(1024 / 1024) = \log_{2}(1) = 0\)
-	• \(C_{RAM} = 0 \times 10 = \mathbf{0}\)
+	• $F_{Hash} = \log_{2}(1024 / 1024) = \log_{2}(1) = 0$
+	• $C_{RAM} = 0 \times 10 = \mathbf{0}$
 3. Resultado Elo Base:
-	• \(Elo_{Base} = 3210 - 180 - 0 = \mathbf{3030}\)
+	• $Elo_{Base} = 3210 - 180 - 0 = \mathbf{3030}$
 
 🏆 Conclusión del Análisis de Eficiencia
 
 Al introducir la RAM, vemos un comportamiento sumamente realista: el Motor B tiene mucha potencia bruta de CPU, pero su baja memoria RAM le impidió sacarle el máximo provecho, perdiendo eficiencia.
-Aun así, al limpiar el ruido del hardware, el Motor A demuestra tener un código más eficiente (\(3100\) vs \(3030\)). Si al Motor A le diéramos la misma velocidad de procesamiento que al B, su ventaja en las Tablas de Hash lo haría destrozar por completo la competencia.
+Aun así, al limpiar el ruido del hardware, el Motor A demuestra tener un código más eficiente $3100$ vs $3030$. Si al Motor A le diéramos la misma velocidad de procesamiento que al B, su ventaja en las Tablas de Hash lo haría destrozar por completo la competencia.
 Este modelo ya cubre CPU, GPU (mediante el mapeo de nodos equivalentes), hilos y RAM. ¿Te gustaría que incluyéramos la última frontera de optimización de hardware: el uso de las Syzygy Tablebases (discos de estado sólido SSD / NVMe que almacenan finales perfectos resueltos)?
 
 
