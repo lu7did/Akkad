@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "partidas": [
+    {
+      "id": "2026-10-31T03:45:08.976966+00:00:13",
+      "fics_game": 13,
+      "fecha_inicio_utc": "2026-10-31T03:45:08.976966+00:00",
+      "fecha_fin_utc": "2026-10-31T03:48:39.930898+00:00",
+      "usuario_propio": "GuestPDVG",
+      "elo_propio": "++++",
+      "color_propio": "negras",
+      "usuario_contrincante": "GuestJKMK",
+      "elo_contrincante": "++++",
+      "color_contrincante": "blancas",
+      "resultado": 0.0,
+      "resultado_fics": "1-0",
+      "razon": "(GuestJKMK vs. GuestPDVG) GuestPDVG checkmated",
+      "cantidad_movidas": 58,
+      "cantidad_medias_jugadas": 115,
+      "tiempo_segundos": 210.954,
+      "control_tiempo": "1+4",
+      "modalidad": "blitz",
+      "rated": false,
+      "motor": "penelope"
+    }
+  ]
+}

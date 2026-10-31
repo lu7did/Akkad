@@ -1,0 +1,2 @@
+# Archivo legado; la fuente canonica es CMakeLists.txt en el mismo directorio.
+# No utilizar este archivo en compilaciones nuevas.

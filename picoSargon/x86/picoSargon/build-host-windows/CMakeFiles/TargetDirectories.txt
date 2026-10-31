@@ -1,0 +1,3 @@
+C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoSargon/build-host-windows/CMakeFiles/picoSargon_host.dir
+C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoSargon/build-host-windows/CMakeFiles/ALL_BUILD.dir
+C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoSargon/build-host-windows/CMakeFiles/ZERO_CHECK.dir

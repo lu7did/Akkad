@@ -29,7 +29,7 @@
          "windows": "../../AlphaZero/build/AlphaZero.exe",
          "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero"
       },
-      "lc0-weights": "../data/runs/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-weights": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
       "lc0-backend": "onnx-dml",
       "lc0-backend-options": "gpu=0",
       "az-simulations": 1200,
@@ -116,8 +116,8 @@
     "penelope": {
       "player": "picokeras",
       "evaluator": "null",
-      "engine-path": "../../picoKeras/X86/picoKeras/build/Release/picoKeras.exe",
-      "network": "../data/runs/keras/medium.tf",
+      "engine-path": "../../picoKeras/X86/build/Release/picoKeras.exe",
+      "network": "../../../networks/keras/medium.tf",
       "nodes" : 1,
       "rating_elo": 400
     },
