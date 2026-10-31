@@ -1,1 +1,0 @@
-v0.2.16: Telemetria por origen FICS=➡️, UCI=🧠, puente=✅, otros=📊. Sin cambios de protocolo, retry ni estadisticas.

@@ -1,3 +1,0 @@
-/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/CMakeFiles/picoSargon.dir
-/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/CMakeFiles/edit_cache.dir
-/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/CMakeFiles/rebuild_cache.dir

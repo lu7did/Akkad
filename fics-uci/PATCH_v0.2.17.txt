@@ -1,8 +1,0 @@
-v0.2.17 (parche incremental sobre v0.2.16)
-- Watchdog: al vencer engine_timeout, informa estado de partida, ply, tiempo y cierre TCP; reconecta automáticamente (2 s por defecto si no se configuró --retry).
-- Timeout de espera tras `stop`: nuevo --stop-timeout / stop_timeout (default 5 s). Si el motor no confirma con bestmove, cierre forzado y reconexión.
-- Eventos de socket identificados por instancia para descartar respuestas tardías de conexiones antiguas.
-- Cierre de socket bloqueado sin enviar `quit` antes del shutdown; restaura estado de búsqueda/handshake.
-- La sesión FICS y el historial verificado se conservan durante reinicios de UCI.
-- --retry conserva su significado previo para desconexiones espontáneas; la recuperación de bloqueos es preventiva aun sin --retry.
-Validación local: py_compile y pruebas unitarias con socket simulado. No se efectuó prueba con un servidor FICS/UCI real.
