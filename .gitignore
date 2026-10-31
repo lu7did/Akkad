@@ -31,3 +31,5 @@ C:\Users\pedro\github\bobby\akkad\AlphaZero\build\DirectML.dll
 C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime.dll
 C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime_providers_shared.dll
 
+/fics-uci/data/fics_amelia.json
+/picoKeras/debian/build/eigen/
