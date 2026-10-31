@@ -242,19 +242,10 @@ se describen en el resto de éste material y de hecho se constituye en la "refer
 - Computer History Museum, [Dan y Kathe Spracklen en el campeonato ACM de 1978](https://www.computerhistory.org/chess/stl-431f4cc14ba4b/).
 
 
-# La arquitectura
+# El juego
 
-En la arquitectura se resume todo lo que tiene que tener una plataforma, y también lo que no va a tener nunca. Es en cierta
-medida el contrato intelectual o técnico de lo que se quiere conseguir con un desarrollo.
-
-Es posible que los objetivos que se persiguen difieran, incluso substancialmente, de los objetivos de otros desarrolladores.
-
-A sus ojos ésta plataforma puede lucir muy poco atractiva, de bajo poder o incluso no totalmente necesaria.
-
-Sin embargo hay algunos desafíos técnicos, que de alcanzarse, permitirán considerar el resultado un aporte original.
-
-La plataforma combina motores de ajedrez, con sistemas embebidos, con técnicas avanzadas de optimización. En muchos casos
-será *un perro que canta tangos* , no es maravilloso como lo hace, sino el mero hecho que lo haga.
+Para abordar el tema de explorar algoritmos y estrategias automáticas hay que, primero, 
+entender las caracteristicas del juego. Su estructura, sus reglas, sus modos, sus convenciones y la infraestructura que rodea la forma de interpretar una partida.
 
 ## El desafío
 
@@ -490,7 +481,7 @@ El tablero de ajedrez es una cuadrícula perfecta de 8x8 casillas, alternadas en
 • Columnas: Las líneas verticales se identifican con letras de la a a la h.
 • Filas: Las líneas horizontales se identifican con números del 1 al 8.
 
-###♟️ Cantidad y Tipo de Piezas
+### ♟️ Cantidad y Tipo de Piezas
 
 Cada jugador comienza la partida con un ejército de 16 piezas (32 piezas en total sobre el tablero).
 
@@ -1060,6 +1051,20 @@ El juego se vuelve un deporte psicológico y de resistencia. El entrenamiento se
 * Paso 1: Gestión del tiempo y psicología. Aprender a jugar bajo la presión del reloj, gestionar los nervios tras un error y aprender a "recular" o defender posiciones inferiores (resiliencia en el tablero).
 * Paso 2: Estudio de Clásicos. Analizar partidas de los Campeones Mundiales (Capablanca para la sencillez posicional, Alekhine o Kasparov para el ataque dinámico, Carlsen para los finales). El cerebro absorbe la "intuición" de los maestros.
 * Paso 3: Transición al Ajedrez Presencial (Over the Board). Jugar torneos oficiales con relojes físicos y piezas reales. El salto del tablero bidimensional de la pantalla al tablero tridimensional real requiere una adaptación visual y espacial crucial.
+
+# La arquitectura
+
+En la arquitectura se resume todo lo que tiene que tener una plataforma, y también lo que no va a tener nunca. Es en cierta
+medida el contrato intelectual o técnico de lo que se quiere conseguir con un desarrollo.
+
+Es posible que los objetivos que se persiguen difieran, incluso substancialmente, de los objetivos de otros desarrolladores.
+
+A sus ojos ésta plataforma puede lucir muy poco atractiva, de bajo poder o incluso no totalmente necesaria.
+
+Sin embargo hay algunos desafíos técnicos, que de alcanzarse, permitirán considerar el resultado un aporte original.
+
+La plataforma combina motores de ajedrez, con sistemas embebidos, con técnicas avanzadas de optimización. En muchos casos
+será *un perro que canta tangos* , no es maravilloso como lo hace, sino el mero hecho que lo haga.
 
 
 ## De las máquinas
