@@ -2552,6 +2552,28 @@
       "modalidad": "blitz",
       "rated": false,
       "motor": "amelie"
+    },
+    {
+      "id": "2026-10-31T12:22:18.138647+00:00:14",
+      "fics_game": 14,
+      "fecha_inicio_utc": "2026-10-31T12:22:18.138647+00:00",
+      "fecha_fin_utc": "2026-10-31T12:26:33.316356+00:00",
+      "usuario_propio": "GuestXQLQ",
+      "elo_propio": "++++",
+      "color_propio": "blancas",
+      "usuario_contrincante": "GriffyJr",
+      "elo_contrincante": 1919,
+      "color_contrincante": "negras",
+      "resultado": 1.0,
+      "resultado_fics": "1-0",
+      "razon": "(GuestXQLQ vs. GriffyJr) GriffyJr resigns",
+      "cantidad_movidas": 30,
+      "cantidad_medias_jugadas": 59,
+      "tiempo_segundos": 255.178,
+      "control_tiempo": "2+12",
+      "modalidad": "blitz",
+      "rated": false,
+      "motor": "amelie"
     }
   ]
 }
