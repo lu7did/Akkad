@@ -1064,6 +1064,1302 @@ El juego se vuelve un deporte psicológico y de resistencia. El entrenamiento se
 * Paso 2: Estudio de Clásicos. Analizar partidas de los Campeones Mundiales (Capablanca para la sencillez posicional, Alekhine o Kasparov para el ataque dinámico, Carlsen para los finales). El cerebro absorbe la "intuición" de los maestros.
 * Paso 3: Transición al Ajedrez Presencial (Over the Board). Jugar torneos oficiales con relojes físicos y piezas reales. El salto del tablero bidimensional de la pantalla al tablero tridimensional real requiere una adaptación visual y espacial crucial.
 
+# Los algoritmos
+
+Se abordó previamente en forma superficial que para que un algoritmo pueda jugar al
+ajedrez, dejando de lado cuestiones de conectividad e infraestructura, es necesario
+que en una determinada posición de piezas pueda evaluar el valor ($V_{i}$) de una acción
+en comparación a otra para luego decidir la jugada en función de una política $\pi_{i}$
+que trate de maximizar las posibilidades propias de ganar, o lo que es lo mismo, las
+posibilidades del oponente de perder.
+
+# Algoritmo Minimax con poda Alfa-Beta: fundamentos matemáticos y aplicación al ajedrez
+
+## 1. Introducción
+
+El algoritmo Minimax con poda Alfa-Beta (Alpha-Beta Pruning) es uno de los fundamentos clásicos de la inteligencia artificial aplicada a juegos de estrategia de dos jugadores, particularmente el ajedrez.
+
+Su objetivo consiste en determinar la mejor decisión posible para un jugador, suponiendo que su adversario también tomará decisiones óptimas. Para ello, construye y explora un árbol de posibles jugadas y respuestas, evaluando las consecuencias de cada alternativa.
+
+El algoritmo combina dos conceptos:
+
+- Minimax: establece cómo seleccionar una jugada considerando que ambos jugadores intentan optimizar resultados opuestos.
+- Poda Alfa-Beta: permite descartar partes del árbol de búsqueda que matemáticamente no pueden modificar la decisión final.
+
+La característica fundamental de Alfa-Beta es que produce el mismo resultado que Minimax completo, para la misma profundidad, función de evaluación y orden legal de jugadas, siempre que la búsqueda se implemente correctamente y no se introduzcan aproximaciones adicionales.
+
+La ventaja consiste en reducir considerablemente la cantidad de posiciones que es necesario analizar, permitiendo alcanzar mayores profundidades con los mismos recursos computacionales.
+
+## 2. Representación del ajedrez como problema de búsqueda
+
+### 2.1. Espacio de estados
+
+Un juego de ajedrez puede modelarse mediante un conjunto de estados:
+
+\\[ S=\\{s_0,s_1,s_2,\ldots\\} \\]
+
+Cada estado \\(s\\) contiene toda la información necesaria para representar una posición y determinar las jugadas legales, incluyendo:
+
+- Distribución de las piezas sobre el tablero.
+- Jugador al que corresponde mover.
+- Derechos de enroque.
+- Posibilidad de captura al paso.
+- Contador de movimientos para la regla de los cincuenta movimientos.
+- Información histórica necesaria para detectar repeticiones de posiciones.
+
+Una posición de ajedrez no queda necesariamente determinada por la ubicación de las piezas: dos tableros visualmente idénticos pueden permitir distintas jugadas legales o tener diferentes condiciones de tablas.
+
+Definimos:
+
+\\[ A(s)=\\{a_1,a_2,\ldots,a_n\\} \\]
+
+como el conjunto de jugadas legales disponibles en el estado \\(s\\).
+
+Una función de transición:
+
+\\[ T:S\times A\rightarrow S \\]
+
+representa el resultado de ejecutar una jugada:
+
+\\[ s'=T(s,a) \\]
+
+Por ejemplo, desde la posición inicial, una de las transiciones posibles es:
+
+\\[ s_1=T(s_0,\text{e2e4}) \\]
+
+La posición resultante tendrá un peón blanco en e4, corresponderá mover a las negras y se actualizarán los demás componentes del estado.
+
+### 2.2. Naturaleza adversarial del problema
+
+El ajedrez es un juego:
+
+1. De dos jugadores.
+2. De información perfecta: ambos conocen la posición completa.
+3. Determinista: una jugada legal tiene un resultado definido.
+4. De suma cero, si se modelan los resultados como ganancia de un jugador y pérdida equivalente del otro.
+
+Podemos definir una utilidad terminal desde la perspectiva de las blancas:
+
+\\[ U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases} \\]
+
+Por lo tanto, si \\(U_B(s)\\) representa la utilidad para las blancas y \\(U_N(s)\\) la de las negras:
+
+\\[ U_N(s)=-U_B(s) \\]
+
+Esto permite representar las decisiones de ambos jugadores mediante una única función de valor.
+
+### 2.3. El árbol de juego
+
+Desde cada posición se generan sus posibles movimientos, formando un árbol de búsqueda.
+
+Ejemplo simplificado desde la posición inicial
+
+```
+                     Posición inicial
+                       BLANCAS
+                           │
+             ┌─────────────┼─────────────┐
+             │             │             │
+           1.e4          1.d4          1.Nf3
+             │             │             │
+           NEGRAS        NEGRAS        NEGRAS
+          ┌──┴──┐       ┌──┴──┐       ┌──┴──┐
+          │     │       │     │       │     │
+        ...e5  ...c5   ...d5  ...Nf6 ...d5 ...Nf6
+          │     │       │     │       │     │
+          ▼     ▼       ▼     ▼       ▼     ▼
+        Nuevas posiciones para evaluar
+```
+
+Cada nivel del árbol corresponde a una jugada individual, denominada ply.
+
+Una profundidad de búsqueda de \\(d=6\\) significa que se examinan seis medias jugadas desde la posición inicial de análisis: tres movimientos de las blancas y tres de las negras, si las jugadas alternan normalmente.
+
+### 2.4. Complejidad del espacio de búsqueda
+
+Si una posición tiene, en promedio, \\(b\\) movimientos legales y analizamos una profundidad \\(d\\), el número aproximado de posiciones terminales del árbol es:
+
+\\[ N(d)\approx b^d \\]
+
+Para un factor de ramificación ilustrativo:
+
+\\[ b=35 \\]
+
+obtenemos:
+
+| Profundidad (ply) | Posiciones hoja aproximadas |
+| ----------------- | --------------------------- |
+| 1                 | 35                          |
+| 2                 | 1.225                       |
+| 3                 | 42.875                      |
+| 4                 | 1.500.625                   |
+| 5                 | 52.521.875                  |
+| 6                 | 1.838.265.625               |
+| 8                 | 2,25 × 10¹²                 |
+
+Crecimiento exponencial de las posiciones hoja
+
+Modelo teórico con factor de ramificación constante b = 35. Eje vertical en millones de posiciones.
+
+0500100015002000123456
+
+Este crecimiento exponencial constituye el principal problema computacional de Minimax.
+
+La cantidad exacta de posiciones varía según la posición y las jugadas legales disponibles. Además, en un motor real pueden existir transposiciones, posiciones terminales anticipadas y otras condiciones que hacen que el árbol no sea uniforme.
+
+## 3. Fundamento matemático de Minimax
+
+### 3.1. Jugadores MAX y MIN
+
+El algoritmo utiliza dos tipos de nodos:
+
+MAX: corresponde al jugador que intenta maximizar la utilidad.
+
+MIN: corresponde al adversario que intenta minimizarla.
+
+Si definimos que MAX representa las blancas y MIN las negras, una puntuación positiva representa una posición favorable para las blancas.
+
+Para un estado terminal:
+
+\\[ V(s)=U(s) \\]
+
+Para un estado no terminal en el que mueve MAX:
+
+\\[ \boxed{ V(s)=\max\_{a\in A(s)} V(T(s,a)) } \\]
+
+Para un estado no terminal en el que mueve MIN:
+
+\\[ \boxed{ V(s)=\min\_{a\in A(s)} V(T(s,a)) } \\]
+
+Estas ecuaciones constituyen el núcleo del algoritmo.
+
+La decisión óptima para MAX se define mediante:
+
+\\[ \boxed{ a^\*=\arg\max\_{a\in A(s)}V(T(s,a)) } \\]
+
+Si corresponde jugar a MIN, se utiliza `argmin` en lugar de `argmax`.
+
+La hipótesis esencial es que el adversario no coopera con nuestro plan, sino que selecciona la respuesta más perjudicial para nuestros intereses.
+
+### 3.2. Ejemplo matemático elemental
+
+Consideremos un árbol con tres jugadas posibles para MAX: A, B y C.
+
+Cada jugada conduce a una posición donde MIN dispone de dos respuestas. Los números representan las evaluaciones obtenidas luego de esas respuestas.
+
+Árbol Minimax de profundidad 2. MAX elige la alternativa C, porque garantiza la mayor evaluación frente a las mejores respuestas de MIN.
+
+Para la alternativa A:
+
+\\[ V(A)=\min(3,5)=3 \\]
+
+Para la alternativa B:
+
+\\[ V(B)=\min(2,9)=2 \\]
+
+Para la alternativa C:
+
+\\[ V(C)=\min(4,6)=4 \\]
+
+En la raíz, MAX selecciona:
+
+\\[ V(s)=\max(3,2,4)=4 \\]
+
+Por lo tanto:
+
+\\[ \boxed{a^\*=C} \\]
+
+Aunque B ofrece la posibilidad de obtener una puntuación de 9, MAX no puede suponer que su adversario elegirá voluntariamente esa respuesta. MIN escogerá la respuesta que limita el resultado a 2.
+
+Esta es una distinción fundamental entre la evaluación optimista de una jugada y su evaluación Minimax.
+
+## 4. Minimax con profundidad limitada
+
+En ajedrez real, el árbol completo de la partida resulta demasiado grande para explorarlo exhaustivamente.
+
+Por lo tanto, los motores utilizan una profundidad máxima de búsqueda:
+
+\\[ d\_{\max} \\]
+
+Al alcanzar esa profundidad, en lugar de conocer el resultado definitivo de la partida, se aplica una función heurística de evaluación:
+
+\\[ E(s) \\]
+
+De este modo:
+
+\\[ V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\\ E(s) & \text{si }d=0\\\ \max\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MAX}\\\ \min\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MIN} \end{cases} \\]
+
+Esto convierte Minimax en una búsqueda heurística de horizonte finito.
+
+La conclusión importante es que el algoritmo ya no determina necesariamente la mejor jugada de toda la partida, sino la mejor jugada según la función de evaluación y la profundidad de búsqueda elegidas.
+
+### 4.1. Función de evaluación en ajedrez
+
+Una evaluación clásica puede construirse mediante una combinación ponderada de características de la posición:
+
+\\[ \boxed{ E(s)=w_m M(s)+w_p P(s)+w_k K(s)+w_c C(s)+w_t T(s) } \\]
+
+Donde:
+
+- \\(M(s)\\): diferencia de material.
+- \\(P(s)\\): estructura de peones.
+- \\(K(s)\\): seguridad de los reyes.
+- \\(C(s)\\): control del centro y actividad de las piezas.
+- \\(T(s)\\): factores tácticos o posicionales adicionales.
+
+Los coeficientes \\(w_i\\) determinan la importancia relativa de cada característica y deben elegirse de acuerdo con la escala de cada término.
+
+Una aproximación tradicional al valor material, expresada en centipeones, es:
+
+| Pieza   | Valor aproximado                       |
+| ------- | -------------------------------------- |
+| Peón    | 100                                    |
+| Caballo | 320                                    |
+| Alfil   | 330                                    |
+| Torre   | 500                                    |
+| Dama    | 900                                    |
+| Rey     | No tiene valor material intercambiable |
+
+Por ejemplo, si las blancas disponen de una torre y las negras de un alfil como únicas piezas no reales, aparte de los peones, la diferencia de material se calcula sumando los valores de todas las piezas de ambos bandos.
+
+En general:
+
+\\[ M(s)=\sum\_{p\in B}v(p)-\sum\_{p\in N}v(p) \\]
+
+La evaluación material aislada no contempla situaciones como clavadas, ataques descubiertos, amenazas de mate o piezas atrapadas, por lo que necesita complementarse con otros criterios.
+
+### 4.2. Funciones de evaluación neuronales
+
+El algoritmo Minimax no exige una función de evaluación diseñada manualmente.
+
+Es posible reemplazarla mediante una red neuronal:
+
+\\[ E\_\theta(s)=f\_\theta(\phi(s)) \\]
+
+Donde:
+
+- \\(\phi(s)\\) representa la codificación de la posición.
+- \\(\theta\\) contiene los parámetros entrenados.
+- \\(f\_\theta\\) produce una valoración de la posición.
+
+En motores que utilizan redes del tipo NNUE (Efficiently Updatable Neural Network), la red suele actuar como evaluador de las hojas del árbol, frecuentemente con mecanismos de actualización incremental de características.
+
+Por lo tanto, búsqueda y evaluación cumplen funciones complementarias:
+
+\\[ \text{Minimax / Alfa-Beta} \longrightarrow \text{exploración de consecuencias} \\]
+
+\\[ \text{Evaluador clásico o NNUE} \longrightarrow \text{estimación del valor de posiciones} \\]
+
+Una red neuronal más precisa puede mejorar la decisión sin cambiar la estructura fundamental del algoritmo de búsqueda.
+
+## 5. La poda Alfa-Beta
+
+### 5.1. Motivación
+
+Minimax examina todas las alternativas hasta la profundidad establecida, incluso cuando algunas de ellas ya no pueden influir en la selección final.
+
+La observación fundamental de Alfa-Beta es que no siempre necesitamos conocer el valor exacto de una rama.
+
+En determinadas circunstancias basta con saber que su resultado será necesariamente peor que otra alternativa que ya conocemos.
+
+Supongamos que analizamos dos jugadas, A y B.
+
+Ya hemos determinado que A garantiza una evaluación de:
+
+\\[ V(A)=+300 \\]
+
+es decir, aproximadamente tres peones de ventaja para MAX.
+
+Durante el análisis de B descubrimos que el adversario puede responder de manera que el valor de B no supere:
+
+\\[ V(B)\leq +100 \\]
+
+Por lo tanto:
+
+\\[ V(B)\<V(A) \\]
+
+No resulta necesario continuar explorando B: independientemente de las demás respuestas posibles, MAX nunca preferirá esa jugada frente a A.
+
+La poda Alfa-Beta formaliza matemáticamente este razonamiento.
+
+### 5.2. Significado de Alfa y Beta
+
+Durante la búsqueda se mantienen dos parámetros:
+
+\\[ \boxed{\alpha} \\]
+
+Es el mejor valor que MAX puede garantizar hasta ese momento, considerando las alternativas ya examinadas en el contexto de la búsqueda.
+
+Actúa como una cota inferior.
+
+\\[ \boxed{\beta} \\]
+
+Es el mejor límite superior impuesto por MIN en el contexto de los nodos ancestros.
+
+Actúa como una cota superior.
+
+Inicialmente se establece:
+
+\\[ \alpha=-\infty \\]
+
+\\[ \beta=+\infty \\]
+
+Durante el recorrido del árbol:
+
+- En nodos MAX, el valor de \\(\alpha\\) puede aumentar.
+- En nodos MIN, el valor de \\(\beta\\) puede disminuir.
+- Los límites heredados de los ancestros restringen lo que todavía es relevante explorar.
+
+La condición fundamental de poda es:
+
+\\[ \boxed{\alpha\geq\beta} \\]
+
+Cuando se cumple, los nodos restantes de la rama actual pueden descartarse sin alterar el resultado Minimax de la raíz.
+
+Es importante distinguir las cotas del valor exacto de una posición. Alfa y Beta no representan necesariamente la evaluación definitiva del nodo: describen el intervalo de valores que todavía puede ser relevante para sus ancestros.
+
+### 5.3. Actualización de Alfa en nodos MAX
+
+En un nodo MAX, cada hijo aporta un valor \\(v_i\\).
+
+El mejor valor local después de examinar \\(k\\) hijos es:
+
+\\[ v\_{\text{MAX}}^{(k)}=\max\_{1\leq i\leq k}v_i \\]
+
+La cota alfa se actualiza:
+
+\\[ \boxed{\alpha\leftarrow\max(\alpha,v_i)} \\]
+
+Al incorporar más hijos, el máximo parcial nunca disminuye:
+
+\\[ v\_{\text{MAX}}^{(k+1)}\geq v\_{\text{MAX}}^{(k)} \\]
+
+Esto permite comprender por qué es seguro interrumpir el análisis cuando el valor ya es demasiado alto para un ancestro MIN.
+
+### 5.4. Actualización de Beta en nodos MIN
+
+En un nodo MIN, la situación es simétrica.
+
+El valor local después de examinar \\(k\\) hijos es:
+
+\\[ v\_{\text{MIN}}^{(k)}=\min\_{1\leq i\leq k}v_i \\]
+
+La cota beta se actualiza:
+
+\\[ \boxed{\beta\leftarrow\min(\beta,v_i)} \\]
+
+Al examinar más alternativas, el mínimo parcial nunca aumenta:
+
+\\[ v\_{\text{MIN}}^{(k+1)}\leq v\_{\text{MIN}}^{(k)} \\]
+
+Por eso, si MIN ya encontró una respuesta suficientemente mala para MAX, las demás respuestas pueden resultar irrelevantes para la decisión de un MAX ancestro.
+
+## 6. Ejemplo completo de poda Alfa-Beta
+
+Retomemos el árbol anterior, con tres alternativas A, B y C.
+
+Supondremos que las ramas se exploran de izquierda a derecha.
+
+La rama B se interrumpe después de examinar la hoja de valor 2. La hoja de valor 9 se representa únicamente para mostrar lo que contiene el árbol completo.
+
+### Paso 1. Examinar la alternativa A
+
+MAX inicia con:
+
+\\[ \alpha=-\infty,\qquad\beta=+\infty \\]
+
+La alternativa A conduce a un nodo MIN con dos respuestas evaluadas en 3 y 5.
+
+Primera respuesta:
+
+\\[ \beta_A=\min(+\infty,3)=3 \\]
+
+Segunda respuesta:
+
+\\[ \beta_A=\min(3,5)=3 \\]
+
+Se obtiene:
+
+\\[ V(A)=3 \\]
+
+Al regresar a la raíz MAX:
+
+\\[ \alpha=\max(-\infty,3)=3 \\]
+
+A partir de este instante, MAX sabe que dispone de una jugada capaz de garantizar una puntuación de al menos 3.
+
+### Paso 2. Examinar la alternativa B
+
+Entramos en el nodo MIN correspondiente a B.
+
+Este nodo recibe los límites:
+
+\\[ \alpha=3,\qquad\beta=+\infty \\]
+
+Su primera respuesta tiene evaluación 2.
+
+Por lo tanto:
+
+\\[ \beta_B=\min(+\infty,2)=2 \\]
+
+Comprobamos:
+
+\\[ \alpha\geq\beta_B \\]
+
+\\[ 3\geq2 \\]
+
+La condición de poda se cumple.
+
+Esto significa que MIN ya dispone de una respuesta que limita B a un resultado de 2.
+
+Aunque existieran otras respuestas, no podrían aumentar el mínimo:
+
+\\[ V(B)=\min(2,v_2,v_3,\ldots)\leq2 \\]
+
+Y, dado que:
+
+\\[ 2<3 \\]
+
+MAX no seleccionará B mientras conserve A como alternativa.
+
+La segunda hoja de B no necesita examinarse.
+
+Obsérvese que no afirmamos haber calculado exactamente \\(V(B)\\). Sabemos únicamente que:
+
+\\[ V(B)\leq2 \\]
+
+Esta información resulta suficiente para descartarla.
+
+### Paso 3. Examinar la alternativa C
+
+El nodo MIN correspondiente a C recibe:
+
+\\[ \alpha=3,\qquad\beta=+\infty \\]
+
+Su primera respuesta produce un valor de 4:
+
+\\[ \beta_C=\min(+\infty,4)=4 \\]
+
+Como:
+
+\\[ 3<4 \\]
+
+no puede realizarse la poda.
+
+La segunda respuesta tiene valor 6:
+
+\\[ \beta_C=\min(4,6)=4 \\]
+
+Por lo tanto:
+
+\\[ V(C)=4 \\]
+
+De regreso en MAX:
+
+\\[ \alpha=\max(3,4)=4 \\]
+
+### Paso 4. Decisión final
+
+La información disponible es:
+
+\\[ V(A)=3 \\]
+
+\\[ V(B)\leq2 \\]
+
+\\[ V(C)=4 \\]
+
+Por lo tanto:
+
+\\[ \boxed{V(s)=4,\qquad a^\*=C} \\]
+
+El resultado es idéntico al obtenido con Minimax completo, pero una hoja no fue evaluada.
+
+Este ahorro es pequeño porque el árbol es deliberadamente reducido. En árboles con millones de posiciones, la misma propiedad permite evitar la exploración de subárboles enteros.
+
+### 6.1. Dos tipos de corte
+
+Tradicionalmente se distinguen dos situaciones simétricas:
+
+Corte Alfa (Alpha Cutoff): ocurre en un nodo MIN cuando su valor parcial resulta menor o igual que el alfa heredado. MAX ya dispone de una alternativa mejor en un ancestro.
+
+Corte Beta (Beta Cutoff): ocurre en un nodo MAX cuando su valor parcial alcanza o supera el beta heredado. MIN ya dispone de una alternativa preferible en un ancestro.
+
+En ambas situaciones se aplica la condición general:
+
+\\[ \alpha\geq\beta \\]
+
+La diferencia consiste en cuál de los límites provoca el corte.
+
+## 7. Justificación matemática de la corrección de Alfa-Beta
+
+La poda Alfa-Beta puede justificarse mediante el carácter monótono de los operadores mínimo y máximo.
+
+### 7.1. Propiedad de los nodos MIN
+
+Consideremos un nodo MIN con hijos:
+
+\\[ v_1,v_2,\ldots,v_n \\]
+
+Su valor exacto es:
+
+\\[ V\_{\text{MIN}}=\min(v_1,v_2,\ldots,v_n) \\]
+
+Después de examinar únicamente los primeros \\(k\\) hijos:
+
+\\[ m_k=\min(v_1,\ldots,v_k) \\]
+
+Necesariamente:
+
+\\[ V\_{\text{MIN}}\leq m_k \\]
+
+porque incorporar nuevos valores a un mínimo nunca puede aumentarlo.
+
+Si un ancestro MAX ya dispone de un valor garantizado \\(\alpha\\) y:
+
+\\[ m_k\leq\alpha \\]
+
+entonces:
+
+\\[ V\_{\text{MIN}}\leq m_k\leq\alpha \\]
+
+En consecuencia, ese nodo MIN nunca permitirá mejorar la alternativa que MAX ya conoce.
+
+Los hijos restantes son irrelevantes para la decisión de ese ancestro.
+
+### 7.2. Propiedad de los nodos MAX
+
+Para un nodo MAX:
+
+\\[ V\_{\text{MAX}}=\max(v_1,v_2,\ldots,v_n) \\]
+
+Después de analizar \\(k\\) hijos:
+
+\\[ M_k=\max(v_1,\ldots,v_k) \\]
+
+Necesariamente:
+
+\\[ V\_{\text{MAX}}\geq M_k \\]
+
+Si el nodo MAX está subordinado a un ancestro MIN con límite superior \\(\beta\\) y:
+
+\\[ M_k\geq\beta \\]
+
+entonces:
+
+\\[ V\_{\text{MAX}}\geq M_k\geq\beta \\]
+
+MIN dispone de otra alternativa que no supera \\(\beta\\), de modo que nunca necesitará elegir esta rama para mejorar su decisión.
+
+Los demás hijos del nodo MAX pueden descartarse.
+
+### 7.3. Invariante de búsqueda
+
+Durante una ejecución correcta de Alfa-Beta se preserva el siguiente principio:
+
+> Toda rama descartada es incapaz de modificar la decisión óptima de alguno de los ancestros que determina el resultado de la búsqueda.
+
+Por inducción sobre la profundidad del árbol, los nodos no podados conservan las operaciones mínimo y máximo correspondientes. Los nodos podados se reemplazan por información de cotas que es suficiente para sus ancestros.
+
+Por ello, al ejecutar una búsqueda exacta dentro del horizonte elegido:
+
+\\[ \boxed{ V\_{\text{Alfa-Beta}}(s,d)=V\_{\text{Minimax}}(s,d) } \\]
+
+para la raíz de la búsqueda realizada con una ventana inicial completa.
+
+Esta igualdad supone una función de evaluación determinista, un modelo de estados correcto y las mismas reglas de profundidad y terminalidad.
+
+La poda, por sí sola, no introduce pérdida de calidad en la decisión.
+
+## 8. Implementación de Minimax
+
+Una implementación recursiva convencional puede escribirse en pseudocódigo.
+
+```
+def minimax(position, depth, maximizing):        for move in moves:            child = make_move(position, move)            score = minimax(                child,                depth - 1,                False            )            best = max(best, score)        return best    else:        best = +INF        for move in moves:            child = make_move(position, move)            score = minimax(                child,                depth - 1,                True            )            best = min(best, score)        return best
+```
+
+Esta implementación refleja directamente la formulación matemática, aunque presupone que `evaluate()` y `terminal_score()` utilizan una escala fija favorable a MAX.
+
+Sus principales limitaciones son:
+
+- Recorre todas las ramas.
+- No aprovecha información de las alternativas ya examinadas.
+- Repite el análisis de posiciones que pueden alcanzarse por diferentes secuencias.
+- No contempla mecanismos especiales para capturas, amenazas o inestabilidad táctica.
+
+La primera mejora fundamental consiste en incorporar los límites Alfa y Beta.
+
+## 9. Implementación del algoritmo Alfa-Beta
+
+Una implementación básica, con búsqueda de raíz incluida, es la siguiente:
+
+```
+INF = 10**12def alphabeta(position, depth, alpha, beta, maximizing):    if is_terminal(position):        return terminal_score(position)    if depth == 0:        return evaluate(position)    moves = generate_legal_moves(position)    if maximizing:        best = -INF        for move in moves:            child = make_move(position, move)            score = alphabeta(                child,                depth - 1,                alpha,                beta,                False            )            best = max(best, score)            alpha = max(alpha, best)            if alpha >= beta:                break  # Corte Beta        return best    else:        best = +INF        for move in moves:            child = make_move(position, move)            score = alphabeta(                child,                depth - 1,                alpha,                beta,                True            )            best = min(best, score)            beta = min(beta, best)            if alpha >= beta:                break  # Corte Alfa        return bestdef find_best_move(position, depth):    maximizing = white_to_move(position)    alpha = -INF    beta = +INF    best_score = -INF if maximizing else +INF    best_move = None    for move in generate_legal_moves(position):        child = make_move(position, move)        score = alphabeta(            child,            depth - 1,            alpha,            beta,            not maximizing        )        if maximizing:            if score > best_score:                best_score = score                best_move = move            alpha = max(alpha, best_score)        else:            if score < best_score:                best_score = score                best_move = move            beta = min(beta, best_score)    return best_move, best_score
+```
+
+El código es una referencia conceptual. Para funcionar como motor de ajedrez necesita implementaciones correctas de generación de jugadas legales, evaluación, transición de estados y detección de resultados terminales.
+
+También debe recordar que los retornos de algunos nodos podados pueden representar cotas y no valores Minimax exactos del subárbol.
+
+### 9.1. Tratamiento de posiciones terminales
+
+En ajedrez, la evaluación terminal debe distinguir correctamente:
+
+- Jaque mate.
+- Ahogado.
+- Tablas por material insuficiente.
+- Tablas automáticas aplicables.
+- Tablas reclamables cuando corresponda, según las reglas y el modelo de búsqueda.
+
+Una escala habitual asigna un valor \\(M\\), muy superior a cualquier evaluación posicional normal, al jaque mate.
+
+Por ejemplo:
+
+\\[ M=100000 \\]
+
+Desde una perspectiva fija de las blancas:
+
+\\[ U(s)= \begin{cases} +M & \text{mate favorable a blancas}\\\ -M & \text{mate favorable a negras}\\\ 0 & \text{tablas} \end{cases} \\]
+
+Para priorizar los mates más rápidos y retrasar las derrotas inevitables, puede incorporarse la distancia al mate en medias jugadas:
+
+\\[ U(s)= \begin{cases} M-p & \text{mate de las blancas}\\\ -M+p & \text{mate de las negras}\\\ 0 & \text{tablas} \end{cases} \\]
+
+donde \\(p\\) es la distancia desde la raíz hasta el estado terminal.
+
+Así, una victoria por mate en menos jugadas recibe una puntuación mayor, y una derrota más lejana recibe una puntuación menos negativa.
+
+Debe existir una distinción entre los valores devueltos al protocolo UCI como centipeones (`score cp`) y las puntuaciones de mate (`score mate`), ya que no tienen el mismo significado.
+
+## 10. Aplicación práctica: seleccionar la mejor jugada de ajedrez
+
+### 10.1. Análisis de una posición concreta
+
+Consideremos la siguiente posición, expresada en notación FEN:
+
+```
+6k1/5ppp/8/8/8/5q2/5PPP/6KQ w - - 0 1
+```
+
+Posición de ejemplo: juegan las blancas
+
+Las blancas tienen el turno. La dama negra en f3 amenaza al rey blanco, por lo que la búsqueda debe considerar únicamente respuestas legales.
+
+En esta posición, la dama negra ataca al peón de g2 y condiciona severamente la libertad del rey blanco. Una búsqueda Minimax no puede limitarse a comparar material: debe verificar el jaque, las posibles capturas y las consecuencias forzadas.
+
+La secuencia lógica del motor es:
+
+1. Identificar el jugador al que corresponde mover.
+2. Generar las jugadas legales, descartando cualquier movimiento que deje al rey en jaque.
+3. Aplicar temporalmente cada movimiento y calcular la posición resultante.
+4. Generar las mejores respuestas negras, suponiendo un adversario óptimo.
+5. Continuar alternando maximización y minimización hasta la profundidad establecida.
+6. Evaluar las posiciones hoja o detectar resultados terminales.
+7. Propagar hacia la raíz los valores Minimax.
+8. Seleccionar la jugada que proporcione la mejor puntuación garantizada.
+
+El ejemplo ilustra por qué la generación de jugadas legales y la detección de amenazas forman parte indispensable del motor. No basta con producir movimientos geométricamente posibles.
+
+### 10.2. Ejemplo numérico de selección entre jugadas
+
+Supongamos que un motor analiza una posición más equilibrada y considera las siguientes jugadas candidatas:
+
+| Jugada | Evaluación Minimax hipotética |
+| ------ | ----------------------------- |
+| 1.e4   | +35 cp                        |
+| 1.d4   | +24 cp                        |
+| 1.Nf3  | +18 cp                        |
+| 1.c4   | +28 cp                        |
+
+Estos valores son exclusivamente ilustrativos; no corresponden a la salida medida de un motor específico.
+
+Desde la perspectiva de las blancas:
+
+\\[ V(\text{e4})=35 \\]
+
+\\[ V(\text{d4})=24 \\]
+
+\\[ V(\text{Nf3})=18 \\]
+
+\\[ V(\text{c4})=28 \\]
+
+La jugada seleccionada es:
+
+\\[ a^\*=\arg\max(35,24,18,28) \\]
+
+\\[ \boxed{a^\*=\text{e4}} \\]
+
+Es esencial interpretar correctamente el resultado: el motor no asegura que e4 gane la partida, ni que sea la mejor jugada en términos absolutos. Afirma que, dentro de su horizonte de búsqueda y según su evaluador, e4 resulta preferible a las demás alternativas.
+
+## 11. Negamax: una formulación más compacta
+
+Debido a que el ajedrez es un juego de suma cero, Minimax puede simplificarse mediante la formulación Negamax.
+
+En lugar de implementar alternativamente nodos MAX y MIN, se define la evaluación desde la perspectiva del jugador al que corresponde mover.
+
+Sea:
+
+\\[ V(s,d) \\]
+
+la utilidad de la posición para el jugador activo.
+
+Entonces:
+
+\\[ \boxed{ V(s,d)=\max\_{a\in A(s)} \left[-V(T(s,a),d-1)\right] } \\]
+
+La negación aparece porque la evaluación del hijo está expresada desde la perspectiva del adversario.
+
+Una ventaja para el oponente equivale a una desventaja propia.
+
+### 11.1. Negamax con Alfa-Beta
+
+La implementación recursiva es considerablemente más compacta:
+
+```
+def negamax(position, depth, alpha, beta):    if is_terminal(position):        return terminal_score_for_side_to_move(position)    if depth == 0:        return evaluate_for_side_to_move(position)    best = -INF    moves = generate_legal_moves(position)    for move in moves:        child = make_move(position, move)        score = -negamax(            child,            depth - 1,            -beta,            -alpha        )        best = max(best, score)        alpha = max(alpha, score)        if alpha >= beta:            break    return best
+```
+
+Obsérvese el cambio de límites en la llamada recursiva:
+
+\\[ \boxed{ (\alpha,\beta)\rightarrow(-\beta,-\alpha) } \\]
+
+Esta transformación resulta de cambiar la perspectiva del jugador activo.
+
+Si un valor \\(v\\) pertenece al intervalo:
+
+\\[ \alpha\<v<\beta \\]
+
+entonces:
+
+\\[ -\beta<-v<-\alpha \\]
+
+Por eso, al negar los valores también deben intercambiarse y negarse las cotas.
+
+Negamax es especialmente conveniente en implementaciones de motores de ajedrez porque evita mantener dos implementaciones distintas para los jugadores MAX y MIN.
+
+## 12. Eficiencia de Alfa-Beta
+
+### 12.1. Peor caso
+
+Si las jugadas se examinan en un orden desfavorable, Alfa-Beta puede realizar prácticamente el mismo trabajo que Minimax completo.
+
+Su complejidad temporal en el peor caso sigue siendo:
+
+\\[ \boxed{O(b^d)} \\]
+
+donde:
+
+- \\(b\\): factor medio de ramificación.
+- \\(d\\): profundidad de búsqueda.
+
+Por lo tanto, Alfa-Beta no elimina el carácter exponencial del problema.
+
+### 12.2. Mejor caso
+
+En un árbol uniforme, con ordenación perfecta de movimientos y condiciones ideales de búsqueda, Alfa-Beta puede reducir el número de hojas examinadas a un orden de:
+
+\\[ \boxed{O(b^{d/2})} \\]
+
+Una forma habitual de expresar esta mejora es que la búsqueda puede alcanzar aproximadamente el doble de profundidad con un presupuesto comparable de evaluación de hojas, respecto de Minimax sin poda.
+
+La cantidad exacta de hojas depende de la paridad de la profundidad y de las características del árbol, pero el comportamiento asintótico es el indicado.
+
+### 12.3. Comparación numérica
+
+Si:
+
+\\[ b=35,\qquad d=6 \\]
+
+Minimax completo examinaría aproximadamente:
+
+\\[ N\_{\text{Minimax}}=35^6 \\]
+
+\\[ N\_{\text{Minimax}}=1.838.265.625 \\]
+
+En un caso idealizado de Alfa-Beta:
+
+\\[ N\_{\text{AB}}\sim35^3 \\]
+
+\\[ N\_{\text{AB}}\sim42.875 \\]
+
+Evaluaciones de hojas: modelo teórico
+
+Comparación en escala de millones para b=35 y d=6; Alfa-Beta representa el orden de magnitud del mejor caso idealizado.
+
+0500100015002000MinimaxAlfa-Beta ideal
+
+Esta diferencia muestra la importancia del algoritmo.
+
+Sin embargo, debe evitarse interpretar el gráfico como una predicción exacta de rendimiento. En un motor real influyen el orden de movimientos, la presencia de jaques, las capturas, las extensiones de profundidad, la reutilización de posiciones y el costo de evaluación de cada nodo.
+
+El número de nodos internos también contribuye al tiempo total, no solamente las hojas.
+
+### 12.4. Complejidad espacial
+
+En una búsqueda recursiva en profundidad, la memoria necesaria para mantener la pila de llamadas es proporcional a:
+
+\\[ O(d) \\]
+
+si la generación y exploración de movimientos se realiza de forma incremental y el almacenamiento por nivel es acotado.
+
+Si se materializan y almacenan explícitamente hasta \\(b\\) movimientos en cada nivel, la memoria auxiliar puede aproximarse por:
+
+\\[ O(bd) \\]
+
+Esto es muy inferior a almacenar el árbol completo, que requeriría memoria exponencial.
+
+## 13. La importancia del ordenamiento de jugadas
+
+Una propiedad extraordinariamente importante de Alfa-Beta es que su eficiencia depende del orden en que se examinan los movimientos.
+
+Considérese un nodo MIN con valores:
+
+\\[ [2,9,6,5] \\]
+
+y un alfa heredado de:
+
+\\[ \alpha=3 \\]
+
+Si examinamos primero el valor 2:
+
+\\[ \beta=2 \\]
+
+Como:
+
+\\[ \beta\leq\alpha \\]
+
+podamos inmediatamente las otras tres ramas.
+
+En cambio, si examinamos:
+
+\\[ [9,6,5,2] \\]
+
+necesitamos recorrer las cuatro respuestas para descubrir que el nodo puede reducirse a 2.
+
+El resultado Minimax es idéntico, pero el esfuerzo de búsqueda es diferente.
+
+### 13.1. Heurísticas de ordenamiento
+
+Los motores modernos utilizan diversas estrategias para intentar examinar primero las jugadas más prometedoras:
+
+| Heurística        | Principio                                                             |
+| ----------------- | --------------------------------------------------------------------- |
+| PV Move           | Priorizar la jugada de la variante principal anterior.                |
+| TT Move           | Priorizar la jugada registrada en una tabla de transposiciones.       |
+| MVV-LVA           | Priorizar determinadas capturas según víctima y atacante.             |
+| Killer Moves      | Recordar movimientos no capturantes que produjeron cortes anteriores. |
+| History Heuristic | Utilizar estadísticas de efectividad de jugadas en búsquedas previas. |
+| SEE               | Estimar el balance de intercambios en una casilla.                    |
+
+Una ordenación frecuente coloca primero el movimiento sugerido por la tabla de transposiciones, luego capturas favorables y otras jugadas tácticamente importantes, y finalmente los movimientos restantes según heurísticas históricas.
+
+La mejor ordenación no puede conocerse de antemano sin resolver previamente el problema de búsqueda, por lo que estas técnicas son aproximaciones prácticas.
+
+## 14. Búsqueda iterativa en profundidad
+
+Una optimización central de los motores de ajedrez consiste en ejecutar búsquedas sucesivas con profundidad creciente.
+
+En lugar de comenzar directamente con profundidad 8:
+
+\\[ d=8 \\]
+
+se realizan búsquedas:
+
+\\[ d=1,2,3,\ldots,8 \\]
+
+Este procedimiento se denomina Iterative Deepening.
+
+```
+Profundidad 1
+    │
+    ▼
+Mejor jugada provisional
+    │
+    ▼
+Profundidad 2
+    │
+    ▼
+Mejor variante principal
+    │
+    ▼
+Profundidad 3
+    │
+    ▼
+Actualización de ordenamiento
+    │
+    ▼
+        ...
+    │
+    ▼
+Profundidad N
+```
+
+A primera vista, repetir las búsquedas parece desperdiciar tiempo. Sin embargo, existen beneficios significativos:
+
+1. La mejor jugada encontrada en profundidad \\(d-1\\) sirve para ordenar la búsqueda de profundidad \\(d\\).
+2. Las tablas de transposiciones conservan resultados aprovechables.
+3. El motor puede finalizar al alcanzar un límite de tiempo.
+4. Siempre dispone de una mejor jugada provisional procedente de una iteración completada.
+
+En particular, el ordenamiento mejorado puede producir suficientes podas adicionales para compensar una parte sustancial del costo de las búsquedas anteriores.
+
+### 14.1. Ventanas de aspiración
+
+Si en profundidad \\(d-1\\) se obtuvo una evaluación \\(v\\), puede intentarse la siguiente búsqueda con una ventana estrecha:
+
+\\[ \alpha=v-\delta \\]
+
+\\[ \beta=v+\delta \\]
+
+Por ejemplo:
+
+\\[ v=+45,\qquad\delta=30 \\]
+
+resulta:
+
+\\[ \alpha=15,\qquad\beta=75 \\]
+
+Una ventana estrecha puede aumentar las posibilidades de poda.
+
+Sin embargo, si el valor verdadero queda fuera de la ventana, la búsqueda produce un resultado de tipo fail-low o fail-high y normalmente debe repetirse con límites más amplios.
+
+Por lo tanto, las ventanas de aspiración intercambian un mayor potencial de poda por el riesgo de repetir parte del trabajo.
+
+## 15. Tablas de transposiciones
+
+### 15.1. Problema de los estados repetidos
+
+Distintas secuencias de jugadas pueden conducir a una misma posición.
+
+Por ejemplo, determinados órdenes de desarrollo de piezas pueden producir el mismo estado final.
+
+Si el motor no conserva información de búsquedas anteriores, examinará nuevamente esa posición aunque ya la haya analizado.
+
+Las tablas de transposiciones (TT) permiten registrar resultados asociados a posiciones previamente exploradas.
+
+Generalmente se utiliza una clave hash, habitualmente de tipo Zobrist, para representar el estado.
+
+Una entrada puede contener:
+
+```
+Hash de posición
+Profundidad de búsqueda
+Valor obtenido
+Tipo de cota
+Mejor jugada
+Generación o antigüedad
+```
+
+### 15.2. Tipos de resultados almacenados
+
+Una tabla de transposiciones debe distinguir entre valores exactos y cotas.
+
+| Tipo       | Interpretación                                                    |
+| ---------- | ----------------------------------------------------------------- |
+| EXACT      | Valor Minimax calculado exactamente al horizonte correspondiente. |
+| LOWERBOUND | El valor verdadero es mayor o igual que el valor almacenado.      |
+| UPPERBOUND | El valor verdadero es menor o igual que el valor almacenado.      |
+
+Esta distinción resulta necesaria porque los cortes Alfa-Beta pueden devolver información parcial.
+
+Por ejemplo, un resultado de tipo LOWERBOUND:
+
+\\[ V(s)\geq120 \\]
+
+no significa necesariamente:
+
+\\[ V(s)=120 \\]
+
+Usarlo como valor exacto podría producir decisiones incorrectas.
+
+### 15.3. Consulta de una tabla de transposiciones
+
+Conceptualmente:
+
+```
+entry = transposition_table.lookup(position)if entry is not None and entry.depth >= depth:    if entry.type == EXACT:        return entry.score    if entry.type == LOWERBOUND:        alpha = max(alpha, entry.score)    if entry.type == UPPERBOUND:        beta = min(beta, entry.score)    if alpha >= beta:        return entry.score
+```
+
+Esta lógica representa una consulta simplificada. Una implementación de producción también debe administrar correctamente las puntuaciones de mate relativas a la distancia, las colisiones de hash, la validez del estado y el almacenamiento de nuevas entradas.
+
+Además, la historia de repeticiones y las reglas de tablas requieren atención especial: dos posiciones con las mismas piezas no siempre son equivalentes respecto de todos los resultados posibles de la partida.
+
+## 16. El problema del horizonte
+
+Una limitación importante de Minimax con profundidad fija es el denominado Horizon Effect.
+
+Supongamos que un motor evalúa una posición en la que una dama puede ser capturada en la siguiente jugada.
+
+Si la búsqueda finaliza justo antes de la captura, el evaluador puede asignar una puntuación artificialmente favorable porque la pérdida material todavía no se produjo.
+
+El problema no es estrictamente un error de Minimax: es una consecuencia de sustituir la resolución completa de la partida por una evaluación heurística a profundidad limitada.
+
+### 16.1. Quiescence Search
+
+Para reducir este problema se utiliza la búsqueda de quiescencia, o Quiescence Search.
+
+Al alcanzar la profundidad nominal, en lugar de aplicar inmediatamente la evaluación estática, el motor continúa explorando una selección de jugadas tácticamente relevantes.
+
+Habitualmente se consideran capturas, ciertas promociones y, según la implementación, otras amenazas forzantes.
+
+La formulación básica desde Negamax puede expresarse mediante:
+
+\\[ q(s,\alpha,\beta) \\]
+
+En una posición tranquila, donde no es obligatorio responder a un jaque, se calcula primero la evaluación estática:
+
+\\[ v_0=E(s) \\]
+
+Si:
+
+\\[ v_0\geq\beta \\]
+
+puede producirse un corte.
+
+En caso contrario:
+
+\\[ \alpha\leftarrow\max(\alpha,v_0) \\]
+
+y se exploran los movimientos tácticos seleccionados:
+
+\\[ v_a=-q(T(s,a),-\beta,-\alpha) \\]
+
+actualizando:
+
+\\[ \alpha\leftarrow\max(\alpha,v_a) \\]
+
+La búsqueda continúa hasta alcanzar una posición suficientemente estable o algún límite de seguridad establecido por el motor.
+
+Cuando el rey se encuentra en jaque, no es válido utilizar simplemente la evaluación estática como alternativa a responder: deben considerarse las evasiones legales, ya que no existe la opción de permanecer en jaque.
+
+La búsqueda de quiescencia es especialmente relevante cuando se usan evaluadores basados en material o redes NNUE, porque permite que la evaluación se aplique a posiciones menos inestables tácticamente.
+
+## 17. Alfa-Beta en motores modernos de ajedrez
+
+Un motor competitivo raramente utiliza Alfa-Beta aislado.
+
+Normalmente implementa una arquitectura de búsqueda con varios componentes complementarios.
+
+Arquitectura conceptual simplificada de un motor de ajedrez basado en Alfa-Beta. La interacción real entre los componentes es recursiva, y no estrictamente secuencial.
+
+### 17.1. Otras optimizaciones frecuentes
+
+Además de las técnicas ya presentadas, pueden utilizarse:
+
+Principal Variation Search (PVS). Parte de la hipótesis de que el primer movimiento, después de una buena ordenación, probablemente sea el mejor. Los movimientos posteriores se examinan inicialmente con ventanas estrechas, y se reexaminan cuando es necesario.
+
+Null Move Pruning. Permite estimar si una posición parece suficientemente favorable incluso concediendo ficticiamente un turno al adversario. Puede producir cortes eficientes, pero requiere precauciones importantes, especialmente en posiciones de zugzwang.
+
+Late Move Reductions (LMR). Reduce inicialmente la profundidad para algunos movimientos tardíos y considerados menos prometedores. Cuando una búsqueda reducida indica que podrían ser importantes, puede requerirse una búsqueda de verificación más profunda.
+
+Futility Pruning. Descarta ciertas ramas próximas al horizonte cuando una cota basada en evaluación estática y márgenes de seguridad indica que probablemente no mejorarán alfa.
+
+Extensiones selectivas. Incrementan la profundidad ante situaciones especialmente relevantes, como determinados jaques o secuencias forzadas.
+
+Debe destacarse una diferencia conceptual: mientras que la poda Alfa-Beta clásica conserva el resultado Minimax exacto al horizonte elegido, algunas de estas optimizaciones introducen aproximaciones heurísticas.
+
+Por tanto, al incorporar LMR, Null Move Pruning o Futility Pruning, ya no puede garantizarse en general la igualdad exacta con una búsqueda Minimax exhaustiva de profundidad fija.
+
+## 18. Diferencia entre encontrar la mejor jugada y encontrar una jugada ganadora
+
+Es importante diferenciar tres conceptos.
+
+### Mejor jugada según el evaluador
+
+Es aquella que maximiza el valor calculado por el motor a una determinada profundidad:
+
+\\[ a^\*=\arg\max_a V(T(s,a),d-1) \\]
+
+No implica necesariamente que la posición sea ganadora.
+
+### Mejor jugada según el resultado teórico
+
+Es la jugada que maximiza el resultado de la partida bajo juego perfecto, considerando la búsqueda hasta estados terminales.
+
+Si la posición es teóricamente tablas, una jugada óptima puede simplemente preservar esas tablas.
+
+### Mejor jugada práctica
+
+En determinadas circunstancias competitivas, un jugador puede preferir una jugada objetivamente inferior porque complica la posición y aumenta las posibilidades de error del adversario.
+
+Esa decisión incorpora factores probabilísticos o psicológicos que no están presentes en el Minimax tradicional de adversario perfecto.
+
+Así, Minimax responde fundamentalmente a la pregunta:
+
+> ¿Qué jugada ofrece el mejor resultado bajo el supuesto de que el adversario siempre seleccionará la mejor respuesta disponible, según el modelo de valoración utilizado?
+
+No responde directamente:
+
+> ¿Qué jugada tiene mayor probabilidad de hacer cometer un error a este adversario en particular?
+
+Para abordar la segunda pregunta se necesitaría un modelo adicional del comportamiento del oponente.
+
+## 19. Relación entre profundidad, evaluación y calidad de juego
+
+La calidad de un motor basado en Alfa-Beta depende de varias dimensiones:
+
+\\[ Q\approx F(d,E,O,R) \\]
+
+donde:
+
+- \\(d\\): profundidad de búsqueda alcanzada.
+- \\(E\\): calidad de la función de evaluación.
+- \\(O\\): eficacia del ordenamiento de movimientos.
+- \\(R\\): calidad y corrección de las reglas, reducciones y extensiones.
+
+Esta expresión es conceptual, no una fórmula empírica universal de fuerza ajedrecística.
+
+Dos motores con idéntico evaluador pueden ofrecer resultados distintos si uno alcanza mayor profundidad o consigue ordenar mejor sus movimientos.
+
+También es posible que un evaluador más preciso compense parcialmente una búsqueda menos profunda.
+
+Sin embargo, no existe una relación simple que garantice que duplicar la profundidad o reducir a la mitad el error de evaluación produzca una determinada mejora de Elo.
+
+### 19.1. Consideraciones sobre redes NNUE pequeñas
+
+En sistemas con recursos computacionales limitados, el costo de evaluar una posición puede resultar decisivo.
+
+Supongamos dos evaluadores:
+
+| Característica                             | Evaluador A | Evaluador B |
+| ------------------------------------------ | ----------- | ----------- |
+| Tiempo por evaluación                      | 10 μs       | 100 μs      |
+| Precisión heurística                       | Moderada    | Mayor       |
+| Evaluaciones por segundo, sin otros costos | 100.000     | 10.000      |
+
+El evaluador B es hipotéticamente más preciso, pero diez veces más costoso.
+
+Al usar Alfa-Beta, la decisión no puede tomarse solamente comparando la calidad estática de las evaluaciones.
+
+Debe medirse el rendimiento completo:
+
+\\[ NPS=\frac{N\_{\text{nodos}}}{t\_{\text{segundos}}} \\]
+
+y también:
+
+\\[ D(t)=\text{profundidad alcanzada en tiempo }t \\]
+
+Una red pequeña y eficiente puede permitir búsquedas más profundas; una red más grande puede proporcionar evaluaciones más precisas pero reducir la profundidad alcanzable.
+
+La combinación óptima depende de la arquitectura del procesador, el costo de generación de movimientos, el ordenamiento, la posibilidad de actualizar incrementalmente la red y la calidad efectiva del evaluador.
+
+## 20. Ejemplo de telemetría de un motor UCI
+
+Un motor que implementa búsqueda Alfa-Beta puede reportar su progreso mediante el protocolo UCI.
+
+Un ejemplo ilustrativo es:
+
+```
+info depth 4 score cp 18 nodes 12500 time 120 nps 104166 pv e2e4 e7e5 g1f3 b8c6
+
+info depth 5 score cp 32 nodes 58000 time 510 nps 113725 pv e2e4 c7c5 g1f3 d7d6
+
+info depth 6 score cp 25 nodes 210000 time 1780 nps 117977 pv e2e4 e7e5 g1f3 b8c6 f1b5 a7a6
+
+bestmove e2e4
+```
+
+Los valores son ficticios y se incluyen únicamente para explicar los campos del protocolo.
+
+La telemetría contiene:
+
+| Campo      | Significado                                                       |
+| ---------- | ----------------------------------------------------------------- |
+| `depth`    | Profundidad nominal alcanzada, expresada en medias jugadas.       |
+| `score cp` | Evaluación en centipeones, desde la perspectiva definida por UCI. |
+| `nodes`    | Nodos visitados durante la búsqueda según el contador del motor.  |
+| `time`     | Tiempo acumulado de búsqueda en milisegundos.                     |
+| `nps`      | Nodos procesados por segundo.                                     |
+| `pv`       | Principal Variation: secuencia principal de jugadas encontrada.   |
+| `bestmove` | Mejor movimiento seleccionado.                                    |
+
+La puntuación puede cambiar entre profundidades porque el motor descubre nuevas consecuencias.
+
+Una posición inicialmente evaluada en +32 cp puede pasar a +25 cp cuando se detecta una defensa que no era visible en la búsqueda anterior.
+
+La variante principal también puede cambiar completamente al aumentar la profundidad.
+
+Esto no significa necesariamente que el motor esté funcionando mal; refleja el carácter aproximado de una búsqueda de horizonte limitado.
+
+## 21. Limitaciones fundamentales
+
+Aunque Minimax con Alfa-Beta es muy eficiente en comparación con Minimax completo, conserva varias limitaciones estructurales.
+
+### 21.1. Dependencia de la evaluación
+
+El algoritmo utiliza los valores que recibe del evaluador.
+
+Si la función de evaluación considera favorable una posición que en realidad contiene una amenaza táctica decisiva, Alfa-Beta puede propagar correctamente una valoración equivocada.
+
+La corrección matemática del algoritmo de búsqueda no garantiza la corrección estratégica del evaluador.
+
+### 21.2. Dependencia de la profundidad
+
+Una búsqueda de profundidad limitada puede no detectar combinaciones cuyo desenlace aparece más allá del horizonte.
+
+Extensiones, quiescencia y búsqueda selectiva reducen ciertos problemas, pero no eliminan esta limitación general.
+
+### 21.3. Complejidad exponencial
+
+Incluso con poda eficaz, el crecimiento del árbol continúa siendo un desafío.
+
+El mejor caso idealizado:
+
+\\[ O(b^{d/2}) \\]
+
+sigue siendo exponencial respecto de la profundidad.
+
+### 21.4. Calidad del ordenamiento
+
+Un ordenamiento deficiente reduce las oportunidades de poda y puede producir diferencias importantes en el número de nodos examinados.
+
+### 21.5. Corrección de la implementación
+
+Los errores en generación de movimientos, detección de jaques, tratamiento del enroque, captura al paso, promociones o tablas pueden invalidar todo el análisis.
+
+Por ello, en un motor real, la verificación de la legalidad y de la consistencia del estado debe considerarse anterior a las optimizaciones de rendimiento.
+
+## 22. Conclusiones
+
+Minimax con poda Alfa-Beta constituye un ejemplo fundamental de cómo el razonamiento matemático puede transformar un problema de búsqueda computacionalmente costoso en uno considerablemente más eficiente.
+
+Minimax modela el comportamiento adversarial mediante operaciones alternadas de máximo y mínimo:
+
+\\[ V\_{\text{MAX}}(s)=\max\_{a\in A(s)}V(T(s,a)) \\]
+
+\\[ V\_{\text{MIN}}(s)=\min\_{a\in A(s)}V(T(s,a)) \\]
+
+La poda Alfa-Beta incorpora información sobre los límites de utilidad relevantes:
+
+\\[ \alpha=\text{cota inferior relevante para MAX} \\]
+
+\\[ \beta=\text{cota superior relevante impuesta por MIN} \\]
+
+y descarta ramas cuando:
+
+\\[ \boxed{\alpha\geq\beta} \\]
+
+La importancia de este mecanismo reside en que evita cálculos cuyo resultado no puede alterar la decisión de los ancestros.
+
+Bajo las condiciones de una búsqueda exacta a profundidad fija, Alfa-Beta no modifica la respuesta de Minimax: solamente reduce el esfuerzo necesario para obtenerla.
+
+En el ajedrez, esta técnica se combina con evaluación heurística o neuronal, búsqueda iterativa, tablas de transposiciones, ordenamiento de movimientos y búsqueda de quiescencia.
+
+El resultado es una arquitectura capaz de explorar millones de posiciones y seleccionar jugadas mediante el análisis de sus consecuencias, incluso cuando no resulta posible resolver completamente el árbol de la partida.
+
+La idea central es que un motor de ajedrez no necesita examinar todas las continuaciones posibles para descartar una jugada: necesita demostrar que esa jugada no puede superar a otra alternativa ya conocida.
+
+Esta distinción entre conocer el valor exacto de una alternativa y conocer lo suficiente para descartarla es el fundamento matemático y computacional de la poda Alfa-Beta.
+
+## Referencias bibliográficas recomendadas
+
+1. Knuth, D. E., & Moore, R. W. (1975). An Analysis of Alpha-Beta Pruning. Artificial Intelligence, 6(4), 293–326.
+2. Pearl, J. (1984). Heuristics: Intelligent Search Strategies for Computer Problem Solving. Addison-Wesley.
+3. Russell, S., & Norvig, P. Artificial Intelligence: A Modern Approach. Secciones de búsqueda adversarial y juegos.
+4. Shannon, C. E. (1950). Programming a Computer for Playing Chess. Philosophical Magazine, 41(314), 256–275.
+5. Marsland, T. A. (1986). A Review of Game-Tree Pruning. ICCA Journal, 9(1), 3–19.
+6. [Chessprogramming Wiki — Alpha-Beta](https://www.chessprogramming.org/Alpha-Beta?utm_source=chatgpt.com). Recurso técnico sobre los fundamentos, las variantes y las técnicas de implementación de Alfa-Beta.
+7. [Chessprogramming Wiki — Negamax](https://www.chessprogramming.org/Negamax?utm_source=chatgpt.com). Formulación Negamax y relación con la búsqueda Alfa-Beta.
 # La arquitectura
 
 En la arquitectura se resume todo lo que tiene que tener una plataforma, y también lo que no va a tener nunca. Es en cierta
@@ -1078,6 +2374,1867 @@ Sin embargo hay algunos desafíos técnicos, que de alcanzarse, permitirán cons
 La plataforma combina motores de ajedrez, con sistemas embebidos, con técnicas avanzadas de optimización. En muchos casos
 será *un perro que canta tangos* , no es maravilloso como lo hace, sino el mero hecho que lo haga.
 
+# Aplicación de la ecuación de Bellman al aprendizaje profundo del valor y la política de juego en ajedrez
+
+## 1. Introducción
+
+La ecuación de Bellman constituye uno de los fundamentos matemáticos de la programación dinámica, la teoría de decisiones secuenciales y el aprendizaje por refuerzo (Reinforcement Learning, RL).
+
+Su importancia reside en una idea aparentemente sencilla:
+
+> El valor de una decisión puede expresarse mediante la recompensa inmediata que produce y el valor esperado de las decisiones futuras que quedan disponibles después de ejecutarla.
+
+Esta propiedad, conocida como principio de optimalidad de Bellman, permite descomponer problemas de decisión de largo plazo en relaciones recursivas entre estados sucesivos.
+
+En el ajedrez, el objetivo consiste en determinar qué movimientos conducen al mejor resultado posible de una partida, considerando que ambos jugadores persiguen objetivos opuestos.
+
+En principio, si fuera posible asignar correctamente un valor a todas las posiciones de ajedrez, elegir una jugada se reduciría a comparar los valores de las posiciones que produce.
+
+El problema es que esos valores son desconocidos para prácticamente todas las posiciones y el espacio de estados es demasiado grande para calcularlos de manera exhaustiva.
+
+El aprendizaje profundo ofrece una alternativa: aproximar la función de valor mediante una red neuronal y aprender simultáneamente una política que asigne probabilidades o preferencias a las jugadas disponibles.
+
+En este enfoque, la ecuación de Bellman no es una arquitectura neuronal ni un algoritmo de entrenamiento por sí misma. Es una relación matemática que caracteriza cómo deberían ser los valores coherentes de estados sucesivos. El aprendizaje profundo proporciona un mecanismo aproximado para intentar satisfacer esa relación a partir de la experiencia.
+
+Examinaremos una arquitectura en la cual un agente aprende a jugar ajedrez mediante partidas contra sí mismo, utilizando:
+
+- Una función de valor \\(V\_\theta(s)\\), que estima el resultado esperado de una posición.
+- Una función de acción-valor \\(Q\_\theta(s,a)\\), que estima el mérito de ejecutar una jugada.
+- Una política \\(\pi\_\phi(a\mid s)\\), que determina la selección de movimientos.
+- La ecuación de Bellman, que relaciona las valoraciones de posiciones sucesivas.
+- Un procedimiento de aprendizaje por diferencias temporales o por resultados finales.
+- Opcionalmente, un mecanismo de búsqueda que mejore las decisiones y produzca objetivos de entrenamiento más informativos.
+
+El objetivo es estudiar qué podría aprender un sistema de estas características, cómo lo aprendería y qué dificultades aparecen al aplicarlo al ajedrez.
+
+## 2. Formulación matemática del ajedrez como problema de decisión
+
+### 2.1. Definición del estado
+
+Sea:
+
+\\[ s_t\in\mathcal S \\]
+
+el estado del juego en el instante \\(t\\).
+
+El estado debe incluir suficiente información para que las transiciones futuras dependan únicamente de él y de las acciones que se ejecuten.
+
+Para el ajedrez, una representación completa debe contemplar:
+
+\\[ s_t=(B_t,c_t,C_t,e_t,h_t,H_t) \\]
+
+donde:
+
+- \\(B_t\\): distribución de las piezas.
+- \\(c_t\\): jugador al que corresponde mover.
+- \\(C_t\\): derechos de enroque.
+- \\(e_t\\): situación de captura al paso.
+- \\(h_t\\): contador relevante para las reglas de movimientos sin capturas ni movimientos de peones.
+- \\(H_t\\): información histórica necesaria para determinar repeticiones y otras condiciones dependientes de la historia.
+
+La inclusión de información histórica es importante. Una representación limitada únicamente al tablero y al turno puede no satisfacer completamente la propiedad de Markov, porque la posibilidad de reclamar tablas por repetición depende de acontecimientos anteriores.
+
+En términos de un proceso de decisión de Markov:
+
+\\[ P(s\_{t+1}\mid s_0,a_0,\ldots,s_t,a_t) = P(s\_{t+1}\mid s_t,a_t) \\]
+
+La igualdad significa que, conocido el estado actual completo y la acción seleccionada, la historia anterior ya no aporta información adicional para determinar la transición siguiente.
+
+### 2.2. Espacio de acciones
+
+Definimos:
+
+\\[ \mathcal A(s)=\\{a_1,a_2,\ldots,a_n\\} \\]
+
+como el conjunto de movimientos legales en la posición \\(s\\).
+
+La cantidad de movimientos disponibles cambia de una posición a otra.
+
+Desde la posición inicial existen 20 jugadas legales. En posiciones posteriores pueden existir muchas más, y en un estado terminal no quedan jugadas que permitan continuar la partida.
+
+El agente debe elegir exclusivamente entre acciones legales:
+
+\\[ a_t\in\mathcal A(s_t) \\]
+
+Esto constituye una restricción fundamental para las redes neuronales de política, porque una red puede producir una salida para un conjunto fijo de movimientos posibles, pero no todos serán legales en una posición determinada.
+
+### 2.3. Transición de estados
+
+El ajedrez es determinista respecto de las jugadas:
+
+\\[ s\_{t+1}=T(s_t,a_t) \\]
+
+Una vez conocido el estado y la jugada legal, el estado siguiente está determinado.
+
+No existe incertidumbre física sobre el resultado de ejecutar una acción, a diferencia de otros problemas de aprendizaje por refuerzo, como el control de robots sometidos a perturbaciones o el comportamiento de sistemas con transiciones probabilísticas.
+
+La incertidumbre del ajedrez aparece principalmente porque no conocemos qué jugadas elegirá el adversario y porque no es posible evaluar exhaustivamente todas las consecuencias futuras.
+
+### 2.4. Recompensa
+
+Una formulación particularmente sencilla utiliza recompensas únicamente al finalizar la partida.
+
+Desde la perspectiva de las blancas:
+
+\\[ z= \begin{cases} +1 & \text{victoria de las blancas}\\\ 0 & \text{tablas}\\\ -1 & \text{victoria de las negras} \end{cases} \\]
+
+Para las negras, el resultado tiene signo opuesto:
+
+\\[ z_N=-z_B \\]
+
+La recompensa inmediata puede definirse como:
+
+\\[ r_t= \begin{cases} 0 & \text{si la jugada no finaliza la partida}\\\ z & \text{si la jugada finaliza la partida} \end{cases} \\]
+
+La escala anterior es un ejemplo de recompensa escasa (sparse reward).
+
+Durante la mayor parte de la partida, el sistema no recibe ninguna señal inmediata de éxito o fracaso. Solamente al finalizar obtiene una indicación del resultado alcanzado.
+
+Esta característica tendrá consecuencias importantes sobre la velocidad y la estabilidad del aprendizaje.
+
+## 3. La ecuación de Bellman en su formulación tradicional
+
+### 3.1. Retorno acumulado
+
+En un problema de aprendizaje por refuerzo, el retorno desde un instante \\(t\\) se define como:
+
+\\[ \boxed{ G_t=\sum\_{k=0}^{T-t-1}\gamma^k r\_{t+k+1} } \\]
+
+donde:
+
+- \\(T\\) representa el instante terminal.
+- \\(r\_{t+k+1}\\) es la recompensa recibida después de una acción.
+- \\(\gamma\in[0,1]\\) es el factor de descuento.
+
+El factor de descuento permite dar menor peso a recompensas alejadas temporalmente.
+
+En un problema de control económico, por ejemplo, puede ser razonable que una recompensa obtenida hoy tenga mayor valor que una obtenida dentro de varios años.
+
+En el ajedrez, la interpretación es distinta.
+
+Si el objetivo consiste exclusivamente en ganar, empatar o perder, puede elegirse:
+
+\\[ \boxed{\gamma=1} \\]
+
+De ese modo, una victoria no pierde valor solamente por requerir más movimientos.
+
+Si se selecciona \\(\gamma<1\\), se introduce una preferencia temporal: bajo una formulación apropiada, las victorias cercanas resultan más valiosas y las derrotas lejanas pueden resultar menos perjudiciales.
+
+Esto modifica el objetivo de optimización, por lo que no es una decisión puramente numérica.
+
+### 3.2. Función de valor de una política
+
+Sea:
+
+\\[ \pi(a\mid s) \\]
+
+la probabilidad de seleccionar la acción \\(a\\) cuando el agente se encuentra en \\(s\\).
+
+La función de valor de una política se define como:
+
+\\[ \boxed{ V^\pi(s)=\mathbb E\_\pi[G_t\mid s_t=s] } \\]
+
+Representa el retorno esperado si el agente comienza en el estado \\(s\\) y posteriormente sigue la política \\(\pi\\).
+
+La ecuación de Bellman de evaluación de una política es:
+
+\\[ \boxed{ V^\pi(s)= \sum\_{a\in\mathcal A(s)} \pi(a\mid s) \sum\_{s'} P(s'\mid s,a) \left[ r(s,a,s')+\gamma V^\pi(s') \right] } \\]
+
+Esta relación se obtiene separando la primera recompensa del retorno restante:
+
+\\[ G_t=r\_{t+1}+\gamma G\_{t+1} \\]
+
+Tomando esperanza condicional:
+
+\\[ V^\pi(s_t) = \mathbb E\_\pi \left[ r\_{t+1}+\gamma V^\pi(s\_{t+1}) \mid s_t \right] \\]
+
+La ecuación es recursiva: el valor de una posición está determinado por las recompensas inmediatas y los valores de las posiciones que pueden alcanzarse desde ella.
+
+### 3.3. Simplificación en un entorno determinista
+
+Como el ajedrez tiene transiciones deterministas, para cada acción legal existe un único sucesor:
+
+\\[ s'=T(s,a) \\]
+
+Por lo tanto:
+
+\\[ P(s'\mid s,a)= \begin{cases} 1 & s'=T(s,a)\\\ 0 & \text{en otro caso} \end{cases} \\]
+
+La ecuación se simplifica a:
+
+\\[ \boxed{ V^\pi(s)= \sum\_{a\in\mathcal A(s)} \pi(a\mid s) \left[ r(s,a)+\gamma V^\pi(T(s,a)) \right] } \\]
+
+Pero aquí aparece una particularidad esencial: en el ajedrez los jugadores tienen intereses opuestos.
+
+No puede aplicarse ingenuamente la ecuación de optimalidad de un único agente que maximiza el retorno en todos los turnos, porque eso equivaldría a suponer que ambos jugadores colaboran para mejorar la misma utilidad.
+
+## 4. Bellman en juegos adversariales de suma cero
+
+### 4.1. Formulación con una perspectiva fija
+
+Definamos:
+
+\\[ V(s) \\]
+
+como el valor de una posición desde la perspectiva de las blancas.
+
+Cuando mueven las blancas, buscan maximizar ese valor:
+
+\\[ \boxed{ V^\*(s)= \max\_{a\in\mathcal A(s)} \left[ r_B(s,a)+\gamma V^\*(T(s,a)) \right] } \\]
+
+Cuando mueven las negras, buscan minimizar el valor de las blancas:
+
+\\[ \boxed{ V^\*(s)= \min\_{a\in\mathcal A(s)} \left[ r_B(s,a)+\gamma V^\*(T(s,a)) \right] } \\]
+
+Por lo tanto:
+
+\\[ \boxed{ V^\*(s)= \begin{cases} \max\limits\_{a\in\mathcal A(s)} [r_B(s,a)+\gamma V^\*(T(s,a))] & \text{turno blanco}\\\\[6pt] \min\limits\_{a\in\mathcal A(s)} [r_B(s,a)+\gamma V^\*(T(s,a))] & \text{turno negro} \end{cases} } \\]
+
+Esta es la versión adversarial de la ecuación de optimalidad.
+
+Cuando \\(\gamma=1\\) y las recompensas no terminales son nulas, la formulación coincide con la recurrencia básica de Minimax:
+
+\\[ V^\*(s)= \begin{cases} \max_a V^\*(T(s,a)) & \text{blancas}\\\ \min_a V^\*(T(s,a)) & \text{negras} \end{cases} \\]
+
+Así, Minimax y Bellman no son principios incompatibles.
+
+Minimax representa precisamente una forma de programación dinámica adversarial sobre el árbol de juego.
+
+La diferencia está en cómo se obtiene el valor de las posiciones. Minimax con búsqueda lo calcula retrospectivamente a partir de hojas evaluadas, mientras que el aprendizaje por refuerzo intenta aprender una aproximación reutilizable del valor a partir de numerosas experiencias.
+
+### 4.2. Formulación desde el jugador activo
+
+Para trabajar con una sola red neuronal es conveniente definir:
+
+\\[ V(s) \\]
+
+como el valor de la posición desde la perspectiva del jugador al que corresponde mover.
+
+En ese caso, después de ejecutar una jugada, el turno cambia y la evaluación debe cambiar de signo.
+
+Si todas las recompensas intermedias son cero:
+
+\\[ \boxed{ V^\*(s)= \max\_{a\in\mathcal A(s)} \left[ -\gamma V^\*(T(s,a)) \right] } \\]
+
+para transiciones no terminales, con:
+
+\\[ V^\*(s_T)=z_T \\]
+
+en estados terminales evaluados desde la perspectiva que se haya definido para ellos.
+
+Una formulación especialmente clara utiliza:
+
+\\[ Q^\*(s,a)=r(s,a)-\gamma V^\*(s') \\]
+
+para una transición no terminal, y la recompensa final directamente cuando la acción termina la partida.
+
+Entonces:
+
+\\[ \boxed{ V^\*(s)=\max\_{a\in\mathcal A(s)}Q^\*(s,a) } \\]
+
+Esta expresión muestra que el agente no necesita distinguir explícitamente entre blancas y negras en su regla de selección: ambos jugadores maximizan su propio valor, cambiando el signo del valor adversario.
+
+### 4.3. Política óptima
+
+Si se conoce \\(Q^\*(s,a)\\), la política óptima determinista puede establecerse mediante:
+
+\\[ \boxed{ \pi^\*(s)=\arg\max\_{a\in\mathcal A(s)}Q^\*(s,a) } \\]
+
+La función \\(Q^\*\\) proporciona una valoración de las acciones.
+
+La política determina cuál de ellas ejecutar.
+
+Esta distinción será fundamental cuando incorporemos redes neuronales.
+
+## 5. Ejemplo numérico de aplicación de Bellman
+
+Supongamos una posición en la cual juegan las blancas y existen tres movimientos relevantes:
+
+\\[ \mathcal A(s)=\\{a_1,a_2,a_3\\} \\]
+
+Los movimientos conducen a posiciones donde corresponde jugar a las negras.
+
+Una red neuronal devuelve las siguientes estimaciones desde la perspectiva del jugador activo en cada posición sucesora:
+
+| Movimiento blanco | Valor de la posición para las negras |
+| ----------------- | ------------------------------------ |
+| \\(a_1\\)         | \\(-0,40\\)                          |
+| \\(a_2\\)         | \\(+0,25\\)                          |
+| \\(a_3\\)         | \\(-0,10\\)                          |
+
+Tomemos:
+
+\\[ \gamma=1 \\]
+
+y recompensas intermedias nulas.
+
+Aplicando Bellman con cambio de perspectiva:
+
+\\[ Q(s,a_1)=-(-0,40)=+0,40 \\]
+
+\\[ Q(s,a_2)=-(+0,25)=-0,25 \\]
+
+\\[ Q(s,a_3)=-(-0,10)=+0,10 \\]
+
+La política codiciosa seleccionará:
+
+\\[ a^\*=\arg\max(0,40,-0,25,0,10) \\]
+
+\\[ \boxed{a^\*=a_1} \\]
+
+Valor de las acciones desde la perspectiva blanca
+
+Valores hipotéticos obtenidos cambiando el signo de las evaluaciones de los estados sucesores.
+
+-0.3-0.10.10.30.5a₁a₂a₃
+
+La interpretación importante es que \\(a_1\\) no se selecciona por ser visualmente atractiva ni por obtener una ventaja material inmediata, sino porque conduce a una posición que, según el evaluador, resulta desfavorable para el adversario.
+
+No obstante, los valores son estimaciones. Si la red se equivoca al asignar \\(-0,40\\) a la primera posición sucesora, la selección también puede ser equivocada.
+
+El mecanismo de aprendizaje intentará corregir precisamente esas estimaciones.
+
+## 6. Aproximación de la función de valor mediante aprendizaje profundo
+
+La formulación anterior presupone que conocemos \\(V^\*(s)\\), lo que en realidad constituye el problema que deseamos resolver.
+
+El espacio de posiciones de ajedrez es demasiado grande para almacenar explícitamente el valor de cada estado.
+
+Por lo tanto, se propone utilizar una red neuronal parametrizada:
+
+\\[ \boxed{ V\_\theta(s)\approx V^\*(s) } \\]
+
+donde:
+
+\\[ \theta=\\{W_1,b_1,W_2,b_2,\ldots,W_L,b_L\\} \\]
+
+representa los pesos y sesgos de una red de \\(L\\) capas.
+
+La red recibe una representación de la posición y produce una estimación escalar de su valor.
+
+### 6.1. Representación de entrada
+
+Una posibilidad consiste en representar el tablero mediante planos binarios.
+
+Para las seis clases de piezas de cada jugador:
+
+\\[ 6\times2=12 \\]
+
+se utilizan doce matrices de dimensión \\(8\times8\\).
+
+Cada elemento indica la presencia o ausencia de una determinada pieza en una casilla.
+
+Por ejemplo, el plano correspondiente a los peones blancos puede representarse como:
+
+\\[ X\_{\text{peones blancos}}\in\\{0,1\\}^{8\times8} \\]
+
+donde:
+
+\\[ X\_{ij}= \begin{cases} 1 & \text{si existe un peón blanco en }(i,j)\\\ 0 & \text{en otro caso} \end{cases} \\]
+
+La representación básica tiene:
+
+\\[ 12\times8\times8=768 \\]
+
+características binarias.
+
+Sin embargo, esto no es suficiente para representar completamente el estado del juego.
+
+Se necesitan características adicionales para identificar, entre otras cosas, el turno, los derechos de enroque, las posibilidades de captura al paso y la información relevante para las reglas de tablas.
+
+Puede construirse un tensor más amplio:
+
+\\[ X(s)\in\mathbb R^{C\times8\times8} \\]
+
+donde \\(C\\) representa la cantidad total de canales.
+
+También es posible representar las piezas desde la perspectiva del jugador activo, intercambiando los colores y orientando el tablero de manera canónica.
+
+Esa decisión reduce ciertas simetrías que la red tendría que aprender, pero exige transformar coherentemente la codificación de jugadas y las características históricas.
+
+### 6.2. Arquitectura de la red de valor
+
+Una red simple completamente conectada puede expresarse mediante:
+
+\\[ h_1=\sigma(W_1x+b_1) \\]
+
+\\[ h_2=\sigma(W_2h_1+b_2) \\]
+
+\\[ \vdots \\]
+
+\\[ h_L=\sigma(W_Lh\_{L-1}+b_L) \\]
+
+\\[ \boxed{ V\_\theta(s)=\tanh(w_v^\top h_L+b_v) } \\]
+
+La función tangente hiperbólica limita la salida al intervalo:
+
+\\[ V\_\theta(s)\in[-1,1] \\]
+
+Esto resulta coherente con el objetivo de aprender resultados de victoria, tablas o derrota.
+
+Por ejemplo:
+
+\\[ V\_\theta(s)=+0,70 \\]
+
+significa que la red estima una posición favorable para el jugador activo, de acuerdo con la escala de entrenamiento.
+
+No debe interpretarse automáticamente como un 70 % de probabilidad de victoria.
+
+Si se utiliza la codificación \\(+1,0,-1\\), la esperanza del resultado es:
+
+\\[ V(s)=P(W\mid s)-P(L\mid s) \\]
+
+porque las tablas tienen contribución nula.
+
+Y como:
+
+\\[ P(W\mid s)+P(D\mid s)+P(L\mid s)=1 \\]
+
+un único valor escalar no permite reconstruir por separado las tres probabilidades.
+
+Para obtener probabilidades de victoria, tablas y derrota resulta más apropiado utilizar una cabeza de salida WDL (Win–Draw–Loss):
+
+\\[ \mathbf p\_\theta(s)= \begin{bmatrix} P\_\theta(W\mid s)\\\ P\_\theta(D\mid s)\\\ P\_\theta(L\mid s) \end{bmatrix} \\]
+
+mediante una función Softmax.
+
+Entonces, el valor esperado puede obtenerse como:
+
+\\[ \boxed{ V\_\theta(s)=P\_\theta(W\mid s)-P\_\theta(L\mid s) } \\]
+
+Esta representación conserva más información que un único escalar.
+
+## 7. Cómo se aprende la función de valor
+
+El problema fundamental es determinar los parámetros:
+
+\\[ \theta^\* \\]
+
+que permitan aproximar correctamente el valor de las posiciones.
+
+Existen varias formas de generar los objetivos de entrenamiento.
+
+### 7.1. Aprendizaje a partir del resultado final
+
+Consideremos una partida completa:
+
+\\[ s_0,a_0,s_1,a_1,\ldots,s_T \\]
+
+Al terminar, conocemos el resultado:
+
+\\[ z\in\\{-1,0,+1\\} \\]
+
+Si \\(z\\) se expresa desde la perspectiva de las blancas y la red evalúa desde el jugador activo, el objetivo de cada posición será:
+
+\\[ z_t= \begin{cases} z & \text{si mueven las blancas en }s_t\\\ -z & \text{si mueven las negras en }s_t \end{cases} \\]
+
+Se intenta minimizar:
+
+\\[ \boxed{ L_V(\theta)= \frac{1}{N} \sum\_{i=1}^{N} \left[ V\_\theta(s_i)-z_i \right]^2 } \\]
+
+La función de pérdida mide el error cuadrático entre la predicción neuronal y el resultado observado.
+
+El entrenamiento ajusta los pesos mediante descenso por gradiente:
+
+\\[ \boxed{ \theta\_{k+1} = \theta_k-\eta\nabla\_\theta L_V(\theta_k) } \\]
+
+donde \\(\eta\\) es la tasa de aprendizaje.
+
+Este mecanismo es una forma de aprendizaje Monte Carlo a partir de retornos completos.
+
+Tiene una ventaja importante: los objetivos se obtienen de resultados efectivamente observados, sin depender de una estimación neuronal del estado siguiente.
+
+Pero también presenta una dificultad: una posición muy favorable puede terminar en derrota porque el jugador cometió errores posteriores.
+
+Por consiguiente, el resultado final es una muestra del retorno de la política que produjo la partida, no necesariamente del valor óptimo de la posición.
+
+### 7.2. Aprendizaje por diferencias temporales
+
+La ecuación de Bellman permite aprender sin esperar necesariamente el final de la partida.
+
+Este mecanismo se denomina Temporal Difference Learning (TD).
+
+Para una transición no terminal:
+
+\\[ s_t\xrightarrow{a_t}s\_{t+1} \\]
+
+desde la perspectiva alternada de los jugadores, se define el objetivo:
+
+\\[ \boxed{ y_t=r_t-\gamma V\_{\bar\theta}(s\_{t+1}) } \\]
+
+donde \\(\bar\theta\\) son los parámetros de una red de referencia, que puede mantenerse temporalmente fija.
+
+El signo negativo aparece porque después del movimiento corresponde jugar al adversario.
+
+Si la acción termina la partida, se utiliza simplemente la recompensa terminal desde la perspectiva del jugador que ejecutó la acción:
+
+\\[ y_t=r_t \\]
+
+Así, una expresión completa es:
+
+\\[ \boxed{ y_t= \begin{cases} r_t & \text{si }s\_{t+1}\text{ es terminal}\\\ r_t-\gamma V\_{\bar\theta}(s\_{t+1}) & \text{en otro caso} \end{cases} } \\]
+
+El error TD es:
+
+\\[ \boxed{ \delta_t=y_t-V\_\theta(s_t) } \\]
+
+El objetivo de aprendizaje consiste en reducir ese error:
+
+\\[ L\_{\text{TD}}(\theta)= \frac12 \left[ V\_\theta(s_t)-y_t \right]^2 \\]
+
+Para una actualización TD semigradiente, manteniendo fijo el objetivo \\(y_t\\) durante el paso de entrenamiento:
+
+\\[ \boxed{ \theta\_{t+1} = \theta_t+ \eta\delta_t\nabla\_\theta V\_\theta(s_t) } \\]
+
+Esta ecuación es fundamental.
+
+El agente modifica los parámetros de la red para hacer que el valor predicho en una posición se aproxime al valor respaldado por la posición sucesora y la recompensa observada.
+
+### 7.3. Ejemplo de una actualización TD
+
+Supongamos una posición en la que juegan las blancas.
+
+La red estima:
+
+\\[ V\_\theta(s_t)=0,20 \\]
+
+Las blancas realizan una jugada no terminal, y la red de referencia evalúa la nueva posición desde la perspectiva negra:
+
+\\[ V\_{\bar\theta}(s\_{t+1})=-0,50 \\]
+
+Con:
+
+\\[ r_t=0,\qquad\gamma=1 \\]
+
+el objetivo TD es:
+
+\\[ y_t=0-(-0,50)=+0,50 \\]
+
+El error:
+
+\\[ \delta_t=0,50-0,20 \\]
+
+\\[ \boxed{\delta_t=+0,30} \\]
+
+La red había asignado a la posición inicial un valor de \\(0,20\\), pero la evaluación posterior sugiere que debería acercarse a \\(0,50\\).
+
+El entrenamiento ajusta sus parámetros para aumentar la predicción, localmente, en la dirección del gradiente.
+
+La actualización no garantiza que el nuevo valor sea correcto. Solamente reduce la discrepancia con el objetivo generado.
+
+Esta observación conduce a una dificultad central del aprendizaje mediante Bellman: el objetivo también puede estar equivocado.
+
+## 8. Propagación retrospectiva del resultado de una partida
+
+La importancia del aprendizaje temporal se comprende mejor observando cómo una recompensa final puede propagarse hacia posiciones anteriores.
+
+Supongamos que un agente comienza sin conocimiento y asigna valor cero a todas las posiciones:
+
+\\[ V\_\theta(s)=0 \\]
+
+Luego juega una partida que termina en victoria de las blancas.
+
+Esquema conceptual: la recompensa observada al terminar la partida puede modificar las estimaciones de posiciones anteriores a través de aprendizaje retrospectivo o actualizaciones TD repetidas.
+
+Para simplificar la explicación, utilizaremos inicialmente un valor definido desde una perspectiva fija, sin alternar signos.
+
+Supongamos que:
+
+\\[ s_0\rightarrow s_1\rightarrow s_2\rightarrow s_3\rightarrow s_T \\]
+
+y que la última transición produce:
+
+\\[ r=+1 \\]
+
+Con una actualización tabular TD(0), tasa de aprendizaje:
+
+\\[ \eta=0,5 \\]
+
+y valor inicial cero, la transición final produce:
+
+\\[ V\_{\text{nuevo}}(s_3) = V(s_3)+\eta[1-V(s_3)] \\]
+
+\\[ V\_{\text{nuevo}}(s_3)=0,5 \\]
+
+En una revisión posterior de la transición anterior:
+
+\\[ V\_{\text{nuevo}}(s_2) = 0+0,5[0,5-0] \\]
+
+\\[ V\_{\text{nuevo}}(s_2)=0,25 \\]
+
+Continuando retrospectivamente:
+
+\\[ V\_{\text{nuevo}}(s_1)=0,125 \\]
+
+\\[ V\_{\text{nuevo}}(s_0)=0,0625 \\]
+
+Los valores obtenidos son:
+
+| Estado    | Valor después del ejemplo de actualización |
+| --------- | ------------------------------------------ |
+| \\(s_0\\) | 0,0625                                     |
+| \\(s_1\\) | 0,125                                      |
+| \\(s_2\\) | 0,2500                                     |
+| \\(s_3\\) | 0,5000                                     |
+| Final     | 1,0000                                     |
+
+Esta demostración supone actualizaciones tabulares retrospectivas, con \\(\gamma=1\\), y no representa directamente el resultado de una sola pasada TD(0) en orden cronológico.
+
+En una red neuronal, modificar los pesos para mejorar un estado también puede alterar los valores de otros estados, debido a la generalización entre posiciones.
+
+Si se utiliza una evaluación desde el jugador activo, los signos deben alternarse según el turno.
+
+### 8.1. Problema de propagación lenta
+
+El mecanismo TD(0) propaga información mediante transiciones individuales.
+
+Si una recompensa aparece después de 80 medias jugadas, pueden necesitarse múltiples actualizaciones para que su influencia alcance las primeras posiciones.
+
+Una forma de acelerar ese proceso consiste en utilizar retornos de varios pasos.
+
+Para una transición de \\(n\\) medias jugadas, y suponiendo que ninguna finaliza la partida antes del último estado, un objetivo consistente con la perspectiva alternada es:
+
+\\[ \boxed{ G_t^{(n)} = \sum\_{k=0}^{n-1} (-\gamma)^k r\_{t+k} + (-\gamma)^n V\_{\bar\theta}(s\_{t+n}) } \\]
+
+Aquí cada recompensa \\(r\_{t+k}\\) está expresada desde la perspectiva del jugador que actúa en ese paso.
+
+El factor \\((-1)^k\\) permite trasladar las recompensas sucesivas a la perspectiva del jugador inicial.
+
+En una implementación que utilice una perspectiva fija para un jugador, resulta más sencillo emplear las ecuaciones habituales de retornos descontados sin alternancia de signos, siempre que todas las recompensas y valores se expresen en esa misma perspectiva.
+
+También pueden utilizarse métodos TD(\\(\lambda\\)) o trazas de elegibilidad, que combinan información de varios horizontes.
+
+## 9. Aprender el valor de las acciones: Deep Q-Learning
+
+Hasta aquí hemos considerado una red que estima:
+
+\\[ V\_\theta(s) \\]
+
+Pero también puede entrenarse una red que evalúe directamente cada par estado-acción:
+
+\\[ \boxed{ Q\_\theta(s,a) } \\]
+
+En este caso, el agente intenta aprender el valor de ejecutar la jugada \\(a\\) en la posición \\(s\\), seguido de decisiones posteriores.
+
+La principal ventaja es que una política puede derivarse directamente de:
+
+\\[ \boxed{ \pi\_\theta(s)= \arg\max\_{a\in\mathcal A(s)}Q\_\theta(s,a) } \\]
+
+sin necesitar evaluar por separado todas las posiciones sucesoras con una red de valor de estados.
+
+### 9.1. Ecuación de Bellman óptima para Q
+
+En ajedrez, usando valores desde la perspectiva del jugador activo, definimos:
+
+\\[ Q^\*(s,a)= \begin{cases} r(s,a) & \text{si la transición es terminal}\\\\[4pt] r(s,a)-\gamma\max\limits\_{a'\in\mathcal A(s')} Q^\*(s',a') & \text{si no es terminal} \end{cases} \\]
+
+donde:
+
+\\[ s'=T(s,a) \\]
+
+Por lo tanto:
+
+\\[ \boxed{ Q^\*(s,a)= r(s,a)-\gamma\max\_{a'}Q^\*(s',a') } \\]
+
+para una transición no terminal.
+
+Obsérvese que esta expresión difiere del Q-Learning convencional de un único agente por el signo negativo.
+
+En un agente convencional se maximiza el valor del estado siguiente porque se supone que el mismo agente continúa controlando las decisiones.
+
+En ajedrez, después de la jugada corresponde decidir al oponente.
+
+Si se utilizara incorrectamente:
+
+\\[ r+\gamma\max Q(s',a') \\]
+
+sin controlar la perspectiva, el agente podría aprender a seleccionar posiciones favorables para su adversario.
+
+### 9.2. Objetivo de entrenamiento de Deep Q-Learning
+
+Definimos:
+
+\\[ y_t= \begin{cases} r_t & \text{si termina la partida}\\\\[4pt] r_t-\gamma\max\limits\_{a'\in\mathcal A(s\_{t+1})} Q\_{\bar\theta}(s\_{t+1},a') & \text{en otro caso} \end{cases} \\]
+
+La pérdida puede calcularse como:
+
+\\[ \boxed{ L_Q(\theta)= \mathbb E\_{(s,a,r,s')\sim D} \left[ \left( Q\_\theta(s,a)-y \right)^2 \right] } \\]
+
+donde \\(D\\) es un conjunto de experiencias anteriores.
+
+En la práctica, puede preferirse una pérdida Huber para reducir la sensibilidad a errores elevados.
+
+### 9.3. Experience Replay
+
+Las experiencias pueden almacenarse en una memoria:
+
+\\[ D=\\{(s_t,a_t,r_t,s\_{t+1},d_t)\\} \\]
+
+donde \\(d_t\\) indica si el episodio terminó.
+
+Durante el entrenamiento se seleccionan lotes aleatorios de experiencias almacenadas.
+
+Esto permite:
+
+- Reutilizar experiencias anteriores.
+- Reducir la correlación entre ejemplos consecutivos.
+- Mejorar la eficiencia de datos.
+- Evitar entrenar exclusivamente con las posiciones más recientes.
+
+Sin embargo, almacenar experiencias generadas por políticas anteriores introduce un problema: las distribuciones de datos pueden diferir de las producidas por la política actual.
+
+### 9.4. Target Network
+
+Otra técnica consiste en utilizar dos redes:
+
+\\[ Q\_\theta \\]
+
+y:
+
+\\[ Q\_{\bar\theta} \\]
+
+La primera es la red que se entrena.
+
+La segunda se mantiene relativamente estable y se utiliza para calcular los objetivos Bellman.
+
+Cada cierto número de pasos, sus parámetros se actualizan mediante:
+
+\\[ \bar\theta\leftarrow\theta \\]
+
+O bien mediante una actualización gradual:
+
+\\[ \boxed{ \bar\theta\leftarrow \tau\theta+(1-\tau)\bar\theta } \\]
+
+con:
+
+\\[ 0<\tau\ll1 \\]
+
+Esto reduce parcialmente el problema de perseguir un objetivo que cambia simultáneamente con los parámetros que se están optimizando.
+
+## 10. Aprendizaje de la política mediante una red neuronal
+
+La función de valor permite estimar qué tan favorable es una posición. La política representa algo distinto: cómo seleccionar las jugadas.
+
+Una política estocástica se define mediante:
+
+\\[ \boxed{ \pi\_\phi(a\mid s) = P(a_t=a\mid s_t=s;\phi) } \\]
+
+donde \\(\phi\\) representa los parámetros de una red neuronal.
+
+La política debe satisfacer:
+
+\\[ \sum\_{a\in\mathcal A(s)}\pi\_\phi(a\mid s)=1 \\]
+
+y:
+
+\\[ \pi\_\phi(a\mid s)\geq0 \\]
+
+En ajedrez, la red puede producir preferencias para todas las acciones representables, aunque solamente las legales deberán participar en la normalización.
+
+### 10.1. Obtención de probabilidades mediante Softmax
+
+Supongamos que la red produce una puntuación o logit para cada acción:
+
+\\[ \ell\_\phi(s,a) \\]
+
+Entonces:
+
+\\[ \boxed{ \pi\_\phi(a\mid s)= \frac{ \exp(\ell\_\phi(s,a)/\tau) }{ \sum\_{b\in\mathcal A(s)} \exp(\ell\_\phi(s,b)/\tau) } } \\]
+
+donde \\(\tau>0\\) es un parámetro de temperatura.
+
+Si \\(\tau\\) es grande, la distribución tiende a ser más uniforme.
+
+Si \\(\tau\\) es pequeña, se concentra alrededor de las jugadas con mayor puntuación.
+
+Para una política determinista de evaluación, puede seleccionarse:
+
+\\[ a^\*=\arg\max_a\pi\_\phi(a\mid s) \\]
+
+En entrenamiento, elegir movimientos mediante muestreo favorece la exploración.
+
+### 10.2. Ejemplo de política neuronal
+
+Supongamos que la red produce las siguientes probabilidades entre cuatro jugadas legales:
+
+| Movimiento | Probabilidad |
+| ---------- | ------------ |
+| e2e4       | 0,55         |
+| d2d4       | 0,25         |
+| g1f3       | 0,15         |
+| c2c4       | 0,05         |
+
+Distribución de una política neuronal
+
+Ejemplo hipotético de probabilidades de selección de movimientos.
+
+00.150.30.450.6e2e4d2d4g1f3c2c4
+
+La política considera que e2e4 es la alternativa preferida, pero no elimina completamente las otras opciones.
+
+Durante el autojuego, esta característica permite experimentar con jugadas distintas de las consideradas mejores hasta ese momento.
+
+El resultado posterior de las partidas permitirá modificar las probabilidades.
+
+Una política neuronal no es necesariamente una representación exacta de los valores de las jugadas. Puede aprender preferencias de acción mediante sus propios objetivos, que no tienen por qué coincidir perfectamente con el orden inducido por la red de valor.
+
+## 11. Cómo aprender simultáneamente valor y política
+
+Existen distintas posibilidades para combinar ambos componentes.
+
+Una arquitectura especialmente interesante utiliza una red neuronal compartida con dos salidas.
+
+Matemáticamente:
+
+\\[ h=f\_{\theta_s}(s) \\]
+
+\\[ \boxed{ (\mathbf p,v)=f\_{\theta_s,\phi,\theta_v}(s) } \\]
+
+donde:
+
+- \\(\theta_s\\): parámetros compartidos.
+- \\(\phi\\): parámetros de la cabeza de política.
+- \\(\theta_v\\): parámetros de la cabeza de valor.
+
+La ventaja es que la red puede compartir características útiles para ambas tareas.
+
+Por ejemplo, reconocer una estructura de peones favorable puede contribuir tanto a determinar el valor de la posición como a priorizar jugadas que preserven esa estructura.
+
+Pero el aprendizaje simultáneo también puede producir interferencias entre objetivos, porque los gradientes de valor y política no siempre apuntan hacia modificaciones compatibles de la representación interna.
+
+## 12. Aprendizaje Actor-Critic
+
+Una posibilidad es utilizar una arquitectura Actor-Critic.
+
+El componente Actor aprende la política:
+
+\\[ \pi\_\phi(a\mid s) \\]
+
+El componente Critic estima el valor:
+
+\\[ V\_\theta(s) \\]
+
+La función de valor permite evaluar si las decisiones tomadas por el actor producen resultados mejores o peores que los esperados.
+
+### 12.1. Ventaja de una acción
+
+Definimos:
+
+\\[ \boxed{ A^\pi(s,a)=Q^\pi(s,a)-V^\pi(s) } \\]
+
+Esta magnitud se denomina Advantage.
+
+Si:
+
+\\[ A^\pi(s,a)>0 \\]
+
+la acción tiene un valor superior al promedio esperado bajo la política considerada.
+
+Si:
+
+\\[ A^\pi(s,a)<0 \\]
+
+su resultado esperado es inferior al valor de referencia.
+
+El Actor puede aprender a aumentar la probabilidad de acciones con ventaja positiva y reducirla para acciones con ventaja negativa.
+
+### 12.2. Aproximación de la ventaja mediante TD
+
+Utilizando la perspectiva del jugador activo:
+
+\\[ \boxed{ \hat A_t= r_t-\gamma V\_{\bar\theta}(s\_{t+1})-V\_\theta(s_t) } \\]
+
+para transiciones no terminales.
+
+En estados terminales:
+
+\\[ \hat A_t=r_t-V\_\theta(s_t) \\]
+
+Esto coincide con el error TD definido anteriormente.
+
+La coincidencia no es accidental: el error de predicción de valor puede utilizarse como una señal de mejora relativa para la política.
+
+### 12.3. Función de pérdida del Actor
+
+El gradiente de política tiene la forma:
+
+\\[ \boxed{ \nabla\_\phi J(\phi) = \mathbb E \left[ \nabla\_\phi\log\pi\_\phi(a_t\mid s_t) A^\pi(s_t,a_t) \right] } \\]
+
+Esta expresión corresponde al marco de gradientes de política, bajo los supuestos apropiados sobre la distribución de trayectorias y el retorno.
+
+Para minimizar una pérdida:
+
+\\[ \boxed{ L\_{\text{Actor}}(\phi)= -\mathbb E \left[ \log\pi\_\phi(a_t\mid s_t) \hat A_t \right] } \\]
+
+Cuando la ventaja es positiva, el entrenamiento tiende a aumentar la probabilidad de la acción ejecutada.
+
+Cuando es negativa, tiende a disminuirla.
+
+### 12.4. Función de pérdida del Critic
+
+El evaluador intenta reducir el error de predicción:
+
+\\[ \boxed{ L\_{\text{Critic}}(\theta)= \frac12 \mathbb E \left[ V\_\theta(s_t)-y_t \right]^2 } \\]
+
+Una función objetivo combinada puede ser:
+
+\\[ \boxed{ L= L\_{\text{Actor}} + \lambda_v L\_{\text{Critic}} - \lambda_H H(\pi) } \\]
+
+donde:
+
+\\[ H(\pi)= -\sum\_{a\in\mathcal A(s)} \pi(a\mid s)\log\pi(a\mid s) \\]
+
+es la entropía de la política.
+
+El término de entropía favorece que la política no se concentre demasiado pronto en unas pocas acciones.
+
+Los coeficientes:
+
+\\[ \lambda_v,\lambda_H \\]
+
+controlan la influencia relativa de los distintos objetivos.
+
+### 12.5. Ejemplo de aprendizaje de una jugada
+
+Supongamos que el Actor asigna:
+
+\\[ \pi\_\phi(a_1\mid s)=0,20 \\]
+
+El Critic estima:
+
+\\[ V\_\theta(s)=+0,10 \\]
+
+Después de ejecutar la jugada, la estimación respaldada por la transición es:
+
+\\[ y=+0,45 \\]
+
+La ventaja estimada es:
+
+\\[ \hat A=0,45-0,10 \\]
+
+\\[ \boxed{\hat A=+0,35} \\]
+
+La jugada fue mejor de lo esperado por el Critic.
+
+El entrenamiento del Actor tenderá a aumentar su probabilidad en situaciones similares.
+
+Simultáneamente, el Critic ajustará su estimación del valor de la posición.
+
+Pero existe una advertencia importante: el objetivo \\(+0,45\\) es una estimación, no una verdad demostrada. Si el Critic sobreestima la posición sucesora, ambos componentes pueden reforzar una jugada objetivamente mala.
+
+## 13. Iteración de políticas y ecuación de Bellman
+
+La relación entre valor y política puede entenderse mediante Policy Iteration.
+
+El procedimiento ideal contiene dos etapas.
+
+### 13.1. Evaluación de la política
+
+Dada una política:
+
+\\[ \pi_k \\]
+
+se calcula su función de valor:
+
+\\[ V^{\pi_k}(s) \\]
+
+mediante la ecuación de Bellman correspondiente.
+
+En un juego de suma cero, esta evaluación debe considerar las políticas de ambos jugadores.
+
+Si ambos utilizan la misma política expresada desde la perspectiva del jugador activo, el valor describe el resultado esperado del enfrentamiento entre esas políticas, no necesariamente el resultado contra un adversario óptimo.
+
+### 13.2. Mejora de la política
+
+Una vez conocida la función de valor, puede construirse una política mejorada.
+
+Idealmente:
+
+\\[ \boxed{ \pi\_{k+1}(s) = \arg\max\_{a\in\mathcal A(s)} \left[ r(s,a)-\gamma V^{\pi_k}(T(s,a)) \right] } \\]
+
+con la convención terminal correspondiente.
+
+El procedimiento conceptual es:
+
+```
+            Política inicial π₀
+                   │
+                   ▼
+           Evaluar V(π₀)
+                   │
+                   ▼
+        Mejorar usando Bellman
+                   │
+                   ▼
+             Nueva política π₁
+                   │
+                   ▼
+           Evaluar V(π₁)
+                   │
+                   ▼
+                ...
+```
+
+En programación dinámica tabular exacta, existen resultados de convergencia bajo determinados supuestos.
+
+Pero trasladar esas garantías directamente al ajedrez con redes profundas sería incorrecto.
+
+En aprendizaje profundo, la función de valor es aproximada, el muestreo es parcial, los adversarios cambian y las actualizaciones pueden ser inestables.
+
+Por lo tanto, la iteración de políticas proporciona una estructura conceptual, no una garantía automática de convergencia.
+
+## 14. Autojuego como mecanismo de generación de experiencia
+
+Una característica especialmente atractiva del ajedrez es que el entorno no requiere un simulador probabilístico complejo.
+
+Las reglas son conocidas y permiten generar una cantidad ilimitada de partidas sintéticas, condicionada solamente por los recursos computacionales disponibles.
+
+El agente puede jugar contra sí mismo:
+
+\\[ \pi\_{\phi_k}\quad\text{versus}\quad\pi\_{\phi_k} \\]
+
+Cada partida produce una trayectoria:
+
+\\[ \tau_i= (s_0,a_0,s_1,a_1,\ldots,s_T,z) \\]
+
+Las trayectorias se almacenan y se utilizan para entrenar la función de valor y la política.
+
+### 14.1. Ciclo completo de aprendizaje
+
+El entrenamiento puede comenzar con una política inicial completamente aleatoria sobre las jugadas legales.
+
+Sin embargo, ese comienzo presenta dificultades importantes.
+
+Un agente aleatorio no tiene conocimientos básicos de desarrollo, material, seguridad del rey ni coordinación de piezas.
+
+Por lo tanto, las primeras partidas pueden contener secuencias prácticamente irrelevantes para aprender juego estratégico.
+
+Una alternativa es comenzar con una política entrenada mediante partidas existentes, un evaluador convencional o un agente anterior.
+
+Esto no contradice el uso de Bellman: modifica la inicialización y la distribución inicial de experiencias.
+
+### 14.2. Política exploratoria
+
+Para evitar que el sistema repita exclusivamente las jugadas consideradas mejores, puede utilizarse una política \\(\varepsilon\\)-greedy:
+
+\\[ \pi\_\varepsilon(a\mid s)= \begin{cases} \text{acción óptima estimada} & \text{con probabilidad }1-\varepsilon\\\ \text{acción legal aleatoria} & \text{con probabilidad }\varepsilon \end{cases} \\]
+
+En caso de empates entre acciones, puede establecerse una regla de desempate aleatoria.
+
+También pueden utilizarse políticas Softmax, muestreo con temperatura o ruido introducido en las preferencias.
+
+La exploración es necesaria porque una política que nunca prueba alternativas puede quedar atrapada en comportamientos mediocres.
+
+Pero explorar durante una partida competitiva también implica ejecutar jugadas que el propio sistema considera inferiores.
+
+Por eso conviene separar el comportamiento de entrenamiento del comportamiento de evaluación.
+
+## 15. Ejemplo completo de aprendizaje de una política
+
+Consideremos una posición hipotética donde el agente dispone de tres acciones:
+
+\\[ a_1,a_2,a_3 \\]
+
+Inicialmente, la política asigna:
+
+\\[ \pi(a_1\mid s)=0,40 \\]
+
+\\[ \pi(a_2\mid s)=0,35 \\]
+
+\\[ \pi(a_3\mid s)=0,25 \\]
+
+La función de valor estima:
+
+\\[ V\_\theta(s)=0,10 \\]
+
+El agente ejecuta \\(a_2\\).
+
+Después de esa jugada, el valor de la posición sucesora desde la perspectiva adversaria es:
+
+\\[ V\_{\bar\theta}(s')=-0,50 \\]
+
+Con recompensa inmediata nula y \\(\gamma=1\\):
+
+\\[ y=0-(-0,50)=0,50 \\]
+
+La ventaja estimada es:
+
+\\[ \hat A=0,50-0,10=0,40 \\]
+
+Como la ventaja es positiva, el Actor aumenta la preferencia por \\(a_2\\).
+
+Supongamos que después de numerosas actualizaciones se obtiene:
+
+\\[ \pi\_{\text{nueva}}(a_1\mid s)=0,25 \\]
+
+\\[ \pi\_{\text{nueva}}(a_2\mid s)=0,60 \\]
+
+\\[ \pi\_{\text{nueva}}(a_3\mid s)=0,15 \\]
+
+La política ha modificado su comportamiento:
+
+Antes del aprendizaje
+
+a₁
+
+40%
+
+a₂
+
+35%
+
+a₃
+
+25%
+
+Después del aprendizaje
+
+a₁
+
+25%
+
+a₂
+
+60%
+
+a₃
+
+15%
+
+Los números son ilustrativos y no implican una regla fija de actualización entre ventaja y probabilidades.
+
+El ejemplo muestra la lógica del entrenamiento: una experiencia evaluada favorablemente modifica la distribución de acciones para aumentar la frecuencia de movimientos similares.
+
+Pero el sistema todavía necesita resolver un problema crítico.
+
+¿La jugada \\(a_2\\) es realmente buena o simplemente el evaluador se equivoca al considerar mala la posición del adversario?
+
+Para responder, necesitamos utilizar información más sólida que una única predicción de la red.
+
+## 16. Combinación de Bellman con búsqueda de movimientos
+
+Una posibilidad particularmente interesante consiste en combinar la red neuronal con un procedimiento de búsqueda.
+
+La red produce estimaciones de valor y probabilidades iniciales de jugadas, mientras que la búsqueda examina posibles consecuencias y corrige parcialmente esas estimaciones.
+
+Este es el principio general de los sistemas que combinan redes de política y valor con Monte Carlo Tree Search (MCTS), como AlphaZero. Conviene precisar que AlphaZero no es simplemente un sistema de Deep Q-Learning ni utiliza como objetivo principal el residuo Bellman TD(0): su entrenamiento publicado utiliza resultados finales de partidas y distribuciones de acciones obtenidas de la búsqueda.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://doi.org\&sz=32)
+
+Science+1
+
+
+
+### 16.1. Valor y política como aproximaciones complementarias
+
+La red calcula:
+
+\\[ \boxed{ (\mathbf p,v)=f\_\theta(s) } \\]
+
+donde:
+
+\\[ p_a=\pi\_\theta(a\mid s) \\]
+
+es la probabilidad previa asignada a cada movimiento y:
+
+\\[ v=V\_\theta(s) \\]
+
+es la estimación de valor.
+
+La búsqueda utiliza estas dos salidas para decidir qué ramas explorar.
+
+En una implementación de MCTS puede mantenerse, para cada acción:
+
+- \\(N(s,a)\\): cantidad de visitas.
+- \\(W(s,a)\\): suma de valores acumulados.
+- \\(Q(s,a)=W(s,a)/N(s,a)\\): valor medio estimado.
+- \\(P(s,a)\\): probabilidad previa neuronal.
+
+Una regla frecuente, denominada PUCT, selecciona movimientos utilizando:
+
+\\[ \boxed{ a^\*=\arg\max\_{a\in\mathcal A(s)} \left[ Q(s,a)+U(s,a) \right] } \\]
+
+donde un término de exploración puede ser:
+
+\\[ \boxed{ U(s,a)= c\_{\text{puct}} P(s,a) \frac{ \sqrt{\sum_b N(s,b)} }{ 1+N(s,a) } } \\]
+
+El término \\(Q\\) favorece movimientos que han obtenido evaluaciones elevadas.
+
+El término \\(U\\) promueve movimientos con probabilidad previa significativa y pocas visitas.
+
+Esta expresión presupone que \\(Q\\) está representado desde la perspectiva del jugador que selecciona la acción en \\(s\\).
+
+### 16.2. Actualización de valores durante la búsqueda
+
+Supongamos que una simulación alcanza una posición hoja:
+
+\\[ s_L \\]
+
+La red devuelve:
+
+\\[ v_L=V\_\theta(s_L) \\]
+
+Ese valor se propaga hacia los nodos anteriores.
+
+Como los jugadores alternan, debe cambiarse el signo al atravesar cada media jugada.
+
+Para una trayectoria:
+
+\\[ s_0\rightarrow s_1\rightarrow \cdots\rightarrow s_L \\]
+
+con recompensas intermedias cero y \\(\gamma=1\\), el valor de la hoja desde la perspectiva del jugador activo en \\(s_t\\) es:
+
+\\[ \boxed{ v_t=(-1)^{L-t}v_L } \\]
+
+La búsqueda puede acumular esos valores en las aristas de su árbol.
+
+Cada vez que una arista \\((s,a)\\) recibe una nueva observación \\(v\\):
+
+\\[ N(s,a)\leftarrow N(s,a)+1 \\]
+
+\\[ W(s,a)\leftarrow W(s,a)+v \\]
+
+\\[ Q(s,a)=\frac{W(s,a)}{N(s,a)} \\]
+
+De esta manera, los valores iniciales de la red se combinan con información obtenida mediante exploración de continuaciones.
+
+Esto no garantiza eliminar los errores de evaluación, pero permite contrastar las preferencias iniciales con consecuencias de varios movimientos.
+
+### 16.3. Política mejorada por búsqueda
+
+Después de realizar \\(K\\) simulaciones, puede obtenerse una nueva distribución de política a partir de los conteos de visitas:
+
+\\[ \boxed{ \pi\_{\text{MCTS}}(a\mid s)= \frac{ N(s,a)^{1/\tau} }{ \sum_b N(s,b)^{1/\tau} } } \\]
+
+Esta distribución puede servir para seleccionar la jugada ejecutada y también como objetivo para entrenar la cabeza de política de la red.
+
+Una función de pérdida inspirada en el procedimiento publicado para AlphaZero es:
+
+\\[ \boxed{ L(\theta)= (z-V\_\theta(s))^2 - \sum_a \pi\_{\text{MCTS}}(a\mid s) \log p\_\theta(a\mid s) + \lambda\\|\theta\\|\_2^2 } \\]
+
+El primer término entrena el valor frente al resultado final.
+
+El segundo entrena la política para aproximar la distribución de visitas producida por MCTS.
+
+El tercero introduce regularización.
+
+De esta forma, la red intenta aprender a reproducir parte del comportamiento de una búsqueda mucho más costosa, permitiendo orientar mejor búsquedas futuras.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://www.davidsilver.uk\&sz=32)
+
+davidsilver.uk+1
+
+
+
+### 16.4. Diferencia respecto del aprendizaje directo por Bellman
+
+Existen tres estrategias que conviene distinguir:
+
+| Estrategia   | Objetivo de valor                                | Obtención de la política               |
+| ------------ | ------------------------------------------------ | -------------------------------------- |
+| TD / Bellman | Valor del estado sucesor y recompensa            | Greedy, Actor-Critic o derivada de Q   |
+| Monte Carlo  | Resultado final observado                        | Gradiente de política o supervisión    |
+| Red + MCTS   | Resultado final, valor de búsqueda o combinación | Distribución de visitas de la búsqueda |
+
+Las tres pueden considerarse dentro de una familia más amplia de aprendizaje por refuerzo.
+
+Pero no son equivalentes desde el punto de vista de las funciones de pérdida, la estabilidad o el costo computacional.
+
+## 17. Una propuesta de aprendizaje profundo guiado explícitamente por Bellman
+
+Podemos construir ahora una arquitectura que utilice directamente la ecuación de Bellman para mejorar tanto el valor como la política.
+
+La idea consiste en utilizar una red de doble salida y entrenarla mediante un procedimiento de autojuego, con objetivos Bellman respaldados por una red de referencia.
+
+### 17.1. Arquitectura propuesta
+
+Definimos:
+
+\\[ f\_\theta(s)= \left( V\_\theta(s),\pi\_\theta(\cdot\mid s) \right) \\]
+
+Para cada estado \\(s\\), se generan sus movimientos legales:
+
+\\[ \mathcal A(s) \\]
+
+Después de aplicar cada jugada:
+
+\\[ s'\_a=T(s,a) \\]
+
+calculamos un valor aproximado de acción:
+
+\\[ \boxed{ \hat Q(s,a)= \begin{cases} r(s,a) & \text{si la jugada termina la partida}\\\\[4pt] r(s,a)-\gamma V\_{\bar\theta}(s'\_a) & \text{en otro caso} \end{cases} } \\]
+
+Esta expresión genera una estimación del valor de cada jugada sin realizar una búsqueda extensa.
+
+### 17.2. Objetivo de valor
+
+Podemos construir un objetivo de optimalidad Bellman:
+
+\\[ \boxed{ y_V(s)= \max\_{a\in\mathcal A(s)}\hat Q(s,a) } \\]
+
+La pérdida de valor será:
+
+\\[ \boxed{ L_V= \left[ V\_\theta(s)-\operatorname{stopgrad}(y_V(s)) \right]^2 } \\]
+
+La operación \\(\operatorname{stopgrad}\\) indica que el objetivo se considera constante durante la actualización.
+
+Con ello se evita propagar el gradiente a través del propio cálculo del objetivo Bellman.
+
+Esta estrategia constituye una forma de aproximación de valor óptimo de un paso, en la que se evalúan todos los sucesores legales con la red de referencia.
+
+No debe confundirse con TD sobre la jugada realmente ejecutada: en el objetivo anterior se realiza una maximización sobre las jugadas disponibles.
+
+### 17.3. Objetivo de política
+
+Para la política puede utilizarse una distribución derivada de los valores de acción:
+
+\\[ \boxed{ \pi_B(a\mid s)= \frac{ \exp(\hat Q(s,a)/\tau) }{ \sum\_{b\in\mathcal A(s)} \exp(\hat Q(s,b)/\tau) } } \\]
+
+La distribución \\(\pi_B\\) constituye una política mejorada aproximadamente por Bellman.
+
+A temperaturas bajas, se concentra en los movimientos con mayor valor estimado.
+
+A temperaturas altas, conserva mayor diversidad.
+
+La red de política se entrena para aproximar esa distribución mediante entropía cruzada:
+
+\\[ \boxed{ L\_\pi= -\sum\_{a\in\mathcal A(s)} \pi_B(a\mid s) \log\pi\_\theta(a\mid s) } \\]
+
+La función de pérdida combinada puede escribirse:
+
+\\[ \boxed{ L(\theta)= \lambda_V L_V+ \lambda\_\pi L\_\pi+ \lambda_R\\|\theta\\|\_2^2 } \\]
+
+El objetivo es que la cabeza de valor aprenda a estimar el valor Bellman de las posiciones y que la cabeza de política aprenda a seleccionar las acciones que maximizan esos valores.
+
+### 17.4. Interpretación matemática
+
+La arquitectura intenta aproximar simultáneamente dos relaciones.
+
+Consistencia de valor:
+
+\\[ \boxed{ V\_\theta(s)\approx \max\_{a\in\mathcal A(s)} \left[ r(s,a)-\gamma V\_{\bar\theta}(T(s,a)) \right] } \\]
+
+con tratamiento terminal especial.
+
+Consistencia de política:
+
+\\[ \boxed{ \pi\_\theta(a\mid s)\approx \operatorname{Softmax} \left( \hat Q(s,a)/\tau \right) } \\]
+
+La primera relación busca que el valor de una posición sea coherente con las consecuencias de sus jugadas.
+
+La segunda busca que la probabilidad de seleccionar una jugada sea coherente con su valor estimado.
+
+En términos conceptuales, ambas cabezas aprenden aproximaciones diferentes de una misma estructura de decisión.
+
+### 17.5. Procedimiento de entrenamiento
+
+Una implementación conceptual puede utilizar el siguiente esquema:
+
+```
+initialize network(theta)initialize target_network(theta_target)initialize replay_buffer()for iteration in range(max_iterations):    # 1. Generar partidas    games = self_play(        network=theta,        exploration=True    )    replay_buffer.add(games)    # 2. Seleccionar posiciones    batch = replay_buffer.sample_batch()    value_targets = []    policy_targets = []    for position in batch.positions:        legal_moves = generate_legal_moves(position)        action_values = []        # 3. Evaluar cada sucesor legal        for move in legal_moves:            child = make_move(position, move)            if is_terminal(child):                q = terminal_reward_for_mover(child)            else:                q = -gamma * target_network.value(child)
+```
+
+El pseudocódigo describe la estructura del método y omite detalles como el tratamiento de posiciones terminales ya presentes en el lote, las máscaras legales, los límites de partidas, la gestión de gradientes y la evaluación de nuevos modelos.
+
+### 17.6. ¿Qué se está intentando aprender?
+
+Si el entrenamiento funcionara idealmente, la red aprendería una función:
+
+\\[ V\_\theta(s) \\]
+
+que satisficiera aproximadamente:
+
+\\[ V\_\theta(s)\approx\mathcal T V\_\theta(s) \\]
+
+donde \\(\mathcal T\\) es el operador de optimalidad Bellman adversarial.
+
+En el caso de recompensas finales y transiciones no terminales:
+
+\\[ (\mathcal T V)(s)= \max\_{a\in\mathcal A(s)} \left[-\gamma V(T(s,a))\right] \\]
+
+con las condiciones terminales correspondientes.
+
+Un punto fijo del operador satisface:
+
+\\[ \boxed{ V=\mathcal T V } \\]
+
+En un juego finito adecuadamente formulado, la función óptima cumple esa relación.
+
+La red intenta aproximar ese punto fijo mediante gradientes y experiencia parcial, sin enumerar todo el espacio de estados.
+
+Este es el aspecto matemáticamente más atractivo de la propuesta.
+
+También es el origen de varias de sus dificultades.
+
+## 18. ¿Qué resultado puede obtenerse?
+
+Es importante distinguir entre el objetivo matemático ideal y el resultado que razonablemente puede esperarse de una implementación real.
+
+### 18.1. Resultado ideal
+
+En el límite ideal, si se dispusiera de:
+
+- Representación completa de los estados.
+- Exploración suficiente.
+- Aproximación exacta de la función de valor.
+- Actualizaciones estables.
+- Condiciones terminales correctas.
+- Recursos computacionales suficientes.
+
+podría obtenerse una aproximación arbitrariamente precisa al valor óptimo de las posiciones relevantes, bajo los supuestos matemáticos correspondientes.
+
+Para una formulación tabular exacta de un juego finito de suma cero, los valores óptimos determinan estrategias que preservan el resultado de juego perfecto.
+
+En un juego como el ajedrez, si el valor exacto de todas las posiciones fuera conocido, una política podría seleccionar movimientos que preservaran el mejor resultado teórico disponible.
+
+Con utilidad terminal:
+
+\\[ z\in\\{-1,0,+1\\} \\]
+
+la función de valor óptimo tendría, para estados deterministas completamente resueltos, valores correspondientes a victoria, tablas o derrota bajo juego perfecto.
+
+En tal escenario:
+
+\\[ V^\*(s)\in\\{-1,0,+1\\} \\]
+
+cuando el estado incluye toda la información relevante y el juego se resuelve con reglas terminales bien definidas.
+
+Esto no debe confundirse con el valor de una política estocástica aprendida, que puede tomar valores intermedios porque representa expectativas sobre múltiples continuaciones.
+
+### 18.2. Resultado de una implementación neuronal real
+
+En la práctica, la red podría producir:
+
+1. Una estimación continua del resultado esperado de una posición.
+2. Una distribución de probabilidades sobre jugadas legales.
+3. Una política capaz de seleccionar movimientos sin búsqueda extensa.
+4. Una representación interna de patrones posicionales y tácticos aprendidos.
+5. Un evaluador reutilizable dentro de un motor con Minimax, Alfa-Beta o MCTS.
+
+Sin embargo, el aprendizaje no garantiza obtener juego óptimo, ni siquiera una mejora monotónica de la fuerza del agente.
+
+La calidad final dependerá de la arquitectura, la cantidad y diversidad de experiencias, los objetivos de entrenamiento, los adversarios utilizados y el presupuesto computacional.
+
+## 19. Principales problemas del enfoque
+
+La utilización directa de la ecuación de Bellman con redes neuronales para aprender a jugar ajedrez resulta matemáticamente razonable, pero enfrenta dificultades importantes.
+
+Algunas son problemas generales del aprendizaje por refuerzo profundo; otras aparecen específicamente por la naturaleza adversarial del ajedrez.
+
+### 19.1. Recompensas extremadamente escasas
+
+El primer problema es que el resultado relevante de una partida aparece normalmente después de numerosas decisiones.
+
+Una partida puede contener decenas o cientos de medias jugadas, pero solamente proporciona una recompensa final:
+
+\\[ r_T\in\\{-1,0,+1\\} \\]
+
+Durante el resto de la partida:
+
+\\[ r_t=0 \\]
+
+Esto dificulta determinar qué decisiones fueron responsables del resultado.
+
+Por ejemplo, una derrota puede deberse a un error cometido 30 movimientos antes del final.
+
+Un mecanismo TD de un paso no identifica directamente esa responsabilidad. La información debe propagarse mediante sucesivas actualizaciones.
+
+El problema recibe el nombre de credit assignment.
+
+Consecuencia: el aprendizaje puede requerir grandes cantidades de partidas para descubrir relaciones que una búsqueda táctica relativamente superficial podría identificar directamente.
+
+Una alternativa sería introducir recompensas intermedias por capturar material, mejorar la seguridad del rey o controlar el centro.
+
+Sin embargo, esto altera el objetivo original. Un agente podría aprender a maximizar capturas de peones aun cuando ello perjudicara sus posibilidades de ganar.
+
+Si se incorpora reward shaping, debe diseñarse cuidadosamente para evitar que el agente optimice una medida auxiliar en lugar del resultado real de la partida.
+
+### 19.2. El problema del adversario cambiante
+
+En el aprendizaje por refuerzo convencional, suele suponerse que las propiedades del entorno permanecen estables.
+
+En el autojuego, el adversario también está aprendiendo.
+
+Por lo tanto:
+
+\\[ \pi\_{\text{oponente}}^{(k)} \neq \pi\_{\text{oponente}}^{(k+1)} \\]
+
+La distribución de experiencias cambia a lo largo del entrenamiento.
+
+Una estrategia eficaz contra una versión anterior del agente puede ser completamente ineficaz contra una versión posterior.
+
+Esto produce un problema de no estacionariedad.
+
+Además, una política puede aprender a explotar debilidades específicas de sí misma sin adquirir necesariamente una capacidad general para enfrentar adversarios diferentes.
+
+Por ejemplo, si ambos agentes desarrollan una tendencia a no proteger determinadas piezas, pueden aprender patrones que funcionan dentro de su población de autojuego pero fracasan frente a un adversario externo.
+
+Una solución parcial consiste en entrenar contra una población de versiones anteriores, políticas de distinta fuerza o adversarios de diferentes estilos.
+
+### 19.3. Errores de autoevaluación que se refuerzan
+
+Este es uno de los problemas más importantes de un enfoque Bellman directo.
+
+Supongamos que la red asigna incorrectamente a una posición:
+
+\\[ V\_\theta(s')=-0,80 \\]
+
+El agente que puede conducir a esa posición calcula:
+
+\\[ Q(s,a)=-V\_\theta(s')=+0,80 \\]
+
+y considera que la jugada es excelente.
+
+La cabeza de política incrementa su probabilidad.
+
+El agente comienza a ejecutar esa jugada con mayor frecuencia.
+
+Si los ejemplos posteriores tampoco revelan adecuadamente el error, el sistema puede reforzar una creencia equivocada.
+
+Se produce un ciclo:
+
+```
+Evaluación equivocada
+        ↓
+Preferencia por una mala jugada
+        ↓
+Más experiencias asociadas
+        ↓
+Objetivos Bellman contaminados
+        ↓
+Refuerzo de la evaluación equivocada
+```
+
+El problema no consiste en que Bellman sea matemáticamente incorrecto.
+
+Consiste en que las aproximaciones neuronales utilizadas en ambos lados de la ecuación pueden contener errores correlacionados.
+
+Las redes de referencia, la búsqueda adicional y los resultados finales ayudan a mitigar este problema, pero no lo eliminan de manera general.
+
+### 19.4. Inestabilidad por aproximación de funciones y bootstrapping
+
+En Deep Q-Learning aparece una dificultad conocida como la tríada mortal del aprendizaje por refuerzo:
+
+1. Aproximación de funciones.
+2. Aprendizaje fuera de política (off-policy).
+3. Objetivos construidos mediante bootstrapping.
+
+Estas tres características pueden generar divergencia o inestabilidad.
+
+El problema surge porque los valores objetivo dependen de estimaciones realizadas por una red cuyos parámetros también están cambiando.
+
+En particular:
+
+\\[ y=r-\gamma\max\_{a'}Q\_{\bar\theta}(s',a') \\]
+
+puede variar considerablemente cuando se modifican los pesos de la red.
+
+Además, el operador de maximización puede amplificar errores de estimación.
+
+Es importante distinguir que la presencia de bootstrapping y aproximación neuronal no implica automáticamente divergencia; el riesgo depende del algoritmo y de las condiciones de entrenamiento.
+
+Las redes objetivo, el replay buffer y las variantes de Double Q-Learning pueden mejorar la estabilidad, pero no proporcionan una garantía general de convergencia en el ajedrez profundo.
+
+### 19.5. Gran espacio de estados y escasa cobertura
+
+El espacio de posiciones de ajedrez es extraordinariamente grande.
+
+La red solamente observa una fracción diminuta de ese espacio durante el entrenamiento.
+
+Por lo tanto, debe generalizar hacia posiciones que nunca vio.
+
+Esto puede funcionar para patrones frecuentes, como el desarrollo de piezas o determinadas estructuras de peones.
+
+Sin embargo, en ajedrez existen posiciones muy poco frecuentes donde pequeños detalles cambian radicalmente el resultado.
+
+Un peón desplazado una sola casilla, una posibilidad de captura al paso o la pérdida de un derecho de enroque pueden modificar completamente el valor estratégico.
+
+La generalización neuronal no garantiza conservar esas diferencias críticas.
+
+### 19.6. La evaluación estratégica no sustituye necesariamente a la búsqueda táctica
+
+Una red puede aprender que una posición parece favorable, pero eso no significa que haya identificado todas las combinaciones forzadas.
+
+Por ejemplo, una combinación de sacrificio puede requerir diez medias jugadas para mostrar sus consecuencias.
+
+Una evaluación directa:
+
+\\[ V\_\theta(s) \\]
+
+debe inferir esas consecuencias sin explorarlas explícitamente.
+
+Esto puede exigir una capacidad de representación y un volumen de entrenamiento considerablemente mayores que los necesarios para reconocer patrones posicionales generales.
+
+La búsqueda, en cambio, puede verificar concretamente una secuencia de movimientos.
+
+Por ello, una arquitectura puramente neuronal sin búsqueda tiene una limitación importante cuando se enfrenta a problemas tácticos que requieren razonamiento combinatorio preciso.
+
+La existencia de sistemas eficaces que combinan redes de valor y política con búsqueda ofrece evidencia de la utilidad de esta complementariedad, pero no demuestra que toda arquitectura híbrida supere a cualquier sistema neuronal directo.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://www.nature.com\&sz=32)
+
+Nature+1
+
+
+
+### 19.7. El problema de las tablas
+
+El ajedrez presenta una dificultad adicional: muchas posiciones permiten obtener tablas mediante juego correcto.
+
+La recompensa:
+
+\\[ z=0 \\]
+
+es idéntica tanto para una posición completamente equilibrada como para una posición materialmente desfavorable en la que existe una defensa forzada que preserva las tablas.
+
+Desde el punto de vista del resultado teórico, ambas pueden tener el mismo valor.
+
+Pero desde una perspectiva práctica, las posiciones pueden ser muy diferentes.
+
+Además, si el autojuego contiene muchas partidas que terminan en tablas, la red puede recibir una gran cantidad de objetivos cercanos a cero.
+
+Esto puede dificultar la discriminación de ventajas pequeñas y reducir la presión de aprendizaje para encontrar estrategias ganadoras.
+
+Una cabeza WDL permite distinguir probabilidades de victoria, tablas y derrota, pero no resuelve automáticamente la falta de información sobre la calidad táctica de una posición.
+
+### 19.8. El problema del factor de descuento
+
+En muchas aplicaciones de aprendizaje por refuerzo se utiliza:
+
+\\[ 0<\gamma<1 \\]
+
+porque ese descuento proporciona propiedades matemáticas convenientes.
+
+Para operadores Bellman estándar, el descuento puede hacer que el operador sea contractivo en la norma supremo:
+
+\\[ \\|\mathcal TV-\mathcal TW\\|\_\infty \leq \gamma\\|V-W\\|\_\infty \\]
+
+En particular, si:
+
+\\[ \gamma<1 \\]
+
+la contracción facilita ciertos resultados de existencia, unicidad y convergencia en formulaciones tabulares exactas.
+
+La propiedad puede extenderse al operador adversarial de máximo y mínimo bajo supuestos adecuados.
+
+Pero en ajedrez suele interesar:
+
+\\[ \gamma=1 \\]
+
+porque el objetivo es ganar, independientemente del tiempo que requiera conseguirlo.
+
+Con \\(\gamma=1\\), ya no se dispone de la contracción estricta basada únicamente en el descuento.
+
+En juegos episódicos finitos o adecuadamente terminantes pueden existir otros argumentos que garanticen una solución, pero no deben confundirse con la contracción descontada.
+
+En particular, si se permiten ciclos sin condiciones terminales adecuadas, la formulación puede resultar incompleta.
+
+Este es un compromiso matemático real: elegir un descuento puede facilitar el tratamiento numérico, pero introduce preferencias temporales que no estaban presentes en el objetivo original.
+
+### 19.9. Diferencia entre consistencia Bellman y corrección estratégica
+
+Este problema merece especial atención.
+
+Supongamos que una red obtiene un residuo Bellman pequeño:
+
+\\[ \epsilon_B(s)= V\_\theta(s)-(\mathcal TV\_\theta)(s) \\]
+
+y que:
+
+\\[ |\epsilon_B(s)|\approx0 \\]
+
+para las posiciones observadas durante el entrenamiento.
+
+Esto indica consistencia local con las predicciones utilizadas.
+
+Pero no demuestra que:
+
+\\[ V\_\theta(s)\approx V^\*(s) \\]
+
+para todas las posiciones relevantes.
+
+Con \\(\gamma<1\\), en un modelo tabular exacto y cuando el residuo está acotado uniformemente sobre todo el espacio de estados, puede obtenerse una relación del tipo:
+
+\\[ \boxed{ \\|V-V^\*\\|\_\infty \leq \frac{ \\|V-\mathcal TV\\|\_\infty }{ 1-\gamma } } \\]
+
+Esta cota requiere las hipótesis de contracción y control uniforme del residuo.
+
+No puede aplicarse directamente al error medio observado en un pequeño conjunto de posiciones de entrenamiento.
+
+Cuando \\(\gamma=1\\), la cota anterior deja de ser útil, porque el denominador se anula.
+
+Por lo tanto, un error Bellman pequeño medido sobre partidas de autojuego no certifica por sí mismo que la política aprendida juegue bien al ajedrez.
+
+### 19.10. Coste computacional de evaluar todas las acciones
+
+En la propuesta de Bellman de un paso, para obtener:
+
+\\[ y_V(s)=\max_a\hat Q(s,a) \\]
+
+es necesario evaluar los estados sucesores de todas las jugadas legales.
+
+Si una posición dispone de \\(b\\) movimientos:
+
+\\[ N\_{\text{eval}}\approx b \\]
+
+por cada posición de entrenamiento.
+
+Si se procesan \\(N\\) posiciones:
+
+\\[ N\_{\text{eval,total}}\approx Nb \\]
+
+Para:
+
+\\[ N=10^7,\qquad b=35 \\]
+
+se necesitarían aproximadamente:
+
+\\[ 3,5\times10^8 \\]
+
+evaluaciones de posiciones sucesoras.
+
+Esto no incluye el costo de generar partidas, calcular gradientes, almacenar experiencias ni evaluar nuevos modelos.
+
+Por lo tanto, aun sin búsqueda profunda, el entrenamiento puede ser costoso.
+
+Una política que evalúa directamente todos los movimientos en una única pasada puede reducir parte de ese costo, pero también cambia las características del modelo y de sus objetivos de aprendizaje.
+
+## 20. Comparación con otros enfoques de aprendizaje y búsqueda
+
+| Enfoque                        | Principal ventaja                                                    | Principal dificultad                                      |
+| ------------------------------ | -------------------------------------------------------------------- | --------------------------------------------------------- |
+| Bellman + red de valor         | Aprende una estimación reutilizable de posiciones                    | Objetivos autoestimados y propagación de errores          |
+| Deep Q-Learning                | Aprende valores directamente para acciones                           | Estabilidad, espacio de acciones y cambio de perspectiva  |
+| Actor-Critic                   | Aprende conjuntamente política y valor                               | Varianza, errores del Critic y no estacionariedad         |
+| Monte Carlo desde partidas     | Utiliza resultados finales observados                                | Recompensas escasas y alta varianza                       |
+| Red + MCTS                     | Combina aprendizaje y exploración de consecuencias                   | Alto costo de búsqueda y entrenamiento                    |
+| Alfa-Beta + evaluador neuronal | Verifica tácticamente consecuencias y utiliza un evaluador aprendido | Necesita una búsqueda eficiente y una evaluación adecuada |
+
+No existe una superioridad universal entre estas alternativas.
+
+El resultado depende de los recursos disponibles, la arquitectura de la red, las características del hardware, el costo de evaluación y los objetivos de investigación.
+
+Un aspecto especialmente interesante es que la red Bellman puede utilizarse como evaluador de otro algoritmo de búsqueda.
+
+No resulta obligatorio elegir entre aprender una función de valor y ejecutar Minimax.
+
+Por ejemplo:
+
+\\[ V\_\theta(s) \\]
+
+puede actuar como evaluación de hoja de un árbol Alfa-Beta.
+
+La búsqueda puede corregir algunas decisiones tácticamente equivocadas que la red tomaría de forma aislada.
+
+También es posible emplear los valores Bellman para entrenar una política que ordene las jugadas antes de la búsqueda.
+
+Esta combinación permite separar dos problemas:
+
+- Aprender patrones generales de valoración.
+- Verificar consecuencias concretas de movimientos.
+
+## 21. Propuesta de experimento para evaluar el enfoque
+
+Para investigar seriamente la viabilidad de utilizar Bellman en ajedrez, convendría diseñar un experimento con controles que permitan distinguir la mejora real del aprendizaje de los efectos provocados por una búsqueda adicional.
+
+### 21.1. Modelos comparados
+
+Una comparación razonable utilizaría cuatro agentes:
+
+| Agente | Arquitectura                                                        |
+| ------ | ------------------------------------------------------------------- |
+| A      | Red de valor entrenada mediante Bellman TD                          |
+| B      | Red de política y valor entrenada mediante Actor-Critic             |
+| C      | Red de política y valor entrenada con resultados finales y búsqueda |
+| D      | Alfa-Beta con evaluador clásico de referencia                       |
+
+También convendría incluir un agente aleatorio legal como control inicial.
+
+Para una comparación equilibrada, los agentes neuronales deberían utilizar capacidades semejantes y, cuando sea posible, presupuestos de entrenamiento comparables.
+
+### 21.2. Métricas
+
+No sería suficiente medir solamente la pérdida de entrenamiento.
+
+Se deberían registrar:
+
+Error de valor:
+
+\\[ MSE= \frac1N \sum\_{i=1}^N (V\_\theta(s_i)-z_i)^2 \\]
+
+Error Bellman:
+
+\\[ BE= \frac1N \sum\_{i=1}^N \left[ V\_\theta(s_i)-(\mathcal TV\_{\bar\theta})(s_i) \right]^2 \\]
+
+Calidad de política: porcentaje de coincidencia con jugadas de referencia, cuando existan, o medidas de concordancia entre distribuciones de política.
+
+Rendimiento competitivo: resultados de partidas contra adversarios fijos y variados, con colores alternados y controles de tiempo definidos.
+
+Eficiencia computacional: tiempo de entrenamiento, inferencias por segundo, memoria utilizada y costo por jugada.
+
+Generalización: desempeño sobre posiciones no observadas durante el entrenamiento y problemas tácticos seleccionados.
+
+Los resultados de autojuego contra la misma versión del agente no serían suficientes para demostrar una mejora general de fuerza.
+
+### 21.3. Un experimento decisivo
+
+Una comparación particularmente informativa consistiría en evaluar el mismo modelo neuronal bajo tres condiciones:
+
+1. Selección directa de la jugada con la política aprendida.
+2. Evaluación Bellman de un paso sobre todos los sucesores legales.
+3. Búsqueda Alfa-Beta de profundidad fija utilizando la misma red de valor.
+
+Así podría determinarse hasta qué punto la capacidad adquirida reside en la red y hasta qué punto depende de la búsqueda.
+
+También permitiría medir la relación entre el costo de realizar más inferencias neuronales y el beneficio obtenido por explorar más profundamente.
+
+## 22. Conclusión
+
+La ecuación de Bellman ofrece una formulación rigurosa para describir cómo debería relacionarse el valor de una posición de ajedrez con los valores de las posiciones que pueden alcanzarse mediante sus jugadas legales.
+
+Desde la perspectiva del jugador activo, su formulación adversarial fundamental es:
+
+\\[ \boxed{ V^\*(s)= \max\_{a\in\mathcal A(s)} \left[ -\gamma V^\*(T(s,a)) \right] } \\]
+
+para movimientos no terminales con recompensa inmediata nula, utilizando las condiciones de frontera apropiadas para los resultados finales.
+
+El aprendizaje profundo propone aproximar esa función mediante:
+
+\\[ \boxed{ V\_\theta(s)\approx V^\*(s) } \\]
+
+y aprender una política:
+
+\\[ \boxed{ \pi\_\phi(a\mid s) } \\]
+
+capaz de seleccionar las jugadas con mayor valor estimado.
+
+El entrenamiento ajusta los parámetros neuronales utilizando errores de predicción, relaciones Bellman, resultados finales de partidas y eventualmente información producida por una búsqueda.
+
+En términos conceptuales, el aprendizaje intenta trasladar parte del trabajo de exploración hacia una función de evaluación generalizable: en lugar de resolver nuevamente desde cero cada posición, la red aprende regularidades a partir de experiencias anteriores.
+
+Sin embargo, esta transferencia plantea una dificultad fundamental.
+
+La ecuación de Bellman proporciona una condición de consistencia entre valores, pero no proporciona por sí misma valores correctos ni garantiza que una red neuronal entrenada con experiencias parciales converja al juego óptimo.
+
+En ajedrez, los principales obstáculos son la escasez de recompensas, los enormes espacios de estados y acciones, la no estacionariedad del autojuego, los errores que se retroalimentan mediante bootstrapping y la necesidad de detectar secuencias tácticas precisas.
+
+Por estas razones, una arquitectura neuronal que aplique Bellman de manera directa puede constituir una línea de investigación valiosa, aunque no deba suponerse que necesariamente superará a los métodos basados en búsqueda.
+
+La recomendación metodológica más sólida es separar experimentalmente tres capacidades: aprender el valor de las posiciones, aprender una política de movimientos y mejorar las decisiones mediante búsqueda.
+
+Esa separación permitiría determinar qué conocimiento adquirió realmente la red neuronal, cuáles son las limitaciones de la ecuación de Bellman aproximada y cuánto contribuye cada componente a la fuerza ajedrecística del sistema.
+
+## Referencias bibliográficas
+
+1. Bellman, R. (1957). Dynamic Programming. Princeton University Press.
+2. Sutton, R. S., & Barto, A. G. (2018). Reinforcement Learning: An Introduction. MIT Press. Especialmente los capítulos sobre programación dinámica, aprendizaje por diferencias temporales, aproximación de funciones y métodos de gradiente de política.
+3. Watkins, C. J. C. H., & Dayan, P. (1992). Q-learning. Machine Learning, 8, 279–292.
+4. Mnih, V., et al. (2015). Human-level control through deep reinforcement learning. Nature, 518, 529–533.
+5. Silver, D., et al. (2018). [A general reinforcement learning algorithm that masters chess, shogi, and Go through self-play](https://doi.org/10.1126/science.aar6404?utm_source=chatgpt.com). Science, 362, 1140–1144.
+6. Schrittwieser, J., et al. (2020). Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model. Nature, 588, 604–609.
+7. van Hasselt, H., Guez, A., & Silver, D. (2016). Deep Reinforcement Learning with Double Q-learning. Proceedings of AAAI.
+8. Schulman, J., et al. (2017). Proximal Policy Optimization Algorithms. arXiv:1707.06347.
+9. [Acquisition of chess knowledge in AlphaZero](https://pmc.ncbi.nlm.nih.gov/articles/PMC9704706/?utm_source=chatgpt.com). Estudio sobre el conocimiento ajedrecístico adquirido mediante redes de valor y política entrenadas con autojuego.
 
 ## De las máquinas
 Guiado por .pgn vs. aprendizaje al azar
