@@ -37,6 +37,19 @@
       "tmax": 10000,
       "rating_elo": 400
     },
+    "amelie": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine-path": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
+      "lc0-weights": "/home/pi/chess/networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-backend-options": "",
+      "az-simulations": 400,
+      "az-cpuct": 1.5,
+      "tmax": 8000,
+      "timeout": 60000,
+      "rating_elo": 400
+    },
     "daphne": {
       "player": "AlphaZero-X86",
       "evaluator": "null",
