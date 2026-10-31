@@ -4,7 +4,7 @@
 # v0.2.13 - cabecera de ejecución con nombre, versión y fuente JSON
 import argparse
 
-VERSION = "0.2.20"
+VERSION = "0.2.21"
 PROGRAMA = "fics_stats.py"
 from collections import defaultdict, Counter
 import math
@@ -218,7 +218,7 @@ def print_detailed_stats(kind, games):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Estadisticas FICS por modalidad, motor y rival')
-    parser.add_argument('--in', dest='input', required=True, metavar='ARCHIVO.json')
+    parser.add_argument('--json', dest='input', required=True, metavar='ARCHIVO.json')
     parser.add_argument('--stats', action='store_true', help='Histogramas por modalidad: segundos/movida y motivos de resultado')
     parser.add_argument('--ELO', dest='own_elo', type=int, metavar='NNNN', help='ELO propio usado como referencia para el ajuste ponderado')
     args = parser.parse_args(argv)
