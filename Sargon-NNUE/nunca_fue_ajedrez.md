@@ -761,9 +761,9 @@ $E_A = 0.76$ juega contra Jugador B (1600, $E_B = 0.24$):
 
 ### 📈 Cómo calcular la diferencia de Elo basada en la proporción de partidas ganadas
 
-Si dos jugadores disputan un bloque o match largo de muchas partidas (lo suficientemente grande para mitigar la varianza), podemos usar la proporción de puntos obtenidos para calcular la diferencia exacta de Elo (\(\Delta R\)) que existe entre ellos.
+Si dos jugadores disputan un bloque o match largo de muchas partidas (lo suficientemente grande para mitigar la varianza), podemos usar la proporción de puntos obtenidos para calcular la diferencia exacta de Elo ($\Delta R$) que existe entre ellos.
 La fórmula matemática para despejar la diferencia de Elo a partir del porcentaje de puntos ganados o proporción ($P$) es la inversa de la fórmula logística:
-$Delta R=400\times \log _{10}\left(\frac{P}{1-P}\right)$
+$\Delta{R}=400\times \log _{10}\left(\frac{P}{1-P}\right)$
 Donde $P$ es la proporción de puntos obtenidos (Puntos ganados / Puntos totales disputados).
 
 📝 Ejemplo Basado en Proporción:
@@ -771,9 +771,9 @@ Donde $P$ es la proporción de puntos obtenidos (Puntos ganados / Puntos totales
 Dos amigos juegan un match de 20 partidas. El Jugador A obtiene 15 puntos (combinando victorias y empates) y el Jugador B obtiene 5 puntos.
 1. Calculamos la proporción de A: $P = \frac{15}{20} = 0.75$ (75% de los puntos).
 2. Aplicamos la fórmula inversa: $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{1 - 0.75}\right)$
-3. $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)$
+3. $\Delta{R} = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)$
 4. Como $\log_{10}(3) \approx 0.4771$:
-5. $\Delta R = 400 \times 0.4771 \approx \mathbf{190.8}$
+5. $\Delta{R} = 400 \times 0.4771 \approx \mathbf{190.8}$
 
 Resultado: Basado puramente en el desempeño de este match, el rendimiento del Jugador A estuvo 191 puntos de Elo por encima del Jugador B. Si el Jugador B tuviera un Elo estimado de 1500, el Jugador A jugó al nivel de un Elo de 1691.
 
@@ -781,29 +781,66 @@ Resultado: Basado puramente en el desempeño de este match, el rendimiento del J
 
 En el ajedrez computarizado y las plataformas en línea, el sistema Elo se aplica de forma idéntica en su matemática básica tanto para humanos como para bots, pero difiere drásticamente en cómo se gestionan sus ecosistemas y la velocidad de sus fluctuaciones. Mientras que el Elo de un jugador humano evoluciona lentamente a lo largo de los años debido a limitaciones físicas, fatiga y un número reducido de partidas, los motores de ajedrez (bots) pueden disputar miles de partidas en cuestión de horas. Esto permite que plataformas de evaluación especializadas, como la CCRL (Computer Chess Rating Lists), utilicen factores de escala extremadamente precisos y calibraciones constantes para medir diferencias milimétricas de rendimiento entre versiones de un mismo programa.
 El mayor desafío radica en que las poblaciones de humanos y bots rara vez comparten el mismo ecosistema cerrado, lo que genera una inflación o deflación del Elo relativo. Un bot de Chess.com con un Elo asignado de 2000 no necesariamente juega con la misma fuerza que un ser humano con 2000 de Elo en la FIDE, ya que los puntos Elo solo miden la habilidad en relación con los demás integrantes de ese grupo específico. Además, a diferencia de los humanos, los bots de competencia pura no sufren de inconsistencia psicológica: sus funciones de evaluación son deterministas, lo que significa que ante una misma ventaja táctica siempre rendirán igual, obligando a los desarrolladores a introducir algoritmos artificiales de "reducción de fuerza" o "errores programados" cuando se diseñan bots destinados a jugar de forma realista contra aficionados humanos.
-Comparar el Elo de los mejores humanos con el de las computadoras actuales demuestra que la brecha entre la inteligencia humana y los motores de ajedrez es absoluta e insalvable. Mientras que los humanos medimos el progreso en pequeños márgenes, las máquinas han entrado en una escala de fuerza completamente diferente. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime), [2] (https://vocal.media/education/can-a-human-beat-the-best-chess-computer), [3] (https://mychessplan.com/stockfish-vs-leela-chess-zero-adult-improver-engine-audit-2026/)
+Comparar el Elo de los mejores humanos con el de las computadoras actuales demuestra que la brecha
+entre la inteligencia humana y los motores de ajedrez es absoluta e insalvable.
+Mientras que los humanos medimos el progreso en pequeños márgenes, las máquinas han entrado en una escala
+de fuerza completamente diferente. 
+[1](https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime), 
+[2](https://vocal.media/education/can-a-human-beat-the-best-chess-computer), 
+[3](https://mychessplan.com/stockfish-vs-leela-chess-zero-adult-improver-engine-audit-2026/)
+
 A continuación, se detalla la comparativa entre los picos humanos y las versiones más recientes de los motores dominantes (con datos actualizados a octubre de 2026):
 
 #### 🧠 El Techo Humano: [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen)
 
-* Elo Máximo Histórico (Ritmo Clásico): 2882 puntos (alcanzado por [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) en mayo de 2014 y replicado en agosto de 2019). [1] (https://www.guinnessworldrecords.es/world-records/68289-highest-chess-rating-men)
-* Contexto: Este es el Elo oficial de la FIDE más alto jamás registrado en la historia del ajedrez (superando el pico de 2851 de Garry Kasparov). Ningún ser humano ha logrado romper la barrera de los 2900 puntos en ajedrez clásico presencial. [1] (https://en.wikipedia.org/wiki/Magnus_Carlsen), [2] (https://www.facebook.com/100088946902343/posts/did-you-know-that-magnus-carlsen-holds-the-record-for-the-highest-peak-classical/988116074163280/), [3] (https://www.chess.com/forum/view/chess-players/magnus-carlsen-70)
-* Nota en línea: Aunque Carlsen ha rozado los 3340 puntos de Elo en plataformas de internet para ritmos ultra rápidos (Blitz), ese es un ecosistema cerrado inflado y no comparable con el Elo de torneo internacional. [1] (https://www.youtube.com/watch?v=4YzYk0shhn0&t=447)
+* Elo Máximo Histórico (Ritmo Clásico): 2882 puntos (alcanzado por [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) en mayo de 2014 y replicado en agosto de 2019). 
+[1](https://www.guinnessworldrecords.es/world-records/68289-highest-chess-rating-men)
+* Contexto: Este es el Elo oficial de la FIDE más alto jamás registrado en la historia del ajedrez
+(superando el pico de 2851 de Garry Kasparov). 
+Ningún ser humano ha logrado romper la barrera de los 2900 puntos en ajedrez clásico presencial. 
+[1](https://en.wikipedia.org/wiki/Magnus_Carlsen), 
+[2](https://www.facebook.com/100088946902343/posts/did-you-know-that-magnus-carlsen-holds-the-record-for-the-highest-peak-classical/988116074163280/), 
+[3](https://www.chess.com/forum/view/chess-players/magnus-carlsen-70)
+
+Aunque Carlsen ha rozado los 3340 puntos de Elo en plataformas de internet para ritmos ultra rápidos (Blitz),
+ese es un ecosistema cerrado inflado y no comparable con el Elo de torneo internacional. 
+[1](https://www.youtube.com/watch?v=4YzYk0shhn0&t=447)
 
 #### 💻 Las Bestias de Silicio: Motores Actuales
 
-Para medir a los motores se utilizan listas de clasificación de computadoras especializadas, siendo la más famosa la CCRL (Computer Chess Rating Lists). A diferencia de los humanos, el Elo de los motores varía según la potencia del procesador (CPU) o la tarjeta gráfica (GPU) donde se ejecuten. [1] (https://computerchess.org.uk/ccrl/4040/rating_list_all.html), [2] (https://ramachess.com/stockfish-chess/elo/), [3] (https://ramachess.com/topchessengines/e/lczero.html), [4] (https://chess.stackexchange.com/questions/42730/why-is-leela-chess-zero-rated-low-on-ccrl-leaderboards)
+Para medir a los motores se utilizan listas de clasificación de computadoras especializadas,
+siendo la más famosa la CCRL (Computer Chess Rating Lists). A diferencia de los humanos, el Elo
+de los motores varía según la potencia del procesador (CPU) o la tarjeta gráfica (GPU) donde se ejecuten. 
+
+[1](https://computerchess.org.uk/ccrl/4040/rating_list_all.html), 
+[2](https://ramachess.com/stockfish-chess/elo/), 
+[3](https://ramachess.com/topchessengines/e/lczero.html), 
+[4](https://chess.stackexchange.com/questions/42730/why-is-leela-chess-zero-rated-low-on-ccrl-leaderboards)
 
 #### Stockfish 19 (El Rey Absoluto)
 
 * Elo Estimado: ~3650 - 3690 puntos (en el control de tiempo estándar de torneo 40/15).
 * Versión actual: Stockfish 19 (lanzado en septiembre de 2026).
-* Particularidad: Utiliza redes neuronales eficientemente actualizables (NNUE) combinadas con un cálculo bruto masivo que analiza millones de jugadas por segundo. En listas de Blitz informáticos con hardware de múltiples núcleos, llega a superar los 3800 puntos de Elo. [1] (https://www.facebook.com/c24live/posts/stockfish-is-simply-a-monster/1562998360427947/), [2] (https://chessnextmove.ai/blog/stockfish-19), [3] (https://www.uscfsales.com/blogs/chess-technology/the-best-chess-engine-in-the-world), [4] (https://ramachess.com/stockfish-chess/elo/)
+* En las versiones mas recientes utiliza redes neuronales eficientemente actualizables (NNUE) combinadas
+con un cálculo bruto masivo que analiza millones de jugadas por segundo. 
+En listas de Blitz informáticos con hardware de múltiples núcleos, llega a superar los 3800 puntos de Elo. 
+
+[1](https://www.facebook.com/c24live/posts/stockfish-is-simply-a-monster/1562998360427947/), 
+[2](https://chessnextmove.ai/blog/stockfish-19), 
+[3](https://www.uscfsales.com/blogs/chess-technology/the-best-chess-engine-in-the-world), 
+[4](https://ramachess.com/stockfish-chess/elo/)
 
 #### Leela Chess Zero / Lc0 (La Red Neuronal Pura)
 
 * Elo Estimado: ~3580 - 3670 puntos (corriendo en hardware óptimo con GPU dedicada).
-* Particularidad: Inspirada en AlphaZero de DeepMind, Leela aprendió a jugar al ajedrez jugando millones de partidas contra sí misma. Su estilo es famoso por tener una "intuición posicional" más parecida a la humana, aunque respaldada por una fuerza de cálculo perfecta. [1] (https://checkmatex.app/blog/stockfish-vs-leela-vs-komodo-best-chess-engine-2026), [2] (https://chessnextmove.ai/blog/stockfish-18), [3] (https://mychessplan.com/stockfish-vs-leela-chess-zero-adult-improver-engine-audit-2026/), [4] (https://www.rankred.com/chess-engines/)
+* Inspirada en AlphaZero de DeepMind, Leela desarrolla sus habilidades jugando millones de partidas contra sí misma.
+Su estilo es famoso por tener una "intuición posicional" más parecida a la humana, aunque respaldada por una
+fuerza de cálculo perfecta. 
+
+[1](https://checkmatex.app/blog/stockfish-vs-leela-vs-komodo-best-chess-engine-2026), 
+[2](https://chessnextmove.ai/blog/stockfish-18), 
+[3](https://mychessplan.com/stockfish-vs-leela-chess-zero-adult-improver-engine-audit-2026/), 
+[4](https://www.rankred.com/chess-engines/)
 
 #### 📊 Comparativa Directa de Datos
 |Competidor	Tipo	|Elo Máximo / Actual (Normalizado)	|Diferencia Magnus Carlsen|
@@ -816,11 +853,20 @@ Para medir a los motores se utilizan listas de clasificación de computadoras es
 
 #### 📉 ¿Qué pasaría en un enfrentamiento real? (Análisis Táctico)
 
-La diferencia de más de 750 puntos de Elo entre [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) y Stockfish 19 se traduce, matemáticamente, en una disparidad abismal utilizando la fórmula de expectativa de Arpad Elo: [1] (https://chessnextmove.ai/blog/stockfish-18)
-* Probabilidad de victoria: La probabilidad de que [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) le gane una sola partida a Stockfish 19 es prácticamente del 0%. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
-* Un Match de 100 partidas: Si Carlsen jugara un match a 100 partidas contra el Stockfish actual, el resultado más probable sería de 95 a 98 derrotas para el humano y apenas 2 o 4 empates (tablas). Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Carlsen) no ganaría un solo juego. Las únicas tablas ocurrirían si el motor entra de forma forzada en una línea teórica donde el juego esté matemáticamente simplificado ("muerto") desde la apertura. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
-* Ventajas insalvables: Las computadoras no cometen errores tácticos de un solo movimiento, tienen acceso a "tablabases" de finales (saben perfectamente cómo ganar o empatar cualquier posición si quedan 7 piezas o menos en el tablero) y no sufren de cansancio, nervios ni presión psicológica. [1] (https://vocal.media/education/can-a-human-beat-the-best-chess-computer)
-En el ajedrez moderno, la IA ya no compite contra el ser humano; los grandes maestros humanos ahora utilizan a Stockfish y Leela simplemente como "oráculos" o herramientas de entrenamiento para intentar comprender la profundidad de un juego que las máquinas ya dominan por completo. [1] (https://checkmatex.app/blog/stockfish-vs-leela-vs-komodo-best-chess-engine-2026)
+La diferencia de más de 750 puntos de Elo entre [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) y Stockfish 19 se traduce, matemáticamente,
+en una disparidad abismal utilizando la fórmula de expectativa de Arpad Elo: 
+[1](https://chessnextmove.ai/blog/stockfish-18)
+* Probabilidad de victoria: La probabilidad de que [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) le gane una sola partida a Stockfish 19 es prácticamente del 0%. 
+[1](https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
+* Un Match de 100 partidas: Si Carlsen jugara un match a 100 partidas contra el Stockfish actual, el resultado
+más probable sería de 95 a 98 derrotas para el humano y apenas 2 o 4 empates (tablas). [Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Carlsen) no ganaría un solo juego. Las únicas tablas ocurrirían si el motor entra de forma forzada en una línea teórica donde el juego esté matemáticamente simplificado ("muerto") desde la apertura. 
+[1](https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
+* Ventajas insalvables: Las computadoras no cometen errores tácticos de un solo movimiento, tienen acceso a "tablabases" de finales (saben perfectamente cómo ganar o empatar cualquier posición si quedan 7 piezas o menos en el tablero) y no sufren de cansancio, nervios ni presión psicológica. 
+[1](https://vocal.media/education/can-a-human-beat-the-best-chess-computer)
+En el ajedrez moderno, la IA ya no compite contra el ser humano; los grandes maestros humanos ahora
+utilizan a Stockfish y Leela simplemente como "oráculos" o herramientas de entrenamiento para intentar
+ comprender la profundidad de un juego que las máquinas ya dominan por completo. 
+[1](https://checkmatex.app/blog/stockfish-vs-leela-vs-komodo-best-chess-engine-2026)
 
 ## Correcciones al método de medición de ELO cibernético
 
@@ -841,9 +887,14 @@ En lugar de multiplicar GHz por RAM por núcleos, dejamos que el motor corra en 
 
 Paso 2: Calcular el Factor de Penalización/Bonificación por Hardware ($F_{H}$)
 
-Definimos una Máquina de Referencia Estándar (por ejemplo: 1 CPU de 4 núcleos a 3.0 GHz, sin GPU, 8 GB RAM). Esta máquina produce un número de nodos de referencia conocido como $NPS_{Ref}$ para un motor base.
-Calculamos el coeficiente de ventaja de hardware ($F_{H}$ mediante la siguiente fórmula logarítmica (el logaritmo es crucial porque en ajedrez, duplicar la velocidad del hardware no duplica la fuerza, sino que ofrece retornos decrecientes):
-$F_{H}=\log _{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right)$
+Definimos una Máquina de Referencia Estándar (por ejemplo: 1 CPU de 4 núcleos a 3.0 GHz, sin GPU, 8 GB RAM). 
+Esta máquina produce un número de nodos de referencia conocido como $NPS_{Ref}$ para un motor base.
+Calculamos el coeficiente de ventaja de hardware ($F_{H}$ mediante la siguiente 
+fórmula logarítmica (el logaritmo es crucial porque en ajedrez, duplicar la velocidad del hardware no duplica
+la fuerza, sino que ofrece retornos decrecientes):
+
+$F_{H}=\log _{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right$
+
 Si un motor corre en una supercomputadora y genera 16 veces más NPS que la máquina de referencia, su
 
  $F_{H}$ será $\log_{2}(16) = 4$
@@ -1027,10 +1078,10 @@ La hoja de ruta puede ser dividida en 4 etapas lógicas para dominar el juego, d
 
 🗺️ Hoja de Ruta para Aprender Ajedrez
 
-[Etapa 1: Alfabetización] ➔
-[Etapa 2: El Despertar Táctico] ➔ 
-[Etapa 3: Pensamiento Estratégico] ➔
-[Etapa 4: Competencia]
+* 1️⃣1️Etapa 1: Alfabetización] 
+* Etapa 2: El Despertar Táctico 
+* Etapa 3: Pensamiento Estratégico
+* Etapa 4: Competencia
 
 ## Etapa 1: La Alfabetización Visual y Reglas (Elo 0 - 600)
 
@@ -1056,6 +1107,7 @@ En el ajedrez amateur, el 99% de las partidas se deciden por táctica (errores d
 ## Etapa 3: Pensamiento Estratégico y Posicional (Elo 1200 - 1600)
 
 Aquí el jugador descubre que no siempre hay un golpe táctico disponible. Se aprende a formular planes a largo plazo cuando el tablero está en calma.
+
 * Paso 1: Estructura de peones y casillas. Aprender que los peones dictan los planes. Identificar peones doblados, peones aislados y peones pasados. Aprender a identificar "casillas fuertes" (debilidades en el campo rival donde puedes meter un caballo de forma permanente).
 * Paso 2: El Método de Análisis Post-Partida. Aplicar obligatoriamente la regla de oro: revisar cada partida jugada. El humano progresa cuando encuentra el momento exacto donde su plan estratégico falló y busca la alternativa correcta utilizando el motor como asistente.
 * Paso 3: Introducción a los Finales. Estudiar la teoría de finales básicos. El ajedrez se aprende al revés: es más fácil entender el poder de tres piezas en un tablero vacío que el de 32 piezas al inicio. Dominar los finales de peones (regla del cuadrado, la oposición del rey) y finales básicos de torres.
@@ -1063,6 +1115,7 @@ Aquí el jugador descubre que no siempre hay un golpe táctico disponible. Se ap
 ## Etapa 4: Especialización y Competición (Elo 1600+)
 
 El juego se vuelve un deporte psicológico y de resistencia. El entrenamiento se asemeja al de un atleta.
+
 * Paso 1: Gestión del tiempo y psicología. Aprender a jugar bajo la presión del reloj, gestionar los nervios tras un error y aprender a "recular" o defender posiciones inferiores (resiliencia en el tablero).
 * Paso 2: Estudio de Clásicos. Analizar partidas de los Campeones Mundiales (Capablanca para la sencillez posicional, Alekhine o Kasparov para el ataque dinámico, Carlsen para los finales). El cerebro absorbe la "intuición" de los maestros.
 * Paso 3: Transición al Ajedrez Presencial (Over the Board). Jugar torneos oficiales con relojes físicos y piezas reales. El salto del tablero bidimensional de la pantalla al tablero tridimensional real requiere una adaptación visual y espacial crucial.
@@ -1076,9 +1129,7 @@ en comparación a otra para luego decidir la jugada en función de una política
 que trate de maximizar las posibilidades propias de ganar, o lo que es lo mismo, las
 posibilidades del oponente de perder.
 
-# Algoritmo Minimax con poda Alfa-Beta: fundamentos matemáticos y aplicación al ajedrez
-
-## 1. Introducción
+## Algoritmo Minimax con poda Alfa-Beta: fundamentos matemáticos y aplicación al ajedrez
 
 El algoritmo Minimax con poda Alfa-Beta (Alpha-Beta Pruning) es uno de los fundamentos clásicos de la inteligencia artificial aplicada a juegos de estrategia de dos jugadores, particularmente el ajedrez.
 
@@ -1093,15 +1144,16 @@ La característica fundamental de Alfa-Beta es que produce el mismo resultado qu
 
 La ventaja consiste en reducir considerablemente la cantidad de posiciones que es necesario analizar, permitiendo alcanzar mayores profundidades con los mismos recursos computacionales.
 
-## 2. Representación del ajedrez como problema de búsqueda
+## Representación del ajedrez como problema de búsqueda
 
-### 2.1. Espacio de estados
+### Espacio de estados
 
 Un juego de ajedrez puede modelarse mediante un conjunto de estados:
 
-\\[ S=\\{s_0,s_1,s_2,\ldots\\} \\]
+$S=\{s_0,s_1,s_2,\ldots\\}$
 
-Cada estado \\(s\\) contiene toda la información necesaria para representar una posición y determinar las jugadas legales, incluyendo:
+Cada estado $\(s\)$ contiene toda la información necesaria para representar una posición y determinar las jugadas
+legales, incluyendo:
 
 - Distribución de las piezas sobre el tablero.
 - Jugador al que corresponde mover.
@@ -1114,21 +1166,21 @@ Una posición de ajedrez no queda necesariamente determinada por la ubicación d
 
 Definimos:
 
-\\[ A(s)=\\{a_1,a_2,\ldots,a_n\\} \\]
+$\[ A(s)=\{a_1,a_2,\ldots,a_n\\}\]$
 
 como el conjunto de jugadas legales disponibles en el estado \\(s\\).
 
 Una función de transición:
 
-\\[ T:S\times A\rightarrow S \\]
+$\[ T:S\times A\rightarrow S \]$
 
 representa el resultado de ejecutar una jugada:
 
-\\[ s'=T(s,a) \\]
+$\[ s'=T(s,a) \]$
 
 Por ejemplo, desde la posición inicial, una de las transiciones posibles es:
 
-\\[ s_1=T(s_0,\text{e2e4}) \\]
+$\[ s_1=T(s_0,\text{e2e4}) \]$
 
 La posición resultante tendrá un peón blanco en e4, corresponderá mover a las negras y se actualizarán los demás componentes del estado.
 
@@ -1143,11 +1195,11 @@ El ajedrez es un juego:
 
 Podemos definir una utilidad terminal desde la perspectiva de las blancas:
 
-\\[ U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases} \\]
+$\[ U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases} \]$
 
-Por lo tanto, si \\(U_B(s)\\) representa la utilidad para las blancas y \\(U_N(s)\\) la de las negras:
+Por lo tanto, si $\(U_B(s)\)$ representa la utilidad para las blancas y $\(U_N(s)\)$ la de las negras:
 
-\\[ U_N(s)=-U_B(s) \\]
+$\[ U_N(s)=-U_B(s) \]$
 
 Esto permite representar las decisiones de ambos jugadores mediante una única función de valor.
 
@@ -1176,17 +1228,17 @@ Ejemplo simplificado desde la posición inicial
 
 Cada nivel del árbol corresponde a una jugada individual, denominada ply.
 
-Una profundidad de búsqueda de \\(d=6\\) significa que se examinan seis medias jugadas desde la posición inicial de análisis: tres movimientos de las blancas y tres de las negras, si las jugadas alternan normalmente.
+Una profundidad de búsqueda de $\(d=6\)$ significa que se examinan seis medias jugadas desde la posición inicial de análisis: tres movimientos de las blancas y tres de las negras, si las jugadas alternan normalmente.
 
 ### 2.4. Complejidad del espacio de búsqueda
 
-Si una posición tiene, en promedio, \\(b\\) movimientos legales y analizamos una profundidad \\(d\\), el número aproximado de posiciones terminales del árbol es:
+Si una posición tiene, en promedio, $\(b\)$ movimientos legales y analizamos una profundidad $\(d\)$, el número aproximado de posiciones terminales del árbol es:
 
-\\[ N(d)\approx b^d \\]
+$\[ N(d)\approx b^d \]$
 
 Para un factor de ramificación ilustrativo:
 
-\\[ b=35 \\]
+$\[ b=35 \]$
 
 obtenemos:
 
@@ -1208,37 +1260,36 @@ Modelo teórico con factor de ramificación constante b = 35. Eje vertical en mi
 
 Este crecimiento exponencial constituye el principal problema computacional de Minimax.
 
-La cantidad exacta de posiciones varía según la posición y las jugadas legales disponibles. Además, en un motor real pueden existir transposiciones, posiciones terminales anticipadas y otras condiciones que hacen que el árbol no sea uniforme.
+La cantidad exacta de posiciones varía según la posición y las jugadas legales disponibles.
+Además, en un motor real pueden existir transposiciones, posiciones terminales anticipadas y otras condiciones que hacen que el árbol no sea uniforme.
 
-## 3. Fundamento matemático de Minimax
-
-### 3.1. Jugadores MAX y MIN
+## Fundamento matemático de Minimax
 
 El algoritmo utiliza dos tipos de nodos:
 
-MAX: corresponde al jugador que intenta maximizar la utilidad.
+* MAX: corresponde al jugador que intenta maximizar la utilidad.
+* MIN: corresponde al adversario que intenta minimizarla.
 
-MIN: corresponde al adversario que intenta minimizarla.
-
-Si definimos que MAX representa las blancas y MIN las negras, una puntuación positiva representa una posición favorable para las blancas.
+Si definimos que MAX representa las blancas y MIN las negras, una puntuación positiva representa una posición
+favorable para las blancas.
 
 Para un estado terminal:
 
-\\[ V(s)=U(s) \\]
+$\[ V(s)=U(s) \]$
 
 Para un estado no terminal en el que mueve MAX:
 
-\\[ \boxed{ V(s)=\max\_{a\in A(s)} V(T(s,a)) } \\]
+$\[ \boxed{ V(s)=\max\_{a\in A(s)} V(T(s,a)) } \]$
 
 Para un estado no terminal en el que mueve MIN:
 
-\\[ \boxed{ V(s)=\min\_{a\in A(s)} V(T(s,a)) } \\]
+$\[ \boxed{ V(s)=\min\_{a\in A(s)} V(T(s,a)) } \]$
 
 Estas ecuaciones constituyen el núcleo del algoritmo.
 
 La decisión óptima para MAX se define mediante:
 
-\\[ \boxed{ a^\*=\arg\max\_{a\in A(s)}V(T(s,a)) } \\]
+$\[ \boxed{ a^\*=\arg\max\_{a\in A(s)}V(T(s,a)) } \]$
 
 Si corresponde jugar a MIN, se utiliza `argmin` en lugar de `argmax`.
 
@@ -1254,63 +1305,64 @@ Cada jugada conduce a una posición donde MIN dispone de dos respuestas. Los nú
 
 Para la alternativa A:
 
-\\[ V(A)=\min(3,5)=3 \\]
+$\[ V(A)=\min(3,5)=3 \]$
 
 Para la alternativa B:
 
-\\[ V(B)=\min(2,9)=2 \\]
+$\[ V(B)=\min(2,9)=2 \]$
 
 Para la alternativa C:
 
-\\[ V(C)=\min(4,6)=4 \\]
+$\[ V(C)=\min(4,6)=4 \]$
 
 En la raíz, MAX selecciona:
 
-\\[ V(s)=\max(3,2,4)=4 \\]
+$\[ V(s)=\max(3,2,4)=4 \]$
 
 Por lo tanto:
 
-\\[ \boxed{a^\*=C} \\]
+$\[ \boxed{a^\*=C} \]$
 
-Aunque B ofrece la posibilidad de obtener una puntuación de 9, MAX no puede suponer que su adversario elegirá voluntariamente esa respuesta. MIN escogerá la respuesta que limita el resultado a 2.
+Aunque B ofrece la posibilidad de obtener una puntuación de 9, MAX no puede suponer que su adversario elegirá
+voluntariamente esa respuesta. MIN escogerá la respuesta que limita el resultado a 2.
 
 Esta es una distinción fundamental entre la evaluación optimista de una jugada y su evaluación Minimax.
 
-## 4. Minimax con profundidad limitada
+## Minimax con profundidad limitada
 
 En ajedrez real, el árbol completo de la partida resulta demasiado grande para explorarlo exhaustivamente.
 
 Por lo tanto, los motores utilizan una profundidad máxima de búsqueda:
 
-\\[ d\_{\max} \\]
+$\[ d\_{\max} \]$
 
 Al alcanzar esa profundidad, en lugar de conocer el resultado definitivo de la partida, se aplica una función heurística de evaluación:
 
-\\[ E(s) \\]
+$\[ E(s) \]$
 
 De este modo:
 
-\\[ V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\\ E(s) & \text{si }d=0\\\ \max\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MAX}\\\ \min\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MIN} \end{cases} \\]
+$\[ V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\\ E(s) & \text{si }d=0\\\ \max\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MAX}\\\ \min\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MIN} \end{cases} \]$
 
 Esto convierte Minimax en una búsqueda heurística de horizonte finito.
 
 La conclusión importante es que el algoritmo ya no determina necesariamente la mejor jugada de toda la partida, sino la mejor jugada según la función de evaluación y la profundidad de búsqueda elegidas.
 
-### 4.1. Función de evaluación en ajedrez
+### Función de evaluación en ajedrez
 
 Una evaluación clásica puede construirse mediante una combinación ponderada de características de la posición:
 
-\\[ \boxed{ E(s)=w_m M(s)+w_p P(s)+w_k K(s)+w_c C(s)+w_t T(s) } \\]
+$\[ \boxed{ E(s)=w_m M(s)+w_p P(s)+w_k K(s)+w_c C(s)+w_t T(s) } \]$
 
 Donde:
 
-- \\(M(s)\\): diferencia de material.
-- \\(P(s)\\): estructura de peones.
-- \\(K(s)\\): seguridad de los reyes.
-- \\(C(s)\\): control del centro y actividad de las piezas.
-- \\(T(s)\\): factores tácticos o posicionales adicionales.
+- $\(M(s)\)$: diferencia de material.
+- $\(P(s)\)$: estructura de peones.
+- $\(K(s)\)$: seguridad de los reyes.
+- $\(C(s)\)$: control del centro y actividad de las piezas.
+- $\(T(s)\)$: factores tácticos o posicionales adicionales.
 
-Los coeficientes \\(w_i\\) determinan la importancia relativa de cada característica y deben elegirse de acuerdo con la escala de cada término.
+Los coeficientes $\(w_i\)$ determinan la importancia relativa de cada característica y deben elegirse de acuerdo con la escala de cada término.
 
 Una aproximación tradicional al valor material, expresada en centipeones, es:
 
@@ -1327,75 +1379,69 @@ Por ejemplo, si las blancas disponen de una torre y las negras de un alfil como 
 
 En general:
 
-\\[ M(s)=\sum\_{p\in B}v(p)-\sum\_{p\in N}v(p) \\]
+$\[ M(s)=\sum\_{p\in B}v(p)-\sum\_{p\in N}v(p) \]$
 
 La evaluación material aislada no contempla situaciones como clavadas, ataques descubiertos, amenazas de mate o piezas atrapadas, por lo que necesita complementarse con otros criterios.
 
-### 4.2. Funciones de evaluación neuronales
+### Funciones de evaluación neuronales
 
-El algoritmo Minimax no exige una función de evaluación diseñada manualmente.
+El algoritmo Minimax no exige una función de evaluación diseñada manualmente, simplemente algún método que con 
+algún criterio devuelva el valor estimado de la posición. Es posible entonces reemplazarla por una red neuronal,
+mecanismo que será crucial en algunos algoritmos a desarrollar posteriormente.
 
-Es posible reemplazarla mediante una red neuronal:
-
-\\[ E\_\theta(s)=f\_\theta(\phi(s)) \\]
+$\[ E\_\theta(s)=f\_\theta(\phi(s)) \]$
 
 Donde:
 
-- \\(\phi(s)\\) representa la codificación de la posición.
-- \\(\theta\\) contiene los parámetros entrenados.
-- \\(f\_\theta\\) produce una valoración de la posición.
+- $\(\phi(s)\)$ representa la codificación de la posición.
+- $\(\theta\)$ contiene los parámetros entrenados.
+- $\(f\_\theta\)$ produce una valoración de la posición.
 
 En motores que utilizan redes del tipo NNUE (Efficiently Updatable Neural Network), la red suele actuar como evaluador de las hojas del árbol, frecuentemente con mecanismos de actualización incremental de características.
 
 Por lo tanto, búsqueda y evaluación cumplen funciones complementarias:
 
-\\[ \text{Minimax / Alfa-Beta} \longrightarrow \text{exploración de consecuencias} \\]
+$\[ \text{Minimax / Alfa-Beta} \longrightarrow \text{exploración de consecuencias} $\]
 
-\\[ \text{Evaluador clásico o NNUE} \longrightarrow \text{estimación del valor de posiciones} \\]
+$\[ \text{Evaluador clásico o NNUE} \longrightarrow \text{estimación del valor de posiciones} \]$
 
 Una red neuronal más precisa puede mejorar la decisión sin cambiar la estructura fundamental del algoritmo de búsqueda.
 
-## 5. La poda Alfa-Beta
+## La podab(prunning) Alfa-Beta
 
-### 5.1. Motivación
 
 Minimax examina todas las alternativas hasta la profundidad establecida, incluso cuando algunas de ellas ya no pueden influir en la selección final.
-
 La observación fundamental de Alfa-Beta es que no siempre necesitamos conocer el valor exacto de una rama.
-
 En determinadas circunstancias basta con saber que su resultado será necesariamente peor que otra alternativa que ya conocemos.
 
 Supongamos que analizamos dos jugadas, A y B.
 
 Ya hemos determinado que A garantiza una evaluación de:
 
-\\[ V(A)=+300 \\]
+$\[ V(A)=+300 \]$
 
 es decir, aproximadamente tres peones de ventaja para MAX.
 
 Durante el análisis de B descubrimos que el adversario puede responder de manera que el valor de B no supere:
 
-\\[ V(B)\leq +100 \\]
+$\[ V(B)\leq +100 \]$
 
 Por lo tanto:
 
-\\[ V(B)\<V(A) \\]
+$\[ V(B)\<V(A) \]$
 
-No resulta necesario continuar explorando B: independientemente de las demás respuestas posibles, MAX nunca preferirá esa jugada frente a A.
+No resulta necesario continuar explorando B, independientemente de las demás respuestas posibles, 
+MAX nunca preferirá esa jugada frente a A.
 
-La poda Alfa-Beta formaliza matemáticamente este razonamiento.
+La poda Alfa-Beta formaliza matemáticamente este razonamiento. Para implementarlo se mantienen dos parámetros:
 
-### 5.2. Significado de Alfa y Beta
-
-Durante la búsqueda se mantienen dos parámetros:
-
-\\[ \boxed{\alpha} \\]
+$\[ \boxed{\alpha} \]$
 
 Es el mejor valor que MAX puede garantizar hasta ese momento, considerando las alternativas ya examinadas en el contexto de la búsqueda.
 
 Actúa como una cota inferior.
 
-\\[ \boxed{\beta} \\]
+$\[ \boxed{\beta} \]$
 
 Es el mejor límite superior impuesto por MIN en el contexto de los nodos ancestros.
 
@@ -1403,35 +1449,35 @@ Actúa como una cota superior.
 
 Inicialmente se establece:
 
-\\[ \alpha=-\infty \\]
+$\[ \alpha=-\infty \]$
 
-\\[ \beta=+\infty \\]
+$\[ \beta=+\infty \]$
 
 Durante el recorrido del árbol:
 
-- En nodos MAX, el valor de \\(\alpha\\) puede aumentar.
-- En nodos MIN, el valor de \\(\beta\\) puede disminuir.
+- En nodos MAX, el valor de $\(\alpha\)$ puede aumentar.
+- En nodos MIN, el valor de $\(\beta\)$ puede disminuir.
 - Los límites heredados de los ancestros restringen lo que todavía es relevante explorar.
 
 La condición fundamental de poda es:
 
-\\[ \boxed{\alpha\geq\beta} \\]
+$\[ \boxed{\alpha\geq\beta} \]$
 
 Cuando se cumple, los nodos restantes de la rama actual pueden descartarse sin alterar el resultado Minimax de la raíz.
 
 Es importante distinguir las cotas del valor exacto de una posición. Alfa y Beta no representan necesariamente la evaluación definitiva del nodo: describen el intervalo de valores que todavía puede ser relevante para sus ancestros.
 
-### 5.3. Actualización de Alfa en nodos MAX
+### Actualización de Alfa en nodos MAX
 
-En un nodo MAX, cada hijo aporta un valor \\(v_i\\).
+En un nodo MAX, cada hijo aporta un valor $\(v_i\)$.
 
-El mejor valor local después de examinar \\(k\\) hijos es:
+El mejor valor local después de examinar $\(k\)$ hijos es:
 
-\\[ v\_{\text{MAX}}^{(k)}=\max\_{1\leq i\leq k}v_i \\]
+$\[ v\_{\text{MAX}}^{(k)}=\max\_{1\leq i\leq k}v_i \]$
 
 La cota alfa se actualiza:
 
-\\[ \boxed{\alpha\leftarrow\max(\alpha,v_i)} \\]
+$\[ \boxed{\alpha\leftarrow\max(\alpha,v_i)} \]$
 
 Al incorporar más hijos, el máximo parcial nunca disminuye:
 
@@ -1443,21 +1489,21 @@ Esto permite comprender por qué es seguro interrumpir el análisis cuando el va
 
 En un nodo MIN, la situación es simétrica.
 
-El valor local después de examinar \\(k\\) hijos es:
+El valor local después de examinar $\(k\)$ hijos es:
 
-\\[ v\_{\text{MIN}}^{(k)}=\min\_{1\leq i\leq k}v_i \\]
+$\[ v\_{\text{MIN}}^{(k)}=\min\_{1\leq i\leq k}v_i \]$
 
 La cota beta se actualiza:
 
-\\[ \boxed{\beta\leftarrow\min(\beta,v_i)} \\]
+$\[ \boxed{\beta\leftarrow\min(\beta,v_i)} \]$
 
 Al examinar más alternativas, el mínimo parcial nunca aumenta:
 
-\\[ v\_{\text{MIN}}^{(k+1)}\leq v\_{\text{MIN}}^{(k)} \\]
+$\[ v\_{\text{MIN}}^{(k+1)}\leq v\_{\text{MIN}}^{(k)} \]$
 
 Por eso, si MIN ya encontró una respuesta suficientemente mala para MAX, las demás respuestas pueden resultar irrelevantes para la decisión de un MAX ancestro.
 
-## 6. Ejemplo completo de poda Alfa-Beta
+## Ejemplo completo de poda Alfa-Beta
 
 Retomemos el árbol anterior, con tres alternativas A, B y C.
 
@@ -1465,51 +1511,51 @@ Supondremos que las ramas se exploran de izquierda a derecha.
 
 La rama B se interrumpe después de examinar la hoja de valor 2. La hoja de valor 9 se representa únicamente para mostrar lo que contiene el árbol completo.
 
-### Paso 1. Examinar la alternativa A
+### Examinar la alternativa A
 
 MAX inicia con:
 
-\\[ \alpha=-\infty,\qquad\beta=+\infty \\]
+$\[ \alpha=-\infty,\qquad\beta=+\infty \]$
 
 La alternativa A conduce a un nodo MIN con dos respuestas evaluadas en 3 y 5.
 
 Primera respuesta:
 
-\\[ \beta_A=\min(+\infty,3)=3 \\]
+$\[ \beta_A=\min(+\infty,3)=3 \]$
 
 Segunda respuesta:
 
-\\[ \beta_A=\min(3,5)=3 \\]
+$\[ \beta_A=\min(3,5)=3 \]$
 
 Se obtiene:
 
-\\[ V(A)=3 \\]
+$\[ V(A)=3 \]$
 
 Al regresar a la raíz MAX:
 
-\\[ \alpha=\max(-\infty,3)=3 \\]
+$\[ \alpha=\max(-\infty,3)=3 \]$
 
 A partir de este instante, MAX sabe que dispone de una jugada capaz de garantizar una puntuación de al menos 3.
 
-### Paso 2. Examinar la alternativa B
+### Examinar la alternativa B
 
 Entramos en el nodo MIN correspondiente a B.
 
 Este nodo recibe los límites:
 
-\\[ \alpha=3,\qquad\beta=+\infty \\]
+$\[ \alpha=3,\qquad\beta=+\infty \]$
 
 Su primera respuesta tiene evaluación 2.
 
 Por lo tanto:
 
-\\[ \beta_B=\min(+\infty,2)=2 \\]
+$\[ \beta_B=\min(+\infty,2)=2 \]$
 
 Comprobamos:
 
-\\[ \alpha\geq\beta_B \\]
+$\[ \alpha\geq\beta_B \]$
 
-\\[ 3\geq2 \\]
+$\[ 3\geq2 \]$
 
 La condición de poda se cumple.
 
@@ -1517,11 +1563,11 @@ Esto significa que MIN ya dispone de una respuesta que limita B a un resultado d
 
 Aunque existieran otras respuestas, no podrían aumentar el mínimo:
 
-\\[ V(B)=\min(2,v_2,v_3,\ldots)\leq2 \\]
+$\[ V(B)=\min(2,v_2,v_3,\ldots)\leq2 \]$
 
 Y, dado que:
 
-\\[ 2<3 \\]
+$\[ 2<3 \]$
 
 MAX no seleccionará B mientras conserve A como alternativa.
 
@@ -1529,51 +1575,51 @@ La segunda hoja de B no necesita examinarse.
 
 Obsérvese que no afirmamos haber calculado exactamente \\(V(B)\\). Sabemos únicamente que:
 
-\\[ V(B)\leq2 \\]
+$\[ V(B)\leq2 \]$
 
 Esta información resulta suficiente para descartarla.
 
-### Paso 3. Examinar la alternativa C
+### Examinar la alternativa C
 
 El nodo MIN correspondiente a C recibe:
 
-\\[ \alpha=3,\qquad\beta=+\infty \\]
+$\[ \alpha=3,\qquad\beta=+\infty \]$
 
 Su primera respuesta produce un valor de 4:
 
-\\[ \beta_C=\min(+\infty,4)=4 \\]
+$\[ \beta_C=\min(+\infty,4)=4 \]$
 
 Como:
 
-\\[ 3<4 \\]
+$\[ 3<4 \]$
 
 no puede realizarse la poda.
 
 La segunda respuesta tiene valor 6:
 
-\\[ \beta_C=\min(4,6)=4 \\]
+$\[ \beta_C=\min(4,6)=4 \]$
 
 Por lo tanto:
 
-\\[ V(C)=4 \\]
+$\[ V(C)=4 \]$
 
 De regreso en MAX:
 
-\\[ \alpha=\max(3,4)=4 \\]
+$\[ \alpha=\max(3,4)=4 \]$
 
-### Paso 4. Decisión final
+### Decisión final
 
 La información disponible es:
 
-\\[ V(A)=3 \\]
+$\[ V(A)=3 \]$
 
-\\[ V(B)\leq2 \\]
+$\[ V(B)\leq2 \]$
 
-\\[ V(C)=4 \\]
+$\[ V(C)=4 \]$
 
 Por lo tanto:
 
-\\[ \boxed{V(s)=4,\qquad a^\*=C} \\]
+$\[ \boxed{V(s)=4,\qquad a^\*=C} $\]
 
 El resultado es idéntico al obtenido con Minimax completo, pero una hoja no fue evaluada.
 
