@@ -894,11 +894,16 @@ class Bridge:
             if move not in self.history.board.legal_moves:
                 self.lock_history(f"Jugada UCI ilegal: {move_text}")
                 return
-            # FICS requiere SAN para promociones; conservar UCI en el historial.
+            # FICS admite notacion de computadora origen-destino (help intro_moving).
+            # Evita ambiguedades entre piezas del mismo tipo. Las promociones
+            # conservan SAN (e8=Q, exd8=N) para explicitar la pieza elegida.
             san_move = self.history.board.san(move)
+            fics_move = (san_move if move.promotion else
+                         f"{chess.square_name(move.from_square)}-"
+                         f"{chess.square_name(move.to_square)}")
             self.awaiting_confirmation = move.uci()
-            self.fics.send(san_move)
-            log("⏳", "SYNC", f"Enviada {move.uci()} como {san_move}; esperando FICS", detail=True)
+            self.fics.send(fics_move)
+            log("⏳", "SYNC", f"Enviada UCI={move.uci()} FICS={fics_move} SAN={san_move}; esperando FICS", detail=True)
 
     def fics_line(self, line):
         if line:
