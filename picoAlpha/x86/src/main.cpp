@@ -209,8 +209,14 @@ int main(int argc,char** argv){
      std::vector<Move> lm;board.legal(lm);auto e=net.evaluate(encode(history,fen_only),&board);std::cout<<"info string q "<<std::setprecision(10)<<e.q<<"\n";float mx=-1e30f;std::vector<float> probs;for(auto m:lm){float z=e.policy[policy_index(board,m)];probs.push_back(z);mx=std::max(mx,z);}float sum=0;for(auto& v:probs){v=std::exp(v-mx);sum+=v;}for(size_t i=0;i<lm.size();++i)std::cout<<"info string policy "<<Board::notation(lm[i])<<" "<<std::setprecision(10)<<probs[i]/sum<<"\n";
     }else if(command=="go"){
      int nodes=default_nodes,movetime=0;std::string token;while(ss>>token){if(token=="nodes")ss>>nodes;else if(token=="movetime")ss>>movetime;else if(token=="depth") {int dummy;ss>>dummy;}else if(token=="wtime"||token=="btime"||token=="winc"||token=="binc"||token=="movestogo"){int dummy;ss>>dummy;}}
-     nodes=std::max(1,nodes);int64_t limit=movetime>0?ms()+movetime:INT64_MAX;persistent_search.configure(cpuct,nodes);auto r=persistent_search.run(board,history,fen_only,limit);int cp=int(400.f*2.f*std::atanh(std::max(-.999f,std::min(.999f,r.q))));
-     std::cout<<"info nodes "<<r.nodes<<" score cp "<<cp<<" string reason "<<r.reason<<" tree "<<r.tree_nodes<<" reuse "<<r.reused<<"\n";
+     nodes=std::max(1,nodes);const int64_t search_start=ms();int64_t limit=movetime>0?search_start+movetime:INT64_MAX;persistent_search.configure(cpuct,nodes);auto r=persistent_search.run(board,history,fen_only,limit);int cp=int(400.f*2.f*std::atanh(std::max(-.999f,std::min(.999f,r.q))));
+     const int64_t elapsed=std::max<int64_t>(0,ms()-search_start);
+     const int ply=2*(board.fullmove-1)+(board.turn==-1?1:0);
+     const int white_cp=(board.turn==1?cp:-cp);
+     const auto nps=elapsed>0 ? (static_cast<uint64_t>(r.nodes)*1000/static_cast<uint64_t>(elapsed)) : 0ULL;
+     std::cout<<"info ply "<<ply<<" depth 0 score cp "<<white_cp
+              <<" nodes "<<r.nodes<<" time "<<elapsed<<" nps "<<nps
+              <<" string reason "<<r.reason<<" tree "<<r.tree_nodes<<" reuse "<<r.reused<<"\n";
      std::cout<<"bestmove "<<(r.has?Board::notation(r.move):"0000")<<"\n";
     }else if(command=="quit")break;
     else if(command=="stop"){};

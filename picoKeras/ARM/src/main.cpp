@@ -57,7 +57,17 @@ struct Session {
   else if(line=="ucinewgame")b.reset();
   else if(line.rfind("position ",0)==0)position(b,line);
   else if(line.rfind("go",0)==0){auto r=choose(b,eval);
-   std::ostringstream info;info<<"info depth 1 nodes "<<r.inspected<<" time "<<r.ms<<" string eval_rival "<<std::fixed<<std::setprecision(2)<<r.rival_value<<" inspected "<<r.inspected<<" terminal "<<r.terminal_count;
+   // The network returns a dimensionless scalar from the rival's perspective.
+   // atanh is an explicitly heuristic mapping to centipawns, not calibrated cp.
+   const double q=std::clamp(-r.rival_value,-0.999,0.999);
+   const long cp_side=std::lround(400.0*std::atanh(q));
+   const long cp_white=(b.turn==1?cp_side:-cp_side);
+   const int ply=2*(b.fullmove-1)+(b.turn==-1?1:0);
+   const auto nps=r.ms>0 ? static_cast<long long>(r.inspected)*1000/r.ms : 0LL;
+   std::ostringstream info;
+   info<<"info ply "<<ply<<" depth 1 score cp "<<cp_white
+       <<" nodes "<<r.inspected<<" time "<<r.ms<<" nps "<<nps
+       <<" string cp_heuristic_atanh eval_rival "<<std::fixed<<std::setprecision(4)<<r.rival_value;
    send(info.str());send(std::string("bestmove ")+(r.found?Board::notation(r.move):"(none)"));
    std::cerr<<"SEARCH inspected="<<r.inspected<<" eval_rival="<<std::fixed<<std::setprecision(2)<<r.rival_value<<" terminals="<<r.terminal_count<<" ms="<<r.ms<<"\n";
   }else if(line=="stop"){}else if(line=="quit"){}else if(line=="d")send("info string mailbox120 position available");

@@ -182,8 +182,11 @@ int main(int argc,char**argv){
     auto result=engine.search(board,depth,timelimit);
     const auto elapsed_ms=std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::steady_clock::now()-search_start).count();
-    std::cout<<"info depth "<<result.depth<<" score cp "<<result.score
-             <<" nodes "<<result.nodes<<" time "<<elapsed_ms<<"\n";
+    const int ply=2*(board.fullmove-1)+(board.turn==-1?1:0);
+    const int white_cp=(board.turn==1?result.score:-result.score);
+    const auto nps=elapsed_ms>0 ? (result.nodes*1000ULL/static_cast<unsigned long long>(elapsed_ms)) : 0ULL;
+    std::cout<<"info ply "<<ply<<" depth "<<result.depth<<" score cp "<<white_cp
+             <<" nodes "<<result.nodes<<" time "<<elapsed_ms<<" nps "<<nps<<"\n";
     std::cout<<"bestmove "<<(result.has_move?Board::notation(result.best):"0000")<<"\n";
    }else if(cmd=="quit")break;
    std::cout.flush();

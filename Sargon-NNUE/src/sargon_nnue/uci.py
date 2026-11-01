@@ -72,7 +72,11 @@ class UCISession:
                         raise ValueError(f"player devolvió jugada ilegal antes de transmitir: {choice.move}")
                     if self.audit is not None and self.audit.enabled:
                         self.audit.event("uci_go_end", go_index=self._go_index, fen=board.fen(), bestmove=bestmove, source=choice.source, score_white_cp=choice.score_cp, depth=choice.depth, nodes=choice.nodes, elapsed_ms=choice.elapsed_ms)
-                    self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
+                    elapsed_ms = max(0, int(choice.elapsed_ms))
+                    nodes = max(0, int(choice.nodes))
+                    nps = (nodes * 1000 // elapsed_ms) if elapsed_ms else 0
+                    # MoveChoice.score_cp is already white-relative in this project.
+                    self.send(f"info ply {board.ply()} depth {choice.depth} score cp {int(choice.score_cp)} nodes {nodes} time {elapsed_ms} nps {nps}")
                     self.send("bestmove "+bestmove)
                 elif line=="stop": pass
                 elif line.startswith("setoption name SargonResult"): pass

@@ -162,6 +162,7 @@ class MCTS {
 class Engine {
   Settings settings_;
   PositionHistory history_;
+  int current_ply_=0;
   std::unique_ptr<LC0Inference> eval_;
   std::thread search_;
   std::atomic<bool> stop_{false};
@@ -213,12 +214,15 @@ class Engine {
       else if(s.rfind("fen ",0)==0){s=s.substr(4);auto p=s.find(" moves ");fen=trim(s.substr(0,p));s=p==std::string::npos?"":s.substr(p);}
       else throw std::runtime_error("unknown position command");
       auto p=s.find("moves ");moves=p==std::string::npos?"":s.substr(p+6);
+      {std::istringstream fs(fen);std::string part;int idx=0,full=1;bool black=false;
+       while(fs>>part){if(idx==1)black=(part=="b");if(idx==5){try{full=std::stoi(part);}catch(...){full=1;}}++idx;}
+       current_ply_=2*std::max(0,full-1)+(black?1:0);}
       history_.Reset(Position::FromFen(fen));
       std::istringstream input(moves);std::string uci;
       while(input>>uci){const auto m=history_.Last().GetBoard().ParseMove(uci);
         auto legal=history_.Last().GetBoard().GenerateLegalMoves();
         if(std::find(legal.begin(),legal.end(),m)==legal.end())throw std::runtime_error("illegal UCI move: "+uci);
-        history_.Append(m);
+        history_.Append(m);++current_ply_;
       }
       return;
     }
@@ -228,8 +232,9 @@ class Engine {
       std::istringstream in(line.substr(2));std::string t;
       while(in>>t){if(t=="nodes"){int v;in>>v;sims=std::max(1,v);}else if(t=="movetime"){int v;in>>v;ms=std::max(1,v);}}
       if(settings_.timeout>0 && (ms<=0 || ms>settings_.timeout))ms=settings_.timeout;
-      auto snapshot=history_;auto cfg=settings_;
-      search_=std::thread([this,snapshot=std::move(snapshot),sims,ms,cfg]()mutable{
+      auto snapshot=history_;auto cfg=settings_;const int root_ply=current_ply_;
+      const bool root_black=snapshot.IsBlackToMove();
+      search_=std::thread([this,snapshot=std::move(snapshot),sims,ms,cfg,root_ply,root_black]()mutable{
         try{
           MCTS m(*eval_,cfg.cpuct,stop_,cfg.max_tree_nodes);
           auto r=m.choose(std::move(snapshot),sims,ms);
@@ -237,7 +242,10 @@ class Engine {
             auto q=std::clamp(r.q,-0.999,0.999);
             int cp=int(400*std::atanh(q));
             std::ostringstream info;
-            info<<"info depth 0 nodes "<<r.simulations<<" time "<<int(r.ms)<<" score cp "<<cp
+            const auto elapsed=std::max(0LL,static_cast<long long>(r.ms));
+            const auto nps=elapsed>0 ? (static_cast<long long>(r.simulations)*1000/elapsed) : 0LL;
+            info<<"info ply "<<root_ply<<" depth 0 score cp "<<(root_black?-cp:cp)
+                <<" nodes "<<r.simulations<<" time "<<elapsed<<" nps "<<nps
                 <<" string ALPHAZERO simulations="<<r.simulations<<" tree_nodes="<<r.nodes<<" elapsed_ms="<<int(r.ms)<<" best_visits="<<r.visits<<" q="<<r.q;
             say(info.str());
           }
