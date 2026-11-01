@@ -172,10 +172,51 @@ else
   meson_options+=(-Dopenblas=false)
 fi
 
-if [[ -f "$MESON_DIR/build.ninja" ]]; then
-  meson setup --reconfigure "$MESON_DIR" "${meson_options[@]}" || fail 'Meson reconfigure fallo; reintentar con CLEAN_BUILD=1'
+# A relocated or partially configured Meson tree may still contain build.ninja.
+# Do not trust that file alone: require Meson's core metadata and the current
+# source path. Preserve invalid build directories for inspection rather than
+# deleting source code or dependencies.
+meson_valid=0
+if [[ -f "$MESON_DIR/build.ninja" && -f "$MESON_DIR/meson-private/coredata.dat" && -f "$MESON_DIR/meson-info/intro-buildoptions.json" ]]; then
+  # meson introspect checks whether this directory is a valid build tree.
+  if meson introspect "$MESON_DIR" --buildoptions >/dev/null 2>&1; then
+    meson_valid=1
+  fi
+fi
+
+# Avoid reusing a configuration after directory relocation. Meson stores
+# source/build paths in its metadata; a different absolute path needs setup.
+if (( meson_valid )); then
+  if ! python3 - "$MESON_DIR" "$VENDOR" <<'PY_CHECK'
+import json, pathlib, sys
+build_dir = pathlib.Path(sys.argv[1]).resolve()
+source_dir = pathlib.Path(sys.argv[2]).resolve()
+info = build_dir / 'meson-info' / 'meson-info.json'
+try:
+    data = json.loads(info.read_text(encoding='utf-8'))
+    dirs = data['directories']
+    if pathlib.Path(dirs['source']).resolve() != source_dir:
+        raise ValueError('source directory moved')
+    if pathlib.Path(dirs['build']).resolve() != build_dir:
+        raise ValueError('build directory moved')
+except (OSError, ValueError, KeyError, TypeError):
+    sys.exit(1)
+PY_CHECK
+  then
+    meson_valid=0
+  fi
+fi
+
+if (( meson_valid )); then
+  meson setup --reconfigure "$MESON_DIR" "${meson_options[@]}" || fail 'Meson reconfigure fallo; revisar salida de Meson'
 else
-  meson setup "$MESON_DIR" "$VENDOR" --backend=ninja --buildtype=release "${meson_options[@]}"
+  if [[ -e "$MESON_DIR" ]]; then
+    backup="${MESON_DIR}.stale.$(date +%Y%m%d-%H%M%S)"
+    [[ ! -e "$backup" ]] || fail "ya existe el respaldo: $backup"
+    printf 'Configuracion Meson invalida o trasladada; resguardando en %s\n' "$backup"
+    mv -- "$MESON_DIR" "$backup" || fail 'no se pudo resguardar la construccion previa'
+  fi
+  meson setup "$MESON_DIR" "$VENDOR" --backend=ninja --buildtype=release "${meson_options[@]}" || fail 'Meson setup fallo'
 fi
 
 meson compile -C "$MESON_DIR" -j "$JOBS" lc0
