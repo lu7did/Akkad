@@ -68,6 +68,16 @@
       "depth": 2,
       "qdepth": 0
     },
+    "arneo": {
+      "player": "microchess",
+      "evaluator": "grumpy",
+      "network": {
+        "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
+      },
+      "depth": 4,
+      "qdepth": 2
+    },
     "aegir": {
       "evaluator": "npz",
       "player": "sargon-plus",

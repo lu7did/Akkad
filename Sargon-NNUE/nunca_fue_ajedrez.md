@@ -717,61 +717,63 @@ cuando compiten.
 
 Antes de actualizar los puntos de un jugador, el sistema necesita calcular la expectativa de puntuación (probabilidad de victoria) de un Jugador A frente a un Jugador B.
 Un resultado de 1 representa una victoria, 0.5 un empate y 0 una derrota. La fórmula matemática para hallar la expectativa del Jugador A (\(E_{A}\)) es:
-\(E_{A}=\frac{1}{1+10^{\frac{R_{B}-R_{A}}{400}}}\)
+$E_{A}=\frac{1}{1+10^{\frac{R_{B}-R_{A}}{400}}}$
 Donde:
-• \(R_{A}\): Elo actual del Jugador A.
-• \(R_{B}\): Elo actual del Jugador B.
+• $R_{A}$: Elo actual del Jugador A.
+• $R_{B}$: Elo actual del Jugador B.
 • El número 400 es un factor de escala estándar: una diferencia de 400 puntos de Elo significa que el jugador superior tiene aproximadamente un 91% de probabilidad de ganar.
 
 📝 Ejemplo de Probabilidad:
 
 Imagina una partida entre Jugador A (Elo 1800) y Jugador B (Elo 1600). La diferencia es de 200 puntos.
-1. Aplicamos la fórmula: \(E_A = \frac{1}{1 + 10^{\frac{1600 - 1800}{400}}} = \frac{1}{1 + 10^{-0.5}}\)
-2. \(10^{-0.5} \approx 0.3162\)
-3. \(E_A = \frac{1}{1 + 0.3162} \approx 0.76\)
+1. Aplicamos la fórmula: $E_A = \frac{1}{1 + 10^{\frac{1600 - 1800}{400}}} = \frac{1}{1 + 10^{-0.5}}$
+2. $10^{-0.5} \approx 0.3162$
+3. $E_A = \frac{1}{1 + 0.3162} \approx 0.76$
 Resultado: El Jugador A tiene una expectativa del 76% (0.76 puntos esperados). Esto significa que si juegan 10 partidas, se espera matemáticamente que el Jugador A sume 7.6 puntos (por ejemplo, 7 victorias, 1 empate y 2 derrotas). Por consiguiente, la expectativa del Jugador B (\(E_{B}\)) es el complemento: \(1 - 0.76 = 0.24\) (24%).
 
 ### 🧮 Cómo se calcula el intercambio de Elo tras una partida
 
 Cuando dos jugadores terminan una partida, sus puntuaciones se actualizan según la diferencia entre el resultado real y el resultado esperado. La fórmula es:
-\(R_{A}^{\prime }=R_{A}+K\times (S_{A}-E_{A})\)
+$R_{A}^{\prime }=R_{A}+K\times (S_{A}-E_{A})$
 Donde:
-• \(R_{A}^{\prime }\): El nuevo Elo del Jugador A.
-• \(R_{A}\): El Elo anterior del Jugador A.
-• \(S_{A}\): El resultado real de la partida (1 si ganó, 0.5 si empató, 0 si perdió).
-• \(E_{A}\): La expectativa de puntuación calculada en el paso anterior.
-• \(K\) (Factor K): Es una constante que determina el impacto de la partida. Varía según el jugador para dar estabilidad al sistema:
+• $R_{A}^{\prime }$: El nuevo Elo del Jugador A.
+• $R_{A}$: El Elo anterior del Jugador A.
+• $S_{A}$: El resultado real de la partida (1 si ganó, 0.5 si empató, 0 si perdió).
+• $E_{A}$: La expectativa de puntuación calculada en el paso anterior.
+• $K$ (Factor K): Es una constante que determina el impacto de la partida. Varía según el jugador para dar estabilidad al sistema:
 	• K = 40: Para nuevos jugadores (primeras 30 partidas) o menores de 18 años. El Elo sube y baja muy rápido.
 	• K = 20: Para la mayoría de los jugadores de club y torneos estándar.
 	• K = 10: Para jugadores de élite que han alcanzado un Elo de 2400 o más (evita fluctuaciones drásticas).
 
 📝 Ejemplo de Cálculo de Intercambio (K = 20):
 
-Siguiendo el caso anterior donde Jugador A (1800, \(E_A = 0.76\)) juega contra Jugador B (1600, \(E_B = 0.24\)):
+Siguiendo el caso anterior donde Jugador A (1800, 
+
+$E_A = 0.76$ juega contra Jugador B (1600, $E_B = 0.24$):
 • Escenario 1: Gana el Jugador A (el favorito).
-	• Nuevo Elo de A: \(1800 + 20 \times (1 - 0.76) = 1800 + 20 \times (0.24) = \mathbf{1804.8}\) (+4.8 puntos).
-	• Nuevo Elo de B: \(1600 + 20 \times (0 - 0.24) = 1600 - 4.8 = \mathbf{1595.2}\) (-4.8 puntos).
+	• Nuevo Elo de A: $1800 + 20 \times (1 - 0.76) = 1800 + 20 \times (0.24) = \mathbf{1804.8}$ (+4.8 puntos).
+	• Nuevo Elo de B: $1600 + 20 \times (0 - 0.24) = 1600 - 4.8 = \mathbf{1595.2}$ (-4.8 puntos).
 	• Nota: Como el favorito ganó, el cambio de puntos es pequeño.
 • Escenario 2: Sorpresa, gana el Jugador B (el menos fuerte).
-	• Nuevo Elo de A: \(1800 + 20 \times (0 - 0.76) = 1800 - 15.2 = \mathbf{1784.8}\) (-15.2 puntos).
-	• Nuevo Elo de B: \(1600 + 20 \times (1 - 0.24) = 1600 + 15.2 = \mathbf{1615.2}\) (+15.2 puntos).
+	• Nuevo Elo de A: $1800 + 20 \times (0 - 0.76) = 1800 - 15.2 = \mathbf{1784.8}$ (-15.2 puntos).
+	• Nuevo Elo de B: $1600 + 20 \times (1 - 0.24) = 1600 + 15.2 = \mathbf{1615.2}$ (+15.2 puntos).
 	• Nota: Las sorpresas se premian y castigan con muchos más puntos.
 
 ### 📈 Cómo calcular la diferencia de Elo basada en la proporción de partidas ganadas
 
 Si dos jugadores disputan un bloque o match largo de muchas partidas (lo suficientemente grande para mitigar la varianza), podemos usar la proporción de puntos obtenidos para calcular la diferencia exacta de Elo (\(\Delta R\)) que existe entre ellos.
-La fórmula matemática para despejar la diferencia de Elo a partir del porcentaje de puntos ganados o proporción (\(P\)) es la inversa de la fórmula logística:
-\(\Delta R=400\times \log _{10}\left(\frac{P}{1-P}\right)\)
-Donde \(P\) es la proporción de puntos obtenidos (Puntos ganados / Puntos totales disputados).
+La fórmula matemática para despejar la diferencia de Elo a partir del porcentaje de puntos ganados o proporción ($P$) es la inversa de la fórmula logística:
+$Delta R=400\times \log _{10}\left(\frac{P}{1-P}\right)$
+Donde $P$ es la proporción de puntos obtenidos (Puntos ganados / Puntos totales disputados).
 
 📝 Ejemplo Basado en Proporción:
 
 Dos amigos juegan un match de 20 partidas. El Jugador A obtiene 15 puntos (combinando victorias y empates) y el Jugador B obtiene 5 puntos.
-1. Calculamos la proporción de A: \(P = \frac{15}{20} = 0.75\) (75% de los puntos).
-2. Aplicamos la fórmula inversa: \(\Delta R = 400 \times \log_{10}\left(\frac{0.75}{1 - 0.75}\right)\)
-3. \(\Delta R = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)\)
-4. Como \(\log_{10}(3) \approx 0.4771\):
-5. \(\Delta R = 400 \times 0.4771 \approx \mathbf{190.8}\)
+1. Calculamos la proporción de A: $P = \frac{15}{20} = 0.75$ (75% de los puntos).
+2. Aplicamos la fórmula inversa: $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{1 - 0.75}\right)$
+3. $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)$
+4. Como $\log_{10}(3) \approx 0.4771$:
+5. $\Delta R = 400 \times 0.4771 \approx \mathbf{190.8}$
 Resultado: Basado puramente en el desempeño de este match, el rendimiento del Jugador A estuvo 191 puntos de Elo por encima del Jugador B. Si el Jugador B tuviera un Elo estimado de 1500, el Jugador A jugó al nivel de un Elo de 1691.
 
 ### ELO aplicado a algoritmos
@@ -781,9 +783,9 @@ El mayor desafío radica en que las poblaciones de humanos y bots rara vez compa
 Comparar el Elo de los mejores humanos con el de las computadoras actuales demuestra que la brecha entre la inteligencia humana y los motores de ajedrez es absoluta e insalvable. Mientras que los humanos medimos el progreso en pequeños márgenes, las máquinas han entrado en una escala de fuerza completamente diferente. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime), [2] (https://vocal.media/education/can-a-human-beat-the-best-chess-computer), [3] (https://mychessplan.com/stockfish-vs-leela-chess-zero-adult-improver-engine-audit-2026/)
 A continuación, se detalla la comparativa entre los picos humanos y las versiones más recientes de los motores dominantes (con datos actualizados a octubre de 2026):
 
-#### 🧠 El Techo Humano: Magnus Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen)
+#### 🧠 El Techo Humano: [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen)
 
-* Elo Máximo Histórico (Ritmo Clásico): 2882 puntos (alcanzado por Magnus Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) en mayo de 2014 y replicado en agosto de 2019). [1] (https://www.guinnessworldrecords.es/world-records/68289-highest-chess-rating-men)
+* Elo Máximo Histórico (Ritmo Clásico): 2882 puntos (alcanzado por [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) en mayo de 2014 y replicado en agosto de 2019). [1] (https://www.guinnessworldrecords.es/world-records/68289-highest-chess-rating-men)
 * Contexto: Este es el Elo oficial de la FIDE más alto jamás registrado en la historia del ajedrez (superando el pico de 2851 de Garry Kasparov). Ningún ser humano ha logrado romper la barrera de los 2900 puntos en ajedrez clásico presencial. [1] (https://en.wikipedia.org/wiki/Magnus_Carlsen), [2] (https://www.facebook.com/100088946902343/posts/did-you-know-that-magnus-carlsen-holds-the-record-for-the-highest-peak-classical/988116074163280/), [3] (https://www.chess.com/forum/view/chess-players/magnus-carlsen-70)
 * Nota en línea: Aunque Carlsen ha rozado los 3340 puntos de Elo en plataformas de internet para ritmos ultra rápidos (Blitz), ese es un ecosistema cerrado inflado y no comparable con el Elo de torneo internacional. [1] (https://www.youtube.com/watch?v=4YzYk0shhn0&t=447)
 
@@ -813,9 +815,9 @@ Para medir a los motores se utilizan listas de clasificación de computadoras es
 
 #### 📉 ¿Qué pasaría en un enfrentamiento real? (Análisis Táctico)
 
-La diferencia de más de 750 puntos de Elo entre Magnus Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) y Stockfish 19 se traduce, matemáticamente, en una disparidad abismal utilizando la fórmula de expectativa de Arpad Elo: [1] (https://chessnextmove.ai/blog/stockfish-18)
-* Probabilidad de victoria: La probabilidad de que Magnus Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) le gane una sola partida a Stockfish 19 es prácticamente del 0%. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
-* Un Match de 100 partidas: Si Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Carlsen) jugara un match a 100 partidas contra el Stockfish actual, el resultado más probable sería de 95 a 98 derrotas para el humano y apenas 2 o 4 empates (tablas). Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Carlsen) no ganaría un solo juego. Las únicas tablas ocurrirían si el motor entra de forma forzada en una línea teórica donde el juego esté matemáticamente simplificado ("muerto") desde la apertura. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
+La diferencia de más de 750 puntos de Elo entre [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) y Stockfish 19 se traduce, matemáticamente, en una disparidad abismal utilizando la fórmula de expectativa de Arpad Elo: [1] (https://chessnextmove.ai/blog/stockfish-18)
+* Probabilidad de victoria: La probabilidad de que [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) le gane una sola partida a Stockfish 19 es prácticamente del 0%. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
+* Un Match de 100 partidas: Si Carlsen jugara un match a 100 partidas contra el Stockfish actual, el resultado más probable sería de 95 a 98 derrotas para el humano y apenas 2 o 4 empates (tablas). Carlsen (https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Carlsen) no ganaría un solo juego. Las únicas tablas ocurrirían si el motor entra de forma forzada en una línea teórica donde el juego esté matemáticamente simplificado ("muerto") desde la apertura. [1] (https://www.quora.com/What-kind-of-ELO-rating-would-a-computer-bot-like-Stockfish-need-to-beat-Magnus-Carlson-everytime)
 * Ventajas insalvables: Las computadoras no cometen errores tácticos de un solo movimiento, tienen acceso a "tablabases" de finales (saben perfectamente cómo ganar o empatar cualquier posición si quedan 7 piezas o menos en el tablero) y no sufren de cansancio, nervios ni presión psicológica. [1] (https://vocal.media/education/can-a-human-beat-the-best-chess-computer)
 En el ajedrez moderno, la IA ya no compite contra el ser humano; los grandes maestros humanos ahora utilizan a Stockfish y Leela simplemente como "oráculos" o herramientas de entrenamiento para intentar comprender la profundidad de un juego que las máquinas ya dominan por completo. [1] (https://checkmatex.app/blog/stockfish-vs-leela-vs-komodo-best-chess-engine-2026)
 

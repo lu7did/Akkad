@@ -11,6 +11,6 @@
 #* run_match.ps1
 #* Runs chess matches using Sargon-NNUE
 #=================================================================================================================*
-.\sargon_match.ps1 --brain ../data/brains/brains.json --pairs 3 --idA fastSargon --idB keras
+.\sargon_match.ps1 --brain ../etc/brains/brains.json --pairs 3 --idA arneo --idB tinySargon
 
 
