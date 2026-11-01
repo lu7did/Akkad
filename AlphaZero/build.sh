@@ -207,16 +207,26 @@ PY_CHECK
   fi
 fi
 
+# Reconfiguration may fail even if introspection succeeds (e.g. paths moved
+# between machines or a partial Meson setup). Automatically recover by creating
+# a fresh Meson directory, preserving the old one as a timestamped backup.
+needs_setup=1
 if (( meson_valid )); then
-  meson setup --reconfigure "$MESON_DIR" "${meson_options[@]}" || fail 'Meson reconfigure fallo; revisar salida de Meson'
-else
+  printf 'Reconfigurando Meson existente: %s\n' "$MESON_DIR"
+  if meson setup --reconfigure "$MESON_DIR" "${meson_options[@]}"; then
+    needs_setup=0
+  else
+    printf 'ADVERTENCIA: Meson reconfigure fallo; se creara un build nuevo conservando el anterior.\n' >&2
+  fi
+fi
+
+if (( needs_setup )); then
   if [[ -e "$MESON_DIR" ]]; then
-    backup="${MESON_DIR}.stale.$(date +%Y%m%d-%H%M%S)"
-    [[ ! -e "$backup" ]] || fail "ya existe el respaldo: $backup"
-    printf 'Configuracion Meson invalida o trasladada; resguardando en %s\n' "$backup"
+    backup="${MESON_DIR}.stale.$(date +%Y%m%d-%H%M%S).$$"
+    printf 'Resguardando construccion Meson anterior en: %s\n' "$backup"
     mv -- "$MESON_DIR" "$backup" || fail 'no se pudo resguardar la construccion previa'
   fi
-  meson setup "$MESON_DIR" "$VENDOR" --backend=ninja --buildtype=release "${meson_options[@]}" || fail 'Meson setup fallo'
+  meson setup "$MESON_DIR" "$VENDOR" --backend=ninja --buildtype=release "${meson_options[@]}" || fail 'Meson setup limpio fallo'
 fi
 
 meson compile -C "$MESON_DIR" -j "$JOBS" lc0
