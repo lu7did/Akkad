@@ -344,6 +344,41 @@ def report(summaries: list[dict], max_blocks: int = 24) -> None:
             flush=True
         )
 
+    # NPS procede de la telemetria del motor: nodos / tiempo reportado.
+    # No se deriva de ms_per_node, que utiliza tiempo de pared.
+    nps_valid = sorted(
+        (row for row in summaries
+         if row.get('nodes_per_second') not in ('', None)
+         and float(row['nodes_per_second']) > 0),
+        key=lambda row: -float(row['nodes_per_second'])
+    )
+    nps_missing = [row for row in summaries
+                   if row.get('nodes_per_second') in ('', None)
+                   or float(row['nodes_per_second']) <= 0]
+    nps_width = max(
+        (len(f"{float(row['nodes_per_second']):,.1f}") for row in nps_valid),
+        default=3
+    )
+    nps_width = max(nps_width, 3)
+    highest_nps = max((float(row['nodes_per_second']) for row in nps_valid), default=0.0)
+    print("\n📊 Nodos por segundo (mayor es mejor):", flush=True)
+    for row in nps_valid:
+        nps = float(row['nodes_per_second'])
+        length = max(1, math.ceil(max_blocks * nps / highest_nps))
+        bar = ('█' * length).ljust(max_blocks)
+        print(
+            f"{_identity_text(row, layout)} "
+            f"⏳ {bar} {f'{nps:,.1f}'.rjust(nps_width)} nps",
+            flush=True
+        )
+    for row in nps_missing:
+        print(
+            f"{_identity_text(row, layout)} "
+            f"⏳ {' ' * max_blocks} {'N/D'.rjust(nps_width)} nps "
+            "(motor sin telemetría completa de nodos/tiempo)",
+            flush=True
+        )
+
 
 def request_move(engine: BenchmarkUCI, board: chess.Board, timeout: float,
                  identity: str, config: dict, mode: str, round_no: int,

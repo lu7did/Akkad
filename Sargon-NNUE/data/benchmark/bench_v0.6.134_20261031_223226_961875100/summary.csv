@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+proteo,microchess,microchess,,6,6,0,1.460,243.334,235.682,335.324,190.401,335.324,4894,6,1453.000,3368.2,0.298326,OK

@@ -30,6 +30,9 @@ def create_evaluator(kind: str, network: str | None = None, *, allow_new_npz: bo
                      z_temperature=100.0, z_value_scale=800.0, z_uniform_mix=0.01,
                      z_policy='uniform'):
     key = kind.strip().lower()
+    if key == "microchess":
+        from .microchess import MicrochessEvaluator
+        return MicrochessEvaluator()
     if key == "keras":
         from .keras_eval import KerasEvaluator
         if not network: raise EvaluatorError("--network obligatorio para evaluator=keras")

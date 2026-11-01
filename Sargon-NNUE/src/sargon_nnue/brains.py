@@ -28,8 +28,8 @@ VERSION='0.6.192'
 # `rating_elo` is metadata, never a listener CLI parameter.
 ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout']
 METADATA_KEYS = {'rating_elo'}
-PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras')
-EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy','keras')
+PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras','microchess')
+EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy','keras','microchess')
 
 def engine_parser():
     p=argparse.ArgumentParser(add_help=False)

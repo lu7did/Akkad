@@ -66,7 +66,7 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
     # default to NULL while composable players continue to default to CLASSIC.
     p.add_argument(
         opt("evaluator"), dest=dest("evaluator"), default=None,
-        choices=["null", "classic", "npz", "cerebrum", "cerebrum-1.1", "cerebrum-2", "stockfish", "lc0", "tinygyal", "znpz", "zclassic", "grumpy", "keras"],
+        choices=["null", "classic", "npz", "cerebrum", "cerebrum-1.1", "cerebrum-2", "stockfish", "lc0", "tinygyal", "znpz", "zclassic", "grumpy", "keras", "microchess"],
         help="evaluator; omitido => NULL para player=stockfish, CLASSIC para los demás",
     )
     p.add_argument(
@@ -75,7 +75,7 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
     )
     p.add_argument(
         opt("player"), dest=dest("player"), default="sargon",
-        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon", "picoalpha", "AlphaZero-X86", "alphazero-x86", "keras", "picokeras"],
+        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon", "picoalpha", "AlphaZero-X86", "alphazero-x86", "keras", "picokeras", "microchess"],
     )
 
     # Dynamic default: SARGON uses depth=2, while STOCKFISH uses a deliberately

@@ -62,7 +62,12 @@
       "tmax": 15000,
       "rating_elo": 400
     },
-
+    "proteo": {
+      "player": "microchess",
+      "evaluator": "microchess",
+      "depth": 2,
+      "qdepth": 0
+    },
     "aegir": {
       "evaluator": "npz",
       "player": "sargon-plus",
@@ -178,7 +183,7 @@
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon"
       },
       "network": {
-        "windows": "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
+        "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
       },
       "depth": 6,

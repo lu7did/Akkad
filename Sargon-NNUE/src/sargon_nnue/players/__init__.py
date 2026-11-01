@@ -53,6 +53,9 @@ def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
         if not engine_path:
             raise PlayerError("player=picosargon requiere --engine-path al ejecutable UCI nativo")
         return PicoSargonUCIPlayer(engine_path, weights_path=network, depth=depth, qdepth=qdepth, tmax_ms=tmax_ms, timeout_ms=timeout_ms)
+    if key == "microchess":
+        from .microchess import MicrochessPlayer
+        return MicrochessPlayer(evaluator, depth=depth, qdepth=qdepth, tmax_ms=tmax_ms, telemetry=telemetry)
     if key == "doc":
         from .doc import DocPlayer
         return DocPlayer(evaluator,depth=depth,qdepth=qdepth,tmax_ms=tmax_ms,telemetry=telemetry)

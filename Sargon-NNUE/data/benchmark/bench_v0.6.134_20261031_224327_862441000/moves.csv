@@ -1,0 +1,13 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error
+proteo,microchess,microchess,,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,f1b5,254.462,253,862,2,OK,
+proteo,microchess,microchess,,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,316.684,316,1016,2,OK,
+proteo,microchess,microchess,,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,d8b6,179.019,176,633,2,OK,
+proteo,microchess,microchess,,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,d1d3,197.530,197,713,2,OK,
+proteo,microchess,microchess,,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,b7b5,230.182,229,804,2,OK,
+proteo,microchess,microchess,,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,c1g5,246.629,246,866,2,OK,
+tinySargon,picosargon,null,,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,b1c3,702.848,701,102769,6,OK,
+tinySargon,picosargon,null,,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,c4d5,503.856,503,74217,6,OK,
+tinySargon,picosargon,null,,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,b8c6,407.587,407,66390,6,OK,
+tinySargon,picosargon,null,,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,g1f3,451.395,450,83736,6,OK,
+tinySargon,picosargon,null,,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,b8c6,376.952,376,71542,6,OK,
+tinySargon,picosargon,null,,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,b1c3,709.926,709,95079,6,OK,
