@@ -1,0 +1,4 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status
+arneo,microchess,grumpy,,6,6,0,2.951,491.822,281.695,1244.836,183.121,1244.836,5062,6,2944.000,1719.4,0.582958,OK
+proteo,microchess,microchess,,6,6,0,3.107,517.903,323.575,1253.303,211.380,1253.303,5062,6,3099.000,1633.4,0.613872,OK
+tinySargon,picosargon,null,,6,6,0,3.181,530.191,477.639,717.478,382.471,717.478,493733,6,3173.000,155604.5,0.006443,OK

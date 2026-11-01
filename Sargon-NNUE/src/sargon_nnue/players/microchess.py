@@ -1,108 +1,212 @@
-"""Microchess-inspired piece-wise generation, move policy and bounded search.
+"""Microchess v0.3.2: same JANUS/STRATGY move policy for every evaluator.
 
-Chess legality and special moves are delegated to python-chess so that the
-player remains interoperable with the other Sargon-NNUE components.
+A modern deeper-search extension uses the selected evaluator at the horizon.
+The historical candidate computation never depends on evaluator type.
+Primary node counts retain the common benchmark contract; additional work
+is measured separately in ``last_metrics`` (not falsely reported as nodes).
 """
 from __future__ import annotations
+from collections import Counter
 import time
 import chess
 from .base import Player, PlayerError
 from ..types import MoveChoice, MATE_CP
-from ..evaluators.microchess import VALUES, gnm, MicrochessEvaluator, State
+from ..evaluators.microchess import PieceTable, gnm, Janus, measure
 
-class _Deadline(Exception): pass
+class _Deadline(Exception):
+    pass
 
 class MicrochessPlayer(Player):
     name = 'MICROCHESS'
+    version = '0.3.2'
 
     def __init__(self, evaluator, depth=2, qdepth=0, tmax_ms=15000, telemetry=None):
-        if int(depth)<1 or int(qdepth)<0: raise PlayerError('microchess: depth>=1, qdepth>=0')
-        self.evaluator=evaluator
-        self.depth=int(depth)
-        self.qdepth=int(qdepth)
-        self.tmax_ms=max(1,int(tmax_ms or 15000))
-        self.telemetry=telemetry
-        self.nodes=0
+        if int(depth) < 1 or int(qdepth) < 0:
+            raise PlayerError('microchess: depth>=1, qdepth>=0')
+        self.evaluator = evaluator
+        self.depth = int(depth)
+        self.qdepth = int(qdepth)
+        self.tmax_ms = max(1, int(tmax_ms or 15000))
+        self.telemetry = telemetry
+        self.nodes = 0
+        self.last_metrics = {}
+        self._table = None
 
-    @staticmethod
-    def _piece_order(board):
-        # Original GNM traversed piece table and rays; legal move generation
-        # is centralized in python-chess to support every modern chess rule.
-        moves=list(gnm(board, board.turn))
-        def rank(m):
-            attacker=board.piece_type_at(m.from_square)
-            victim=board.piece_type_at(m.to_square)
-            if board.is_en_passant(m): victim=chess.PAWN
-            captured=VALUES.get(victim,0)
-            square=m.to_square
-            f,r=chess.square_file(square),chess.square_rank(square)
-            center=(3.5-abs(3.5-f))+(3.5-abs(3.5-r))
-            development=2 if attacker in (chess.KNIGHT,chess.BISHOP) and chess.square_rank(m.from_square)==(0 if board.turn else 7) else 0
-            return (4*captured + 2*bool(m.promotion)+ development + .1*center,
-                    -m.from_square,-m.to_square)
-        return sorted(moves,key=rank,reverse=True)
+    def _check(self):
+        if time.monotonic() > self.deadline:
+            raise _Deadline()
 
-    def _search(self, board, depth, qleft, alpha, beta, ply):
-        self.nodes+=1
-        if (self.nodes&31)==0 and time.monotonic()>self.deadline: raise _Deadline()
-        if board.is_checkmate():return -MATE_CP+ply
-        if board.is_stalemate() or board.is_insufficient_material() or board.is_seventyfive_moves() or board.is_fivefold_repetition():return 0
-        if depth<=0:
-            stand=self.evaluator.evaluate(board) * (1 if board.turn else -1)
-            if qleft<=0:return stand
-            if not board.is_check():
-                if stand>=beta:return stand
-                alpha=max(alpha,stand)
-                moves=[m for m in self._piece_order(board) if board.is_capture(m) or m.promotion]
+    def _moves(self, board):
+        return list(gnm(board, board.turn, table=self._table, metrics=self._stats))
+
+    def _static(self, board, ply):
+        if board.is_checkmate():
+            return -MATE_CP + ply
+        if (board.is_stalemate() or board.is_insufficient_material()
+                or board.is_seventyfive_moves() or board.is_fivefold_repetition()):
+            return 0
+        t0 = time.monotonic()
+        try:
+            self._stats['eval_calls'] += 1
+            return int(self.evaluator.evaluate(board)) * (1 if board.turn else -1)
+        finally:
+            self._stats['eval_time_ms'] += (time.monotonic() - t0) * 1000.0
+
+    def _candidate_scores(self, board, moves):
+        """Unconditionally apply JANUS for every evaluator; cached per position.
+
+        Cache is local to a choose(), avoiding stale records across games or
+        changing network weights. A position's FEN is used together with the
+        candidate move; paths sharing FEN are intentionally reused within the
+        current decision only.
+        """
+        key = board.fen()
+        # Reference measurements are invariant across candidates of the same
+        # position. Cache only for this choose() invocation.
+        reference_key=(key, board.turn)
+        if reference_key not in self._reference_cache:
+            self._reference_cache[reference_key] = measure(board, board.turn, self._table, self._stats)
+            self._stats['reference_cache_misses'] += 1
+        else:
+            self._stats['reference_cache_hits'] += 1
+        previous = self._reference_cache[reference_key]
+        scored = []
+        for m in moves:
+            self._check()
+            cache_key = (key, m.uci())
+            if cache_key in self._candidate_cache:
+                self._stats['candidate_cache_hits'] += 1
+                value = self._candidate_cache[cache_key]
             else:
-                moves=self._piece_order(board)
-            if not moves:return alpha
-            for move in moves:
-                board.push(move)
-                try: val=-self._search(board,0,qleft-1,-beta,-alpha,ply+1)
-                finally: board.pop()
-                if val>=beta:return val
-                alpha=max(alpha,val)
-            return alpha
-        for move in self._piece_order(board):
-            board.push(move)
-            try: val=-self._search(board,depth-1,qleft,-beta,-alpha,ply+1)
-            finally: board.pop()
-            if val>=beta:return val
-            alpha=max(alpha,val)
+                t0 = time.monotonic()
+                try:
+                    value = Janus(board, table=self._table,
+                                  exchange_branch=2, metrics=self._stats).candidate(m, previous=previous)
+                finally:
+                    self._stats['janus_time_ms'] += (time.monotonic()-t0)*1000.0
+                self._stats['candidate_calls'] += 1
+                self._candidate_cache[cache_key] = value
+            scored.append((value, m))
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return scored
+
+    def _qsearch(self, board, left, alpha, beta, ply):
+        self.nodes += 1
+        self._check()
+        if board.is_game_over(claim_draw=False):
+            return self._static(board, ply)
+        in_check = board.is_check()
+        if left <= 0:
+            return self._static(board, ply)
+        if not in_check:
+            stand_pat = self._static(board, ply)
+            if stand_pat >= beta:
+                return stand_pat
+            alpha = max(alpha, stand_pat)
+        moves = self._moves(board)
+        if not in_check:
+            moves = [m for m in moves if board.is_capture(m) or m.promotion]
+        if not moves:
+            return self._static(board, ply) if in_check else alpha
+        for m in moves:
+            self._check()
+            self._table.push(m, board)
+            board.push(m)
+            try:
+                v = -self._qsearch(board, left-1, -beta, -alpha, ply+1)
+            finally:
+                board.pop()
+                self._table.pop()
+            if v >= beta:
+                return v
+            alpha = max(alpha, v)
         return alpha
 
+    def _search(self, board, depth, alpha, beta, ply):
+        self.nodes += 1
+        self._check()
+        if board.is_game_over(claim_draw=False):
+            return self._static(board, ply)
+        if depth <= 0:
+            return self._qsearch(board, self.qdepth, alpha, beta, ply)
+        moves = self._moves(board)
+        if not moves:
+            return self._static(board, ply)
+        ranked = self._candidate_scores(board, moves)
+        best = -MATE_CP-1
+        for immediate, m in ranked:
+            self._check()
+            self._table.push(m, board)
+            board.push(m)
+            try:
+                if depth == 1:
+                    # Same definition for every evaluator, including Microchess:
+                    # STRATGY candidate + independently selected leaf evaluator.
+                    continuation = -self._qsearch(board, self.qdepth,
+                                                  -MATE_CP-1, MATE_CP+1, ply+1)
+                else:
+                    continuation = -self._search(board, depth-1,
+                                                 -MATE_CP-1, MATE_CP+1, ply+1)
+            finally:
+                board.pop()
+                self._table.pop()
+            value = (immediate + continuation) // 2
+            best = max(best, value)
+            alpha = max(alpha, value)
+            # Mixed candidate/continuation scores do not share raw child
+            # alpha-beta bounds; do not prune on these mixed values.
+        return best
+
     def choose(self, board):
-        start=time.monotonic()
-        self.deadline=start+self.tmax_ms/1000
-        self.nodes=0
-        moves=self._piece_order(board)
-        if not moves:return MoveChoice(None,0,0,0,0.0,self.name)
-        best=moves[0]; score=0; completed=0
-        # JANUS first pass: STRATGY evaluates the candidate move rather than
-        # only the resulting position. Other evaluators retain the common API.
-        candidate_scores = {}
-        if isinstance(self.evaluator, MicrochessEvaluator):
-            for move in moves:
-                if time.monotonic() >= self.deadline: break
-                candidate_scores[move] = self.evaluator.evaluate_candidate(board, move)
-            if candidate_scores:
-                best = max(candidate_scores, key=candidate_scores.get)
-                score = candidate_scores[best]
-                completed = 1 if len(candidate_scores) == len(moves) else 0
+        start = time.monotonic()
+        self.deadline = start + self.tmax_ms/1000.0
+        self.nodes = 0
+        self._stats = Counter()
+        self._candidate_cache = {}
+        self._reference_cache = {}
+        self._table = PieceTable(board)
+        original_fen = board.fen()
+        best = None
+        score = 0
+        completed = 0
         try:
-            for depth in range(1,self.depth+1):
-                candidate=None; value=-MATE_CP-1
-                for move in sorted(moves,key=lambda m: (m!=best, -candidate_scores.get(m, 0))):
-                    if time.monotonic()>self.deadline:raise _Deadline()
-                    if depth == 1 and move in candidate_scores:
-                        result = candidate_scores[move]
-                    else:
-                        board.push(move)
-                        try: result=-self._search(board,depth-1,self.qdepth,-MATE_CP-1,MATE_CP+1,1)
-                        finally: board.pop()
-                    if result>value: value=result; candidate=move
-                best,score,completed=candidate,value,depth
-        except _Deadline:pass
-        score_white=score if board.turn else -score
-        return MoveChoice(best,int(score_white),completed,self.nodes,(time.monotonic()-start)*1000,self.name)
+            moves = self._moves(board)
+            if not moves:
+                return MoveChoice(None, 0, 0, 0, 0.0, self.name)
+            best = moves[0]
+            # Root scores are expensive. Evaluate once, reuse across iterations.
+            ranked = self._candidate_scores(board, moves)
+            for d in range(1, self.depth+1):
+                candidate = None
+                value = -MATE_CP-1
+                for immediate, m in ranked:
+                    self._check()
+                    self._table.push(m, board)
+                    board.push(m)
+                    try:
+                        if d == 1:
+                            continuation = -self._qsearch(board, self.qdepth,
+                                                          -MATE_CP-1, MATE_CP+1, 1)
+                        else:
+                            continuation = -self._search(board, d-1,
+                                                         -MATE_CP-1, MATE_CP+1, 1)
+                    finally:
+                        board.pop()
+                        self._table.pop()
+                    result = (immediate + continuation) // 2
+                    if result > value:
+                        candidate, value = m, result
+                if candidate is not None:
+                    best, score, completed = candidate, value, d
+        except _Deadline:
+            pass
+        finally:
+            self.last_metrics = dict(self._stats)
+            self.last_metrics['search_nodes'] = self.nodes
+            self.last_metrics['wall_time_ms'] = (time.monotonic()-start)*1000.0
+            self.last_metrics['historical_candidate_cache_entries'] = len(self._candidate_cache)
+            self.last_metrics['reference_cache_entries'] = len(self._reference_cache)
+            if board.fen() != original_fen or self._table._undos:
+                raise PlayerError('microchess: board or piece table not restored')
+        return MoveChoice(best, int(score if board.turn else -score), completed,
+                          self.nodes, (time.monotonic()-start)*1000.0, self.name)

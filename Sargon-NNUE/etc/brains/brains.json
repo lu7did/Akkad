@@ -4,7 +4,7 @@
     "buddy": {
       "evaluator": "classic",
       "player": "sargon",
-      "depth": 3,
+      "depth": 2,
       "qdepth": 0,
       "tmax": 15000,
       "boost": 0,
@@ -75,8 +75,8 @@
         "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
       },
-      "depth": 4,
-      "qdepth": 2
+      "depth": 2,
+      "qdepth": 0
     },
     "aegir": {
       "evaluator": "npz",
