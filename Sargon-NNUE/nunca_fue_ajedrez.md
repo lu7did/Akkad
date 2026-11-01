@@ -719,9 +719,9 @@ Antes de actualizar los puntos de un jugador, el sistema necesita calcular la ex
 Un resultado de 1 representa una victoria, 0.5 un empate y 0 una derrota. La fórmula matemática para hallar la expectativa del Jugador A (\(E_{A}\)) es:
 $E_{A}=\frac{1}{1+10^{\frac{R_{B}-R_{A}}{400}}}$
 Donde:
-• $R_{A}$: Elo actual del Jugador A.
-• $R_{B}$: Elo actual del Jugador B.
-• El número 400 es un factor de escala estándar: una diferencia de 400 puntos de Elo significa que el jugador superior tiene aproximadamente un 91% de probabilidad de ganar.
+* $R_{A}$: Elo actual del Jugador A.
+* $R_{B}$: Elo actual del Jugador B.
+* El número 400 es un factor de escala estándar: una diferencia de 400 puntos de Elo significa que el jugador superior tiene aproximadamente un 91% de probabilidad de ganar.
 
 📝 Ejemplo de Probabilidad:
 
@@ -736,28 +736,28 @@ Resultado: El Jugador A tiene una expectativa del 76% (0.76 puntos esperados). E
 Cuando dos jugadores terminan una partida, sus puntuaciones se actualizan según la diferencia entre el resultado real y el resultado esperado. La fórmula es:
 $R_{A}^{\prime }=R_{A}+K\times (S_{A}-E_{A})$
 Donde:
-• $R_{A}^{\prime }$: El nuevo Elo del Jugador A.
-• $R_{A}$: El Elo anterior del Jugador A.
-• $S_{A}$: El resultado real de la partida (1 si ganó, 0.5 si empató, 0 si perdió).
-• $E_{A}$: La expectativa de puntuación calculada en el paso anterior.
-• $K$ (Factor K): Es una constante que determina el impacto de la partida. Varía según el jugador para dar estabilidad al sistema:
-	• K = 40: Para nuevos jugadores (primeras 30 partidas) o menores de 18 años. El Elo sube y baja muy rápido.
-	• K = 20: Para la mayoría de los jugadores de club y torneos estándar.
-	• K = 10: Para jugadores de élite que han alcanzado un Elo de 2400 o más (evita fluctuaciones drásticas).
+* $R_{A}^{\prime }$: El nuevo Elo del Jugador A.
+* $R_{A}$: El Elo anterior del Jugador A.
+* $S_{A}$: El resultado real de la partida (1 si ganó, 0.5 si empató, 0 si perdió).
+* $E_{A}$: La expectativa de puntuación calculada en el paso anterior.
+* $K$ (Factor K): Es una constante que determina el impacto de la partida. Varía según el jugador para dar estabilidad al sistema:
+	* K = 40: Para nuevos jugadores (primeras 30 partidas) o menores de 18 años. El Elo sube y baja muy rápido.
+	* K = 20: Para la mayoría de los jugadores de club y torneos estándar.
+	* K = 10: Para jugadores de élite que han alcanzado un Elo de 2400 o más (evita fluctuaciones drásticas).
 
 📝 Ejemplo de Cálculo de Intercambio (K = 20):
 
 Siguiendo el caso anterior donde Jugador A (1800, 
 
 $E_A = 0.76$ juega contra Jugador B (1600, $E_B = 0.24$):
-• Escenario 1: Gana el Jugador A (el favorito).
-	• Nuevo Elo de A: $1800 + 20 \times (1 - 0.76) = 1800 + 20 \times (0.24) = \mathbf{1804.8}$ (+4.8 puntos).
-	• Nuevo Elo de B: $1600 + 20 \times (0 - 0.24) = 1600 - 4.8 = \mathbf{1595.2}$ (-4.8 puntos).
-	• Nota: Como el favorito ganó, el cambio de puntos es pequeño.
-• Escenario 2: Sorpresa, gana el Jugador B (el menos fuerte).
-	• Nuevo Elo de A: $1800 + 20 \times (0 - 0.76) = 1800 - 15.2 = \mathbf{1784.8}$ (-15.2 puntos).
-	• Nuevo Elo de B: $1600 + 20 \times (1 - 0.24) = 1600 + 15.2 = \mathbf{1615.2}$ (+15.2 puntos).
-	• Nota: Las sorpresas se premian y castigan con muchos más puntos.
+* Escenario 1: Gana el Jugador A (el favorito).
+	* Nuevo Elo de A: $1800 + 20 \times (1 - 0.76) = 1800 + 20 \times (0.24) = \mathbf{1804.8}$ (+4.8 puntos).
+	* Nuevo Elo de B: $1600 + 20 \times (0 - 0.24) = 1600 - 4.8 = \mathbf{1595.2}$ (-4.8 puntos).
+	* Nota: Como el favorito ganó, el cambio de puntos es pequeño.
+* Escenario 2: Sorpresa, gana el Jugador B (el menos fuerte).
+	* Nuevo Elo de A: $1800 + 20 \times (0 - 0.76) = 1800 - 15.2 = \mathbf{1784.8}$ (-15.2 puntos).
+	* Nuevo Elo de B: $1600 + 20 \times (1 - 0.24) = 1600 + 15.2 = \mathbf{1615.2}$ (+15.2 puntos).
+	* Nota: Las sorpresas se premian y castigan con muchos más puntos.
 
 ### 📈 Cómo calcular la diferencia de Elo basada en la proporción de partidas ganadas
 
@@ -774,6 +774,7 @@ Dos amigos juegan un match de 20 partidas. El Jugador A obtiene 15 puntos (combi
 3. $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)$
 4. Como $\log_{10}(3) \approx 0.4771$:
 5. $\Delta R = 400 \times 0.4771 \approx \mathbf{190.8}$
+
 Resultado: Basado puramente en el desempeño de este match, el rendimiento del Jugador A estuvo 191 puntos de Elo por encima del Jugador B. Si el Jugador B tuviera un Elo estimado de 1500, el Jugador A jugó al nivel de un Elo de 1691.
 
 ### ELO aplicado a algoritmos
@@ -835,8 +836,8 @@ El objetivo del algoritmo es calcular un Elo Base de Software ($Elo_{Base}$). Es
 Paso 1: Obtener el Factor de Rendimiento Bruto (NPS)
 
 En lugar de multiplicar GHz por RAM por núcleos, dejamos que el motor corra en su máquina objetivo un set estandarizado de posiciones complejas (por ejemplo, el test suite *Colditz* o *Arasan*) durante 3 minutos y extraemos el NPS promedio reportado por el motor mediante el protocolo UCI.
-• Para motores tradicionales (CPU): El NPS mide posiciones tradicionales evaluadas por segundo.
-• Para motores de redes neuronales puras (GPU como Lc0): El NPS suele medir "Nodos de Búsqueda" o evaluaciones de la red por segundo.
+* Para motores tradicionales (CPU): El NPS mide posiciones tradicionales evaluadas por segundo.
+* Para motores de redes neuronales puras (GPU como Lc0): El NPS suele medir "Nodos de Búsqueda" o evaluaciones de la red por segundo.
 
 Paso 2: Calcular el Factor de Penalización/Bonificación por Hardware ($F_{H}$)
 
@@ -864,25 +865,25 @@ $Elo_{Base}=Elo_{Medido}-C_{Elo}$
 📝 Ejemplo Práctico de Aplicación
 
 Imaginemos que ponemos a competir a dos motores en un torneo en línea y obtenemos sus Elos medidos tras 100 partidas. Queremos saber cuál software es mejor si corrieran en igualdad de condiciones.
-• Establecemos el $NPS_{Ref}$ de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
+* Establecemos el $NPS_{Ref}$ de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
 
 Caso Motor A: Stockfish (Corriendo en una Laptop Modesta)
 
-• Hardware: CPU 4 núcleos, 2.5 GHz, 8 GB RAM.
-• Rendimiento: Genera 2,000,000 de nodos por segundo (2 MNPS).
-• Elo Medido en el torneo: 3300.
-1. $F_H = \log_{2}(2,000,000 / 1,000,000) = \log_{2}(2) = 1$
-2. $C_{Elo} = 1 \times 60 = 60$ puntos de ventaja por hardware.
-3. $Elo_{Base} = 3300 - 60 = \mathbf{3240}$
+* Hardware: CPU 4 núcleos, 2.5 GHz, 8 GB RAM.
+* Rendimiento: Genera 2,000,000 de nodos por segundo (2 MNPS).
+* Elo Medido en el torneo: 3300.
+	1. $F_H = \log_{2}(2,000,000 / 1,000,000) = \log_{2}(2) = 1$
+	2. $C_{Elo} = 1 \times 60 = 60$ puntos de ventaja por hardware.
+	3. $Elo_{Base} = 3300 - 60 = \mathbf{3240}$
 
 Caso Motor B: Leela Chess Zero (Corriendo en una PC Gamer de Gama Alta)
 
-• Hardware: CPU 16 núcleos, 5.0 GHz, 64 GB RAM, Tarjeta Gráfica dedicada (GPU RTX 4090).
-• Rendimiento: Gracias a su potente GPU, su equivalencia de procesamiento alcanza los 16,000,000 de nodos por segundo (16 MNPS).
-• Elo Medido en el torneo: 3450 (Ganó el torneo).
-1. $F_H = \log_{2}(16,000,000 / 1,000,000) = \log_{2}(16) = 4$
-2. $C_{Elo} = 4 \times 60 = 240$ puntos de ventaja por hardware.
-3. $Elo_{Base} = 3450 - 240 = \mathbf{3210}$
+* Hardware: CPU 16 núcleos, 5.0 GHz, 64 GB RAM, Tarjeta Gráfica dedicada (GPU RTX 4090).
+* Rendimiento: Gracias a su potente GPU, su equivalencia de procesamiento alcanza los 16,000,000 de nodos por segundo (16 MNPS).
+* Elo Medido en el torneo: 3450 (Ganó el torneo).
+	1. $F_H = \log_{2}(16,000,000 / 1,000,000) = \log_{2}(16) = 4$
+	2. $C_{Elo} = 4 \times 60 = 240$ puntos de ventaja por hardware.
+	3. $Elo_{Base} = 3450 - 240 = \mathbf{3210}$
 
 🏆 Conclusión del Algoritmo
 
@@ -901,7 +902,7 @@ Añadiremos un nuevo factor independiente de penalización por el tamaño de las
 Paso 1: Definir los Parámetros de la RAM de Referencia
 
 Establecemos un tamaño estándar de Tablas de Hash en RAM para la comunidad informática como base neutra:
-• $Hash_{Ref} = 1024 \text{ MB}$ (1 GB asignado exclusivamente al motor).
+* $Hash_{Ref} = 1024 \text{ MB}$ (1 GB asignado exclusivamente al motor).
 
 Paso 2: Calcular el Coeficiente de Ventaja por Hash $F_{Hash}$
 
@@ -928,35 +929,35 @@ $C_{Elo} = \log_{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right) \times 60$
 📝 Ejemplo Práctico con Corrección de RAM
 
 Ponemos a competir a dos versiones del mismo motor en dos servidores diferentes:
-• Máquina de Referencia Común: $NPS_{Ref} = 1 \text{ MNPS}$  |  $Hash_{Ref} = 1024 \text{ MB}$ (1 GB).
+* Máquina de Referencia Común: $NPS_{Ref} = 1 \text{ MNPS}$  |  $Hash_{Ref} = 1024 \text{ MB}$ (1 GB).
 
 Caso Motor A: (Poco Procesamiento, pero mucha RAM)
 
-• Rendimiento Bruto: Genera 2,000,000 de nodos por segundo (2 MNPS).
-• Memoria Asignada: 16,384 MB (16 GB de Hash).
-• Elo Medido en el torneo: 3200.
-1. Corrección por CPU $C_{Elo}$:
-	• $F_H = \log_{2}(2 / 1) = 1$
-	• $C_{Elo} = 1 \times 60 = \mathbf{60}$
-2. Corrección por RAM $C_{RAM}$:
-	• $F_{Hash} = \log_{2}(16384 / 1024) = \log_{2}(16) = 4$ (Ha duplicado 4 veces la RAM de referencia)
-	• $C_{RAM} = 4 \times 10 = \mathbf{40}$
-3. Resultado Elo Base:
-	• $Elo_{Base} = 3200 - 60 - 40 = \mathbf{3100}$
+* Rendimiento Bruto: Genera 2,000,000 de nodos por segundo (2 MNPS).
+* Memoria Asignada: 16,384 MB (16 GB de Hash).
+* Elo Medido en el torneo: 3200.
+	1. Corrección por CPU $C_{Elo}$:
+		* $F_H = \log_{2}(2 / 1) = 1$
+		* $C_{Elo} = 1 \times 60 = \mathbf{60}$
+	2. Corrección por RAM $C_{RAM}$:
+		* $F_{Hash} = \log_{2}(16384 / 1024) = \log_{2}(16) = 4$ (Ha duplicado 4 veces la RAM de referencia)
+		* $C_{RAM} = 4 \times 10 = \mathbf{40}$
+	3. Resultado Elo Base:
+		* $Elo_{Base} = 3200 - 60 - 40 = \mathbf{3100}$
 
 Caso Motor B: (Mucho Procesamiento, pero "ahogado" en RAM)
 
-• Rendimiento Bruto: Genera 8,000,000 de nodos por segundo (8 MNPS).
-• Memoria Asignada: Solo 1,024 MB (1 GB de Hash, igual al de referencia).
-• Elo Medido en el torneo: 3210.
-1. Corrección por CPU $C_{Elo}$:
-	• $F_H = \log_{2}(8 / 1) = 3$ (Ha duplicado 3 veces los nodos por segundo)
-	• $C_{Elo} = 3 \times 60 = \mathbf{180}$
-2. Corrección por RAM (\(C_{RAM}\)):
-	• $F_{Hash} = \log_{2}(1024 / 1024) = \log_{2}(1) = 0$
-	• $C_{RAM} = 0 \times 10 = \mathbf{0}$
-3. Resultado Elo Base:
-	• $Elo_{Base} = 3210 - 180 - 0 = \mathbf{3030}$
+* Rendimiento Bruto: Genera 8,000,000 de nodos por segundo (8 MNPS).
+* Memoria Asignada: Solo 1,024 MB (1 GB de Hash, igual al de referencia).
+* Elo Medido en el torneo: 3210.
+	1. Corrección por CPU $C_{Elo}$:
+		* $F_H = \log_{2}(8 / 1) = 3$ (Ha duplicado 3 veces los nodos por segundo)
+		* $C_{Elo} = 3 \times 60 = \mathbf{180}$
+	2. Corrección por RAM (\(C_{RAM}\)):
+		* $F_{Hash} = \log_{2}(1024 / 1024) = \log_{2}(1) = 0$
+		* $C_{RAM} = 0 \times 10 = \mathbf{0}$
+	3. Resultado Elo Base:
+		* $Elo_{Base} = 3210 - 180 - 0 = \mathbf{3030}$
 
 🏆 Conclusión del Análisis de Eficiencia
 
