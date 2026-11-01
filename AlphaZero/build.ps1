@@ -1,13 +1,15 @@
-param(
+﻿param(
     [string]$LC0Source = "",
     [string]$LC0Ref = "master",
-    [ValidateSet('onnx','eigen')][string]$Backend = 'onnx',
+    [ValidateSet('onnx','eigen')][string]$Backend = 'onnx', # default: no arguments builds ONNX/DirectML
     [string]$OnnxInclude = "",
     [string]$OnnxLibdir = "",
     [string]$DirectMLDll = "",
     [string]$OrtVersion = '1.24.4',
     [string]$DmlVersion = '1.15.4',
-    [switch]$CleanSource
+    [switch]$CleanSource,
+    [string]$AbseilRef = "20250512.1",
+    [switch]$RebuildAbseil
 )
 $ErrorActionPreference = 'Stop'
 $here = $PSScriptRoot
@@ -15,7 +17,7 @@ $build = Join-Path $here 'build'
 $vendor = Join-Path $build 'lc0-src'
 $mesonBuild = Join-Path $build 'lc0-build'
 New-Item -ItemType Directory -Force -Path $build | Out-Null
-foreach ($program in @('git','python','meson')) {
+foreach ($program in @('git','python','meson','cmake')) {
     if (-not (Get-Command $program -ErrorAction SilentlyContinue)) { throw "Missing tool: $program" }
 }
 # Use the same NuGet DirectML dependency family as the existing Sargon-NNUE GPU tooling.
@@ -65,6 +67,87 @@ $main = Join-Path $vendor 'src/main.cc'
 if (-not (Test-Path $main)) { throw 'LC0 source layout changed: src/main.cc missing' }
 Copy-Item (Join-Path $here 'src/akkad_alphazero_main.cc') $main -Force
 Copy-Item (Join-Path $here 'src/config.h') (Join-Path $vendor 'src/config.h') -Force
+# Set up Visual Studio C++ tools automatically when invoked from a normal
+# PowerShell/venv session. Ninja and MSVC remain the selected build toolchain.
+if (-not (Get-Command cl.exe -ErrorAction SilentlyContinue) -or
+    -not (Get-Command link.exe -ErrorAction SilentlyContinue)) {
+    $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+    if (-not (Test-Path -LiteralPath $vswhere)) {
+        throw "MSVC not active and vswhere.exe not found: $vswhere"
+    }
+    $vsPath = (& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath | Select-Object -First 1)
+    if ($LASTEXITCODE -ne 0 -or -not $vsPath) { throw 'Visual Studio C++ build tools were not found' }
+    $vcvars = Join-Path $vsPath 'VC/Auxiliary/Build/vcvars64.bat'
+    if (-not (Test-Path -LiteralPath $vcvars)) { throw "MSVC environment script not found: $vcvars" }
+    # cmd emits environment variables as KEY=VALUE; avoid treating them as code.
+    $envLines = & cmd.exe /d /s /c "`"`"$vcvars`" >nul && set`""
+    if ($LASTEXITCODE -ne 0) { throw "Failed to initialize MSVC via $vcvars" }
+    foreach ($envLine in $envLines) {
+        if ($envLine -match '^([^=]+)=(.*)$') {
+            [Environment]::SetEnvironmentVariable($Matches[1], $Matches[2], 'Process')
+        }
+    }
+    Write-Host "MSVC initialized from $vsPath"
+}
+foreach ($tool in @('cl.exe','link.exe','ninja.exe')) {
+    if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) { throw "Missing build tool: $tool" }
+}
+
+# Reproducible local Abseil toolchain. Never use Anaconda/Conda for Abseil.
+$abslSource = Join-Path $build 'deps/abseil-src'
+$abslBuild = Join-Path $build 'deps/abseil-build'
+$abslPrefix = Join-Path $build 'deps/abseil-install'
+$abslConfig = Join-Path $abslPrefix 'lib/cmake/absl/abslConfig.cmake'
+if (-not (Test-Path (Join-Path $abslSource '.git'))) {
+    if (Test-Path $abslSource) { throw "Incomplete local Abseil source directory: $abslSource" }
+    & git clone --depth 1 --branch $AbseilRef https://github.com/abseil/abseil-cpp.git $abslSource
+    if ($LASTEXITCODE -ne 0) { throw 'Abseil source clone failed' }
+}
+$resolvedAbslRef = (& git -C $abslSource describe --tags --exact-match 2>$null)
+if ($LASTEXITCODE -ne 0 -or "$resolvedAbslRef".Trim() -ne $AbseilRef) {
+    throw "Local Abseil checkout does not match requested tag $AbseilRef. Remove $abslSource manually or use the matching -AbseilRef."
+}
+if ($RebuildAbseil) {
+    foreach ($dir in @($abslBuild,$abslPrefix)) {
+        if (Test-Path $dir) { Remove-Item -LiteralPath $dir -Recurse -Force }
+    }
+}
+if (-not (Test-Path $abslConfig)) {
+    # Reuse the MSVC toolchain already used by LC0/Meson. Do not assume VS 2022.
+    # Ninja is a generator, not a compiler; cl.exe/link.exe must be available
+    # in the current Developer PowerShell environment.
+    foreach ($tool in @('cl.exe','link.exe','ninja.exe')) {
+        if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
+            throw "Missing $tool in PATH. Launch a VS Developer PowerShell x64 (or activate its environment) and install Ninja."
+        }
+    }
+    $cmakeArgs = @('-S',$abslSource,'-B',$abslBuild,'-G','Ninja',
+        '-DCMAKE_BUILD_TYPE=Release',"-DCMAKE_INSTALL_PREFIX=$abslPrefix",
+        '-DCMAKE_CXX_STANDARD=17','-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded',
+        '-DBUILD_SHARED_LIBS=ON','-DABSL_BUILD_MONOLITHIC_SHARED_LIBS=ON',
+        '-DABSL_BUILD_TESTING=OFF','-DABSL_ENABLE_INSTALL=ON','-DABSL_PROPAGATE_CXX_STD=ON')
+    Write-Host 'Configuring local Abseil with Ninja and the active MSVC toolchain'
+    & cmake @cmakeArgs
+    if ($LASTEXITCODE -ne 0) { throw 'Abseil CMake configure failed' }
+    & cmake --build $abslBuild --config Release --parallel
+    if ($LASTEXITCODE -ne 0) { throw 'Abseil CMake build failed' }
+    & cmake --install $abslBuild --config Release
+    if ($LASTEXITCODE -ne 0) { throw 'Abseil CMake install failed' }
+}
+if (-not (Test-Path $abslConfig)) { throw "Abseil CMake package missing: $abslConfig" }
+$localAbslDll = Get-ChildItem $abslPrefix -Recurse -File -Filter 'abseil_dll.dll' | Select-Object -First 1
+if (-not $localAbslDll) { throw "Local Abseil DLL missing under $abslPrefix" }
+# Meson probes CMake dependencies during setup. Isolate its search path
+# from Conda without changing the caller's environment permanently.
+$oldCmakePrefix = $env:CMAKE_PREFIX_PATH
+$oldAbslDir = $env:absl_DIR
+$oldCmakeModule = $env:CMAKE_MODULE_PATH
+$oldCondaPrefix = $env:CONDA_PREFIX
+$env:CMAKE_PREFIX_PATH = $abslPrefix
+$env:absl_DIR = Split-Path -Parent $abslConfig
+$env:CMAKE_MODULE_PATH = ''
+$env:CONDA_PREFIX = ''
+
 if (Test-Path $mesonBuild) { Remove-Item $mesonBuild -Recurse -Force }
 $argsMeson = @('setup',$mesonBuild,$vendor,'--backend=vs','--buildtype=release','-Ddefault_library=static','-Db_vscrt=mt','-Dlc0=true')
 if ($Backend -eq 'onnx') {
@@ -73,10 +156,33 @@ if ($Backend -eq 'onnx') {
 } else {
     $argsMeson += @('-Dblas=true','-Dopenblas=false','-Dmkl=false','-Ddnnl=false')
 }
-& meson @argsMeson
-if ($LASTEXITCODE -ne 0) { throw 'Meson setup failed' }
-& meson compile -C $mesonBuild lc0
-if ($LASTEXITCODE -ne 0) { throw 'AlphaZero compile failed' }
+try {
+    & meson @argsMeson
+    if ($LASTEXITCODE -ne 0) { throw 'Meson setup failed' }
+    $mesonLog = Join-Path $mesonBuild 'meson-logs/meson-log.txt'
+    if (-not (Test-Path $mesonLog)) { throw 'Meson log not found for dependency audit' }
+    $mesonText = [IO.File]::ReadAllText($mesonLog)
+    $escapedPrefix = [regex]::Escape($abslPrefix.Replace('\','/'))
+    $normalizedLog = $mesonText.Replace('\','/')
+    if ($normalizedLog -notmatch $escapedPrefix) {
+        throw "Meson did not resolve the local Abseil prefix: $abslPrefix. Inspect $mesonLog"
+    }
+    # Fail rather than silently link to the previous Conda Abseil package.
+    $externalAbsl = $normalizedLog -split "`n" | Where-Object {
+        ($_ -match '(?i)anaconda|conda') -and ($_ -match '(?i)absl|abseil|Library/(include|lib)/cmake')
+    }
+    if ($externalAbsl) {
+        throw "Meson still sees an external Abseil dependency: $($externalAbsl[0])"
+    }
+    & meson compile -C $mesonBuild lc0
+    if ($LASTEXITCODE -ne 0) { throw 'AlphaZero compile failed' }
+}
+finally {
+    $env:CMAKE_PREFIX_PATH = $oldCmakePrefix
+    $env:absl_DIR = $oldAbslDir
+    $env:CMAKE_MODULE_PATH = $oldCmakeModule
+    $env:CONDA_PREFIX = $oldCondaPrefix
+}
 $exe = Get-ChildItem $mesonBuild -Filter lc0.exe -Recurse -File | Select-Object -First 1
 if (-not $exe) { throw 'Linked executable not found' }
 Copy-Item $exe.FullName (Join-Path $build 'AlphaZero.exe') -Force
@@ -101,6 +207,7 @@ foreach ($dir in $runtimeDirs) {
             }
         }
 }
+Copy-Item -LiteralPath $localAbslDll.FullName -Destination (Join-Path $build 'abseil_dll.dll') -Force
 # Deployment check for the concrete failure observed on Windows.
 # Also checks all non-OS imports if dumpbin is installed.
 $dumpbin = Get-Command dumpbin.exe -ErrorAction SilentlyContinue
@@ -130,8 +237,13 @@ foreach ($name in $names) {
     if (Test-Path $systemPath) { continue }
     $missing += $name
 }
+# Only the freshly built local Abseil DLL can satisfy this dependency.
+if ($missing -contains 'abseil_dll.dll') {
+    Copy-Item -LiteralPath $localAbslDll.FullName -Destination (Join-Path $build 'abseil_dll.dll') -Force
+    $missing = @($missing | Where-Object { $_ -ne 'abseil_dll.dll' })
+}
 if ($missing.Count) {
-    throw "Runtime DLLs are missing for AlphaZero.exe: $($missing -join ', '). Check LC0 Meson build artifacts and toolchain."
+    throw "Runtime DLLs still missing: $($missing -join ', '). No external Abseil fallbacks are allowed."
 }
 Write-Host "Created and validated: $programExe (backend: $Backend)"
 Write-Host "Direct import libraries: $($names -join ', ')"
