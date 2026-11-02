@@ -1144,13 +1144,11 @@ La característica fundamental de Alfa-Beta es que produce el mismo resultado qu
 
 La ventaja consiste en reducir considerablemente la cantidad de posiciones que es necesario analizar, permitiendo alcanzar mayores profundidades con los mismos recursos computacionales.
 
-## Representación del ajedrez como problema de búsqueda
-
 ### Espacio de estados
 
 Un juego de ajedrez puede modelarse mediante un conjunto de estados:
 
-$S=\{s_0,s_1,s_2,\ldots\\}$
+$S=\{s_0,s_1,s_2,\ldots\}$
 
 Cada estado $\(s\)$ contiene toda la información necesaria para representar una posición y determinar las jugadas
 legales, incluyendo:
@@ -1166,9 +1164,9 @@ Una posición de ajedrez no queda necesariamente determinada por la ubicación d
 
 Definimos:
 
-$\[ A(s)=\{a_1,a_2,\ldots,a_n\\}\]$
+$\[ A(s)=\{a_1,a_2,\ldots,a_n}\]$
 
-como el conjunto de jugadas legales disponibles en el estado \\(s\\).
+como el conjunto de jugadas legales disponibles en el estado $\(s\)$.
 
 Una función de transición:
 
@@ -1184,7 +1182,7 @@ $\[ s_1=T(s_0,\text{e2e4}) \]$
 
 La posición resultante tendrá un peón blanco en e4, corresponderá mover a las negras y se actualizarán los demás componentes del estado.
 
-### 2.2. Naturaleza adversarial del problema
+### Naturaleza adversarial del problema
 
 El ajedrez es un juego:
 
@@ -1195,7 +1193,7 @@ El ajedrez es un juego:
 
 Podemos definir una utilidad terminal desde la perspectiva de las blancas:
 
-$\[ U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases} \]$
+$ U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases}$
 
 Por lo tanto, si $\(U_B(s)\)$ representa la utilidad para las blancas y $\(U_N(s)\)$ la de las negras:
 
@@ -1203,7 +1201,7 @@ $\[ U_N(s)=-U_B(s) \]$
 
 Esto permite representar las decisiones de ambos jugadores mediante una única función de valor.
 
-### 2.3. El árbol de juego
+### El árbol de juego
 
 Desde cada posición se generan sus posibles movimientos, formando un árbol de búsqueda.
 
@@ -1230,13 +1228,13 @@ Cada nivel del árbol corresponde a una jugada individual, denominada ply.
 
 Una profundidad de búsqueda de $\(d=6\)$ significa que se examinan seis medias jugadas desde la posición inicial de análisis: tres movimientos de las blancas y tres de las negras, si las jugadas alternan normalmente.
 
-### 2.4. Complejidad del espacio de búsqueda
+### Complejidad del espacio de búsqueda
 
 Si una posición tiene, en promedio, $\(b\)$ movimientos legales y analizamos una profundidad $\(d\)$, el número aproximado de posiciones terminales del árbol es:
 
 $\[ N(d)\approx b^d \]$
 
-Para un factor de ramificación ilustrativo:
+Para un factor de ramificación típico:
 
 $\[ b=35 \]$
 
@@ -1252,18 +1250,14 @@ obtenemos:
 | 6                 | 1.838.265.625               |
 | 8                 | 2,25 × 10¹²                 |
 
-Crecimiento exponencial de las posiciones hoja
+Lo que muestra claramente el crecimiento exponencial de las posiciones (hojas) a explorar, este crecimiento
+exponencial constituye el principal problema computacional de Minimax.
 
-Modelo teórico con factor de ramificación constante b = 35. Eje vertical en millones de posiciones.
+La cantidad exacta de posiciones varía según la posición y las jugadas legales disponibles. Además de las jugadas
+legales en una posición concreta pueden existir transposiciones, posiciones terminales anticipadas y
+otras condiciones que hacen que el árbol no sea uniforme.
 
-0500100015002000123456
-
-Este crecimiento exponencial constituye el principal problema computacional de Minimax.
-
-La cantidad exacta de posiciones varía según la posición y las jugadas legales disponibles.
-Además, en un motor real pueden existir transposiciones, posiciones terminales anticipadas y otras condiciones que hacen que el árbol no sea uniforme.
-
-## Fundamento matemático de Minimax
+### Fundamento matemático de Minimax
 
 El algoritmo utiliza dos tipos de nodos:
 
@@ -1295,9 +1289,8 @@ Si corresponde jugar a MIN, se utiliza `argmin` en lugar de `argmax`.
 
 La hipótesis esencial es que el adversario no coopera con nuestro plan, sino que selecciona la respuesta más perjudicial para nuestros intereses.
 
-### 3.2. Ejemplo matemático elemental
 
-Consideremos un árbol con tres jugadas posibles para MAX: A, B y C.
+A modo de ejemplo consideremos un árbol con tres jugadas posibles para MAX: A, B y C.
 
 Cada jugada conduce a una posición donde MIN dispone de dos respuestas. Los números representan las evaluaciones obtenidas luego de esas respuestas.
 
@@ -1328,7 +1321,7 @@ voluntariamente esa respuesta. MIN escogerá la respuesta que limita el resultad
 
 Esta es una distinción fundamental entre la evaluación optimista de una jugada y su evaluación Minimax.
 
-## Minimax con profundidad limitada
+### Minimax con profundidad limitada
 
 En ajedrez real, el árbol completo de la partida resulta demasiado grande para explorarlo exhaustivamente.
 
@@ -1336,23 +1329,25 @@ Por lo tanto, los motores utilizan una profundidad máxima de búsqueda:
 
 $\[ d\_{\max} \]$
 
-Al alcanzar esa profundidad, en lugar de conocer el resultado definitivo de la partida, se aplica una función heurística de evaluación:
+Al alcanzar esa profundidad, en lugar de conocer el resultado definitivo de la partida, se aplica una función
+heurística de evaluación:
 
 $\[ E(s) \]$
 
 De este modo:
 
-$\[ V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\\ E(s) & \text{si }d=0\\\ \max\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MAX}\\\ \min\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MIN} \end{cases} \]$
+$V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\\ E(s) & \text{si }d=0\\\ \max\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MAX}\\\ \min\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MIN} \end{cases}$
 
 Esto convierte Minimax en una búsqueda heurística de horizonte finito.
 
-La conclusión importante es que el algoritmo ya no determina necesariamente la mejor jugada de toda la partida, sino la mejor jugada según la función de evaluación y la profundidad de búsqueda elegidas.
+La conclusión importante es que el algoritmo ya no determina necesariamente la mejor jugada de toda la partida,
+sino la mejor jugada según la función de evaluación y la profundidad de búsqueda elegidas.
 
 ### Función de evaluación en ajedrez
 
 Una evaluación clásica puede construirse mediante una combinación ponderada de características de la posición:
 
-$\[ \boxed{ E(s)=w_m M(s)+w_p P(s)+w_k K(s)+w_c C(s)+w_t T(s) } \]$
+$E(s)=w_m M(s)+w_p P(s)+w_k K(s)+w_c C(s)+w_t T(s)$
 
 Donde:
 
@@ -1379,17 +1374,21 @@ Por ejemplo, si las blancas disponen de una torre y las negras de un alfil como 
 
 En general:
 
-$\[ M(s)=\sum\_{p\in B}v(p)-\sum\_{p\in N}v(p) \]$
+$M(s)=\sum\_{p\in B}v(p)-\sum\_{p\in N}v(p)$
 
-La evaluación material aislada no contempla situaciones como clavadas, ataques descubiertos, amenazas de mate o piezas atrapadas, por lo que necesita complementarse con otros criterios.
+La evaluación material aislada no contempla situaciones como clavadas, ataques descubiertos,
+amenazas de mate o piezas atrapadas, por lo que necesita complementarse con otros criterios.
 
-### Funciones de evaluación neuronales
+### Alternativas de evaluación
 
-El algoritmo Minimax no exige una función de evaluación diseñada manualmente, simplemente algún método que con 
-algún criterio devuelva el valor estimado de la posición. Es posible entonces reemplazarla por una red neuronal,
+Las funciones de evaluación son heurísticas que corresponden a una determinada *ideología* de juego, pero están
+disenadas manualmente para tratar de capturar el valor ($V_{i}$) de una determinada posición.
+Pero el algoritmo Minimax no exige una función de evaluación diseñada manualmente, simplemente algún método que con 
+algún criterio devuelva el valor estimado de la posición. 
+Un criterio crecientemente utilizado, y posteriormente desarrollado es ntonces reemplazarla por una red neuronal,
 mecanismo que será crucial en algunos algoritmos a desarrollar posteriormente.
 
-$\[ E\_\theta(s)=f\_\theta(\phi(s)) \]$
+$E\_\theta(s)=f\_\theta(\phi(s))$
 
 Donde:
 
@@ -1397,61 +1396,63 @@ Donde:
 - $\(\theta\)$ contiene los parámetros entrenados.
 - $\(f\_\theta\)$ produce una valoración de la posición.
 
-En motores que utilizan redes del tipo NNUE (Efficiently Updatable Neural Network), la red suele actuar como evaluador de las hojas del árbol, frecuentemente con mecanismos de actualización incremental de características.
+En motores que utilizan redes del tipo *NNUE (Efficiently Updatable Neural Network)* donde la red 
+actúa como evaluador de las hojas del árbol, frecuentemente con mecanismos de actualización incremental de
+características.
 
 Por lo tanto, búsqueda y evaluación cumplen funciones complementarias:
 
-$\[ \text{Minimax / Alfa-Beta} \longrightarrow \text{exploración de consecuencias} $\]
+$\text{Minimax / Alfa-Beta} \longrightarrow \text{exploración de consecuencias}]
 
-$\[ \text{Evaluador clásico o NNUE} \longrightarrow \text{estimación del valor de posiciones} \]$
+$\text{Evaluador clásico o NNUE} \longrightarrow \text{estimación del valor de posiciones}$
 
-Una red neuronal más precisa puede mejorar la decisión sin cambiar la estructura fundamental del algoritmo de búsqueda.
+Una red neuronal más precisa puede mejorar la decisión sin cambiar la estructura fundamental del
+algoritmo de búsqueda.
 
-## La podab(prunning) Alfa-Beta
+### La poda (prunning) Alfa-Beta
 
 
-Minimax examina todas las alternativas hasta la profundidad establecida, incluso cuando algunas de ellas ya no pueden influir en la selección final.
-La observación fundamental de Alfa-Beta es que no siempre necesitamos conocer el valor exacto de una rama.
-En determinadas circunstancias basta con saber que su resultado será necesariamente peor que otra alternativa que ya conocemos.
+Minimax examina todas las alternativas hasta la profundidad establecida, incluso cuando algunas de ellas ya no
+pueden influir en la selección final.
+La observación fundamental de *Alfa-Beta* es que no siempre necesitamos conocer el valor exacto de una rama.
+En determinadas circunstancias basta con saber que su resultado será necesariamente peor que otra alternativa
+que ya conocemos.
 
 Supongamos que analizamos dos jugadas, A y B.
 
 Ya hemos determinado que A garantiza una evaluación de:
 
-$\[ V(A)=+300 \]$
+$V(A)=+300$
 
 es decir, aproximadamente tres peones de ventaja para MAX.
 
 Durante el análisis de B descubrimos que el adversario puede responder de manera que el valor de B no supere:
 
-$\[ V(B)\leq +100 \]$
+$V(B)\leq +100$
 
 Por lo tanto:
 
-$\[ V(B)\<V(A) \]$
+$V(B)\<V(A)$
 
 No resulta necesario continuar explorando B, independientemente de las demás respuestas posibles, 
 MAX nunca preferirá esa jugada frente a A.
 
 La poda Alfa-Beta formaliza matemáticamente este razonamiento. Para implementarlo se mantienen dos parámetros:
 
-$\[ \boxed{\alpha} \]$
+* $\boxed{\alpha}$
 
-Es el mejor valor que MAX puede garantizar hasta ese momento, considerando las alternativas ya examinadas en el contexto de la búsqueda.
+Es el mejor valor que MAX puede garantizar hasta ese momento, considerando las alternativas ya examinadas en el
+contexto de la búsqueda y actúa como una cota inferior.
 
-Actúa como una cota inferior.
+* $\boxed{\beta}$*
 
-$\[ \boxed{\beta} \]$
-
-Es el mejor límite superior impuesto por MIN en el contexto de los nodos ancestros.
-
-Actúa como una cota superior.
+Es el mejor límite superior impuesto por MIN en el contexto de los nodos ancestros y actúa como una cota superior.
 
 Inicialmente se establece:
 
-$\[ \alpha=-\infty \]$
+$\alpha=-\infty$
 
-$\[ \beta=+\infty \]$
+$\beta=+\infty$
 
 Durante el recorrido del árbol:
 
@@ -1461,101 +1462,90 @@ Durante el recorrido del árbol:
 
 La condición fundamental de poda es:
 
-$\[ \boxed{\alpha\geq\beta} \]$
+$\boxed{\alpha\geq\beta}$
 
 Cuando se cumple, los nodos restantes de la rama actual pueden descartarse sin alterar el resultado Minimax de la raíz.
-
 Es importante distinguir las cotas del valor exacto de una posición. Alfa y Beta no representan necesariamente la evaluación definitiva del nodo: describen el intervalo de valores que todavía puede ser relevante para sus ancestros.
 
 ### Actualización de Alfa en nodos MAX
 
-En un nodo MAX, cada hijo aporta un valor $\(v_i\)$.
+En un nodo MAX, cada hijo aporta un valor $\(v_i\)$. El mejor valor local después de examinar $\(k\)$ hijos es:
 
-El mejor valor local después de examinar $\(k\)$ hijos es:
-
-$\[ v\_{\text{MAX}}^{(k)}=\max\_{1\leq i\leq k}v_i \]$
+$v\_{\text{MAX}}^{(k)}=\max\_{1\leq i\leq k}v_i$
 
 La cota alfa se actualiza:
 
-$\[ \boxed{\alpha\leftarrow\max(\alpha,v_i)} \]$
+$\boxed{\alpha\leftarrow\max(\alpha,v_i)}$
 
 Al incorporar más hijos, el máximo parcial nunca disminuye:
 
-\\[ v\_{\text{MAX}}^{(k+1)}\geq v\_{\text{MAX}}^{(k)} \\]
+$v\_{\text{MAX}}^{(k+1)}\geq v\_{\text{MAX}}^{(k)}$
 
 Esto permite comprender por qué es seguro interrumpir el análisis cuando el valor ya es demasiado alto para un ancestro MIN.
 
-### 5.4. Actualización de Beta en nodos MIN
+### Actualización de Beta en nodos MIN
 
 En un nodo MIN, la situación es simétrica.
 
 El valor local después de examinar $\(k\)$ hijos es:
 
-$\[ v\_{\text{MIN}}^{(k)}=\min\_{1\leq i\leq k}v_i \]$
+$v\_{\text{MIN}}^{(k)}=\min\_{1\leq i\leq k}v_i$
 
 La cota beta se actualiza:
 
-$\[ \boxed{\beta\leftarrow\min(\beta,v_i)} \]$
+$\boxed{\beta\leftarrow\min(\beta,v_i)}$
 
 Al examinar más alternativas, el mínimo parcial nunca aumenta:
 
-$\[ v\_{\text{MIN}}^{(k+1)}\leq v\_{\text{MIN}}^{(k)} \]$
+$v\_{\text{MIN}}^{(k+1)}\leq v\_{\text{MIN}}^{(k)}$
 
 Por eso, si MIN ya encontró una respuesta suficientemente mala para MAX, las demás respuestas pueden resultar irrelevantes para la decisión de un MAX ancestro.
 
-## Ejemplo completo de poda Alfa-Beta
-
-Retomemos el árbol anterior, con tres alternativas A, B y C.
+Por ejemplo, retomemos el árbol anterior, con tres alternativas A, B y C.
 
 Supondremos que las ramas se exploran de izquierda a derecha.
 
 La rama B se interrumpe después de examinar la hoja de valor 2. La hoja de valor 9 se representa únicamente para mostrar lo que contiene el árbol completo.
 
-### Examinar la alternativa A
+Al examinar la alternativa A MAX inicia con:
 
-MAX inicia con:
-
-$\[ \alpha=-\infty,\qquad\beta=+\infty \]$
+$\alpha=-\infty,\qquad\beta=+\infty$
 
 La alternativa A conduce a un nodo MIN con dos respuestas evaluadas en 3 y 5.
 
 Primera respuesta:
 
-$\[ \beta_A=\min(+\infty,3)=3 \]$
+$\beta_A=\min(+\infty,3)=3$
 
 Segunda respuesta:
 
-$\[ \beta_A=\min(3,5)=3 \]$
+$\beta_A=\min(3,5)=3$
 
 Se obtiene:
 
-$\[ V(A)=3 \]$
+$V(A)=3$
 
 Al regresar a la raíz MAX:
 
-$\[ \alpha=\max(-\infty,3)=3 \]$
+$\alpha=\max(-\infty,3)=3$
 
 A partir de este instante, MAX sabe que dispone de una jugada capaz de garantizar una puntuación de al menos 3.
 
-### Examinar la alternativa B
+Entramos entonces en el nodo MIN correspondiente a B, el que recibe los límites:
 
-Entramos en el nodo MIN correspondiente a B.
-
-Este nodo recibe los límites:
-
-$\[ \alpha=3,\qquad\beta=+\infty \]$
+$\alpha=3,\qquad\beta=+\infty$
 
 Su primera respuesta tiene evaluación 2.
 
 Por lo tanto:
 
-$\[ \beta_B=\min(+\infty,2)=2 \]$
+$\beta_B=\min(+\infty,2)=2$
 
 Comprobamos:
 
-$\[ \alpha\geq\beta_B \]$
+$\alpha\geq\beta_B$
 
-$\[ 3\geq2 \]$
+$3\geq2$
 
 La condición de poda se cumple.
 
@@ -1563,69 +1553,67 @@ Esto significa que MIN ya dispone de una respuesta que limita B a un resultado d
 
 Aunque existieran otras respuestas, no podrían aumentar el mínimo:
 
-$\[ V(B)=\min(2,v_2,v_3,\ldots)\leq2 \]$
+$V(B)=\min(2,v_2,v_3,\ldots)\leq 2$
 
 Y, dado que:
 
-$\[ 2<3 \]$
+$2<3$
 
 MAX no seleccionará B mientras conserve A como alternativa.
 
 La segunda hoja de B no necesita examinarse.
 
-Obsérvese que no afirmamos haber calculado exactamente \\(V(B)\\). Sabemos únicamente que:
+Obsérvese que no afirmamos haber calculado exactamente $\(V(B)\)$. Sabemos únicamente que:
 
-$\[ V(B)\leq2 \]$
+$V(B)\leq 2$
 
 Esta información resulta suficiente para descartarla.
 
-### Examinar la alternativa C
-
 El nodo MIN correspondiente a C recibe:
 
-$\[ \alpha=3,\qquad\beta=+\infty \]$
+$\alpha=3,\qquad\beta=+\infty$
 
 Su primera respuesta produce un valor de 4:
 
-$\[ \beta_C=\min(+\infty,4)=4 \]$
+$\beta_C=\min(+\infty,4)=4$
 
 Como:
 
-$\[ 3<4 \]$
+$3<4$
 
 no puede realizarse la poda.
 
 La segunda respuesta tiene valor 6:
 
-$\[ \beta_C=\min(4,6)=4 \]$
+$\beta_C=\min(4,6)=4$
 
 Por lo tanto:
 
-$\[ V(C)=4 \]$
+$V(C)=4$
 
 De regreso en MAX:
 
-$\[ \alpha=\max(3,4)=4 \]$
+$\alpha=\max(3,4)=4$
 
-### Decisión final
 
-La información disponible es:
+La decisión final hecha con la información disponible es:
 
-$\[ V(A)=3 \]$
+$V(A)=3$
 
-$\[ V(B)\leq2 \]$
+$V(B)\leq 2$
 
-$\[ V(C)=4 \]$
+$V(C)=4$
 
 Por lo tanto:
 
-$\[ \boxed{V(s)=4,\qquad a^\*=C} $\]
+$\boxed{V(s)=4,\qquad a^\*=C}]
 
 El resultado es idéntico al obtenido con Minimax completo, pero una hoja no fue evaluada.
 
-Este ahorro es pequeño porque el árbol es deliberadamente reducido. En árboles con millones de posiciones, la misma propiedad permite evitar la exploración de subárboles enteros.
+Este ahorro es pequeño porque el árbol es deliberadamente reducido. En árboles con millones de posiciones,
+la misma propiedad permite evitar la exploración de subárboles enteros.
 
-### 6.1. Dos tipos de corte
+### Dos tipos de corte
 
 Tradicionalmente se distinguen dos situaciones simétricas:
 
@@ -1635,99 +1623,111 @@ Corte Beta (Beta Cutoff): ocurre en un nodo MAX cuando su valor parcial alcanza 
 
 En ambas situaciones se aplica la condición general:
 
-\\[ \alpha\geq\beta \\]
+$\alpha\geq\beta$
 
 La diferencia consiste en cuál de los límites provoca el corte.
 
-## 7. Justificación matemática de la corrección de Alfa-Beta
+### Justificación matemática de la corrección de Alfa-Beta
 
 La poda Alfa-Beta puede justificarse mediante el carácter monótono de los operadores mínimo y máximo.
 
-### 7.1. Propiedad de los nodos MIN
 
-Consideremos un nodo MIN con hijos:
+Para tener en cuenta la propiedad de los nodos MIN consideremos un nodo MIN con hijos:
 
-\\[ v_1,v_2,\ldots,v_n \\]
+$v_1,v_2,\ldots,v_n$
 
 Su valor exacto es:
 
-\\[ V\_{\text{MIN}}=\min(v_1,v_2,\ldots,v_n) \\]
+$V\_{\text{MIN}}=\min(v_1,v_2,\ldots,v_n)$
 
-Después de examinar únicamente los primeros \\(k\\) hijos:
+Después de examinar únicamente los primeros $\(k\)$ hijos:
 
-\\[ m_k=\min(v_1,\ldots,v_k) \\]
+$m_k=\min(v_1,\ldots,v_k)$
 
 Necesariamente:
 
-\\[ V\_{\text{MIN}}\leq m_k \\]
+$V\_{\text{MIN}}\leq m_k$
 
 porque incorporar nuevos valores a un mínimo nunca puede aumentarlo.
 
-Si un ancestro MAX ya dispone de un valor garantizado \\(\alpha\\) y:
+Si un ancestro MAX ya dispone de un valor garantizado $\(\alpha\)$ y:
 
-\\[ m_k\leq\alpha \\]
+$m_k\leq\alpha$
 
 entonces:
 
-\\[ V\_{\text{MIN}}\leq m_k\leq\alpha \\]
+$V\_{\text{MIN}}\leq m_k\leq\alpha$
 
 En consecuencia, ese nodo MIN nunca permitirá mejorar la alternativa que MAX ya conoce.
 
 Los hijos restantes son irrelevantes para la decisión de ese ancestro.
 
-### 7.2. Propiedad de los nodos MAX
+Por su parte para un nodo MAX:
 
-Para un nodo MAX:
+$V\_{\text{MAX}}=\max(v_1,v_2,\ldots,v_n)$
 
-\\[ V\_{\text{MAX}}=\max(v_1,v_2,\ldots,v_n) \\]
+Después de analizar $\(k\)$ hijos:
 
-Después de analizar \\(k\\) hijos:
-
-\\[ M_k=\max(v_1,\ldots,v_k) \\]
+$M_k=\max(v_1,\ldots,v_k)$
 
 Necesariamente:
 
-\\[ V\_{\text{MAX}}\geq M_k \\]
+$V\_{\text{MAX}}\geq M_k$
 
-Si el nodo MAX está subordinado a un ancestro MIN con límite superior \\(\beta\\) y:
+Si el nodo MAX está subordinado a un ancestro MIN con límite superior $\(\beta\)$ y:
 
-\\[ M_k\geq\beta \\]
+$M_k\geq\beta$
 
 entonces:
 
-\\[ V\_{\text{MAX}}\geq M_k\geq\beta \\]
+$V\_{\text{MAX}}\geq M_k\geq\beta$
 
 MIN dispone de otra alternativa que no supera \\(\beta\\), de modo que nunca necesitará elegir esta rama para mejorar su decisión.
 
 Los demás hijos del nodo MAX pueden descartarse.
 
-### 7.3. Invariante de búsqueda
+### Invariante de búsqueda
 
 Durante una ejecución correcta de Alfa-Beta se preserva el siguiente principio:
 
-> Toda rama descartada es incapaz de modificar la decisión óptima de alguno de los ancestros que determina el resultado de la búsqueda.
+> Toda rama descartada es incapaz de modificar la decisión óptima de alguno de los ancestros que
+> determina el resultado de la búsqueda.
 
-Por inducción sobre la profundidad del árbol, los nodos no podados conservan las operaciones mínimo y máximo correspondientes. Los nodos podados se reemplazan por información de cotas que es suficiente para sus ancestros.
+Por inducción sobre la profundidad del árbol, los nodos no podados conservan las operaciones mínimo y máximo
+correspondientes. Los nodos podados se reemplazan por información de cotas que es suficiente para sus ancestros.
 
 Por ello, al ejecutar una búsqueda exacta dentro del horizonte elegido:
 
-\\[ \boxed{ V\_{\text{Alfa-Beta}}(s,d)=V\_{\text{Minimax}}(s,d) } \\]
+$\boxed{ V\_{\text{Alfa-Beta}}(s,d)=V\_{\text{Minimax}}(s,d) }$
 
 para la raíz de la búsqueda realizada con una ventana inicial completa.
 
-Esta igualdad supone una función de evaluación determinista, un modelo de estados correcto y las mismas reglas de profundidad y terminalidad.
+Esta igualdad supone una función de evaluación determinista, un modelo de estados correcto y las mismas reglas
+de profundidad y terminalidad. La poda, por sí sola, no introduce pérdida de calidad en la decisión pero puede
+reducir significativamente el espacio de búsqueda.
 
-La poda, por sí sola, no introduce pérdida de calidad en la decisión.
-
-## 8. Implementación de Minimax
+### Implementación de Minimax
 
 Una implementación recursiva convencional puede escribirse en pseudocódigo.
 
 ```
-def minimax(position, depth, maximizing):        for move in moves:            child = make_move(position, move)            score = minimax(                child,                depth - 1,                False            )            best = max(best, score)        return best    else:        best = +INF        for move in moves:            child = make_move(position, move)            score = minimax(                child,                depth - 1,                True            )            best = min(best, score)        return best
+def minimax(position, depth, maximizing):
+        for move in moves:
+            child = make_move(position, move)
+            score = minimax(child,depth - 1,False)
+            best = max(best, score)
+            return best
+        else:
+            best = +INF
+            for move in moves:
+                child = make_move(position, move)
+                score = minimax(child,depth - 1,True)
+                best = min(best, score)
+                return best
 ```
 
-Esta implementación refleja directamente la formulación matemática, aunque presupone que `evaluate()` y `terminal_score()` utilizan una escala fija favorable a MAX.
+Esta implementación refleja directamente la formulación matemática, aunque presupone que
+`evaluate()` y `terminal_score()` utilizan una escala fija favorable a MAX.
 
 Sus principales limitaciones son:
 
@@ -1738,21 +1738,67 @@ Sus principales limitaciones son:
 
 La primera mejora fundamental consiste en incorporar los límites Alfa y Beta.
 
-## 9. Implementación del algoritmo Alfa-Beta
-
 Una implementación básica, con búsqueda de raíz incluida, es la siguiente:
 
 ```
-INF = 10**12def alphabeta(position, depth, alpha, beta, maximizing):    if is_terminal(position):        return terminal_score(position)    if depth == 0:        return evaluate(position)    moves = generate_legal_moves(position)    if maximizing:        best = -INF        for move in moves:            child = make_move(position, move)            score = alphabeta(                child,                depth - 1,                alpha,                beta,                False            )            best = max(best, score)            alpha = max(alpha, best)            if alpha >= beta:                break  # Corte Beta        return best    else:        best = +INF        for move in moves:            child = make_move(position, move)            score = alphabeta(                child,                depth - 1,                alpha,                beta,                True            )            best = min(best, score)            beta = min(beta, best)            if alpha >= beta:                break  # Corte Alfa        return bestdef find_best_move(position, depth):    maximizing = white_to_move(position)    alpha = -INF    beta = +INF    best_score = -INF if maximizing else +INF    best_move = None    for move in generate_legal_moves(position):        child = make_move(position, move)        score = alphabeta(            child,            depth - 1,            alpha,            beta,            not maximizing        )        if maximizing:            if score > best_score:                best_score = score                best_move = move            alpha = max(alpha, best_score)        else:            if score < best_score:                best_score = score                best_move = move            beta = min(beta, best_score)    return best_move, best_score
+INF = 10**12     # Suficientemente parecido a infinito
+def alphabeta(position, depth, alpha, beta, maximizing):
+    if is_terminal(position):
+       return terminal_score(position)
+    if depth == 0:
+       return evaluate(position)
+    moves = generate_legal_moves(position)
+    if maximizing:
+        best = -INF
+        for move in moves:
+            child = make_move(position, move)
+            score = alphabeta(child,depth - 1,alpha,beta,False)
+            best = max(best, score)
+            alpha = max(alpha, best)
+            if alpha >= beta:
+                break  # Corte Beta
+        return best
+    else:
+        best = +INF
+        for move in moves:
+            child = make_move(position, move)
+            score = alphabeta(child,depth - 1,alpha,beta,True)
+            best = min(best, score)
+            beta = min(beta, best)
+            if alpha >= beta:
+                break  # Corte Alfa
+        return best
+def find_best_move(position, depth):
+    maximizing = white_to_move(position)
+    alpha = -INF
+    beta = +INF
+    best_score = -INF
+ if maximizing else +INF
+    best_move = None
+    for move in generate_legal_moves(position):
+        child = make_move(position, move)
+        score = alphabeta(child,depth - 1,alpha,beta,not maximizing)
+        if maximizing:
+            if score > best_score:
+                best_score = score
+                best_move = move
+            alpha = max(alpha, best_score)
+        else:
+            if score < best_score:
+                best_score = score
+                best_move = move
+            beta = min(beta, best_score)
+    return best_move, best_score
 ```
 
-El código es una referencia conceptual. Para funcionar como motor de ajedrez necesita implementaciones correctas de generación de jugadas legales, evaluación, transición de estados y detección de resultados terminales.
+El código es una referencia conceptual. Para funcionar como motor de ajedrez necesita implementaciones correctas
+de generación de jugadas legales, evaluación, transición de estados y detección de resultados terminales.
 
-También debe recordar que los retornos de algunos nodos podados pueden representar cotas y no valores Minimax exactos del subárbol.
+Los retornos de algunos nodos podados pueden representar cotas y no valores Minimax exactos del subárbol.
 
-### 9.1. Tratamiento de posiciones terminales
+### Tratamiento de posiciones terminales
 
-En ajedrez, la evaluación terminal debe distinguir correctamente:
+En ajedrez, la evaluación terminal debe distinguir:
 
 - Jaque mate.
 - Ahogado.
@@ -1760,29 +1806,31 @@ En ajedrez, la evaluación terminal debe distinguir correctamente:
 - Tablas automáticas aplicables.
 - Tablas reclamables cuando corresponda, según las reglas y el modelo de búsqueda.
 
-Una escala habitual asigna un valor \\(M\\), muy superior a cualquier evaluación posicional normal, al jaque mate.
+Una escala habitual asigna un valor $\(M\)$, muy superior a cualquier evaluación posicional normal, al jaque mate.
 
 Por ejemplo:
 
-\\[ M=100000 \\]
+$M=100000$
 
 Desde una perspectiva fija de las blancas:
 
-\\[ U(s)= \begin{cases} +M & \text{mate favorable a blancas}\\\ -M & \text{mate favorable a negras}\\\ 0 & \text{tablas} \end{cases} \\]
+$U(s)= \begin{cases} +M & \text{mate favorable a blancas}\\\ -M & \text{mate favorable a negras}\\\ 0 & \text{tablas} \end{cases}$
 
-Para priorizar los mates más rápidos y retrasar las derrotas inevitables, puede incorporarse la distancia al mate en medias jugadas:
+Para priorizar los mates más rápidos y retrasar las derrotas inevitables, puede incorporarse la distancia al mate
+en medias jugadas:
 
-\\[ U(s)= \begin{cases} M-p & \text{mate de las blancas}\\\ -M+p & \text{mate de las negras}\\\ 0 & \text{tablas} \end{cases} \\]
+$U(s)= \begin{cases} M-p & \text{mate de las blancas}\\\ -M+p & \text{mate de las negras}\\\ 0 & \text{tablas} \end{cases}$
 
-donde \\(p\\) es la distancia desde la raíz hasta el estado terminal.
+donde $\(p\)$ es la distancia desde la raíz hasta el estado terminal.
 
-Así, una victoria por mate en menos jugadas recibe una puntuación mayor, y una derrota más lejana recibe una puntuación menos negativa.
+Así, una victoria por mate en menos jugadas recibe una puntuación mayor, y una derrota más lejana recibe
+una puntuación menos negativa.
 
-Debe existir una distinción entre los valores devueltos al protocolo UCI como centipeones (`score cp`) y las puntuaciones de mate (`score mate`), ya que no tienen el mismo significado.
+Debe existir una distinción entre los valores devueltos al protocolo UCI como centipeones (`score cp`) y
+las puntuaciones de mate (`score mate`), ya que no tienen el mismo significado.
 
-## 10. Aplicación práctica: seleccionar la mejor jugada de ajedrez
 
-### 10.1. Análisis de una posición concreta
+### Análisis de una posición concreta
 
 Consideremos la siguiente posición, expresada en notación FEN:
 
@@ -1792,9 +1840,11 @@ Consideremos la siguiente posición, expresada en notación FEN:
 
 Posición de ejemplo: juegan las blancas
 
-Las blancas tienen el turno. La dama negra en f3 amenaza al rey blanco, por lo que la búsqueda debe considerar únicamente respuestas legales.
+Las blancas tienen el turno. La dama negra en f3 amenaza al rey blanco, por lo que la búsqueda debe
+considerar únicamente respuestas legales.
 
-En esta posición, la dama negra ataca al peón de g2 y condiciona severamente la libertad del rey blanco. Una búsqueda Minimax no puede limitarse a comparar material: debe verificar el jaque, las posibles capturas y las consecuencias forzadas.
+En esta posición, la dama negra ataca al peón de g2 y condiciona severamente la libertad del rey blanco.
+Una búsqueda Minimax no puede limitarse a comparar material: debe verificar el jaque, las posibles capturas y las consecuencias forzadas.
 
 La secuencia lógica del motor es:
 
@@ -1809,8 +1859,6 @@ La secuencia lógica del motor es:
 
 El ejemplo ilustra por qué la generación de jugadas legales y la detección de amenazas forman parte indispensable del motor. No basta con producir movimientos geométricamente posibles.
 
-### 10.2. Ejemplo numérico de selección entre jugadas
-
 Supongamos que un motor analiza una posición más equilibrada y considera las siguientes jugadas candidatas:
 
 | Jugada | Evaluación Minimax hipotética |
@@ -1824,171 +1872,172 @@ Estos valores son exclusivamente ilustrativos; no corresponden a la salida medid
 
 Desde la perspectiva de las blancas:
 
-\\[ V(\text{e4})=35 \\]
+$V(\text{e4})=35$
 
-\\[ V(\text{d4})=24 \\]
+$V(\text{d4})=24$
 
-\\[ V(\text{Nf3})=18 \\]
+$V(\text{Nf3})=18$
 
-\\[ V(\text{c4})=28 \\]
+$V(\text{c4})=28$
 
 La jugada seleccionada es:
 
-\\[ a^\*=\arg\max(35,24,18,28) \\]
+$a^\*=\arg\max(35,24,18,28)$
+$\boxed{a^\*=\text{e4}}$
 
-\\[ \boxed{a^\*=\text{e4}} \\]
+Es esencial interpretar correctamente el resultado: el motor no asegura que e4 gane la partida, ni que sea
+la mejor jugada en términos absolutos. 
+Afirma que, dentro de su horizonte de búsqueda y según su evaluador, e4 resulta preferible a las demás alternativas.
 
-Es esencial interpretar correctamente el resultado: el motor no asegura que e4 gane la partida, ni que sea la mejor jugada en términos absolutos. Afirma que, dentro de su horizonte de búsqueda y según su evaluador, e4 resulta preferible a las demás alternativas.
+### Negamax: una formulación más eficiente
 
-## 11. Negamax: una formulación más compacta
+Debido a que el ajedrez es un juego de suma cero, *Minimax* puede simplificarse mediante la formulación *Negamax*.
 
-Debido a que el ajedrez es un juego de suma cero, Minimax puede simplificarse mediante la formulación Negamax.
-
-En lugar de implementar alternativamente nodos MAX y MIN, se define la evaluación desde la perspectiva del jugador al que corresponde mover.
+En lugar de implementar alternativamente nodos MAX y MIN, se define la evaluación desde la perspectiva del jugador
+al que corresponde mover.
 
 Sea:
 
-\\[ V(s,d) \\]
+$V(s,d)$
 
 la utilidad de la posición para el jugador activo.
 
 Entonces:
 
-\\[ \boxed{ V(s,d)=\max\_{a\in A(s)} \left[-V(T(s,a),d-1)\right] } \\]
+$\boxed{ V(s,d)=\max\_{a\in A(s)} \left[-V(T(s,a),d-1)\right] }$
 
 La negación aparece porque la evaluación del hijo está expresada desde la perspectiva del adversario.
 
 Una ventaja para el oponente equivale a una desventaja propia.
 
-### 11.1. Negamax con Alfa-Beta
-
-La implementación recursiva es considerablemente más compacta:
+En el caso de aplicar poda Alfa-Beta la implementación recursiva es considerablemente más compacta:
 
 ```
-def negamax(position, depth, alpha, beta):    if is_terminal(position):        return terminal_score_for_side_to_move(position)    if depth == 0:        return evaluate_for_side_to_move(position)    best = -INF    moves = generate_legal_moves(position)    for move in moves:        child = make_move(position, move)        score = -negamax(            child,            depth - 1,            -beta,            -alpha        )        best = max(best, score)        alpha = max(alpha, score)        if alpha >= beta:            break    return best
+def negamax(position, depth, alpha, beta):
+    if is_terminal(position):
+        return terminal_score_for_side_to_move(position)
+    if depth == 0:
+        return evaluate_for_side_to_move(position)
+    best = -INF
+    moves = generate_legal_moves(position)
+    for move in moves:
+        child = make_move(position, move)
+        score = -negamax(child,depth - 1,-beta,-alpha)
+        best = max(best, score)
+        alpha = max(alpha, score)
+        if alpha >= beta:
+            break
+    return best
 ```
 
 Obsérvese el cambio de límites en la llamada recursiva:
 
-\\[ \boxed{ (\alpha,\beta)\rightarrow(-\beta,-\alpha) } \\]
+$\boxed{ (\alpha,\beta)\rightarrow(-\beta,-\alpha) }$
 
 Esta transformación resulta de cambiar la perspectiva del jugador activo.
 
-Si un valor \\(v\\) pertenece al intervalo:
+Si un valor $\(v\)$ pertenece al intervalo:
 
-\\[ \alpha\<v<\beta \\]
+$\alpha\<v<\beta$
 
 entonces:
 
-\\[ -\beta<-v<-\alpha \\]
+$-\beta<-v<-\alpha$
 
 Por eso, al negar los valores también deben intercambiarse y negarse las cotas.
 
 Negamax es especialmente conveniente en implementaciones de motores de ajedrez porque evita mantener dos implementaciones distintas para los jugadores MAX y MIN.
 
-## 12. Eficiencia de Alfa-Beta
+### Eficiencia de Alfa-Beta
 
-### 12.1. Peor caso
-
-Si las jugadas se examinan en un orden desfavorable, Alfa-Beta puede realizar prácticamente el mismo trabajo que Minimax completo.
+En el peor caso si las jugadas se examinan en un orden desfavorable, Alfa-Beta puede realizar prácticamente
+el mismo trabajo que Minimax completo.
 
 Su complejidad temporal en el peor caso sigue siendo:
 
-\\[ \boxed{O(b^d)} \\]
+$\boxed{O(b^d)}$
 
 donde:
 
-- \\(b\\): factor medio de ramificación.
-- \\(d\\): profundidad de búsqueda.
+- $\(b\)$: factor medio de ramificación.
+- $\(d\)$: profundidad de búsqueda.
 
 Por lo tanto, Alfa-Beta no elimina el carácter exponencial del problema.
 
-### 12.2. Mejor caso
+En el mejor caso en un árbol uniforme, con ordenación perfecta de movimientos y condiciones ideales de búsqueda,
+Alfa-Beta puede reducir el número de hojas examinadas a un orden de:
 
-En un árbol uniforme, con ordenación perfecta de movimientos y condiciones ideales de búsqueda, Alfa-Beta puede reducir el número de hojas examinadas a un orden de:
+$\boxed{O(b^{d/2})}$
 
-\\[ \boxed{O(b^{d/2})} \\]
+Una forma habitual de expresar esta mejora es que la búsqueda puede alcanzar aproximadamente el doble de profundidad
+con un presupuesto comparable de evaluación de hojas, respecto de Minimax sin poda.
 
-Una forma habitual de expresar esta mejora es que la búsqueda puede alcanzar aproximadamente el doble de profundidad con un presupuesto comparable de evaluación de hojas, respecto de Minimax sin poda.
-
-La cantidad exacta de hojas depende de la paridad de la profundidad y de las características del árbol, pero el comportamiento asintótico es el indicado.
-
-### 12.3. Comparación numérica
+La cantidad exacta de hojas depende de la paridad de la profundidad y de las características del árbol,
+pero el comportamiento asintótico es el indicado.
 
 Si:
 
-\\[ b=35,\qquad d=6 \\]
+$b=35,\qquad d=6$
 
 Minimax completo examinaría aproximadamente:
 
-\\[ N\_{\text{Minimax}}=35^6 \\]
+$N\_{\text{Minimax}}=35^6$
 
-\\[ N\_{\text{Minimax}}=1.838.265.625 \\]
+$N\_{\text{Minimax}}=1.838.265.625$
 
 En un caso idealizado de Alfa-Beta:
 
-\\[ N\_{\text{AB}}\sim35^3 \\]
+$N\_{\text{AB}}\sim35^3$
 
-\\[ N\_{\text{AB}}\sim42.875 \\]
+$N\_{\text{AB}}\sim42.875$
 
 Evaluaciones de hojas: modelo teórico
 
 Comparación en escala de millones para b=35 y d=6; Alfa-Beta representa el orden de magnitud del mejor caso idealizado.
-
-0500100015002000MinimaxAlfa-Beta ideal
-
-Esta diferencia muestra la importancia del algoritmo.
-
-Sin embargo, debe evitarse interpretar el gráfico como una predicción exacta de rendimiento. En un motor real influyen el orden de movimientos, la presencia de jaques, las capturas, las extensiones de profundidad, la reutilización de posiciones y el costo de evaluación de cada nodo.
-
 El número de nodos internos también contribuye al tiempo total, no solamente las hojas.
 
-### 12.4. Complejidad espacial
+### Complejidad espacial
 
 En una búsqueda recursiva en profundidad, la memoria necesaria para mantener la pila de llamadas es proporcional a:
 
-\\[ O(d) \\]
+$O(d)$
 
 si la generación y exploración de movimientos se realiza de forma incremental y el almacenamiento por nivel es acotado.
 
-Si se materializan y almacenan explícitamente hasta \\(b\\) movimientos en cada nivel, la memoria auxiliar puede aproximarse por:
+Si se materializan y almacenan explícitamente hasta $\(b\)$ movimientos en cada nivel, la memoria auxiliar 
+puede aproximarse por:
 
-\\[ O(bd) \\]
+$O(bd)$
 
 Esto es muy inferior a almacenar el árbol completo, que requeriría memoria exponencial.
 
-## 13. La importancia del ordenamiento de jugadas
-
-Una propiedad extraordinariamente importante de Alfa-Beta es que su eficiencia depende del orden en que se examinan los movimientos.
+Una propiedad extraordinariamente importante de Alfa-Beta es que su eficiencia depende del orden en que se examinan
+los movimientos.
 
 Considérese un nodo MIN con valores:
 
-\\[ [2,9,6,5] \\]
+$[2,9,6,5]$
 
 y un alfa heredado de:
 
-\\[ \alpha=3 \\]
+$\alpha=3$
 
 Si examinamos primero el valor 2:
 
-\\[ \beta=2 \\]
+$\beta=2$
 
 Como:
 
-\\[ \beta\leq\alpha \\]
+$\beta\leq\alpha$
 
 podamos inmediatamente las otras tres ramas.
 
 En cambio, si examinamos:
 
-\\[ [9,6,5,2] \\]
+$[9,6,5,2]$
 
 necesitamos recorrer las cuatro respuestas para descubrir que el nodo puede reducirse a 2.
-
 El resultado Minimax es idéntico, pero el esfuerzo de búsqueda es diferente.
-
-### 13.1. Heurísticas de ordenamiento
-
 Los motores modernos utilizan diversas estrategias para intentar examinar primero las jugadas más prometedoras:
 
 | Heurística        | Principio                                                             |
@@ -2000,21 +2049,23 @@ Los motores modernos utilizan diversas estrategias para intentar examinar primer
 | History Heuristic | Utilizar estadísticas de efectividad de jugadas en búsquedas previas. |
 | SEE               | Estimar el balance de intercambios en una casilla.                    |
 
-Una ordenación frecuente coloca primero el movimiento sugerido por la tabla de transposiciones, luego capturas favorables y otras jugadas tácticamente importantes, y finalmente los movimientos restantes según heurísticas históricas.
+Una ordenación frecuente coloca primero el movimiento sugerido por la tabla de transposiciones, 
+luego capturas favorables y otras jugadas tácticamente importantes, y finalmente los movimientos
+restantes según heurísticas históricas.
 
-La mejor ordenación no puede conocerse de antemano sin resolver previamente el problema de búsqueda, por lo que estas técnicas son aproximaciones prácticas.
+La mejor ordenación no puede conocerse de antemano sin resolver previamente el problema de búsqueda, 
+por lo que estas técnicas son aproximaciones prácticas.
 
-## 14. Búsqueda iterativa en profundidad
+### Iterative deepening
 
 Una optimización central de los motores de ajedrez consiste en ejecutar búsquedas sucesivas con profundidad creciente.
 
 En lugar de comenzar directamente con profundidad 8:
 
-\\[ d=8 \\]
+$d=8$
 
 se realizan búsquedas:
-
-\\[ d=1,2,3,\ldots,8 \\]
+$d=1,2,3,\ldots,8$
 
 Este procedimiento se denomina Iterative Deepening.
 
@@ -2045,48 +2096,46 @@ Profundidad N
 
 A primera vista, repetir las búsquedas parece desperdiciar tiempo. Sin embargo, existen beneficios significativos:
 
-1. La mejor jugada encontrada en profundidad \\(d-1\\) sirve para ordenar la búsqueda de profundidad \\(d\\).
+1. La mejor jugada encontrada en profundidad $\(d-1\)$ sirve para ordenar la búsqueda de profundidad $\(d\)$.
 2. Las tablas de transposiciones conservan resultados aprovechables.
 3. El motor puede finalizar al alcanzar un límite de tiempo.
 4. Siempre dispone de una mejor jugada provisional procedente de una iteración completada.
 
-En particular, el ordenamiento mejorado puede producir suficientes podas adicionales para compensar una parte sustancial del costo de las búsquedas anteriores.
+En particular, el ordenamiento mejorado puede producir suficientes podas adicionales para compensar una parte
+sustancial del costo de las búsquedas anteriores.
 
-### 14.1. Ventanas de aspiración
+### Ventanas de aspiración
 
 Si en profundidad \\(d-1\\) se obtuvo una evaluación \\(v\\), puede intentarse la siguiente búsqueda con una ventana estrecha:
 
-\\[ \alpha=v-\delta \\]
+$\alpha=v-\delta$
 
-\\[ \beta=v+\delta \\]
+$\beta=v+\delta$
 
 Por ejemplo:
 
-\\[ v=+45,\qquad\delta=30 \\]
+$v=+45,\qquad\delta=30$
 
 resulta:
 
-\\[ \alpha=15,\qquad\beta=75 \\]
+$\alpha=15,\qquad\beta=75$
 
 Una ventana estrecha puede aumentar las posibilidades de poda.
-
 Sin embargo, si el valor verdadero queda fuera de la ventana, la búsqueda produce un resultado de tipo fail-low o fail-high y normalmente debe repetirse con límites más amplios.
-
 Por lo tanto, las ventanas de aspiración intercambian un mayor potencial de poda por el riesgo de repetir parte del trabajo.
 
-## 15. Tablas de transposiciones
+### Tablas de transposiciones
 
-### 15.1. Problema de los estados repetidos
-
-Distintas secuencias de jugadas pueden conducir a una misma posición.
+También conocido como el problema de los estados repetidos, donde distintas secuencias de jugadas pueden conducir
+a una misma posición.
 
 Por ejemplo, determinados órdenes de desarrollo de piezas pueden producir el mismo estado final.
 
-Si el motor no conserva información de búsquedas anteriores, examinará nuevamente esa posición aunque ya la haya analizado.
+Si el motor no conserva información de búsquedas anteriores, examinará nuevamente esa posición aunque ya la
+haya analizado (e incluso desechado). Las tablas de transposiciones (TT) permiten registrar resultados
+asociados a posiciones previamente exploradas.
 
-Las tablas de transposiciones (TT) permiten registrar resultados asociados a posiciones previamente exploradas.
-
-Generalmente se utiliza una clave hash, habitualmente de tipo Zobrist, para representar el estado.
+Generalmente se utiliza una clave hash, habitualmente de tipo *Zobrist*, para representar el estado.
 
 Una entrada puede contener:
 
@@ -2098,8 +2147,6 @@ Tipo de cota
 Mejor jugada
 Generación o antigüedad
 ```
-
-### 15.2. Tipos de resultados almacenados
 
 Una tabla de transposiciones debe distinguir entre valores exactos y cotas.
 
@@ -2113,125 +2160,141 @@ Esta distinción resulta necesaria porque los cortes Alfa-Beta pueden devolver i
 
 Por ejemplo, un resultado de tipo LOWERBOUND:
 
-\\[ V(s)\geq120 \\]
+$V(s) \geq 120$
 
 no significa necesariamente:
 
-\\[ V(s)=120 \\]
+$V(s)=120$
 
 Usarlo como valor exacto podría producir decisiones incorrectas.
-
-### 15.3. Consulta de una tabla de transposiciones
 
 Conceptualmente:
 
 ```
-entry = transposition_table.lookup(position)if entry is not None and entry.depth >= depth:    if entry.type == EXACT:        return entry.score    if entry.type == LOWERBOUND:        alpha = max(alpha, entry.score)    if entry.type == UPPERBOUND:        beta = min(beta, entry.score)    if alpha >= beta:        return entry.score
+entry = transposition_table.lookup(position)
+if entry is not None and entry.depth >= depth:
+    if entry.type == EXACT:
+        return entry.score
+    if entry.type == LOWERBOUND:
+        alpha = max(alpha, entry.score)
+    if entry.type == UPPERBOUND:
+        beta = min(beta, entry.score)
+    if alpha >= beta:
+        return entry.score
 ```
 
-Esta lógica representa una consulta simplificada. Una implementación de producción también debe administrar correctamente las puntuaciones de mate relativas a la distancia, las colisiones de hash, la validez del estado y el almacenamiento de nuevas entradas.
+Esta lógica representa una consulta simplificada. Una implementación de producción también debe administrar
+correctamente las puntuaciones de mate relativas a la distancia, las colisiones de hash, la validez del estado y el almacenamiento de nuevas entradas.
 
-Además, la historia de repeticiones y las reglas de tablas requieren atención especial: dos posiciones con las mismas piezas no siempre son equivalentes respecto de todos los resultados posibles de la partida.
+Además, la historia de repeticiones y las reglas de tablas requieren atención especial: dos posiciones con
+las mismas piezas no siempre son equivalentes respecto de todos los resultados posibles de la partida.
 
-## 16. El problema del horizonte
+### El problema del horizonte
 
-Una limitación importante de Minimax con profundidad fija es el denominado Horizon Effect.
+Una limitación importante de Minimax con profundidad fija es el denominado *Horizon Effect*.
 
 Supongamos que un motor evalúa una posición en la que una dama puede ser capturada en la siguiente jugada.
 
-Si la búsqueda finaliza justo antes de la captura, el evaluador puede asignar una puntuación artificialmente favorable porque la pérdida material todavía no se produjo.
+Si la búsqueda finaliza justo antes de la captura, el evaluador puede asignar una puntuación artificialmente
+favorable porque la pérdida material todavía no se produjo.
 
-El problema no es estrictamente un error de Minimax: es una consecuencia de sustituir la resolución completa de la partida por una evaluación heurística a profundidad limitada.
+El problema no es estrictamente un error de Minimax: es una consecuencia de sustituir la resolución completa
+de la partida por una evaluación heurística a profundidad limitada.
 
-### 16.1. Quiescence Search
+Para reducir este problema se utiliza la *búsqueda de quiescencia*, o *Quiescence Search*.
 
-Para reducir este problema se utiliza la búsqueda de quiescencia, o Quiescence Search.
-
-Al alcanzar la profundidad nominal, en lugar de aplicar inmediatamente la evaluación estática, el motor continúa explorando una selección de jugadas tácticamente relevantes.
+Al alcanzar la profundidad nominal, en lugar de aplicar inmediatamente la evaluación estática, 
+el motor continúa explorando una selección de jugadas tácticamente relevantes.
 
 Habitualmente se consideran capturas, ciertas promociones y, según la implementación, otras amenazas forzantes.
 
 La formulación básica desde Negamax puede expresarse mediante:
 
-\\[ q(s,\alpha,\beta) \\]
+$q(s,\alpha,\beta)$
 
 En una posición tranquila, donde no es obligatorio responder a un jaque, se calcula primero la evaluación estática:
 
-\\[ v_0=E(s) \\]
+$v_0=E(s)$
 
 Si:
 
-\\[ v_0\geq\beta \\]
+$v_0\geq\beta$
 
 puede producirse un corte.
 
 En caso contrario:
 
-\\[ \alpha\leftarrow\max(\alpha,v_0) \\]
+$\alpha\leftarrow\max(\alpha,v_0)$
 
 y se exploran los movimientos tácticos seleccionados:
 
-\\[ v_a=-q(T(s,a),-\beta,-\alpha) \\]
+$v_a=-q(T(s,a),-\beta,-\alpha)$
 
 actualizando:
 
-\\[ \alpha\leftarrow\max(\alpha,v_a) \\]
+$\alpha\leftarrow\max(\alpha,v_a)$
 
-La búsqueda continúa hasta alcanzar una posición suficientemente estable o algún límite de seguridad establecido por el motor.
+La búsqueda continúa hasta alcanzar una posición suficientemente estable o algún límite de seguridad establecido
+por el motor.
 
-Cuando el rey se encuentra en jaque, no es válido utilizar simplemente la evaluación estática como alternativa a responder: deben considerarse las evasiones legales, ya que no existe la opción de permanecer en jaque.
+Cuando el rey se encuentra en jaque, no es válido utilizar simplemente la evaluación estática como alternativa
+a responder: deben considerarse las evasiones legales, ya que no existe la opción de permanecer en jaque.
 
-La búsqueda de quiescencia es especialmente relevante cuando se usan evaluadores basados en material o redes NNUE, porque permite que la evaluación se aplique a posiciones menos inestables tácticamente.
+La búsqueda de quiescencia es especialmente relevante cuando se usan evaluadores basados en material o redes NNUE,
+porque permite que la evaluación se aplique a posiciones menos inestables tácticamente.
 
-## 17. Alfa-Beta en motores modernos de ajedrez
+### Alfa-Beta en motores modernos de ajedrez
 
 Un motor competitivo raramente utiliza Alfa-Beta aislado.
 
 Normalmente implementa una arquitectura de búsqueda con varios componentes complementarios.
 
-Arquitectura conceptual simplificada de un motor de ajedrez basado en Alfa-Beta. La interacción real entre los componentes es recursiva, y no estrictamente secuencial.
+Arquitectura conceptual simplificada de un motor de ajedrez basado en Alfa-Beta. 
+La interacción real entre los componentes es recursiva, y no estrictamente secuencial.
 
-### 17.1. Otras optimizaciones frecuentes
+### Otras optimizaciones frecuentes
 
 Además de las técnicas ya presentadas, pueden utilizarse:
 
-Principal Variation Search (PVS). Parte de la hipótesis de que el primer movimiento, después de una buena ordenación, probablemente sea el mejor. Los movimientos posteriores se examinan inicialmente con ventanas estrechas, y se reexaminan cuando es necesario.
+* Principal Variation Search (PVS). Parte de la hipótesis de que el primer movimiento, después de una buena ordenación, probablemente sea el mejor. Los movimientos posteriores se examinan inicialmente con ventanas estrechas, y se reexaminan cuando es necesario.
 
-Null Move Pruning. Permite estimar si una posición parece suficientemente favorable incluso concediendo ficticiamente un turno al adversario. Puede producir cortes eficientes, pero requiere precauciones importantes, especialmente en posiciones de zugzwang.
+* Null Move Pruning. Permite estimar si una posición parece suficientemente favorable incluso concediendo ficticiamente un turno al adversario. Puede producir cortes eficientes, pero requiere precauciones importantes, especialmente en posiciones de zugzwang.
 
-Late Move Reductions (LMR). Reduce inicialmente la profundidad para algunos movimientos tardíos y considerados menos prometedores. Cuando una búsqueda reducida indica que podrían ser importantes, puede requerirse una búsqueda de verificación más profunda.
+* Late Move Reductions (LMR). Reduce inicialmente la profundidad para algunos movimientos tardíos y considerados menos prometedores. Cuando una búsqueda reducida indica que podrían ser importantes, puede requerirse una búsqueda de verificación más profunda.
 
-Futility Pruning. Descarta ciertas ramas próximas al horizonte cuando una cota basada en evaluación estática y márgenes de seguridad indica que probablemente no mejorarán alfa.
+* Futility Pruning. Descarta ciertas ramas próximas al horizonte cuando una cota basada en evaluación estática y márgenes de seguridad indica que probablemente no mejorarán alfa.
 
-Extensiones selectivas. Incrementan la profundidad ante situaciones especialmente relevantes, como determinados jaques o secuencias forzadas.
+* Extensiones selectivas. Incrementan la profundidad ante situaciones especialmente relevantes, como determinados jaques o secuencias forzadas.
 
-Debe destacarse una diferencia conceptual: mientras que la poda Alfa-Beta clásica conserva el resultado Minimax exacto al horizonte elegido, algunas de estas optimizaciones introducen aproximaciones heurísticas.
-
-Por tanto, al incorporar LMR, Null Move Pruning o Futility Pruning, ya no puede garantizarse en general la igualdad exacta con una búsqueda Minimax exhaustiva de profundidad fija.
-
-## 18. Diferencia entre encontrar la mejor jugada y encontrar una jugada ganadora
+Debe destacarse una diferencia conceptual: mientras que la poda Alfa-Beta clásica conserva el resultado Minimax
+exacto al horizonte elegido, algunas de estas optimizaciones introducen aproximaciones heurísticas. Por tanto, al
+incorporar LMR, Null Move Pruning o Futility Pruning, ya no puede garantizarse en general la igualdad exacta con
+una búsqueda Minimax exhaustiva de profundidad fija.
 
 Es importante diferenciar tres conceptos.
 
-### Mejor jugada según el evaluador
+* Mejor jugada según el evaluador
 
 Es aquella que maximiza el valor calculado por el motor a una determinada profundidad:
 
-\\[ a^\*=\arg\max_a V(T(s,a),d-1) \\]
+$a^\*=\arg\max_a V(T(s,a),d-1)$
 
 No implica necesariamente que la posición sea ganadora.
 
-### Mejor jugada según el resultado teórico
+* Mejor jugada según el resultado teórico
 
-Es la jugada que maximiza el resultado de la partida bajo juego perfecto, considerando la búsqueda hasta estados terminales.
+Es la jugada que maximiza el resultado de la partida bajo juego perfecto, considerando la búsqueda hasta
+estados terminales.
 
 Si la posición es teóricamente tablas, una jugada óptima puede simplemente preservar esas tablas.
 
-### Mejor jugada práctica
+* Mejor jugada práctica
 
-En determinadas circunstancias competitivas, un jugador puede preferir una jugada objetivamente inferior porque complica la posición y aumenta las posibilidades de error del adversario.
+En determinadas circunstancias competitivas, un jugador puede preferir una jugada objetivamente
+inferior porque complica la posición y aumenta las posibilidades de error del adversario.
 
-Esa decisión incorpora factores probabilísticos o psicológicos que no están presentes en el Minimax tradicional de adversario perfecto.
+Esa decisión incorpora factores probabilísticos o psicológicos que no están presentes en el Minimax tradicional
+de adversario perfecto.
 
 Así, Minimax responde fundamentalmente a la pregunta:
 
@@ -2243,30 +2306,37 @@ No responde directamente:
 
 Para abordar la segunda pregunta se necesitaría un modelo adicional del comportamiento del oponente.
 
-## 19. Relación entre profundidad, evaluación y calidad de juego
+### Relación entre profundidad, evaluación y calidad de juego
 
 La calidad de un motor basado en Alfa-Beta depende de varias dimensiones:
 
-\\[ Q\approx F(d,E,O,R) \\]
+$Q\approx F(d,E,O,R)$
 
 donde:
 
-- \\(d\\): profundidad de búsqueda alcanzada.
-- \\(E\\): calidad de la función de evaluación.
-- \\(O\\): eficacia del ordenamiento de movimientos.
-- \\(R\\): calidad y corrección de las reglas, reducciones y extensiones.
+- $\(d\)$: profundidad de búsqueda alcanzada.
+- $\(E\)$: calidad de la función de evaluación.
+- $\(O\)$: eficacia del ordenamiento de movimientos.
+- $\(R\)$: calidad y corrección de las reglas, reducciones y extensiones.
 
-Esta expresión es conceptual, no una fórmula empírica universal de fuerza ajedrecística.
+Esta expresión es conceptual, no una fórmula empírica que permita evaluar la "*fuerza ajedrecística*" de un 
+determinado algoritmo o motor.
 
-Dos motores con idéntico evaluador pueden ofrecer resultados distintos si uno alcanza mayor profundidad o consigue ordenar mejor sus movimientos.
+De hecho el evaluarlo no es un problema resuelto, por lo que debe desarrollarse un protocolo de evaluación que 
+permita obtener cierta introspectiva estadística sobre el comportamiento de un motor frente a otros, de manera
+de poder evaluar su fuerza relativa.
 
-También es posible que un evaluador más preciso compense parcialmente una búsqueda menos profunda.
+Dos motores con idéntico evaluador pueden ofrecer resultados distintos si uno alcanza mayor profundidad
+o consigue ordenar mejor sus movimientos. Por eso dos motores iguales con diferente potencia de procesamiento
+pueden obtener diferencias vastas de resultados, aunque objetivamente usen el mismo algoritmo.
 
-Sin embargo, no existe una relación simple que garantice que duplicar la profundidad o reducir a la mitad el error de evaluación produzca una determinada mejora de Elo.
+Sin embargo, no existe una relación simple que garantice que duplicar la profundidad o reducir a la mitad
+el error de evaluación produzca una determinada mejora de Elo.
 
-### 19.1. Consideraciones sobre redes NNUE pequeñas
+### Consideraciones sobre redes NNUE pequeñas
 
-En sistemas con recursos computacionales limitados, el costo de evaluar una posición puede resultar decisivo.
+Ya se mencionó la posibilidad de utilizar redes neuronales pequenas en sistemas con recursos computacionales
+limitados, el costo de evaluar una posición puede resultar decisivo.
 
 Supongamos dos evaluadores:
 
@@ -2282,17 +2352,17 @@ Al usar Alfa-Beta, la decisión no puede tomarse solamente comparando la calidad
 
 Debe medirse el rendimiento completo:
 
-\\[ NPS=\frac{N\_{\text{nodos}}}{t\_{\text{segundos}}} \\]
+$NPS=\frac{N\_{\text{nodos}}}{t\_{\text{segundos}}}$
 
 y también:
 
-\\[ D(t)=\text{profundidad alcanzada en tiempo }t \\]
+$D(t)=\text{profundidad alcanzada en tiempo }t$
 
-Una red pequeña y eficiente puede permitir búsquedas más profundas; una red más grande puede proporcionar evaluaciones más precisas pero reducir la profundidad alcanzable.
+Una red pequeña y eficiente puede permitir búsquedas más profundas; una red más grande puede proporcionar
+evaluaciones más precisas pero reducir la profundidad alcanzable.
 
-La combinación óptima depende de la arquitectura del procesador, el costo de generación de movimientos, el ordenamiento, la posibilidad de actualizar incrementalmente la red y la calidad efectiva del evaluador.
-
-## 20. Ejemplo de telemetría de un motor UCI
+La combinación óptima depende de la arquitectura del procesador, el costo de generación de movimientos,
+el ordenamiento, la posibilidad de actualizar incrementalmente la red y la calidad efectiva del evaluador.
 
 Un motor que implementa búsqueda Alfa-Beta puede reportar su progreso mediante el protocolo UCI.
 
@@ -2307,8 +2377,6 @@ info depth 6 score cp 25 nodes 210000 time 1780 nps 117977 pv e2e4 e7e5 g1f3 b8c
 
 bestmove e2e4
 ```
-
-Los valores son ficticios y se incluyen únicamente para explicar los campos del protocolo.
 
 La telemetría contiene:
 
@@ -2330,77 +2398,53 @@ La variante principal también puede cambiar completamente al aumentar la profun
 
 Esto no significa necesariamente que el motor esté funcionando mal; refleja el carácter aproximado de una búsqueda de horizonte limitado.
 
-## 21. Limitaciones fundamentales
+###Limitaciones fundamentales
 
 Aunque Minimax con Alfa-Beta es muy eficiente en comparación con Minimax completo, conserva varias limitaciones estructurales.
 
-### 21.1. Dependencia de la evaluación
-
-El algoritmo utiliza los valores que recibe del evaluador.
-
+El algoritmo tiene dependencia del evaluador pues utiliza los valores que recibe del evaluador.
 Si la función de evaluación considera favorable una posición que en realidad contiene una amenaza táctica decisiva, Alfa-Beta puede propagar correctamente una valoración equivocada.
-
 La corrección matemática del algoritmo de búsqueda no garantiza la corrección estratégica del evaluador.
-
-### 21.2. Dependencia de la profundidad
-
-Una búsqueda de profundidad limitada puede no detectar combinaciones cuyo desenlace aparece más allá del horizonte.
-
+Tambien búsqueda de profundidad limitada puede no detectar combinaciones cuyo desenlace aparece más allá del horizonte.
 Extensiones, quiescencia y búsqueda selectiva reducen ciertos problemas, pero no eliminan esta limitación general.
-
-### 21.3. Complejidad exponencial
 
 Incluso con poda eficaz, el crecimiento del árbol continúa siendo un desafío.
 
 El mejor caso idealizado:
 
-\\[ O(b^{d/2}) \\]
+$O(b^{d/2})$
 
 sigue siendo exponencial respecto de la profundidad.
-
-### 21.4. Calidad del ordenamiento
-
 Un ordenamiento deficiente reduce las oportunidades de poda y puede producir diferencias importantes en el número de nodos examinados.
-
-### 21.5. Corrección de la implementación
-
 Los errores en generación de movimientos, detección de jaques, tratamiento del enroque, captura al paso, promociones o tablas pueden invalidar todo el análisis.
-
 Por ello, en un motor real, la verificación de la legalidad y de la consistencia del estado debe considerarse anterior a las optimizaciones de rendimiento.
 
-## 22. Conclusiones
+### Conclusiones
 
-Minimax con poda Alfa-Beta constituye un ejemplo fundamental de cómo el razonamiento matemático puede transformar un problema de búsqueda computacionalmente costoso en uno considerablemente más eficiente.
+Minimax con poda Alfa-Beta constituye un ejemplo fundamental de cómo el razonamiento matemático puede
+transformar un problema de búsqueda computacionalmente costoso en uno considerablemente más eficiente.
 
 Minimax modela el comportamiento adversarial mediante operaciones alternadas de máximo y mínimo:
 
-\\[ V\_{\text{MAX}}(s)=\max\_{a\in A(s)}V(T(s,a)) \\]
+$V\_{\text{MAX}}(s)=\max\_{a\in A(s)}V(T(s,a))$
 
-\\[ V\_{\text{MIN}}(s)=\min\_{a\in A(s)}V(T(s,a)) \\]
+$V\_{\text{MIN}}(s)=\min\_{a\in A(s)}V(T(s,a))$
 
 La poda Alfa-Beta incorpora información sobre los límites de utilidad relevantes:
 
-\\[ \alpha=\text{cota inferior relevante para MAX} \\]
-
-\\[ \beta=\text{cota superior relevante impuesta por MIN} \\]
+$\alpha=\text{cota inferior relevante para MAX}$
+$\beta=\text{cota superior relevante impuesta por MIN}$
 
 y descarta ramas cuando:
 
-\\[ \boxed{\alpha\geq\beta} \\]
+$\boxed{\alpha\geq\beta}$
 
 La importancia de este mecanismo reside en que evita cálculos cuyo resultado no puede alterar la decisión de los ancestros.
-
 Bajo las condiciones de una búsqueda exacta a profundidad fija, Alfa-Beta no modifica la respuesta de Minimax: solamente reduce el esfuerzo necesario para obtenerla.
-
 En el ajedrez, esta técnica se combina con evaluación heurística o neuronal, búsqueda iterativa, tablas de transposiciones, ordenamiento de movimientos y búsqueda de quiescencia.
-
 El resultado es una arquitectura capaz de explorar millones de posiciones y seleccionar jugadas mediante el análisis de sus consecuencias, incluso cuando no resulta posible resolver completamente el árbol de la partida.
-
 La idea central es que un motor de ajedrez no necesita examinar todas las continuaciones posibles para descartar una jugada: necesita demostrar que esa jugada no puede superar a otra alternativa ya conocida.
-
 Esta distinción entre conocer el valor exacto de una alternativa y conocer lo suficiente para descartarla es el fundamento matemático y computacional de la poda Alfa-Beta.
-
-## Referencias bibliográficas recomendadas
 
 1. Knuth, D. E., & Moore, R. W. (1975). An Analysis of Alpha-Beta Pruning. Artificial Intelligence, 6(4), 293–326.
 2. Pearl, J. (1984). Heuristics: Intelligent Search Strategies for Computer Problem Solving. Addison-Wesley.
@@ -2409,6 +2453,7 @@ Esta distinción entre conocer el valor exacto de una alternativa y conocer lo s
 5. Marsland, T. A. (1986). A Review of Game-Tree Pruning. ICCA Journal, 9(1), 3–19.
 6. [Chessprogramming Wiki — Alpha-Beta](https://www.chessprogramming.org/Alpha-Beta?utm_source=chatgpt.com). Recurso técnico sobre los fundamentos, las variantes y las técnicas de implementación de Alfa-Beta.
 7. [Chessprogramming Wiki — Negamax](https://www.chessprogramming.org/Negamax?utm_source=chatgpt.com). Formulación Negamax y relación con la búsqueda Alfa-Beta.
+
 # La arquitectura
 
 En la arquitectura se resume todo lo que tiene que tener una plataforma, y también lo que no va a tener nunca. Es en cierta
@@ -2423,7 +2468,7 @@ Sin embargo hay algunos desafíos técnicos, que de alcanzarse, permitirán cons
 La plataforma combina motores de ajedrez, con sistemas embebidos, con técnicas avanzadas de optimización. En muchos casos
 será *un perro que canta tangos* , no es maravilloso como lo hace, sino el mero hecho que lo haga.
 
-# Aplicación de la ecuación de Bellman al aprendizaje profundo del valor y la política de juego en ajedrez
+# Aprendizaje profundo, la ecuacion de Bellman
 
 ## 1. Introducción
 
