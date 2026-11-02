@@ -18,5 +18,5 @@
 #     --bellman-misses-jsonl "../data/bellman/bellman_audit.jsonl"
 .\sargon_match.ps1 --brain ../etc/brains/brains.json `
      --pairs 1 `
-     --idA picoSargon --idB manon
+     --idA classic --idB manon
 

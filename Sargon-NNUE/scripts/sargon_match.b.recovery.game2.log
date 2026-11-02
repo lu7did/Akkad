@@ -1,35 +1,5 @@
-Traceback (most recent call last):
-  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\tcp_external.py", line 38, in __init__
-    self.sock = socket.create_connection((self.host,self.port), timeout=min(self.timeout_ms/1000, 30))
-                ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pedro\AppData\Local\Programs\Python\Python314\Lib\socket.py", line 874, in create_connection
-    raise exceptions[0]
-  File "C:\Users\pedro\AppData\Local\Programs\Python\Python314\Lib\socket.py", line 859, in create_connection
-    sock.connect(sa)
-    ~~~~~~~~~~~~^^^^
-TimeoutError: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "<frozen runpy>", line 203, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 282, in <module>
-    raise SystemExit(main())
-                     ~~~~^^
-  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 182, in main
-    return _run_stdin(args)
-  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
-    evaluator, player = build_engine(args)
-                        ~~~~~~~~~~~~^^^^^^
-  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\factory.py", line 179, in build_engine
-    player = create_player(
-        player_kind,
-    ...<26 lines>...
-        lc0_uci_timeout=g("lc0_uci_timeout",60000),
-    )
-  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\__init__.py", line 41, in create_player
-    return TCPExternalUCIPlayer(url, timeout_ms=timeout_ms)
-  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\tcp_external.py", line 51, in __init__
-    raise PlayerError(f'external {url}: falló conexión UCI: {exc}') from exc
-sargon_nnue.players.base.PlayerError: external 192.168.68.109:6110: falló conexión UCI: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+\u2699\ufe0f EXEC player=external | evaluator=null | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.197 \U0001f9e0 evaluator=NULL \U0001f3ae player=EXTERNAL
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2b05\ufe0f quit

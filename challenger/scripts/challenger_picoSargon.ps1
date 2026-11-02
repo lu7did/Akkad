@@ -1,12 +1,12 @@
 ﻿param(
     [string]$Python  = "C:\Users\pedro\ufasta\Scripts\python.exe",
-    [string]$Ip      = "192.168.68.108",
+    [string]$Ip      = "192.168.68.109",
     [int]$Port       = 6110,
     [string]$Event   = "Pruebas de picoSargon",
     [int]$Timeout    = 60000,
     [string]$Json    = "..\data\microSargon.json",
     [string]$Brain   = "sargon",
-    [int]$Plies      = 4,
+    [int]$Plies      = 2,
     [bool]$Forever   = $true,
     [bool]$Gui       = $true
 )
