@@ -26,10 +26,10 @@ from .cli_common import add_engine_args
 
 VERSION='0.6.192'
 # `rating_elo` is metadata, never a listener CLI parameter.
-ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout']
+ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout', 'alternate-network', 'alternate-evaluator', 'bellman-nmin', 'bellman-alpha', 'bellman-lambda', 'bellman-gamma']
 METADATA_KEYS = {'rating_elo'}
-PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras','microchess')
-EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy','keras','microchess')
+PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras','microchess','bellman')
+EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy','keras','microchess','bellmanR')
 
 def engine_parser():
     p=argparse.ArgumentParser(add_help=False)
@@ -55,6 +55,8 @@ def defaults(player,evaluator):
         if player=='lc0': allowed|={'lc0-uci-path','lc0-weights','lc0-backend','lc0-backend-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-options','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout'}
     elif player=='cerebrum':
         allowed|={'cerebrum-a','cerebrum-b'}
+    if player=='bellman':allowed|={'network','alternate-network','alternate-evaluator','bellman-nmin','bellman-alpha','bellman-lambda','bellman-gamma'}
+    if evaluator=='bellmanR':allowed|={'network','alternate-network','alternate-evaluator','bellman-nmin','bellman-alpha','bellman-lambda','bellman-gamma'}
     if player=='alphazero':allowed|={'az-simulations','az-cpuct'}
     if evaluator in ('lc0','tinygyal'):allowed|={'lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale'}
     if evaluator in ('npz','grumpy','tinygyal','keras'):allowed.add('network')
@@ -69,7 +71,7 @@ def defaults(player,evaluator):
     defaults['player']=player;defaults['evaluator']=evaluator
     return defaults
 
-PATH_KEYS = frozenset({'network','engine-path','stockfish-path','lc0-weights','lc0-uci-path','cerebrum-a','cerebrum-b'})
+PATH_KEYS = frozenset({'alternate-network','network','engine-path','stockfish-path','lc0-weights','lc0-uci-path','cerebrum-a','cerebrum-b'})
 
 def resolve_platform_paths(config):
     """Resolve platform-specific paths without changing the serialized profile.
@@ -105,6 +107,8 @@ def validate(config, *, check_files=False):
     ev=config.get('evaluator')
     if player not in PLAYER_CHOICES:raise ValueError('player inválido: '+str(player_raw))
     if ev not in EVALUATOR_CHOICES:raise ValueError('evaluator inválido: '+str(ev))
+    if player=='bellman' and config.get('alternate-evaluator','grumpy')!='grumpy':raise ValueError('bellman: alternate-evaluator debe ser grumpy')
+    if player=='bellman' and (ev!='bellmanR' or not config.get('network') or not config.get('alternate-network')):raise ValueError('bellman requiere evaluator=bellmanR, network JSON y alternate-network Grumpy BIN')
     if player=='external' and ev!='null':raise ValueError('player external requiere evaluator null')
     if player=='external':
         from .players.tcp_external import parse_endpoint
@@ -135,7 +139,7 @@ def validate(config, *, check_files=False):
     if player == 'sunfish' and not config.get('engine-path'):raise ValueError('player externo requiere engine-path')
     if ev=='stockfish' and not config.get('stockfish-path'):raise ValueError('evaluator stockfish requiere stockfish-path')
     if check_files:
-        for key in ('network','engine-path','stockfish-path','lc0-weights','lc0-uci-path'):
+        for key in ('alternate-network','network','engine-path','stockfish-path','lc0-weights','lc0-uci-path'):
             if config.get(key) and not (Path(str(config[key])).expanduser().is_dir() if (key == 'network' and player == 'picokeras') else Path(str(config[key])).expanduser().is_file()):
                 raise ValueError(f'{key} no existe: {config[key]}')
     # Delegate type parsing and range validation to the real listener argparse.

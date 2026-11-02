@@ -3,6 +3,12 @@
 #include "grumpy.hpp"
 #include "config.h"
 #include "generated_grumpy.hpp"
+#ifdef PICOSARGON_TWINS
+#include "twins_grumpy.hpp"
+#include "pico/multicore.h"
+#include <atomic>
+#include <algorithm>
+#endif
 #include "pico/stdlib.h"
 #include "hardware/clocks.h"
 #include "hardware/watchdog.h"
@@ -24,7 +30,7 @@
 #include <unistd.h>
 using namespace picoSargon;
 namespace {
-const char* VERSION=config::UCI_NAME;
+const char* VERSION="picoSargon v0.2.21";
 // Serial log calls are compiled out when DEBUG=false. Search statistics remain collected.
 template<class... Args> void debug_log(const char* fmt, Args... args) {
  if constexpr (config::DEBUG) std::printf(fmt, args...);
@@ -34,6 +40,31 @@ tcp_pcb* listener=nullptr;
 tcp_pcb* client=nullptr;
 Board board;
 Grumpy neural;
+#ifdef PICOSARGON_TWINS
+// Shared mailbox: release/acquire makes the immutable job and its result visible.
+Grumpy twin_neural;
+Board twin_board;
+std::vector<Move> twin_roots;
+SearchResult twin_result;
+std::atomic<bool> twin_ready{false};
+std::atomic<unsigned> twin_job{0}; // 0=idle,1=pending,2=completed
+std::atomic<int> twin_alpha{-1000000};
+std::atomic<bool> twin_stop{false};
+int twin_depth=0;
+uint64_t twin_deadline=0;
+alignas(8) uint32_t twin_stack[4096]; // 16 KiB, separate core-1 stack
+void twin_worker(){
+ static Engine e(twin_neural,[]{return uint64_t(to_ms_since_boot(get_absolute_time()));},
+                 []{return twin_stop.load(std::memory_order_relaxed);}, {},config::QDEPTH);
+ twin_ready.store(true,std::memory_order_release);
+ for(;;){
+  if(twin_job.load(std::memory_order_acquire)!=1){tight_loop_contents();continue;}
+  try { twin_result=e.search_partition(twin_board,twin_roots,twin_depth,twin_deadline,twin_alpha); }
+  catch(...) { twin_result=SearchResult{}; twin_result.reason="worker-exception"; }
+  twin_job.store(2,std::memory_order_release);
+ }
+}
+#endif
 std::string pending;
 bool connected=false,request_stop=false,request_quit=false,valid_position=true,go_pending=false;
 bool session_error=false; uint32_t recoverable_errors=0;
@@ -74,7 +105,13 @@ void dispatch(const std::string& line);
 err_t received(void*,tcp_pcb* pcb,pbuf* p,err_t){if(!p){debug_log("TCP disconnected\n");if(led_state==LedState::Thinking){session_error=true;++recoverable_errors;}connected=false;client=nullptr;status_led(session_error?LedState::Recoverable:(wifi_up?LedState::Ready:LedState::NoWiFi));tcp_close(pcb);return ERR_OK;}tcp_recved(pcb,p->tot_len);for(pbuf* q=p;q;q=q->next){auto* bytes=static_cast<const char*>(q->payload);for(int i=0;i<q->len;++i){char c=bytes[i];if(c=='\n'){std::string cmd=pending;pending.clear();if(!cmd.empty()&&cmd.back()=='\r')cmd.pop_back();if(cmd=="stop")request_stop=true;else if(cmd=="quit")request_quit=true;else if(!cmd.empty())dispatch(cmd);}else if(pending.size()<4096)pending+=c;else{request_quit=true;session_error=true;++recoverable_errors;status_led(LedState::Recoverable);}}}pbuf_free(p);return ERR_OK;}
 void error_tcp(void*,err_t e){debug_log("TCP error=%d\n",int(e));client=nullptr;connected=false;request_stop=true;session_error=true;++recoverable_errors;status_led(LedState::Recoverable);}
 err_t accepted(void*,tcp_pcb* pcb,err_t e){if(e!=ERR_OK)return e;if(client){tcp_abort(pcb);return ERR_ABRT;}client=pcb;connected=true;status_led(LedState::Ready);request_quit=false;request_stop=false;session_error=false;pending.clear();tcp_recv(pcb,received);tcp_err(pcb,error_tcp);tcp_nagle_disable(pcb);debug_log("TCP connected\n");return ERR_OK;}
-void dispatch(const std::string& line){uci_trace("UCI << %s\n",line.c_str());if(line=="uci"){send_line(std::string("id name ")+VERSION);send_line("id author Dr. Pedro E. Colla");send_line("uciok");}else if(line=="isready")send_line("readyok");else if(line=="ucinewgame"){board.reset();valid_position=true;}else if(line.rfind("position ",0)==0){try{Board b;auto start=line.find("startpos");auto fen=line.find("fen ");auto mv=line.find(" moves ");if(start!=std::string::npos)b.reset();else if(fen!=std::string::npos){size_t st=fen+4;b.set_fen(line.substr(st,mv==std::string::npos?std::string::npos:mv-st));}else throw std::runtime_error("invalid position");if(mv!=std::string::npos){std::string args=line.substr(mv+7),tok;size_t p=0;while(p<args.size()){auto n=args.find(' ',p);tok=args.substr(p,n==std::string::npos?n:n-p);if(!tok.empty())b.push(b.parse(tok));if(n==std::string::npos)break;p=n+1;}}board=std::move(b);valid_position=true;}catch(const std::exception& ex){valid_position=false;session_error=true;++recoverable_errors;status_led(LedState::Recoverable);debug_log("position rejected: %s\n",ex.what());}}else if(line.rfind("go",0)==0){if(!valid_position){debug_log("go rejected: previous position invalid\n");return;}go_pending=true;request_stop=false;} }
+void dispatch(const std::string& line){uci_trace("UCI << %s\n",line.c_str());if(line=="uci"){send_line(std::string("id name ")+VERSION);send_line("id author Dr. Pedro E. Colla");
+#ifdef PICOSARGON_TWINS
+send_line(std::string("info string TWINS compiled ON cores=2 alpha=cooperative core1_ready=")+(twin_ready.load(std::memory_order_acquire)?"1":"0"));
+#else
+send_line("info string TWINS compiled OFF");
+#endif
+send_line("uciok");}else if(line=="isready")send_line("readyok");else if(line=="ucinewgame"){board.reset();valid_position=true;}else if(line.rfind("position ",0)==0){try{Board b;auto start=line.find("startpos");auto fen=line.find("fen ");auto mv=line.find(" moves ");if(start!=std::string::npos)b.reset();else if(fen!=std::string::npos){size_t st=fen+4;b.set_fen(line.substr(st,mv==std::string::npos?std::string::npos:mv-st));}else throw std::runtime_error("invalid position");if(mv!=std::string::npos){std::string args=line.substr(mv+7),tok;size_t p=0;while(p<args.size()){auto n=args.find(' ',p);tok=args.substr(p,n==std::string::npos?n:n-p);if(!tok.empty())b.push(b.parse(tok));if(n==std::string::npos)break;p=n+1;}}board=std::move(b);valid_position=true;}catch(const std::exception& ex){valid_position=false;session_error=true;++recoverable_errors;status_led(LedState::Recoverable);debug_log("position rejected: %s\n",ex.what());}}else if(line.rfind("go",0)==0){if(!valid_position){debug_log("go rejected: previous position invalid\n");return;}go_pending=true;request_stop=false;} }
 void run_search(){
  go_pending=false;
  if(!connected||!valid_position)return;
@@ -84,8 +121,86 @@ void run_search(){
  debug_log("SEARCH board rep=%d halfmove=%d draw=%d check=%d\n",board.repetitions(),board.halfmove,int(board.draw()),int(board.in_check()));
  debug_log("SEARCH begin max_depth=%d qdepth=%d timeout_ms=%u\n",config::DEPTH,config::QDEPTH,config::TIMEOUT_MS);
  try {
+#ifdef PICOSARGON_TWINS
+ // One independent Engine per core; neither uses the other engine's mutable TT.
+ static Engine e(neural,millis,[]{service();return request_stop||request_quit||!connected;},read_memory,config::QDEPTH);
+ SearchResult r;
+ if(!twin_ready.load(std::memory_order_acquire)){
+  debug_log("TWINS FATAL core1_not_ready: refusing parallel search\n");
+  if(connected){send_line("info string TWINS ERROR core1_not_ready");send_line("bestmove 0000");}
+  status_led(LedState::Fatal);
+  return;
+ }
+ const auto begin=millis();
+ const uint64_t deadline=config::TIMEOUT_MS?begin+config::TIMEOUT_MS:0;
+ std::vector<Move> all;board.legal(all);
+ if(!all.empty()){
+  r.has_move=true;r.best=all.front();
+  std::vector<Move> left,right;
+  for(size_t i=0;i<all.size();++i)(i&1?right:left).push_back(all[i]);
+  for(int depth=1;depth<=config::DEPTH;++depth){
+   // Iterative-deepening ordering: principal move from the previous completed
+   // depth must lead the whole root list BEFORE static partitioning.
+   if(depth>1){auto principal=std::find(all.begin(),all.end(),r.best);
+    if(principal!=all.end())std::iter_swap(all.begin(),principal);}
+   left.clear();right.clear();
+   for(size_t i=0;i<all.size();++i)(i&1?right:left).push_back(all[i]);
+   if(request_stop||request_quit||!connected||(deadline&&millis()>=deadline))break;
+   twin_alpha.store(-1000000,std::memory_order_release);
+   twin_stop.store(false,std::memory_order_release);
+   twin_board=board;twin_board.reserve_search(128);twin_roots=right;twin_depth=depth;twin_deadline=deadline;
+   // Start other core before working on the local partition.
+   twin_job.store(1,std::memory_order_release);
+   const auto core0_start=millis();
+   Board own=board;own.reserve_search(128);
+   auto a=e.search_partition(own,left,depth,deadline,twin_alpha);
+   const uint64_t core0_ms=millis()-core0_start;
+   const auto barrier_start=millis();
+   // The other core must finish before we compare any result. Core 0
+   // continues to service lwIP and watchdog during the barrier.
+   while(twin_job.load(std::memory_order_acquire)!=2){
+    service();
+    if(request_stop||request_quit||!connected||(deadline&&millis()>=deadline))
+      twin_stop.store(true,std::memory_order_release);
+    tight_loop_contents();
+   }
+   const uint64_t sync_wait_ms=millis()-barrier_start;
+   const auto& b=twin_result;
+   debug_log("TWINS depth=%d core[0] moves=%u nodes=%llu ms=%llu status=%s\n",
+      depth,unsigned(left.size()),(unsigned long long)a.nodes,
+      (unsigned long long)core0_ms,a.reason.c_str());
+   debug_log("TWINS depth=%d core[1] moves=%u nodes=%llu ms=%llu status=%s\n",
+      depth,unsigned(right.size()),(unsigned long long)b.nodes,
+      (unsigned long long)b.elapsed_ms,b.reason.c_str());
+   debug_log("TWINS depth=%d sync_ms=%llu alpha [updates=%llu prunes=%llu scouts=%llu verifications=%llu] scout_nodes=%llu verify_nodes=%llu buffer_allocations=%llu research_avoided=%llu\n",
+      depth,(unsigned long long)sync_wait_ms,
+      (unsigned long long)(a.twin_alpha_publishes+b.twin_alpha_publishes),
+      (unsigned long long)(a.twin_prunes+b.twin_prunes),
+      (unsigned long long)(a.twin_scouts+b.twin_scouts),
+      (unsigned long long)(a.twin_verifications+b.twin_verifications),
+      (unsigned long long)(a.twin_scout_nodes+b.twin_scout_nodes),
+      (unsigned long long)(a.twin_verify_nodes+b.twin_verify_nodes),
+      (unsigned long long)(a.twin_allocations+b.twin_allocations),
+      (unsigned long long)(a.twin_research_avoided+b.twin_research_avoided));
+   twin_job.store(0,std::memory_order_release);
+   r.nodes+=a.nodes+b.nodes;r.qnodes+=a.qnodes+b.qnodes;
+   r.tt_hits+=a.tt_hits+b.tt_hits;r.tt_stores+=a.tt_stores+b.tt_stores;
+   r.cutoffs+=a.cutoffs+b.cutoffs;
+   const bool complete=a.depth==depth&&b.depth==depth;
+   Level lv;lv.depth=depth;lv.ms=millis()-begin;lv.nodes=a.nodes+b.nodes;
+   lv.qnodes=a.qnodes+b.qnodes;lv.complete=complete;r.levels.push_back(lv);
+   if(!complete){r.reason="stop";break;}
+   // Non-contending scouts return -INF: a verified winner still exists.
+   const bool choose_b=b.has_move&&b.score>a.score;
+   r.best=choose_b?b.best:a.best;r.score=choose_b?b.score:a.score;
+   r.depth=depth;r.reason="depth-limit";
+  }
+ }
+ r.elapsed_ms=millis()-begin;
+#else
  Engine e(neural,millis,[]{service();return request_stop||request_quit||!connected;},read_memory,config::QDEPTH);
  auto r=e.search(board,config::DEPTH,config::TIMEOUT_MS);
+#endif
  for(const auto& l:r.levels)debug_log("LEVEL depth=%d status=%s elapsed_ms=%llu nodes=%llu qnodes=%llu heap_used=%ld heap_free=%ld stack_gap_approx=%ld\n",l.depth,l.complete?"complete":"aborted",(unsigned long long)l.ms,(unsigned long long)l.nodes,(unsigned long long)l.qnodes,(long)l.mem.heap_used,(long)l.mem.heap_free,(long)l.mem.stack_margin);
  debug_log("SEARCH elapsed_ms=%llu nodes=%llu qnodes=%llu nps=%llu depth=%d tt_hits=%llu tt_stores=%llu cutoffs=%llu reason=%s\n",(unsigned long long)r.elapsed_ms,(unsigned long long)r.nodes,(unsigned long long)r.qnodes,(unsigned long long)(r.nodes*1000/(r.elapsed_ms?r.elapsed_ms:1)),r.depth,(unsigned long long)r.tt_hits,(unsigned long long)r.tt_stores,(unsigned long long)r.cutoffs,r.reason.c_str());
 #ifdef PICOSARGON_STEROIDS
@@ -94,7 +209,20 @@ void run_search(){
   (unsigned long long)r.see_calls,(unsigned long long)r.see_rejected,(unsigned long long)r.razor_attempts,(unsigned long long)r.razor_cuts,(unsigned long long)r.nodes);
 #endif
  debug_log("SEARCH_ID=%lu phase=finished reason=%s\n",(unsigned long)search_id,r.reason.c_str());
- if(!request_quit&&connected){send_line("info depth "+std::to_string(r.depth)+" score cp "+std::to_string(r.score)+" nodes "+std::to_string(r.nodes));send_line("bestmove "+(r.has_move?Board::notation(r.best):"0000"));}
+ if(!request_quit&&connected){
+   // UCI contract: ply = half-move index since the initial position; cp always from White's perspective.
+   const uint64_t ply = uint64_t(board.fullmove > 0 ? board.fullmove - 1 : 0)*2ULL
+                        + (board.turn == -1 ? 1ULL : 0ULL);
+   const int cp_white = board.turn == 1 ? r.score : -r.score;
+   const uint64_t elapsed_ms = r.elapsed_ms;
+   const uint64_t nps = elapsed_ms ? r.nodes*1000ULL/elapsed_ms : 0ULL;
+   send_line("info ply "+std::to_string(ply)+" depth "+std::to_string(r.depth)
+             +" score cp "+std::to_string(cp_white)
+             +" nodes "+std::to_string(r.nodes)
+             +" time "+std::to_string(elapsed_ms)
+             +" nps "+std::to_string(nps));
+   send_line("bestmove "+(r.has_move?Board::notation(r.best):"0000"));
+  }
  }catch(const std::exception& ex){debug_log("SEARCH error: %s\n",ex.what());session_error=true;++recoverable_errors;if(connected){send_line(std::string("info string error SEARCH ")+ex.what());send_line("bestmove 0000");}}
  status_led(session_error?LedState::Recoverable:(wifi_up?LedState::Ready:LedState::NoWiFi));
 }
@@ -191,7 +319,7 @@ int main(){
  if constexpr(config::DEBUG){
   while(!stdio_usb_connected())sleep_ms(100);
   sleep_ms(100);
-  debug_log("%s BOOT (USB debug connected)\n",config::UCI_NAME);
+  debug_log("%s BOOT (USB debug connected)\n",VERSION);
   if (pll_requested != 0u) {
    if (pll_requested < 120u || pll_requested > 250u) {
     debug_log("PLL_SYS rechazado: %u MHz (rango 120..250); reloj sin cambios: %lu MHz\n",
@@ -213,12 +341,33 @@ int main(){
  status_led(LedState::Init);
  debug_log("BOOT watchdog_reboot=%d\n",int(watchdog_caused_reboot()));
  watchdog_enable(8000,true);
- try{neural.load_blob(GRUMPY_DATA,GRUMPY_LENGTH);}
+ try{
+#ifdef PICOSARGON_TWINS
+  neural.load_blob(TWINS_GRUMPY_A,TWINS_GRUMPY_BYTES);
+  twin_neural.load_blob(TWINS_GRUMPY_B,TWINS_GRUMPY_BYTES);
+#else
+  neural.load_blob(GRUMPY_DATA,GRUMPY_LENGTH);
+#endif
+ }
  catch(const std::exception& e){
   debug_log("FATAL Grumpy: %s\n",e.what());
   status_led(LedState::Fatal);
   while(true){service();sleep_ms(10);}
  }
+#ifdef PICOSARGON_TWINS
+ debug_log("TWINS compiled ON: cores=2 alpha=cooperative, core1_stack=16384 bytes\n");
+ multicore_launch_core1_with_stack(twin_worker,twin_stack,sizeof(twin_stack));
+ const uint64_t twin_ready_deadline=millis()+2000;
+ while(!twin_ready.load(std::memory_order_acquire) && millis()<twin_ready_deadline){
+  watchdog_update();sleep_ms(1);
+ }
+ if(twin_ready.load(std::memory_order_acquire))
+  debug_log("TWINS core1 launched=1 ready=1 stack_bytes=%u\n",unsigned(sizeof(twin_stack)));
+ else
+  debug_log("TWINS FATAL core1 launched=1 ready=0: search disabled\n");
+#else
+ debug_log("TWINS compiled OFF: original one-core search\n");
+#endif
  cyw43_arch_enable_sta_mode();
  status_led(LedState::NoWiFi);
  next_wifi_attempt=0; // primer intento inmediato; reintentos cada 10s

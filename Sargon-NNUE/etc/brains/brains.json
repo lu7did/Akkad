@@ -78,6 +78,20 @@
       "depth": 2,
       "qdepth": 0
     },
+     "belly": {
+        "player": "bellman",
+        "evaluator": "bellmanR",
+        "network": "../etc/bellman/bellman.json",
+        "alternate-evaluator": "grumpy",
+        "alternate-network": "../../../networks/grumpy/grumpy.bin",
+        "bellman-nmin": 2,
+        "bellman-alpha": 1.0,
+        "bellman-lambda": 0.25,
+        "bellman-gamma": 1.0,
+        "depth": 2,
+        "qdepth": 2,
+        "tmax": 15000
+    },
     "aegir": {
       "evaluator": "npz",
       "player": "sargon-plus",
@@ -215,6 +229,12 @@
       "player": "external",
       "evaluator": "null",
       "url" :  "picosargon.local:6110",
+      "rating_elo": 400
+    },
+    "manon": {
+      "player": "external",
+      "evaluator": "null",
+      "url" :  "192.168.68.109:6110",
       "rating_elo": 400
     },
     "alphie": {

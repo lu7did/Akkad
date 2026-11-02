@@ -39,7 +39,11 @@ int Engine::see(Board& b,Move first,int limit){
  int n=0,side=-1;
  try{
   while(n<limit){
+   #ifdef PICOSARGON_TWINS
+   auto& legal=twin_see_moves_;b.legal(legal,twin_see_candidates_);
+#else
    std::vector<Move> legal;b.legal(legal);
+#endif
    Move chosen{};int smallest=1000000;bool found=false;
    for(Move m:legal){
     if(m.to!=target||!b.is_capture(m))continue;
@@ -61,6 +65,17 @@ int Engine::see(Board& b,Move first,int limit){
  return gains[0];
 }
 #endif
+#ifdef PICOSARGON_TWINS
+void Engine::twin_prepare_buffers(){
+ if(twin_see_moves_.capacity()<128){twin_see_moves_.reserve(128);++twin_allocations_;}
+ if(twin_see_candidates_.capacity()<128){twin_see_candidates_.reserve(128);++twin_allocations_;}
+ for(auto& f:twin_frames_){
+  if(f.moves.capacity()<96){f.moves.reserve(96);++twin_allocations_;}
+  if(f.candidates.capacity()<128){f.candidates.reserve(128);++twin_allocations_;}
+  if(f.rated.capacity()<96){f.rated.reserve(96);++twin_allocations_;}
+ }
+}
+#endif
 void Engine::order(Board& b,std::vector<Move>& ms,int ply,Move ttmove){
  const int side=b.turn==1?0:1;
  auto rank=[&](Move m)->int{
@@ -71,7 +86,12 @@ void Engine::order(Board& b,std::vector<Move>& ms,int ply,Move ttmove){
 #ifdef PICOSARGON_STEROIDS
  // Pre-score once: SEE is too expensive inside a sort comparator.
  struct Rated {Move move;int score;};
+#ifdef PICOSARGON_TWINS
+ auto& rated=twin_frames_[twin_frame_depth_-1].rated;
+ rated.clear();
+#else
  std::vector<Rated> rated;rated.reserve(ms.size());
+#endif
  for(Move m:ms){
   int score=rank(m);
   if((b.is_capture(m)||m.promo)&&!(m==ttmove)){
@@ -81,16 +101,39 @@ void Engine::order(Board& b,std::vector<Move>& ms,int ply,Move ttmove){
   }
   rated.push_back({m,score});
  }
+#ifdef PICOSARGON_TWINS
+ for(size_t i=1;i<rated.size();++i){auto item=rated[i];size_t j=i;
+  while(j>0 && rated[j-1].score<item.score){rated[j]=rated[j-1];--j;}rated[j]=item;}
+#else
  std::stable_sort(rated.begin(),rated.end(),[](const Rated& a,const Rated& b){return a.score>b.score;});
+#endif
  for(size_t i=0;i<ms.size();++i)ms[i]=rated[i].move;
 #else
+#ifdef PICOSARGON_TWINS
+ // Stable in-place insertion sort: no temporary heap buffer from stable_sort.
+ // Cache scores once per move to avoid rescoring in the comparison loop.
+ // An insertion-sort is efficient for ordered positions and small move lists.
+ for(size_t i=1;i<ms.size();++i){Move m=ms[i];const int v=rank(m);size_t j=i;
+  while(j>0 && rank(ms[j-1])<v){ms[j]=ms[j-1];--j;}ms[j]=m;}
+#else
  std::stable_sort(ms.begin(),ms.end(),[&](Move a,Move c){return rank(a)>rank(c);});
+#endif
 #endif
 }
 int Engine::negamax(Board& b,int depth,int qleft,int alpha,int beta,int ply,bool pv){
  ++nodes_;if(depth<=0)++qnodes_;if((nodes_&15)==0)check();
  bool checked=b.in_check();
- if(b.draw()){std::vector<Move> terminal_legal;b.legal(terminal_legal);if(!terminal_legal.empty()||!checked)return 0;}
+ if(b.draw()){
+#ifdef PICOSARGON_TWINS
+  // Avoid extra heap objects for draw detection; reuse this frame's scratch.
+  if(twin_frame_depth_<TWIN_FRAMES){
+   auto& f=twin_frames_[twin_frame_depth_];b.legal(f.moves,f.candidates);
+   if(!f.moves.empty()||!checked)return 0;
+  }else {std::vector<Move> terminal_legal;b.legal(terminal_legal);if(!terminal_legal.empty()||!checked)return 0;}
+#else
+  std::vector<Move> terminal_legal;b.legal(terminal_legal);if(!terminal_legal.empty()||!checked)return 0;
+#endif
+ }
  if(ply>=MAX_PLY)return net_.evaluate(b)*b.turn;
  // A bounded check extension permits evasions; never extends indefinitely.
  if(depth>0&&checked&&ply<12)++depth;
@@ -99,7 +142,21 @@ int Engine::negamax(Board& b,int depth,int qleft,int alpha,int beta,int ply,bool
  // Repetition and fifty-move contexts can alter scores: do not cache them.
  bool tt_safe=depth>0&&b.halfmove<80&&b.repetitions()==1;
  if(tt_safe){key=hash(b);slot=&tt_[key%TT_SIZE];if(slot->key==key){ttmove=slot->best;if(slot->depth>=depth){++tt_hits_;if(slot->bound==0)return slot->score;if(slot->bound==1&&slot->score>=beta)return slot->score;if(slot->bound==2&&slot->score<=alpha)return slot->score;}}}
+ #ifdef PICOSARGON_TWINS
+ // Advance frame before descending: parent's moves remain stable during recursion.
+ struct FrameGuard {unsigned& depth;FrameGuard(unsigned& d):depth(d){++depth;}~FrameGuard(){--depth;}};
+ const unsigned frame=twin_frame_depth_;
+ if(frame>=TWIN_FRAMES) return net_.evaluate(b)*b.turn;
+ FrameGuard guard(twin_frame_depth_);
+ auto& scratch=twin_frames_[frame];
+ auto& moves=scratch.moves;
+ const size_t move_cap=moves.capacity(),candidate_cap=scratch.candidates.capacity();
+ b.legal(moves,scratch.candidates);
+ if(moves.capacity()>move_cap)++twin_allocations_;
+ if(scratch.candidates.capacity()>candidate_cap)++twin_allocations_;
+#else
  std::vector<Move> moves;b.legal(moves);
+#endif
  if(moves.empty())return checked?-MATE+ply:0;
  if(b.draw())return 0;
  if(depth<=0){
@@ -208,4 +265,63 @@ SearchResult Engine::search(Board& b,int max_depth,uint64_t time_limit_ms){
 #endif
  return r;
 }
+#ifdef PICOSARGON_TWINS
+SearchResult Engine::search_partition(Board& b,const std::vector<Move>& roots,int depth,
+                                     uint64_t deadline_ms,std::atomic<int>& shared_alpha){
+ SearchResult r;auto start=clock_();deadline_=deadline_ms;
+ nodes_=qnodes_=tt_hits_=tt_stores_=cutoffs_=0;
+ twin_frame_depth_=0;twin_allocations_=0;twin_prepare_buffers();
+#ifdef PICOSARGON_STEROIDS
+ asp_attempts_=asp_retries_=asp_fail_low_=asp_fail_high_=see_calls_=see_rejected_=razor_attempts_=razor_cuts_=0;
+#endif
+ r.reason="complete";
+ if(roots.empty()){r.depth=depth;return r;}
+ r.best=roots.front();r.has_move=true;
+ int best=-INF;
+ try {
+  for(Move m:roots){
+   check();
+   const int threshold=shared_alpha.load(std::memory_order_acquire);
+   ++r.twin_alpha_reads;
+   int value=-INF;
+   b.push(m);
+   try {
+    // No scout for the first candidate without an established global lower bound.
+    // A fail-low proves the candidate cannot beat the incumbent.  A fail-high
+    // is a bound and MUST be verified.  Verify with an aspiration-sized window
+    // [threshold, INF], not [-INF, INF]; don't revisit known-losing branches.
+    bool candidate=(threshold<=-INF+1||threshold>=INF-1);
+    if(!candidate){
+     ++r.twin_scouts;const auto n0=nodes_;
+     value=-negamax(b,depth-1,qdepth_,-threshold-1,-threshold,1,false);
+     r.twin_scout_nodes+=nodes_-n0;
+     candidate=value>threshold;
+     if(!candidate){++r.twin_prunes;++r.twin_research_avoided;}
+    }
+    if(candidate){
+     ++r.twin_verifications;const auto n0=nodes_;
+     // For a finite threshold this yields a LOWER bound on fail-high and
+     // an EXACT score if below the upper bound. Since beta=INF, successful
+     // principal results are exact (except terminal MATE bounds).
+     const int lo=threshold<=-INF+1?-INF:threshold;
+     value=-negamax(b,depth-1,qdepth_,-INF,-lo,1,true);
+     r.twin_verify_nodes+=nodes_-n0;
+     int prior=shared_alpha.load(std::memory_order_relaxed);
+     while(value>prior && !shared_alpha.compare_exchange_weak(
+       prior,value,std::memory_order_release,std::memory_order_relaxed)){}
+     if(value>prior)++r.twin_alpha_publishes;
+    }else value=-INF;
+   }catch(...){b.pop();throw;}
+   b.pop();
+   if(value>best){best=value;r.best=m;}
+  }
+  r.score=best;r.depth=depth;
+ }catch(const StopSignal&){r.reason="stop";r.depth=0;}
+ r.elapsed_ms=clock_()-start;r.nodes=nodes_;r.qnodes=qnodes_;
+ r.tt_hits=tt_hits_;r.tt_stores=tt_stores_;r.cutoffs=cutoffs_;
+ r.twin_allocations=twin_allocations_;
+ return r;
+}
+#endif
+
 }

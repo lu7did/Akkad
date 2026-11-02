@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\users\pedro\github\bobby\akkad\Sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\users\pedro\github\bobby\akkad\Sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "C:\users\pedro\github\bobby\akkad\Sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
+    evaluator, player = build_engine(args)
+                        ~~~~~~~~~~~~^^^^^^
+  File "C:\users\pedro\github\bobby\akkad\Sargon-NNUE\src\sargon_nnue\factory.py", line 156, in build_engine
+    evaluator = create_evaluator(
+        evaluator_kind,
+    ...<13 lines>...
+        z_uniform_mix=g("z_uniform_mix",0.01),z_policy=g("z_policy","uniform"),audit=audit,
+    )
+  File "C:\users\pedro\github\bobby\akkad\Sargon-NNUE\src\sargon_nnue\evaluators\__init__.py", line 35, in create_evaluator
+    return BellmanREvaluator(network,nmin=bellman_nmin,alpha=bellman_alpha,lam=bellman_lambda,gamma=bellman_gamma,alternate_network=alternate_network, alternate_evaluator=alternate_evaluator)
+  File "C:\users\pedro\github\bobby\akkad\Sargon-NNUE\src\sargon_nnue\evaluators\bellman_r.py", line 18, in __init__
+    size=Path(network).stat().st_size
+         ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pedro\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 654, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] El sistema no puede encontrar la ruta especificada: 'data\\bellman.json'

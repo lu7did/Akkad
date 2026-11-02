@@ -54,13 +54,13 @@ FILE_KEYS = ("network", "engine-path", "stockfish-path", "lc0-weights", "lc0-uci
 MOVE_FIELDS = (
     "brain", "player", "evaluator", "backend", "mode", "round", "index",
     "fen", "turn", "move_uci", "wall_ms", "engine_ms", "nodes", "depth",
-    "status", "error",
+    "status", "error", "decision_method", "bellman_visits", "bellman_w", "bellman_d", "bellman_l", "bellman_q", "bellman_s", "bellman_legal_examined", "bellman_hash_hits", "bellman_qualified",
 )
 SUMMARY_FIELDS = (
     "brain", "player", "evaluator", "backend", "attempted", "ok", "failed",
     "total_s", "mean_ms", "median_ms", "p95_ms", "min_ms", "max_ms",
     "nodes_total", "nodes_samples", "engine_ms_total", "nodes_per_second",
-    "ms_per_node", "status",
+    "ms_per_node", "status", "bellman_table_decisions", "nnue_fallback_decisions",
 )
 
 
@@ -81,12 +81,14 @@ class BenchmarkUCI(UCI):
 
     def __init__(self, *args, **kwargs):
         self.last_info: dict[str, int] = {}
+        self.last_bellman: dict = {}
         super().__init__(*args, **kwargs)
 
     def until(self, expected, timeout):
         if expected != "bestmove ":
             return super().until(expected, timeout)
         self.last_info = {}
+        self.last_bellman = {}
         start = time.monotonic()
         deadline = start + timeout
         next_heartbeat = start + self.heartbeat if self.heartbeat is not None else deadline
@@ -115,6 +117,13 @@ class BenchmarkUCI(UCI):
                     f"motor {self.label} cerró salida esperando {expected}; "
                     f"revisar {self.log.name}"
                 )
+            if line.startswith("info string bellman "):
+                try:
+                    item = json.loads(line[len("info string bellman "):])
+                    if isinstance(item, dict) and item.get("method") in ("BELLMAN", "NNUE"):
+                        self.last_bellman = item
+                except (ValueError, TypeError):
+                    pass
             if line.startswith("info "):
                 self.last_info.update(_get_info(line))
             if line.startswith(expected):
@@ -222,6 +231,8 @@ def summarize(rows: list[dict], identity: str, config: dict) -> dict:
         "engine_ms_total": fmt(engine_ms_total),
         "nodes_per_second": fmt(nps, 1),
         "ms_per_node": fmt(wall_ms_per_node, 6),
+        "bellman_table_decisions": sum(r.get('decision_method') == 'BELLMAN' for r in valid),
+        "nnue_fallback_decisions": sum(r.get('decision_method') == 'NNUE' for r in valid),
         "status": "OK" if rows and len(valid) == len(rows) else "ERROR",
     }
 
@@ -339,8 +350,8 @@ def report(summaries: list[dict], max_blocks: int = 24) -> None:
     for row in missing:
         print(
             f"{_identity_text(row, layout)} "
-            f"⏳ {' ' * max_blocks} {'N/D'.rjust(layout['per_node'])} "
-            "(motor sin telemetría completa de nodos)",
+            f"⏳ {' ' * max_blocks} " +
+            "N/D (muestras de búsqueda incompletas o sin nodos)",
             flush=True
         )
 
@@ -374,8 +385,8 @@ def report(summaries: list[dict], max_blocks: int = 24) -> None:
     for row in nps_missing:
         print(
             f"{_identity_text(row, layout)} "
-            f"⏳ {' ' * max_blocks} {'N/D'.rjust(nps_width)} nps "
-            "(motor sin telemetría completa de nodos/tiempo)",
+            f"⏳ {' ' * max_blocks} " +
+            "N/D nps (muestras de búsqueda incompletas)",
             flush=True
         )
 
@@ -387,13 +398,25 @@ def request_move(engine: BenchmarkUCI, board: chess.Board, timeout: float,
     move = None
     status, error = "OK", ""
     engine.last_info = {}
+    engine.last_bellman = {}
     try:
         move = engine.move(board, timeout)
     except Exception as exc:
         status, error = "ERROR", f"{type(exc).__name__}: {exc}"
     wall_ms = (time.perf_counter() - start) * 1000.0
     info = engine.last_info
+    decision = engine.last_bellman if hasattr(engine, 'last_bellman') else {}
     row = {
+        "decision_method": decision.get('method', ''),
+        "bellman_visits": decision.get('visits', ''),
+        "bellman_w": decision.get('W', ''),
+        "bellman_d": decision.get('D', ''),
+        "bellman_l": decision.get('L', ''),
+        "bellman_q": decision.get('Q', ''),
+        "bellman_s": decision.get('S', ''),
+        "bellman_legal_examined": decision.get('legal_examined', ''),
+        "bellman_hash_hits": decision.get('hash_hits', ''),
+        "bellman_qualified": decision.get('qualified', ''),
         "brain": identity,
         "player": config["player"],
         "evaluator": config["evaluator"],
@@ -405,7 +428,9 @@ def request_move(engine: BenchmarkUCI, board: chess.Board, timeout: float,
         "turn": "W" if board.turn == chess.WHITE else "B",
         "move_uci": move.uci() if move else "",
         "wall_ms": f"{wall_ms:.3f}",
-        "engine_ms": info.get("time", ""),
+        "engine_ms": (f"{float(decision['elapsed_ms']):.6f}"
+                      if decision.get('method') == 'BELLMAN' and 'elapsed_ms' in decision
+                      else info.get("time", "")),
         "nodes": info.get("nodes", ""),
         "depth": info.get("depth", ""),
         "status": status,
@@ -419,7 +444,11 @@ def _log_move(row: dict) -> None:
         f"   {row['index']:>2} {row['turn']} {row['move_uci'] or '—':<6} "
         f"{float(row['wall_ms']):>10.2f} ms "
         f"nodes={row['nodes'] if row['nodes'] != '' else 'N/D'} "
-        f"{row['status']}", flush=True
+        f"{row['status']}" + (
+            f" · BELLMAN legales={row['bellman_legal_examined']} hits={row['bellman_hash_hits']} N={row['bellman_visits']} W/D/L={row['bellman_w']}/{row['bellman_d']}/{row['bellman_l']} Q={row['bellman_q']} S={row['bellman_s']}"
+            if row.get('decision_method') == 'BELLMAN' else
+            f" · NNUE depth={row['depth']}" if row.get('decision_method') == 'NNUE' else ''
+        ), flush=True
     )
     if row["error"]:
         print(f"      ERROR: {row['error']}", flush=True)

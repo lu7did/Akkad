@@ -43,6 +43,7 @@ class UCI:
         self.identity = identity or label
         self.heartbeat = heartbeat
         self.verbose = verbose
+        self.last_info = []  # UCI info asociadas a la búsqueda actual
         self.log = open(log, 'w', encoding='utf-8')
         # Windows: separate UCI children from the console Ctrl+C sent to MATCH.
         # MATCH can then stop/kill them explicitly in close(), preserving results.
@@ -102,6 +103,8 @@ class UCI:
                 continue
             if line is None:
                 raise RuntimeError(f'motor {self.label} cerró salida esperando {expected}; revisar {self.log.name}')
+            if expected == 'bestmove ' and line.startswith('info '):
+                self.last_info.append(line)
             if line.startswith(expected):
                 return line
 
@@ -114,6 +117,7 @@ class UCI:
         else:
             self.send('position fen ' + board.fen())
         # Este Sargon-NNUE usa la profundidad configurada al iniciar el motor.
+        self.last_info = []
         self.send('go')
         reply = self.until('bestmove ', timeout)
         parts=reply.split()
@@ -142,6 +146,102 @@ class UCI:
 
 
 
+def format_uci_telemetry(lines):
+    """Resumen de la última búsqueda; líneas de texto UCI, sin dependencia del motor."""
+    import json
+    decision = None
+    perf = {}
+    for raw in lines:
+        if raw.startswith('info string bellman '):
+            try:
+                obj = json.loads(raw[len('info string bellman '):])
+                if isinstance(obj, dict) and obj.get('method') in ('BELLMAN', 'NNUE'):
+                    decision = obj
+            except (ValueError, TypeError):
+                pass
+        elif raw.startswith('info '):
+            tokens = raw.split()
+            for key in ('depth', 'nodes', 'time', 'nps'):
+                if key in tokens:
+                    i = tokens.index(key)
+                    if i + 1 < len(tokens):
+                        try: perf[key] = int(tokens[i+1])
+                        except ValueError: pass
+            if 'score' in tokens:
+                i = tokens.index('score')
+                if i + 2 < len(tokens) and tokens[i+1] in ('cp', 'mate'):
+                    perf['score'] = tokens[i+1] + '=' + tokens[i+2]
+    if not decision and not perf:
+        return None
+    method = str((decision or {}).get('method') or 'UCI').upper()
+    fields = [f'{key}={perf[key]}' for key in ('depth', 'nodes', 'time', 'nps') if key in perf]
+    if perf.get('time', 0) > 0 and 'nps' not in perf and 'nodes' in perf:
+        fields.append(f"nps={1000*perf['nodes']//perf['time']}")
+    if method != 'BELLMAN' and 'score' in perf:
+        fields.append(perf['score'])
+    if decision:
+        # Historial de entrenamiento, diferente del número de nodos de esta decisión.
+        for key in ('legal_moves','legales','hits','N','W','D','L','Q','S'):
+            if key in decision and decision[key] is not None:
+                fields.append(f'{key}={decision[key]}')
+        if 'WDL' in decision:
+            fields.append(f"WDL={decision['WDL']}")
+    return method + (' ' + ' '.join(fields) if fields else '')
+
+
+def bellman_decision(lines):
+    """Última decisión Bellman emitida por UCI; datos estructurados, no texto de pantalla."""
+    for line in reversed(lines):
+        prefix = 'info string bellman '
+        if line.startswith(prefix):
+            try:
+                obj = json.loads(line[len(prefix):])
+            except (ValueError, TypeError):
+                return None
+            return obj if isinstance(obj, dict) and obj.get('method') in ('BELLMAN', 'NNUE') else None
+    return None
+
+
+def new_bellman_counters():
+    return dict(consultas=0, estados_con_hits=0, hits=0, movimientos_legales=0,
+                candidatos_validos=0, posiciones_con_politica=0,
+                decisiones_cache=0, fallback=0, observaciones_elegidas=0,
+                elegidas_con_observaciones=0, n_elegida=[])
+
+
+def update_bellman_counters(stats, decision):
+    stats['consultas'] += 1
+    hits = int(decision.get('hash_hits', decision.get('bellman_hash_hits', 0)))
+    qualified = int(decision.get('qualified', 0))
+    stats['hits'] += hits
+    stats['movimientos_legales'] += int(decision.get('legal_examined', decision.get('bellman_legal_examined', 0)))
+    if hits: stats['estados_con_hits'] += 1
+    stats['candidatos_validos'] += qualified
+    if qualified: stats['posiciones_con_politica'] += 1
+    if decision['method'] == 'BELLMAN':
+        stats['decisiones_cache'] += 1
+        n = int(decision.get('visits', 0))
+        stats['observaciones_elegidas'] += n
+        stats['elegidas_con_observaciones'] += int(n > 0)
+        stats['n_elegida'].append(n)
+    else:
+        stats['fallback'] += 1
+
+
+def show_bellman_counters(game_no, side, brain, stats):
+    n = stats['consultas']
+    if not n: return
+    selected = stats['n_elegida']
+    mean_n = sum(selected) / len(selected) if selected else 0
+    print(f'📊 Bellman Game({game_no}) {side} ({brain}): '
+          f'consultas={n} estados_hit={stats["estados_con_hits"]}/{n} '
+          f'politicas_elegibles={stats["posiciones_con_politica"]}/{n} '
+          f'decisiones_cache={stats["decisiones_cache"]} fallback_NNUE={stats["fallback"]} '
+          f'hits_acciones={stats["hits"]} candidatos_validos={stats["candidatos_validos"]} '
+          f'N_elegida_total={stats["observaciones_elegidas"]} '
+          f'N_elegida_media={mean_n:.1f}', flush=True)
+
+
 # Private protocol for RALLY: line-framed updates over a redirected stdout pipe.
 # Keeping real terminal updates separate avoids PowerShell/Python CR translation.
 VERSION='0.6.168'
@@ -161,6 +261,13 @@ def add_side(ap, side):
     for key,default in [('z-temperature',100.0),('z-value-scale',800.0),('z-uniform-mix',0.01)]:
         ap.add_argument(p+key,type=float,default=default)
     ap.add_argument(p+'lc0-cp-scale',type=float,default=400.0)
+    # BellmanR: argumentos por participante; mantener sincronizados con cli_common.add_engine_args.
+    ap.add_argument(p+'alternate-evaluator', choices=['grumpy'], default='grumpy')
+    ap.add_argument(p+'alternate-network', default=None)
+    ap.add_argument(p+'bellman-nmin', type=int, default=2)
+    ap.add_argument(p+'bellman-alpha', type=float, default=1.0)
+    ap.add_argument(p+'bellman-lambda', type=float, default=0.25)
+    ap.add_argument(p+'bellman-gamma', type=float, default=1.0)
     ap.add_argument(p+'boost',default='0')
     ap.add_argument(p+'turbo',default='0')
     ap.add_argument(p+'extra',default='',help='argumentos adicionales para el listener; separados con shlex')
@@ -168,7 +275,7 @@ def add_side(ap, side):
 def cmd_side(a,side):
     import shlex
     base=[a.python,'-m','sargon_nnue.sargon_listen','--mode','STDIN']
-    keys=['player','evaluator','model','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','depth','qdepth','dmax','tmax','movetime','timeout','nodes','stockfish-threads','stockfish-hash','stockfish-timeout','stockfish-check-depth','stockfish-cache','lc0-uci-path','lc0-uci-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout','lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale','az-simulations','az-cpuct','z-policy','z-temperature','z-value-scale','z-uniform-mix','boost','turbo']
+    keys=['player','evaluator','model','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','depth','qdepth','dmax','tmax','movetime','timeout','nodes','stockfish-threads','stockfish-hash','stockfish-timeout','stockfish-check-depth','stockfish-cache','lc0-uci-path','lc0-uci-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout','lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale','az-simulations','az-cpuct','z-policy','z-temperature','z-value-scale','z-uniform-mix','boost','turbo','alternate-evaluator','alternate-network','bellman-nmin','bellman-alpha','bellman-lambda','bellman-gamma']
     for key in keys:
         value=getattr(a,side+'_'+key.replace('-','_'))
         if value is not None:base += ['--'+key,str(value)]
@@ -328,6 +435,9 @@ def main(argv=None):
     ap.add_argument('--timeout',type=float,default=90,help='límite supervisor por jugada en segundos')
     ap.add_argument('--heartbeat',type=float,default=5)
     ap.add_argument('--verbose',action='store_true',help='mostrar cada jugada y la espera UCI')
+    ap.add_argument('--telemetry',action='store_true',help='mostrar estadísticas UCI de cada jugada (Bellman/NNUE)')
+    ap.add_argument('--collect',action='store_true',help='registrar silenciosamente misses Bellman y resultados, sin activar --telemetry ni --verbose')
+    ap.add_argument('--bellman-misses-jsonl',help='ruta JSONL de misses Bellman; su presencia activa la recolección sin --collect')
     ap.add_argument('--boost-audit-dir',help='directorio JSONL por participante y registro de latencias; no altera las jugadas')
     ap.add_argument('--max-plies',type=int,default=200)
     ap.add_argument('--csv',help='archivo de partidas CSV')
@@ -448,6 +558,13 @@ def main(argv=None):
                                               idA=a.idA,idB=a.idB,**fields),ensure_ascii=False)+'\n')
 
     csv_handle=None;pgn_handle=None;audit=None
+    bellman_misses_handle=None
+    run_id=__import__('uuid').uuid4().hex
+    if a.collect or a.bellman_misses_jsonl:
+        if not a.bellman_misses_jsonl:
+            a.bellman_misses_jsonl = str(Path(a.csv or a.pgn or 'sargon_match').parent / 'bellman_misses.jsonl')
+        dest=Path(a.bellman_misses_jsonl);dest.parent.mkdir(parents=True,exist_ok=True)
+        bellman_misses_handle=dest.open('a',encoding='utf-8',buffering=1)
     scores={'A':0.0,'B':0.0};counts={'A':0,'B':0,'DRAW':0,'INCOMPLETE':0};tot_plies=0
     # Tiempo UCI acumulado por participante a lo largo de toda la corrida.
     total_player_times={'A':0.0,'B':0.0}
@@ -493,6 +610,7 @@ def main(argv=None):
                 print(prefix + ' ♟️ -- ⏱️ --.-s (IN_PROGRESS)', flush=True)
                 trace('game_start',game=game_no,white=white,black=black,fen=board.fen(),opening=moves[:])
                 start=time.monotonic();reason='';result='*'
+                bellman_game_stats={'A':new_bellman_counters(),'B':new_bellman_counters()}
                 game_fault_side=None
                 try:
                     for eng in engines.values():
@@ -525,6 +643,33 @@ def main(argv=None):
                               uci=m.uci(),response_ms=round(elapsed_move*1000,3),
                               boost=str(getattr(a,side.lower()+'_boost')),
                               turbo=str(getattr(a,side.lower()+'_turbo')))
+                        decision=bellman_decision(engines[side].last_info)
+                        if decision is not None and player.lower()=='bellman':
+                            update_bellman_counters(bellman_game_stats[side],decision)
+                            if decision['method']=='NNUE' and bellman_misses_handle is not None:
+                                # Registro de experiencia, NO asignar victorias/derrotas.
+                                event=dict(schema='BELLMAN-MISS-1',event='fallback',run_id=run_id,
+                                           game=game_no,pair=pair+1,ply=ply,side=side,
+                                           color='white' if board.turn else 'black',
+                                           brain=a.idA if side=='A' else a.idB,
+                                           fen=fen_before,move_uci=m.uci(),
+                                           state_key=' '.join(fen_before.split()[:5]),
+                                           legal_examined=int(decision.get('bellman_legal_examined',decision.get('legal_examined',0))),
+                                           hash_hits=int(decision.get('bellman_hash_hits',decision.get('hash_hits',0))),
+                                           qualified=int(decision.get('qualified',0)),
+                                           depth=int(decision.get('depth',0)),
+                                           score_white_cp=decision.get('score_cp'),
+                                           time_ms=round(elapsed_move*1000,4),
+                                           timestamp_unix=time.time())
+                                bellman_misses_handle.write(json.dumps(event,ensure_ascii=False)+'\n')
+                        if a.telemetry:
+                            detail = format_uci_telemetry(engines[side].last_info)
+                            if detail:
+                                print(f'   🧠 Game({game_no}) ply({ply}) {piece} '
+                                      f'({player}|{evaluator}) {m.uci()} · {detail}', flush=True)
+                            else:
+                                print(f'   🧠 Game({game_no}) ply({ply}) {piece} '
+                                      f'({player}|{evaluator}) {m.uci()} · sin info UCI', flush=True)
                         board.push(m);moves.append(m.uci())
                         if audit and not board.is_game_over(claim_draw=True):
                             audit.evaluate(board,game_no,pair+1,ply,m.uci(),white,black)
@@ -565,6 +710,14 @@ def main(argv=None):
                 recorded_games+=1
                 for participant in ('A','B'):
                     total_player_times[participant]+=player_times[participant]
+                for _side in ('A','B'):
+                    show_bellman_counters(game_no,_side,
+                        (a.idA if _side=='A' else a.idB) or getattr(a,_side.lower()+'_player'),
+                        bellman_game_stats[_side])
+                if bellman_misses_handle is not None:
+                    bellman_misses_handle.write(json.dumps(dict(schema='BELLMAN-MISS-1',
+                        event='game_end',run_id=run_id,game=game_no,result=result,white=white,black=black,
+                        termination=reason,moves=board.ply()),ensure_ascii=False)+'\n')
                 trace('game_end',game=game_no,result=result,termination=reason,
                       plies=board.ply(),elapsed_sec=round(elapsed,3))
                 if result=='1/2-1/2':scores['A']+=.5;scores['B']+=.5;counts['DRAW']+=1
@@ -598,5 +751,6 @@ def main(argv=None):
         if audit:audit.close()
         if csv_handle:csv_handle.close()
         if pgn_handle:pgn_handle.close()
+        if bellman_misses_handle:bellman_misses_handle.close()
 
 if __name__=='__main__':raise SystemExit(main())

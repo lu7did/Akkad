@@ -17,7 +17,13 @@ public:
  int piece(int sq) const; bool attacked(int sq120,int by) const; bool in_check(int color=0) const;
  void pseudo(std::vector<Move>& out) const;
  void legal(std::vector<Move>& out);
+#ifdef PICOSARGON_TWINS
+ void legal(std::vector<Move>& out,std::vector<Move>& candidates);
+#endif
  void push(Move m); void pop();
+#ifdef PICOSARGON_TWINS
+ void reserve_search(size_t plies){undos_.reserve(plies);history_.reserve(plies+1);}
+#endif
  Move parse(const std::string& uci);
  static std::string notation(Move m);
  bool is_capture(Move m)const;

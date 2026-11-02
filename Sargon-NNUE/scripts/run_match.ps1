@@ -11,6 +11,12 @@
 #* run_match.ps1
 #* Runs chess matches using Sargon-NNUE
 #=================================================================================================================*
-.\sargon_match.ps1 --brain ../etc/brains/brains.json --pairs 2 --idA proteo --idB classic
-
+#.\sargon_match.ps1 --brain ../etc/brains/brains.json `
+#     --pairs 1 `
+#     --collect `
+#     --idA picoSargon --idB manon `
+#     --bellman-misses-jsonl "../data/bellman/bellman_audit.jsonl"
+.\sargon_match.ps1 --brain ../etc/brains/brains.json `
+     --pairs 1 `
+     --idA picoSargon --idB manon
 

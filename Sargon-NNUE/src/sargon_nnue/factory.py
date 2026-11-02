@@ -117,6 +117,8 @@ def build_engine(args, prefix: str = ""):
             if evaluator_kind == "null":
                 raise PlayerError("evaluator=null sólo es válido con player=stockfish, player=lc0, player=picosargon, player=picoalpha, player=AlphaZero-X86, player=picokeras, player=external o player=random")
 
+    if player_kind == "bellman" and evaluator_kind != "bellmanr":
+        raise PlayerError("player=bellman requiere evaluator=bellmanR")
     raw_depth = g("depth", None)
     if raw_depth is None:
         depth = STOCKFISH_DEFAULT_DEPTH if player_kind == "stockfish" else (4 if player_kind == "picosargon" else SARGON_DEFAULT_DEPTH)
@@ -155,6 +157,7 @@ def build_engine(args, prefix: str = ""):
         evaluator_kind,
         g("network", None),
         allow_new_npz=g("allow_new_npz", False),
+        bellman_nmin=g("bellman_nmin",2),bellman_alpha=g("bellman_alpha",1.0),bellman_lambda=g("bellman_lambda",0.25),bellman_gamma=g("bellman_gamma",1.0),alternate_network=g("alternate_network",None), alternate_evaluator=g("alternate_evaluator","grumpy"),
         cerebrum_a=g("cerebrum_a", None),
         cerebrum_b=g("cerebrum_b", None),
         stockfish_path=g("stockfish_path", None),

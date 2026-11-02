@@ -28,8 +28,11 @@ def create_evaluator(kind: str, network: str | None = None, *, allow_new_npz: bo
                      lc0_weights=None, lc0_backend="auto", lc0_backend_options="",
                      lc0_history="allow-incomplete", lc0_cache_size=10000, lc0_cp_scale=400.,
                      z_temperature=100.0, z_value_scale=800.0, z_uniform_mix=0.01,
-                     z_policy='uniform'):
+                     z_policy='uniform', bellman_nmin=2, bellman_alpha=1.0, bellman_lambda=0.25, bellman_gamma=1.0, alternate_network=None, alternate_evaluator="grumpy"):
     key = kind.strip().lower()
+    if key == "bellmanr":
+        from .bellman_r import BellmanREvaluator
+        return BellmanREvaluator(network,nmin=bellman_nmin,alpha=bellman_alpha,lam=bellman_lambda,gamma=bellman_gamma,alternate_network=alternate_network, alternate_evaluator=alternate_evaluator)
     if key == "microchess":
         from .microchess import MicrochessEvaluator
         return MicrochessEvaluator()

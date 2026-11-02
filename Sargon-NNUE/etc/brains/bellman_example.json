@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "bellman_test": {
+      "player": "bellman", "evaluator": "bellmanR",
+      "network": "data/bellman.json", "alternate-evaluator": "grumpy", "alternate-network": "data/grumpy.bin",
+      "bellman-nmin": 2, "bellman-alpha": 1.0,
+      "bellman-lambda": 0.25, "bellman-gamma": 1.0,
+      "depth": 4, "qdepth": 2, "tmax": 15000
+    }
+  }
+}

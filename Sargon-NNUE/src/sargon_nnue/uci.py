@@ -15,6 +15,7 @@
 from __future__ import annotations
 import sys
 import chess
+import json
 from . import __version__
 
 class UCISession:
@@ -72,7 +73,14 @@ class UCISession:
                         raise ValueError(f"player devolvió jugada ilegal antes de transmitir: {choice.move}")
                     if self.audit is not None and self.audit.enabled:
                         self.audit.event("uci_go_end", go_index=self._go_index, fen=board.fen(), bestmove=bestmove, source=choice.source, score_white_cp=choice.score_cp, depth=choice.depth, nodes=choice.nodes, elapsed_ms=choice.elapsed_ms)
-                    self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
+                    decision = getattr(self.player, 'last_decision', None)
+                    if isinstance(decision, dict) and decision.get('method') in ('BELLMAN','NNUE'):
+                        self.send('info string bellman ' + json.dumps(decision, ensure_ascii=True, separators=(',', ':')))
+                    if isinstance(decision, dict) and decision.get('method') == 'BELLMAN':
+                        # There is no calibrated CP equivalent of a WDL statistic.
+                        self.send(f"info depth 0 nodes {choice.nodes} time {max(1,round(choice.elapsed_ms))} nps {round(1000*choice.nodes/choice.elapsed_ms) if choice.elapsed_ms>0 else 0}")
+                    else:
+                        self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
                     self.send("bestmove "+bestmove)
                 elif line=="stop": pass
                 elif line.startswith("setoption name SargonResult"): pass
