@@ -166,22 +166,7 @@ void run_search(){
    }
    const uint64_t sync_wait_ms=millis()-barrier_start;
    const auto& b=twin_result;
-   debug_log("TWINS depth=%d core[0] moves=%u nodes=%llu ms=%llu status=%s\n",
-      depth,unsigned(left.size()),(unsigned long long)a.nodes,
-      (unsigned long long)core0_ms,a.reason.c_str());
-   debug_log("TWINS depth=%d core[1] moves=%u nodes=%llu ms=%llu status=%s\n",
-      depth,unsigned(right.size()),(unsigned long long)b.nodes,
-      (unsigned long long)b.elapsed_ms,b.reason.c_str());
-   debug_log("TWINS depth=%d sync_ms=%llu alpha [updates=%llu prunes=%llu scouts=%llu verifications=%llu] scout_nodes=%llu verify_nodes=%llu buffer_allocations=%llu research_avoided=%llu\n",
-      depth,(unsigned long long)sync_wait_ms,
-      (unsigned long long)(a.twin_alpha_publishes+b.twin_alpha_publishes),
-      (unsigned long long)(a.twin_prunes+b.twin_prunes),
-      (unsigned long long)(a.twin_scouts+b.twin_scouts),
-      (unsigned long long)(a.twin_verifications+b.twin_verifications),
-      (unsigned long long)(a.twin_scout_nodes+b.twin_scout_nodes),
-      (unsigned long long)(a.twin_verify_nodes+b.twin_verify_nodes),
-      (unsigned long long)(a.twin_allocations+b.twin_allocations),
-      (unsigned long long)(a.twin_research_avoided+b.twin_research_avoided));
+      // Telemetria TWINS/LEVEL conjunta: emitir ambas lineas al completar el nivel.
    twin_job.store(0,std::memory_order_release);
    r.nodes+=a.nodes+b.nodes;r.qnodes+=a.qnodes+b.qnodes;
    r.tt_hits+=a.tt_hits+b.tt_hits;r.tt_stores+=a.tt_stores+b.tt_stores;
@@ -189,6 +174,26 @@ void run_search(){
    const bool complete=a.depth==depth&&b.depth==depth;
    Level lv;lv.depth=depth;lv.ms=millis()-begin;lv.nodes=a.nodes+b.nodes;
    lv.qnodes=a.qnodes+b.qnodes;lv.complete=complete;r.levels.push_back(lv);
+    // Telemetria TWINS en cuatro lineas por profundidad; LEVEL se emite a continuacion.
+    debug_log("TWINS depth=%d core[0]{moves=%u nodes=%llu ms=%llu status=%s}\n",
+       depth,unsigned(left.size()),(unsigned long long)a.nodes,(unsigned long long)core0_ms,a.reason.c_str());
+    debug_log("TWINS depth=%d core[1]{moves=%u nodes=%llu ms=%llu status=%s}\n",
+       depth,unsigned(right.size()),(unsigned long long)b.nodes,(unsigned long long)b.elapsed_ms,b.reason.c_str());
+    debug_log("TWINS depth=%d sync_ms=%llu alpha[upd=%llu prune=%llu scouts=%llu verif=%llu]\n",
+       depth,(unsigned long long)sync_wait_ms,
+       (unsigned long long)(a.twin_alpha_publishes+b.twin_alpha_publishes),
+       (unsigned long long)(a.twin_prunes+b.twin_prunes),
+       (unsigned long long)(a.twin_scouts+b.twin_scouts),
+       (unsigned long long)(a.twin_verifications+b.twin_verifications));
+    debug_log("TWINS depth=%d scout_nodes=%llu verify_nodes=%llu buffer_allocations=%llu research_avoided=%llu\n",
+       depth,(unsigned long long)(a.twin_scout_nodes+b.twin_scout_nodes),
+       (unsigned long long)(a.twin_verify_nodes+b.twin_verify_nodes),
+       (unsigned long long)(a.twin_allocations+b.twin_allocations),
+       (unsigned long long)(a.twin_research_avoided+b.twin_research_avoided));
+    debug_log("LEVEL depth=%d status=%s elapsed_ms=%llu nodes=%llu qnodes=%llu heap_used=%ld heap_free=%ld stack_gap_approx=%ld\n",
+       lv.depth,lv.complete?"complete":"aborted",(unsigned long long)lv.ms,
+       (unsigned long long)lv.nodes,(unsigned long long)lv.qnodes,
+       (long)lv.mem.heap_used,(long)lv.mem.heap_free,(long)lv.mem.stack_margin);
    if(!complete){r.reason="stop";break;}
    // Non-contending scouts return -INF: a verified winner still exists.
    const bool choose_b=b.has_move&&b.score>a.score;
@@ -201,11 +206,13 @@ void run_search(){
  Engine e(neural,millis,[]{service();return request_stop||request_quit||!connected;},read_memory,config::QDEPTH);
  auto r=e.search(board,config::DEPTH,config::TIMEOUT_MS);
 #endif
+#ifndef PICOSARGON_TWINS
  for(const auto& l:r.levels)debug_log("LEVEL depth=%d status=%s elapsed_ms=%llu nodes=%llu qnodes=%llu heap_used=%ld heap_free=%ld stack_gap_approx=%ld\n",l.depth,l.complete?"complete":"aborted",(unsigned long long)l.ms,(unsigned long long)l.nodes,(unsigned long long)l.qnodes,(long)l.mem.heap_used,(long)l.mem.heap_free,(long)l.mem.stack_margin);
- debug_log("SEARCH elapsed_ms=%llu nodes=%llu qnodes=%llu nps=%llu depth=%d tt_hits=%llu tt_stores=%llu cutoffs=%llu reason=%s\n",(unsigned long long)r.elapsed_ms,(unsigned long long)r.nodes,(unsigned long long)r.qnodes,(unsigned long long)(r.nodes*1000/(r.elapsed_ms?r.elapsed_ms:1)),r.depth,(unsigned long long)r.tt_hits,(unsigned long long)r.tt_stores,(unsigned long long)r.cutoffs,r.reason.c_str());
+#endif
+ debug_log("SEARCH depth=%d reason=%-11s elapsed_ms=%llu nodes=%llu qnodes=%llu nps=%llu tt[hits=%llu stores=%llu cutoffs=%llu]\n",r.depth,r.reason.c_str(),(unsigned long long)r.elapsed_ms,(unsigned long long)r.nodes,(unsigned long long)r.qnodes,(unsigned long long)(r.nodes*1000/(r.elapsed_ms?r.elapsed_ms:1)),(unsigned long long)r.tt_hits,(unsigned long long)r.tt_stores,(unsigned long long)r.cutoffs);
 #ifdef PICOSARGON_STEROIDS
- debug_log("STEROIDS asp_attempts=%llu asp_retries=%llu asp_fail_low=%llu asp_fail_high=%llu see_calls=%llu see_negative=%llu razor_attempts=%llu razor_cuts=%llu nodes=%llu\n",
-  (unsigned long long)r.asp_attempts,(unsigned long long)r.asp_retries,(unsigned long long)r.asp_fail_low,(unsigned long long)r.asp_fail_high,
+ debug_log("UPOIDS depth=%d asp[attempts=%llu retries=%llu fail_low=%llu fail_high=%llu] see[calls=%llu negative=%llu] razor[attempts=%llu cuts=%llu] nodes=%llu\n",
+  r.depth,(unsigned long long)r.asp_attempts,(unsigned long long)r.asp_retries,(unsigned long long)r.asp_fail_low,(unsigned long long)r.asp_fail_high,
   (unsigned long long)r.see_calls,(unsigned long long)r.see_rejected,(unsigned long long)r.razor_attempts,(unsigned long long)r.razor_cuts,(unsigned long long)r.nodes);
 #endif
  debug_log("SEARCH_ID=%lu phase=finished reason=%s\n",(unsigned long)search_id,r.reason.c_str());

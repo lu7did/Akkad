@@ -1,0 +1,6 @@
+picoSargon ARM v0.2.29
+Base: parche v0.2.28.
+Board por defecto: pico2_w.
+Ayuda: -help y --help.
+STEROIDS y TWINS: activos por defecto y configurables.
+Aplicar desde raiz Akkad. No modifica x86.

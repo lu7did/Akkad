@@ -1,10 +1,62 @@
 ﻿# createPackage.ps1
 # Empaqueta el directorio de trabajo y sus subdirectorios conservando rutas relativas.
 # Compatible con Windows PowerShell 5.1 y PowerShell 7+.
+# Requiere -ArchivoSalida y -ArchivoExclusiones explicitos; --help muestra la ayuda.
+[CmdletBinding(PositionalBinding = $false)]
 param(
-    [string]$ArchivoSalida = "akkad.zip",
-    [string]$ArchivoExclusiones = "excluidos.txt"
+    [string]$ArchivoSalida,
+    [string]$ArchivoExclusiones,
+    [Alias('-help')]
+    [switch]$Help
 )
+
+function MostrarAyuda {
+    Write-Host @'
+createPackage.ps1 - Empaqueta el directorio actual en un archivo ZIP.
+
+USO:
+  .\createPackage.ps1 -ArchivoSalida <archivo.zip> -ArchivoExclusiones <archivo.txt>
+  .\createPackage.ps1 --help
+  .\createPackage.ps1 -Help
+
+ARGUMENTOS (obligatorios para empaquetar):
+  -ArchivoSalida        Ruta del ZIP a generar, dentro del directorio actual.
+  -ArchivoExclusiones   Archivo existente con las carpetas que se excluiran.
+                        Una carpeta por linea; se permiten lineas vacias y
+                        comentarios que comiencen por #.
+
+OPCIONES:
+  --help, -Help         Muestra esta ayuda; no genera el ZIP.
+
+EJEMPLOS:
+  .\createPackage.ps1 -ArchivoSalida "akkad.zip" -ArchivoExclusiones "excluidos.txt"
+  .\createPackage.ps1 -ArchivoSalida "dist\akkad.zip" -ArchivoExclusiones "config\excluidos.txt"
+
+NOTAS:
+  - El directorio raiz es el directorio actual, no el del script.
+  - Se conservan las rutas relativas y los directorios vacios.
+  - No se incluye el ZIP de salida dentro de si mismo.
+  - Si falta un argumento o no existe el archivo de exclusiones, no se empaqueta.
+'@
+}
+
+if ($Help) {
+    MostrarAyuda
+    exit 0
+}
+
+$faltantes = @()
+if (-not $PSBoundParameters.ContainsKey('ArchivoSalida') -or [string]::IsNullOrWhiteSpace($ArchivoSalida)) {
+    $faltantes += '-ArchivoSalida'
+}
+if (-not $PSBoundParameters.ContainsKey('ArchivoExclusiones') -or [string]::IsNullOrWhiteSpace($ArchivoExclusiones)) {
+    $faltantes += '-ArchivoExclusiones'
+}
+if ($faltantes.Count -gt 0) {
+    [Console]::Error.WriteLine("ERROR: faltan argumentos obligatorios: $($faltantes -join ', ')")
+    MostrarAyuda
+    exit 2
+}
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
@@ -74,7 +126,7 @@ if (Test-Path -LiteralPath $rutaExclusiones -PathType Leaf) {
         if (-not $excluidas.Contains($carpeta)) { $excluidas.Add($carpeta) }
     }
 } else {
-    Write-Warning "No existe excluidos.txt; se incluira todo excepto el ZIP de salida."
+    throw "No existe el archivo de exclusiones: $rutaExclusiones"
 }
 
 function EstaExcluida([string]$ruta) {

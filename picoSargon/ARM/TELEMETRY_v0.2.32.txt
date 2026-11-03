@@ -1,0 +1,16 @@
+Parche incremental picoSargon ARM v0.2.32
+Origen exclusivo: akkad(10).zip. Aplicar desde la raiz Akkad.
+
+Alcance:
+- TWINS: tres lineas por profundidad se consolidan en una, con los valores originales de ambos cores y estadisticas alpha intactos.
+- LEVEL: se imprime inmediatamente tras la linea TWINS del mismo nivel, sin duplicados al concluir la busqueda.
+- Sin TWINS: se conserva la emision de LEVEL anterior.
+- No se modifican SEARCH, STEROIDS, UCI, BOOT, TCP ni otra telemetria.
+- No se modifica config.h (contiene credenciales).
+- Version CMake y ayuda de build.ps1: 0.2.32.
+
+Ejemplo:
+TWINS depth=2 core[0]{moves=28 nodes=408 ms=395 status=complete} core[1]{moves=27 nodes=356 ms=368 status=complete} sync_ms=0 alpha{updates=1 prunes=53 scouts=53 verifications=2 scout_nodes=733 verify_nodes=31 buffer_allocations=0 research_avoided=53}
+LEVEL depth=2 status=complete elapsed_ms=473 nodes=764 qnodes=703 heap_used=-1 heap_free=-1 stack_gap_approx=-1
+
+No se ha compilado ni probado en placa.

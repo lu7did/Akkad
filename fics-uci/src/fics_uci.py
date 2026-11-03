@@ -24,7 +24,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.17"
+VERSION = "0.2.18"
 
 VERBOSE = False
 
@@ -310,6 +310,9 @@ class Bridge:
         self.ratings = {}
         self.ratings_pending = {}
         self.recorded_games = set()
+        # Un único reintento por posición ante bestmove (none) no terminal.
+        self.empty_bestmove_fen = None
+        self.empty_bestmove_retries = 0
 
     def capture_ratings(self, line):
         # FICS messages: Creating: white (1234) black (++++) rated blitz 5 0
@@ -716,6 +719,8 @@ class Bridge:
             self.search_fen = self.search_since = None
 
     def reset_game(self):
+        self.empty_bestmove_fen = None
+        self.empty_bestmove_retries = 0
         self.cancel_search("Cambio/finalización de partida")
         self.game_key = self.position = None
         self.awaiting_confirmation = None
@@ -790,6 +795,9 @@ class Bridge:
             return
         self.position = pos
         self.last_clock = (pos["game"], pos["wtime"], pos["btime"])
+        if self.empty_bestmove_fen is not None and self.empty_bestmove_fen != self.history.board.fen():
+            self.empty_bestmove_fen = None
+            self.empty_bestmove_retries = 0
         if self.history.locked:
             return
         status = self.history.reconcile(pos["board"])
@@ -884,7 +892,30 @@ class Bridge:
                 self.lock_history("bestmove obsoleto")
                 return
             if move_text in ("(none)", "0000"):
-                self.lock_history("Motor devolvió bestmove vacío")
+                board = self.history.board
+                # Nunca interpretar una reclamación opcional de tablas como
+                # ausencia de jugadas legales: FICS decide el fin de partida.
+                legal_count = board.legal_moves.count()
+                claim_50 = board.can_claim_fifty_moves()
+                claim_3 = board.can_claim_threefold_repetition()
+                terminal = board.is_game_over(claim_draw=False)
+                log("⚠️", "UCI", f"bestmove vacío | ply={len(self.history.moves)} "
+                    f"legal={legal_count} halfmove={board.halfmove_clock} "
+                    f"claim50={int(claim_50)} claim3={int(claim_3)} "
+                    f"terminal_sin_claim={int(terminal)}")
+                if legal_count:
+                    if self.empty_bestmove_fen != fen:
+                        self.empty_bestmove_fen = fen
+                        self.empty_bestmove_retries = 0
+                    if self.empty_bestmove_retries < 1:
+                        self.empty_bestmove_retries += 1
+                        log("🔄", "UCI", "bestmove vacío en tablero no terminal: "
+                            "reconexión TCP y un único reintento, sin emitir jugada a FICS")
+                        self.disconnect_uci(reason="Recuperación ante bestmove vacío")
+                        self.schedule_uci_retry("Reinicio por bestmove vacío", recover=True)
+                        return
+                self.lock_history("bestmove vacío persistente o posición terminal; "
+                                  "no se enviará ninguna jugada sin validación")
                 return
             try:
                 move = chess.Move.from_uci(move_text)

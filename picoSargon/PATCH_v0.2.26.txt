@@ -1,0 +1,26 @@
+picoSargon v0.2.26 - recuperacion x86 y configuracion ARM
+Base: akkad(6).zip, con parches x86 v0.2.24 y v0.2.25 ya aplicados.
+
+EXTRAER ESTE ZIP EN LA RAIZ akkad/ (sobrescribir archivos).
+
+x86: se restauran build.ps1, build_host.py y CMakeLists.txt a su logica
+original, eliminando la opcion TWINS introducida incorrectamente; se
+restaura host_main.cpp con su contenido original. La version x86 se
+incrementa a 0.2.26 en CMake y en el fallback de host_main.cpp.
+STEROIDS conserva el comportamiento original (build.ps1: true).
+
+ARM: build.ps1 admite -steroids:$true/$false y -twins:$true/$false.
+Ambos activados por defecto. CMakeLists.txt los declara ON y entrega
+PICOSARGON_TWINS=1 al core cuando TWINS esta activo. build.ps1 verifica
+los valores efectivos en CMakeCache.txt. Version CMake ARM: 0.2.26.
+
+ATENCION: el archivo original akkad(6).zip almacena la rama ARM dentro
+de picoSargon/ARM.zip. Este parche se aplica a la carpeta ARM extraida.
+Si ARM aun no esta extraida: primero descomprimir picoSargon/ARM.zip
+bajo picoSargon/, luego aplicar este parche.
+
+LIMITACION: En el core ARM de la linea de base no hay codigo que use
+PICOSARGON_TWINS. Este parche activa la bandera de compilacion, no
+implementa una optimizacion TWINS funcional.
+
+No se realizo compilacion de firmware en toolchain Windows/ARM.

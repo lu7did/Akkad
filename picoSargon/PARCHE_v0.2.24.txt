@@ -1,0 +1,15 @@
+picoSargon x86 v0.2.24 - Parche incremental para raiz Akkad
+
+Base: akkad(6).zip, v0.2.23.
+Aplicar extrayendo el ZIP directamente en la raiz del proyecto akkad/ y permitiendo reemplazar los archivos.
+
+build.ps1: -steroids y -twins son [bool], ambos $true por defecto.
+Ejemplo: .\picoSargon\x86\picoSargon\build.ps1 -steroids:$false -twins:$false
+Ejemplo: .\picoSargon\x86\picoSargon\build.ps1
+
+build_host.py: --steroids {true,false}, --twins {true,false}; ambos true por defecto.
+CMake: STEROIDS y TWINS ON por defecto (se puede usar -D...=OFF).
+IMPORTANTE: TWINS no esta implementado en el codigo fuente de akkad(6).zip.
+Se incorpora el interruptor de compilacion PICOSARGON_TWINS sin modificar el comportamiento del motor.
+No se afirma que habilitar TWINS otorgue un beneficio funcional; implementar TWINS requiere definir su semantica.
+El parche no incluye binarios ni cambia la rama ARM o Debian.

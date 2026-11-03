@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Path,
 
-    [double]$MinMB = 50
+    [double]$MinMB = 1
 )
 
 $ErrorActionPreference = "Stop"

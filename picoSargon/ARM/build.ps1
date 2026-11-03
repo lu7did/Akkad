@@ -1,7 +1,46 @@
 # picoSargon - compilacion local Windows. Sin cambios permanentes al sistema.
-# Uso: .\build.ps1                   (Pico W)
-#      .\build.ps1 -Board pico2_w    (Pico 2 W)
-param([ValidateSet('pico_w','pico2_w')][string]$Board = 'pico_w', [bool]$steroids = $true)
+# Uso: .\build.ps1                   (Pico 2 W, STEROIDS=ON, TWINS=ON)
+#      .\build.ps1 -Board pico_w      (Pico W)
+#      .\build.ps1 -help / --help     (ayuda sin compilar)
+param(
+    [ValidateSet('pico_w','pico2_w')]
+    [string]$Board = 'pico2_w',
+    [bool]$steroids = $true,
+    [bool]$twins = $true,
+    [Alias('h','-help')]
+    [switch]$help
+)
+
+# Reconocer -help y --help antes de verificar herramientas o modificar archivos.
+# En PowerShell, --help se procesa como una forma de switch de ayuda.
+if ($help -or ($args -contains '--help')) {
+    @'
+Compilacion picoSargon ARM v0.2.33
+
+Sintaxis:
+  .\build.ps1 [-Board pico2_w|pico_w] [-steroids:$true|$false] [-twins:$true|$false]
+  .\build.ps1 -help
+  .\build.ps1 --help
+
+Argumentos:
+  -Board       Placa destino: pico2_w (predeterminado) o pico_w.
+  -steroids    Activa o desactiva STEROIDS (predeterminado: true).
+  -twins       Activa o desactiva TWINS (predeterminado: true).
+  -help        Muestra esta ayuda y termina sin compilar.
+  --help       Equivalente a -help.
+
+Ejemplos:
+  .\build.ps1
+  .\build.ps1 -Board pico_w
+  .\build.ps1 -Board pico2_w -twins:$false
+  .\build.ps1 -steroids:$false -twins:$false
+
+Artefactos:
+  ARM/build-pico2-w-twins/picoSargon.uf2  (configuracion por defecto)
+  ARM/build-twins/picoSargon.uf2         (Pico W con TWINS)
+'@ | Write-Output
+    return
+}
 $ErrorActionPreference = 'Stop'
 $Project = $PSScriptRoot
 $CMake = 'C:\Program Files\CMake\bin\cmake.exe'
@@ -12,7 +51,14 @@ $Gxx = Join-Path $Toolchain 'arm-none-eabi-g++.exe'
 $Asm = $Gcc
 $SdkRoot = 'C:\Users\pedro\.pico-sdk'
 $Python = 'C:\Users\pedro\ufasta\Scripts\python.exe'
-$Build = Join-Path $Project ('build-' + $Board.Replace('_','-') + '-v025')
+# Un directorio separado por placa y configuracion, sin sufijos de versiones antiguas.
+# Para Pico W con TWINS activo se conserva el nombre solicitado: build-twins.
+$BuildName = if ($twins) {
+    if ($Board -eq 'pico_w') { 'build-twins' } else { 'build-' + $Board.Replace('_','-') + '-twins' }
+} else {
+    'build-' + $Board.Replace('_','-') + '-single'
+}
+$Build = Join-Path $Project $BuildName
 $Tools = Join-Path (Split-Path -Parent $Project) 'tools'
 $Embed = Join-Path $Tools 'embed_grumpy.py'
 $Weights = Join-Path $Project 'assets\grumpy.bin'
@@ -65,7 +111,8 @@ if (-not (@(Get-ChildItem -LiteralPath $PicotoolDir -Filter '*config.cmake' -Fil
     throw "Falta archivo *Config.cmake para picotool en: $PicotoolDir; listar el directorio antes de continuar."
 }
 Set-Location -LiteralPath $Project
-Write-Host "BOARD: $Board / STEROIDS=$steroids"
+Write-Host "BOARD: $Board / STEROIDS=$steroids / TWINS=$twins"
+Write-Host "BUILD DIRECTORY: $Build"
 Write-Host "SDK:   $Sdk"
 Write-Host "CMAKE: $CMake"
 Write-Host "NINJA: $Ninja"
@@ -84,6 +131,7 @@ if (Test-Path -LiteralPath $Build) {
 & $CMake -S $Project -B $Build -G Ninja `
     "-DPICOSARGON_PICO=ON" `
     "-DSTEROIDS=$($steroids.ToString().ToUpperInvariant())" `
+    "-DTWINS=$($twins.ToString().ToUpperInvariant())" `
     "-DPICO_BOARD=$Board" `
     "-DPICO_SDK_PATH=$Sdk" `
     "-DCMAKE_MAKE_PROGRAM=$Ninja" `
@@ -94,8 +142,31 @@ if (Test-Path -LiteralPath $Build) {
     "-DCMAKE_ASM_COMPILER=$Asm" `
     '-DCMAKE_BUILD_TYPE=Release'
 if ($LASTEXITCODE -ne 0) { throw 'Fallo la configuracion de CMake' }
+# Confirmar los valores efectivos, no solo los argumentos enviados.
+$Cache = Join-Path $Build 'CMakeCache.txt'
+if (-not (Test-Path -LiteralPath $Cache -PathType Leaf)) { throw "Falta cache CMake: $Cache" }
+$CacheText = Get-Content -LiteralPath $Cache
+foreach ($Check in @(@('STEROIDS', $steroids), @('TWINS', $twins))) {
+    $Name = [string]$Check[0]
+    $Expected = if ([bool]$Check[1]) { 'ON' } else { 'OFF' }
+    $Match = @($CacheText | Where-Object { $_ -match "^${Name}:BOOL=(ON|OFF|TRUE|FALSE|1|0)$" })
+    if ($Match.Count -ne 1) { throw "No se pudo verificar $Name en CMakeCache.txt" }
+    $Actual = ($Match[0] -split '=', 2)[1]
+    $IsOn = $Actual -in @('ON','TRUE','1')
+    if ($IsOn -ne [bool]$Check[1]) { throw "CMake: $Name=$Actual, esperado $Expected" }
+    Write-Host "CONFIGURACION VERIFICADA: $Name=$Expected"
+}
+# Comprobar la placa en la cache para evitar generar un UF2 del dispositivo equivocado.
+$BoardMatch = @($CacheText | Where-Object { $_ -match '^PICO_BOARD:STRING=' })
+if ($BoardMatch.Count -ne 1 -or ($BoardMatch[0] -split '=', 2)[1] -ne $Board) {
+    throw "La placa configurada en CMake no coincide con -Board $Board"
+}
+Write-Host "PLACA VERIFICADA: $Board"
 & $CMake --build $Build --parallel 4
 if ($LASTEXITCODE -ne 0) { throw 'Fallo la compilacion' }
 $Uf2 = Join-Path $Build 'picoSargon.uf2'
 if (-not (Test-Path -LiteralPath $Uf2)) { throw "Compilacion termino pero falta: $Uf2" }
-Write-Host "UF2 generado: $Uf2"
+$Uf2Info = Get-Item -LiteralPath $Uf2
+if ($Uf2Info.Length -lt 512) { throw "UF2 sospechosamente pequeno: $($Uf2Info.Length) bytes" }
+Write-Host "UF2 generado: $Uf2 ($($Uf2Info.Length) bytes)"
+Write-Host "IMPORTANTE: cargar este UF2 solamente en una placa $Board. El arrastre de archivos no garantiza la validacion del firmware."

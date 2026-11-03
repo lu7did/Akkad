@@ -1,0 +1,7 @@
+picoSargon x86 parche v0.2.25 sobre akkad(6).zip + parche v0.2.24
+Correccion: CMake TWINS ON por defecto, y build.ps1 verifica el valor REAL en CMakeCache.txt.
+El build interrumpe si las opciones efectivas no coinciden con lo solicitado.
+Las opciones son configurables con -steroids:$false / -twins:$false.
+ATENCION: TWINS aun no tiene implementacion en el motor de la linea de base, solo macro de compilacion.
+Si el mensaje observado 'picoSargon TWINS=OFF' procede de otro script/ruta, comprobar ruta de ejecucion y log.
+Instalar desde la raiz de Akkad, sobrescribiendo archivos existentes.
