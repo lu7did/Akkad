@@ -4219,30 +4219,28 @@ Esa separación permitiría determinar qué conocimiento adquirió realmente la 
 
 Tutorial técnico — Fundamentos, backpropagation, optimización, NNUE, redes convolucionales, redes de política y valor, transformers, destilación y PyTorch
 
-## 1. Introducción
-
 Las redes neuronales artificiales constituyen una familia de modelos matemáticos capaces de aprender relaciones entre variables a partir de ejemplos, experiencias o señales de realimentación.
 
 Su característica principal es que, en lugar de programar explícitamente todas las reglas que permiten resolver un problema, se define una estructura de operaciones parametrizadas y un procedimiento que ajusta sus parámetros para aproximar el comportamiento deseado.
 
 En términos generales, una red neuronal implementa una función:
 
-\\[ \boxed{\hat y=f\_\theta(x)} \\]
+$\boxed{\hat y=f\_\theta(x)}$
 
 donde:
 
-- \\(x\\) representa los datos de entrada.
-- \\(\hat y\\) representa la salida calculada.
-- \\(f\\) es una composición de transformaciones matemáticas.
-- \\(\theta\\) es el conjunto de parámetros ajustables, principalmente pesos y sesgos.
+- $x$ representa los datos de entrada.
+- $\hat y$ representa la salida calculada.
+- $f$ es una composición de transformaciones matemáticas.
+- $\theta$ es el conjunto de parámetros ajustables, principalmente pesos y sesgos.
 
 El aprendizaje consiste en determinar:
 
-\\[ \boxed{\theta^\*=\arg\min\_\theta \mathcal L(\theta)} \\]
+$\boxed{\theta^\*=\arg\min\_\theta \mathcal L(\theta)}$
 
-donde \\(\mathcal L\\) mide la discrepancia entre lo que produce la red y el comportamiento esperado.
+donde $\mathcal L$ mide la discrepancia entre lo que produce la red y el comportamiento esperado.
 
-La simplicidad de esta formulación es engañosa. En las redes modernas, \\(\theta\\) puede contener desde algunos cientos hasta miles de millones de parámetros. Además, la función \\(f\_\theta\\) puede incluir operaciones lineales, no linealidades, convoluciones, mecanismos de atención, normalización, conexiones residuales y múltiples salidas especializadas.
+La simplicidad de esta formulación es engañosa. En las redes modernas, $\theta$ puede contener desde algunos cientos hasta miles de millones de parámetros. Además, la función $f\_\theta$ puede incluir operaciones lineales, no linealidades, convoluciones, mecanismos de atención, normalización, conexiones residuales y múltiples salidas especializadas.
 
 En el ajedrez, las redes neuronales pueden desempeñar tres funciones diferentes:
 
@@ -4252,11 +4250,12 @@ En el ajedrez, las redes neuronales pueden desempeñar tres funciones diferentes
 
 Es importante distinguir la red del algoritmo de búsqueda. Una red puede evaluar posiciones sin elegir movimientos. Un motor de búsqueda puede seleccionar jugadas utilizando un evaluador neuronal, o puede utilizar una red que produzca directamente una política de juego.
 
+## Antecedentes
+
 El desarrollo histórico de las redes neuronales explica cómo se llegó a estas arquitecturas y por qué las técnicas modernas de entrenamiento son tan importantes como el diseño de las propias redes.
 
-## 2. Historia de las redes neuronales
 
-### 2.1. Primeros antecedentes: McCulloch y Pitts (1943)
+### Primeros antecedentes: McCulloch y Pitts (1943)
 
 Uno de los primeros modelos matemáticos de neurona artificial fue propuesto por Warren McCulloch y Walter Pitts en 1943.
 
@@ -4264,35 +4263,35 @@ Su modelo representaba una neurona mediante una función lógica de umbral.
 
 Sean las entradas:
 
-\\[ x_1,x_2,\ldots,x_n \\]
+$x_1,x_2,\ldots,x_n$
 
 y los pesos asociados:
 
-\\[ w_1,w_2,\ldots,w_n \\]
+$w_1,w_2,\ldots,w_n$
 
 La activación podía representarse conceptualmente mediante:
 
-\\[ y= \begin{cases} 1 & \sum_i w_ix_i\geq\vartheta\\\ 0 & \sum_i w_ix_i<\vartheta \end{cases} \\]
+$y= \begin{cases} 1 & \sum_i w_ix_i\geq\vartheta\\\ 0 & \sum_i w_ix_i<\vartheta \end{cases}$
 
-donde \\(\vartheta\\) es un umbral.
+donde $\vartheta$ es un umbral.
 
 Este modelo permitió demostrar que combinaciones de neuronas formales podían representar operaciones lógicas.
 
 Su principal limitación era que los parámetros no se aprendían automáticamente mediante un procedimiento general de entrenamiento. El modelo se utilizaba fundamentalmente para estudiar capacidades de cómputo y organización lógica.
 
-### 2.2. Donald Hebb y el aprendizaje asociativo (1949)
+### Donald Hebb y el aprendizaje asociativo (1949)
 
 En 1949, Donald Hebb propuso una teoría de modificación de conexiones neuronales basada en la actividad conjunta.
 
 Una versión matemática simplificada de la regla hebbiana es:
 
-\\[ \boxed{\Delta w\_{ij}=\eta x_i y_j} \\]
+$\boxed{\Delta w\_{ij}=\eta x_i y_j}$
 
 donde:
 
-- \\(x_i\\) es la actividad presináptica.
-- \\(y_j\\) es la actividad postsináptica.
-- \\(\eta\\) es un coeficiente de aprendizaje.
+- $x_i$ es la actividad presináptica.
+- $y_j$ es la actividad postsináptica.
+- $\eta$ es un coeficiente de aprendizaje.
 
 La idea es que la correlación entre las actividades de dos unidades puede fortalecer su conexión.
 
@@ -4300,23 +4299,23 @@ El aprendizaje hebbiano no es equivalente al entrenamiento moderno mediante desc
 
 Sin embargo, introdujo un principio fundamental: las conexiones pueden modificarse como consecuencia de la experiencia.
 
-### 2.3. El perceptrón de Rosenblatt (1957–1958)
+### El perceptrón de Rosenblatt (1957–1958)
 
 Frank Rosenblatt desarrolló el perceptrón, uno de los primeros modelos de clasificación con aprendizaje automático.
 
 El perceptrón calcula:
 
-\\[ z=w^\top x+b \\]
+$z=w^\top x+b$
 
 y produce una clasificación binaria:
 
-\\[ \hat y= \begin{cases} 1 & z\geq0\\\ 0 & z<0 \end{cases} \\]
+$\hat y= \begin{cases} 1 & z\geq0\\\ 0 & z<0 \end{cases}$
 
 Su aprendizaje ajusta los pesos cuando se produce un error de clasificación:
 
-\\[ \boxed{ w\leftarrow w+\eta(y-\hat y)x } \\]
+$\boxed{ w\leftarrow w+\eta(y-\hat y)x }$
 
-\\[ b\leftarrow b+\eta(y-\hat y) \\]
+$b\leftarrow b+\eta(y-\hat y)$
 
 El perceptrón tiene una propiedad matemática importante: si los ejemplos son linealmente separables y se cumplen las condiciones del algoritmo, el procedimiento converge a una solución separadora en un número finito de actualizaciones.
 
@@ -4326,7 +4325,7 @@ Ejemplo: el problema XOR
 
 Los puntos del XOR pertenecen a clases que no pueden separarse mediante una sola recta.
 
-| \\(x_1\\) | \\(x_2\\) | XOR |
+| $x_1$ | $x_2$ | XOR |
 | --------- | --------- | --- |
 | 0         | 0         | 0   |
 | 0         | 1         | 1   |
@@ -4341,7 +4340,7 @@ La crítica a las limitaciones de los perceptrones de una sola capa se hizo espe
 
 El problema no era que las redes neuronales multicapa no pudieran resolver XOR, sino que faltaba un mecanismo general, eficiente y suficientemente difundido para aprender automáticamente sus representaciones internas.
 
-### 2.4. Redes multicapa y antecedentes del aprendizaje profundo
+### Redes multicapa y antecedentes del aprendizaje profundo
 
 Durante las décadas de 1960 y 1970 se investigaron redes con varias capas, métodos de control óptimo y procedimientos de diferenciación automática.
 
@@ -4359,7 +4358,7 @@ Los problemas principales eran:
 
 La evolución posterior estuvo estrechamente relacionada con el desarrollo de la diferenciación automática en modo inverso, que se convertiría en el fundamento computacional de backpropagation.
 
-### 2.5. Backpropagation: antecedentes, invención y popularización
+### Backpropagation: antecedentes, invención y popularización
 
 La historia de backpropagation requiere distinguir varios aportes que frecuentemente se atribuyen incorrectamente a un único inventor.
 
@@ -4389,7 +4388,7 @@ people.idsia.ch+1
 
 
 
-### 2.6. Redes convolucionales y aprendizaje visual
+### Redes convolucionales y aprendizaje visual
 
 Durante las décadas de 1980 y 1990, Yann LeCun y otros investigadores desarrollaron y aplicaron redes convolucionales al reconocimiento de patrones, particularmente caracteres escritos a mano.
 
@@ -4399,7 +4398,7 @@ En lugar de aprender una conexión independiente entre cada píxel y cada neuron
 
 Esta propiedad es especialmente relevante para representar tableros de ajedrez, imágenes y cualquier problema donde la posición relativa de los elementos tenga significado.
 
-### 2.7. Renacimiento del aprendizaje profundo
+### Renacimiento del aprendizaje profundo
 
 A partir de la década de 2000, y especialmente desde 2012, la combinación de aceleración mediante GPU, conjuntos de datos grandes, mejores algoritmos de optimización y arquitecturas profundas permitió avances sustanciales.
 
@@ -4417,79 +4416,77 @@ En el ajedrez contemporáneo conviven redes neuronales muy diferentes: evaluador
 
 El tamaño de una red no determina por sí solo su capacidad ajedrecística. Importan también su arquitectura, la calidad de los datos, el entrenamiento y el sistema de búsqueda que la utiliza.
 
-## 3. Fundamento matemático de una neurona artificial
-
-### 3.1. Operación elemental
+## Fundamento matemático de una neurona artificial
 
 Una neurona artificial recibe un vector de entradas:
 
-\\[ x= \begin{bmatrix} x_1\\\x_2\\\\\vdots\\\x_n \end{bmatrix} \\]
+$x= \begin{bmatrix} x_1\\\x_2\\\\\vdots\\\x_n \end{bmatrix}$
 
 y calcula una combinación lineal:
 
-\\[ z=\sum\_{i=1}^{n}w_ix_i+b \\]
+$z=\sum\_{i=1}^{n}w_ix_i+b$
 
 o, en notación matricial:
 
-\\[ \boxed{z=w^\top x+b} \\]
+$\boxed{z=w^\top x+b}$
 
 Posteriormente aplica una función no lineal:
 
-\\[ \boxed{a=\sigma(z)} \\]
+$\boxed{a=\sigma(z)}$
 
-La función \\(\sigma\\) recibe el nombre de función de activación.
+La función $\sigma$ recibe el nombre de función de activación.
 
 La no linealidad es esencial: una composición de transformaciones exclusivamente lineales continúa siendo equivalente a una sola transformación lineal.
 
 Por ejemplo:
 
-\\[ W_3(W_2(W_1x))=(W_3W_2W_1)x \\]
+$W_3(W_2(W_1x))=(W_3W_2W_1)x$
 
 Sin activaciones no lineales, agregar capas no amplía la familia de funciones lineales representables.
 
-### 3.2. Funciones de activación
+### Funciones de activación
 
 Sigmoide logística:
 
-\\[ \sigma(x)=\frac{1}{1+e^{-x}} \\]
+$\sigma(x)=\frac{1}{1+e^{-x}}$
 
 Su derivada es:
 
-\\[ \boxed{\sigma'(x)=\sigma(x)(1-\sigma(x))} \\]
+$\boxed{\sigma'(x)=\sigma(x)(1-\sigma(x))}$
 
-Produce valores en \\((0,1)\\), apropiados para determinadas salidas probabilísticas.
+Produce valores en $(0,1)$, apropiados para determinadas salidas probabilísticas.
 
 Tangente hiperbólica:
 
-\\[ \tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}} \\]
+$\tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$
 
 Con derivada:
 
-\\[ \boxed{\frac{d}{dx}\tanh(x)=1-\tanh^2(x)} \\]
+$\boxed{\frac{d}{dx}\tanh(x)=1-\tanh^2(x)}$
 
-Produce valores en \\((-1,1)\\), convenientes para funciones de valoración del resultado de una partida.
+Produce valores en $(-1,1)$, convenientes para funciones de valoración del resultado de una partida.
 
 ReLU:
 
-\\[ \boxed{\operatorname{ReLU}(x)=\max(0,x)} \\]
+$\boxed{\operatorname{ReLU}(x)=\max(0,x)}$
 
 Su derivada, salvo en el punto de no diferenciabilidad, es:
 
-\\[ \operatorname{ReLU}'(x)= \begin{cases} 0 & x<0\\\ 1 & x>0 \end{cases} \\]
+$\operatorname{ReLU}'(x)= \begin{cases} 0 & x<0\\\ 1 & x>0 \end{cases}$
 
-En \\(x=0\\) puede elegirse un subgradiente convencional.
+En $x=0$ puede elegirse un subgradiente convencional.
 
 Clipped ReLU:
 
-\\[ \operatorname{CReLU}(x)=\min(c,\max(0,x)) \\]
+$\operatorname{CReLU}(x)=\min(c,\max(0,x))$
 
 La saturación superior facilita el empleo de aritmética entera y cuantización en determinados evaluadores NNUE.
 
 GELU:
 
-\\[ \operatorname{GELU}(x)=x\Phi(x) \\]
+$\operatorname{GELU}(x)=x\Phi(x)$
 
-donde \\(\Phi\\) es la función de distribución acumulada de una normal estándar.
+donde $\Phi$ es la función de distribución acumulada de una normal estándar.
 
 GELU es habitual en arquitecturas Transformer.
 
@@ -4501,43 +4498,43 @@ ReLUtanhSigmoide
 
 -20246-4-2024
 
-### 3.3. Red multicapa
+### Red multicapa
 
-Una red neuronal de propagación hacia adelante, o feedforward, está formada por capas.
+Una red neuronal de propagación hacia adelante, o *feedforward*, está formada por capas.
 
-Para la capa \\(\ell\\):
+Para la capa $\ell$:
 
-\\[ \boxed{ z^{(\ell)}=W^{(\ell)}a^{(\ell-1)}+b^{(\ell)} } \\]
+$\boxed{ z^{(\ell)}=W^{(\ell)}a^{(\ell-1)}+b^{(\ell)} }$
 
-\\[ \boxed{ a^{(\ell)}=\sigma\_\ell(z^{(\ell)}) } \\]
+$\boxed{ a^{(\ell)}=\sigma\_\ell(z^{(\ell)}) }$
 
 con:
 
-\\[ a^{(0)}=x \\]
+$a^{(0)}=x$
 
 La salida final es:
 
-\\[ \hat y=a^{(L)} \\]
+$\hat y=a^{(L)}$
 
-Si una capa recibe \\(n\_{\ell-1}\\) entradas y posee \\(n\_\ell\\) neuronas:
+Si una capa recibe $n\_{\ell-1}$ entradas y posee $n\_\ell$ neuronas:
 
-\\[ W^{(\ell)}\in \mathbb R^{n\_\ell\times n\_{\ell-1}} \\]
+$W^{(\ell)}\in \mathbb R^{n\_\ell\times n\_{\ell-1}}$
 
 y tiene:
 
-\\[ \boxed{ P\_\ell=n\_{\ell-1}n\_\ell+n\_\ell } \\]
+$\boxed{ P\_\ell=n\_{\ell-1}n\_\ell+n\_\ell }$
 
 parámetros, considerando pesos y sesgos.
 
 Una red con dimensiones:
 
-\\[ 768\rightarrow256\rightarrow32\rightarrow1 \\]
+$768\rightarrow256\rightarrow32\rightarrow1$
 
 tiene:
 
-\\[ P= (768\cdot256+256) + (256\cdot32+32) + (32+1) \\]
+$P= (768\cdot256+256) + (256\cdot32+32) + (32+1)$
 
-\\[ \boxed{P=205121} \\]
+$\boxed{P=205121}$
 
 parámetros.
 
@@ -4545,7 +4542,7 @@ Esta fórmula permite estimar el tamaño estructural de una red antes de impleme
 
 No obstante, el número de parámetros es diferente de la cantidad de operaciones necesarias para evaluarla y de la memoria requerida para ejecutarla.
 
-## 4. Backpropagation: derivación matemática detallada
+## Backpropagation: derivación matemática detallada
 
 Backpropagation es el procedimiento que permite calcular eficientemente las derivadas de una función de pérdida respecto de todos los parámetros de una red.
 
@@ -4553,165 +4550,163 @@ No es, por sí mismo, un algoritmo de optimización.
 
 Backpropagation calcula:
 
-\\[ \nabla\_\theta\mathcal L \\]
+$\nabla\_\theta\mathcal L$
 
-El optimizador, por ejemplo SGD o AdamW, utiliza ese gradiente para modificar \\(\theta\\).
+El optimizador, por ejemplo SGD o AdamW, utiliza ese gradiente para modificar $\theta$.
 
-### 4.1. Definición de la función de pérdida
+### Definición de la función de pérdida
 
 Para una red que produce una salida escalar:
 
-\\[ \hat y=f\_\theta(x) \\]
+$\hat y=f\_\theta(x)$
 
-y un valor objetivo \\(y\\), podemos utilizar el error cuadrático:
+y un valor objetivo $y$, podemos utilizar el error cuadrático:
 
-\\[ \boxed{ \mathcal L(\theta)=\frac12(\hat y-y)^2 } \\]
+$\boxed{ \mathcal L(\theta)=\frac12(\hat y-y)^2 }$
 
-El factor \\(1/2\\) simplifica su derivada:
+El factor $1/2$ simplifica su derivada:
 
-\\[ \frac{\partial\mathcal L}{\partial\hat y}=\hat y-y \\]
+$\frac{\partial\mathcal L}{\partial\hat y}=\hat y-y$
 
-Para un conjunto de \\(N\\) ejemplos:
+Para un conjunto de $N$ ejemplos:
 
-\\[ \mathcal L(\theta)= \frac1N \sum\_{i=1}^{N} \frac12(f\_\theta(x_i)-y_i)^2 \\]
+$\mathcal L(\theta)= \frac1N \sum\_{i=1}^{N} \frac12(f\_\theta(x_i)-y_i)^2$
 
 El objetivo del aprendizaje es encontrar parámetros que reduzcan esta función sobre los datos de entrenamiento y, especialmente, que permitan generalizar a ejemplos nuevos.
 
-### 4.2. Derivada de una neurona individual
+### Derivada de una neurona individual
 
 Consideremos:
 
-\\[ z=wx+b \\]
+$z=wx+b$
 
-\\[ a=\sigma(z) \\]
+$a=\sigma(z)$
 
-\\[ \mathcal L=\frac12(a-y)^2 \\]
+$\mathcal L=\frac12(a-y)^2$
 
 Deseamos calcular:
 
-\\[ \frac{\partial\mathcal L}{\partial w} \\]
+$\frac{\partial\mathcal L}{\partial w}$
 
 La regla de la cadena establece:
 
-\\[ \frac{\partial\mathcal L}{\partial w} = \frac{\partial\mathcal L}{\partial a} \frac{\partial a}{\partial z} \frac{\partial z}{\partial w} \\]
+$\frac{\partial\mathcal L}{\partial w} = \frac{\partial\mathcal L}{\partial a} \frac{\partial a}{\partial z} \frac{\partial z}{\partial w}$
 
 Sabemos que:
 
-\\[ \frac{\partial\mathcal L}{\partial a}=a-y \\]
+$\frac{\partial\mathcal L}{\partial a}=a-y$
 
-\\[ \frac{\partial a}{\partial z}=\sigma'(z) \\]
+$\frac{\partial a}{\partial z}=\sigma'(z)$
 
-\\[ \frac{\partial z}{\partial w}=x \\]
+$\frac{\partial z}{\partial w}=x$
 
 Por lo tanto:
 
-\\[ \boxed{ \frac{\partial\mathcal L}{\partial w} = (a-y)\sigma'(z)x } \\]
+$\boxed{ \frac{\partial\mathcal L}{\partial w} = (a-y)\sigma'(z)x }$
 
 Análogamente:
 
-\\[ \boxed{ \frac{\partial\mathcal L}{\partial b} = (a-y)\sigma'(z) } \\]
+$\boxed{ \frac{\partial\mathcal L}{\partial b} = (a-y)\sigma'(z) }$
 
 Estos gradientes permiten modificar el peso y el sesgo para reducir el error.
 
-### 4.3. Generalización a una red multicapa
+### Generalización a una red multicapa
 
 Consideremos nuevamente:
 
-\\[ z^{(\ell)} = W^{(\ell)}a^{(\ell-1)}+b^{(\ell)} \\]
+$z^{(\ell)} = W^{(\ell)}a^{(\ell-1)}+b^{(\ell)}$
 
-\\[ a^{(\ell)}=\sigma\_\ell(z^{(\ell)}) \\]
+$a^{(\ell)}=\sigma\_\ell(z^{(\ell)})$
 
 Definimos el vector de error local:
 
-\\[ \boxed{ \delta^{(\ell)} = \frac{\partial\mathcal L} {\partial z^{(\ell)}} } \\]
+$\boxed{ \delta^{(\ell)} = \frac{\partial\mathcal L} {\partial z^{(\ell)}} }$
 
 Este vector resulta central porque resume la sensibilidad de la pérdida ante los valores previos a la activación de una capa.
 
 Para la capa de salida:
 
-\\[ \boxed{ \delta^{(L)} = \nabla\_{a^{(L)}}\mathcal L \odot \sigma_L'(z^{(L)}) } \\]
+$\boxed{ \delta^{(L)} = \nabla\_{a^{(L)}}\mathcal L \odot \sigma_L'(z^{(L)}) }$
 
-donde \\(\odot\\) representa el producto elemento a elemento.
+donde $\odot$ representa el producto elemento a elemento.
 
 Para una capa oculta:
 
-\\[ \boxed{ \delta^{(\ell)} = \left[ (W^{(\ell+1)})^\top \delta^{(\ell+1)} \right] \odot \sigma\_\ell'(z^{(\ell)}) } \\]
+$\boxed{ \delta^{(\ell)} = \left[ (W^{(\ell+1)})^\top \delta^{(\ell+1)} \right] \odot \sigma\_\ell'(z^{(\ell)}) }$
 
 Esta es la ecuación fundamental de propagación inversa.
 
-Una vez calculado \\(\delta^{(\ell)}\\), los gradientes de los parámetros se obtienen mediante:
+Una vez calculado $\delta^{(\ell)}$, los gradientes de los parámetros se obtienen mediante:
 
-\\[ \boxed{ \frac{\partial\mathcal L}{\partial W^{(\ell)}} = \delta^{(\ell)} (a^{(\ell-1)})^\top } \\]
+$\boxed{ \frac{\partial\mathcal L}{\partial W^{(\ell)}} = \delta^{(\ell)} (a^{(\ell-1)})^\top }$
 
 y:
 
-\\[ \boxed{ \frac{\partial\mathcal L}{\partial b^{(\ell)}} = \delta^{(\ell)} } \\]
+$\boxed{ \frac{\partial\mathcal L}{\partial b^{(\ell)}} = \delta^{(\ell)} }$
 
 La eficiencia se debe a que las derivadas parciales se reutilizan al recorrer la red en sentido inverso, evitando recalcular repetidamente toda la cadena de dependencias para cada peso.
 
-### 4.4. Ejemplo numérico completo
-
 Consideremos una neurona con:
 
-\\[ x=2,\quad w=0,5,\quad b=0 \\]
+$x=2,\quad w=0,5,\quad b=0$
 
 Activación sigmoide y objetivo:
 
-\\[ y=1 \\]
+$y=1$
 
 Primero calculamos:
 
-\\[ z=0,5\cdot2=1 \\]
+$z=0,5\cdot2=1$
 
-\\[ a=\sigma(1)\approx0,731059 \\]
+$a=\sigma(1)\approx0,731059$
 
 La pérdida:
 
-\\[ \mathcal L= \frac12(0,731059-1)^2 \approx0,0361647 \\]
+$\mathcal L= \frac12(0,731059-1)^2 \approx0,0361647$
 
 La derivada de la sigmoide:
 
-\\[ \sigma'(1) = 0,731059(1-0,731059) \approx0,196612 \\]
+$\sigma'(1) = 0,731059(1-0,731059) \approx0,196612$
 
 El gradiente respecto del peso:
 
-\\[ \frac{\partial\mathcal L}{\partial w} = (0,731059-1)(0,196612)(2) \\]
+$\frac{\partial\mathcal L}{\partial w} = (0,731059-1)(0,196612)(2)$
 
-\\[ \boxed{ \frac{\partial\mathcal L}{\partial w}\approx-0,105754 } \\]
+$\boxed{ \frac{\partial\mathcal L}{\partial w}\approx-0,105754 }$
 
 Con tasa de aprendizaje:
 
-\\[ \eta=0,1 \\]
+$\eta=0,1$
 
 el descenso por gradiente produce:
 
-\\[ w\_{\text{nuevo}} = w-\eta\frac{\partial\mathcal L}{\partial w} \\]
+$w\_{\text{nuevo}} = w-\eta\frac{\partial\mathcal L}{\partial w}$
 
-\\[ w\_{\text{nuevo}} = 0,5-0,1(-0,105754) \\]
+$w\_{\text{nuevo}} = 0,5-0,1(-0,105754)$
 
-\\[ \boxed{ w\_{\text{nuevo}}\approx0,510575 } \\]
+$\boxed{ w\_{\text{nuevo}}\approx0,510575 }$
 
 Si mantenemos el sesgo constante para aislar el efecto del peso, la salida aumenta ligeramente y se acerca al valor objetivo 1.
 
 En un entrenamiento real se actualizaría también el sesgo:
 
-\\[ \frac{\partial\mathcal L}{\partial b} \approx-0,052877 \\]
+$\frac{\partial\mathcal L}{\partial b} \approx-0,052877$
 
 El mismo principio se aplica a una red de millones de pesos.
 
-### 4.5. Flujo completo de entrenamiento
+### Flujo completo de entrenamiento
 
 Forward pass: cálculo de salida y pérdida. Backward pass: cálculo de gradientes. Optimización: actualización de parámetros.
 
-### 4.6. Gradientes que desaparecen o explotan
+### Gradientes que desaparecen o explotan
 
 En redes profundas, los gradientes de capas iniciales contienen productos repetidos de matrices y derivadas.
 
 Conceptualmente:
 
-\\[ \frac{\partial\mathcal L}{\partial a^{(0)}} = J_1^\top J_2^\top\cdots J_L^\top \frac{\partial\mathcal L}{\partial a^{(L)}} \\]
+$\frac{\partial\mathcal L}{\partial a^{(0)}} = J_1^\top J_2^\top\cdots J_L^\top \frac{\partial\mathcal L}{\partial a^{(L)}}$
 
-donde \\(J\_\ell\\) es el jacobiano local de una capa.
+donde $J\_\ell$ es el jacobiano local de una capa.
 
 Si las normas relevantes de esos jacobianos tienden a ser menores que uno, el producto puede disminuir rápidamente y producir vanishing gradients.
 
@@ -4721,21 +4716,21 @@ Este fenómeno explica parte de las dificultades históricas del entrenamiento d
 
 Entre los mecanismos que reducen esos problemas se encuentran las inicializaciones Xavier y He, las activaciones ReLU, las conexiones residuales, la normalización y el recorte de gradientes.
 
-## 5. Optimización del aprendizaje y convergencia
+## Optimización del aprendizaje y convergencia
 
 Una vez calculados los gradientes mediante backpropagation, es necesario determinar cómo modificar los parámetros.
 
 La regla más elemental es:
 
-\\[ \boxed{ \theta\_{t+1}=\theta_t-\eta\nabla\_\theta\mathcal L(\theta_t) } \\]
+$\boxed{ \theta\_{t+1}=\theta_t-\eta\nabla\_\theta\mathcal L(\theta_t) }$
 
 Este procedimiento se denomina descenso por gradiente.
 
-### 5.1. Learning rate
+### Learning rate
 
-El parámetro \\(\eta\\), denominado learning rate, determina el tamaño del paso de actualización.
+El parámetro $\eta$, denominado learning rate, determina el tamaño del paso de actualización.
 
-Si \\(\eta\\) es demasiado pequeño, el entrenamiento puede progresar muy lentamente.
+Si $\eta$ es demasiado pequeño, el entrenamiento puede progresar muy lentamente.
 
 Si es demasiado grande, el procedimiento puede oscilar, divergir o atravesar regiones de baja pérdida sin estabilizarse.
 
@@ -4743,37 +4738,37 @@ Representación conceptual de la influencia del learning rate sobre una función
 
 En una función cuadrática:
 
-\\[ \mathcal L(\theta)=\frac12\lambda\theta^2 \\]
+$\mathcal L(\theta)=\frac12\lambda\theta^2$
 
 el gradiente es:
 
-\\[ \nabla\mathcal L=\lambda\theta \\]
+$\nabla\mathcal L=\lambda\theta$
 
 La actualización queda:
 
-\\[ \theta\_{t+1}=(1-\eta\lambda)\theta_t \\]
+$\theta\_{t+1}=(1-\eta\lambda)\theta_t$
 
 Para que converja hacia cero se requiere:
 
-\\[ |1-\eta\lambda|<1 \\]
+$|1-\eta\lambda|<1$
 
 Por lo tanto:
 
-\\[ \boxed{0<\eta<\frac{2}{\lambda}} \\]
+$\boxed{0<\eta<\frac{2}{\lambda}}$
 
-Para una función cuadrática multidimensional con matriz Hessiana definida positiva \\(H\\), la condición correspondiente al descenso por gradiente de paso constante utiliza el mayor autovalor:
+Para una función cuadrática multidimensional con matriz Hessiana definida positiva $H$, la condición correspondiente al descenso por gradiente de paso constante utiliza el mayor autovalor:
 
-\\[ \boxed{ 0<\eta<\frac{2}{\lambda\_{\max}(H)} } \\]
+$\boxed{ 0<\eta<\frac{2}{\lambda\_{\max}(H)} }$
 
 Estas condiciones no constituyen una regla universal para redes profundas no convexas, pero ilustran por qué el learning rate depende de la curvatura de la función de pérdida.
 
-### 5.2. Batch, epoch y tamaño de lote
+### Batch, epoch y tamaño de lote
 
 En entrenamiento con grandes conjuntos de datos se utiliza normalmente un gradiente aproximado calculado sobre un lote de ejemplos.
 
-Para un lote \\(B_t\\):
+Para un lote $B_t$:
 
-\\[ g_t= \frac1{|B_t|} \sum\_{i\in B_t} \nabla\_\theta\ell_i(\theta_t) \\]
+$g_t= \frac1{|B_t|} \sum\_{i\in B_t} \nabla\_\theta\ell_i(\theta_t)$
 
 El tamaño de lote afecta tanto el costo computacional como la variabilidad del gradiente.
 
@@ -4783,17 +4778,17 @@ Los conceptos son:
 - Iteration o step: actualización de parámetros.
 - Epoch: recorrido de los ejemplos del conjunto de entrenamiento, normalmente una vez por época.
 
-Para \\(N\\) ejemplos y un batch de tamaño \\(B\\), la cantidad aproximada de pasos por época es:
+Para $N$ ejemplos y un batch de tamaño $B$, la cantidad aproximada de pasos por época es:
 
-\\[ \left\lceil\frac NB\right\rceil \\]
+$\left\lceil\frac NB\right\rceil$
 
 Los lotes pequeños pueden producir gradientes más ruidosos, mientras que los grandes aprovechan mejor determinadas arquitecturas de cómputo paralelo, pero requieren más memoria.
 
-### 5.3. Descenso por gradiente estocástico: SGD
+### Descenso por gradiente estocástico: SGD
 
 SGD utiliza un gradiente calculado sobre un ejemplo o minibatch:
 
-\\[ \boxed{\theta\_{t+1}=\theta_t-\eta g_t} \\]
+$\boxed{\theta\_{t+1}=\theta_t-\eta g_t}$
 
 Su principal virtud es la simplicidad.
 
@@ -4801,57 +4796,57 @@ Puede generalizar bien y presenta un costo auxiliar de memoria relativamente baj
 
 Su principal dificultad es que requiere una selección adecuada del learning rate y puede avanzar lentamente en regiones donde las curvaturas difieren mucho entre direcciones.
 
-### 5.4. SGD con momentum
+### SGD con momentum
 
 Momentum incorpora una memoria de los gradientes anteriores:
 
-\\[ \boxed{ m_t=\beta m\_{t-1}+(1-\beta)g_t } \\]
+$\boxed{ m_t=\beta m\_{t-1}+(1-\beta)g_t }$
 
-\\[ \boxed{ \theta\_{t+1}=\theta_t-\eta m_t } \\]
+$\boxed{ \theta\_{t+1}=\theta_t-\eta m_t }$
 
-Esta es una convención de promedio exponencial; también existen formulaciones sin el factor \\(1-\beta\\).
+Esta es una convención de promedio exponencial; también existen formulaciones sin el factor $1-\beta$.
 
 Un valor habitual es:
 
-\\[ \beta=0,9 \\]
+$\beta=0,9$
 
 Momentum suaviza oscilaciones y acumula dirección cuando los gradientes son persistentes.
 
-### 5.5. Nesterov momentum
+### Nesterov momentum
 
 El método de Nesterov utiliza información del gradiente evaluada en una posición anticipada.
 
 Una formulación es:
 
-\\[ \tilde\theta_t=\theta_t+\mu v_t \\]
+$\tilde\theta_t=\theta_t+\mu v_t$
 
-\\[ v\_{t+1}=\mu v_t-\eta\nabla\mathcal L(\tilde\theta_t) \\]
+$v\_{t+1}=\mu v_t-\eta\nabla\mathcal L(\tilde\theta_t)$
 
-\\[ \theta\_{t+1}=\theta_t+v\_{t+1} \\]
+$\theta\_{t+1}=\theta_t+v\_{t+1}$
 
 La diferencia conceptual respecto de momentum clásico es que incorpora una evaluación adelantada de la dirección de movimiento.
 
-### 5.6. Adagrad
+### Adagrad
 
 Adagrad adapta el paso de aprendizaje según el historial de gradientes de cada parámetro.
 
-\\[ G_t=G\_{t-1}+g_t\odot g_t \\]
+$G_t=G\_{t-1}+g_t\odot g_t$
 
-\\[ \boxed{ \theta\_{t+1} = \theta_t- \eta\frac{g_t}{\sqrt{G_t}+\epsilon} } \\]
+$\boxed{ \theta\_{t+1} = \theta_t- \eta\frac{g_t}{\sqrt{G_t}+\epsilon} }$
 
 Las operaciones son elemento a elemento.
 
 Es útil con características dispersas, porque cada parámetro adquiere su propia escala efectiva de actualización.
 
-Su principal inconveniente es que \\(G_t\\) crece continuamente, por lo que el learning rate efectivo puede disminuir demasiado.
+Su principal inconveniente es que $G_t$ crece continuamente, por lo que el learning rate efectivo puede disminuir demasiado.
 
-### 5.7. RMSprop
+### RMSprop
 
 RMSprop reemplaza la acumulación indefinida por un promedio móvil:
 
-\\[ \boxed{ v_t=\rho v\_{t-1}+(1-\rho)g_t^2 } \\]
+$\boxed{ v_t=\rho v\_{t-1}+(1-\rho)g_t^2 }$
 
-\\[ \boxed{ \theta\_{t+1} = \theta_t- \eta\frac{g_t}{\sqrt{v_t}+\epsilon} } \\]
+$\boxed{ \theta\_{t+1} = \theta_t- \eta\frac{g_t}{\sqrt{v_t}+\epsilon} }$
 
 De esta manera, los gradientes antiguos pierden influencia progresivamente.
 
@@ -4861,35 +4856,35 @@ Adam (Adaptive Moment Estimation) combina estimaciones del primer y segundo mome
 
 Definimos:
 
-\\[ g_t=\nabla\_\theta\mathcal L(\theta\_{t-1}) \\]
+$g_t=\nabla\_\theta\mathcal L(\theta\_{t-1})$
 
 El primer momento:
 
-\\[ \boxed{ m_t=\beta_1m\_{t-1}+(1-\beta_1)g_t } \\]
+$\boxed{ m_t=\beta_1m\_{t-1}+(1-\beta_1)g_t }$
 
 El segundo momento:
 
-\\[ \boxed{ v_t=\beta_2v\_{t-1}+(1-\beta_2)g_t^2 } \\]
+$\boxed{ v_t=\beta_2v\_{t-1}+(1-\beta_2)g_t^2 }$
 
 Como ambos momentos comienzan en cero, se introducen correcciones de sesgo:
 
-\\[ \hat m_t=\frac{m_t}{1-\beta_1^t} \\]
+$\hat m_t=\frac{m_t}{1-\beta_1^t}$
 
-\\[ \hat v_t=\frac{v_t}{1-\beta_2^t} \\]
+$\hat v_t=\frac{v_t}{1-\beta_2^t}$
 
 Finalmente:
 
-\\[ \boxed{ \theta_t= \theta\_{t-1} - \eta \frac{\hat m_t}{\sqrt{\hat v_t}+\epsilon} } \\]
+$\boxed{ \theta_t= \theta\_{t-1} - \eta \frac{\hat m_t}{\sqrt{\hat v_t}+\epsilon} }$
 
 Valores habituales de inicialización son:
 
-\\[ \beta_1=0,9,\qquad \beta_2=0,999,\qquad \epsilon=10^{-8} \\]
+$\beta_1=0,9,\qquad \beta_2=0,999,\qquad \epsilon=10^{-8}$
 
 Adam adapta el tamaño del paso a cada parámetro.
 
 No debe interpretarse como un procedimiento que garantiza encontrar el mínimo global de una red profunda.
 
-### 5.9. AdamW
+### AdamW
 
 AdamW introduce una separación entre la actualización adaptativa y la penalización de los pesos.
 
@@ -4899,11 +4894,11 @@ En AdamW, la reducción de pesos se aplica de manera desacoplada.
 
 Una forma de escribir la actualización es:
 
-\\[ \boxed{ \theta_t= (1-\eta\lambda)\theta\_{t-1} - \eta \frac{\hat m_t}{\sqrt{\hat v_t}+\epsilon} } \\]
+$\boxed{ \theta_t= (1-\eta\lambda)\theta\_{t-1} - \eta \frac{\hat m_t}{\sqrt{\hat v_t}+\epsilon} }$
 
 donde:
 
-\\[ \lambda=\text{weight decay} \\]
+$\lambda=\text{weight decay}$
 
 El procedimiento permite controlar la reducción de magnitud de los parámetros separadamente de los momentos del gradiente.
 
@@ -4914,8 +4909,7 @@ Es una opción frecuente en el entrenamiento de transformers y otras redes profu
 PyTorch main documentation+1
 
 
-
-### 5.10. Comparación de optimizadores
+### Comparación de optimizadores
 
 | Optimizador    | Mecanismo                        | Ventaja                          | Limitación                 |
 | -------------- | -------------------------------- | -------------------------------- | -------------------------- |
@@ -4927,7 +4921,7 @@ PyTorch main documentation+1
 | Adam           | Primer y segundo momento         | Buen comportamiento inicial      | Más memoria y ajustes      |
 | AdamW          | Adam con decay desacoplado       | Control de regularización        | Más hiperparámetros        |
 
-### 5.11. Estrategias para lograr convergencia práctica
+### Estrategias para lograr convergencia práctica
 
 No existe una receta que garantice la convergencia global de redes profundas arbitrarias.
 
@@ -4935,21 +4929,21 @@ Sin embargo, se utilizan estrategias que suelen mejorar la estabilidad del entre
 
 Inicialización Xavier/Glorot. Para capas apropiadas, utiliza escalas de pesos relacionadas con el número de entradas y salidas:
 
-\\[ \operatorname{Var}(W)\approx \frac{2}{n\_{\text{in}}+n\_{\text{out}}} \\]
+$\operatorname{Var}(W)\approx \frac{2}{n\_{\text{in}}+n\_{\text{out}}}$
 
 Inicialización He. Especialmente asociada a activaciones ReLU:
 
-\\[ \operatorname{Var}(W)\approx\frac{2}{n\_{\text{in}}} \\]
+$\operatorname{Var}(W)\approx\frac{2}{n\_{\text{in}}}$
 
 Gradient clipping. Limita la norma de los gradientes:
 
-\\[ \boxed{ g\leftarrow g\cdot\min\left(1,\frac{c}{\\|g\\|\_2}\right) } \\]
+$\boxed{ g\leftarrow g\cdot\min\left(1,\frac{c}{\\|g\\|\_2}\right) }$
 
 Learning-rate scheduling. Reduce o modifica el learning rate durante el entrenamiento.
 
 Un decaimiento cosenoidal puede expresarse como:
 
-\\[ \eta(t)=\eta\_{\min} + \frac12(\eta\_{\max}-\eta\_{\min}) \left(1+\cos\frac{\pi t}{T}\right) \\]
+$\eta(t)=\eta\_{\min} + \frac12(\eta\_{\max}-\eta\_{\min}) \left(1+\cos\frac{\pi t}{T}\right)$
 
 Warmup. Incrementa progresivamente el learning rate durante los primeros pasos.
 
@@ -4957,21 +4951,21 @@ Normalización. Batch Normalization o Layer Normalization pueden mejorar el comp
 
 Conexiones residuales. Facilitan la propagación de información y gradientes:
 
-\\[ y=x+F\_\theta(x) \\]
+$y=x+F\_\theta(x)$
 
 Early stopping. Interrumpe el entrenamiento cuando deja de mejorar una métrica de validación.
 
 Regularización. Weight decay, dropout y otras técnicas reducen ciertos riesgos de sobreajuste.
 
-### 5.12. Cómo determinar si el aprendizaje está funcionando
+### Cómo determinar si el aprendizaje está funcionando
 
 Es importante distinguir tres conceptos:
 
-\\[ \text{pérdida de entrenamiento} \\]
+$\text{pérdida de entrenamiento}$
 
-\\[ \text{pérdida de validación} \\]
+$\text{pérdida de validación}$
 
-\\[ \text{rendimiento real} \\]
+$\text{rendimiento real}$
 
 Una red puede reducir continuamente su pérdida de entrenamiento y, al mismo tiempo, empeorar sobre datos nuevos.
 
@@ -4989,9 +4983,9 @@ Por ello, conviene registrar simultáneamente:
 
 El criterio final debe corresponder al objetivo que realmente se desea alcanzar.
 
-## 6. Redes neuronales aplicadas al ajedrez
+## Redes neuronales aplicadas al ajedrez
 
-### 6.1. Cómo representar una posición
+### Cómo representar una posición
 
 Las redes neuronales trabajan con números. Por lo tanto, es necesario convertir una posición de ajedrez en un vector, matriz o tensor.
 
@@ -4999,19 +4993,19 @@ La representación más elemental utiliza un vector binario con una característ
 
 Existen:
 
-\\[ 6\times2=12 \\]
+$6\times2=12$
 
 categorías de piezas.
 
 Para 64 casillas:
 
-\\[ \boxed{ 12\times64=768 } \\]
+$\boxed{ 12\times64=768 }$
 
 características.
 
 Una característica puede definirse:
 
-\\[ x\_{p,c,s}= \begin{cases} 1 & \text{si existe una pieza de tipo }p,\text{ color }c,\text{ en }s\\\ 0 & \text{en otro caso} \end{cases} \\]
+$x\_{p,c,s}= \begin{cases} 1 & \text{si existe una pieza de tipo }p,\text{ color }c,\text{ en }s\\\ 0 & \text{en otro caso} \end{cases}$
 
 Por ejemplo, si una torre blanca está en a1, la característica correspondiente a torre blanca en a1 vale 1.
 
@@ -5021,7 +5015,7 @@ Este cambio pequeño es especialmente interesante para redes incrementales NNUE.
 
 Sin embargo, los 768 valores de piezas no describen por completo las reglas de la partida. Pueden agregarse características como turno, enroques, captura al paso y contadores relevantes.
 
-### 6.2. Principales familias de redes de ajedrez
+### Principales familias de redes de ajedrez
 
 | Familia              | Entrada típica                       | Salida              | Uso principal                   |
 | -------------------- | ------------------------------------ | ------------------- | ------------------------------- |
@@ -5035,7 +5029,7 @@ NNUE se refiere principalmente a un enfoque de evaluación eficiente y actualiza
 
 Igualmente, una red con dos cabezas de salida no constituye una familia arquitectónica independiente: puede construirse utilizando capas densas, convolucionales o transformers.
 
-## 7. Redes NNUE: arquitectura y funcionamiento
+## Redes NNUE: arquitectura y funcionamiento
 
 NNUE significa Efficiently Updatable Neural Network.
 
@@ -5043,61 +5037,59 @@ Su característica fundamental consiste en permitir una actualización rápida d
 
 Esto resulta especialmente importante para motores que recorren árboles Alfa-Beta, donde una misma posición puede generar decenas de sucesores y la mayor parte de las piezas permanece inmóvil entre un nodo y otro.
 
-### 7.1. El problema de recalcular toda la red
+### El problema de recalcular toda la red
 
 Supongamos una red cuya primera capa calcula:
 
-\\[ h=\sigma(Wx+b) \\]
+$h=\sigma(Wx+b)$
 
 donde:
 
-\\[ x\in\mathbb R^N \\]
+$x\in\mathbb R^N$
 
 es el vector de características del tablero.
 
 Calcular completamente:
 
-\\[ Wx \\]
+$Wx$
 
 requiere, en una matriz densa, una cantidad de operaciones proporcional a:
 
-\\[ O(NH) \\]
+$O(NH)$
 
-si existen \\(H\\) neuronas en la capa.
+si existen $H$ neuronas en la capa.
 
 Pero si una jugada modifica únicamente algunas características, no necesitamos repetir toda la multiplicación.
 
 Definamos el acumulador previo a la activación:
 
-\\[ \boxed{ A(s)=b+\sum\_{i\in F(s)}W\_{:,i} } \\]
+$\boxed{ A(s)=b+\sum\_{i\in F(s)}W\_{:,i} }$
 
-donde \\(F(s)\\) es el conjunto de características activas y \\(W\_{:,i}\\) es la columna correspondiente a la característica \\(i\\).
+donde $F(s)$ es el conjunto de características activas y $W\_{:,i}$ es la columna correspondiente a la característica $i$.
 
-Si una jugada elimina la característica \\(i\\) y agrega la característica \\(j\\):
+Si una jugada elimina la característica $i$ y agrega la característica $j$:
 
-\\[ \boxed{ A(s')=A(s)-W\_{:,i}+W\_{:,j} } \\]
+$\boxed{ A(s')=A(s)-W\_{:,i}+W\_{:,j} }$
 
 El costo de actualización pasa a depender de la cantidad de características modificadas, no de la dimensión total de entrada.
-
-### 7.2. Ejemplo: movimiento de un caballo
 
 Supongamos que un caballo blanco se mueve de g1 a f3.
 
 En una codificación simple pieza-casilla:
 
-\\[ x\_{\text{caballo blanco,g1}}:1\rightarrow0 \\]
+$x\_{\text{caballo blanco,g1}}:1\rightarrow0$
 
-\\[ x\_{\text{caballo blanco,f3}}:0\rightarrow1 \\]
+$x\_{\text{caballo blanco,f3}}:0\rightarrow1$
 
 Entonces:
 
-\\[ \boxed{ A(s')= A(s) - W\_{:,\text{Cb-g1}} + W\_{:,\text{Cb-f3}} } \\]
+$\boxed{ A(s')= A(s) - W\_{:,\text{Cb-g1}} + W\_{:,\text{Cb-f3}} }$
 
 Si la primera capa tiene 256 neuronas, la actualización exige aproximadamente 256 restas y 256 sumas, en lugar de recorrer todas las 768 características.
 
 En una codificación con referencia al rey, como HalfKP, también es necesario considerar cómo afecta el movimiento a las características dependientes de la posición del rey.
 
-### 7.3. Características HalfKP
+### Características HalfKP
 
 Una representación conocida de NNUE utiliza características que dependen de:
 
@@ -5108,11 +5100,11 @@ Una representación conocida de NNUE utiliza características que dependen de:
 
 Una característica puede expresarse:
 
-\\[ f=(k,s,p,c) \\]
+$f=(k,s,p,c)$
 
 Para 64 posiciones del rey, 64 casillas y diez categorías de piezas no reales:
 
-\\[ \boxed{ 64\times64\times10=40960 } \\]
+$\boxed{ 64\times64\times10=40960 }$
 
 características posibles por perspectiva.
 
@@ -5130,29 +5122,29 @@ Stockfish Docs+1
 
 
 
-### 7.4. Cuantización
+### Cuantización
 
 Para ejecutar una NNUE eficientemente puede resultar conveniente representar los pesos con enteros de 8 o 16 bits.
 
 Una cuantización simétrica sencilla es:
 
-\\[ \boxed{ w_q= \operatorname{clip} \left( \operatorname{round}\left(\frac{w}{s}\right), -q\_{\max}, q\_{\max} \right) } \\]
+$\boxed{ w_q= \operatorname{clip} \left( \operatorname{round}\left(\frac{w}{s}\right), -q\_{\max}, q\_{\max} \right) }$
 
-donde \\(s\\) representa una escala.
+donde $s$ representa una escala.
 
 La aproximación real del peso es:
 
-\\[ \hat w=s\\,w_q \\]
+$\hat w=s\\,w_q$
 
 En redes cuantizadas, las multiplicaciones pueden utilizar instrucciones enteras, evitando parcialmente el costo de operaciones de punto flotante.
 
 Sin embargo, la cuantización introduce error:
 
-\\[ e_q=w-\hat w \\]
+$e_q=w-\hat w$
 
 Por ello, el entrenamiento y la conversión deben verificar que el error acumulado no modifique excesivamente las evaluaciones.
 
-## 8. Arquitectura compacta de 8 neuronas por perspectiva
+## Arquitectura compacta de 8 neuronas por perspectiva
 
 Consideremos ahora una red extremadamente compacta, diseñada para evaluar posiciones con recursos de memoria y procesamiento limitados.
 
@@ -5160,17 +5152,17 @@ La arquitectura inspeccionada en el proyecto utiliza dos perspectivas de acumula
 
 Para describirla utilizaremos exclusivamente sus dimensiones y operaciones, sin asignarle un nombre particular.
 
-### 8.1. Estructura funcional
+### Estructura funcional
 
 La representación de piezas dispone de doce categorías sobre 64 casillas:
 
-\\[ 12\times64=768 \\]
+$12\times64=768$
 
 Se construyen dos acumuladores de ocho componentes:
 
-\\[ A_W(s)\in\mathbb Z^8 \\]
+$A_W(s)\in\mathbb Z^8$
 
-\\[ A_B(s)\in\mathbb Z^8 \\]
+$A_B(s)\in\mathbb Z^8$
 
 Las características se orientan de manera diferente según la perspectiva.
 
@@ -5200,69 +5192,69 @@ La arquitectura conceptual es:
        Evaluación en cp
 ```
 
-### 8.2. Acumuladores
+### Acumuladores
 
-Para una perspectiva \\(p\\):
+Para una perspectiva $p$:
 
-\\[ \boxed{ A\_{p,j}(s)=b_j+ \sum\_{f\in F_p(s)}w\_{f,j} } \\]
+$\boxed{ A\_{p,j}(s)=b_j+ \sum\_{f\in F_p(s)}w\_{f,j} }$
 
 con:
 
-\\[ j=1,\ldots,8 \\]
+$j=1,\ldots,8$
 
 Se utilizan dos conjuntos de características orientadas:
 
-\\[ F_W(s),\qquad F_B(s) \\]
+$F_W(s),\qquad F_B(s)$
 
 La transformación de orientación permite representar posiciones equivalentes desde ambos lados.
 
 Cada acumulador recibe la contribución de las piezas presentes, sin evaluar una capa densa completa en cada posición.
 
-### 8.3. Activación entera
+### Activación entera
 
 Las activaciones se limitan mediante:
 
-\\[ \boxed{ h\_{p,j}= \min(32,\max(0,A\_{p,j})) } \\]
+$\boxed{ h\_{p,j}= \min(32,\max(0,A\_{p,j})) }$
 
 Esto equivale a una ReLU recortada con límite superior 32.
 
 La salida contiene 16 activaciones:
 
-\\[ h(s)= \begin{bmatrix} h\_{W,1}\\\ \vdots\\\ h\_{W,8}\\\ h\_{B,1}\\\ \vdots\\\ h\_{B,8} \end{bmatrix} \\]
+$h(s)= \begin{bmatrix} h\_{W,1}\\\ \vdots\\\ h\_{W,8}\\\ h\_{B,1}\\\ \vdots\\\ h\_{B,8} \end{bmatrix}$
 
 El orden de las dos perspectivas se intercambia según el jugador al turno.
 
-### 8.4. Buckets de fase material
+### Buckets de fase material
 
 La salida utiliza ocho grupos de parámetros, o buckets, determinados por una medida derivada de la cantidad de piezas.
 
 Sea:
 
-\\[ k(s)\in\\{0,\ldots,7\\} \\]
+$k(s)\in\\{0,\ldots,7\\}$
 
 el índice del bucket.
 
 El evaluador utiliza diferentes pesos finales para cada bucket:
 
-\\[ w^{\text{out}}\_{k(s)} \\]
+$w^{\text{out}}\_{k(s)}$
 
 y un sesgo:
 
-\\[ b^{\text{out}}\_{k(s)} \\]
+$b^{\text{out}}\_{k(s)}$
 
 La evaluación neuronal puede escribirse conceptualmente como:
 
-\\[ \boxed{ v\_{\text{NN}}(s)= b^{\text{out}}\_{k(s)} + \sum\_{j=1}^{16} w^{\text{out}}\_{k(s),j}h_j(s) } \\]
+$\boxed{ v\_{\text{NN}}(s)= b^{\text{out}}\_{k(s)} + \sum\_{j=1}^{16} w^{\text{out}}\_{k(s),j}h_j(s) }$
 
 Después se aplica una escala entera y se agrega una contribución material explícita:
 
-\\[ \boxed{ E(s)= Q\big(v\_{\text{NN}}(s)\big)+M(s) } \\]
+$\boxed{ E(s)= Q\big(v\_{\text{NN}}(s)\big)+M(s) }$
 
-donde \\(Q\\) representa la conversión de escala y truncamiento utilizada por el evaluador.
+donde $Q$ representa la conversión de escala y truncamiento utilizada por el evaluador.
 
 La separación entre componente neuronal y material implica que la red no tiene que aprender necesariamente desde cero toda la diferencia de valor entre las piezas.
 
-### 8.5. Compresión de parámetros
+### Compresión de parámetros
 
 La implementación examinada utiliza un conjunto compacto de 1.680 coeficientes enteros pequeños.
 
@@ -5270,7 +5262,7 @@ Estos coeficientes se expanden durante la carga para construir una tabla efectiv
 
 La tabla expandida contiene:
 
-\\[ 768\times8=6144 \\]
+$768\times8=6144$
 
 coeficientes de entrada, más ocho sesgos de acumulación.
 
@@ -5278,43 +5270,43 @@ Sin embargo, los 6.144 coeficientes no son todos parámetros independientes: se 
 
 En el formato inspeccionado:
 
-\\[ 1680\times6=10080 \\]
+$1680\times6=10080$
 
 bits contienen los coeficientes de seis bits.
 
 Esto equivale a:
 
-\\[ 10080/8=1260 \\]
+$10080/8=1260$
 
 bytes de carga útil, además de una cabecera de 44 bytes.
 
 El archivo completo tiene:
 
-\\[ \boxed{1304\text{ bytes}} \\]
+$\boxed{1304\text{ bytes}}$
 
 La arquitectura ilustra una diferencia importante entre número de parámetros almacenados, número de coeficientes efectivos durante la inferencia y tamaño físico del archivo.
 
-### 8.6. Cómo entrenarla
+### Cómo entrenarla
 
 Debido a sus restricciones, una opción razonable consiste en entrenar primero un modelo diferenciable que reproduzca las operaciones esenciales.
 
 Durante el entrenamiento pueden mantenerse pesos en punto flotante:
 
-\\[ w\in\mathbb R \\]
+$w\in\mathbb R$
 
 utilizando activaciones recortadas:
 
-\\[ h=\operatorname{clip}(A,0,32) \\]
+$h=\operatorname{clip}(A,0,32)$
 
 El objetivo puede ser una evaluación normalizada:
 
-\\[ y=\tanh\left(\frac{cp}{c}\right) \\]
+$y=\tanh\left(\frac{cp}{c}\right)$
 
-donde \\(c\\) es un factor de escala elegido experimentalmente.
+donde $c$ es un factor de escala elegido experimentalmente.
 
 La pérdida:
 
-\\[ \boxed{ L= \frac1N\sum_i (f\_\theta(s_i)-y_i)^2 } \\]
+$\boxed{ L= \frac1N\sum_i (f\_\theta(s_i)-y_i)^2 }$
 
 El procedimiento general es:
 
@@ -5328,15 +5320,15 @@ El procedimiento general es:
 
 Una advertencia técnica: entrenar libremente los 6.144 coeficientes expandidos y luego intentar comprimirlos puede producir errores importantes. Es preferible incorporar las restricciones de parametrización durante el entrenamiento o realizar un ajuste posterior que minimice explícitamente el error introducido por la compresión.
 
-## 9. Arquitectura NPZ: red densa de 781–64–1
+## Arquitectura NPZ: red densa de 781–64–1
 
 En la implementación NPZ examinada, la red utiliza:
 
-\\[ \boxed{781\rightarrow64\rightarrow1} \\]
+$\boxed{781\rightarrow64\rightarrow1}$
 
 La entrada está formada por:
 
-\\[ 768+4+8+1=781 \\]
+$768+4+8+1=781$
 
 características.
 
@@ -5350,65 +5342,65 @@ Las otras corresponden a:
 
 La red utiliza una capa oculta ReLU de 64 unidades:
 
-\\[ \boxed{ h=\operatorname{ReLU}(W_1^\top x+b_1) } \\]
+$\boxed{ h=\operatorname{ReLU}(W_1^\top x+b_1) }$
 
 La salida es:
 
-\\[ \boxed{ v=h^\top w_2+b_2+w_h\frac{hmc}{50} } \\]
+$\boxed{ v=h^\top w_2+b_2+w_h\frac{hmc}{50} }$
 
-donde \\(hmc\\) representa el contador de medias jugadas sin captura ni movimiento de peón.
+donde $hmc$ representa el contador de medias jugadas sin captura ni movimiento de peón.
 
 La evaluación se convierte posteriormente a centipeones mediante un factor de calibración de 400:
 
-\\[ \boxed{E(s)=400v} \\]
+$\boxed{E(s)=400v}$
 
 En esta implementación, el contador no está incluido entre las 781 características de entrada: ingresa mediante un término escalar adicional que posee su propio parámetro entrenable.
 
-### 9.1. Número de parámetros
+### Número de parámetros
 
 La primera capa contiene:
 
-\\[ 781\times64+64=50048 \\]
+$781\times64+64=50048$
 
 parámetros.
 
 La segunda:
 
-\\[ 64+1=65 \\]
+$64+1=65$
 
 Y existe un peso adicional para el contador:
 
-\\[ 1 \\]
+$1$
 
 En total:
 
-\\[ \boxed{ P=50114 } \\]
+$\boxed{ P=50114 }$
 
 parámetros entrenables.
 
-### 9.2. Evaluación dispersa
+### Evaluación dispersa
 
 Aunque el vector de entrada tiene 781 componentes, solamente una pequeña fracción es distinta de cero.
 
 Por lo tanto, la primera capa puede calcularse mediante:
 
-\\[ \boxed{ z=b+\sum\_{i\in F(s)}W\_{i,:} } \\]
+$\boxed{ z=b+\sum\_{i\in F(s)}W\_{i,:} }$
 
 sin realizar las multiplicaciones correspondientes a entradas nulas.
 
 La implementación utiliza esta propiedad para construir el acumulador.
 
-### 9.3. Entrenamiento
+### Entrenamiento
 
 Se necesita un conjunto de pares:
 
-\\[ D=\\{(s_i,y_i)\\}\_{i=1}^{N} \\]
+$D=\\{(s_i,y_i)\\}\_{i=1}^{N}$
 
-donde \\(y_i\\) puede representar una evaluación de un motor de referencia, una etiqueta posicional o una transformación del resultado de la partida.
+donde $y_i$ puede representar una evaluación de un motor de referencia, una etiqueta posicional o una transformación del resultado de la partida.
 
 Una pérdida sencilla:
 
-\\[ L\_{\text{NPZ}}= \frac1N \sum_i (E\_\theta(s_i)-y_i)^2 \\]
+$L\_{\text{NPZ}}= \frac1N \sum_i (E\_\theta(s_i)-y_i)^2$
 
 Los valores de salida deben normalizarse correctamente: si la red trabaja en una escala interna y la referencia está en centipeones, hay que convertir una de ellas antes de calcular la pérdida.
 
@@ -5416,31 +5408,31 @@ Para esta red, el entrenamiento con Adam o AdamW es viable, pero no constituye n
 
 El formato `.npz` no especifica por sí mismo una arquitectura neuronal. Es un contenedor de arreglos NumPy. La arquitectura real queda determinada por las dimensiones, las operaciones y la semántica de los arreglos almacenados.
 
-## 10. Arquitectura Cerebrum: dos perspectivas de 768–256, seguidas de 32–1
+## Arquitectura Cerebrum: dos perspectivas de 768–256, seguidas de 32–1
 
 La arquitectura Cerebrum 2.0 presente en los fuentes examinados utiliza:
 
-\\[ \boxed{ 2\times(768\rightarrow256) \rightarrow32\rightarrow1 } \\]
+$\boxed{ 2\times(768\rightarrow256) \rightarrow32\rightarrow1 }$
 
 Esto significa que se construyen dos acumuladores de 256 unidades, uno por perspectiva.
 
 Las salidas se concatenan:
 
-\\[ h= \begin{bmatrix} h_W\\\h_B \end{bmatrix} \in\mathbb R^{512} \\]
+$h= \begin{bmatrix} h_W\\\h_B \end{bmatrix} \in\mathbb R^{512}$
 
 Posteriormente:
 
-\\[ z_2=W_2h+b_2 \\]
+$z_2=W_2h+b_2$
 
 con:
 
-\\[ W_2\in\mathbb R^{32\times512} \\]
+$W_2\in\mathbb R^{32\times512}$
 
 y finalmente:
 
-\\[ v=w_3^\top\sigma(z_2)+b_3 \\]
+$v=w_3^\top\sigma(z_2)+b_3$
 
-### 10.1. Diagrama de arquitectura
+### Diagrama de arquitectura
 
 ```
            Posición de ajedrez
@@ -5467,47 +5459,47 @@ y finalmente:
 
 Las dos transformaciones de entrada comparten los pesos de la matriz principal, utilizando características orientadas de manera diferente.
 
-Por lo tanto, no corresponde contar dos matrices independientes de \\(768\times256\\).
+Por lo tanto, no corresponde contar dos matrices independientes de $768\times256$.
 
-### 10.2. Cantidad de parámetros
+### Cantidad de parámetros
 
 La matriz de entrada contiene:
 
-\\[ 768\times256=196608 \\]
+$768\times256=196608$
 
 pesos.
 
 El sesgo de esa capa:
 
-\\[ 256 \\]
+$256$
 
 La segunda capa:
 
-\\[ 512\times32+32=16416 \\]
+$512\times32+32=16416$
 
 La salida:
 
-\\[ 32+1=33 \\]
+$32+1=33$
 
 Total:
 
-\\[ \boxed{ P=213313 } \\]
+$\boxed{ P=213313 }$
 
 Este cálculo corresponde a la arquitectura de pesos compartidos utilizada por el evaluador inspeccionado.
 
 Si se crearan dos transformaciones de entrada independientes, el número de parámetros sería diferente.
 
-### 10.3. Entrenamiento y cuantización
+### Entrenamiento y cuantización
 
 Una estrategia es utilizar una versión de entrenamiento en punto flotante:
 
-\\[ A_W=W_1x_W+b_1 \\]
+$A_W=W_1x_W+b_1$
 
-\\[ A_B=W_1x_B+b_1 \\]
+$A_B=W_1x_B+b_1$
 
-\\[ h=\operatorname{concat}(\sigma(A_W),\sigma(A_B)) \\]
+$h=\operatorname{concat}(\sigma(A_W),\sigma(A_B))$
 
-\\[ v=W_3\sigma(W_2h+b_2)+b_3 \\]
+$v=W_3\sigma(W_2h+b_2)+b_3$
 
 Después de entrenar, se cuantizan los pesos y activaciones de acuerdo con las escalas del formato de inferencia.
 
@@ -5517,15 +5509,15 @@ No basta con guardar arbitrariamente los pesos como `int8`.
 
 Es necesario determinar, por capa:
 
-\\[ s_w,\quad s_a,\quad s_b \\]
+$s_w,\quad s_a,\quad s_b$
 
 y verificar la correspondencia:
 
-\\[ z\_{\text{entero}}s_z\approx z\_{\text{real}} \\]
+$z\_{\text{entero}}s_z\approx z\_{\text{real}}$
 
 Las comprobaciones deben realizarse sobre una colección de posiciones representativa.
 
-### 10.4. Comparación de los evaluadores compactos
+### Comparación de los evaluadores compactos
 
 | Arquitectura                       | Parámetros principales       | Característica dominante                |
 | ---------------------------------- | ---------------------------- | --------------------------------------- |
@@ -5539,78 +5531,78 @@ La arquitectura más grande puede representar funciones más complejas, pero tam
 
 Para sistemas con recursos muy limitados, el costo de inferencia y la memoria pueden importar tanto como la precisión del evaluador.
 
-## 11. Redes neuronales convolucionales para ajedrez
+## Redes neuronales convolucionales para ajedrez
 
 Las redes convolucionales, o CNN (Convolutional Neural Networks), fueron diseñadas para aprovechar regularidades espaciales de los datos.
 
-En ajedrez resultan naturales porque las piezas se distribuyen sobre una matriz de \\(8\times8\\), y muchas relaciones relevantes tienen una estructura espacial: diagonales, columnas abiertas, estructuras de peones y coordinación entre piezas.
+En ajedrez resultan naturales porque las piezas se distribuyen sobre una matriz de $8\times8$, y muchas relaciones relevantes tienen una estructura espacial: diagonales, columnas abiertas, estructuras de peones y coordinación entre piezas.
 
 ### 11.1. Representación mediante planos
 
 En lugar de aplanar el tablero como un vector, se utiliza un tensor:
 
-\\[ \boxed{X\in\mathbb R^{C\times8\times8}} \\]
+$\boxed{X\in\mathbb R^{C\times8\times8}}$
 
 Por ejemplo, con doce planos de piezas:
 
-\\[ X\in\\{0,1\\}^{12\times8\times8} \\]
+$X\in\\{0,1\\}^{12\times8\times8}$
 
 Otros canales pueden representar el turno, enroques, historia reciente y características adicionales.
 
 Si una red utiliza 112 planos, su entrada tiene:
 
-\\[ 112\times8\times8=7168 \\]
+$112\times8\times8=7168$
 
 valores.
 
 Estos planos no son parámetros entrenables: son datos de entrada.
 
-### 11.2. Operación de convolución
+### Operación de convolución
 
 Una capa convolucional calcula:
 
-\\[ \boxed{ Y\_{o,i,j}= b_o+ \sum\_{c=1}^{C\_{\text{in}}} \sum\_{u=0}^{k-1} \sum\_{v=0}^{k-1} K\_{o,c,u,v} X\_{c,i+u,j+v} } \\]
+$\boxed{ Y\_{o,i,j}= b_o+ \sum\_{c=1}^{C\_{\text{in}}} \sum\_{u=0}^{k-1} \sum\_{v=0}^{k-1} K\_{o,c,u,v} X\_{c,i+u,j+v} }$
 
 donde:
 
-- \\(C\_{\text{in}}\\): canales de entrada.
-- \\(C\_{\text{out}}\\): canales de salida.
-- \\(k\\): tamaño del filtro.
-- \\(K\\): pesos del núcleo convolucional.
+- $C\_{\text{in}}$: canales de entrada.
+- $C\_{\text{out}}$: canales de salida.
+- $k$: tamaño del filtro.
+- $K$: pesos del núcleo convolucional.
 
 Se supone el manejo de bordes correspondiente, por ejemplo mediante padding.
 
 La cantidad de parámetros es:
 
-\\[ \boxed{ P\_{\text{conv}}= k^2C\_{\text{in}}C\_{\text{out}}+C\_{\text{out}} } \\]
+$\boxed{ P\_{\text{conv}}= k^2C\_{\text{in}}C\_{\text{out}}+C\_{\text{out}} }$
 
 para una convolución estándar con sesgos.
 
-Por ejemplo, una convolución de \\(3\times3\\) que recibe 112 planos y produce 16 filtros contiene:
+Por ejemplo, una convolución de $3\times3$ que recibe 112 planos y produce 16 filtros contiene:
 
-\\[ P=3^2\times112\times16+16 \\]
+$P=3^2\times112\times16+16$
 
-\\[ \boxed{P=16144} \\]
+$\boxed{P=16144}$
 
 parámetros.
 
 Los mismos pesos se aplican en diferentes casillas, de modo que la red aprende detectores espaciales reutilizables.
 
-### 11.3. Campo receptivo
+### Campo receptivo
 
 Una neurona convolucional no observa necesariamente todo el tablero.
 
-En una convolución \\(3\times3\\), una salida depende inicialmente de una región de tres casillas por tres casillas.
+En una convolución $3\times3$, una salida depende inicialmente de una región de tres casillas por tres casillas.
 
 Al apilar varias convoluciones, el campo receptivo aumenta.
 
-Sin dilataciones, para \\(L\\) capas \\(3\times3\\) de stride 1:
+Sin dilataciones, para $L$ capas $3\times3$ de stride 1:
 
-\\[ \boxed{R=1+2L} \\]
+$\boxed{R=1+2L}$
 
 En una torre con cuatro convoluciones sucesivas:
 
-\\[ R=9 \\]
+$R=9$
 
 lo que permite, al menos geométricamente, cubrir toda una dimensión del tablero de ajedrez.
 
@@ -5618,84 +5610,82 @@ Esta relación explica por qué apilar capas aumenta la capacidad para reconocer
 
 Sin embargo, un campo receptivo grande no garantiza que la red aprenda correctamente esas relaciones.
 
-### 11.4. Bloques residuales
+### Bloques residuales
 
 Las CNN profundas utilizadas en ajedrez suelen emplear bloques residuales.
 
 Un bloque básico puede expresarse:
 
-\\[ F(x)=W_2\*\sigma(W_1\*x) \\]
+$F(x)=W_2\*\sigma(W_1\*x)$
 
-donde \\(\*\\) representa convolución.
+donde $\*$ representa convolución.
 
 La salida es:
 
-\\[ \boxed{y=\sigma(x+F(x))} \\]
+$\boxed{y=\sigma(x+F(x))}$
 
-La conexión directa \\(x\rightarrow y\\) facilita la propagación de gradientes y permite que el bloque aprenda una corrección sobre la representación anterior.
+La conexión directa $x\rightarrow y$ facilita la propagación de gradientes y permite que el bloque aprenda una corrección sobre la representación anterior.
 
 En arquitecturas modernas puede incorporarse normalización, conexiones preactivación y otros refinamientos.
 
-### 11.5. Squeeze-and-Excitation
+### Squeeze-and-Excitation
 
 Los bloques SE (Squeeze-and-Excitation) permiten que la red aprenda la relevancia relativa de sus canales.
 
 Primero se calcula una descripción global de cada canal:
 
-\\[ z_c=\frac1{64} \sum\_{i=1}^{8}\sum\_{j=1}^{8}X\_{c,i,j} \\]
+$z_c=\frac1{64} \sum\_{i=1}^{8}\sum\_{j=1}^{8}X\_{c,i,j}$
 
 Luego se produce un vector de factores:
 
-\\[ g=\sigma(W_2\operatorname{ReLU}(W_1z)) \\]
+$g=\sigma(W_2\operatorname{ReLU}(W_1z))$
 
 Finalmente:
 
-\\[ \boxed{ Y\_{c,i,j}=g_cX\_{c,i,j} } \\]
+$\boxed{ Y\_{c,i,j}=g_cX\_{c,i,j} }$
 
 Esto introduce un mecanismo de atención por canales, diferente de la autoatención completa de un Transformer.
 
-## 12. Redes convolucionales en Leela Chess Zero
+## Redes convolucionales en Leela Chess Zero
 
 Leela Chess Zero (LC0) se desarrolló utilizando inicialmente arquitecturas relacionadas con AlphaZero, basadas en torres residuales profundas.
 
-Su documentación describe arquitecturas con convoluciones, bloques residuales y mecanismos SE, con configuraciones como \\(10\times128\\), \\(20\times256\\) y \\(24\times320\\).&#x20;
+Su documentación describe arquitecturas con convoluciones, bloques residuales y mecanismos SE, con configuraciones como $10\times128$, $20\times256$ y $24\times320$.&#x20;
 
 [image](https://www.google.com/s2/favicons?domain=https://lczero.org\&sz=32)
 
 Leela Chess Zero
 
-
-
 La notación:
 
-\\[ B\times F \\]
+$B\times F$
 
 representa habitualmente:
 
-- \\(B\\): cantidad de bloques residuales.
-- \\(F\\): cantidad de filtros o canales por bloque.
+- $B$: cantidad de bloques residuales.
+- $F$: cantidad de filtros o canales por bloque.
 
 No debe interpretarse como el producto que determina directamente el número total de parámetros.
 
-### 12.1. Tamaño aproximado de una torre residual
+### Tamaño aproximado de una torre residual
 
-Supongamos que cada bloque contiene dos convoluciones \\(3\times3\\) de \\(F\\) canales de entrada y salida.
+Supongamos que cada bloque contiene dos convoluciones $3\times3$ de $F$ canales de entrada y salida.
 
 El número dominante de pesos por bloque es:
 
-\\[ P\_{\text{bloque}}\approx2(3^2F^2) \\]
+$P\_{\text{bloque}}\approx2(3^2F^2)$
 
-\\[ \boxed{ P\_{\text{bloque}}\approx18F^2 } \\]
+$\boxed{ P\_{\text{bloque}}\approx18F^2 }$
 
-Para \\(B\\) bloques:
+Para $B$ bloques:
 
-\\[ \boxed{ P\_{\text{torre}}\approx18BF^2 } \\]
+$\boxed{ P\_{\text{torre}}\approx18BF^2 }$
 
 Esta expresión omite sesgos, normalización, SE, convolución inicial y cabezas de salida.
 
 Por lo tanto, es una aproximación del costo dominante de la torre, no el tamaño total de una red LC0.
 
-### 12.2. Ejemplos de tamaño
+### Ejemplos de tamaño
 
 | Configuración | Parámetros aproximados de la torre residual |
 | ------------- | ------------------------------------------- |
@@ -5713,21 +5703,21 @@ Millones de pesos aproximados, únicamente en las dos convoluciones 3×3 de cada
 
 El crecimiento con respecto al número de filtros es cuadrático:
 
-\\[ P\propto F^2 \\]
+$P\propto F^2$
 
 Mientras que el crecimiento con respecto a la cantidad de bloques es aproximadamente lineal:
 
-\\[ P\propto B \\]
+$P\propto B$
 
 Por consiguiente, duplicar los filtros puede multiplicar por cuatro el número dominante de parámetros convolucionales.
 
 Duplicar los bloques, manteniendo los filtros, aproximadamente duplica los parámetros de la torre.
 
-### 12.3. Arquitecturas pequeñas
+### Arquitecturas pequeñas
 
-Una red de \\(2\times16\\) utiliza dos bloques residuales con 16 filtros.
+Una red de $2\times16$ utiliza dos bloques residuales con 16 filtros.
 
-Una red de \\(1\times8\\) utiliza un único bloque residual con ocho filtros.
+Una red de $1\times8$ utiliza un único bloque residual con ocho filtros.
 
 Estas arquitecturas son mucho más pequeñas que las torres tradicionales de LC0.
 
@@ -5737,21 +5727,21 @@ La limitación es que disponen de menos capacidad para representar patrones posi
 
 No obstante, el rendimiento real depende de los datos, la calidad del entrenamiento y la búsqueda que acompaña a la red.
 
-### 12.4. Entrenamiento de una red convolucional para ajedrez
+### Entrenamiento de una red convolucional para ajedrez
 
 Se prepara una colección de posiciones representadas como tensores:
 
-\\[ X_i\in\mathbb R^{C\times8\times8} \\]
+$X_i\in\mathbb R^{C\times8\times8}$
 
 Los objetivos pueden ser evaluaciones de posiciones, resultados finales, jugadas seleccionadas o distribuciones de política.
 
 En una red puramente evaluadora:
 
-\\[ v_i=f\_\theta(X_i) \\]
+$v_i=f\_\theta(X_i)$
 
 puede minimizarse:
 
-\\[ L_V=\frac1N\sum_i(v_i-z_i)^2 \\]
+$L_V=\frac1N\sum_i(v_i-z_i)^2$
 
 En una red de política y valor se agregan los objetivos de jugada, como veremos a continuación.
 
@@ -5759,7 +5749,7 @@ El entrenamiento de una CNN sigue utilizando backpropagation: las derivadas de l
 
 Una vez entrenados los pesos, pueden exportarse a formatos de inferencia como los utilizados por el motor, siempre que la arquitectura sea compatible.
 
-## 13. Redes de doble cabeza: política y valor
+## Redes de doble cabeza: política y valor
 
 Una arquitectura especialmente importante para ajedrez utiliza una representación compartida del tablero y produce dos salidas.
 
@@ -5769,49 +5759,49 @@ La segunda proporciona una distribución sobre posibles movimientos.
 
 Se expresa:
 
-\\[ \boxed{ f\_\theta(s)= \left( p\_\theta(\cdot\mid s), v\_\theta(s) \right) } \\]
+$\boxed{ f\_\theta(s)= \left( p\_\theta(\cdot\mid s), v\_\theta(s) \right) }$
 
 donde:
 
-\\[ p\_\theta(a\mid s) \\]
+$p\_\theta(a\mid s)$
 
-es la probabilidad previa asignada al movimiento \\(a\\).
+es la probabilidad previa asignada al movimiento $a$.
 
 Y:
 
-\\[ v\_\theta(s) \\]
+$v\_\theta(s)$
 
 es el valor estimado de la posición.
 
-### 13.1. Cuerpo compartido y cabezas de salida
+### Cuerpo compartido y cabezas de salida
 
 La red primero calcula una representación interna:
 
-\\[ h=f\_{\theta_b}(s) \\]
+$h=f\_{\theta_b}(s)$
 
 La cabeza de política produce logits:
 
-\\[ \ell=W_ph+b_p \\]
+$\ell=W_ph+b_p$
 
 La distribución final:
 
-\\[ \boxed{ p(a\mid s)= \frac{e^{\ell_a}} {\sum\_{j\in\mathcal A(s)}e^{\ell_j}} } \\]
+$\boxed{ p(a\mid s)= \frac{e^{\ell_a}} {\sum\_{j\in\mathcal A(s)}e^{\ell_j}} }$
 
 Las jugadas ilegales se excluyen de la normalización mediante una máscara.
 
 La cabeza de valor calcula:
 
-\\[ \boxed{ v(s)=\tanh(w_v^\top h+b_v) } \\]
+$\boxed{ v(s)=\tanh(w_v^\top h+b_v) }$
 
-El valor queda acotado al intervalo \\([-1,1]\\).
+El valor queda acotado al intervalo $[-1,1]$.
 
-### 13.2. Ejemplo de salida
+### Ejemplo de salida
 
 Supongamos que se introduce una posición donde corresponde jugar a las blancas.
 
 La red podría devolver:
 
-\\[ v(s)=+0,45 \\]
+$v(s)=+0,45$
 
 y la política:
 
@@ -5826,7 +5816,7 @@ En este ejemplo simplificado, solo se muestran cuatro movimientos para facilitar
 
 La valoración:
 
-\\[ v(s)=+0,45 \\]
+$v(s)=+0,45$
 
 significa que la red considera favorable la posición para el jugador activo de acuerdo con la escala utilizada.
 
@@ -5836,17 +5826,17 @@ Ambas salidas representan información distinta.
 
 La política no indica directamente cuánto vale cada jugada en centipeones, y el valor escalar no informa por sí mismo cuál es el mejor movimiento.
 
-### 13.3. Codificación de acciones
+### Codificación de acciones
 
 Una red necesita una codificación fija de salidas.
 
 Una opción sencilla consiste en representar:
 
-\\[ (a\_{\text{origen}},a\_{\text{destino}}) \\]
+$(a\_{\text{origen}},a\_{\text{destino}})$
 
 La cantidad de combinaciones origen-destino es:
 
-\\[ 64\times64=4096 \\]
+$64\times64=4096$
 
 Sin embargo, esta representación no distingue suficientemente determinadas promociones: una misma casilla de origen y destino puede representar promociones a diferentes piezas.
 
@@ -5856,7 +5846,7 @@ Otra posibilidad utiliza planos de acciones, representando desplazamientos y pro
 
 Por ejemplo, una codificación con 73 planos por casilla tiene:
 
-\\[ \boxed{ 8\times8\times73=4672 } \\]
+$\boxed{ 8\times8\times73=4672 }$
 
 salidas posibles.
 
@@ -5864,39 +5854,39 @@ Estas salidas no corresponden necesariamente a jugadas legales en toda posición
 
 La máscara legal selecciona las alternativas efectivamente disponibles.
 
-### 13.4. Entrenamiento supervisado de política
+### Entrenamiento supervisado de política
 
 Supongamos que un conjunto de datos contiene posiciones y jugadas elegidas por un jugador o motor de referencia.
 
 La jugada objetivo se representa mediante una distribución one-hot:
 
-\\[ y_a= \begin{cases} 1 & a=a^\*\\\ 0 & a\neq a^\* \end{cases} \\]
+$y_a= \begin{cases} 1 & a=a^\*\\\ 0 & a\neq a^\* \end{cases}$
 
 La pérdida de política es:
 
-\\[ \boxed{ L_P= -\sum_a y_a\log p\_\theta(a\mid s) } \\]
+$\boxed{ L_P= -\sum_a y_a\log p\_\theta(a\mid s) }$
 
 Este procedimiento enseña a la red a imitar las decisiones del sistema de referencia.
 
 Si existen múltiples jugadas razonables, puede ser preferible entrenar con una distribución suave en lugar de una única respuesta.
 
-### 13.5. Entrenamiento del valor
+### Entrenamiento del valor
 
 Si el objetivo es el resultado final:
 
-\\[ z\in\\{-1,0,+1\\} \\]
+$z\in\\{-1,0,+1\\}$
 
 la pérdida puede ser:
 
-\\[ \boxed{ L_V=(v\_\theta(s)-z)^2 } \\]
+$\boxed{ L_V=(v\_\theta(s)-z)^2 }$
 
 Si se utiliza una salida WDL de tres probabilidades, puede emplearse entropía cruzada.
 
-### 13.6. Pérdida combinada
+### Pérdida combinada
 
 La red se entrena minimizando:
 
-\\[ \boxed{ L= \lambda_P L_P+ \lambda_V L_V+ \lambda_R\\|\theta\\|\_2^2 } \\]
+$\boxed{ L= \lambda_P L_P+ \lambda_V L_V+ \lambda_R\\|\theta\\|\_2^2 }$
 
 Los coeficientes regulan la importancia de las pérdidas.
 
@@ -5904,7 +5894,7 @@ El entrenamiento conjunto permite que ambas cabezas compartan representaciones �
 
 Pero también puede producir conflictos entre gradientes, especialmente si los objetivos de política y valor provienen de fuentes de distinta calidad.
 
-## 14. Relación entre la red de doble cabeza y MCTS
+## Relación entre la red de doble cabeza y MCTS
 
 MCTS (Monte Carlo Tree Search) es un algoritmo de búsqueda, no una arquitectura neuronal.
 
@@ -5917,50 +5907,50 @@ Sin embargo, las redes de política y valor permiten mejorar dos operaciones cen
 
 En una búsqueda guiada por una red neuronal se mantienen estadísticas por acción:
 
-\\[ N(s,a),\quad W(s,a),\quad Q(s,a),\quad P(s,a) \\]
+$N(s,a),\quad W(s,a),\quad Q(s,a),\quad P(s,a)$
 
 donde:
 
-- \\(N\\): visitas.
-- \\(W\\): suma de valores.
-- \\(Q\\): valor medio.
-- \\(P\\): probabilidad previa de la red.
+- $N$: visitas.
+- $W$: suma de valores.
+- $Q$: valor medio.
+- $P$: probabilidad previa de la red.
 
 Una expresión habitual de selección es:
 
-\\[ \boxed{ a^\*=\arg\max_a \left[ Q(s,a)+ c\_{\text{puct}} P(s,a) \frac{\sqrt{\sum_bN(s,b)}}{1+N(s,a)} \right] } \\]
+$\boxed{ a^\*=\arg\max_a \left[ Q(s,a)+ c\_{\text{puct}} P(s,a) \frac{\sqrt{\sum_bN(s,b)}}{1+N(s,a)} \right] }$
 
 El primer término favorece acciones con buenas evaluaciones.
 
 El segundo favorece la exploración de acciones prometedoras todavía poco visitadas.
 
-### 14.1. Ejemplo
+### Ejemplo
 
 La red puede asignar inicialmente:
 
-\\[ P(e4)=0,50 \\]
+$P(e4)=0,50$
 
-\\[ P(d4)=0,30 \\]
+$P(d4)=0,30$
 
-\\[ P(Nf3)=0,20 \\]
+$P(Nf3)=0,20$
 
 Después de 200 simulaciones MCTS, las visitas podrían ser:
 
-\\[ N(e4)=80 \\]
+$N(e4)=80$
 
-\\[ N(d4)=105 \\]
+$N(d4)=105$
 
-\\[ N(Nf3)=15 \\]
+$N(Nf3)=15$
 
 La distribución derivada de visitas, con temperatura 1, sería:
 
-\\[ \pi\_{\text{MCTS}}= (0,40,\ 0,525,\ 0,075) \\]
+$\pi\_{\text{MCTS}}= (0,40,\ 0,525,\ 0,075)$
 
 La búsqueda ha desplazado su preferencia hacia d4, aunque la política neuronal inicial favorecía e4.
 
 La distribución de visitas proporciona una señal de aprendizaje para mejorar la cabeza de política.
 
-### 14.2. Aprendizaje mediante autojuego
+### Aprendizaje mediante autojuego
 
 Un ciclo típico consiste en:
 
@@ -5974,13 +5964,13 @@ Un ciclo típico consiste en:
 
 Una pérdida característica es:
 
-\\[ \boxed{ L(\theta)= (z-v\_\theta(s))^2 - \pi\_{\text{MCTS}}^\top \log p\_\theta(\cdot\mid s) + \lambda\\|\theta\\|\_2^2 } \\]
+$\boxed{ L(\theta)= (z-v\_\theta(s))^2 - \pi\_{\text{MCTS}}^\top \log p\_\theta(\cdot\mid s) + \lambda\\|\theta\\|\_2^2 }$
 
 Este mecanismo permite que la red aprenda a reproducir parte de la información obtenida mediante la búsqueda.
 
 No garantiza convergencia al juego perfecto, pero ofrece un procedimiento práctico de mejora iterativa.
 
-## 15. Redes Transformer: atención y representación global
+## Redes Transformer
 
 Las redes Transformer fueron introducidas por Ashish Vaswani y colaboradores en 2017, mediante el trabajo Attention Is All You Need.
 
@@ -6000,13 +5990,13 @@ Es importante distinguir tres conceptos:
 
 Por lo tanto, una red implementada con Keras no es necesariamente un Transformer. Puede ser una MLP, CNN, LSTM, Transformer o una combinación de varias arquitecturas.
 
-### 15.1. Representación del ajedrez mediante tokens
+### Representación del ajedrez mediante tokens
 
 Una alternativa es representar cada casilla como un token.
 
 Para el tablero:
 
-\\[ N=64 \\]
+$N=64$
 
 tokens.
 
@@ -6020,57 +6010,57 @@ Cada token puede incorporar información sobre:
 
 La representación inicial puede escribirse:
 
-\\[ \boxed{ X\in\mathbb R^{64\times d} } \\]
+$\boxed{ X\in\mathbb R^{64\times d} }$
 
-donde \\(d\\) es la dimensión de representación o embedding dimension.
+donde $d$ es la dimensión de representación o embedding dimension.
 
 Por ejemplo:
 
-\\[ d=256 \\]
+$d=256$
 
 produce:
 
-\\[ X\in\mathbb R^{64\times256} \\]
+$X\in\mathbb R^{64\times256}$
 
 Cada casilla queda representada por un vector de 256 componentes.
 
 La red puede incorporar embeddings para tipo de pieza, color y posición.
 
-### 15.2. Queries, Keys y Values
+### Queries, Keys y Values
 
 El mecanismo de atención construye tres proyecciones lineales:
 
-\\[ \boxed{ Q=XW_Q } \\]
+$\boxed{ Q=XW_Q }$
 
-\\[ \boxed{ K=XW_K } \\]
+$\boxed{ K=XW_K }$
 
-\\[ \boxed{ V=XW_V } \\]
+$\boxed{ V=XW_V }$
 
 Estas matrices permiten calcular relaciones entre tokens.
 
 La atención escalada se define:
 
-\\[ \boxed{ \operatorname{Attention}(Q,K,V)= \operatorname{Softmax} \left( \frac{QK^\top}{\sqrt{d_k}} \right)V } \\]
+$\boxed{ \operatorname{Attention}(Q,K,V)= \operatorname{Softmax} \left( \frac{QK^\top}{\sqrt{d_k}} \right)V }$
 
 La matriz:
 
-\\[ QK^\top \\]
+$QK^\top$
 
 contiene medidas de compatibilidad entre pares de tokens.
 
 En un tablero de 64 casillas, una cabeza de atención completa produce conceptualmente una matriz:
 
-\\[ 64\times64 \\]
+$64\times64$
 
 con:
 
-\\[ 4096 \\]
+$4096$
 
 coeficientes de relación.
 
 La función Softmax normaliza esas compatibilidades.
 
-### 15.3. Ejemplo: alfil y diagonal
+### Ejemplo: alfil y diagonal
 
 Consideremos un alfil blanco ubicado en c4.
 
@@ -6082,17 +6072,17 @@ En particular, puede aprender que ciertas relaciones de ataque, defensa o protec
 
 Esto no significa que la atención implemente automáticamente las reglas legales del ajedrez. La red debe aprender dichas relaciones, o recibir características y restricciones que las representen explícitamente.
 
-### 15.4. Multi-Head Attention
+### Multi-Head Attention
 
 En lugar de calcular una única atención, se utilizan varias cabezas.
 
-Para la cabeza \\(i\\):
+Para la cabeza $i$:
 
-\\[ H_i= \operatorname{Attention} (XW_Q^{(i)},XW_K^{(i)},XW_V^{(i)}) \\]
+$H_i= \operatorname{Attention} (XW_Q^{(i)},XW_K^{(i)},XW_V^{(i)})$
 
 Las salidas se concatenan:
 
-\\[ \boxed{ H= \operatorname{Concat}(H_1,\ldots,H_h)W_O } \\]
+$\boxed{ H= \operatorname{Concat}(H_1,\ldots,H_h)W_O }$
 
 Esto permite que diferentes cabezas aprendan relaciones distintas.
 
@@ -6100,53 +6090,53 @@ Por ejemplo, algunas pueden especializarse en patrones locales, otras en relacio
 
 Estas especializaciones son posibilidades de aprendizaje, no asignaciones garantizadas de funciones concretas a cada cabeza.
 
-### 15.5. Bloque Transformer
+### Bloque Transformer
 
 Un bloque Transformer de tipo encoder puede utilizar:
 
-\\[ Y=X+\operatorname{MHA}(\operatorname{LN}(X)) \\]
+$Y=X+\operatorname{MHA}(\operatorname{LN}(X))$
 
-\\[ \boxed{ Z=Y+\operatorname{FFN}(\operatorname{LN}(Y)) } \\]
+$\boxed{ Z=Y+\operatorname{FFN}(\operatorname{LN}(Y)) }$
 
 La red feedforward interna suele tener:
 
-\\[ \operatorname{FFN}(x)= W_2\sigma(W_1x+b_1)+b_2 \\]
+$\operatorname{FFN}(x)= W_2\sigma(W_1x+b_1)+b_2$
 
 Las conexiones residuales y la normalización permiten entrenar estructuras profundas.
 
 ### 15.6. Número de parámetros
 
-En un Transformer con dimensión \\(d\\), el conjunto de proyecciones de atención suele requerir aproximadamente:
+En un Transformer con dimensión $d$, el conjunto de proyecciones de atención suele requerir aproximadamente:
 
-\\[ 4d^2 \\]
+$4d^2$
 
-pesos, considerando \\(Q\\), \\(K\\), \\(V\\) y la proyección de salida.
+pesos, considerando $Q$, $K$, $V$ y la proyección de salida.
 
 Si la capa feedforward utiliza dimensión intermedia:
 
-\\[ d\_{\text{ff}}=rd \\]
+$d\_{\text{ff}}=rd$
 
 sus dos matrices dominantes contienen:
 
-\\[ 2rd^2 \\]
+$2rd^2$
 
 pesos.
 
 Por lo tanto:
 
-\\[ \boxed{ P\_{\text{bloque}}\approx(4+2r)d^2 } \\]
+$\boxed{ P\_{\text{bloque}}\approx(4+2r)d^2 }$
 
 Para:
 
-\\[ r=4 \\]
+$r=4$
 
 resulta:
 
-\\[ \boxed{ P\_{\text{bloque}}\approx12d^2 } \\]
+$\boxed{ P\_{\text{bloque}}\approx12d^2 }$
 
 Esta expresión no incluye sesgos, normalizaciones, embeddings ni cabezas de salida.
 
-### 15.7. Ejemplos de tamaño
+### Ejemplos de tamaño
 
 | Configuración           | Pesos aproximados del encoder |
 | ----------------------- | ----------------------------- |
@@ -6155,21 +6145,21 @@ Esta expresión no incluye sesgos, normalizaciones, embeddings ni cabezas de sal
 | 10 capas, dimensión 256 | 7.864.320                     |
 | 15 capas, dimensión 512 | 47.185.920                    |
 
-El número de cabezas de atención no multiplica necesariamente los parámetros principales si la dimensión total \\(d\\) se mantiene constante y las proyecciones se reparten entre cabezas.
+El número de cabezas de atención no multiplica necesariamente los parámetros principales si la dimensión total $d$ se mantiene constante y las proyecciones se reparten entre cabezas.
 
-En cambio, aumentar \\(d\\) tiene un impacto cuadrático.
+En cambio, aumentar $d$ tiene un impacto cuadrático.
 
-### 15.8. Coste computacional
+### Coste computacional
 
 Además de los parámetros, la atención completa tiene un costo de interacción entre tokens aproximadamente proporcional a:
 
-\\[ \boxed{ O(N^2d) } \\]
+$\boxed{ O(N^2d) }$
 
-Para ajedrez, con \\(N=64\\), este término puede resultar manejable en comparación con el procesamiento de secuencias de miles de tokens.
+Para ajedrez, con $N=64$, este término puede resultar manejable en comparación con el procesamiento de secuencias de miles de tokens.
 
 No obstante, una arquitectura que represente historia de partidas, movimientos o múltiples estados puede aumentar considerablemente la cantidad de tokens.
 
-### 15.9. Transformers en Leela Chess Zero
+### Transformers en Leela Chess Zero
 
 Además de las CNN residuales históricas, Leela Chess Zero utiliza redes modernas basadas en transformers, conocidas en parte como Chessformers.
 
@@ -6185,21 +6175,21 @@ Hugging Face
 
 Esto es relevante para evitar una clasificación obsoleta: LC0 ya no debe identificarse exclusivamente con redes convolucionales.
 
-### 15.10. Entrenamiento de transformers para ajedrez
+### Entrenamiento de transformers para ajedrez
 
 Un Transformer puede entrenarse para predecir:
 
-\\[ p\_\theta(a\mid s) \\]
+$p\_\theta(a\mid s)$
 
 y:
 
-\\[ v\_\theta(s) \\]
+$v\_\theta(s)$
 
 El procedimiento requiere codificar posiciones como tokens y establecer cabezas de política y valor.
 
 La pérdida es análoga a la utilizada en otras redes de doble salida:
 
-\\[ \boxed{ L= \lambda_pL\_{\text{política}} + \lambda_vL\_{\text{valor}} + \lambda_rL\_{\text{regularización}} } \\]
+$\boxed{ L= \lambda_pL\_{\text{política}} + \lambda_vL\_{\text{valor}} + \lambda_rL\_{\text{regularización}} }$
 
 Los datos pueden provenir de partidas supervisadas, posiciones evaluadas por motores o autojuego.
 
@@ -6207,7 +6197,7 @@ En modelos grandes se utilizan frecuentemente optimizadores como AdamW, learning
 
 El principal costo de los transformers no reside solamente en almacenar sus pesos, sino también en ejecutar sus multiplicaciones matriciales y manejar activaciones, gradientes y estados del optimizador durante el entrenamiento.
 
-## 16. Destilación de conocimientos
+## Destilación de conocimientos
 
 Cuando una red grande produce evaluaciones o políticas de calidad, puede utilizarse como sistema maestro para entrenar una red más pequeña.
 
@@ -6215,65 +6205,65 @@ Este proceso se denomina Knowledge Distillation.
 
 La idea es construir un modelo estudiante:
 
-\\[ f\_{\theta_S} \\]
+$f\_{\theta_S}$
 
 que aproxime el comportamiento de un maestro:
 
-\\[ f\_{\theta_T} \\]
+$f\_{\theta_T}$
 
 sin necesidad de reproducir su arquitectura ni su tamaño.
 
-### 16.1. Destilación de valor
+### Destilación de valor
 
 Supongamos que un motor de referencia evalúa una posición:
 
-\\[ E_T(s)=+125\text{ cp} \\]
+$E_T(s)=+125\text{ cp}$
 
 El estudiante produce:
 
-\\[ E_S(s)=+80\text{ cp} \\]
+$E_S(s)=+80\text{ cp}$
 
 Podemos minimizar:
 
-\\[ \boxed{ L_V= \left(E_S(s)-E_T(s)\right)^2 } \\]
+$\boxed{ L_V= \left(E_S(s)-E_T(s)\right)^2 }$
 
 Pero las evaluaciones en centipeones pueden adquirir magnitudes muy grandes, especialmente en posiciones tácticas.
 
 Por ello, puede ser conveniente transformar las puntuaciones mediante:
 
-\\[ \boxed{ y(s)=\tanh\left(\frac{E_T(s)}{c}\right) } \\]
+$\boxed{ y(s)=\tanh\left(\frac{E_T(s)}{c}\right) }$
 
-donde \\(c\\) es una escala.
+donde $c$ es una escala.
 
 El estudiante aprende:
 
-\\[ v_S(s)\approx y(s) \\]
+$v_S(s)\approx y(s)$
 
 La transformación conserva el signo y comprime las magnitudes extremas.
 
 Sin embargo, también pierde resolución en posiciones muy favorables o desfavorables.
 
-### 16.2. Destilación de política
+### Destilación de política
 
 Si el maestro proporciona una distribución:
 
-\\[ p_T(a\mid s) \\]
+$p_T(a\mid s)$
 
 el estudiante puede minimizar la divergencia KL:
 
-\\[ \boxed{ D\_{\mathrm{KL}}(p_T\\|p_S) = \sum_a p_T(a\mid s) \log\frac{p_T(a\mid s)}{p_S(a\mid s)} } \\]
+$\boxed{ D\_{\mathrm{KL}}(p_T\\|p_S) = \sum_a p_T(a\mid s) \log\frac{p_T(a\mid s)}{p_S(a\mid s)} }$
 
 Una alternativa equivalente para optimizar el estudiante, salvo una constante independiente de sus parámetros, es minimizar la entropía cruzada:
 
-\\[ \boxed{ L_P=-\sum_a p_T(a\mid s)\log p_S(a\mid s) } \\]
+$\boxed{ L_P=-\sum_a p_T(a\mid s)\log p_S(a\mid s) }$
 
 Cuando el maestro produce logits, puede aplicarse temperatura:
 
-\\[ p_T^{(\tau)}(a\mid s) = \frac{e^{\ell\_{T,a}/\tau}} {\sum_be^{\ell\_{T,b}/\tau}} \\]
+$p_T^{(\tau)}(a\mid s) = \frac{e^{\ell\_{T,a}/\tau}} {\sum_be^{\ell\_{T,b}/\tau}}$
 
 Con temperaturas mayores, la distribución revela información sobre alternativas secundarias, no solamente sobre la jugada principal.
 
-### 16.3. Destilación usando Stockfish
+### Destilación usando Stockfish
 
 Un motor como Stockfish puede proporcionar etiquetas evaluando posiciones a una profundidad o límite de tiempo establecido.
 
@@ -6292,27 +6282,27 @@ La calidad de los objetivos depende del tiempo y la profundidad asignados al mae
 
 También es necesario distinguir puntuaciones `cp` de puntuaciones `mate`, ya que una puntuación de mate no representa una cantidad ordinaria de centipeones.
 
-### 16.4. Destilación usando LC0
+### Destilación usando LC0
 
 LC0 puede proporcionar información de valoración y política, según la interfaz y el procedimiento de extracción utilizados.
 
 En un esquema ideal se obtienen:
 
-\\[ v_T(s) \\]
+$v_T(s)$
 
 y:
 
-\\[ p_T(a\mid s) \\]
+$p_T(a\mid s)$
 
 El estudiante minimiza:
 
-\\[ \boxed{ L= \lambda_V(v_S-v_T)^2 + \lambda_PD\_{\mathrm{KL}}(p_T\\|p_S) } \\]
+$\boxed{ L= \lambda_V(v_S-v_T)^2 + \lambda_PD\_{\mathrm{KL}}(p_T\\|p_S) }$
 
 Una ventaja de la destilación es que una red compacta puede aprender aproximaciones de relaciones descubiertas durante un entrenamiento mucho más costoso.
 
 La desventaja es que reproduce también los errores y sesgos del maestro.
 
-### 16.5. Destilación de una red grande hacia una NNUE pequeña
+### Destilación de una red grande hacia una NNUE pequeña
 
 Un procedimiento posible es:
 
@@ -6343,7 +6333,7 @@ Si el estudiante solo dispone de una salida de valoración, no puede reproducir 
 
 En ese caso, la destilación se limita al valor, o se necesita una arquitectura adicional para aprender movimientos.
 
-### 16.6. Conocimiento que no puede comprimirse arbitrariamente
+### Conocimiento que no puede comprimirse arbitrariamente
 
 La destilación no garantiza conservar toda la capacidad del maestro.
 
@@ -6353,19 +6343,19 @@ Si el maestro distingue configuraciones tácticas complejas que el estudiante no
 
 Por lo tanto, conviene medir una curva entre:
 
-\\[ \text{tamaño del estudiante} \\]
+$\text{tamaño del estudiante}$
 
 y:
 
-\\[ \text{error de destilación} \\]
+$\text{error de destilación}$
 
 y, especialmente:
 
-\\[ \text{fuerza ajedrecística} \\]
+$\text{fuerza ajedrecística}$
 
 El objetivo práctico no siempre consiste en minimizar el error medio, sino en encontrar una red suficientemente pequeña que conserve las propiedades más relevantes para la toma de decisiones.
 
-## 17. PyTorch como entorno de entrenamiento
+## PyTorch como entorno de entrenamiento
 
 PyTorch es un entorno de programación que proporciona herramientas para implementar redes neuronales, calcular derivadas automáticamente y optimizar sus parámetros.
 
@@ -6380,13 +6370,13 @@ Sus componentes principales son:
 
 PyTorch permite expresar la función neuronal mediante operaciones ordinarias sobre tensores, registrando las dependencias necesarias para aplicar backpropagation.
 
-### 17.1. Autograd
+### Autograd
 
 Consideremos:
 
-\\[ z=wx+b \\]
+$z=wx+b$
 
-\\[ L=(z-y)^2 \\]
+$L=(z-y)^2$
 
 En PyTorch:
 
@@ -6404,7 +6394,7 @@ calcula las derivadas de la pérdida respecto de los tensores que requieren grad
 
 Internamente se utiliza diferenciación automática en modo inverso, relacionada directamente con los fundamentos de backpropagation.
 
-### 17.2. Definición de una red
+### Definición de una red
 
 Una red densa sencilla puede definirse como:
 
@@ -6416,7 +6406,7 @@ La estructura anterior representa una red 781–64–1.
 
 Es una implementación didáctica que no reproduce automáticamente las características de un evaluador NPZ particular, como el término separado de contador de medias jugadas o su factor de calibración.
 
-### 17.3. Bucle de entrenamiento
+### Bucle de entrenamiento
 
 El procedimiento general de entrenamiento contiene cuatro operaciones fundamentales:
 
@@ -6439,7 +6429,7 @@ PyTorch Tutorials 2.15.0+cu132 documentation
 
 
 
-### 17.4. Ejemplo completo de entrenamiento
+### Ejemplo completo de entrenamiento
 
 El siguiente ejemplo genera datos sintéticos para demostrar el mecanismo de aprendizaje.
 
@@ -6451,17 +6441,17 @@ import torchimport torch.nn as nnfrom torch.utils.data import TensorDataset, Dat
 
 El ejemplo utiliza AdamW con:
 
-\\[ \eta=10^{-3} \\]
+$\eta=10^{-3}$
 
 y:
 
-\\[ \lambda=10^{-4} \\]
+$\lambda=10^{-4}$
 
 Estos valores son puntos de partida experimentales, no parámetros universalmente óptimos.
 
 Para un entrenamiento real es necesario sustituir los datos sintéticos por posiciones codificadas y objetivos de evaluación.
 
-### 17.5. Entrenamiento de una red con doble cabeza
+### Entrenamiento de una red con doble cabeza
 
 También es posible definir una arquitectura que produzca política y valor.
 
@@ -6471,7 +6461,7 @@ class PolicyValueNet(nn.Module):    def __init__(self, input_size=781, action_si
 
 La red devuelve dos resultados:
 
-\\[ (\ell,v) \\]
+$(\ell,v)$
 
 Para obtener una distribución de política deben enmascararse las acciones ilegales antes de aplicar Softmax.
 
@@ -6491,7 +6481,7 @@ Se supone que:
 
 El código ilustra cómo PyTorch implementa el entrenamiento; no sustituye los componentes de reglas y generación de partidas.
 
-### 17.6. Conversión de modelos a formatos de inferencia
+### Conversión de modelos a formatos de inferencia
 
 Una vez entrenada una red es posible exportar sus pesos.
 
@@ -6516,38 +6506,38 @@ Lo mismo sucede con `.npz`: debe incluir los arreglos, dimensiones y convencione
 
 La exportación debe comprobar equivalencia numérica entre la salida del modelo original y la del motor de inferencia.
 
-## 18. Cómo estructurar un proceso completo de entrenamiento de redes de ajedrez
+## Cómo estructurar un proceso completo de entrenamiento de redes de ajedrez
 
 Independientemente de la arquitectura seleccionada, un proceso experimental riguroso debería separar varias fases.
 
-### 18.1. Preparación de datos
+### Preparación de datos
 
 Cada ejemplo de entrenamiento debe contener, según el objetivo:
 
-\\[ (s_i,y_i) \\]
+$(s_i,y_i)$
 
 o:
 
-\\[ (s_i,\pi_i,z_i) \\]
+$(s_i,\pi_i,z_i)$
 
 donde:
 
-- \\(s_i\\): posición.
-- \\(y_i\\): evaluación de referencia.
-- \\(\pi_i\\): política objetivo.
-- \\(z_i\\): resultado de partida.
+- $s_i$: posición.
+- $y_i$: evaluación de referencia.
+- $\pi_i$: política objetivo.
+- $z_i$: resultado de partida.
 
 Es fundamental mantener una convención uniforme de perspectiva.
 
 Por ejemplo:
 
-\\[ E(s)>0 \\]
+$E(s)>0$
 
 puede representar ventaja blanca, o ventaja del jugador activo.
 
 Ambas convenciones son válidas, pero no pueden mezclarse sin convertir los signos.
 
-### 18.2. Partición de entrenamiento y validación
+### Partición de entrenamiento y validación
 
 Los conjuntos de entrenamiento y prueba deberían separarse por partidas o familias de posiciones relacionadas, no solamente por posiciones individuales elegidas aleatoriamente.
 
@@ -6555,7 +6545,7 @@ Si posiciones sucesivas de la misma partida aparecen tanto en entrenamiento como
 
 También conviene reservar posiciones tácticas y estratégicas que no participen del entrenamiento.
 
-### 18.3. Selección de arquitectura
+### Selección de arquitectura
 
 La arquitectura depende del objetivo.
 
@@ -6567,19 +6557,19 @@ Si se busca una política y valoración conjunta, puede utilizarse una red de do
 
 Si interesa modelar relaciones globales entre casillas y se dispone de recursos suficientes, un Transformer constituye otra alternativa.
 
-### 18.4. Entrenamiento progresivo
+### Entrenamiento progresivo
 
 Una estrategia experimental es comenzar con una red pequeña y aumentar su capacidad solamente cuando los resultados indiquen que existe una limitación representacional.
 
 Puede utilizarse una progresión:
 
-\\[ \text{modelo pequeño} \rightarrow \text{modelo intermedio} \rightarrow \text{modelo grande} \\]
+$\text{modelo pequeño} \rightarrow \text{modelo intermedio} \rightarrow \text{modelo grande}$
 
 manteniendo el mismo conjunto de evaluación y criterios comparables.
 
 Esto permite identificar el punto a partir del cual incrementar parámetros ya no proporciona mejoras proporcionales.
 
-### 18.5. Evaluación competitiva
+### Evaluación competitiva
 
 El resultado final debe verificarse mediante partidas.
 
@@ -6597,7 +6587,7 @@ Un error MSE más pequeño frente a Stockfish o LC0 no garantiza una mejora ajed
 
 La calidad de una función de evaluación también depende de su interacción con la búsqueda.
 
-## 19. Comparación general de arquitecturas
+## Comparación general de arquitecturas
 
 | Arquitectura                          | Tamaño representativo                   | Principal fortaleza                          | Principal costo                              |
 | ------------------------------------- | --------------------------------------- | -------------------------------------------- | -------------------------------------------- |
@@ -6614,7 +6604,7 @@ Las cifras de CNN y Transformer son orientativas y dependen de las cabezas, las 
 
 No corresponde interpretar esta tabla como una clasificación de fuerza ajedrecística.
 
-## 20. Conclusiones
+## Conclusiones
 
 La evolución de las redes neuronales muestra una transición desde modelos lógicos de umbral y clasificadores lineales hacia arquitecturas profundas capaces de aprender representaciones complejas.
 
@@ -6622,11 +6612,11 @@ El avance decisivo del entrenamiento moderno fue disponer de un procedimiento ef
 
 Backpropagation utiliza la regla de la cadena en sentido inverso:
 
-\\[ \boxed{ \delta^{(\ell)}= (W^{(\ell+1)})^\top \delta^{(\ell+1)} \odot \sigma'(z^{(\ell)}) } \\]
+$\boxed{ \delta^{(\ell)}= (W^{(\ell+1)})^\top \delta^{(\ell+1)} \odot \sigma'(z^{(\ell)}) }$
 
 y permite obtener:
 
-\\[ \boxed{ \nabla\_\theta\mathcal L } \\]
+$\boxed{ \nabla\_\theta\mathcal L }$
 
 Los optimizadores, como SGD, RMSprop, Adam y AdamW, utilizan esos gradientes para modificar los pesos de la red.
 
@@ -6638,11 +6628,9 @@ La destilación permite transferir parte del comportamiento de redes o motores d
 
 Finalmente, PyTorch proporciona un entorno de diferenciación automática y optimización que permite implementar y entrenar estas arquitecturas mediante un mecanismo común:
 
-\\[ \boxed{ \text{Datos} \rightarrow \text{Red neuronal} \rightarrow \text{Pérdida} \rightarrow \text{Backpropagation} \rightarrow \text{Optimizador} \rightarrow \text{Nuevos pesos} } \\]
+$\boxed{ \text{Datos} \rightarrow \text{Red neuronal} \rightarrow \text{Pérdida} \rightarrow \text{Backpropagation} \rightarrow \text{Optimizador} \rightarrow \text{Nuevos pesos} }$
 
 La decisión arquitectónica más importante para un motor de ajedrez no es seleccionar la red con mayor cantidad de parámetros, sino encontrar el equilibrio adecuado entre calidad de evaluación, costo de inferencia, capacidad de aprendizaje y profundidad de búsqueda.
-
-## 21. Referencias bibliográficas y técnicas
 
 1. McCulloch, W. S., & Pitts, W. (1943). A Logical Calculus of the Ideas Immanent in Nervous Activity. Bulletin of Mathematical Biophysics.
 2. Hebb, D. O. (1949). The Organization of Behavior. Wiley.
@@ -6664,9 +6652,8 @@ La decisión arquitectónica más importante para un motor de ajedrez no es sele
 18. [PyTorch — Tutorial de entrenamiento](https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt?utm_source=chatgpt.com).
 19. [PyTorch — AdamW y sus parámetros](https://docs.pytorch.org/docs/stable/generated/torch.optim.AdamW?utm_source=chatgpt.com).
 
-La descripción de las arquitecturas compactas, NPZ y Cerebrum se ha contrastado con los fuentes disponibles de la línea de base Akkad `akkad(5).zip`. Las demás familias se describen según sus principios matemáticos y documentación técnica pública.
+La descripción de las arquitecturas compactas, NPZ y Cerebrum se ha contrastado con los fuentes disponibles. Las demás familias se describen según sus principios matemáticos y documentación técnica pública.
 
-Recomendación para un estudio experimental: comenzar con la red NPZ 781–64–1 como referencia de entrenamiento, contrastarla con la arquitectura incremental de 256 unidades por perspectiva, y reservar las CNN y transformers para experimentos donde se pueda medir claramente el beneficio de la mayor capacidad representacional. El paso más importante es construir un conjunto común de posiciones y etiquetas, con perspectiva y escala normalizadas, que permita comparar todos los modelos en las mismas condiciones.
 
 # Los motores 
 
@@ -7216,15 +7203,11 @@ Esta representación se conoce actualmente como *mailbox 10×12*.
 
 Conceptualmente:
 
-$
-B[0],B[1],\ldots,B[119]
-$
+$B[0],B[1],\ldots,B[119]$
 
 La codificación de una casilla válida puede expresarse mediante:
 
-$
-s=21+10r+f
-$
+$s=21+10r+f$
 
 donde:
 
@@ -7249,17 +7232,13 @@ Por ejemplo:
 
 Para examinar un desplazamiento:
 
-$
-s'=s+\Delta
-$
+$s'=s+\Delta$
 
 bastaba consultar el contenido de la casilla de destino.
 
 Si:
 
-$
-B[s']=FF_{16}
-$
+$B[s']=FF_{16}$
 
 el movimiento había alcanzado el borde artificial y debía descartarse.
 
@@ -7283,19 +7262,11 @@ Los tres bits inferiores identificaban el tipo de pieza:
 
 El bit 7 representaba el color:
 
-$
-c=
-\begin{cases}
-0 & \text{blancas}\\
-128 & \text{negras}
-\end{cases}
-$
+$c=\begin{cases}0 & \text{blancas}\\128 & \text{negras}\end{cases}$
 
 Por tanto, una pieza podía codificarse como:
 
-$
-p=c+t
-$
+$p=c+t$
 
 donde $t$ es el tipo de pieza.
 
@@ -7351,15 +7322,11 @@ La combinación permitía explorar sucesivamente ramas del árbol sin almacenar 
 
 Conceptualmente:
 
-$
-P'=T(P,m)
-$
+$P'=T(P,m)$
 
 y, después de analizar la posición:
 
-$
-P=T^{-1}(P',m,u)
-$
+$P=T^{-1}(P',m,u)$
 
 donde $u$ representa la información necesaria para deshacer exactamente la jugada.
 
@@ -7459,10 +7426,7 @@ Sea $n_{c,p}(P)$ el número de piezas de tipo $p$ pertenecientes al color $c$.
 
 La diferencia material puede expresarse como:
 
-$
-M(P)=\sum_p v_p
-\left[n_{W,p}(P)-n_{B,p}(P)\right]
-$
+$M(P)=\sum_p v_p\left[n_{W,p}(P)-n_{B,p}(P)\right]$
 
 donde $v_p$ corresponde a la tabla histórica.
 
@@ -7479,15 +7443,11 @@ esto puede verse con claridad en la jugada llamada *sacrificio* o *gambito*.
 
 Supongamos que una torre captura un alfil y después es capturada por un peón:
 
-$
-G_0=3
-$
+$G_0=3$
 
 La recaptura representa una pérdida de cinco unidades:
 
-$
-G_1=3-5=-2
-$
+$G_1=3-5=-2$
 
 Por tanto, una valoración que considere solamente la primera captura resulta engañosa.
 
@@ -7495,11 +7455,7 @@ SARGON buscaba estimar los resultados de los intercambios examinando atacantes y
 
 Una formulación moderna útil para expresar la idea es:
 
-$
-SEE(P,s)=
-\max\left(0,\,
-v_0-SEE(P',s)\right)
-$
+$SEE(P,s)=\max\left(0,\,v_0-SEE(P',s)\right)$
 
 donde:
 
@@ -7535,9 +7491,7 @@ El sistema analizaba principalmente la dinámica material de los intercambios, n
 
 El evaluador de SARGON puede describirse mediante el esquema:
 
-$
-E(P)=M(P)+C(P)+D(P)+X(P)
-$
+$E(P)=M(P)+C(P)+D(P)+X(P)$
 
 donde:
 
@@ -7554,10 +7508,7 @@ Para cada casilla, SARGON calculaba información de atacantes blancos y negros.
 
 Una medida conceptual de control es:
 
-$
-C(P)=\sum_{s\in B}
-\left[A_W(P,s)-A_B(P,s)\right]
-$
+$C(P)=\sum_{s\in B}\left[A_W(P,s)-A_B(P,s)\right]$
 
 donde $A_W$ y $A_B$ representan los números de atacantes de cada bando.
 
@@ -7581,11 +7532,7 @@ SARGON aplicaba la rutina `LIMIT` para restringir la influencia de las ventajas 
 
 Conceptualmente:
 
-$
-E(P)=M(P)+
-\operatorname{clip}\big(C(P)+D(P),-L,L\big)
-+X(P)
-$
+$E(P)=M(P)+\operatorname{clip}\big(C(P)+D(P),-L,L\big)+X(P)$
 
 La expresión anterior ilustra el principio de limitar contribuciones posicionales; no reproduce exactamente el orden de operaciones del ensamblador.
 
@@ -7607,26 +7554,13 @@ Sea:
 
 Desde la perspectiva de blancas:
 
-$
-V(P,d)=
-\begin{cases}
-E(P), & d=0\\
-\displaystyle\max_{m\in M(P)}
-V(T(P,m),d-1), & \text{juegan blancas}\\
-\displaystyle\min_{m\in M(P)}
-V(T(P,m),d-1), & \text{juegan negras}
-\end{cases}
-$
+$V(P,d)=\begin{cases}E(P), & d=0\\\displaystyle\max_{m\in M(P)}V(T(P,m),d-1), & \text{juegan blancas}\\\displaystyle\min{m\inM(P)}V(T(P,m),d-1), & \text{juegan negras}\end{cases}$
 
 Los estados terminales requieren valores especiales para mate y tablas.
 
 Una formulación simétrica moderna es negamax:
 
-$
-N(P,d)=
-\max_{m\in M(P)}
-\left[-N(T(P,m),d-1)\right]
-$
+$N(P,d)=\max_{m\in M(P)}\left[-N(T(P,m),d-1)\right]$
 
 con la evaluación expresada desde el punto de vista del bando que mueve.
 
@@ -7644,25 +7578,17 @@ Por ejemplo, tres plies representan:
 
 La cantidad de nodos crece aproximadamente como:
 
-$
-N(d)\approx b^d
-$
+$N(d)\approx b^d$
 
 donde $b$ representa el factor de ramificación medio.
 
 Si suponemos $b=30$:
 
-$
-N(3)\approx 27\,000
-$
+$N(3)\approx 27\,000$
 
-$
-N(4)\approx 810\,000
-$
+$N(4)\approx 810\,000$
 
-$
-N(5)\approx 24\,300\,000
-$
+$N(5)\approx 24\,300\,000$
 
 Estos valores son ilustrativos y corresponden a un árbol completo uniforme, no a mediciones del SARGON original.
 
@@ -7672,19 +7598,13 @@ La poda alfa-beta evita explorar ramas que no pueden mejorar la decisión del ju
 
 Mantiene dos límites:
 
-$
-\alpha=\text{mejor valor garantizado para MAX}
-$
+$\alpha=\text{mejor valor garantizado para MAX}$
 
-$
-\beta=\text{mejor valor garantizado para MIN}
-$
+$\beta=\text{mejor valor garantizado para MIN}$
 
 Cuando:
 
-$
-\alpha\geq\beta
-$
+$\alpha\geq\beta$
 
 la rama restante puede descartarse.
 
@@ -7748,15 +7668,11 @@ El listado original de SARGON implementaba la administración de límites y el r
 
 En términos de complejidad, sin poda:
 
-$
-O(b^d)
-$
+$O(b^d)$
 
 Con ordenación ideal de movimientos, alfa-beta puede reducir considerablemente el número de nodos examinados, aproximándose en el caso favorable a:
 
-$
-O(b^{d/2})
-$
+$O(b^{d/2})$
 
 Esta es una propiedad teórica de alfa-beta y no una garantía del rendimiento obtenido por SARGON.
 
@@ -7780,12 +7696,7 @@ Para obtener una estimación preliminar, `SORTM` recurría a `EVAL`, que:
 
 Conceptualmente, la ordenación puede representarse como:
 
-$
-m_1,m_2,\ldots,m_n
-=
-\operatorname{sort}_{\downarrow}
-\left(\widehat V(P,m)\right)
-$
+$m_1,m_2,\ldots,m_n=\operatorname{sort}_{\downarrow}\left(\widehat V(P,m)\right)$
 
 donde $\widehat V$ representa una valoración preliminar.
 
@@ -7801,11 +7712,7 @@ Buscaba maximizar el resultado esperado bajo la hipótesis de que el adversario 
 
 Su criterio conceptual era:
 
-$
-m^*=
-\underset{m\in M(P)}{\operatorname{argmax}}
-\left[-N(T(P,m),d-1)\right]
-$
+$m^*=\underset{m\in M(P)}{\operatorname{argmax}}\left[-N(T(P,m),d-1)\right]$
 
 La selección comprendía:
 
@@ -7838,9 +7745,7 @@ Minimax considera la respuesta del adversario.
 
 Suponiendo que las cifras finales representan los valores minimax de cada rama:
 
-$
-V(A)=-2,\quad V(B)=+1,\quad V(C)=+1
-$
+$V(A)=-2,\quad V(B)=+1,\quad V(C)=+1$
 
 SARGON preferiría B o C frente a A.
 
@@ -7981,13 +7886,7 @@ Su principal limitación era la capacidad de procesamiento disponible, que restr
 
 Desde una perspectiva actual, SARGON demuestra que la fuerza ajedrecística depende de la interacción entre tres elementos:
 
-$
-\boxed{
-\text{Fuerza de juego}
-=
-f(\text{Búsqueda},\text{Evaluación},\text{Recursos})
-}
-$
+$\boxed{\text{Fuerza de juego}=f(\text{Búsqueda},\text{Evaluación},\text{Recursos})}$
 
 No existe una relación lineal simple entre estos componentes.
 
@@ -8078,36 +7977,25 @@ El ajedrez puede modelarse como un juego determinista, secuencial, de informaci�
 
 Sea:
 
-$
-s\in S
-$
+$s\in S$
 
 una posición legal y:
 
-$
- M(s)
-$
+$ M(s)$
 
 el conjunto de movimientos legales disponibles.
 
 La transición determinada por una jugada es:
 
-$
-s'=T(s,m)
-$
+$s'=T(s,m)$
 
 El objetivo ideal sería calcular el valor de juego perfecto:
 
-$
-V^*(s)
-$
+$V^*(s)$
 
 y seleccionar:
 
-$
-m^*=\arg\max_{m\in M(s)}
-\left[-V^*(T(s,m))\right]
-$
+$m^*=\arg\max_{m\in M(s)}\left[-V^*(T(s,m))\right]$
 
 cuando el valor se expresa desde la perspectiva del jugador que debe mover.
 
@@ -8115,14 +8003,7 @@ Sin embargo, el número de posiciones posibles y la amplitud del árbol impiden 
 
 Stockfish sustituye esa solución ideal por una aproximación de presupuesto finito:
 
-$
-\widehat V(s;C)
-=
-\operatorname{Search}
-\left(
-s,C,E_{\mathrm{NNUE}},H,TT
-\right)
-$
+$\widehat V(s;C)=\operatorname{Search}\left(s,C,E_{\mathrm{NNUE}},H,TT\right)$
 
 donde:
 
@@ -8197,17 +8078,13 @@ Un bitboard es una palabra de 64 bits en la que cada bit representa una casilla.
 
 Definimos:
 
-$
-B\in\{0,1\}^{64}
-$
+$B\in\{0,1\}^{64}$
 
 Si el bit correspondiente a una casilla está activado, significa que dicha casilla pertenece al conjunto representado.
 
 Por ejemplo:
 
-$
-B_{\mathrm{WP}}
-$
+$B_{\mathrm{WP}}$
 
 puede representar todas las casillas ocupadas por peones blancos.
 
@@ -8215,29 +8092,19 @@ Se mantienen estructuras para tipos de piezas, colores y ocupación.
 
 Conceptualmente:
 
-$
-B_{\mathrm{ocupadas}}
-=
-B_{\mathrm{blancas}}\lor B_{\mathrm{negras}}
-$
+$B_{\mathrm{ocupadas}}=B_{\mathrm{blancas}}\lor B_{\mathrm{negras}}$
 
 La intersección de conjuntos de casillas puede calcularse mediante AND:
 
-$
-A\cap B=A\land B
-$
+$A\cap B=A\land B$
 
 Su unión mediante OR:
 
-$
-A\cup B=A\lor B
-$
+$A\cup B=A\lor B$
 
 Y la eliminación de determinadas casillas mediante:
 
-$
-A\setminus B=A\land\neg B
-$
+$A\setminus B=A\land\neg B$
 
 Esta arquitectura permite procesar múltiples casillas simultáneamente utilizando operaciones enteras de 64 bits.
 
@@ -8254,9 +8121,7 @@ La complejidad de muchas consultas se reduce a unas pocas instrucciones del proc
 
 Por ejemplo, el número de piezas presentes en un bitboard puede calcularse como:
 
-$
-n=\operatorname{popcount}(B)
-$
+$n=\operatorname{popcount}(B)$
 
 Para torres y alfiles es necesario determinar cómo afectan las piezas ocupantes a las líneas de ataque.
 
@@ -8264,13 +8129,7 @@ Stockfish utiliza tablas de ataques indexadas por configuraciones de ocupación 
 
 La idea general es:
 
-$
-A(p,s,O)=
-\operatorname{AttackTable}
-\left(
-p,s,I(O)
-\right)
-$
+$A(p,s,O)=\operatorname{AttackTable}\left(p,s,I(O)\right)$
 
 donde:
 
@@ -8297,9 +8156,7 @@ Stockfish mantiene también:
 
 La posición completa puede representarse conceptualmente como:
 
-$
-P=(B,C,R,EP,H,K,U)
-$
+$P=(B,C,R,EP,H,K,U)$
 
 donde $B$ representa la ocupación, $C$ el bando al turno, $R$ los derechos de enroque, $EP$ la captura al paso, $H$ el contador de la regla de cincuenta movimientos, $K$ la clave de Zobrist y $U$ el estado reversible.
 
@@ -8309,9 +8166,7 @@ El generador utiliza la representación bitboard y la información de ataques.
 
 Para una pieza $p$ en la casilla $s$, el conjunto de destinos potenciales puede expresarse como:
 
-$
-D(p,s,P)=A(p,s,P)\setminus O_{\mathrm{propio}}
-$
+$D(p,s,P)=A(p,s,P)\setminus O_{\mathrm{propio}}$
 
 No todos los destinos potenciales son necesariamente legales.
 
@@ -8319,12 +8174,7 @@ Una jugada es legal solamente si, después de ejecutarla, el propio rey no queda
 
 En términos formales:
 
-$
-\operatorname{Legal}(P,m)
-\iff
-\neg\operatorname{Check}
-\left(T(P,m),c(P)\right)
-$
+$\operatorname{Legal}(P,m)\iff\neg\operatorname{Check}\left(T(P,m),c(P)\right)$
 
 La generación puede utilizar información de clavadas y de jaques para evitar comprobar reiteradamente movimientos evidentemente inválidos.
 
@@ -8338,15 +8188,11 @@ Stockfish aplica y deshace movimientos durante la exploración del árbol.
 
 Conceptualmente:
 
-$
-P'=T(P,m)
-$
+$P'=T(P,m)$
 
 Después de explorar la rama:
 
-$
-P=T^{-1}(P',m,U)
-$
+$P=T^{-1}(P',m,U)$
 
 La estructura $U$ registra la información necesaria para restaurar el estado.
 
@@ -8360,13 +8206,7 @@ La actualización incremental evita recalcular completamente determinadas estruc
 
 En un juego de suma cero, el valor ideal de una posición puede escribirse:
 
-$
-V(s)=
-\begin{cases}
-\max_m V(T(s,m)), & \text{juegan blancas}\\
-\min_m V(T(s,m)), & \text{juegan negras}
-\end{cases}
-$
+$V(s)=\begin{cases}\max_m V(T(s,m)), & \text{juegan blancas}\\\min_m V(T(s,m)), & \text{juegan negras}\end{cases}$
 
 suponiendo que los valores positivos favorecen a blancas.
 
@@ -8374,17 +8214,11 @@ Stockfish utiliza una formulación de búsqueda de tipo negamax, que aprovecha l
 
 Definiendo la evaluación desde la perspectiva del bando al turno:
 
-$
-N(s,d)=
-\max_{m\in M(s)}
-\left[-N(T(s,m),d-1)\right]
-$
+$N(s,d)=\max_{m\in M(s)}\left[-N(T(s,m),d-1)\right]$
 
 con:
 
-$
-N(s,0)=E(s)
-$
+$N(s,0)=E(s)$
 
 La negación transforma automáticamente la perspectiva entre jugadores.
 
@@ -8394,9 +8228,7 @@ Los resultados de mate y tablas tienen prioridad sobre la evaluación neuronal.
 
 Si el jugador al turno está en jaque mate:
 
-$
-N(s,d)=-M+\operatorname{ply}
-$
+$N(s,d)=-M+\operatorname{ply}$
 
 donde $M$ es una constante de mate suficientemente grande.
 
@@ -8408,19 +8240,13 @@ Las tablas reciben valores cercanos a cero, aunque el motor puede aplicar peque�
 
 Alfa-beta mantiene dos límites:
 
-$
-\alpha=\text{mejor valor inferior conocido}
-$
+$\alpha=\text{mejor valor inferior conocido}$
 
-$
-\beta=\text{límite superior relevante}
-$
+$\beta=\text{límite superior relevante}$
 
 La búsqueda puede detener una rama si:
 
-$
-\alpha\geq\beta
-$
+$\alpha\geq\beta$
 
 porque ya no puede modificar la decisión del antecesor.
 
@@ -8463,15 +8289,11 @@ El Stockfish real utiliza una implementación mucho más compleja, con reduccion
 
 Para un factor de ramificación $b$ y profundidad $d$, una búsqueda completa tiene complejidad aproximada:
 
-$
-O(b^d)
-$
+$O(b^d)$
 
 Con ordenación ideal, alfa-beta puede aproximarse a:
 
-$
-O(b^{d/2})
-$
+$O(b^{d/2})$
 
 Esta reducción es teórica y depende fuertemente de la calidad del orden de exploración.
 
@@ -8487,9 +8309,7 @@ La técnica PVS utiliza ventanas estrechas para examinar candidatos que probable
 
 En una búsqueda de valores enteros, una ventana nula puede representarse como:
 
-$
-[\alpha,\alpha+1)
-$
+$[\alpha,\alpha+1)$
 
 Si el movimiento no mejora $\alpha$, puede descartarse con una búsqueda relativamente económica.
 
@@ -8516,9 +8336,7 @@ PVS y alfa-beta son técnicas complementarias, no algoritmos rivales.
 
 Stockfish busca progresivamente a profundidades crecientes:
 
-$
-d=1,2,3,\ldots,D
-$
+$d=1,2,3,\ldots,D$
 
 Aunque parezca que repite trabajo, cada iteración proporciona información útil para las siguientes.
 
@@ -8543,35 +8361,25 @@ Cuando se inicia una nueva profundidad, Stockfish puede utilizar una ventana cen
 
 Si:
 
-$
-v_{d-1}
-$
+$v_{d-1}$
 
 es el resultado previo:
 
-$
-\alpha=v_{d-1}-\delta
-$
+$\alpha=v_{d-1}-\delta$
 
-$
-\beta=v_{d-1}+\delta
-$
+$\beta=v_{d-1}+\delta$
 
 Si el nuevo valor está dentro de ese intervalo, la búsqueda puede resultar más eficiente que utilizando una ventana amplia.
 
 Si se produce:
 
-$
-v\leq\alpha
-$
+$v\leq\alpha$
 
 se considera un *fail-low*.
 
 Si:
 
-$
-v\geq\beta
-$
+$v\geq\beta$
 
 se produce un *fail-high*.
 
@@ -8591,10 +8399,7 @@ Se asignan valores pseudoaleatorios a características del estado, tales como pi
 
 La clave se obtiene combinándolos mediante XOR:
 
-$
-K(P)=
-\bigoplus_{i\in F(P)}Z_i
-$
+$K(P)=\bigoplus_{i\in F(P)}Z_i$
 
 donde $F(P)$ reúne las características relevantes.
 
@@ -8602,9 +8407,7 @@ Cuando se realiza una jugada, la clave puede actualizarse incrementalmente aplic
 
 Una entrada conceptual es:
 
-$
-TT[K(P)]=(d,v,B,m,g)
-$
+$TT[K(P)]=(d,v,B,m,g)$
 
 donde:
 
@@ -8616,17 +8419,11 @@ donde:
 
 Los tipos principales son:
 
-$
-EXACT:\quad V(P)=v
-$
+$EXACT:\quad V(P)=v$
 
-$
-LOWER:\quad V(P)\geq v
-$
+$LOWER:\quad V(P)\geq v$
 
-$
-UPPER:\quad V(P)\leq v
-$
+$UPPER:\quad V(P)\leq v$
 
 No todos los resultados almacenados son valores exactos.
 
@@ -8662,10 +8459,7 @@ El motor utiliza información como:
 
 Puede expresarse una prioridad conceptual:
 
-$
-P(m,s)=
-w_1H(m,s)+w_2C(m,s)+w_3T(m,s)+\cdots
-$
+$P(m,s)=w_1H(m,s)+w_2C(m,s)+w_3T(m,s)+\cdots$
 
 Esta expresión representa una combinación abstracta de señales.
 
@@ -8673,9 +8467,7 @@ No debe interpretarse como una fórmula literal de una versión específica.
 
 Es importante distinguir:
 
-$
-P(m,s)\neq V(T(s,m))
-$
+$P(m,s)\neq V(T(s,m))$
 
 La prioridad del movimiento no es necesariamente su valoración ajedrecística.
 
@@ -8689,14 +8481,7 @@ Sea $s$ la casilla donde se produce el intercambio.
 
 Una aproximación conceptual es:
 
-$
-SEE(P,s)=
-\max\left(
-0,
-v_{\mathrm{captura}}-
-SEE(P',s)
-\right)
-$
+$SEE(P,s)=\max\left(0,v_{\mathrm{captura}}-SEE(P',s)\right)$
 
 La evaluación considera el orden de capturas y recapturas, los valores de las piezas y restricciones como clavadas.
 
@@ -8716,9 +8501,7 @@ Si una jugada aparece tarde después de ordenar los candidatos, es razonable inv
 
 La profundidad reducida puede escribirse:
 
-$
-d'=d-1-r(d,n,c)
-$
+$d'=d-1-r(d,n,c)$
 
 donde:
 
@@ -8729,17 +8512,13 @@ donde:
 
 Una forma ilustrativa es:
 
-$
-r(d,n)\approx a+b\ln(d)\ln(n)
-$
+$r(d,n)\approx a+b\ln(d)\ln(n)$
 
 Los coeficientes reales y las correcciones dependen de la revisión del motor.
 
 Si la búsqueda reducida produce un resultado inesperadamente favorable:
 
-$
-v>\alpha
-$
+$v>\alpha$
 
 Stockfish puede efectuar una búsqueda con menor reducción o profundidad completa.
 
@@ -8765,28 +8544,17 @@ En muchas posiciones, si un jugador puede conservar una ventaja incluso cediendo
 
 Se examina una transición hipotética:
 
-$
-P'=T_{\mathrm{null}}(P)
-$
+$P'=T_{\mathrm{null}}(P)$
 
 que cambia el bando al turno sin desplazar ninguna pieza.
 
 Después se realiza una búsqueda reducida:
 
-$
-v_{\mathrm{null}}
-=
--\operatorname{Search}
-\left(
-P',d-R,-\beta,-\beta+1
-\right)
-$
+$v_{\mathrm{null}}=-\operatorname{Search}\left(P',d-R,-\beta,-\beta+1\right)$
 
 Si:
 
-$
-v_{\mathrm{null}}\geq\beta
-$
+$v_{\mathrm{null}}\geq\beta$
 
 la rama puede considerarse candidata a poda.
 
@@ -8810,9 +8578,7 @@ Se intenta reconocer movimientos que, aun mejorando razonablemente la evaluació
 
 Una condición conceptual es:
 
-$
-E(P)+\Delta(d)<\alpha
-$
+$E(P)+\Delta(d)<\alpha$
 
 donde $\Delta(d)$ es un margen dependiente de la profundidad.
 
@@ -8820,9 +8586,7 @@ Si la evaluación estática supera ampliamente el límite beta a profundidad red
 
 Conceptualmente:
 
-$
-E(P)-\Delta(d)\geq\beta
-$
+$E(P)-\Delta(d)\geq\beta$
 
 ProbCut intenta identificar ramas que, mediante una búsqueda reducida con una ventana apropiada, probablemente superarían beta.
 
@@ -8850,15 +8614,7 @@ La búsqueda de quiescence prolonga selectivamente el análisis.
 
 Una formulación simplificada es:
 
-$
-Q(P,\alpha,\beta)
-=
-\max\left(
-E(P),
-\max_{m\in C(P)}
-[-Q(T(P,m),-\beta,-\alpha)]
-\right)
-$
+$Q(P,\alpha,\beta)=\max\left(E(P),\max_{m\in C(P)}[-Q(T(P,m),-\beta,-\alpha)]\right)$
 
 donde $C(P)$ es un subconjunto táctico de movimientos.
 
@@ -8892,9 +8648,7 @@ A diferencia de redes convolucionales grandes utilizadas por otros motores, NNUE
 
 La posición se transforma en un conjunto de características:
 
-$
-x(P)\in\{0,1\}^{N}
-$
+$x(P)\in\{0,1\}^{N}$
 
 El vector puede contener información relacionada con:
 
@@ -8909,9 +8663,7 @@ Las características exactas dependen de la versión de Stockfish.
 
 La primera transformación es:
 
-$
-a(P)=Wx(P)+b
-$
+$a(P)=Wx(P)+b$
 
 El vector $x(P)$ es disperso.
 
@@ -8919,9 +8671,7 @@ Si una característica está desactivada, no contribuye a la suma.
 
 Por ello puede escribirse:
 
-$
-a(P)=b+\sum_{i:x_i(P)=1}W_i
-$
+$a(P)=b+\sum_{i:x_i(P)=1}W_i$
 
 donde $W_i$ es la columna correspondiente de la matriz de pesos.
 
@@ -8931,43 +8681,25 @@ La ventaja esencial aparece cuando se ejecuta una jugada.
 
 Si:
 
-$
-x(P')=x(P)+\Delta x
-$
+$x(P')=x(P)+\Delta x$
 
 entonces:
 
-$
-a(P')=Wx(P')+b
-$
+$a(P')=Wx(P')+b$
 
 Sustituyendo:
 
-$
-a(P')=W(x(P)+\Delta x)+b
-$
+$a(P')=W(x(P)+\Delta x)+b$
 
 y por linealidad:
 
-$
-\boxed{
-a(P')=a(P)+W\Delta x
-}
-$
+$\boxed{a(P')=a(P)+W\Delta x}$
 
 Como una jugada normalmente modifica pocas características, $\Delta x$ contiene relativamente pocos elementos distintos de cero.
 
 Por tanto:
 
-$
-a(P')
-=
-a(P)
-+
-\sum_{i\in A}W_i
--
-\sum_{j\in R}W_j
-$
+$a(P')=a(P)+\sum_{i\in A}W_i-\sum_{j\in R}W_j$
 
 donde:
 
@@ -8985,12 +8717,7 @@ En una representación simplificada:
 
 Entonces:
 
-$
-a(P')=
-a(P)
--W_{\mathrm{Ra1}}
-+W_{\mathrm{Ra4}}
-$
+$a(P')=a(P)-W_{\mathrm{Ra1}}+W_{\mathrm{Ra4}}$
 
 La arquitectura real puede modificar más características, especialmente cuando intervienen perspectivas de rey, amenazas o relaciones entre piezas.
 
@@ -9004,25 +8731,19 @@ La arquitectura procura minimizar estas reconstrucciones.
 
 Para una transformación densa convencional:
 
-$
-O(NH)
-$
+$O(NH)$
 
 donde $N$ es el número de entradas y $H$ el número de neuronas de salida.
 
 Con actualización dispersa:
 
-$
-O(kH)
-$
+$O(kH)$
 
 donde $k$ es el número de características modificadas.
 
 Si:
 
-$
-k\ll N
-$
+$k\ll N$
 
 el ahorro puede ser considerable.
 
@@ -9034,17 +8755,11 @@ La versión 19 utiliza la arquitectura SFNNv16.
 
 En el código oficial, los parámetros principales de la pila neuronal incluyen:
 
-$
-L_1=1024
-$
+$L_1=1024$
 
-$
-L_2=32
-$
+$L_2=32$
 
-$
-L_3=32
-$
+$L_3=32$
 
 La red combina una transformación amplia de características con capas densas pequeñas.
 
@@ -9052,29 +8767,17 @@ Las características declaradas incluyen conjuntos de piezas y casillas, amenaza
 
 Conceptualmente:
 
-$
-h_0=\operatorname{FeatureTransform}(P)
-$
+$h_0=\operatorname{FeatureTransform}(P)$
 
-$
-z_1=W_1h_0+b_1
-$
+$z_1=W_1h_0+b_1$
 
-$
-h_1=\phi(z_1)
-$
+$h_1=\phi(z_1)$
 
-$
-z_2=W_2h_1+b_2
-$
+$z_2=W_2h_1+b_2$
 
-$
-h_2=\phi(z_2)
-$
+$h_2=\phi(z_2)$
 
-$
-y=W_3h_2+b_3
-$
+$y=W_3h_2+b_3$
 
 Esta es una simplificación algebraica: la arquitectura real utiliza concatenaciones y combinaciones de activaciones que no quedan representadas completamente por una cadena densa convencional.
 
@@ -9082,15 +8785,11 @@ Entre las activaciones utilizadas se encuentran variantes de ClippedReLU y SqrCl
 
 Una representación normalizada de ClippedReLU es:
 
-$
-\phi(x)=\min(1,\max(0,x))
-$
+$\phi(x)=\min(1,\max(0,x))$
 
 Una activación cuadrática saturada puede modelarse conceptualmente como:
 
-$
-\psi(x)=\phi(x)^2
-$
+$\psi(x)=\phi(x)^2$
 
 La implementación real utiliza escalas enteras, desplazamientos y saturaciones.
 
@@ -9098,25 +8797,19 @@ Para acelerar la inferencia, los parámetros y activaciones pueden representarse
 
 Una cuantización conceptual es:
 
-$
-q=\operatorname{round}\left(\frac{x}{s}\right)
-$
+$q=\operatorname{round}\left(\frac{x}{s}\right)$
 
 donde $s$ es una escala.
 
 La aproximación reconstruida es:
 
-$
-\widehat x=sq
-$
+$\widehat x=sq$
 
 La cuantización reduce costos de memoria y permite aprovechar instrucciones vectoriales de CPU.
 
 Sin embargo, introduce error numérico:
 
-$
-\varepsilon=x-\widehat x
-$
+$\varepsilon=x-\widehat x$
 
 El diseño debe controlar la acumulación de estos errores y evitar desbordamientos.
 
@@ -9150,8 +8843,7 @@ El entrenamiento utiliza conjuntos masivos de posiciones y objetivos de evaluaci
 
 Una formulación genérica puede combinar resultados de partidas y evaluaciones objetivo:
 
-$
-L(\theta)
+$L(\theta)
 =
 \frac{1}{N}
 \sum_{i=1}^{N}
@@ -9201,16 +8893,14 @@ La evaluación puede ajustarse mediante información adicional sobre:
 
 Conceptualmente:
 
-$
-E_{\mathrm{final}}(P)
+$E_{\mathrm{final}}(P)
 =
 S\left(
 E_{\mathrm{NNUE}}(P),
 M(P),
 R_{50}(P),
 O(P)
-\right)
-$
+\right)$
 
 donde $S$ representa la función de escalado.
 
@@ -9226,17 +8916,13 @@ Su propósito es aprender, durante la búsqueda, correcciones sistemáticas a la
 
 Sea:
 
-$
-E_0(P)
-$
+$E_0(P)$
 
 la evaluación inicial.
 
 La evaluación corregida puede expresarse como:
 
-$
-E_c(P)=E_0(P)+C(P)
-$
+$E_c(P)=E_0(P)+C(P)$
 
 donde $C(P)$ representa una corrección calculada a partir de información estadística acumulada.
 
