@@ -18,6 +18,15 @@ if [[ ! -d ${TF}/.git ]]; then
   git clone --depth 1 --branch "$TF_VERSION" https://github.com/tensorflow/tensorflow.git "$TF"
 fi
 if [[ ${CLEAN_BUILD:-0} == 1 ]]; then rm -rf "$BUILD"; fi
+# Refuse to reuse a CMake cache copied from another checkout/build path.
+if [[ -f "$BUILD/CMakeCache.txt" ]]; then
+  cache_src="$(sed -n 's/^CMAKE_HOME_DIRECTORY:INTERNAL=//p' "$BUILD/CMakeCache.txt" | head -n 1)"
+  cache_bin="$(sed -n 's/^CMAKE_CACHEFILE_DIR:INTERNAL=//p' "$BUILD/CMakeCache.txt" | head -n 1)"
+  if [[ "$cache_src" != "$SRC" || "$cache_bin" != "$BUILD" ]]; then
+    echo "[picoKeras] CMake cache uses obsolete paths; recreating build directory" >&2
+    rm -rf "$BUILD"
+  fi
+fi
 cmake -S "$SRC" -B "$BUILD" -G Ninja -DCMAKE_BUILD_TYPE=Release -DTFLITE_ROOT="$TF"
 cmake --build "$BUILD" --target picoKeras --parallel "$JOBS"
 echo "Binary: ${BUILD}/picoKeras"

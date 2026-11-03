@@ -46662,6 +46662,28 @@
       "modalidad": "blitz",
       "rated": false,
       "motor": "penelope"
+    },
+    {
+      "id": "2026-11-03T15:50:55.179602+00:00:14",
+      "fics_game": 14,
+      "fecha_inicio_utc": "2026-11-03T15:50:55.179602+00:00",
+      "fecha_fin_utc": "2026-11-03T16:22:59.245595+00:00",
+      "usuario_propio": "GuestKBZB",
+      "elo_propio": "++++",
+      "color_propio": "negras",
+      "usuario_contrincante": "marquisce",
+      "elo_contrincante": 1764,
+      "color_contrincante": "blancas",
+      "resultado": 0.0,
+      "resultado_fics": "1-0",
+      "razon": "(marquisce vs. GuestKBZB) GuestKBZB forfeits on time",
+      "cantidad_movidas": 112,
+      "cantidad_medias_jugadas": 223,
+      "tiempo_segundos": 1924.066,
+      "control_tiempo": "2+12",
+      "modalidad": "blitz",
+      "rated": false,
+      "motor": "penelope"
     }
   ]
 }
