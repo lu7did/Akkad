@@ -111,7 +111,7 @@ class ChallengerGUI:
 
     def draw(self) -> None:
         state = self.state
-        board = state.board if state else chess.Board()
+        board = state.board if state else (chess.Board(self.args.fen) if getattr(self.args, "fen", None) else chess.Board())
         bottom = state.challenger_color if state else chess.WHITE
         self.canvas.delete("all")
         selected = None
@@ -155,6 +155,8 @@ class ChallengerGUI:
             f"Challenger: {'blancas' if state.challenger_color else 'negras'}   Última propia: {state.last_challenger}   Última rival: {state.last_opponent}\n"
             f"Reloj propio: {_clock(challenger_clock)}   Reloj rival: {_clock(opponent_clock)}   Transcurrido: {_clock(elapsed)}"
         )
+        if getattr(self.args, "fen", None):
+            text += f"\nFEN inicial: {self.args.fen}"
         if self.args.brain == "human":
             get_status = getattr(self.runner.brain, "status_message", None)
             if get_status is not None:

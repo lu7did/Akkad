@@ -99,9 +99,14 @@ class TCPUCIClient:
         if value is None: self.send(f"setoption name {name}")
         else: self.send(f"setoption name {name} value {value}")
 
-    def position(self, moves: list[str]) -> None:
+    def position(self, moves: list[str], fen: str | None = None) -> None:
+        """Synchronize peer from the initial position, not from the current board.
+
+        `moves` contains only plies played after the optional FEN.
+        """
         suffix = "" if not moves else " moves " + " ".join(moves)
-        self.send("position startpos" + suffix)
+        base = "position startpos" if fen is None else "position fen " + fen
+        self.send(base + suffix)
 
     def go(self, wtime_ms: int, btime_ms: int, response_timeout: float | None = None) -> BestMove:
         self.send(f"go wtime {max(0,wtime_ms)} btime {max(0,btime_ms)}")

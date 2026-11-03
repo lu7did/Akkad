@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import sys
+
+import chess
 from tkinter import messagebox
 
 from . import __version__
@@ -14,6 +16,8 @@ def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="challenger", description="Challenger: jugador de ajedrez con brains intercambiables contra un motor UCI TCP")
     p.add_argument("--ip", default="127.0.0.1", help="IP del motor UCI contrincante (default: 127.0.0.1)")
     p.add_argument("--port", type=int, default=6110, help="Puerto TCP UCI (default: 6110)")
+    p.add_argument("--FEN", "--fen", dest="fen", metavar="FEN", default=None,
+                   help="Posición inicial en notación FEN completa (se valida antes de conectar)")
     p.add_argument("--color", choices=["white","black","random"], default="random", help="Color de Challenger; random por defecto")
     p.add_argument("--brain", type=str.lower, choices=["sargon", "random", "stockfish", "human"], default="sargon", help="Motor de decisión de Challenger: sargon, random, stockfish o human (default: sargon)")
     p.add_argument("--stockfish", metavar="RUTA", help="Ruta al ejecutable Stockfish; requerida con --brain stockfish")
@@ -51,6 +55,14 @@ def _print_arguments(args) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    if args.fen is not None:
+        try:
+            initial = chess.Board(args.fen)
+            if initial.status() != chess.STATUS_VALID:
+                raise ValueError(f"posición ilegal (status={initial.status()})")
+            args.fen = initial.fen()  # Normalización y validación antes de conectar / abrir GUI
+        except (ValueError, TypeError) as exc:
+            parser().error(f"--FEN inválido: {exc}")
     if args.run is not None and args.run < 1:
         parser().error("--run debe ser >= 1")
     if args.forever and args.run is not None:

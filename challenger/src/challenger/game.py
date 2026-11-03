@@ -127,7 +127,13 @@ class ChallengerRunner:
 
     def play_one(self) -> GameResult:
         color = self._pick_color()
-        board = chess.Board()
+        initial_fen = getattr(self.args, "fen", None)
+        board = chess.Board(initial_fen) if initial_fen is not None else chess.Board()
+        if board.status() != chess.STATUS_VALID:
+            raise ValueError(f"FEN inicial inválido: {initial_fen!r}")
+        base_fen = board.fen() if initial_fen is not None else None
+        if initial_fen is not None:
+            print(f"[PARTIDA] FEN inicial: {base_fen} | turno={'blancas' if board.turn else 'negras'}")
         total_seconds = float(self.args.gametime) * 60.0
         challenger_clock = total_seconds
         opponent_clock = total_seconds
@@ -135,6 +141,8 @@ class ChallengerRunner:
         # Protocol setup is outside the chess clock. Both clocks start at their
         # full --gametime only after the UCI peer is ready for the new game.
         self.client.new_game()
+        if base_fen is not None:
+            self.client.position([], fen=base_fen)  # Sincronizar antes de la primera jugada, cualquiera sea el turno.
         self.brain.new_game()
         game_started = time.monotonic()
         game_started_wall = datetime.now().astimezone().isoformat(timespec="seconds")
@@ -182,7 +190,7 @@ class ChallengerRunner:
                 board.push(result.move)
                 moves.append(result.move.uci())
             else:
-                self.client.position(moves)
+                self.client.position(moves, fen=base_fen)
                 # The UCI watchdog and the chess clock are independent.  We
                 # wait until the first of them expires.  A watchdog timeout
                 # invalidates this game; a genuine flag fall is a chess result.

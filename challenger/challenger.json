@@ -1,0 +1,65 @@
+{
+  "header": {
+    "schema_version": 2,
+    "json_file": "challenger.json",
+    "created_at": "2026-11-03T13:54:53-03:00",
+    "last_modified_at": "2026-11-03T13:56:00-03:00",
+    "games": 1,
+    "wins": 0,
+    "wins_pct": 0.0,
+    "draws": 0,
+    "draws_pct": 0.0,
+    "losses": 1,
+    "losses_pct": 100.0
+  },
+  "events": {
+    "Trainning run": {
+      "event": "Trainning run",
+      "started_at": "2026-11-03T13:54:53-03:00",
+      "last_run_at": "2026-11-03T13:56:00-03:00",
+      "games": 1,
+      "wins": 0,
+      "wins_pct": 0.0,
+      "draws": 0,
+      "draws_pct": 0.0,
+      "losses": 1,
+      "losses_pct": 100.0,
+      "games_detail": {
+        "20261103T165600.662761Z-1e0d9c4b": {
+          "game_id": "20261103T165600.662761Z-1e0d9c4b",
+          "result": "0-1",
+          "outcome": "loss",
+          "reason": "CHECKMATE",
+          "challenger_color": "white",
+          "finished_at": "2026-11-03T13:56:00-03:00",
+          "brain": "human",
+          "challenger_version": "0.2.1",
+          "execution_arguments": {
+            "ip": "127.0.0.1",
+            "port": 6110,
+            "fen": "r3k2r/ppp2ppp/2n5/3p4/8/2N5/PPPP1PPP/R3K2R b KQkq - 4 12",
+            "color": "white",
+            "brain": "human",
+            "stockfish": null,
+            "stockfish_movetime": 2000,
+            "plies": 2,
+            "qdepth": 0,
+            "verbose": false,
+            "gui": true,
+            "forever": false,
+            "run": null,
+            "pgn": null,
+            "evento": "Trainning run",
+            "json": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\challenger\\challenger.json",
+            "gametime": 30.0,
+            "timeout": 120000,
+            "seed": null
+          },
+          "move_count": 12,
+          "duration_seconds": 67.025,
+          "opponent_id": "penelope"
+        }
+      }
+    }
+  }
+}
