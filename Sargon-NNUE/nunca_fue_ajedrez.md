@@ -7098,6 +7098,162 @@ Es importante distinguir esta limitación histórica de cualquier adaptación ac
 
 **Arquitectura altamente especializada.** Su diseño estaba estrechamente condicionado por el hardware original, lo que dificulta trasladarlo literalmente a arquitecturas modernas sin modificar sus compromisos.
 
+### TensorFlow: origen, funciones y papel en el aprendizaje neuronal
+
+**Resumen técnico — noviembre de 2026**
+
+**TensorFlow** es una plataforma de código abierto para computación numérica y aprendizaje automático desarrollada inicialmente por Google Brain. Fue presentada públicamente el **9 de noviembre de 2015** como una evolución de las infraestructuras internas de Google, entre ellas *DistBelief*. Su objetivo era facilitar el desarrollo y la ejecución de algoritmos de aprendizaje a distintas escalas: desde una computadora individual hasta sistemas distribuidos de múltiples dispositivos.
+
+En 2016, Martín Abadi y colaboradores describieron formalmente TensorFlow como un sistema que representa cálculos mediante **grafos de flujo de datos**. Los nodos ejecutan operaciones matemáticas sobre tensores y pueden distribuirse entre CPU, GPU y aceleradores especializados (TPU).
+
+Con **TensorFlow 2** (2019) se popularizó la ejecución inmediata (*eager execution*), que simplificó la programación y depuración, y se consolidó Keras como API de alto nivel.
+
+TensorFlow sirve para **definir, entrenar, evaluar, guardar y ejecutar modelos de aprendizaje automático**. También se utiliza para cómputo numérico diferenciable fuera de las redes neuronales.
+
+Sus capacidades esenciales incluyen:
+
+- **Tensores (`tf.Tensor`):** arreglos multidimensionales para entradas, pesos, activaciones y salidas.
+- **Operaciones numéricas:** productos matriciales, convoluciones, normalización y transformaciones.
+- **Diferenciación automática:** obtención de derivadas y gradientes mediante `tf.GradientTape`.
+- **Aceleración:** ejecución en CPU, GPU y TPU, cuando el entorno lo permite.
+- **Distribución:** entrenamiento sobre varios dispositivos o máquinas.
+- **Persistencia:** almacenamiento de pesos, checkpoints y exportación para inferencia.
+
+TensorFlow **no es una arquitectura neuronal**: es el motor que ejecuta las operaciones que constituyen una arquitectura determinada.
+
+| Dimensión | Opciones | Impacto |
+|---|---|---|
+| Ejecución | Eager / `tf.function` (grafos) | Facilidad de depuración y posibilidades de optimización |
+| Hardware | CPU / GPU / TPU | Rendimiento, memoria disponible y compatibilidad |
+| Precisión | FP32 / FP64 / precisión mixta FP16 o BF16 | Velocidad, memoria y estabilidad numérica |
+| Distribución | Un dispositivo / múltiples dispositivos | Escalabilidad y sincronización |
+| Construcción | Keras / API TensorFlow de bajo nivel | Productividad frente a control |
+| Entrada de datos | Arrays / `tf.data.Dataset` | Preprocesamiento y alimentación eficiente |
+| Salida | Checkpoints / SavedModel / otros formatos compatibles | Reanudación del aprendizaje y despliegue |
+
+**Hiperparámetros del entrenamiento:** tamaño de lote (*batch size*), épocas, tasa de aprendizaje (*learning rate*), optimizador, función de pérdida, regularización, planificación de la tasa de aprendizaje y parada temprana. Los define el desarrollador; TensorFlow proporciona los mecanismos para aplicarlos.
+
+Sea una red con parámetros \(\theta\), entrada \(x\) y salida \(\hat y=f_\theta(x)\). Para datos supervisados \((x_i,y_i)\), se minimiza una función de pérdida:
+
+\[
+\mathcal{L}(\theta)=\frac{1}{N}\sum_{i=1}^N\ell(f_\theta(x_i),y_i).
+\]
+
+El procedimiento básico comprende:
+
+1. **Propagación hacia adelante:** la red calcula las predicciones.
+2. **Evaluación de la pérdida:** se mide la discrepancia con el objetivo.
+3. **Retropropagación:** TensorFlow calcula derivadas mediante diferenciación automática y la regla de la cadena.
+4. **Optimización:** se actualizan los parámetros para reducir la pérdida.
+5. **Validación:** se comprueba la capacidad de generalización.
+6. **Guardado:** se conservan pesos y, cuando corresponde, estado del optimizador.
+
+Con descenso por gradiente:
+
+\[
+\theta_{t+1}=\theta_t-\eta\nabla_\theta\mathcal{L}(\theta_t),
+\]
+
+donde \(\eta\) es la tasa de aprendizaje. **Adam** adapta las actualizaciones usando momentos del gradiente; **AdamW** añade decaimiento de pesos desacoplado. TensorFlow implementa el cálculo matemático requerido, pero no garantiza convergencia ni evita automáticamente el sobreajuste.
+
+**Keras no es un tipo de red neuronal**, sino una API que simplifica la construcción, el entrenamiento y la evaluación de modelos.
+
+En las versiones modernas, **Keras 3 es multibackend**: puede utilizar TensorFlow, JAX o PyTorch como motor de ejecución. Para emplear TensorFlow:
+
+```python
+import os
+os.environ["KERAS_BACKEND"] = "tensorflow"  # Antes de importar keras
+
+import keras
+from keras import layers
+
+model = keras.Sequential([
+    layers.Input(shape=(32,)),
+    layers.Dense(64, activation="relu"),
+    layers.Dense(1)
+])
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=1e-3),
+    loss="mse",
+    metrics=["mae"]
+)
+
+# model.fit(x_train, y_train, batch_size=64, epochs=20)
+```
+
+En este ejemplo, **Keras** declara las capas y organiza el entrenamiento; **TensorFlow**, como backend, realiza las operaciones y calcula los gradientes.
+
+Keras ofrece tres estilos principales: `Sequential` para cadenas lineales de capas, API funcional para modelos con ramificaciones y múltiples entradas/salidas, y subclases personalizadas para lógica más compleja.
+
+Un modelo Keras que utiliza operaciones exclusivas de TensorFlow no es necesariamente portable a todos los backends; `keras.ops` permite escribir componentes más independientes.
+
+La expresión «red transformacional Keras» puede confundirse con **Transformer**, una arquitectura neuronal basada en atención. Un Transformer **puede implementarse en Keras**, que a su vez puede ejecutar sus cálculos mediante TensorFlow.
+
+La atención utiliza tres proyecciones de la entrada \(X\):
+
+\[
+Q=XW_Q,\qquad K=XW_K,\qquad V=XW_V.
+\]
+
+La atención escalada se define por:
+
+\[
+\operatorname{Attention}(Q,K,V)=
+\operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}+M\right)V,
+\]
+
+donde \(d_k\) es la dimensión de las claves y \(M\) una máscara opcional.
+
+Un bloque Transformer normalmente combina **atención multi-cabeza**, conexiones residuales, normalización y una red *feed-forward*. Durante el entrenamiento, TensorFlow puede calcular los gradientes de las matrices de proyección, embeddings y demás parámetros.
+
+**Roles separados:**
+
+- **Transformer:** define cómo interactúan los elementos de una secuencia o representación.
+- **Keras:** proporciona capas como `MultiHeadAttention` y herramientas de entrenamiento.
+- **TensorFlow:** ejecuta los productos matriciales y calcula las derivadas cuando se usa como backend.
+- **Optimizador:** ajusta los pesos.
+- **Modelo entrenado:** realiza inferencia sin retropropagación habitual.
+
+Los Transformers son adecuados para múltiples problemas secuenciales, pero no son automáticamente superiores a redes densas o convolucionales para todos los dominios.
+
+TensorFlow y Keras pueden entrenar distintas arquitecturas que luego se integran en un motor ajedrecístico:
+
+| Arquitectura | Entrada típica | Salida | Observación |
+|---|---|---|---|
+| MLP | Características del tablero | Valor de posición | Sencilla, su rendimiento depende de la representación |
+| NNUE | Características dispersas e incrementales | Evaluación | Especialmente pensada para inferencia eficiente en motores |
+| CNN residual | Planos que describen la posición | Valor y/o política | Frecuente en sistemas de estilo AlphaZero |
+| Transformer | Tokens de piezas, casillas o historial | Valor, política u otras | Permite modelar relaciones mediante atención |
+| Red con dos cabezas | Representación compartida | Política \(p(a\mid s)\) y valor \(v(s)\) | Útil con búsqueda MCTS |
+
+**Entrenamiento e inferencia son etapas diferentes.** Una red puede entrenarse en una GPU con TensorFlow y después ejecutar sus pesos en C++, TensorFlow Lite u otro runtime compatible. La exportación, conversión y cuantización (por ejemplo, INT8) requieren comprobar tipos de operaciones y precisión resultante. Un archivo `.keras` no se ejecuta directamente como firmware de un microcontrolador.
+
+La búsqueda **MCTS** utiliza predicciones de política y valor, pero es un algoritmo de búsqueda separado del entrenamiento de la red.
+
+* Ventajas y limitaciones
+
+**Ventajas:** diferenciación automática, flexibilidad de arquitecturas, integración con aceleradores, experimentación reproducible, entrenamiento distribuido y herramientas de exportación.
+
+**Limitaciones:** requisitos de memoria, compatibilidad de dispositivos y controladores, dificultad de despliegue embebido, diferencias entre formatos y riesgo de sobreajuste. La elección de TensorFlow no sustituye la selección cuidadosa de datos, objetivos e hiperparámetros.
+
+La distinción fundamental es:
+
+> **Arquitectura neuronal:** qué función se aprende (MLP, CNN, NNUE, Transformer).  
+> **Keras:** cómo se expresa y entrena el modelo mediante una API.  
+> **TensorFlow:** cómo se ejecutan los cálculos y se obtienen gradientes, cuando es el backend elegido.  
+> **Runtime de inferencia:** cómo se usan los pesos entrenados en el dispositivo de destino.
+
+Para desarrollar una red conviene definir primero la representación de los datos, el objetivo de aprendizaje y las restricciones de inferencia. Después se eligen arquitectura, framework, optimizador y estrategia de entrenamiento.
+
+1. Google (2015), [Presentación de TensorFlow](https://blog.google/innovation-and-ai/products/tensorflow-smarter-machine-learning-for/).
+2. Abadi et al. (2016), [*TensorFlow: A System for Large-Scale Machine Learning*](https://research.google/pubs/tensorflow-a-system-for-large-scale-machine-learning/).
+3. TensorFlow, [Guía oficial de fundamentos](https://www.tensorflow.org/guide/basics).
+4. TensorFlow, [Diferenciación automática](https://www.tensorflow.org/guide/autodiff).
+5. Keras, [About Keras 3](https://keras.io/getting_started/about/).
+6. Keras, [Getting Started](https://keras.io/getting_started/).
+7. Vaswani et al. (2017), [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762).
+
 
 ### Conclusión
 

@@ -1,86 +1,65 @@
 cmake_minimum_required(VERSION 3.20)
-project(picoKeras VERSION 0.1.17 LANGUAGES CXX)
+# Native RP2350 firmware. Build with Pico SDK and ARM GCC; no desktop sockets/files.
+if(NOT DEFINED PICO_SDK_PATH AND NOT DEFINED ENV{PICO_SDK_PATH})
+  message(FATAL_ERROR "Set PICO_SDK_PATH to Pico SDK 2.x")
+endif()
+include(${CMAKE_CURRENT_LIST_DIR}/../../pico_sdk_import.cmake OPTIONAL RESULT_VARIABLE _sdk_import)
+if(NOT _sdk_import)
+ if(PICO_SDK_PATH)
+   include("${PICO_SDK_PATH}/external/pico_sdk_import.cmake")
+ else()
+   include("$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake")
+ endif()
+endif()
+project(picoKeras VERSION 0.1.20 LANGUAGES C CXX ASM)
+set(PICO_CXX_ENABLE_EXCEPTIONS 1)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(TFLM_INCLUDE "" CACHE PATH "Root containing tensorflow/lite/micro/micro_interpreter.h")
-set(TFLM_LIBRARY "" CACHE FILEPATH "Prebuilt TFLM static library (.lib or .a)")
-if(NOT TFLM_INCLUDE OR NOT EXISTS "${TFLM_INCLUDE}/tensorflow/lite/micro/micro_interpreter.h")
- message(FATAL_ERROR "Set -DTFLM_INCLUDE to TFLM source/include root (tensorflow/lite/micro/micro_interpreter.h)")
+pico_sdk_init()
+if(NOT PICO_BOARD STREQUAL "pico2_w")
+ message(FATAL_ERROR "Only Pico 2 W (RP2350) is supported in this native firmware build")
 endif()
-if(NOT TFLM_LIBRARY OR NOT EXISTS "${TFLM_LIBRARY}")
- message(FATAL_ERROR "Set -DTFLM_LIBRARY to a built TFLM static library (.lib or .a)")
-endif()
-add_executable(picoKeras src/main.cpp src/model.cpp src/board.cpp src/int8_extra_ops.cpp)
-# The installed TFLM revision stores the generated schema under micro/schema.
-# Resolve the matching header from the exported tree or the exact local clone.
-set(_tflm_include_dirs "${TFLM_INCLUDE}")
-set(_upstream_tflm_root "${CMAKE_CURRENT_SOURCE_DIR}/third_party/tflite-micro")
-set(_schema_relative "tensorflow/lite/micro/schema/schema_generated.h")
-if(EXISTS "${TFLM_INCLUDE}/${_schema_relative}")
-  message(STATUS "TFLM schema: exported tree")
-elseif(EXISTS "${_upstream_tflm_root}/${_schema_relative}")
-  list(APPEND _tflm_include_dirs "${_upstream_tflm_root}")
-  message(STATUS "TFLM schema: local upstream checkout")
-else()
-  message(FATAL_ERROR "Missing ${_schema_relative} in TFLM tree and local clone")
-endif()
-
-# Backwards-compatible include for source code still using the pre-micro path.
-# This is a forwarding header only; it uses the schema from the installed revision.
-set(_compat_root "${CMAKE_CURRENT_BINARY_DIR}/tflm-compat")
-file(MAKE_DIRECTORY "${_compat_root}/tensorflow/lite/schema")
-file(WRITE "${_compat_root}/tensorflow/lite/schema/schema_generated.h"
-     "#pragma once\n#include <tensorflow/lite/micro/schema/schema_generated.h>\n")
-list(INSERT _tflm_include_dirs 0 "${_compat_root}")
-
-set(_dependency_roots
-  "${TFLM_INCLUDE}"
-  "${TFLM_INCLUDE}/third_party"
-  "${CMAKE_CURRENT_SOURCE_DIR}/third_party/tflite-micro"
-  "${CMAKE_CURRENT_SOURCE_DIR}/third_party/tflite-micro/tensorflow/lite/micro/tools/make/downloads"
-)
-# FlatBuffers is needed by micro_interpreter.h and schema_generated.h.
-set(_flatbuffers_include "")
-foreach(_dep_root IN LISTS _dependency_roots)
-  foreach(_candidate
-      "${_dep_root}/third_party/flatbuffers/include"
-      "${_dep_root}/flatbuffers/include"
-      "${_dep_root}/flatbuffers")
-    if(EXISTS "${_candidate}/flatbuffers/flatbuffers.h")
-      set(_flatbuffers_include "${_candidate}")
-      break()
-    endif()
-  endforeach()
-  if(_flatbuffers_include)
-    break()
-  endif()
+set(TFLM_INCLUDE "" CACHE PATH "Root of matching tflite-micro tree")
+set(TFLM_LIBRARY "" CACHE FILEPATH "ARM Cortex-M33 libtensorflow-microlite.a")
+set(PICOKERAS_MODEL_CPP "" CACHE FILEPATH "Generated embedded model C++ source")
+set(PICOKERAS_CONFIG_HEADER "" CACHE FILEPATH "Generated board configuration header")
+set(PICOKERAS_ARENA_BYTES "98304" CACHE STRING "TFLM static arena size")
+foreach(_required IN ITEMS TFLM_INCLUDE TFLM_LIBRARY PICOKERAS_MODEL_CPP PICOKERAS_CONFIG_HEADER)
+ if(NOT EXISTS "${${_required}}")
+  message(FATAL_ERROR "Missing ${_required}: ${${_required}}")
+ endif()
 endforeach()
-if(NOT _flatbuffers_include)
-  message(FATAL_ERROR
-    "FlatBuffers header flatbuffers/flatbuffers.h not found in the TFLM source tree "
-    "or upstream downloads. This is a header availability issue, not proof "
-    "that TFLM is uninstalled. Check third_party/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include.")
+if(NOT EXISTS "${TFLM_INCLUDE}/tensorflow/lite/micro/micro_interpreter.h")
+ message(FATAL_ERROR "TFLM_INCLUDE must point to the root containing tensorflow/lite/micro")
 endif()
-list(APPEND _tflm_include_dirs "${_flatbuffers_include}")
-foreach(_dep_root IN LISTS _dependency_roots)
-  foreach(_relative "third_party/gemmlowp" "gemmlowp"
-                    "third_party/kissfft" "kissfft"
-                    "third_party/ruy" "ruy")
-    if(IS_DIRECTORY "${_dep_root}/${_relative}")
-      list(APPEND _tflm_include_dirs "${_dep_root}/${_relative}")
-    endif()
-  endforeach()
+if(NOT PICOKERAS_ARENA_BYTES MATCHES "^[0-9]+$")
+ message(FATAL_ERROR "PICOKERAS_ARENA_BYTES must be an integer")
+endif()
+add_executable(picoKeras
+ src/pico_main.cpp src/pico_model.cpp src/board.cpp "${PICOKERAS_MODEL_CPP}")
+get_filename_component(_config_dir "${PICOKERAS_CONFIG_HEADER}" DIRECTORY)
+target_include_directories(picoKeras PRIVATE include "${TFLM_INCLUDE}" "${_config_dir}")
+# A TFLM make-based build downloads/generated FlatBuffers and CMSIS headers.
+foreach(_dir
+ "${TFLM_INCLUDE}/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include"
+ "${TFLM_INCLUDE}/tensorflow/lite/micro/tools/make/downloads/gemmlowp"
+ "${TFLM_INCLUDE}/tensorflow/lite/micro/tools/make/downloads/ruy"
+ "${TFLM_INCLUDE}/tensorflow/lite/micro/tools/make/downloads/cmsis/CMSIS/Core/Include"
+ "${TFLM_INCLUDE}/third_party/flatbuffers/include"
+ "${TFLM_INCLUDE}/third_party/gemmlowp"
+ "${TFLM_INCLUDE}/third_party/ruy")
+ if(IS_DIRECTORY "${_dir}")
+  target_include_directories(picoKeras PRIVATE "${_dir}")
+ endif()
 endforeach()
-list(REMOVE_DUPLICATES _tflm_include_dirs)
-target_include_directories(picoKeras PRIVATE include ${_tflm_include_dirs})
-message(STATUS "TFLM include directories: ${_tflm_include_dirs}")
-target_link_libraries(picoKeras PRIVATE "${TFLM_LIBRARY}")
-if(WIN32)
- target_link_libraries(picoKeras PRIVATE ws2_32)
+# This header is generated by PowerShell, not committed: may contain WiFi credentials.
+get_filename_component(_config_name "${PICOKERAS_CONFIG_HEADER}" NAME)
+if(NOT _config_name STREQUAL "pico_build_config.h")
+ message(FATAL_ERROR "Expected generated header to be named pico_build_config.h")
 endif()
-if(MSVC)
- target_compile_options(picoKeras PRIVATE /W4 /EHsc)
-else()
- target_compile_options(picoKeras PRIVATE -Wall -Wextra -Wpedantic)
-endif()
-set_target_properties(picoKeras PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+target_compile_options(picoKeras PRIVATE -include "${PICOKERAS_CONFIG_HEADER}" -Wall -Wextra)
+target_compile_definitions(picoKeras PRIVATE PICOKERAS_ARENA_BYTES=${PICOKERAS_ARENA_BYTES})
+target_link_libraries(picoKeras PRIVATE "${TFLM_LIBRARY}" pico_stdlib pico_cyw43_arch_lwip_poll)
+pico_enable_stdio_usb(picoKeras 1)
+pico_enable_stdio_uart(picoKeras 0)
+pico_add_extra_outputs(picoKeras)
