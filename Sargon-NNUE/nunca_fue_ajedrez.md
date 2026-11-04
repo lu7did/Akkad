@@ -7,12 +7,183 @@ Libro de experiencias de investigación de Dr. Pedro E. Colla
 
 Es un manual anotado,un journal de actividades
 
-# Introducción
+# CAP 1 Introducción
 
 ## Motivaciones
 
-## Antecedentes históricos
+Para abordar el tema de explorar algoritmos y estrategias automáticas hay que, primero, 
+entender las caracteristicas del juego. Su estructura, sus reglas, sus modos, sus convenciones y la infraestructura que rodea la forma de interpretar una partida.
+El contexto de los motores de ajedrez ha evolucionado significativamente en la medida que aparecen plataformas mas veloces y algoritmos mas novedosos. O meramente algoritmos que eran impensables en una plataforma Z80 de 8 bits y pocos K de memoria RAM
+son ahora triviales en un procesador de 64 bits con 32 GBytes de memoria y acceso a un procesador GPU de alta potencia, es una cuestión de perspectiva.
 
+Pero en la esencia el problema no es, una vez actualizado, diferente a como lo planteo Claude Shannon, sigue habiendo dos tipos de algoritmos de juego
+
+* la Tipo A (fuerza bruta, evaluar todas las jugadas posibles)
+* la Tipo B (búsqueda selectiva, evaluar solo las mejores jugadas).
+
+Y los dos tipos han evolucionado. Los de *Tipo A* se han rendido ante la evidencia de un juego que logra presentar el formidable desafío de $10^{130}$combinaciones a explorar, imposible.
+
+**Claude Shannon** lo formuló como una famosa analogía basada en sus conclusiones elementales: 
+si convirtiéramos cada uno de los átomos del universo observable (aproximadamente $10^{80}$) en una supercomputadora —incluso en un computador cuántico operando a la máxima velocidad permitida por las leyes de la física y las pusiéramos a calcular combinaciones desde el Big Bang hasta hoy, apenas habrían analizado una fracción infinitesimal
+del total.
+
+Sin embargo el enfoque de fuerza bruta es abordable si se limita el *horizonte* dentro del cual se analizan las jugadas posibles; planteado de ésta forma el problema pasa a ser que tan lejos permite el algoritmo y la tecnología mover ese horizonte
+hacia el futuro. 
+
+**MicroChess** o **Sargon** , legendarias implementaciones ambas, hacen eso, aplican un método **minimax alpha/beta* para tratar de reducir el árbol de posibilidades
+y, en un tiempo objetivo que se considere razonable examnar la mayor cantidad de jugadas posibles y elegir la mejor. Esos motores en sus ambientes de hardware originales no podían hacerlo mas que dos jugadas hacia adelante, hoy en hardware moderno el mismo
+algoritmo puede analizar hasta 7 u 8 jugadas hacia adelante. Pero alli aparece la siguiente limitación, como evaluamos el posible valor de cada jugada comparada con otras. Aparecen los otros componentes de la estrategia, el valor de la i-esima
+posición **Valor ($V_i$)** y la **Política ($P_i$o $\pi_{i}$), es decir que capacidad tiene una jugada para darme el mayor beneficio (usualmente tratar de ganar la partida) y entre las posibles cual es el criterio para elegir una movida en lugar de
+otra.
+
+**MicroChess** o **Sargon** tenían (*tienen*) analisis muy simplificados basado en una heurística determinada que asigna valor a las piezas, a la ocupación de ciertos sectores del tablero y a la chance que en la próxima jugada ocurra algo relevante (tal como
+comer una pieza de mas valor o dar jaque mate). Pero como es de imaginar heurísticas de ese tipo son relativamente limitadas.
+
+Básicamente capturan la **"ideología"** ajedrecistica de quien las formula, sus preferencias si se quiere. Pero ciertamente es dudoso que provengan de un experto jugador a nivel *Maestro* o *Gran Maestro*. Como resultado estas estrategias sorprenden a
+un jugador casual, que quizás no realiza análisis de esa profundidad o con alguna heurística simple pero robusta, pero rara vez pueden sorprender, mucho menos ganar a un jugador de cierto nivel.
+
+En la medida que la potencia de cálculo aumentó se desarrollan casi concurrentemente algoritmos sofisticados que permiten explorar mas posiciones o seleccionar aquellas posiciones mas prometedoras respecto a otras y al mismo tiempo algoritmos 
+mas complejos para obtener el material para decidir que jugada es mejor que otra ($V_i$) y que jugada será mejor seleccionar
+como movida propia $\pi_{i}$.
+
+El epítome de fuerza bruta fue el programa *Deep Blue*, fue una supercomputadora de ajedrez desarrollada por IBM que hizo historia al convertirse en el
+primer sistema informático en derrotar a un campeón del mundo vigente,  Garry Kasparov, en un encuentro con ritmo de juego de torneo.
+Su desarrollo comenzó a finales de los años 80 bajo el nombre de ChipTest y luego Deep Thought en la Universidad Carnegie Mellon, de la mano de los científicos Feng-hsiung Hsu y Murray Campbell, quienes posteriormente fueron reclutados por IBM para culminar el proyecto.
+A diferencia de la Inteligencia Artificial moderna basada en redes neuronales y aprendizaje autónomo (como *AlphaZero*, al que veremos luego), Deep Blue funcionaba mediante fuerza bruta computacional combinada con reglas heurísticas.
+
+* Poder de procesamiento masivo:
+ Consistía en un superordenador masivamente paralelo compuesto por dos torres de dos metros de altura que  albergaban más de 500 procesadores y 216 chips aceleradores específicamente diseñados para calcular movimientos de ajedrez.
+* Velocidad de cálculo:
+ La versión de 1997 era capaz de analizar y evaluar hasta 200 millones de posiciones por segundo.
+* Algoritmo de búsqueda (Minimax):
+ Calculaba los árboles de decisiones explorando masivamente las opciones de jugadas hacia adelante (profundidad de cálculo) y seleccionaba la mejor opción asumiendo que el rival también elegiría su mejor jugada.
+* Función de evaluación humana:
+ Para decidir si una posición final en su cálculo era "buena" o "mala", utilizaba una función programada  con conocimientos conceptuales de ajedrez (valor de las piezas, seguridad del rey, estructura de peones, espacio).
+ El equipo contó con la asesoría de Grandes Maestros de ajedrez para afinar esta base de datos y su libro de aperturas.
+
+En esencia se trata de cantidades masivas de potencia de cálculo para explorar millones de jugadas por segundo, en cambio **Sargon** puede, en un día bueno, explorar algunos miles a 2 jugadas hacia adelante) pero usando el algoritmo *minimax* y una funcion
+de ($V_i$) y  $\pi_{i}$dada por una combinación de posiciones recordadas y comparadas de partidas pasadas y preferencias de los entrenadores. El programa nunca se hizo público y solo se dispone de descripciones superficiales de su funcionamiento.
+
+Pero estaba claro que el enfoque de *Deep Blue* ponía el sendero de la fuerza bruta muy lejos de la disponibilidad habitual de experimentadores con menos recursos.
+
+La evolución progresó hasta la disponibilidad moderna de programas como *stockfish* [LINK] que puede mostrar niveles de juego que solo los grandes maestros puede batir, a veces.
+
+Este programa, y algunos similares, pueden funcionar en computadores modernos, los que de por si son bastante mas poderosos que en la época de *Deep Blue* vs. Kasparov, con algoritmos muy especializados para reducir el espacio de exploración y con
+heurísticas mas sofisticadas para evaluar las movidas. El resultado es que *stockfish* puede evaluar el equivalente a 20 o 30 jugadas hacia adelante en sus versiones mas extremas (las hay menos potentes). Recientemente, luego de la irrupción de
+algoritmos como *AlphaZero* basado en redes neuronales *stockfish* también abraza el uso de técnicas de inteligencia artificial para mejorar sus capacidades de exploración y valoración de jugadas. 
+
+Pero todos los métodos explorados, y algunos mas no mencionados, se caracterizan por ser pertenecientes a la familia de *fuerza bruta*, pero que hay de la otra familia los de *busqueda selectiva*?
+
+Por cierto que tambien hay exponentes en ésta familia, algunos muy famosos.
+
+[FOTO DE ALPHAZERO-KASPAROV]
+
+AlphaZero es un programa de Inteligencia Artificial desarrollado por Google DeepMind que revolucionó los juegos de mesa de estrategia (ajedrez, shogi y go) al aprender a dominarlos de forma completamente autónoma.
+A diferencia de los motores tradicionales que dependen del conocimiento acumulado por humanos durante siglos, AlphaZero aprendió a jugar partiendo de cero, jugando millones de partidas contra sí mismo utilizando únicamente
+las reglas básicas del juego.
+AlphaZero nació a finales de 2017 en los laboratorios de Google DeepMind, la división de IA de Google. Es la evolución directa de AlphaGo (la IA que derrotó al campeón mundial del milenario juego de Go) y AlphaGo Zero.
+El equipo de DeepMind, liderado por Demis Hassabis, adaptó este sistema para crear un algoritmo más generalizado y aplicable a múltiples juegos complejos, publicando un histórico artículo científico donde demostraron que, en pocas horas de autoaprendizaje, la IA podía destruir a los campeones mundiales informáticos de ajedrez (Stockfish) y shogi (Elmo).
+AlphaZero no utiliza la "fuerza bruta" de los ordenadores tradicionales ni funciones de evaluación programadas por humanos. Se basa en dos pilares tecnológicos:
+* Redes Neuronales Profundas
+ Tiene una red que evalúa las posiciones del tablero y otra que predice cuáles son  las jugadas más prometedoras. 
+ En lugar de calcular millones de variantes absurdas, AlphaZero utiliza una intuición artificial similar a la  humana para enfocarse solo en las mejores líneas.
+* Aprendizaje por Refuerzo (Tabula Rasa): 
+ El programa comenzó sabiendo únicamente las reglas del ajedrez.
+ Jugó contra copias de sí mismo a una velocidad asombrosa. 
+ Al principio hacía movimientos aleatorios, pero la red neuronal se iba actualizando tras cada partida, aprendiendo qué estrategias llevaban a la victoria y cuáles a la derrota.
+ En solo 4 horas de autoentrenamiento en ajedrez, superó el nivel de Stockfish (en ese momento).
+* Búsqueda de Árboles de Monte Carlo (MCTS):
+ En vez del algoritmo clásico Minimax que analiza posiciones de forma simétrica a gran profundidad, AlphaZero utiliza *Monte Carlo Tree Search (MCTS)* para simular los resultados más probables, calculando "solo" unas 80,000 posiciones por segundo (frente a los 70 millones de Stockfish), pero con una precisión
+ y calidad estratégica radicalmente superiores.
+
+*AlphaZero* no es un software comercial ni de código abierto; fue un proyecto de investigación científica interna de Google y no está disponible para que el público general lo descargue o lo use en su computadora.
+Sin embargo, el mundo del ajedrez no se quedó de brazos cruzados, el proyecto *Leela Chess Zero (Lc0)* resultó del esfuerzo de una comunidad de ajedrez y programadores la que creó este proyecto de código abierto para replicar primero 
+el funcionamiento de AlphaZero y luego extenderlo.
+*Lc0* se entrena gracias a la potencia comunitaria de miles de usuarios que prestan sus tarjetas gráficas (GPUs).
+Cualquier aficionado puede descargar Lc0 de forma gratuita, conectarlo a una interfaz (como Arena o ChessBase) y usarlo en su propia PC para analizar partidas con el "estilo AlphaZero".
+El estilo de AlphaZero cambió para siempre la teoría del ajedrez moderno debido a sus marcadas diferencias con los motores clásicos:
+
+| Característica	| Motores Tradicionales (Ej. Stockfish clásico)	| AlphaZero / Motores de Red Neuronal|
+|-----------------------|-----------------------------------------------|------------------------------------|
+|Origen del conocimiento|	Heurísticas y conceptos de estrategia programados por Grandes Maestros humanos.| Aprendizaje autónomo absoluto jugando contra sí mismo|
+|Velocidad de cálculo	|Brutal. Evalúa decenas o cientos de millones de posiciones por segundo.| Eficiente. Evalúa decenas de miles de posiciones por segundo, pero muy selectas.|
+|Estilo de juego	|Ultra-calculador, materialista, defensivo y busca la perfección táctica concreta.|Profundamente posicional, intuitivo, dinámico y famoso por sacrificar piezas a largo plazo por iniciativa.|
+|Hardware ideal		|Procesadores comunes (CPU).	|Tarjetas gráficas de alta potencia o procesadores de IA (GPU / TPU)|
+
+El éxito de AlphaZero fue tan rotundo que obligó a los motores tradicionales a evolucionar y al menos en parte abrazar su tecnolocía, hoy en día, el propio Stockfish
+ya no es puramente tradicional pues adoptó la tecnología de redes neuronales (llamada *NNUE*) fusionando lo mejor de la fuerza bruta clásica con la enorme comprensión estratégica inspirada por AlphaZero.
+
+Se explorarán algunos de los algoritmos involucrados en la medida que se discutan implementaciones concretas, pero lo cierto es que claramente define una posible estrategia para un recorrido de aprendizaje y comprensión.
+
+Carece de sentido tratar de emular o superar a *stockfish* (o por caso a *AlphaZero*), es un esfuerzo de muchas personas, con enormes recursos materiales, de tiempo y tecnológicos por lo que tratar de conseguir algo distinto es un desafío que requiere calibrar los recursos disponibles.
+
+[FOTO DE STOCKFISH]
+
+El epítome actual de los motores está representado por *stockfish*, y eso lleva a preguntarse si hay espacio para que otro proyecto, sin replicarlo, realice alguna
+contribución al estado del arte.
+
+La respuesta no es lineal ni simple, siquiera quizás robusta. 
+
+En realidad, se trata de aprender, explorar, comprender y eventualmente aplicar técnicas conocidas para familiarizarse con ellas, y quizás encontrar estrategias que permitan aplicarlas en computadores mas simples y de mucha menos potencia en forma efectiva,
+microcontroladores, problema de optimización de performance. O quizás solo haber disfrutado el camino de aprendizaje.
+
+# Planteo conceptual
+
+El planteo conceptual del esfuerzo es determinar que componentes, sub-sistemas o módulos, tendrá la implementación para permitir ayudar en los objetivos y luego definir como se
+conectarán entre si aplicando que convenciones.
+
+[AQUI VIENE UN DIAGRAMA]
+
+Los objetivos van mutando con el aprendizaje, por lo tanto es mas facil contarlos 
+cuando el proyecto esté terminado que al comenzar. 
+Pero si se puede describir el punto de partida y la idea general.
+
+* Explorar los distintos algoritmos.
+* Entender las interacciones entre ellos.
+* Experimentar el problema de ajedrez como compuesto de dos partes:
+  * Explorar el valor de las jugadas que son factibles.
+  * Evaluar que criterios se pueden usar para determinar la mejor.
+* Probar que combinación da una performance razonable en ambientes muy pequeños.
+* Desarrollar un protocolo de evaluación de los distintos enfoques propuestos.
+
+Uno de los aprendizajes mas tempranos consiste en comprender como es el ciclo de vida
+de un determinado esquema de juego, el que podría resumirse en algunos pasos que
+se repiten:
+
+* Se parte de una idea o estrategia para medir $V_i$y $\pi_{i}$
+* Implementarlo.
+* Encontrar la forma de calibrarlo o entrenarlo.
+* Probar el funcionamiento básico (**dry run**).
+* Entender la performance y la capacidad de exploración que tiene.
+* Calibrar la potencia relativa de cada algoritmo respecto a los restantes.
+* Tomar alguna medida objetiva del potencial *"ajedrecistico"* que tiene.
+* Optimizar la performance.
+* Mover a las distintas plataformas, repetir la evaluación.
+* .... tomar el siguiente 
+
+Finalmente, 
+
+¿como evaluar si una estrategia es "*suficientemente buena*" para declararla exitosa?
+
+Esta determinación está plagada de intangibles, pero a los efectos de éste proyecto se tomará el criterio de *fortaleza competitiva recíproca* 
+
+'''
+Una combinación de algoritmos de evaluación y juego será mejor que otra cuando en competencia recíproca muestre tener un ELO relativo superior.
+'''
+
+Y un criterio de *aceptabilidad*
+
+'''
+Un motor será aceptable a los efectos de la experimentación cuando tenga un ELO superior al de un algoritmo Sargón histórico.
+'''
+
+Se verá mas adelante los mecanismos de medición de fortaleza ajedrecistica relativa,
+en particular el sistema ELO.
+
+Pero, para poder progresar, es necesario entender que es el ajedrez primero.
+
+
+## Antecedentes
 
 ### Los inicios teóricos y mecánicos (1912 - 1950)
 
@@ -80,7 +251,7 @@ Fuentes
 [5] (https://www.microsiervos.com/archivo/ordenadores/historia-microchess-juego-ajedrez-1k-primer-software-comercial-historia.html),
 [6] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
 
-### Orígenes e Historia
+### Mas cercano en el tiempo
 
 [FOTOGRAFIA DE KIM-1 con MicroChess]
 
@@ -88,16 +259,16 @@ En el año 1976, las computadoras domésticas daban sus primeros pasos. El KIM-1
 se trataba de una placa de circuito impreso sin caja, provista de un microprocesador MOS 6502 a 1 MHz, un teclado hexadecimal de 24 teclas, un display de 7 segmentos
 de 6 dígitos y la asombrosa cantidad de 1 Kilobyte (1024 bytes) de memoria RAM.
 
-[1] (https://benlo.com/microchess/), 
-[2] (https://es.wikipedia.org/wiki/Microchess)
+[1](https://benlo.com/microchess/), 
+[2](https://es.wikipedia.org/wiki/Microchess)
 
 Peter Jennings, un recién graduado universitario, se propuso el desafío de meter un juego de ajedrez completo en ese espacio.
-El 18 de diciembre de 1976 nació Microchess.
+El 18 de diciembre de 1976 nació *Microchess*.
 
-[1] (https://www.computerhistory.org/chess/early-microcomputer-chess/), 
-[2] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), 
-[3] (https://es.wikipedia.org/wiki/Microchess), 
-[4] (https://benlo.com/microchess/)
+[1](https://www.computerhistory.org/chess/early-microcomputer-chess/), 
+[2](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), 
+[3](https://es.wikipedia.org/wiki/Microchess), 
+[4](https://benlo.com/microchess/)
 
 #### El primer hito comercial
 
@@ -109,37 +280,42 @@ Más adelante, cofundó Personal Software y comenzó a distribuirlo en casete, v
 versiones gráficas para Apple II, TRS-80 y Commodore PET).
 Curiosamente, las regalías generadas por Microchess sirvieron para financiar el desarrollo y lanzamiento de VisiCalc, la primera hoja de cálculo de la historia.
 
-[1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En),
-[2] (https://es.wikipedia.org/wiki/Microchess), 
-[3] (https://www.microsiervos.com/archivo/ordenadores/historia-microchess-juego-ajedrez-1k-primer-software-comercial-historia.html),
-[4] (https://www.computerhistory.org/chess/early-microcomputer-chess/), 
-[5] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+[1](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En),
+[2](https://es.wikipedia.org/wiki/Microchess), 
+[3](https://www.microsiervos.com/archivo/ordenadores/historia-microchess-juego-ajedrez-1k-primer-software-comercial-historia.html),
+[4](https://www.computerhistory.org/chess/early-microcomputer-chess/), 
+[5](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
 #### Filosofía de Diseño
 
-La filosofía detrás de Microchess no era vencer a Grandes Maestros, sino lograr lo aparentemente imposible, la compresión absoluta y la optimización radical de un desarrollo de 
-software dentro de recursos inimaginablemente reducidos.
+La filosofía detrás de Microchess no era vencer a Grandes Maestros, sino lograr lo aparentemente imposible, la compresión absoluta y la optimización radical de un desarrollo de software dentro de recursos inimaginablemente reducidos.
 En lugar de un árbol de búsqueda masivo, Jennings se enfocó en:
 
-[1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
-[1] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
-[1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+[1](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
+[1](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+[1](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
-* Accesibilidad y entretenimiento: El creador afirmaba que parte de su éxito comercial radicaba en que el programa cometía errores humanos,
-lo que hacía divertido jugar contra él y ganarle.
-* Demostración técnica: Servir como una "analogía del mundo real" para mostrar a familiares y amigos de qué era capaz un microordenador, rompiendo la percepción
-de que estas máquinas eran meros juguetes de luces parpadeantes.
-* Heurística simplificada: Basarse en conceptos estratégicos del famoso libro *My System* de Aron Nimzowitsch para tomar decisiones sin sobrecargar la memoria.
-[1] (https://benlo.com/microchess/)
+* Accesibilidad y entretenimiento
+   El creador afirmaba que parte de su éxito comercial radicaba en que el programa cometía errores humanos,
+    lo que hacía divertido jugar contra él y ganarle.
+
+* Demostración técnica
+  Servir como una "analogía del mundo real" para mostrar a familiares y amigos de qué era capaz un microordenador, rompiendo la percepción
+    de que estas máquinas eran meros juguetes de luces parpadeantes.
+
+* Heurística simplificada
+ Basarse en conceptos estratégicos del famoso libro *My System* de Aron Nimzowitsch para tomar decisiones sin sobrecargar la memoria.
+
+[1](https://benlo.com/microchess/)
 
 #### Implementación Técnica
 
 El programa original de Microchess ocupaba exactamente 924 bytes de memoria. En ese espacio diminuto se incluyó el generador de movimientos, la lógica de validación,
 la función de evaluación, la interfaz de entrada/salida y las variables del juego. [1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
 
-* Lenguaje: Código máquina / Ensamblador puro del MOS 6502. [1] (https://es.wikipedia.org/wiki/Microchess)
+* Lenguaje: Código máquina / Ensamblador puro del MOS 6502. [1](https://es.wikipedia.org/wiki/Microchess)
 * Interfaz de Usuario Básica: Sin gráficos. El jugador introducía su movimiento en formato numérico (por ejemplo, anotando las coordenadas de origen y destino por número
- de casilla) usando las teclas de la placa KIM-1, y el display de 7 segmentos respondía mostrando la jugada de la máquina. [1] (https://www.computerhistory.org/chess/early-microcomputer-chess/), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+ de casilla) usando las teclas de la placa KIM-1, y el display de 7 segmentos respondía mostrando la jugada de la máquina. [1](https://www.computerhistory.org/chess/early-microcomputer-chess/), [2](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 * Estructura de Datos Ultra-Comprimida: En lugar de mapear un tablero clásico de 64 casillas completas (que consumiría demasiada memoria para la época),
  utilizaba una matriz compacta orientada al conteo y posición de piezas activas de cada bando. [1] (https://chessprogramming.org/MicroChess)
 
@@ -149,22 +325,21 @@ la función de evaluación, la interfaz de entrada/salida y las variables del ju
 * Velocidades de ejecución configurables: Las versiones iniciales podían responder al instante, tomar de 5 a 10 segundos o calcular de forma más profunda para una
 partida de aproximadamente una hora en total.
 * Niveles de dificultad: Dependiendo de la versión, ofrecía desde 3 niveles (Microchess 1.5) hasta 8 niveles de juego en versiones posteriores.
-* Herramienta de práctica: Era ideal para aprender aperturas estándar y practicar mates sencillos. [1] (https://www.ecured.cu/Microchess), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+* Herramienta de práctica: Era ideal para aprender aperturas estándar y practicar mates sencillos. [1](https://www.ecured.cu/Microchess), [2](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
-#### Algoritmo Detallado
+#### Estrategia de juego
 
 Para operar en menos de 1 KB de RAM sin desbordar la pila de llamadas (stack) del procesador 6502, Jennings ideó un algoritmo simplificado basado en variaciones
 de Minimax con poda Alpha-Beta rudimentaria: [1] (https://fvcalderan.github.io/myworks/articles/minimax_chess_engine.pdf), [2] (https://chessprogramming.org/MicroChess)
 
-En un Árbol de Búsqueda (Búsqueda por Plies), Microchess calculaba usualmente hasta 3 plies de profundidad (3 medios movimientos: Jugada CPU $\rightarrow $ Respuesta Humana $\rightarrow $ Réplica CPU).
+En un Árbol de Búsqueda (Búsqueda por Plies), Microchess calculaba usualmente hasta 3 plies de profundidad (3 medios movimientos: Jugada CPU $\rightarrow $Respuesta Humana $\rightarrow $Réplica CPU).
 [1] (https://en.wikipedia.org/wiki/Microchess), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
 * Generación de movimientos: El motor barría las piezas secuencialmente para encontrar movimientos legales.
 * Inversión de Tablero (Board Reversing): Para ahorrar código de evaluación duplicado para blancas y negras, el programa "espejaba" o invertía internamente el tablero para
 que el bando que estuviera calculando siempre fuera evaluado desde la misma perspectiva algorítmica. [1] (https://chessprogramming.org/MicroChess)
 
-Se utilizaba una función de *Evaluación Estática* de manera que cuando el motor alcanzaba el límite de profundidad, ejecutaba una asignación de puntos
-preinicializada de 16 bytes que tasaba el valor de las piezas en unidades de medio peón:
+Se utilizaba una función de *Evaluación Estática* de manera que cuando el motor alcanzaba el límite de profundidad, ejecutaba una asignación de puntos preinicializada de 16 bytes que tasaba el valor de las piezas en unidades de medio peón:
 
 
 |Pieza|	Valor en Microchess (Medios Peones)|
@@ -177,7 +352,7 @@ preinicializada de 16 bytes que tasaba el valor de las piezas en unidades de med
 |Peón	|2|
 
 A este valor material estático se le sumaban sutiles bonificaciones posicionales basadas en la movilidad (cuántas casillas libres tenía una pieza para moverse)
-y la ocupación del centro del tablero. El movimiento con la puntuación final ponderada más alta (Minimax) era el seleccionado. [1] (https://benlo.com/microchess/)
+y la ocupación del centro del tablero. El movimiento con la puntuación final ponderada más alta (Minimax) era el seleccionado. [1](https://benlo.com/microchess/)
 
 #### Evaluación Comparativa de Potencia Ajedrecística
 
@@ -191,15 +366,18 @@ Microchess debe ser juzgado bajo el prisma de su contexto técnico:
 |Reglas Soportadas	     |Básicas (algunas omisiones)    |	Ajedrez Completo                 | 	Ajedrez Completo e IA            |
 
 Daría la impresión, desde ésta perspectiva que MicroChess no es mucho mas que una bonita referencia histórica, sin embargo hay un aspecto que no ha podido ser batido,
-con esa arquitectura moderna era (¿es?) capaz de aportar aproximadamente un punto ELO por bit, Sargón aporta aprox. 0.09 puntos ELO por bit y Stockfish, con todo lo
-impresionante que es, aporta 0.0000035 puntos ELO por bit. El sistema ELO, del cual nos ocuparemos en detalle mas adelante, es de naturaleza logaritmica, pero aún asi
-la performance de MicroChess es impresionante. Algunas ideas generales han sido utilizadas posteriormente en éste trabajo.
+con esa arquitectura moderna era (*¿es?*) capaz de aportar aproximadamente un punto ELO por bit, Sargón aporta aprox. 0.09 puntos ELO por bit y Stockfish, con todo lo
+impresionante que es, aporta 0.0000035 puntos ELO por bit. 
+El sistema ELO, del cual nos ocuparemos en detalle mas adelante, es de naturaleza logaritmica, pero aún asi la performance de MicroChess es impresionante cuando 
+se tienen en cuenta los recursos limitados que disponía.
+Algunas ideas generales han sido utilizadas posteriormente por otros motores y serán
+ocasionalmente rescatadas en éste trabajo.
 
 
 #### Desempeño y Limitaciones
 
-A nivel de juego puro, la crítica de la época y los historiadores posteriores (como Tim Harding) llegaron a catalogar el juego de Microchess como "terrible" en comparación con lo que vendría después. El motor cometía despistes graves y tácticos debido a su corta profundidad de cálculo y a que omitía cálculos complejos de finales. [1] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
-Sin embargo, su potencia radicaba en la eficiencia. Mientras que competidores posteriores como Sargon requerían máquinas mucho más caras con al menos 8K o 16K de memoria, Microchess demostró que la optimización de código extrema podía suplir la falta de hardware, convirtiéndose en una leyenda irrepetible de la ingeniería informática. [1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+A nivel de juego puro, la crítica de la época y los historiadores posteriores (como Tim Harding) llegaron a catalogar el juego de Microchess como "terrible" en comparación con lo que vendría después. El motor cometía despistes graves y tácticos debido a su corta profundidad de cálculo y a que omitía cálculos complejos de finales. [1](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+Sin embargo, su potencia radicaba en la eficiencia. Mientras que competidores posteriores como Sargon requerían máquinas mucho más caras con al menos 8K o 16K de memoria, Microchess demostró que la optimización de código extrema podía suplir la falta de hardware, convirtiéndose en una leyenda irrepetible de la ingeniería informática. [1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), [2](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
 Sería interesante estudiar en mas detalle un fragmento de su código fuente en ensamblador 6502, ver cómo resolvía problemas específicos como el enroque o la promoción o
 incluso  saber más sobre el duelo histórico entre Bobby Fischer y el Commodore ChessMate basado en este software?
@@ -242,246 +420,22 @@ se describen en el resto de éste material y de hecho se constituye en la "refer
 - Computer History Museum, [Dan y Kathe Spracklen en el campeonato ACM de 1978](https://www.computerhistory.org/chess/stl-431f4cc14ba4b/).
 
 
-# El juego
 
-Para abordar el tema de explorar algoritmos y estrategias automáticas hay que, primero, 
-entender las caracteristicas del juego. Su estructura, sus reglas, sus modos, sus convenciones y la infraestructura que rodea la forma de interpretar una partida.
-
-## El desafío
-
-El contexto de los motores de ajedrez ha evolucionado significativamente en la medida que aparecen plataformas mas veloces
-y algoritmos mas novedosos. O meramente algoritmos que eran impensables en una plataforma Z80 de 8 bits y pocos K de memoria RAM
-son ahora triviales en un procesador de 64 bits con 32 GBytes de memoria y acceso a un procesador GPU de alta potencia, es una
-cuestión de perspectiva.
-
-Pero en la esencia el problema no es, una vez actualizado, diferente a como lo planteo Claude Shannon, sigue habiendo dos
-tipos de algoritmos de juego
-
-* la Tipo A (fuerza bruta, evaluar todas las jugadas posibles)
-* la Tipo B (búsqueda selectiva, evaluar solo las mejores jugadas).
-
-Y los dos tipos han evolucionado. Los de *Tipo A* se han rendido ante la evidencia de un juego que logra presentar el
-formidable desafío de $10^{130}$ combinaciones a explorar, imposible.
-
-**Claude Shannon** lo formuló como una famosa analogía basada en sus conclusiones elementales: 
-si convirtiéramos cada uno de los átomos del universo observable (aproximadamente $10^{80}$) en una supercomputadora
-—incluso en un computador cuántico operando a la máxima velocidad permitida por las leyes de la física— y
-las pusiéramos a calcular combinaciones desde el Big Bang hasta hoy, apenas habrían analizado una fracción infinitesimal
-del total.
-
-Sin embargo el enfoque de fuerza bruta es abordable si se limita el *horizonte* dentro del cual se analizan las jugadas
-posibles; planteado de ésta forma el problema pasa a ser que tan lejos permite el algoritmo y la tecnología mover ese horizonte
-hacia el futuro. 
-
-**MicroChess** o **Sargon** hacen eso, aplican un método **minimax alpha/beta* para tratar de reducir el árbol de posibilidades
-y, en un tiempo objetivo que se considere razonable examnar la mayor cantidad de jugadas posibles y elegir la mejor. Esos motores
-en sus ambientes de hardware originales no podían hacerlo mas que dos jugadas hacia adelante, hoy en hardware moderno el mismo
-algoritmo puede analizar hasta 7 u 8 jugadas hacia adelante. Pero alli aparece la siguiente limitación, como evaluamos el 
-posible valor de cada jugada comparada con otras. Aparecen los otros componentes de la estrategia, el valor de la i-esima
-posición **Valor ($V_i$)** y la **Política ($P_i$ o $\pi_{i}$), es decir que capacidad tiene una jugada para darme el mayor
-beneficio (usualmente tratar de ganar la partida) y entre las posibles cual es el criterio para elegir una movida en lugar de
-otra.
-
-**MicroChess** o **Sargon** tenían analisis muy simplificados basado en una heurística determinada que asigna valor a las 
-piezas, a la ocupación de ciertos sectores del tablero y a la chance que en la próxima jugada ocurra algo relevante (tal como
-comer una pieza de mas valor o dar jaque mate). Pero como es de imaginar heurísticas de ese tipo son relativamente limitadas.
-
-Básicamente capturan la **"ideología"** ajedrecistica de quien las formula, sus preferencias si se quiere. Pero ciertamente es
-dudoso que provengan de un experto jugador a nivel *Maestro* o *Gran Maestro*. Como resultado estas estrategias sorprenden a
-un jugador casual, que quizás no realiza análisis de esa profundidad o con alguna heurística simple pero robusta, pero rara
-vez pueden sorprender, mucho menos ganar a un jugador de cierto nivel.
-
-En la medida que la potencia de cálculo aumentó se desarrollan casi concurrentemente algoritmos sofisticados que permiten
-explorar mas posiciones o seleccionar aquellas posiciones mas prometedoras respecto a otras y al mismo tiempo algoritmos 
-mas complejos para obtener el material para decidir que jugada es mejor que otra ($V_i$) y que jugada será mejor seleccionar
-como movida propia $\pi_{i}$.
-
-El epítome de fuerza bruta fue el programa *Deep Blue*, fue una supercomputadora de ajedrez desarrollada por IBM que hizo historia al convertirse en el
-primer sistema informático en derrotar a un campeón del mundo vigente,  Garry Kasparov, en un encuentro con ritmo de juego de torneo.
-Su desarrollo comenzó a finales de los años 80 bajo el nombre de ChipTest y luego Deep Thought en la
-Universidad Carnegie Mellon, de la mano de los científicos Feng-hsiung Hsu y Murray Campbell,
-quienes posteriormente fueron reclutados por IBM para culminar el proyecto.
-
-¿Cómo funcionaba y en qué se basaba? 
-
-A diferencia de la Inteligencia Artificial moderna basada en redes neuronales y aprendizaje autónomo
-(como AlphaZero, al que veremos luego), Deep Blue funcionaba mediante fuerza bruta computacional combinada con reglas heurísticas.
-
-* Poder de procesamiento masivo:
- Consistía en un superordenador masivamente paralelo compuesto por dos torres de dos metros de altura que
- albergaban más de 500 procesadores y 216 chips aceleradores específicamente diseñados para calcular movimientos de ajedrez.
-* Velocidad de cálculo:
- La versión de 1997 era capaz de analizar y evaluar hasta 200 millones de posiciones por segundo.
-* Algoritmo de búsqueda (Minimax):
- Calculaba los árboles de decisiones explorando masivamente las opciones de jugadas hacia adelante
- (profundidad de cálculo) y seleccionaba la mejor opción asumiendo que el rival también elegiría su mejor jugada.
-* Función de evaluación humana:
- Para decidir si una posición final en su cálculo era "buena" o "mala", utilizaba una función programada
- con conocimientos conceptuales de ajedrez (valor de las piezas, seguridad del rey, estructura de peones, espacio).
- El equipo contó con la asesoría de Grandes Maestros de ajedrez para afinar esta base de datos y su libro de aperturas.
-
-En esencia se trata de cantidades masivas de potencia de cálculo para explorar millones de jugadas por segundo (**Sargon**
-puede, en un día bueno explorar algunos miles a 2 jugadas hacia adelante) pero usando el algoritmo *minimax* y una funcion
-de ($V_i$) y  $\pi_{i}$ dada por una combinación de posiciones recordadas y comparadas de partidas pasadas y preferencias
-de los entrenadores. El programa nunca se hizo público y solo se dispone de descripciones superficiales de su funcionamiento.
-
-Pero estaba claro que el enfoque de *Deep Blue* ponía el sendero de la fuerza bruta muy lejos de la disponibilidad habitual
-de experimentadores con menos recursos.
-
-La evolución progresó hasta la disponibilidad moderna de programas como *stockfish* [LINK] que puede mostrar niveles de juego
-que solo los grandes maestros puede batir, a veces.
-
-Este programa, y algunos similares, pueden funcionar en computadores modernos, los que de por si son bastante mas poderosos
-que en la época de *Deep Blue* vs. Kasparov, con algoritmos muy especializados para reducir el espacio de exploración y con
-heurísticas mas sofisticadas para evaluar las movidas. El resultado es que *stockfish* puede evaluar el equivalente a 20 o 
-30 jugadas hacia adelante en sus versiones mas extremas (las hay menos potentes). Recientemente, luego de la irrupción de
-algoritmos como *AlphaZero* basado en redes neuronales *stockfish* también abraza el uso de técnicas de inteligencia 
-artificial para mejorar sus capacidades de exploración y valoración de jugadas. 
-
-Pero todos los métodos explorados, y algunos mas no mencionados, se caracterizan por ser pertenecientes a la familia de 
-*fuerza bruta*, pero que hay de la otra familia los de *busqueda selectiva*?
-
-Por cierto que tambien hay exponentes en ésta familia, algunos muy famosos.
-
-## AlphaZero
-
-[FOTO DE ALPHAZERO-KASPAROV]
-
-AlphaZero es un programa de Inteligencia Artificial desarrollado por Google DeepMind que revolucionó los juegos
-de mesa de estrategia (ajedrez, shogi y go) al aprender a dominarlos de forma completamente autónoma.
-A diferencia de los motores tradicionales que dependen del conocimiento acumulado por humanos durante siglos,
-AlphaZero aprendió a jugar partiendo de cero, jugando millones de partidas contra sí mismo utilizando únicamente
-las reglas básicas del juego.
-AlphaZero nació a finales de 2017 en los laboratorios de Google DeepMind, la división de IA de Google. Es la evolución directa de AlphaGo (la IA que derrotó al campeón mundial del milenario juego de Go) y AlphaGo Zero.
-El equipo de DeepMind, liderado por Demis Hassabis, adaptó este sistema para crear un algoritmo más generalizado y aplicable a múltiples juegos complejos, publicando un histórico artículo científico donde demostraron que, en pocas horas de autoaprendizaje, la IA podía destruir a los campeones mundiales informáticos de ajedrez (Stockfish) y shogi (Elmo).
-AlphaZero no utiliza la "fuerza bruta" de los ordenadores tradicionales ni funciones de evaluación programadas por humanos. Se basa en dos pilares tecnológicos:
-* Redes Neuronales Profundas:
- Tiene una red que evalúa las posiciones del tablero y otra que predice cuáles son  las jugadas más prometedoras. 
- En lugar de calcular millones de variantes absurdas, AlphaZero utiliza una intuición artificial similar a la
- humana para enfocarse solo en las mejores líneas.
-* Aprendizaje por Refuerzo (Tabula Rasa): 
- El programa comenzó sabiendo únicamente las reglas del ajedrez.
- Jugó contra copias de sí mismo a una velocidad asombrosa. 
- Al principio hacía movimientos aleatorios, pero la red neuronal se iba actualizando tras cada partida,
- aprendiendo qué estrategias llevaban a la victoria y cuáles a la derrota.
- En solo 4 horas de autoentrenamiento en ajedrez, superó el nivel de Stockfish (en ese momento).
-* Búsqueda de Árboles de Monte Carlo (MCTS):
- En vez del algoritmo clásico Minimax que analiza posiciones de forma simétrica a gran profundidad,
- AlphaZero utiliza *Monte Carlo Tree Search (MCTS)* para simular los resultados más probables, 
- calculando "solo" unas 80,000 posiciones por segundo (frente a los 70 millones de Stockfish), pero con una precisión
- y calidad estratégica radicalmente superiores.
-
-*AlphaZero* no es un software comercial ni de código abierto; fue un proyecto de investigación científica interna 
-de Google y no está disponible para que el público general lo descargue o lo use en su computadora.
-Sin embargo, el mundo del ajedrez no se quedó de brazos cruzados, el proyecto *Leela Chess Zero (Lc0)* resultó del esfuerzo 
-de una comunidad de ajedrez y programadores la que creó este proyecto de código abierto para replicar primero 
-el funcionamiento de AlphaZero y luego extenderlo.
-*Lc0* se entrena gracias a la potencia comunitaria de miles de usuarios que prestan sus tarjetas gráficas (GPUs).
-Cualquier aficionado puede descargar Lc0 de forma gratuita, conectarlo a una interfaz (como Arena o ChessBase)
-y usarlo en su propia PC para analizar partidas con el "estilo AlphaZero".
-El estilo de AlphaZero cambió para siempre la teoría del ajedrez moderno debido a sus marcadas diferencias con los motores clásicos:
-
-| Característica	| Motores Tradicionales (Ej. Stockfish clásico)	| AlphaZero / Motores de Red Neuronal|
-|-----------------------|-----------------------------------------------|------------------------------------|
-|Origen del conocimiento|	Heurísticas y conceptos de estrategia programados por Grandes Maestros humanos.| Aprendizaje autónomo absoluto jugando contra sí mismo|
-|Velocidad de cálculo	|Brutal. Evalúa decenas o cientos de millones de posiciones por segundo.| Eficiente. Evalúa decenas de miles de posiciones por segundo, pero muy selectas.|
-|Estilo de juego	|Ultra-calculador, materialista, defensivo y busca la perfección táctica concreta.|Profundamente posicional, intuitivo, dinámico y famoso por sacrificar piezas a largo plazo por iniciativa.|
-|Hardware ideal		|Procesadores comunes (CPU).	|Tarjetas gráficas de alta potencia o procesadores de IA (GPU / TPU)|
-
-El éxito de AlphaZero fue tan rotundo que obligó a los motores tradicionales a evolucionar, hoy en día, el propio Stockfish
-ya no es puramente tradicional pues adoptó la tecnología de redes neuronales (llamada *NNUE*) fusionando lo mejor de la
-fuerza bruta clásica con la enorme comprensión estratégica inspirada por AlphaZero.
-
-Se explorarán algunos de los algoritmos involucrados en la medida que se discutan implementaciones concretas, pero lo cierto
-es que claramente define una posible estrategia para un recorrido de aprendizaje y comprensión.
-
-Carece de sentido tratar de emular o superar a *stockfish* (o por caso a *AlphaZero*), es un esfuerzo de muchas personas,
-con enormes recursos materiales, de tiempo y tecnológicos por lo que tratar de conseguir algo distinto
-es un desafío que requiere calibrar los recursos disponibles.
-
-## Stockfish
-
-[FOTO DE STOCKFISH]
-
-Ese enfoque, al no competir con *stockfish*, lleva a preguntarse cual es el diferenciador de éste proyecto.
-
-La respuesta no es lineal ni simple, siquiera quizás robusta. 
-
-Se trata de aprender, explorar, comprender y eventualmente aplicar técnicas conocidas para familiarizarse con ellas,
-y quizás encontrar estrategias que permitan aplicarlas en computadores mas simples y de mucha menos potencia en forma efectiva.
-microcontroladores, problema de optimización de performance. O quizás solo haber disfrutado el camino de aprendizaje.
-
-# Planteo conceptual
-
-El planteo conceptual es determinar que componentes, sub-sistemas o módulos, tendrá
-la implementación para permitir ayudar en los objetivos y luego definir como se
-conectarán entre si aplicando que convenciones.
-
-[AQUI VIENE UN DIAGRAMA]
-
-Los objetivos van mutando con el aprendizaje, por lo tanto es mas facil contarlos 
-cuando el proyecto esté terminado que al comenzar. 
-Pero si se puede describir el punto de partida y la idea general.
-
-* Explorar los distintos algoritmos.
-* Entender las interacciones entre ellos.
-* Experimentar el problema de ajedrez como compuesto de dos partes:
-  * Explorar el valor de las jugadas que son factibles.
-  * Evaluar que criterios se pueden usar para determinar la mejor.
-* Probar que combinación da una performance razonable en ambientes muy pequeños.
-* Desarrollar un protocolo de evaluación de los distintos enfoques propuestos.
-
-Uno de los aprendizajes mas tempranos consiste en comprender como es el ciclo de vida
-de un determinado esquema de juego, el que podría resumirse en algunos pasos que
-se repiten:
-
-* Se parte de una idea o estrategia para medir $V_i$ y $\pi_{i}$
-* Implementarlo.
-* Encontrar la forma de calibrarlo o entrenarlo.
-* Probar el funcionamiento básico (**dry run**).
-* Entender la performance y la capacidad de exploración que tiene.
-* Calibrar la potencia relativa de cada algoritmo respecto a los restantes.
-* Tomar alguna medida objetiva del potencial *"ajedrecistico"* que tiene.
-* Optimizar la performance.
-* Mover a las distintas plataformas, repetir la evaluación.
-* .... tomar el siguiente 
-
-Finalmente, 
-
-¿como evaluar si una estrategia es "*suficientemente buena*" para declararla exitosa?
-
-Esta determinación está plagada de intangibles, pero a los efectos de éste proyecto se tomará el criterio de *fortaleza competitiva recíproca* 
-
-'''
-Una combinación de algoritmos de evaluación y juego será mejor que otra cuando en competencia recíproca muestre tener un ELO relativo superior.
-'''
-
-Y un criterio de *aceptabilidad*
-
-'''
-Un motor será aceptable a los efectos de la experimentación cuando tenga un ELO superior al de un algoritmo Sargón histórico.
-'''
-
-Se verá mas adelante los mecanismos de medición de fortaleza ajedrecistica relativa,
-en particular el sistema ELO.
-
-Pero, para poder progresar, es necesario entender que es el ajedrez primero.
-
-## Las reglas del ajedrez
+# CAP 3 Las reglas del ajedrez
 
 Para poder adentrarse en el desarrollo de un motor es claro que debe asegurarse que los algoritmos (*motores*) utilizados cumplan algunas reglas del ajedrez en cuanto a como conducir las partidas y como realizar el movimiento de las piezas.
 
 El ajedrez es un juego de estrategia para dos jugadores (blancas y negras) cuyo objetivo principal es dar jaque mate al rey adversario.
 A continuación, tienes un resumen claro y estructurado de sus componentes y reglas fundamentales basadas en el reglamento oficial de la Federación Internacional de Ajedrez (FIDE):
 
-### El Tablero (El Casillero)
+## El Tablero (El Casillero)
 
 El tablero de ajedrez es una cuadrícula perfecta de 8x8 casillas, alternadas en colores claros y oscuros, sumando un total de 64 casillas.
 • Orientación: Se coloca de forma que cada jugador tenga una casilla clara (blanca) en su esquina inferior derecha ("blanca a la derecha").
 • Columnas: Las líneas verticales se identifican con letras de la a a la h.
 • Filas: Las líneas horizontales se identifican con números del 1 al 8.
 
-### ♟️ Cantidad y Tipo de Piezas
+## ♟️ Cantidad y Tipo de Piezas
 
 Cada jugador comienza la partida con un ejército de 16 piezas (32 piezas en total sobre el tablero).
 
@@ -500,7 +454,7 @@ pero su valor depende del contexto. Por ejemplo, un peon a un paso de *coronar* 
 tanto como una Dama.
 
 
-### Movimiento de las Piezas
+## Movimiento de las Piezas
 
 Ninguna pieza puede saltar sobre otra, a excepción del caballo. Tampoco pueden ocupar una casilla donde ya haya una pieza de su propio color.
 
@@ -512,7 +466,7 @@ Ninguna pieza puede saltar sobre otra, a excepción del caballo. Tampoco pueden 
 * ♚ Rey: Se mueve solo una casilla en cualquier dirección. Es la pieza que se debe proteger a toda costa.
 
 
-### Condiciones de Terminación de la Partida
+## Condiciones de Terminación de la Partida
 
 Una partida de ajedrez termina cuando ocurre alguna de las siguientes situaciones:
 
@@ -530,27 +484,27 @@ Una partida de ajedrez termina cuando ocurre alguna de las siguientes situacione
 	* Regla de los 50 movimientos: Pasan 50 jugadas consecutivas de cada jugador sin que se haya movido un solo peón ni se haya capturado ninguna pieza.
 	* Mutuo acuerdo: Ambos jugadores deciden y acuerdan que la partida es un empate.
 
-### Modalidades de juego
+## Modalidades de juego
 
 Las modalidades en el ajedrez se definen principalmente por el control de tiempo asignado a cada jugador para toda la partida. Cuanto menos tiempo hay, el juego pasa de ser puramente estratégico y profundo a volverse un ejercicio de reflejos, intuición y pura táctica.
 De acuerdo con el reglamento oficial de la FIDE y las principales plataformas en línea (como Chess.com y Lichess), las modalidades se dividen de la siguiente manera:
 
-#### ⏱️ Modalidades Oficiales de Ritmo Corto/Medio
+### ⏱️ Modalidades Oficiales de Ritmo Corto/Medio
 
 * Ajedrez Clásico (Pensado): Es el formato tradicional de los torneos de élite. Cada jugador suele tener 90 minutos o más para las primeras 40 jugadas, muchas veces con un "incremento" (segundos extra que se añaden al reloj tras cada movimiento). Las partidas pueden durar entre 3 y 7 horas, priorizando la máxima precisión y profundidad estratégica.
 * Ajedrez Rápido (Rapid): Un punto medio ideal. El tiempo asignado es de más de 10 minutos pero menos de 60 minutos por jugador. Es un ritmo muy popular en torneos híbridos porque exige calcular rápido sin perder por completo la calidad de las jugadas.
 * Blitz (Relámpago): Una de las modalidades más populares y frenéticas. El tiempo total es de 10 minutos o menos por jugador (el estándar más común es 3 minutos con 2 segundos de incremento, o 5 minutos limpios). Aquí los errores tácticos son frecuentes y el manejo del reloj es vital.
 
-#### 🚀 Modalidades Ultra Rápidas y En Línea
+### 🚀 Modalidades Ultra Rápidas y En Línea
 
 * Bullet (Bala): El tiempo es extremadamente escaso, usualmente menos de 3 minutos para toda la partida (el ritmo rey es 1 minuto por jugador). No hay tiempo para pensar; se juega por puro instinto, memoria muscular y velocidad con el ratón o la pantalla táctil.
 * Hyperbullet / Ultrabullet: Modalidades exclusivas de internet donde el tiempo es de 30 o 15 segundos en total por jugador. Ganar por tiempo ("relojear" al rival) es casi más importante que dar jaque mate.
 
-#### 📆 Modalidades de Ritmo Extendido o Asincrónico
+### 📆 Modalidades de Ritmo Extendido o Asincrónico
 
 * Ajedrez por Correspondencia: El extremo opuesto al Bullet. Los jugadores tienen días o semanas para hacer un solo movimiento. Antiguamente se jugaba por correo postal; hoy se realiza mediante servidores web. Permite un análisis profundo, científico y casi perfecto de la posición.
 
-#### 🎭 Variantes Populares del Juego (Cambios de Reglas)
+### 🎭 Variantes Populares del Juego (Cambios de Reglas)
 
 Además del tiempo, existen modalidades donde cambias las reglas o la configuración inicial del tablero:
 
@@ -558,7 +512,7 @@ Además del tiempo, existen modalidades donde cambias las reglas o la configurac
 * Pasapiezas (Bughouse): Se juega en parejas (dos tableros contiguos). Cuando capturas una pieza del rival, se la pasas a tu compañero, quien en su turno puede elegir entre mover una de sus piezas o "soltar" la pieza capturada en cualquier casilla vacía de su propio tablero.
 * Ajedrez a la Ciega (Blindfold): Los jugadores disputan la partida sin ver el tablero ni tocar las piezas. Deben llevar la posición en su mente y cantar sus jugadas utilizando la notación algebraica (ej. "e4", "Cc3").
 
-### Fortalezas y debilidades 
+## Fortalezas y debilidades 
 
 Desde el punto de vista táctico, cada pieza tiene una "personalidad" única definida por su geometría de movimiento. Entender sus ventajas y limitaciones te permite coordinarlas mejor en el tablero:
 
@@ -729,7 +683,7 @@ Imagina una partida entre Jugador A (Elo 1800) y Jugador B (Elo 1600). La difere
 1. Aplicamos la fórmula: $E_A = \frac{1}{1 + 10^{\frac{1600 - 1800}{400}}} = \frac{1}{1 + 10^{-0.5}}$
 2. $10^{-0.5} \approx 0.3162$
 3. $E_A = \frac{1}{1 + 0.3162} \approx 0.76$
-Resultado: El Jugador A tiene una expectativa del 76% (0.76 puntos esperados). Esto significa que si juegan 10 partidas, se espera matemáticamente que el Jugador A sume 7.6 puntos (por ejemplo, 7 victorias, 1 empate y 2 derrotas). Por consiguiente, la expectativa del Jugador B ($E_{B}$) es el complemento: $1 - 0.76 = 0.24$ (24%).
+Resultado: El Jugador A tiene una expectativa del 76% (0.76 puntos esperados). Esto significa que si juegan 10 partidas, se espera matemáticamente que el Jugador A sume 7.6 puntos (por ejemplo, 7 victorias, 1 empate y 2 derrotas). Por consiguiente, la expectativa del Jugador B ($E_{B}$) es el complemento: $1 - 0.76 = 0.24$(24%).
 
 ### 🧮 Cómo se calcula el intercambio de Elo tras una partida
 
@@ -740,7 +694,7 @@ Donde:
 * $R_{A}$: El Elo anterior del Jugador A.
 * $S_{A}$: El resultado real de la partida (1 si ganó, 0.5 si empató, 0 si perdió).
 * $E_{A}$: La expectativa de puntuación calculada en el paso anterior.
-* $K$ (Factor K): Es una constante que determina el impacto de la partida. Varía según el jugador para dar estabilidad al sistema:
+* $K$(Factor K): Es una constante que determina el impacto de la partida. Varía según el jugador para dar estabilidad al sistema:
 	* K = 40: Para nuevos jugadores (primeras 30 partidas) o menores de 18 años. El Elo sube y baja muy rápido.
 	* K = 20: Para la mayoría de los jugadores de club y torneos estándar.
 	* K = 10: Para jugadores de élite que han alcanzado un Elo de 2400 o más (evita fluctuaciones drásticas).
@@ -749,14 +703,14 @@ Donde:
 
 Siguiendo el caso anterior donde Jugador A (1800, 
 
-$E_A = 0.76$ juega contra Jugador B (1600, $E_B = 0.24$):
+$E_A = 0.76$juega contra Jugador B (1600, $E_B = 0.24$):
 * Escenario 1: Gana el Jugador A (el favorito).
-	* Nuevo Elo de A: $1800 + 20 \times (1 - 0.76) = 1800 + 20 \times (0.24) = \mathbf{1804.8}$ (+4.8 puntos).
-	* Nuevo Elo de B: $1600 + 20 \times (0 - 0.24) = 1600 - 4.8 = \mathbf{1595.2}$ (-4.8 puntos).
+	* Nuevo Elo de A: $1800 + 20 \times (1 - 0.76) = 1800 + 20 \times (0.24) = \mathbf{1804.8}$(+4.8 puntos).
+	* Nuevo Elo de B: $1600 + 20 \times (0 - 0.24) = 1600 - 4.8 = \mathbf{1595.2}$(-4.8 puntos).
 	* Nota: Como el favorito ganó, el cambio de puntos es pequeño.
 * Escenario 2: Sorpresa, gana el Jugador B (el menos fuerte).
-	* Nuevo Elo de A: $1800 + 20 \times (0 - 0.76) = 1800 - 15.2 = \mathbf{1784.8}$ (-15.2 puntos).
-	* Nuevo Elo de B: $1600 + 20 \times (1 - 0.24) = 1600 + 15.2 = \mathbf{1615.2}$ (+15.2 puntos).
+	* Nuevo Elo de A: $1800 + 20 \times (0 - 0.76) = 1800 - 15.2 = \mathbf{1784.8}$(-15.2 puntos).
+	* Nuevo Elo de B: $1600 + 20 \times (1 - 0.24) = 1600 + 15.2 = \mathbf{1615.2}$(+15.2 puntos).
 	* Nota: Las sorpresas se premian y castigan con muchos más puntos.
 
 ### 📈 Cómo calcular la diferencia de Elo basada en la proporción de partidas ganadas
@@ -764,12 +718,12 @@ $E_A = 0.76$ juega contra Jugador B (1600, $E_B = 0.24$):
 Si dos jugadores disputan un bloque o match largo de muchas partidas (lo suficientemente grande para mitigar la varianza), podemos usar la proporción de puntos obtenidos para calcular la diferencia exacta de Elo ($\Delta R$) que existe entre ellos.
 La fórmula matemática para despejar la diferencia de Elo a partir del porcentaje de puntos ganados o proporción ($P$) es la inversa de la fórmula logística:
 $\Delta{R}=400\times \log _{10}\left(\frac{P}{1-P}\right)$
-Donde $P$ es la proporción de puntos obtenidos (Puntos ganados / Puntos totales disputados).
+Donde $P$es la proporción de puntos obtenidos (Puntos ganados / Puntos totales disputados).
 
 📝 Ejemplo Basado en Proporción:
 
 Dos amigos juegan un match de 20 partidas. El Jugador A obtiene 15 puntos (combinando victorias y empates) y el Jugador B obtiene 5 puntos.
-1. Calculamos la proporción de A: $P = \frac{15}{20} = 0.75$ (75% de los puntos).
+1. Calculamos la proporción de A: $P = \frac{15}{20} = 0.75$(75% de los puntos).
 2. Aplicamos la fórmula inversa: $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{1 - 0.75}\right)$
 3. $\Delta{R} = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)$
 4. Como $\log_{10}(3) \approx 0.4771$:
@@ -795,22 +749,18 @@ A continuación, se detalla la comparativa entre los picos humanos y las version
 
 * Elo Máximo Histórico (Ritmo Clásico): 2882 puntos (alcanzado por [Magnus Carlsen](https://www.google.com/search?kgmid=%2Fm%2F0291j3&q=Magnus+Carlsen) en mayo de 2014 y replicado en agosto de 2019). 
 [1](https://www.guinnessworldrecords.es/world-records/68289-highest-chess-rating-men)
-* Contexto: Este es el Elo oficial de la FIDE más alto jamás registrado en la historia del ajedrez
-(superando el pico de 2851 de Garry Kasparov). 
+* Contexto: Este es el Elo oficial de la FIDE más alto jamás registrado en la historia del ajedrez (superando el pico de 2851 de Garry Kasparov). 
 Ningún ser humano ha logrado romper la barrera de los 2900 puntos en ajedrez clásico presencial. 
 [1](https://en.wikipedia.org/wiki/Magnus_Carlsen), 
 [2](https://www.facebook.com/100088946902343/posts/did-you-know-that-magnus-carlsen-holds-the-record-for-the-highest-peak-classical/988116074163280/), 
 [3](https://www.chess.com/forum/view/chess-players/magnus-carlsen-70)
 
-Aunque Carlsen ha rozado los 3340 puntos de Elo en plataformas de internet para ritmos ultra rápidos (Blitz),
-ese es un ecosistema cerrado inflado y no comparable con el Elo de torneo internacional. 
+Aunque Carlsen ha rozado los 3340 puntos de Elo en plataformas de internet para ritmos ultra rápidos (Blitz), ese es un ecosistema cerrado inflado y no comparable con el Elo de torneo internacional. 
 [1](https://www.youtube.com/watch?v=4YzYk0shhn0&t=447)
 
 #### 💻 Las Bestias de Silicio: Motores Actuales
 
-Para medir a los motores se utilizan listas de clasificación de computadoras especializadas,
-siendo la más famosa la CCRL (Computer Chess Rating Lists). A diferencia de los humanos, el Elo
-de los motores varía según la potencia del procesador (CPU) o la tarjeta gráfica (GPU) donde se ejecuten. 
+Para medir a los motores se utilizan listas de clasificación de computadoras especializadas, siendo la más famosa la CCRL (Computer Chess Rating Lists). A diferencia de los humanos, el Elo de los motores varía según la potencia del procesador (CPU) o la tarjeta gráfica (GPU) donde se ejecuten. 
 
 [1](https://computerchess.org.uk/ccrl/4040/rating_list_all.html), 
 [2](https://ramachess.com/stockfish-chess/elo/), 
@@ -821,8 +771,7 @@ de los motores varía según la potencia del procesador (CPU) o la tarjeta gráf
 
 * Elo Estimado: ~3650 - 3690 puntos (en el control de tiempo estándar de torneo 40/15).
 * Versión actual: Stockfish 19 (lanzado en septiembre de 2026).
-* En las versiones mas recientes utiliza redes neuronales eficientemente actualizables (NNUE) combinadas
-con un cálculo bruto masivo que analiza millones de jugadas por segundo. 
+* En las versiones mas recientes utiliza redes neuronales eficientemente actualizables (NNUE) combinadas con un cálculo bruto masivo que analiza millones de jugadas por segundo. 
 En listas de Blitz informáticos con hardware de múltiples núcleos, llega a superar los 3800 puntos de Elo. 
 
 [1](https://www.facebook.com/c24live/posts/stockfish-is-simply-a-monster/1562998360427947/), 
@@ -834,8 +783,7 @@ En listas de Blitz informáticos con hardware de múltiples núcleos, llega a su
 
 * Elo Estimado: ~3580 - 3670 puntos (corriendo en hardware óptimo con GPU dedicada).
 * Inspirada en AlphaZero de DeepMind, Leela desarrolla sus habilidades jugando millones de partidas contra sí misma.
-Su estilo es famoso por tener una "intuición posicional" más parecida a la humana, aunque respaldada por una
-fuerza de cálculo perfecta. 
+Su estilo es famoso por tener una "intuición posicional" más parecida a la humana, aunque respaldada por una fuerza de cálculo perfecta. 
 
 [1](https://checkmatex.app/blog/stockfish-vs-leela-vs-komodo-best-chess-engine-2026), 
 [2](https://chessnextmove.ai/blog/stockfish-18), 
@@ -888,8 +836,8 @@ En lugar de multiplicar GHz por RAM por núcleos, dejamos que el motor corra en 
 Paso 2: Calcular el Factor de Penalización/Bonificación por Hardware ($F_{H}$)
 
 Definimos una Máquina de Referencia Estándar (por ejemplo: 1 CPU de 4 núcleos a 3.0 GHz, sin GPU, 8 GB RAM). 
-Esta máquina produce un número de nodos de referencia conocido como $NPS_{Ref}$ para un motor base.
-Calculamos el coeficiente de ventaja de hardware ($F_{H}$ mediante la siguiente 
+Esta máquina produce un número de nodos de referencia conocido como $NPS_{Ref}$para un motor base.
+Calculamos el coeficiente de ventaja de hardware ($F_{H}$mediante la siguiente 
 fórmula logarítmica (el logaritmo es crucial porque en ajedrez, duplicar la velocidad del hardware no duplica
 la fuerza, sino que ofrece retornos decrecientes):
 
@@ -897,26 +845,26 @@ $F_{H}=\log _{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right$
 
 Si un motor corre en una supercomputadora y genera 16 veces más NPS que la máquina de referencia, su
 
- $F_{H}$ será $\log_{2}(16) = 4$
+ $F_{H}$será $\log_{2}(16) = 4$
 
 Paso 3: Aplicar la Equivalencia de Elo por Duplicación de Velocidad 
 
 $\Delta Elo_{NPS}$
 
 Históricamente, en el desarrollo de motores como Stockfish, se ha demostrado una regla empírica constante: Duplicar la velocidad de cálculo (nodos por segundo) equivale a un aumento de aproximadamente entre 50 y 70 puntos de Elo reales (utilizaremos el estándar de la industria de 60 puntos de Elo).
-El factor de corrección por hardware en puntos de Elo $C_{Elo}$ es:
+El factor de corrección por hardware en puntos de Elo $C_{Elo}$es:
 $C_{Elo}=F_{H}\times 60$
 
 Paso 4: Calcular el Elo Neto de Software ($Elo_{Base}$)
 
-Finalmente, tomamos el Elo observado en las partidas del torneo $Elo_{Medido}$ y le restamos la ventaja otorgada por la potencia de su computadora:
+Finalmente, tomamos el Elo observado en las partidas del torneo $Elo_{Medido}$y le restamos la ventaja otorgada por la potencia de su computadora:
 
 $Elo_{Base}=Elo_{Medido}-C_{Elo}$
 
 📝 Ejemplo Práctico de Aplicación
 
 Imaginemos que ponemos a competir a dos motores en un torneo en línea y obtenemos sus Elos medidos tras 100 partidas. Queremos saber cuál software es mejor si corrieran en igualdad de condiciones.
-* Establecemos el $NPS_{Ref}$ de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
+* Establecemos el $NPS_{Ref}$de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
 
 Caso Motor A: Stockfish (Corriendo en una Laptop Modesta)
 
@@ -924,7 +872,7 @@ Caso Motor A: Stockfish (Corriendo en una Laptop Modesta)
 * Rendimiento: Genera 2,000,000 de nodos por segundo (2 MNPS).
 * Elo Medido en el torneo: 3300.
 	1. $F_H = \log_{2}(2,000,000 / 1,000,000) = \log_{2}(2) = 1$
-	2. $C_{Elo} = 1 \times 60 = 60$ puntos de ventaja por hardware.
+	2. $C_{Elo} = 1 \times 60 = 60$puntos de ventaja por hardware.
 	3. $Elo_{Base} = 3300 - 60 = \mathbf{3240}$
 
 Caso Motor B: Leela Chess Zero (Corriendo en una PC Gamer de Gama Alta)
@@ -933,7 +881,7 @@ Caso Motor B: Leela Chess Zero (Corriendo en una PC Gamer de Gama Alta)
 * Rendimiento: Gracias a su potente GPU, su equivalencia de procesamiento alcanza los 16,000,000 de nodos por segundo (16 MNPS).
 * Elo Medido en el torneo: 3450 (Ganó el torneo).
 	1. $F_H = \log_{2}(16,000,000 / 1,000,000) = \log_{2}(16) = 4$
-	2. $C_{Elo} = 4 \times 60 = 240$ puntos de ventaja por hardware.
+	2. $C_{Elo} = 4 \times 60 = 240$puntos de ventaja por hardware.
 	3. $Elo_{Base} = 3450 - 240 = \mathbf{3210}$
 
 🏆 Conclusión del Algoritmo
@@ -953,7 +901,7 @@ Añadiremos un nuevo factor independiente de penalización por el tamaño de las
 Paso 1: Definir los Parámetros de la RAM de Referencia
 
 Establecemos un tamaño estándar de Tablas de Hash en RAM para la comunidad informática como base neutra:
-* $Hash_{Ref} = 1024 \text{ MB}$ (1 GB asignado exclusivamente al motor).
+* $Hash_{Ref} = 1024 \text{ MB}$(1 GB asignado exclusivamente al motor).
 
 Paso 2: Calcular el Coeficiente de Ventaja por Hash $F_{Hash}$
 
@@ -970,7 +918,7 @@ $C_{RAM}=F_{Hash}\times 10$
 
 Paso 3: Combinar los Factores en la Fórmula Final de Elo Base
 
-Ahora, el cálculo del Elo Neto de Software $Elo_{Base}$ restará tanto la potencia bruta de procesamiento $C_{Elo}$ calculada previamente, como la ventaja táctica de memoria caché $C_{RAM}$:
+Ahora, el cálculo del Elo Neto de Software $Elo_{Base}$restará tanto la potencia bruta de procesamiento $C_{Elo}$calculada previamente, como la ventaja táctica de memoria caché $C_{RAM}$:
 
 $Elo_{Base}=Elo_{Medido}-C_{Elo}-C_{RAM}$
 
@@ -980,7 +928,7 @@ $C_{Elo} = \log_{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right) \times 60$
 📝 Ejemplo Práctico con Corrección de RAM
 
 Ponemos a competir a dos versiones del mismo motor en dos servidores diferentes:
-* Máquina de Referencia Común: $NPS_{Ref} = 1 \text{ MNPS}$  |  $Hash_{Ref} = 1024 \text{ MB}$ (1 GB).
+* Máquina de Referencia Común: $NPS_{Ref} = 1 \text{ MNPS}$ |  $Hash_{Ref} = 1024 \text{ MB}$(1 GB).
 
 Caso Motor A: (Poco Procesamiento, pero mucha RAM)
 
@@ -991,7 +939,7 @@ Caso Motor A: (Poco Procesamiento, pero mucha RAM)
 		* $F_H = \log_{2}(2 / 1) = 1$
 		* $C_{Elo} = 1 \times 60 = \mathbf{60}$
 	2. Corrección por RAM $C_{RAM}$:
-		* $F_{Hash} = \log_{2}(16384 / 1024) = \log_{2}(16) = 4$ (Ha duplicado 4 veces la RAM de referencia)
+		* $F_{Hash} = \log_{2}(16384 / 1024) = \log_{2}(16) = 4$(Ha duplicado 4 veces la RAM de referencia)
 		* $C_{RAM} = 4 \times 10 = \mathbf{40}$
 	3. Resultado Elo Base:
 		* $Elo_{Base} = 3200 - 60 - 40 = \mathbf{3100}$
@@ -1002,7 +950,7 @@ Caso Motor B: (Mucho Procesamiento, pero "ahogado" en RAM)
 * Memoria Asignada: Solo 1,024 MB (1 GB de Hash, igual al de referencia).
 * Elo Medido en el torneo: 3210.
 	1. Corrección por CPU $C_{Elo}$:
-		* $F_H = \log_{2}(8 / 1) = 3$ (Ha duplicado 3 veces los nodos por segundo)
+		* $F_H = \log_{2}(8 / 1) = 3$(Ha duplicado 3 veces los nodos por segundo)
 		* $C_{Elo} = 3 \times 60 = \mathbf{180}$
 	2. Corrección por RAM ($C_{RAM}$):
 		* $F_{Hash} = \log_{2}(1024 / 1024) = \log_{2}(1) = 0$
@@ -1013,7 +961,7 @@ Caso Motor B: (Mucho Procesamiento, pero "ahogado" en RAM)
 🏆 Conclusión del Análisis de Eficiencia
 
 Al introducir la RAM, vemos un comportamiento sumamente realista: el Motor B tiene mucha potencia bruta de CPU, pero su baja memoria RAM le impidió sacarle el máximo provecho, perdiendo eficiencia.
-Aun así, al limpiar el ruido del hardware, el Motor A demuestra tener un código más eficiente $3100$ vs $3030$. Si al Motor A le diéramos la misma velocidad de procesamiento que al B, su ventaja en las Tablas de Hash lo haría destrozar por completo la competencia.
+Aun así, al limpiar el ruido del hardware, el Motor A demuestra tener un código más eficiente $3100$vs $3030$. Si al Motor A le diéramos la misma velocidad de procesamiento que al B, su ventaja en las Tablas de Hash lo haría destrozar por completo la competencia.
 Este modelo ya cubre CPU, GPU (mediante el mapeo de nodos equivalentes), hilos y RAM. ¿Te gustaría que incluyéramos la última frontera de optimización de hardware: el uso de las Syzygy Tablebases (discos de estado sólido SSD / NVMe que almacenan finales perfectos resueltos)?
 
 
@@ -1078,12 +1026,12 @@ La hoja de ruta puede ser dividida en 4 etapas lógicas para dominar el juego, d
 
 🗺️ Hoja de Ruta para Aprender Ajedrez
 
-* 1️⃣1️Etapa 1: Alfabetización] 
-* Etapa 2: El Despertar Táctico 
-* Etapa 3: Pensamiento Estratégico
-* Etapa 4: Competencia
+* 1️⃣ Alfabetización 
+* 2️⃣ El Despertar Táctico 
+* 3️⃣ Pensamiento Estratégico
+* 4️⃣ Competencia
 
-## Etapa 1: La Alfabetización Visual y Reglas (Elo 0 - 600)
+### Etapa 1: La Alfabetización Visual y Reglas (Elo 0 - 600)
 
 El objetivo en esta fase es acostumbrar al ojo a la geometría del tablero y no cometer ilegalidades.
 
@@ -1091,7 +1039,7 @@ El objetivo en esta fase es acostumbrar al ojo a la geometría del tablero y no 
 * Paso 2: Fluidez de la Notación. Aprender a leer y escribir en notación algebraica de forma fluida. Si no puedes "hablar" el idioma del ajedrez, no podrás leer libros ni entender análisis.
 * Paso 3: Evitar la "ceguera de piezas". Jugar partidas amistosas con un único objetivo táctico: no regalar piezas en una sola jugada (comúnmente llamado colgarse una pieza). Antes de mover, el cerebro debe hacerse la "pregunta de seguridad": ¿A qué casillas ataca la pieza que voy a mover y qué casillas deja de defender?
 
-## Etapa 2: El Despertar Táctico (Elo 600 - 1200)
+### Etapa 2: El Despertar Táctico (Elo 600 - 1200)
 
 En el ajedrez amateur, el 99% de las partidas se deciden por táctica (errores de cálculo inmediatos). Aquí aprendes a usar la fuerza bruta calculada.
 
@@ -1104,7 +1052,7 @@ En el ajedrez amateur, el 99% de las partidas se deciden por táctica (errores d
 
 * Paso 3: Construir un "Repertorio de Aperturas" minimalista. No memorizar líneas profundas. Aprender los Principios de la Apertura: controlar el centro con los peones, desarrollar los caballos y alfiles rápidamente, y poner el rey a salvo mediante el enroque. Elegir una sola apertura con Blancas (ej. Apertura Italiana) y una defensa sólida con Negras (ej. Defensa Karo-Kann o e5).
 
-## Etapa 3: Pensamiento Estratégico y Posicional (Elo 1200 - 1600)
+### Etapa 3: Pensamiento Estratégico y Posicional (Elo 1200 - 1600)
 
 Aquí el jugador descubre que no siempre hay un golpe táctico disponible. Se aprende a formular planes a largo plazo cuando el tablero está en calma.
 
@@ -1112,7 +1060,7 @@ Aquí el jugador descubre que no siempre hay un golpe táctico disponible. Se ap
 * Paso 2: El Método de Análisis Post-Partida. Aplicar obligatoriamente la regla de oro: revisar cada partida jugada. El humano progresa cuando encuentra el momento exacto donde su plan estratégico falló y busca la alternativa correcta utilizando el motor como asistente.
 * Paso 3: Introducción a los Finales. Estudiar la teoría de finales básicos. El ajedrez se aprende al revés: es más fácil entender el poder de tres piezas en un tablero vacío que el de 32 piezas al inicio. Dominar los finales de peones (regla del cuadrado, la oposición del rey) y finales básicos de torres.
 
-## Etapa 4: Especialización y Competición (Elo 1600+)
+### Etapa 4: Especialización y Competición (Elo 1600+)
 
 El juego se vuelve un deporte psicológico y de resistencia. El entrenamiento se asemeja al de un atleta.
 
@@ -1120,7 +1068,7 @@ El juego se vuelve un deporte psicológico y de resistencia. El entrenamiento se
 * Paso 2: Estudio de Clásicos. Analizar partidas de los Campeones Mundiales (Capablanca para la sencillez posicional, Alekhine o Kasparov para el ataque dinámico, Carlsen para los finales). El cerebro absorbe la "intuición" de los maestros.
 * Paso 3: Transición al Ajedrez Presencial (Over the Board). Jugar torneos oficiales con relojes físicos y piezas reales. El salto del tablero bidimensional de la pantalla al tablero tridimensional real requiere una adaptación visual y espacial crucial.
 
-# Los algoritmos
+# CAP 2 Los algoritmos
 
 Se abordó previamente en forma superficial que para que un algoritmo pueda jugar al
 ajedrez, dejando de lado cuestiones de conectividad e infraestructura, es necesario
@@ -1128,10 +1076,11 @@ que en una determinada posición de piezas pueda evaluar el valor ($V_{i}$) de u
 en comparación a otra para luego decidir la jugada en función de una política $\pi_{i}$
 que trate de maximizar las posibilidades propias de ganar, o lo que es lo mismo, las
 posibilidades del oponente de perder.
+Con el tiempo han evolucionado distintas familias de algoritmos para éste propósito.
 
-## Algoritmo Minimax con poda Alfa-Beta: fundamentos matemáticos y aplicación al ajedrez
+## Algoritmo Minimax con poda Alfa-Beta
 
-El algoritmo Minimax con poda Alfa-Beta (Alpha-Beta Pruning) es uno de los fundamentos clásicos de la inteligencia artificial aplicada a juegos de estrategia de dos jugadores, particularmente el ajedrez.
+El algoritmo Minimax con poda Alfa-Beta (*Alpha-Beta Pruning*) es uno de los fundamentos clásicos de la inteligencia artificial aplicada a juegos de estrategia de dos jugadores, particularmente el ajedrez.
 
 Su objetivo consiste en determinar la mejor decisión posible para un jugador, suponiendo que su adversario también tomará decisiones óptimas. Para ello, construye y explora un árbol de posibles jugadas y respuestas, evaluando las consecuencias de cada alternativa.
 
@@ -1150,7 +1099,7 @@ Un juego de ajedrez puede modelarse mediante un conjunto de estados:
 
 $S=\{s_0,s_1,s_2,\ldots\}$
 
-Cada estado $$s$$ contiene toda la información necesaria para representar una posición y determinar las jugadas
+Cada estado $s$contiene toda la información necesaria para representar una posición y determinar las jugadas
 legales, incluyendo:
 
 - Distribución de las piezas sobre el tablero.
@@ -1164,21 +1113,21 @@ Una posición de ajedrez no queda necesariamente determinada por la ubicación d
 
 Definimos:
 
-$$ A(s)=\{a_1,a_2,\ldots,a_n}$$
+$A(s)=\{a_1,a_2,\ldots,a_n}$
 
-como el conjunto de jugadas legales disponibles en el estado $$s$$.
+como el conjunto de jugadas legales disponibles en el estado $s$.
 
 Una función de transición:
 
-$$ T:S\times A\rightarrow S $$
+$T:S\times A\rightarrow S $
 
 representa el resultado de ejecutar una jugada:
 
-$$ s'=T(s,a) $$
+$s'=T(s,a) $
 
 Por ejemplo, desde la posición inicial, una de las transiciones posibles es:
 
-$$ s_1=T(s_0,\text{e2e4}) $$
+$s_1=T(s_0,\text{e2e4}) $
 
 La posición resultante tendrá un peón blanco en e4, corresponderá mover a las negras y se actualizarán los demás componentes del estado.
 
@@ -1193,11 +1142,11 @@ El ajedrez es un juego:
 
 Podemos definir una utilidad terminal desde la perspectiva de las blancas:
 
-$ U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases}$
+$U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases}$
 
-Por lo tanto, si $$U_B(s)$$ representa la utilidad para las blancas y $$U_N(s)$$ la de las negras:
+Por lo tanto, si $U_B(s)$ representa la utilidad para las blancas y $U_N(s)$la de las negras:
 
-$$ U_N(s)=-U_B(s) $$
+$U_N(s)=-U_B(s)$
 
 Esto permite representar las decisiones de ambos jugadores mediante una única función de valor.
 
@@ -1226,17 +1175,17 @@ Ejemplo simplificado desde la posición inicial
 
 Cada nivel del árbol corresponde a una jugada individual, denominada ply.
 
-Una profundidad de búsqueda de $$d=6$$ significa que se examinan seis medias jugadas desde la posición inicial de análisis: tres movimientos de las blancas y tres de las negras, si las jugadas alternan normalmente.
+Una profundidad de búsqueda de $d=6$significa que se examinan seis medias jugadas desde la posición inicial de análisis: tres movimientos de las blancas y tres de las negras, si las jugadas alternan normalmente.
 
 ### Complejidad del espacio de búsqueda
 
-Si una posición tiene, en promedio, $$b$$ movimientos legales y analizamos una profundidad $$d$$, el número aproximado de posiciones terminales del árbol es:
+Si una posición tiene, en promedio, $b$movimientos legales y analizamos una profundidad $d$, el número aproximado de posiciones terminales del árbol es:
 
-$$ N(d)\approx b^d $$
+$N(d)\approx b^d$
 
 Para un factor de ramificación típico:
 
-$$ b=35 $$
+$b=35$
 
 obtenemos:
 
@@ -1250,12 +1199,9 @@ obtenemos:
 | 6                 | 1.838.265.625               |
 | 8                 | 2,25 × 10¹²                 |
 
-Lo que muestra claramente el crecimiento exponencial de las posiciones (hojas) a explorar, este crecimiento
-exponencial constituye el principal problema computacional de Minimax.
+Lo que muestra claramente el crecimiento exponencial de las posiciones (hojas) a explorar, este crecimiento exponencial constituye el principal problema computacional de Minimax.
 
-La cantidad exacta de posiciones varía según la posición y las jugadas legales disponibles. Además de las jugadas
-legales en una posición concreta pueden existir transposiciones, posiciones terminales anticipadas y
-otras condiciones que hacen que el árbol no sea uniforme.
+La cantidad exacta de posiciones varía según la posición y las jugadas legales disponibles. Además de las jugadas legales en una posición concreta pueden existir transposiciones, posiciones terminales anticipadas y otras condiciones que hacen que el árbol no sea uniforme.
 
 ### Fundamento matemático de Minimax
 
@@ -1264,31 +1210,29 @@ El algoritmo utiliza dos tipos de nodos:
 * MAX: corresponde al jugador que intenta maximizar la utilidad.
 * MIN: corresponde al adversario que intenta minimizarla.
 
-Si definimos que MAX representa las blancas y MIN las negras, una puntuación positiva representa una posición
-favorable para las blancas.
+Si definimos que MAX representa las blancas y MIN las negras, una puntuación positiva representa una posición favorable para las blancas.
 
 Para un estado terminal:
 
-$$ V(s)=U(s) $$
+$V(s)=U(s)$
 
 Para un estado no terminal en el que mueve MAX:
 
-$$ \boxed{ V(s)=\max\_{a\in A(s)} V(T(s,a)) } $$
+$\boxed{ V(s)=\max\_{a\in A(s)} V(T(s,a)) } $
 
 Para un estado no terminal en el que mueve MIN:
 
-$$ \boxed{ V(s)=\min\_{a\in A(s)} V(T(s,a)) } $$
+$\boxed{ V(s)=\min\_{a\in A(s)} V(T(s,a)) } $
 
 Estas ecuaciones constituyen el núcleo del algoritmo.
 
 La decisión óptima para MAX se define mediante:
 
-$$ \boxed{ a^\*=\arg\max\_{a\in A(s)}V(T(s,a)) } $$
+$\boxed{ a^\*=\arg\max\_{a\in A(s)}V(T(s,a)) } $
 
 Si corresponde jugar a MIN, se utiliza `argmin` en lugar de `argmax`.
 
 La hipótesis esencial es que el adversario no coopera con nuestro plan, sino que selecciona la respuesta más perjudicial para nuestros intereses.
-
 
 A modo de ejemplo consideremos un árbol con tres jugadas posibles para MAX: A, B y C.
 
@@ -1298,23 +1242,23 @@ Cada jugada conduce a una posición donde MIN dispone de dos respuestas. Los nú
 
 Para la alternativa A:
 
-$$ V(A)=\min(3,5)=3 $$
+$V(A)=\min(3,5)=3 $
 
 Para la alternativa B:
 
-$$ V(B)=\min(2,9)=2 $$
+$V(B)=\min(2,9)=2 $
 
 Para la alternativa C:
 
-$$ V(C)=\min(4,6)=4 $$
+$V(C)=\min(4,6)=4 $
 
 En la raíz, MAX selecciona:
 
-$$ V(s)=\max(3,2,4)=4 $$
+$V(s)=\max(3,2,4)=4 $
 
 Por lo tanto:
 
-$$ \boxed{a^\*=C} $$
+$\boxed{a^\*=C} $
 
 Aunque B ofrece la posibilidad de obtener una puntuación de 9, MAX no puede suponer que su adversario elegirá
 voluntariamente esa respuesta. MIN escogerá la respuesta que limita el resultado a 2.
@@ -1323,16 +1267,13 @@ Esta es una distinción fundamental entre la evaluación optimista de una jugada
 
 ### Minimax con profundidad limitada
 
-En ajedrez real, el árbol completo de la partida resulta demasiado grande para explorarlo exhaustivamente.
+En ajedrez real, el árbol completo de la partida resulta demasiado grande para explorarlo exhaustivamente, por lo tanto, los motores utilizan una profundidad máxima de búsqueda:
 
-Por lo tanto, los motores utilizan una profundidad máxima de búsqueda:
+$d\_{\max} $
 
-$$ d\_{\max} $$
+Al alcanzar esa profundidad, en lugar de conocer el resultado definitivo de la partida, se aplica una función heurística de evaluación:
 
-Al alcanzar esa profundidad, en lugar de conocer el resultado definitivo de la partida, se aplica una función
-heurística de evaluación:
-
-$$ E(s) $$
+$E(s) $
 
 De este modo:
 
@@ -1340,8 +1281,7 @@ $V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\\ E(s) & \text{si 
 
 Esto convierte Minimax en una búsqueda heurística de horizonte finito.
 
-La conclusión importante es que el algoritmo ya no determina necesariamente la mejor jugada de toda la partida,
-sino la mejor jugada según la función de evaluación y la profundidad de búsqueda elegidas.
+La conclusión importante es que el algoritmo ya no determina necesariamente la mejor jugada de toda la partida, sino la mejor jugada según la función de evaluación y la profundidad de búsqueda elegidas.
 
 ### Función de evaluación en ajedrez
 
@@ -1351,13 +1291,13 @@ $E(s)=w_m M(s)+w_p P(s)+w_k K(s)+w_c C(s)+w_t T(s)$
 
 Donde:
 
-- $$M(s)$$: diferencia de material.
-- $$P(s)$$: estructura de peones.
-- $$K(s)$$: seguridad de los reyes.
-- $$C(s)$$: control del centro y actividad de las piezas.
-- $$T(s)$$: factores tácticos o posicionales adicionales.
+- $M(s)$: diferencia de material.
+- $P(s)$: estructura de peones.
+- $K(s)$: seguridad de los reyes.
+- $C(s)$: control del centro y actividad de las piezas.
+- $T(s)$: factores tácticos o posicionales adicionales.
 
-Los coeficientes $$w_i$$ determinan la importancia relativa de cada característica y deben elegirse de acuerdo con la escala de cada término.
+Los coeficientes $w_i$determinan la importancia relativa de cada característica y deben elegirse de acuerdo con la escala de cada término.
 
 Una aproximación tradicional al valor material, expresada en centipeones, es:
 
@@ -1376,29 +1316,23 @@ En general:
 
 $M(s)=\sum\_{p\in B}v(p)-\sum\_{p\in N}v(p)$
 
-La evaluación material aislada no contempla situaciones como clavadas, ataques descubiertos,
-amenazas de mate o piezas atrapadas, por lo que necesita complementarse con otros criterios.
+La evaluación material aislada no contempla situaciones como clavadas, ataques descubiertos, amenazas de mate o piezas atrapadas, por lo que necesita complementarse con otros criterios.
 
 ### Alternativas de evaluación
 
-Las funciones de evaluación son heurísticas que corresponden a una determinada *ideología* de juego, pero están
-disenadas manualmente para tratar de capturar el valor ($V_{i}$) de una determinada posición.
-Pero el algoritmo Minimax no exige una función de evaluación diseñada manualmente, simplemente algún método que con 
-algún criterio devuelva el valor estimado de la posición. 
-Un criterio crecientemente utilizado, y posteriormente desarrollado es ntonces reemplazarla por una red neuronal,
-mecanismo que será crucial en algunos algoritmos a desarrollar posteriormente.
+Las funciones de evaluación son heurísticas que corresponden a una determinada *ideología* de juego, pero están disenadas manualmente para tratar de capturar el valor ($V_{i}$) de una determinada posición.
+Pero el algoritmo Minimax no exige una función de evaluación diseñada manualmente, simplemente algún método que con algún criterio devuelva el valor estimado de la posición. 
+Un criterio crecientemente utilizado, y posteriormente desarrollado es ntonces reemplazarla por una red neuronal, mecanismo que será crucial en algunos algoritmos a desarrollar posteriormente.
 
 $E\_\theta(s)=f\_\theta(\phi(s))$
 
 Donde:
 
-- $$\phi(s)$$ representa la codificación de la posición.
-- $$\theta$$ contiene los parámetros entrenados.
-- $$f\_\theta$$ produce una valoración de la posición.
+- $\phi(s)$representa la codificación de la posición.
+- $\theta$contiene los parámetros entrenados.
+- $f\_\theta$produce una valoración de la posición.
 
-En motores que utilizan redes del tipo *NNUE (Efficiently Updatable Neural Network)* donde la red 
-actúa como evaluador de las hojas del árbol, frecuentemente con mecanismos de actualización incremental de
-características.
+En motores que utilizan redes del tipo *NNUE (Efficiently Updatable Neural Network)* donde la red actúa como evaluador de las hojas del árbol, frecuentemente con mecanismos de actualización incremental de características.
 
 Por lo tanto, búsqueda y evaluación cumplen funciones complementarias:
 
@@ -1406,17 +1340,14 @@ $\text{Minimax / Alfa-Beta} \longrightarrow \text{exploración de consecuencias}
 
 $\text{Evaluador clásico o NNUE} \longrightarrow \text{estimación del valor de posiciones}$
 
-Una red neuronal más precisa puede mejorar la decisión sin cambiar la estructura fundamental del
-algoritmo de búsqueda.
+Una red neuronal más precisa puede mejorar la decisión sin cambiar la estructura fundamental del algoritmo de búsqueda.
 
 ### La poda (prunning) Alfa-Beta
 
 
-Minimax examina todas las alternativas hasta la profundidad establecida, incluso cuando algunas de ellas ya no
-pueden influir en la selección final.
+Minimax examina todas las alternativas hasta la profundidad establecida, incluso cuando algunas de ellas ya no pueden influir en la selección final.
 La observación fundamental de *Alfa-Beta* es que no siempre necesitamos conocer el valor exacto de una rama.
-En determinadas circunstancias basta con saber que su resultado será necesariamente peor que otra alternativa
-que ya conocemos.
+En determinadas circunstancias basta con saber que su resultado será necesariamente peor que otra alternativa que ya conocemos.
 
 Supongamos que analizamos dos jugadas, A y B.
 
@@ -1434,15 +1365,13 @@ Por lo tanto:
 
 $V(B)\<V(A)$
 
-No resulta necesario continuar explorando B, independientemente de las demás respuestas posibles, 
-MAX nunca preferirá esa jugada frente a A.
+No resulta necesario continuar explorando B, independientemente de las demás respuestas posibles, MAX nunca preferirá esa jugada frente a A.
 
 La poda Alfa-Beta formaliza matemáticamente este razonamiento. Para implementarlo se mantienen dos parámetros:
 
 * $\boxed{\alpha}$
 
-Es el mejor valor que MAX puede garantizar hasta ese momento, considerando las alternativas ya examinadas en el
-contexto de la búsqueda y actúa como una cota inferior.
+Es el mejor valor que MAX puede garantizar hasta ese momento, considerando las alternativas ya examinadas en el contexto de la búsqueda y actúa como una cota inferior.
 
 * $\boxed{\beta}$*
 
@@ -1456,8 +1385,8 @@ $\beta=+\infty$
 
 Durante el recorrido del árbol:
 
-- En nodos MAX, el valor de $$\alpha$$ puede aumentar.
-- En nodos MIN, el valor de $$\beta$$ puede disminuir.
+- En nodos MAX, el valor de $\alpha$puede aumentar.
+- En nodos MIN, el valor de $\beta$puede disminuir.
 - Los límites heredados de los ancestros restringen lo que todavía es relevante explorar.
 
 La condición fundamental de poda es:
@@ -1469,7 +1398,7 @@ Es importante distinguir las cotas del valor exacto de una posición. Alfa y Bet
 
 ### Actualización de Alfa en nodos MAX
 
-En un nodo MAX, cada hijo aporta un valor $$v_i$$. El mejor valor local después de examinar $$k$$ hijos es:
+En un nodo MAX, cada hijo aporta un valor $v_i$. El mejor valor local después de examinar $k$hijos es:
 
 $v\_{\text{MAX}}^{(k)}=\max\_{1\leq i\leq k}v_i$
 
@@ -1485,9 +1414,8 @@ Esto permite comprender por qué es seguro interrumpir el análisis cuando el va
 
 ### Actualización de Beta en nodos MIN
 
-En un nodo MIN, la situación es simétrica.
-
-El valor local después de examinar $$k$$ hijos es:
+En un nodo MIN, la situación es simétrica, el valor local después de examinar
+ $k$ hijos es:
 
 $v\_{\text{MIN}}^{(k)}=\min\_{1\leq i\leq k}v_i$
 
@@ -1563,7 +1491,7 @@ MAX no seleccionará B mientras conserve A como alternativa.
 
 La segunda hoja de B no necesita examinarse.
 
-Obsérvese que no afirmamos haber calculado exactamente $$V(B)$$. Sabemos únicamente que:
+Obsérvese que no afirmamos haber calculado exactamente $V(B)$. Sabemos únicamente que:
 
 $V(B)\leq 2$
 
@@ -1581,9 +1509,7 @@ Como:
 
 $3<4$
 
-no puede realizarse la poda.
-
-La segunda respuesta tiene valor 6:
+no puede realizarse la poda. La segunda respuesta tiene valor 6:
 
 $\beta_C=\min(4,6)=4$
 
@@ -1610,16 +1536,15 @@ $\boxed{V(s)=4,\qquad a^\*=C}]
 
 El resultado es idéntico al obtenido con Minimax completo, pero una hoja no fue evaluada.
 
-Este ahorro es pequeño porque el árbol es deliberadamente reducido. En árboles con millones de posiciones,
-la misma propiedad permite evitar la exploración de subárboles enteros.
+Este ahorro es pequeño porque el árbol es deliberadamente reducido. En árboles con millones de posiciones, la misma propiedad permite evitar la exploración de subárboles enteros.
 
 ### Dos tipos de corte
 
 Tradicionalmente se distinguen dos situaciones simétricas:
 
-Corte Alfa (Alpha Cutoff): ocurre en un nodo MIN cuando su valor parcial resulta menor o igual que el alfa heredado. MAX ya dispone de una alternativa mejor en un ancestro.
+*Corte Alfa* (Alpha Cutoff): ocurre en un nodo MIN cuando su valor parcial resulta menor o igual que el alfa heredado. MAX ya dispone de una alternativa mejor en un ancestro.
 
-Corte Beta (Beta Cutoff): ocurre en un nodo MAX cuando su valor parcial alcanza o supera el beta heredado. MIN ya dispone de una alternativa preferible en un ancestro.
+*Corte Beta* (Beta Cutoff): ocurre en un nodo MAX cuando su valor parcial alcanza o supera el beta heredado. MIN ya dispone de una alternativa preferible en un ancestro.
 
 En ambas situaciones se aplica la condición general:
 
@@ -1629,10 +1554,7 @@ La diferencia consiste en cuál de los límites provoca el corte.
 
 ### Justificación matemática de la corrección de Alfa-Beta
 
-La poda Alfa-Beta puede justificarse mediante el carácter monótono de los operadores mínimo y máximo.
-
-
-Para tener en cuenta la propiedad de los nodos MIN consideremos un nodo MIN con hijos:
+La poda Alfa-Beta puede justificarse mediante el carácter monótono de los operadores mínimo y máximo. Para tener en cuenta la propiedad de los nodos MIN consideremos un nodo MIN con hijos:
 
 $v_1,v_2,\ldots,v_n$
 
@@ -1640,7 +1562,7 @@ Su valor exacto es:
 
 $V\_{\text{MIN}}=\min(v_1,v_2,\ldots,v_n)$
 
-Después de examinar únicamente los primeros $$k$$ hijos:
+Después de examinar únicamente los primeros $k$hijos:
 
 $m_k=\min(v_1,\ldots,v_k)$
 
@@ -1650,7 +1572,7 @@ $V\_{\text{MIN}}\leq m_k$
 
 porque incorporar nuevos valores a un mínimo nunca puede aumentarlo.
 
-Si un ancestro MAX ya dispone de un valor garantizado $$\alpha$$ y:
+Si un ancestro MAX ya dispone de un valor garantizado $\alpha$y:
 
 $m_k\leq\alpha$
 
@@ -1666,7 +1588,7 @@ Por su parte para un nodo MAX:
 
 $V\_{\text{MAX}}=\max(v_1,v_2,\ldots,v_n)$
 
-Después de analizar $$k$$ hijos:
+Después de analizar $k$hijos:
 
 $M_k=\max(v_1,\ldots,v_k)$
 
@@ -1674,7 +1596,7 @@ Necesariamente:
 
 $V\_{\text{MAX}}\geq M_k$
 
-Si el nodo MAX está subordinado a un ancestro MIN con límite superior $$\beta$$ y:
+Si el nodo MAX está subordinado a un ancestro MIN con límite superior $\beta$y:
 
 $M_k\geq\beta$
 
@@ -1806,7 +1728,7 @@ En ajedrez, la evaluación terminal debe distinguir:
 - Tablas automáticas aplicables.
 - Tablas reclamables cuando corresponda, según las reglas y el modelo de búsqueda.
 
-Una escala habitual asigna un valor $$M$$, muy superior a cualquier evaluación posicional normal, al jaque mate.
+Una escala habitual asigna un valor $M$, muy superior a cualquier evaluación posicional normal, al jaque mate.
 
 Por ejemplo:
 
@@ -1816,18 +1738,15 @@ Desde una perspectiva fija de las blancas:
 
 $U(s)= \begin{cases} +M & \text{mate favorable a blancas}\\\ -M & \text{mate favorable a negras}\\\ 0 & \text{tablas} \end{cases}$
 
-Para priorizar los mates más rápidos y retrasar las derrotas inevitables, puede incorporarse la distancia al mate
-en medias jugadas:
+Para priorizar los mates más rápidos y retrasar las derrotas inevitables, puede incorporarse la distancia al mate en medias jugadas:
 
 $U(s)= \begin{cases} M-p & \text{mate de las blancas}\\\ -M+p & \text{mate de las negras}\\\ 0 & \text{tablas} \end{cases}$
 
-donde $$p$$ es la distancia desde la raíz hasta el estado terminal.
+donde $p$es la distancia desde la raíz hasta el estado terminal.
 
-Así, una victoria por mate en menos jugadas recibe una puntuación mayor, y una derrota más lejana recibe
-una puntuación menos negativa.
+Así, una victoria por mate en menos jugadas recibe una puntuación mayor, y una derrota más lejana recibe una puntuación menos negativa.
 
-Debe existir una distinción entre los valores devueltos al protocolo UCI como centipeones (`score cp`) y
-las puntuaciones de mate (`score mate`), ya que no tienen el mismo significado.
+Debe existir una distinción entre los valores devueltos al protocolo UCI como centipeones (`score cp`) y las puntuaciones de mate (`score mate`), ya que no tienen el mismo significado.
 
 
 ### Análisis de una posición concreta
@@ -1840,8 +1759,7 @@ Consideremos la siguiente posición, expresada en notación FEN:
 
 Posición de ejemplo: juegan las blancas
 
-Las blancas tienen el turno. La dama negra en f3 amenaza al rey blanco, por lo que la búsqueda debe
-considerar únicamente respuestas legales.
+Las blancas tienen el turno. La dama negra en f3 amenaza al rey blanco, por lo que la búsqueda debe considerar únicamente respuestas legales.
 
 En esta posición, la dama negra ataca al peón de g2 y condiciona severamente la libertad del rey blanco.
 Una búsqueda Minimax no puede limitarse a comparar material: debe verificar el jaque, las posibles capturas y las consecuencias forzadas.
@@ -1885,14 +1803,12 @@ La jugada seleccionada es:
 $a^\*=\arg\max(35,24,18,28)$
 $\boxed{a^\*=\text{e4}}$
 
-Es esencial interpretar correctamente el resultado: el motor no asegura que e4 gane la partida, ni que sea
-la mejor jugada en términos absolutos. 
+Es esencial interpretar correctamente el resultado: el motor no asegura que e4 gane la partida, ni que sea la mejor jugada en términos absolutos. 
 Afirma que, dentro de su horizonte de búsqueda y según su evaluador, e4 resulta preferible a las demás alternativas.
 
 ### Negamax: una formulación más eficiente
 
 Debido a que el ajedrez es un juego de suma cero, *Minimax* puede simplificarse mediante la formulación *Negamax*.
-
 En lugar de implementar alternativamente nodos MAX y MIN, se define la evaluación desde la perspectiva del jugador
 al que corresponde mover.
 
@@ -1936,7 +1852,7 @@ $\boxed{ (\alpha,\beta)\rightarrow(-\beta,-\alpha) }$
 
 Esta transformación resulta de cambiar la perspectiva del jugador activo.
 
-Si un valor $$v$$ pertenece al intervalo:
+Si un valor $v$pertenece al intervalo:
 
 $\alpha\<v<\beta$
 
@@ -1950,8 +1866,7 @@ Negamax es especialmente conveniente en implementaciones de motores de ajedrez p
 
 ### Eficiencia de Alfa-Beta
 
-En el peor caso si las jugadas se examinan en un orden desfavorable, Alfa-Beta puede realizar prácticamente
-el mismo trabajo que Minimax completo.
+En el peor caso si las jugadas se examinan en un orden desfavorable, Alfa-Beta puede realizar prácticamente el mismo trabajo que Minimax completo.
 
 Su complejidad temporal en el peor caso sigue siendo:
 
@@ -1959,8 +1874,8 @@ $\boxed{O(b^d)}$
 
 donde:
 
-- $$b$$: factor medio de ramificación.
-- $$d$$: profundidad de búsqueda.
+- $b$: factor medio de ramificación.
+- $d$: profundidad de búsqueda.
 
 Por lo tanto, Alfa-Beta no elimina el carácter exponencial del problema.
 
@@ -1972,8 +1887,7 @@ $\boxed{O(b^{d/2})}$
 Una forma habitual de expresar esta mejora es que la búsqueda puede alcanzar aproximadamente el doble de profundidad
 con un presupuesto comparable de evaluación de hojas, respecto de Minimax sin poda.
 
-La cantidad exacta de hojas depende de la paridad de la profundidad y de las características del árbol,
-pero el comportamiento asintótico es el indicado.
+La cantidad exacta de hojas depende de la paridad de la profundidad y de las características del árbol, pero el comportamiento asintótico es el indicado.
 
 Si:
 
@@ -2004,15 +1918,13 @@ $O(d)$
 
 si la generación y exploración de movimientos se realiza de forma incremental y el almacenamiento por nivel es acotado.
 
-Si se materializan y almacenan explícitamente hasta $$b$$ movimientos en cada nivel, la memoria auxiliar 
-puede aproximarse por:
+Si se materializan y almacenan explícitamente hasta $b$movimientos en cada nivel, la memoria auxiliar puede aproximarse por:
 
 $O(bd)$
 
 Esto es muy inferior a almacenar el árbol completo, que requeriría memoria exponencial.
 
-Una propiedad extraordinariamente importante de Alfa-Beta es que su eficiencia depende del orden en que se examinan
-los movimientos.
+Una propiedad extraordinariamente importante de Alfa-Beta es que su eficiencia depende del orden en que se examinan los movimientos.
 
 Considérese un nodo MIN con valores:
 
@@ -2049,12 +1961,9 @@ Los motores modernos utilizan diversas estrategias para intentar examinar primer
 | History Heuristic | Utilizar estadísticas de efectividad de jugadas en búsquedas previas. |
 | SEE               | Estimar el balance de intercambios en una casilla.                    |
 
-Una ordenación frecuente coloca primero el movimiento sugerido por la tabla de transposiciones, 
-luego capturas favorables y otras jugadas tácticamente importantes, y finalmente los movimientos
-restantes según heurísticas históricas.
+Una ordenación frecuente coloca primero el movimiento sugerido por la tabla de transposiciones, luego capturas favorables y otras jugadas tácticamente importantes, y finalmente los movimientos restantes según heurísticas históricas.
 
-La mejor ordenación no puede conocerse de antemano sin resolver previamente el problema de búsqueda, 
-por lo que estas técnicas son aproximaciones prácticas.
+La mejor ordenación no puede conocerse de antemano sin resolver previamente el problema de búsqueda, por lo que estas técnicas son aproximaciones prácticas.
 
 ### Iterative deepening
 
@@ -2065,6 +1974,7 @@ En lugar de comenzar directamente con profundidad 8:
 $d=8$
 
 se realizan búsquedas:
+
 $d=1,2,3,\ldots,8$
 
 Este procedimiento se denomina Iterative Deepening.
@@ -2096,17 +2006,16 @@ Profundidad N
 
 A primera vista, repetir las búsquedas parece desperdiciar tiempo. Sin embargo, existen beneficios significativos:
 
-1. La mejor jugada encontrada en profundidad $$d-1$$ sirve para ordenar la búsqueda de profundidad $$d$$.
+1. La mejor jugada encontrada en profundidad $d-1$sirve para ordenar la búsqueda de profundidad $d$.
 2. Las tablas de transposiciones conservan resultados aprovechables.
 3. El motor puede finalizar al alcanzar un límite de tiempo.
 4. Siempre dispone de una mejor jugada provisional procedente de una iteración completada.
 
-En particular, el ordenamiento mejorado puede producir suficientes podas adicionales para compensar una parte
-sustancial del costo de las búsquedas anteriores.
+En particular, el ordenamiento mejorado puede producir suficientes podas adicionales para compensar una parte sustancial del costo de las búsquedas anteriores.
 
 ### Ventanas de aspiración
 
-Si en profundidad $d-1$ se obtuvo una evaluación $v$, puede intentarse la siguiente búsqueda con una ventana estrecha:
+Si en profundidad $d-1$se obtuvo una evaluación $v$, puede intentarse la siguiente búsqueda con una ventana estrecha:
 
 $\alpha=v-\delta$
 
@@ -2126,14 +2035,11 @@ Por lo tanto, las ventanas de aspiración intercambian un mayor potencial de pod
 
 ### Tablas de transposiciones
 
-También conocido como el problema de los estados repetidos, donde distintas secuencias de jugadas pueden conducir
-a una misma posición.
+También conocido como el problema de los estados repetidos, donde distintas secuencias de jugadas pueden conducir a una misma posición.
 
 Por ejemplo, determinados órdenes de desarrollo de piezas pueden producir el mismo estado final.
 
-Si el motor no conserva información de búsquedas anteriores, examinará nuevamente esa posición aunque ya la
-haya analizado (e incluso desechado). Las tablas de transposiciones (TT) permiten registrar resultados
-asociados a posiciones previamente exploradas.
+Si el motor no conserva información de búsquedas anteriores, examinará nuevamente esa posición aunque ya la haya analizado (e incluso desechado). Las tablas de transposiciones (TT) permiten registrar resultados asociados a posiciones previamente exploradas.
 
 Generalmente se utiliza una clave hash, habitualmente de tipo *Zobrist*, para representar el estado.
 
@@ -2183,11 +2089,9 @@ if entry is not None and entry.depth >= depth:
         return entry.score
 ```
 
-Esta lógica representa una consulta simplificada. Una implementación de producción también debe administrar
-correctamente las puntuaciones de mate relativas a la distancia, las colisiones de hash, la validez del estado y el almacenamiento de nuevas entradas.
+Esta lógica representa una consulta simplificada. Una implementación de producción también debe administrar correctamente las puntuaciones de mate relativas a la distancia, las colisiones de hash, la validez del estado y el almacenamiento de nuevas entradas.
 
-Además, la historia de repeticiones y las reglas de tablas requieren atención especial: dos posiciones con
-las mismas piezas no siempre son equivalentes respecto de todos los resultados posibles de la partida.
+Además, la historia de repeticiones y las reglas de tablas requieren atención especial: dos posiciones con las mismas piezas no siempre son equivalentes respecto de todos los resultados posibles de la partida.
 
 ### El problema del horizonte
 
@@ -2195,16 +2099,13 @@ Una limitación importante de Minimax con profundidad fija es el denominado *Hor
 
 Supongamos que un motor evalúa una posición en la que una dama puede ser capturada en la siguiente jugada.
 
-Si la búsqueda finaliza justo antes de la captura, el evaluador puede asignar una puntuación artificialmente
-favorable porque la pérdida material todavía no se produjo.
+Si la búsqueda finaliza justo antes de la captura, el evaluador puede asignar una puntuación artificialmente favorable porque la pérdida material todavía no se produjo.
 
-El problema no es estrictamente un error de Minimax: es una consecuencia de sustituir la resolución completa
-de la partida por una evaluación heurística a profundidad limitada.
+El problema no es estrictamente un error de Minimax: es una consecuencia de sustituir la resolución completa de la partida por una evaluación heurística a profundidad limitada.
 
 Para reducir este problema se utiliza la *búsqueda de quiescencia*, o *Quiescence Search*.
 
-Al alcanzar la profundidad nominal, en lugar de aplicar inmediatamente la evaluación estática, 
-el motor continúa explorando una selección de jugadas tácticamente relevantes.
+Al alcanzar la profundidad nominal, en lugar de aplicar inmediatamente la evaluación estática, el motor continúa explorando una selección de jugadas tácticamente relevantes.
 
 Habitualmente se consideran capturas, ciertas promociones y, según la implementación, otras amenazas forzantes.
 
@@ -2234,14 +2135,11 @@ actualizando:
 
 $\alpha\leftarrow\max(\alpha,v_a)$
 
-La búsqueda continúa hasta alcanzar una posición suficientemente estable o algún límite de seguridad establecido
-por el motor.
+La búsqueda continúa hasta alcanzar una posición suficientemente estable o algún límite de seguridad establecido por el motor.
 
-Cuando el rey se encuentra en jaque, no es válido utilizar simplemente la evaluación estática como alternativa
-a responder: deben considerarse las evasiones legales, ya que no existe la opción de permanecer en jaque.
+Cuando el rey se encuentra en jaque, no es válido utilizar simplemente la evaluación estática como alternativa a responder: deben considerarse las evasiones legales, ya que no existe la opción de permanecer en jaque.
 
-La búsqueda de quiescencia es especialmente relevante cuando se usan evaluadores basados en material o redes NNUE,
-porque permite que la evaluación se aplique a posiciones menos inestables tácticamente.
+La búsqueda de quiescencia es especialmente relevante cuando se usan evaluadores basados en material o redes NNUE, porque permite que la evaluación se aplique a posiciones menos inestables tácticamente.
 
 ### Alfa-Beta en motores modernos de ajedrez
 
@@ -2266,10 +2164,8 @@ Además de las técnicas ya presentadas, pueden utilizarse:
 
 * Extensiones selectivas. Incrementan la profundidad ante situaciones especialmente relevantes, como determinados jaques o secuencias forzadas.
 
-Debe destacarse una diferencia conceptual: mientras que la poda Alfa-Beta clásica conserva el resultado Minimax
-exacto al horizonte elegido, algunas de estas optimizaciones introducen aproximaciones heurísticas. Por tanto, al
-incorporar LMR, Null Move Pruning o Futility Pruning, ya no puede garantizarse en general la igualdad exacta con
-una búsqueda Minimax exhaustiva de profundidad fija.
+Debe destacarse una diferencia conceptual: mientras que la poda Alfa-Beta clásica conserva el resultado Minimax exacto al horizonte elegido, algunas de estas optimizaciones introducen aproximaciones heurísticas. Por tanto, al
+incorporar LMR, Null Move Pruning o Futility Pruning, ya no puede garantizarse en general la igualdad exacta con una búsqueda Minimax exhaustiva de profundidad fija.
 
 Es importante diferenciar tres conceptos.
 
@@ -2314,29 +2210,23 @@ $Q\approx F(d,E,O,R)$
 
 donde:
 
-- $$d$$: profundidad de búsqueda alcanzada.
-- $$E$$: calidad de la función de evaluación.
-- $$O$$: eficacia del ordenamiento de movimientos.
-- $$R$$: calidad y corrección de las reglas, reducciones y extensiones.
+- $d$: profundidad de búsqueda alcanzada.
+- $E$: calidad de la función de evaluación.
+- $O$: eficacia del ordenamiento de movimientos.
+- $R$: calidad y corrección de las reglas, reducciones y extensiones.
 
-Esta expresión es conceptual, no una fórmula empírica que permita evaluar la "*fuerza ajedrecística*" de un 
-determinado algoritmo o motor.
+Esta expresión es conceptual, no una fórmula empírica que permita evaluar la "*fuerza ajedrecística*" de un determinado algoritmo o motor.
 
-De hecho el evaluarlo no es un problema resuelto, por lo que debe desarrollarse un protocolo de evaluación que 
-permita obtener cierta introspectiva estadística sobre el comportamiento de un motor frente a otros, de manera
+De hecho el evaluarlo no es un problema resuelto, por lo que debe desarrollarse un protocolo de evaluación que permita obtener cierta introspectiva estadística sobre el comportamiento de un motor frente a otros, de manera
 de poder evaluar su fuerza relativa.
 
-Dos motores con idéntico evaluador pueden ofrecer resultados distintos si uno alcanza mayor profundidad
-o consigue ordenar mejor sus movimientos. Por eso dos motores iguales con diferente potencia de procesamiento
-pueden obtener diferencias vastas de resultados, aunque objetivamente usen el mismo algoritmo.
+Dos motores con idéntico evaluador pueden ofrecer resultados distintos si uno alcanza mayor profundidad o consigue ordenar mejor sus movimientos. Por eso dos motores iguales con diferente potencia de procesamiento pueden obtener diferencias vastas de resultados, aunque objetivamente usen el mismo algoritmo.
 
-Sin embargo, no existe una relación simple que garantice que duplicar la profundidad o reducir a la mitad
-el error de evaluación produzca una determinada mejora de Elo.
+Sin embargo, no existe una relación simple que garantice que duplicar la profundidad o reducir a la mitad el error de evaluación produzca una determinada mejora de Elo.
 
 ### Consideraciones sobre redes NNUE pequeñas
 
-Ya se mencionó la posibilidad de utilizar redes neuronales pequenas en sistemas con recursos computacionales
-limitados, el costo de evaluar una posición puede resultar decisivo.
+Ya se mencionó la posibilidad de utilizar redes neuronales pequenas en sistemas con recursos computacionales limitados, el costo de evaluar una posición puede resultar decisivo.
 
 Supongamos dos evaluadores:
 
@@ -2358,23 +2248,18 @@ y también:
 
 $D(t)=\text{profundidad alcanzada en tiempo }t$
 
-Una red pequeña y eficiente puede permitir búsquedas más profundas; una red más grande puede proporcionar
-evaluaciones más precisas pero reducir la profundidad alcanzable.
+Una red pequeña y eficiente puede permitir búsquedas más profundas; una red más grande puede proporcionar evaluaciones más precisas pero reducir la profundidad alcanzable.
 
-La combinación óptima depende de la arquitectura del procesador, el costo de generación de movimientos,
-el ordenamiento, la posibilidad de actualizar incrementalmente la red y la calidad efectiva del evaluador.
+La combinación óptima depende de la arquitectura del procesador, el costo de generación de movimientos, el ordenamiento, la posibilidad de actualizar incrementalmente la red y la calidad efectiva del evaluador.
 
-Un motor que implementa búsqueda Alfa-Beta puede reportar su progreso mediante el protocolo UCI.
+Un motor que implementa búsqueda Alfa-Beta puede reportar su progreso mediante el protocolo *UCI*.
 
 Un ejemplo ilustrativo es:
 
 ```
 info depth 4 score cp 18 nodes 12500 time 120 nps 104166 pv e2e4 e7e5 g1f3 b8c6
-
 info depth 5 score cp 32 nodes 58000 time 510 nps 113725 pv e2e4 c7c5 g1f3 d7d6
-
 info depth 6 score cp 25 nodes 210000 time 1780 nps 117977 pv e2e4 e7e5 g1f3 b8c6 f1b5 a7a6
-
 bestmove e2e4
 ```
 
@@ -2421,8 +2306,7 @@ Por ello, en un motor real, la verificación de la legalidad y de la consistenci
 
 ### Conclusiones
 
-Minimax con poda Alfa-Beta constituye un ejemplo fundamental de cómo el razonamiento matemático puede
-transformar un problema de búsqueda computacionalmente costoso en uno considerablemente más eficiente.
+Minimax con poda Alfa-Beta constituye un ejemplo fundamental de cómo el razonamiento matemático puede transformar un problema de búsqueda computacionalmente costoso en uno considerablemente más eficiente.
 
 Minimax modela el comportamiento adversarial mediante operaciones alternadas de máximo y mínimo:
 
@@ -2492,7 +2376,7 @@ Sea el *estado*:
 
 $s_t\in S$
 
-el estado del juego en el instante $$t$$.
+el estado del juego en el instante $t$.
 
 El estado debe incluir suficiente información para que las transiciones futuras dependan únicamente de él y de las acciones que se ejecuten.
 
@@ -2502,12 +2386,12 @@ $s_t=(B_t,c_t,C_t,e_t,h_t,H_t)$
 
 donde:
 
-- $$B_t$$: distribución de las piezas.
-- $$c_t$$: jugador al que corresponde mover.
-- $$C_t$$: derechos de enroque.
-- $$e_t$$: situación de captura al paso.
-- $$h_t$$: contador relevante para las reglas de movimientos sin capturas ni movimientos de peones.
-- $$H_t$$: información histórica necesaria para determinar repeticiones y otras condiciones dependientes de la historia.
+- $B_t$: distribución de las piezas.
+- $c_t$: jugador al que corresponde mover.
+- $C_t$: derechos de enroque.
+- $e_t$: situación de captura al paso.
+- $h_t$: contador relevante para las reglas de movimientos sin capturas ni movimientos de peones.
+- $H_t$: información histórica necesaria para determinar repeticiones y otras condiciones dependientes de la historia.
 
 La inclusión de información histórica es importante. Una representación limitada únicamente al tablero y al turno puede no satisfacer completamente la propiedad de Markov, porque la posibilidad de reclamar tablas por repetición depende de acontecimientos anteriores.
 
@@ -2521,7 +2405,7 @@ Se define el *espacio de acciones* como:
 
 $A(s)=\\{a_1,a_2,\ldots,a_n\\}$
 
-como el conjunto de movimientos legales en la posición $$s$$.
+como el conjunto de movimientos legales en la posición $s$.
 
 La cantidad de movimientos disponibles cambia de una posición a otra.
 
@@ -2565,15 +2449,15 @@ Esta característica tendrá consecuencias importantes sobre la velocidad y la e
 
 ### La ecuación de Bellman en su formulación tradicional
 
-En un problema de aprendizaje por refuerzo, el retorno desde un instante $t$ se define como:
+En un problema de aprendizaje por refuerzo, el retorno desde un instante $t$se define como:
 
 $\boxed{ G_t=\sum\_{k=0}^{T-t-1}\gamma^k r\_{t+k+1} }$
 
 donde:
 
-- $$T$$ representa el instante terminal.
-- $$r\_{t+k+1}$$ es la recompensa recibida después de una acción.
-- $$\gamma\in[0,1]$$ es el factor de descuento.
+- $T$representa el instante terminal.
+- $r\_{t+k+1}$es la recompensa recibida después de una acción.
+- $\gamma\in[0,1]$es el factor de descuento.
 
 El factor de descuento permite dar menor peso a recompensas alejadas temporalmente.
 
@@ -2587,7 +2471,7 @@ $\boxed{\gamma=1}$
 
 De ese modo, una victoria no pierde valor solamente por requerir más movimientos.
 
-Si se selecciona $(\gamma<1$$, se introduce una preferencia temporal: bajo una formulación apropiada, las victorias cercanas resultan más valiosas y las derrotas lejanas pueden resultar menos perjudiciales.
+Si se selecciona $(\gamma<1$, se introduce una preferencia temporal: bajo una formulación apropiada, las victorias cercanas resultan más valiosas y las derrotas lejanas pueden resultar menos perjudiciales.
 
 Esto modifica el objetivo de optimización.
 
@@ -2597,13 +2481,13 @@ Sea:
 
 $\pi(a\mid s)$
 
-la probabilidad de seleccionar la acción $a$ cuando el agente se encuentra en $s$.
+la probabilidad de seleccionar la acción $a$cuando el agente se encuentra en $s$.
 
 La función de valor de una política se define como:
 
 $\boxed{ V^\pi(s)= E\_\pi[G_t\mid s_t=s] }$
 
-Representa el retorno esperado si el agente comienza en el estado $$s$$ y posteriormente sigue la política $$\pi$$.
+Representa el retorno esperado si el agente comienza en el estado $s$y posteriormente sigue la política $\pi$.
 
 La ecuación de Bellman de evaluación de una política es:
 
@@ -2659,7 +2543,7 @@ $\boxed{ V^\*(s)= \begin{cases} \max\limits\_{a\in A(s)} [r_B(s,a)+\gamma V^\*(T
 
 Esta es la versión adversarial de la ecuación de optimalidad.
 
-Cuando $\gamma=1$ y las recompensas no terminales son nulas, la formulación coincide con la recurrencia básica de Minimax:
+Cuando $\gamma=1$y las recompensas no terminales son nulas, la formulación coincide con la recurrencia básica de Minimax:
 
 $V^\*(s)= \begin{cases} \max_a V^\*(T(s,a)) & \text{blancas}\\\ \min_a V^\*(T(s,a)) & \text{negras} \end{cases}$
 
@@ -2703,7 +2587,7 @@ Si se conoce $Q^\*(s,a)$, la política óptima determinista puede establecerse m
 
 $\boxed{ \pi^\*(s)=\arg\max\_{a\in A(s)}Q^\*(s,a) }$
 
-La función $Q^\*$ proporciona una valoración de las acciones.
+La función $Q^\*$proporciona una valoración de las acciones.
 
 La política determina cuál de ellas ejecutar.
 
@@ -2719,9 +2603,9 @@ Una red neuronal devuelve las siguientes estimaciones desde la perspectiva del j
 
 | Movimiento blanco | Valor de la posición para las negras |
 | ----------------- | ------------------------------------ |
-| $a_1$         | $-0,40$                          |
-| $a_2$         | $+0,25$                          |
-| $a_3$         | $-0,10$                          |
+| $a_1$        | $-0,40$                         |
+| $a_2$        | $+0,25$                         |
+| $a_3$        | $-0,10$                         |
 
 Tomemos:
 
@@ -2747,9 +2631,9 @@ Valores hipotéticos obtenidos cambiando el signo de las evaluaciones de los est
 
 -0.3-0.10.10.30.5a₁a₂a₃
 
-La interpretación importante es que $a_1$ no se selecciona por ser visualmente atractiva ni por obtener una ventaja material inmediata, sino porque conduce a una posición que, según el evaluador, resulta desfavorable para el adversario.
+La interpretación importante es que $a_1$no se selecciona por ser visualmente atractiva ni por obtener una ventaja material inmediata, sino porque conduce a una posición que, según el evaluador, resulta desfavorable para el adversario.
 
-No obstante, los valores son estimaciones. Si la red se equivoca al asignar $-0,40$ a la primera posición sucesora, la selección también puede ser equivocada.
+No obstante, los valores son estimaciones. Si la red se equivoca al asignar $-0,40$a la primera posición sucesora, la selección también puede ser equivocada.
 
 El mecanismo de aprendizaje intentará corregir precisamente esas estimaciones.
 
@@ -2765,7 +2649,7 @@ donde:
 
 $\theta=\\{W_1,b_1,W_2,b_2,\ldots,W_L,b_L\\}$
 
-representa los pesos y sesgos de una red de $L$ capas.
+representa los pesos y sesgos de una red de $L$capas.
 
 La red recibe una representación de la posición y produce una estimación escalar de su valor.
 
@@ -2804,7 +2688,7 @@ Puede construirse un tensor más amplio:
 
 $X(s)\in R^{C\times8\times8}$
 
-donde $C$ representa la cantidad total de canales.
+donde $C$representa la cantidad total de canales.
 
 También es posible representar las piezas desde la perspectiva del jugador activo, intercambiando los colores y orientando el tablero de manera canónica.
 
@@ -2840,7 +2724,7 @@ significa que la red estima una posición favorable para el jugador activo, de a
 
 No debe interpretarse automáticamente como un 70 % de probabilidad de victoria.
 
-Si se utiliza la codificación $$+1,0,-1$$, la esperanza del resultado es:
+Si se utiliza la codificación $+1,0,-1$, la esperanza del resultado es:
 
 $V(s)=P(W\mid s)-P(L\mid s)$
 
@@ -2884,7 +2768,7 @@ Al terminar, conocemos el resultado:
 
 $z\in\\{-1,0,+1\\}$
 
-Si $$z$$ se expresa desde la perspectiva de las blancas y la red evalúa desde el jugador activo, el objetivo de cada posición será:
+Si $z$se expresa desde la perspectiva de las blancas y la red evalúa desde el jugador activo, el objetivo de cada posición será:
 
 $z_t= \begin{cases} z & \text{si mueven las blancas en }s_t\\\ -z & \text{si mueven las negras en }s_t \end{cases}$
 
@@ -2898,7 +2782,7 @@ El entrenamiento ajusta los pesos mediante descenso por gradiente:
 
 $\boxed{ \theta\_{k+1} = \theta_k-\eta\nabla\_\theta L_V(\theta_k) }$
 
-donde $$\eta$$ es la tasa de aprendizaje.
+donde $\eta$es la tasa de aprendizaje.
 
 Este mecanismo es una forma de aprendizaje Monte Carlo a partir de retornos completos.
 
@@ -2922,7 +2806,7 @@ desde la perspectiva alternada de los jugadores, se define el objetivo:
 
 $\boxed{ y_t=r_t-\gamma V\_{\bar\theta}(s\_{t+1}) }$
 
-donde $$\bar\theta$$ son los parámetros de una red de referencia, que puede mantenerse temporalmente fija.
+donde $\bar\theta$son los parámetros de una red de referencia, que puede mantenerse temporalmente fija.
 
 El signo negativo aparece porque después del movimiento corresponde jugar al adversario.
 
@@ -2942,7 +2826,7 @@ El objetivo de aprendizaje consiste en reducir ese error:
 
 $L\_{\text{TD}}(\theta)= \frac12 \left[ V\_\theta(s_t)-y_t \right]^2$
 
-Para una actualización TD semigradiente, manteniendo fijo el objetivo $y_t$ durante el paso de entrenamiento:
+Para una actualización TD semigradiente, manteniendo fijo el objetivo $y_t$durante el paso de entrenamiento:
 
 $\boxed{ \theta\_{t+1} = \theta_t+ \eta\delta_t\nabla\_\theta V\_\theta(s_t) }$
 
@@ -3030,10 +2914,10 @@ Los valores obtenidos son:
 
 | Estado    | Valor después del ejemplo de actualización |
 | --------- | ------------------------------------------ |
-| $s_0$ | 0,0625                                     |
-| $s_1$ | 0,125                                      |
-| $s_2$ | 0,2500                                     |
-| $s_3$ | 0,5000                                     |
+| $s_0$| 0,0625                                     |
+| $s_1$| 0,125                                      |
+| $s_2$| 0,2500                                     |
+| $s_3$| 0,5000                                     |
 | Final     | 1,0000                                     |
 
 Esta demostración supone actualizaciones tabulares retrospectivas, con $\gamma=1$, y no representa directamente el resultado de una sola pasada TD(0) en orden cronológico.
@@ -3050,17 +2934,17 @@ Si una recompensa aparece después de 80 medias jugadas, pueden necesitarse múl
 
 Una forma de acelerar ese proceso consiste en utilizar retornos de varios pasos.
 
-Para una transición de $n$ medias jugadas, y suponiendo que ninguna finaliza la partida antes del último estado, un objetivo consistente con la perspectiva alternada es:
+Para una transición de $n$medias jugadas, y suponiendo que ninguna finaliza la partida antes del último estado, un objetivo consistente con la perspectiva alternada es:
 
 $\boxed{ G_t^{(n)} = \sum\_{k=0}^{n-1} (-\gamma)^k r\_{t+k} + (-\gamma)^n V\_{\bar\theta}(s\_{t+n}) }$
 
-Aquí cada recompensa $r\_{t+k}$ está expresada desde la perspectiva del jugador que actúa en ese paso.
+Aquí cada recompensa $r\_{t+k}$está expresada desde la perspectiva del jugador que actúa en ese paso.
 
-El factor $(-1)^k$ permite trasladar las recompensas sucesivas a la perspectiva del jugador inicial.
+El factor $(-1)^k$permite trasladar las recompensas sucesivas a la perspectiva del jugador inicial.
 
 En una implementación que utilice una perspectiva fija para un jugador, resulta más sencillo emplear las ecuaciones habituales de retornos descontados sin alternancia de signos, siempre que todas las recompensas y valores se expresen en esa misma perspectiva.
 
-También pueden utilizarse métodos TD$(\lambda)$ o trazas de elegibilidad, que combinan información de varios horizontes.
+También pueden utilizarse métodos TD$(\lambda)$o trazas de elegibilidad, que combinan información de varios horizontes.
 
 ### Aprender el valor de las acciones: Deep Q-Learning
 
@@ -3072,7 +2956,7 @@ Pero también puede entrenarse una red que evalúe directamente cada par estado-
 
 $\boxed{ Q\_\theta(s,a) }$
 
-En este caso, el agente intenta aprender el valor de ejecutar la jugada $a$ en la posición $s$, seguido de decisiones posteriores.
+En este caso, el agente intenta aprender el valor de ejecutar la jugada $a$en la posición $s$, seguido de decisiones posteriores.
 
 La principal ventaja es que una política puede derivarse directamente de:
 
@@ -3116,7 +3000,7 @@ La pérdida puede calcularse como:
 
 $\boxed{ L_Q(\theta)=  E\_{(s,a,r,s')\sim D} \left[ \left( Q\_\theta(s,a)-y \right)^2 \right] }$
 
-donde $D$ es un conjunto de experiencias anteriores.
+donde $D$es un conjunto de experiencias anteriores.
 
 En la práctica, puede preferirse una pérdida Huber para reducir la sensibilidad a errores elevados.
 
@@ -3126,7 +3010,7 @@ Las experiencias pueden almacenarse en una memoria:
 
 $D=\\{(s_t,a_t,r_t,s\_{t+1},d_t)\\}$
 
-donde $d_t$ indica si el episodio terminó.
+donde $d_t$indica si el episodio terminó.
 
 Durante el entrenamiento se seleccionan lotes aleatorios de experiencias almacenadas.
 
@@ -3175,7 +3059,7 @@ Una política estocástica se define mediante:
 
 $\boxed{ \pi\_\phi(a\mid s) = P(a_t=a\mid s_t=s;\phi) }$
 
-donde $\phi$ representa los parámetros de una red neuronal.
+donde $\phi$representa los parámetros de una red neuronal.
 
 La política debe satisfacer:
 
@@ -3195,11 +3079,11 @@ Entonces:
 
 $\boxed{ \pi\_\phi(a\mid s)= \frac{ \exp(\ell\_\phi(s,a)/\tau) }{ \sum\_{b\in A(s)} \exp(\ell\_\phi(s,b)/\tau) } }$
 
-donde $\tau>0$ es un parámetro de temperatura.
+donde $\tau>0$es un parámetro de temperatura.
 
-Si $\tau$ es grande, la distribución tiende a ser más uniforme.
+Si $\tau$es grande, la distribución tiende a ser más uniforme.
 
-Si $\tau$ es pequeña, se concentra alrededor de las jugadas con mayor puntuación.
+Si $\tau$es pequeña, se concentra alrededor de las jugadas con mayor puntuación.
 
 Para una política determinista de evaluación, puede seleccionarse:
 
@@ -3364,7 +3248,7 @@ El entrenamiento del Actor tenderá a aumentar su probabilidad en situaciones si
 
 Simultáneamente, el Critic ajustará su estimación del valor de la posición.
 
-Pero existe una advertencia importante: el objetivo $+0,45$ es una estimación, no una verdad demostrada. Si el Critic sobreestima la posición sucesora, ambos componentes pueden reforzar una jugada objetivamente mala.
+Pero existe una advertencia importante: el objetivo $+0,45$es una estimación, no una verdad demostrada. Si el Critic sobreestima la posición sucesora, ambos componentes pueden reforzar una jugada objetivamente mala.
 
 ### Iteración de políticas y ecuación de Bellman
 
@@ -3541,7 +3425,7 @@ El ejemplo muestra la lógica del entrenamiento: una experiencia evaluada favora
 
 Pero el sistema todavía necesita resolver un problema crítico.
 
-¿La jugada $a_2$ es realmente buena o simplemente el evaluador se equivoca al considerar mala la posición del adversario?
+¿La jugada $a_2$es realmente buena o simplemente el evaluador se equivoca al considerar mala la posición del adversario?
 
 Para responder, necesitamos utilizar información más sólida que una única predicción de la red.
 
@@ -3588,11 +3472,11 @@ donde un término de exploración puede ser:
 
 $\boxed{ U(s,a)= c\_{\text{puct}} P(s,a) \frac{ \sqrt{\sum_b N(s,b)} }{ 1+N(s,a) } }$
 
-El término $Q$ favorece movimientos que han obtenido evaluaciones elevadas.
+El término $Q$favorece movimientos que han obtenido evaluaciones elevadas.
 
-El término $U$ promueve movimientos con probabilidad previa significativa y pocas visitas.
+El término $U$promueve movimientos con probabilidad previa significativa y pocas visitas.
 
-Esta expresión presupone que $Q$ está representado desde la perspectiva del jugador que selecciona la acción en $s$.
+Esta expresión presupone que $Q$está representado desde la perspectiva del jugador que selecciona la acción en $s$.
 
 Supongamos que una simulación alcanza una posición hoja:
 
@@ -3610,13 +3494,13 @@ Para una trayectoria:
 
 $s_0\rightarrow s_1\rightarrow \cdots\rightarrow s_L$
 
-con recompensas intermedias cero y $\gamma=1$, el valor de la hoja desde la perspectiva del jugador activo en $s_t$ es:
+con recompensas intermedias cero y $\gamma=1$, el valor de la hoja desde la perspectiva del jugador activo en $s_t$es:
 
 $\boxed{ v_t=(-1)^{L-t}v_L }$
 
 La búsqueda puede acumular esos valores en las aristas de su árbol.
 
-Cada vez que una arista $s,a)$ recibe una nueva observación $v$:
+Cada vez que una arista $s,a)$recibe una nueva observación $v$:
 
 $N(s,a)\leftarrow N(s,a)+1$
 
@@ -3628,7 +3512,7 @@ De esta manera, los valores iniciales de la red se combinan con información obt
 
 Esto no garantiza eliminar los errores de evaluación, pero permite contrastar las preferencias iniciales con consecuencias de varios movimientos.
 
-Después de realizar $K$ simulaciones, puede obtenerse una nueva distribución de política a partir de los conteos de visitas:
+Después de realizar $K$simulaciones, puede obtenerse una nueva distribución de política a partir de los conteos de visitas:
 
 $\boxed{ \pi\_{\text{MCTS}}(a\mid s)= \frac{ N(s,a)^{1/\tau} }{ \sum_b N(s,b)^{1/\tau} } }$
 
@@ -3674,7 +3558,7 @@ $f\_\theta(s)= \left( V\_\theta(s),\pi\_\theta(\cdot\mid s) \right)$
 
 Para cada estado $s$, se generan sus movimientos legales:
 
-$ A(s)$
+$A(s)$
 
 Después de aplicar cada jugada:
 
@@ -3694,7 +3578,7 @@ La pérdida de valor será:
 
 $\boxed{ L_V= \left[ V\_\theta(s)-\operatorname{stopgrad}(y_V(s)) \right]^2 }$
 
-La operación $\operatorname{stopgrad}$ indica que el objetivo se considera constante durante la actualización.
+La operación $\operatorname{stopgrad}$indica que el objetivo se considera constante durante la actualización.
 
 Con ello se evita propagar el gradiente a través del propio cálculo del objetivo Bellman.
 
@@ -3706,7 +3590,7 @@ Para la política puede utilizarse una distribución derivada de los valores de 
 
 $\boxed{ \pi_B(a\mid s)= \frac{ \exp(\hat Q(s,a)/\tau) }{ \sum\_{b\in A(s)} \exp(\hat Q(s,b)/\tau) } }$
 
-La distribución $\pi_B$ constituye una política mejorada aproximadamente por Bellman.
+La distribución $\pi_B$constituye una política mejorada aproximadamente por Bellman.
 
 A temperaturas bajas, se concentra en los movimientos con mayor valor estimado.
 
@@ -3756,7 +3640,7 @@ que satisficiera aproximadamente:
 
 $V\_\theta(s)\approx T V\_\theta(s)$
 
-donde $ T$ es el operador de optimalidad Bellman adversarial.
+donde $T$es el operador de optimalidad Bellman adversarial.
 
 En el caso de recompensas finales y transiciones no terminales:
 
@@ -4059,13 +3943,13 @@ $y_V(s)=\max_a\hat Q(s,a)$
 
 es necesario evaluar los estados sucesores de todas las jugadas legales.
 
-Si una posición dispone de $b$ movimientos:
+Si una posición dispone de $b$movimientos:
 
 $N\_{\text{eval}}\approx b$
 
 por cada posición de entrenamiento.
 
-Si se procesan $N$ posiciones:
+Si se procesan $N$posiciones:
 
 $N\_{\text{eval,total}}\approx Nb$
 
@@ -4229,18 +4113,18 @@ $\boxed{\hat y=f\_\theta(x)}$
 
 donde:
 
-- $x$ representa los datos de entrada.
-- $\hat y$ representa la salida calculada.
-- $f$ es una composición de transformaciones matemáticas.
-- $\theta$ es el conjunto de parámetros ajustables, principalmente pesos y sesgos.
+- $x$representa los datos de entrada.
+- $\hat y$representa la salida calculada.
+- $f$es una composición de transformaciones matemáticas.
+- $\theta$es el conjunto de parámetros ajustables, principalmente pesos y sesgos.
 
 El aprendizaje consiste en determinar:
 
 $\boxed{\theta^\*=\arg\min\_\theta \mathcal L(\theta)}$
 
-donde $\mathcal L$ mide la discrepancia entre lo que produce la red y el comportamiento esperado.
+donde $\mathcal L$mide la discrepancia entre lo que produce la red y el comportamiento esperado.
 
-La simplicidad de esta formulación es engañosa. En las redes modernas, $\theta$ puede contener desde algunos cientos hasta miles de millones de parámetros. Además, la función $f\_\theta$ puede incluir operaciones lineales, no linealidades, convoluciones, mecanismos de atención, normalización, conexiones residuales y múltiples salidas especializadas.
+La simplicidad de esta formulación es engañosa. En las redes modernas, $\theta$puede contener desde algunos cientos hasta miles de millones de parámetros. Además, la función $f\_\theta$puede incluir operaciones lineales, no linealidades, convoluciones, mecanismos de atención, normalización, conexiones residuales y múltiples salidas especializadas.
 
 En el ajedrez, las redes neuronales pueden desempeñar tres funciones diferentes:
 
@@ -4273,7 +4157,7 @@ La activación podía representarse conceptualmente mediante:
 
 $y= \begin{cases} 1 & \sum_i w_ix_i\geq\vartheta\\\ 0 & \sum_i w_ix_i<\vartheta \end{cases}$
 
-donde $\vartheta$ es un umbral.
+donde $\vartheta$es un umbral.
 
 Este modelo permitió demostrar que combinaciones de neuronas formales podían representar operaciones lógicas.
 
@@ -4289,9 +4173,9 @@ $\boxed{\Delta w\_{ij}=\eta x_i y_j}$
 
 donde:
 
-- $x_i$ es la actividad presináptica.
-- $y_j$ es la actividad postsináptica.
-- $\eta$ es un coeficiente de aprendizaje.
+- $x_i$es la actividad presináptica.
+- $y_j$es la actividad postsináptica.
+- $\eta$es un coeficiente de aprendizaje.
 
 La idea es que la correlación entre las actividades de dos unidades puede fortalecer su conexión.
 
@@ -4325,7 +4209,7 @@ Ejemplo: el problema XOR
 
 Los puntos del XOR pertenecen a clases que no pueden separarse mediante una sola recta.
 
-| $x_1$ | $x_2$ | XOR |
+| $x_1$| $x_2$| XOR |
 | --------- | --------- | --- |
 | 0         | 0         | 0   |
 | 0         | 1         | 1   |
@@ -4434,7 +4318,7 @@ Posteriormente aplica una función no lineal:
 
 $\boxed{a=\sigma(z)}$
 
-La función $\sigma$ recibe el nombre de función de activación.
+La función $\sigma$recibe el nombre de función de activación.
 
 La no linealidad es esencial: una composición de transformaciones exclusivamente lineales continúa siendo equivalente a una sola transformación lineal.
 
@@ -4474,7 +4358,7 @@ Su derivada, salvo en el punto de no diferenciabilidad, es:
 
 $\operatorname{ReLU}'(x)= \begin{cases} 0 & x<0\\\ 1 & x>0 \end{cases}$
 
-En $x=0$ puede elegirse un subgradiente convencional.
+En $x=0$puede elegirse un subgradiente convencional.
 
 Clipped ReLU:
 
@@ -4486,7 +4370,7 @@ GELU:
 
 $\operatorname{GELU}(x)=x\Phi(x)$
 
-donde $\Phi$ es la función de distribución acumulada de una normal estándar.
+donde $\Phi$es la función de distribución acumulada de una normal estándar.
 
 GELU es habitual en arquitecturas Transformer.
 
@@ -4516,7 +4400,7 @@ La salida final es:
 
 $\hat y=a^{(L)}$
 
-Si una capa recibe $n\_{\ell-1}$ entradas y posee $n\_\ell$ neuronas:
+Si una capa recibe $n\_{\ell-1}$entradas y posee $n\_\ell$neuronas:
 
 $W^{(\ell)}\in \mathbb R^{n\_\ell\times n\_{\ell-1}}$
 
@@ -4564,11 +4448,11 @@ y un valor objetivo $y$, podemos utilizar el error cuadrático:
 
 $\boxed{ \mathcal L(\theta)=\frac12(\hat y-y)^2 }$
 
-El factor $1/2$ simplifica su derivada:
+El factor $1/2$simplifica su derivada:
 
 $\frac{\partial\mathcal L}{\partial\hat y}=\hat y-y$
 
-Para un conjunto de $N$ ejemplos:
+Para un conjunto de $N$ejemplos:
 
 $\mathcal L(\theta)= \frac1N \sum\_{i=1}^{N} \frac12(f\_\theta(x_i)-y_i)^2$
 
@@ -4628,7 +4512,7 @@ Para la capa de salida:
 
 $\boxed{ \delta^{(L)} = \nabla\_{a^{(L)}}\mathcal L \odot \sigma_L'(z^{(L)}) }$
 
-donde $\odot$ representa el producto elemento a elemento.
+donde $\odot$representa el producto elemento a elemento.
 
 Para una capa oculta:
 
@@ -4706,7 +4590,7 @@ Conceptualmente:
 
 $\frac{\partial\mathcal L}{\partial a^{(0)}} = J_1^\top J_2^\top\cdots J_L^\top \frac{\partial\mathcal L}{\partial a^{(L)}}$
 
-donde $J\_\ell$ es el jacobiano local de una capa.
+donde $J\_\ell$es el jacobiano local de una capa.
 
 Si las normas relevantes de esos jacobianos tienden a ser menores que uno, el producto puede disminuir rápidamente y producir vanishing gradients.
 
@@ -4730,7 +4614,7 @@ Este procedimiento se denomina descenso por gradiente.
 
 El parámetro $\eta$, denominado learning rate, determina el tamaño del paso de actualización.
 
-Si $\eta$ es demasiado pequeño, el entrenamiento puede progresar muy lentamente.
+Si $\eta$es demasiado pequeño, el entrenamiento puede progresar muy lentamente.
 
 Si es demasiado grande, el procedimiento puede oscilar, divergir o atravesar regiones de baja pérdida sin estabilizarse.
 
@@ -4778,7 +4662,7 @@ Los conceptos son:
 - Iteration o step: actualización de parámetros.
 - Epoch: recorrido de los ejemplos del conjunto de entrenamiento, normalmente una vez por época.
 
-Para $N$ ejemplos y un batch de tamaño $B$, la cantidad aproximada de pasos por época es:
+Para $N$ejemplos y un batch de tamaño $B$, la cantidad aproximada de pasos por época es:
 
 $\left\lceil\frac NB\right\rceil$
 
@@ -4838,7 +4722,7 @@ Las operaciones son elemento a elemento.
 
 Es útil con características dispersas, porque cada parámetro adquiere su propia escala efectiva de actualización.
 
-Su principal inconveniente es que $G_t$ crece continuamente, por lo que el learning rate efectivo puede disminuir demasiado.
+Su principal inconveniente es que $G_t$crece continuamente, por lo que el learning rate efectivo puede disminuir demasiado.
 
 ### RMSprop
 
@@ -5057,7 +4941,7 @@ requiere, en una matriz densa, una cantidad de operaciones proporcional a:
 
 $O(NH)$
 
-si existen $H$ neuronas en la capa.
+si existen $H$neuronas en la capa.
 
 Pero si una jugada modifica únicamente algunas características, no necesitamos repetir toda la multiplicación.
 
@@ -5065,9 +4949,9 @@ Definamos el acumulador previo a la activación:
 
 $\boxed{ A(s)=b+\sum\_{i\in F(s)}W\_{:,i} }$
 
-donde $F(s)$ es el conjunto de características activas y $W\_{:,i}$ es la columna correspondiente a la característica $i$.
+donde $F(s)$es el conjunto de características activas y $W\_{:,i}$es la columna correspondiente a la característica $i$.
 
-Si una jugada elimina la característica $i$ y agrega la característica $j$:
+Si una jugada elimina la característica $i$y agrega la característica $j$:
 
 $\boxed{ A(s')=A(s)-W\_{:,i}+W\_{:,j} }$
 
@@ -5130,7 +5014,7 @@ Una cuantización simétrica sencilla es:
 
 $\boxed{ w_q= \operatorname{clip} \left( \operatorname{round}\left(\frac{w}{s}\right), -q\_{\max}, q\_{\max} \right) }$
 
-donde $s$ representa una escala.
+donde $s$representa una escala.
 
 La aproximación real del peso es:
 
@@ -5250,7 +5134,7 @@ Después se aplica una escala entera y se agrega una contribución material expl
 
 $\boxed{ E(s)= Q\big(v\_{\text{NN}}(s)\big)+M(s) }$
 
-donde $Q$ representa la conversión de escala y truncamiento utilizada por el evaluador.
+donde $Q$representa la conversión de escala y truncamiento utilizada por el evaluador.
 
 La separación entre componente neuronal y material implica que la red no tiene que aprender necesariamente desde cero toda la diferencia de valor entre las piezas.
 
@@ -5302,7 +5186,7 @@ El objetivo puede ser una evaluación normalizada:
 
 $y=\tanh\left(\frac{cp}{c}\right)$
 
-donde $c$ es un factor de escala elegido experimentalmente.
+donde $c$es un factor de escala elegido experimentalmente.
 
 La pérdida:
 
@@ -5348,7 +5232,7 @@ La salida es:
 
 $\boxed{ v=h^\top w_2+b_2+w_h\frac{hmc}{50} }$
 
-donde $hmc$ representa el contador de medias jugadas sin captura ni movimiento de peón.
+donde $hmc$representa el contador de medias jugadas sin captura ni movimiento de peón.
 
 La evaluación se convierte posteriormente a centipeones mediante un factor de calibración de 400:
 
@@ -5396,7 +5280,7 @@ Se necesita un conjunto de pares:
 
 $D=\\{(s_i,y_i)\\}\_{i=1}^{N}$
 
-donde $y_i$ puede representar una evaluación de un motor de referencia, una etiqueta posicional o una transformación del resultado de la partida.
+donde $y_i$puede representar una evaluación de un motor de referencia, una etiqueta posicional o una transformación del resultado de la partida.
 
 Una pérdida sencilla:
 
@@ -5578,7 +5462,7 @@ $\boxed{ P\_{\text{conv}}= k^2C\_{\text{in}}C\_{\text{out}}+C\_{\text{out}} }$
 
 para una convolución estándar con sesgos.
 
-Por ejemplo, una convolución de $3\times3$ que recibe 112 planos y produce 16 filtros contiene:
+Por ejemplo, una convolución de $3\times3$que recibe 112 planos y produce 16 filtros contiene:
 
 $P=3^2\times112\times16+16$
 
@@ -5596,7 +5480,7 @@ En una convolución $3\times3$, una salida depende inicialmente de una región d
 
 Al apilar varias convoluciones, el campo receptivo aumenta.
 
-Sin dilataciones, para $L$ capas $3\times3$ de stride 1:
+Sin dilataciones, para $L$capas $3\times3$de stride 1:
 
 $\boxed{R=1+2L}$
 
@@ -5618,13 +5502,13 @@ Un bloque básico puede expresarse:
 
 $F(x)=W_2\*\sigma(W_1\*x)$
 
-donde $\*$ representa convolución.
+donde $\*$representa convolución.
 
 La salida es:
 
 $\boxed{y=\sigma(x+F(x))}$
 
-La conexión directa $x\rightarrow y$ facilita la propagación de gradientes y permite que el bloque aprenda una corrección sobre la representación anterior.
+La conexión directa $x\rightarrow y$facilita la propagación de gradientes y permite que el bloque aprenda una corrección sobre la representación anterior.
 
 En arquitecturas modernas puede incorporarse normalización, conexiones preactivación y otros refinamientos.
 
@@ -5650,7 +5534,7 @@ Esto introduce un mecanismo de atención por canales, diferente de la autoatenci
 
 Leela Chess Zero (LC0) se desarrolló utilizando inicialmente arquitecturas relacionadas con AlphaZero, basadas en torres residuales profundas.
 
-Su documentación describe arquitecturas con convoluciones, bloques residuales y mecanismos SE, con configuraciones como $10\times128$, $20\times256$ y $24\times320$.&#x20;
+Su documentación describe arquitecturas con convoluciones, bloques residuales y mecanismos SE, con configuraciones como $10\times128$, $20\times256$y $24\times320$.&#x20;
 
 [image](https://www.google.com/s2/favicons?domain=https://lczero.org\&sz=32)
 
@@ -5669,7 +5553,7 @@ No debe interpretarse como el producto que determina directamente el número tot
 
 ### Tamaño aproximado de una torre residual
 
-Supongamos que cada bloque contiene dos convoluciones $3\times3$ de $F$ canales de entrada y salida.
+Supongamos que cada bloque contiene dos convoluciones $3\times3$de $F$canales de entrada y salida.
 
 El número dominante de pesos por bloque es:
 
@@ -5677,7 +5561,7 @@ $P\_{\text{bloque}}\approx2(3^2F^2)$
 
 $\boxed{ P\_{\text{bloque}}\approx18F^2 }$
 
-Para $B$ bloques:
+Para $B$bloques:
 
 $\boxed{ P\_{\text{torre}}\approx18BF^2 }$
 
@@ -5715,9 +5599,9 @@ Duplicar los bloques, manteniendo los filtros, aproximadamente duplica los pará
 
 ### Arquitecturas pequeñas
 
-Una red de $2\times16$ utiliza dos bloques residuales con 16 filtros.
+Una red de $2\times16$utiliza dos bloques residuales con 16 filtros.
 
-Una red de $1\times8$ utiliza un único bloque residual con ocho filtros.
+Una red de $1\times8$utiliza un único bloque residual con ocho filtros.
 
 Estas arquitecturas son mucho más pequeñas que las torres tradicionales de LC0.
 
@@ -6012,7 +5896,7 @@ La representación inicial puede escribirse:
 
 $\boxed{ X\in\mathbb R^{64\times d} }$
 
-donde $d$ es la dimensión de representación o embedding dimension.
+donde $d$es la dimensión de representación o embedding dimension.
 
 Por ejemplo:
 
@@ -6110,7 +5994,7 @@ En un Transformer con dimensión $d$, el conjunto de proyecciones de atención s
 
 $4d^2$
 
-pesos, considerando $Q$, $K$, $V$ y la proyección de salida.
+pesos, considerando $Q$, $K$, $V$y la proyección de salida.
 
 Si la capa feedforward utiliza dimensión intermedia:
 
@@ -6145,9 +6029,9 @@ Esta expresión no incluye sesgos, normalizaciones, embeddings ni cabezas de sal
 | 10 capas, dimensión 256 | 7.864.320                     |
 | 15 capas, dimensión 512 | 47.185.920                    |
 
-El número de cabezas de atención no multiplica necesariamente los parámetros principales si la dimensión total $d$ se mantiene constante y las proyecciones se reparten entre cabezas.
+El número de cabezas de atención no multiplica necesariamente los parámetros principales si la dimensión total $d$se mantiene constante y las proyecciones se reparten entre cabezas.
 
-En cambio, aumentar $d$ tiene un impacto cuadrático.
+En cambio, aumentar $d$tiene un impacto cuadrático.
 
 ### Coste computacional
 
@@ -6233,7 +6117,7 @@ Por ello, puede ser conveniente transformar las puntuaciones mediante:
 
 $\boxed{ y(s)=\tanh\left(\frac{E_T(s)}{c}\right) }$
 
-donde $c$ es una escala.
+donde $c$es una escala.
 
 El estudiante aprende:
 
@@ -6654,9 +6538,161 @@ La decisión arquitectónica más importante para un motor de ajedrez no es sele
 
 La descripción de las arquitecturas compactas, NPZ y Cerebrum se ha contrastado con los fuentes disponibles. Las demás familias se describen según sus principios matemáticos y documentación técnica pública.
 
+### TensorFlow: origen, funciones y papel en el aprendizaje neuronal
 
-# Los motores 
+**Resumen técnico — noviembre de 2026**
 
+**TensorFlow** es una plataforma de código abierto para computación numérica y aprendizaje automático desarrollada inicialmente por Google Brain. Fue presentada públicamente el **9 de noviembre de 2015** como una evolución de las infraestructuras internas de Google, entre ellas *DistBelief*. Su objetivo era facilitar el desarrollo y la ejecución de algoritmos de aprendizaje a distintas escalas: desde una computadora individual hasta sistemas distribuidos de múltiples dispositivos.
+
+En 2016, Martín Abadi y colaboradores describieron formalmente TensorFlow como un sistema que representa cálculos mediante **grafos de flujo de datos**. Los nodos ejecutan operaciones matemáticas sobre tensores y pueden distribuirse entre CPU, GPU y aceleradores especializados (TPU).
+
+Con **TensorFlow 2** (2019) se popularizó la ejecución inmediata (*eager execution*), que simplificó la programación y depuración, y se consolidó Keras como API de alto nivel.
+
+TensorFlow sirve para **definir, entrenar, evaluar, guardar y ejecutar modelos de aprendizaje automático**. También se utiliza para cómputo numérico diferenciable fuera de las redes neuronales.
+
+Sus capacidades esenciales incluyen:
+
+- **Tensores (`tf.Tensor`):** arreglos multidimensionales para entradas, pesos, activaciones y salidas.
+- **Operaciones numéricas:** productos matriciales, convoluciones, normalización y transformaciones.
+- **Diferenciación automática:** obtención de derivadas y gradientes mediante `tf.GradientTape`.
+- **Aceleración:** ejecución en CPU, GPU y TPU, cuando el entorno lo permite.
+- **Distribución:** entrenamiento sobre varios dispositivos o máquinas.
+- **Persistencia:** almacenamiento de pesos, checkpoints y exportación para inferencia.
+
+TensorFlow **no es una arquitectura neuronal**: es el motor que ejecuta las operaciones que constituyen una arquitectura determinada.
+
+| Dimensión | Opciones | Impacto |
+|---|---|---|
+| Ejecución | Eager / `tf.function` (grafos) | Facilidad de depuración y posibilidades de optimización |
+| Hardware | CPU / GPU / TPU | Rendimiento, memoria disponible y compatibilidad |
+| Precisión | FP32 / FP64 / precisión mixta FP16 o BF16 | Velocidad, memoria y estabilidad numérica |
+| Distribución | Un dispositivo / múltiples dispositivos | Escalabilidad y sincronización |
+| Construcción | Keras / API TensorFlow de bajo nivel | Productividad frente a control |
+| Entrada de datos | Arrays / `tf.data.Dataset` | Preprocesamiento y alimentación eficiente |
+| Salida | Checkpoints / SavedModel / otros formatos compatibles | Reanudación del aprendizaje y despliegue |
+
+**Hiperparámetros del entrenamiento:** tamaño de lote (*batch size*), épocas, tasa de aprendizaje (*learning rate*), optimizador, función de pérdida, regularización, planificación de la tasa de aprendizaje y parada temprana. Los define el desarrollador; TensorFlow proporciona los mecanismos para aplicarlos.
+
+Sea una red con parámetros $(\theta)$, entrada $(x)$y salida $(\hat y=f_\theta(x))$. Para datos supervisados $((x_i,y_i))$, se minimiza una función de pérdida:
+
+
+${L}(\theta)=\frac{1}{N}\sum_{i=1}^N\ell(f_\theta(x_i),y_i)$
+
+El procedimiento básico comprende:
+
+1. **Propagación hacia adelante:** la red calcula las predicciones.
+2. **Evaluación de la pérdida:** se mide la discrepancia con el objetivo.
+3. **Retropropagación:** TensorFlow calcula derivadas mediante diferenciación automática y la regla de la cadena.
+4. **Optimización:** se actualizan los parámetros para reducir la pérdida.
+5. **Validación:** se comprueba la capacidad de generalización.
+6. **Guardado:** se conservan pesos y, cuando corresponde, estado del optimizador.
+
+Con descenso por gradiente:
+
+
+$\theta_{t+1}=\theta_t-\eta\nabla_\theta\mathcal{L}(\theta_t)$
+
+
+donde $(\eta)$es la tasa de aprendizaje. **Adam** adapta las actualizaciones usando momentos del gradiente; **AdamW** añade decaimiento de pesos desacoplado. TensorFlow implementa el cálculo matemático requerido, pero no garantiza convergencia ni evita automáticamente el sobreajuste.
+
+**Keras no es un tipo de red neuronal**, sino una API que simplifica la construcción, el entrenamiento y la evaluación de modelos.
+
+En las versiones modernas, **Keras 3 es multibackend**: puede utilizar TensorFlow, JAX o PyTorch como motor de ejecución. Para emplear TensorFlow:
+
+```python
+import os
+os.environ["KERAS_BACKEND"] = "tensorflow"  # Antes de importar keras
+
+import keras
+from keras import layers
+
+model = keras.Sequential([
+    layers.Input(shape=(32,)),
+    layers.Dense(64, activation="relu"),
+    layers.Dense(1)
+])
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=1e-3),
+    loss="mse",
+    metrics=["mae"]
+)
+
+# model.fit(x_train, y_train, batch_size=64, epochs=20)
+```
+
+En este ejemplo, **Keras** declara las capas y organiza el entrenamiento; **TensorFlow**, como backend, realiza las operaciones y calcula los gradientes.
+
+Keras ofrece tres estilos principales: `Sequential` para cadenas lineales de capas, API funcional para modelos con ramificaciones y múltiples entradas/salidas, y subclases personalizadas para lógica más compleja.
+
+Un modelo Keras que utiliza operaciones exclusivas de TensorFlow no es necesariamente portable a todos los backends; `keras.ops` permite escribir componentes más independientes.
+
+La expresión «red transformacional Keras» puede confundirse con **Transformer**, una arquitectura neuronal basada en atención. Un Transformer **puede implementarse en Keras**, que a su vez puede ejecutar sus cálculos mediante TensorFlow.
+
+La atención utiliza tres proyecciones de la entrada $(X)$:
+
+
+$Q=XW_Q,\qquad K=XW_K,\qquad V=XW_V.$
+
+
+La atención escalada se define por:
+
+
+$\operatorname{Attention}(Q,K,V)=
+\operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}+M\right)V,$
+
+donde $(d_k)$es la dimensión de las claves y $(M)$una máscara opcional.
+
+Un bloque Transformer normalmente combina **atención multi-cabeza**, conexiones residuales, normalización y una red *feed-forward*. Durante el entrenamiento, TensorFlow puede calcular los gradientes de las matrices de proyección, embeddings y demás parámetros.
+
+**Roles separados:**
+
+- **Transformer:** define cómo interactúan los elementos de una secuencia o representación.
+- **Keras:** proporciona capas como `MultiHeadAttention` y herramientas de entrenamiento.
+- **TensorFlow:** ejecuta los productos matriciales y calcula las derivadas cuando se usa como backend.
+- **Optimizador:** ajusta los pesos.
+- **Modelo entrenado:** realiza inferencia sin retropropagación habitual.
+
+Los Transformers son adecuados para múltiples problemas secuenciales, pero no son automáticamente superiores a redes densas o convolucionales para todos los dominios.
+
+TensorFlow y Keras pueden entrenar distintas arquitecturas que luego se integran en un motor ajedrecístico:
+
+| Arquitectura | Entrada típica | Salida | Observación |
+|---|---|---|---|
+| MLP | Características del tablero | Valor de posición | Sencilla, su rendimiento depende de la representación |
+| NNUE | Características dispersas e incrementales | Evaluación | Especialmente pensada para inferencia eficiente en motores |
+| CNN residual | Planos que describen la posición | Valor y/o política | Frecuente en sistemas de estilo AlphaZero |
+| Transformer | Tokens de piezas, casillas o historial | Valor, política u otras | Permite modelar relaciones mediante atención |
+| Red con dos cabezas | Representación compartida | Política $(p(a\mid s))$y valor $(v(s))$| Útil con búsqueda MCTS |
+
+**Entrenamiento e inferencia son etapas diferentes.** Una red puede entrenarse en una GPU con TensorFlow y después ejecutar sus pesos en C++, TensorFlow Lite u otro runtime compatible. La exportación, conversión y cuantización (por ejemplo, INT8) requieren comprobar tipos de operaciones y precisión resultante. Un archivo `.keras` no se ejecuta directamente como firmware de un microcontrolador.
+
+La búsqueda **MCTS** utiliza predicciones de política y valor, pero es un algoritmo de búsqueda separado del entrenamiento de la red.
+
+* Ventajas y limitaciones
+
+**Ventajas:** diferenciación automática, flexibilidad de arquitecturas, integración con aceleradores, experimentación reproducible, entrenamiento distribuido y herramientas de exportación.
+
+**Limitaciones:** requisitos de memoria, compatibilidad de dispositivos y controladores, dificultad de despliegue embebido, diferencias entre formatos y riesgo de sobreajuste. La elección de TensorFlow no sustituye la selección cuidadosa de datos, objetivos e hiperparámetros.
+
+La distinción fundamental es:
+
+> **Arquitectura neuronal:** qué función se aprende (MLP, CNN, NNUE, Transformer).  
+> **Keras:** cómo se expresa y entrena el modelo mediante una API.  
+> **TensorFlow:** cómo se ejecutan los cálculos y se obtienen gradientes, cuando es el backend elegido.  
+> **Runtime de inferencia:** cómo se usan los pesos entrenados en el dispositivo de destino.
+
+Para desarrollar una red conviene definir primero la representación de los datos, el objetivo de aprendizaje y las restricciones de inferencia. Después se eligen arquitectura, framework, optimizador y estrategia de entrenamiento.
+
+1. Google (2015), [Presentación de TensorFlow](https://blog.google/innovation-and-ai/products/tensorflow-smarter-machine-learning-for/).
+2. Abadi et al. (2016), [*TensorFlow: A System for Large-Scale Machine Learning*](https://research.google/pubs/tensorflow-a-system-for-large-scale-machine-learning/).
+3. TensorFlow, [Guía oficial de fundamentos](https://www.tensorflow.org/guide/basics).
+4. TensorFlow, [Diferenciación automática](https://www.tensorflow.org/guide/autodiff).
+5. Keras, [About Keras 3](https://keras.io/getting_started/about/).
+6. Keras, [Getting Started](https://keras.io/getting_started/).
+7. Vaswani et al. (2017), [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762).
+
+# CAP 4 Los motores 
 
 ## Microchess (1976): arquitectura, algoritmo de búsqueda y evaluación estratégica
 
@@ -6704,7 +6740,7 @@ No resultaba práctico almacenar múltiples tableros, árboles completos de bús
 Jennings resolvió el problema mediante una representación compacta de las piezas, generación secuencial de movimientos y un mecanismo de aplicación y restauración de jugadas.
 
 El programa privilegiaba ahorrar memoria, incluso cuando ello significaba repetir cálculos.
-
+.\
 ### Representación del tablero
 
 Microchess utilizaba una representación numérica compacta de las 64 casillas, compatible con una numeración octal.
@@ -6717,18 +6753,18 @@ $
 
 donde:
 
-- $r$ es la fila, entre 0 y 7.
-- $f$ es la columna, entre 0 y 7.
-- $s$ es la posición codificada, entre 0 y 63.
+- $r$es la fila, entre 0 y 7.
+- $f$es la columna, entre 0 y 7.
+- $s$es la posición codificada, entre 0 y 63.
 
 La representación permitía utilizar desplazamientos numéricos para calcular movimientos.
 
 | Pieza o desplazamiento | Incrementos |
 |---|---|
-| Horizontal | $\pm 1$ |
-| Vertical | $\pm 8$ |
-| Diagonal | $\pm 7,\pm 9$ |
-| Caballo | $\pm 6,\pm 10,\pm 15,\pm 17$ |
+| Horizontal | $\pm 1$|
+| Vertical | $\pm 8$|
+| Diagonal | $\pm 7,\pm 9$|
+| Caballo | $\pm 6,\pm 10,\pm 15,\pm 17$|
 
 Estos desplazamientos necesitaban comprobaciones de los límites del tablero para impedir movimientos que atravesaran incorrectamente sus bordes.
 
@@ -6756,7 +6792,7 @@ $
 m=(p,a,b,c)
 $
 
-donde $p$ identifica la pieza, $a$ su origen, $b$ su destino y $c$ una eventual captura, el procedimiento conceptual era:
+donde $p$identifica la pieza, $a$su origen, $b$su destino y $c$una eventual captura, el procedimiento conceptual era:
 
 1. Registrar la información necesaria para restaurar el estado.
 2. Desplazar la pieza.
@@ -6880,7 +6916,7 @@ $
 MAXC(P,c)=\max_{m\in C(P,c)}v(m)
 $
 
-donde $v(m)$ es el valor de la pieza capturable.
+donde $v(m)$es el valor de la pieza capturable.
 
 **CC — cuenta de capturas o amenazas**
 
@@ -6988,7 +7024,7 @@ $
 donde:
 
 - $P$: posición actual.
-- $ M(P)$: conjunto de movimientos considerados.
+- $M(P)$: conjunto de movimientos considerados.
 - $S(P,m)$: valoración estratégica de la jugada.
 - $m^*$: movimiento seleccionado.
 
@@ -7027,10 +7063,10 @@ $
 
 donde:
 
-- $E(P)$ es una evaluación estática.
-- $C(P)$ reúne capturas tácticamente relevantes.
-- $T(P,m)$ es la posición resultante.
-- $d$ limita el análisis.
+- $E(P)$es una evaluación estática.
+- $C(P)$reúne capturas tácticamente relevantes.
+- $T(P,m)$es la posición resultante.
+- $d$limita el análisis.
 
 La implementación original de Jennings recopilaba magnitudes de intercambio para incorporarlas a STRATGY; no se ha demostrado que utilizara esta recurrencia.
 
@@ -7098,161 +7134,7 @@ Es importante distinguir esta limitación histórica de cualquier adaptación ac
 
 **Arquitectura altamente especializada.** Su diseño estaba estrechamente condicionado por el hardware original, lo que dificulta trasladarlo literalmente a arquitecturas modernas sin modificar sus compromisos.
 
-### TensorFlow: origen, funciones y papel en el aprendizaje neuronal
 
-**Resumen técnico — noviembre de 2026**
-
-**TensorFlow** es una plataforma de código abierto para computación numérica y aprendizaje automático desarrollada inicialmente por Google Brain. Fue presentada públicamente el **9 de noviembre de 2015** como una evolución de las infraestructuras internas de Google, entre ellas *DistBelief*. Su objetivo era facilitar el desarrollo y la ejecución de algoritmos de aprendizaje a distintas escalas: desde una computadora individual hasta sistemas distribuidos de múltiples dispositivos.
-
-En 2016, Martín Abadi y colaboradores describieron formalmente TensorFlow como un sistema que representa cálculos mediante **grafos de flujo de datos**. Los nodos ejecutan operaciones matemáticas sobre tensores y pueden distribuirse entre CPU, GPU y aceleradores especializados (TPU).
-
-Con **TensorFlow 2** (2019) se popularizó la ejecución inmediata (*eager execution*), que simplificó la programación y depuración, y se consolidó Keras como API de alto nivel.
-
-TensorFlow sirve para **definir, entrenar, evaluar, guardar y ejecutar modelos de aprendizaje automático**. También se utiliza para cómputo numérico diferenciable fuera de las redes neuronales.
-
-Sus capacidades esenciales incluyen:
-
-- **Tensores (`tf.Tensor`):** arreglos multidimensionales para entradas, pesos, activaciones y salidas.
-- **Operaciones numéricas:** productos matriciales, convoluciones, normalización y transformaciones.
-- **Diferenciación automática:** obtención de derivadas y gradientes mediante `tf.GradientTape`.
-- **Aceleración:** ejecución en CPU, GPU y TPU, cuando el entorno lo permite.
-- **Distribución:** entrenamiento sobre varios dispositivos o máquinas.
-- **Persistencia:** almacenamiento de pesos, checkpoints y exportación para inferencia.
-
-TensorFlow **no es una arquitectura neuronal**: es el motor que ejecuta las operaciones que constituyen una arquitectura determinada.
-
-| Dimensión | Opciones | Impacto |
-|---|---|---|
-| Ejecución | Eager / `tf.function` (grafos) | Facilidad de depuración y posibilidades de optimización |
-| Hardware | CPU / GPU / TPU | Rendimiento, memoria disponible y compatibilidad |
-| Precisión | FP32 / FP64 / precisión mixta FP16 o BF16 | Velocidad, memoria y estabilidad numérica |
-| Distribución | Un dispositivo / múltiples dispositivos | Escalabilidad y sincronización |
-| Construcción | Keras / API TensorFlow de bajo nivel | Productividad frente a control |
-| Entrada de datos | Arrays / `tf.data.Dataset` | Preprocesamiento y alimentación eficiente |
-| Salida | Checkpoints / SavedModel / otros formatos compatibles | Reanudación del aprendizaje y despliegue |
-
-**Hiperparámetros del entrenamiento:** tamaño de lote (*batch size*), épocas, tasa de aprendizaje (*learning rate*), optimizador, función de pérdida, regularización, planificación de la tasa de aprendizaje y parada temprana. Los define el desarrollador; TensorFlow proporciona los mecanismos para aplicarlos.
-
-Sea una red con parámetros \(\theta\), entrada \(x\) y salida \(\hat y=f_\theta(x)\). Para datos supervisados \((x_i,y_i)\), se minimiza una función de pérdida:
-
-\[
-\mathcal{L}(\theta)=\frac{1}{N}\sum_{i=1}^N\ell(f_\theta(x_i),y_i).
-\]
-
-El procedimiento básico comprende:
-
-1. **Propagación hacia adelante:** la red calcula las predicciones.
-2. **Evaluación de la pérdida:** se mide la discrepancia con el objetivo.
-3. **Retropropagación:** TensorFlow calcula derivadas mediante diferenciación automática y la regla de la cadena.
-4. **Optimización:** se actualizan los parámetros para reducir la pérdida.
-5. **Validación:** se comprueba la capacidad de generalización.
-6. **Guardado:** se conservan pesos y, cuando corresponde, estado del optimizador.
-
-Con descenso por gradiente:
-
-\[
-\theta_{t+1}=\theta_t-\eta\nabla_\theta\mathcal{L}(\theta_t),
-\]
-
-donde \(\eta\) es la tasa de aprendizaje. **Adam** adapta las actualizaciones usando momentos del gradiente; **AdamW** añade decaimiento de pesos desacoplado. TensorFlow implementa el cálculo matemático requerido, pero no garantiza convergencia ni evita automáticamente el sobreajuste.
-
-**Keras no es un tipo de red neuronal**, sino una API que simplifica la construcción, el entrenamiento y la evaluación de modelos.
-
-En las versiones modernas, **Keras 3 es multibackend**: puede utilizar TensorFlow, JAX o PyTorch como motor de ejecución. Para emplear TensorFlow:
-
-```python
-import os
-os.environ["KERAS_BACKEND"] = "tensorflow"  # Antes de importar keras
-
-import keras
-from keras import layers
-
-model = keras.Sequential([
-    layers.Input(shape=(32,)),
-    layers.Dense(64, activation="relu"),
-    layers.Dense(1)
-])
-
-model.compile(
-    optimizer=keras.optimizers.Adam(learning_rate=1e-3),
-    loss="mse",
-    metrics=["mae"]
-)
-
-# model.fit(x_train, y_train, batch_size=64, epochs=20)
-```
-
-En este ejemplo, **Keras** declara las capas y organiza el entrenamiento; **TensorFlow**, como backend, realiza las operaciones y calcula los gradientes.
-
-Keras ofrece tres estilos principales: `Sequential` para cadenas lineales de capas, API funcional para modelos con ramificaciones y múltiples entradas/salidas, y subclases personalizadas para lógica más compleja.
-
-Un modelo Keras que utiliza operaciones exclusivas de TensorFlow no es necesariamente portable a todos los backends; `keras.ops` permite escribir componentes más independientes.
-
-La expresión «red transformacional Keras» puede confundirse con **Transformer**, una arquitectura neuronal basada en atención. Un Transformer **puede implementarse en Keras**, que a su vez puede ejecutar sus cálculos mediante TensorFlow.
-
-La atención utiliza tres proyecciones de la entrada \(X\):
-
-\[
-Q=XW_Q,\qquad K=XW_K,\qquad V=XW_V.
-\]
-
-La atención escalada se define por:
-
-\[
-\operatorname{Attention}(Q,K,V)=
-\operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}+M\right)V,
-\]
-
-donde \(d_k\) es la dimensión de las claves y \(M\) una máscara opcional.
-
-Un bloque Transformer normalmente combina **atención multi-cabeza**, conexiones residuales, normalización y una red *feed-forward*. Durante el entrenamiento, TensorFlow puede calcular los gradientes de las matrices de proyección, embeddings y demás parámetros.
-
-**Roles separados:**
-
-- **Transformer:** define cómo interactúan los elementos de una secuencia o representación.
-- **Keras:** proporciona capas como `MultiHeadAttention` y herramientas de entrenamiento.
-- **TensorFlow:** ejecuta los productos matriciales y calcula las derivadas cuando se usa como backend.
-- **Optimizador:** ajusta los pesos.
-- **Modelo entrenado:** realiza inferencia sin retropropagación habitual.
-
-Los Transformers son adecuados para múltiples problemas secuenciales, pero no son automáticamente superiores a redes densas o convolucionales para todos los dominios.
-
-TensorFlow y Keras pueden entrenar distintas arquitecturas que luego se integran en un motor ajedrecístico:
-
-| Arquitectura | Entrada típica | Salida | Observación |
-|---|---|---|---|
-| MLP | Características del tablero | Valor de posición | Sencilla, su rendimiento depende de la representación |
-| NNUE | Características dispersas e incrementales | Evaluación | Especialmente pensada para inferencia eficiente en motores |
-| CNN residual | Planos que describen la posición | Valor y/o política | Frecuente en sistemas de estilo AlphaZero |
-| Transformer | Tokens de piezas, casillas o historial | Valor, política u otras | Permite modelar relaciones mediante atención |
-| Red con dos cabezas | Representación compartida | Política \(p(a\mid s)\) y valor \(v(s)\) | Útil con búsqueda MCTS |
-
-**Entrenamiento e inferencia son etapas diferentes.** Una red puede entrenarse en una GPU con TensorFlow y después ejecutar sus pesos en C++, TensorFlow Lite u otro runtime compatible. La exportación, conversión y cuantización (por ejemplo, INT8) requieren comprobar tipos de operaciones y precisión resultante. Un archivo `.keras` no se ejecuta directamente como firmware de un microcontrolador.
-
-La búsqueda **MCTS** utiliza predicciones de política y valor, pero es un algoritmo de búsqueda separado del entrenamiento de la red.
-
-* Ventajas y limitaciones
-
-**Ventajas:** diferenciación automática, flexibilidad de arquitecturas, integración con aceleradores, experimentación reproducible, entrenamiento distribuido y herramientas de exportación.
-
-**Limitaciones:** requisitos de memoria, compatibilidad de dispositivos y controladores, dificultad de despliegue embebido, diferencias entre formatos y riesgo de sobreajuste. La elección de TensorFlow no sustituye la selección cuidadosa de datos, objetivos e hiperparámetros.
-
-La distinción fundamental es:
-
-> **Arquitectura neuronal:** qué función se aprende (MLP, CNN, NNUE, Transformer).  
-> **Keras:** cómo se expresa y entrena el modelo mediante una API.  
-> **TensorFlow:** cómo se ejecutan los cálculos y se obtienen gradientes, cuando es el backend elegido.  
-> **Runtime de inferencia:** cómo se usan los pesos entrenados en el dispositivo de destino.
-
-Para desarrollar una red conviene definir primero la representación de los datos, el objetivo de aprendizaje y las restricciones de inferencia. Después se eligen arquitectura, framework, optimizador y estrategia de entrenamiento.
-
-1. Google (2015), [Presentación de TensorFlow](https://blog.google/innovation-and-ai/products/tensorflow-smarter-machine-learning-for/).
-2. Abadi et al. (2016), [*TensorFlow: A System for Large-Scale Machine Learning*](https://research.google/pubs/tensorflow-a-system-for-large-scale-machine-learning/).
-3. TensorFlow, [Guía oficial de fundamentos](https://www.tensorflow.org/guide/basics).
-4. TensorFlow, [Diferenciación automática](https://www.tensorflow.org/guide/autodiff).
-5. Keras, [About Keras 3](https://keras.io/getting_started/about/).
-6. Keras, [Getting Started](https://keras.io/getting_started/).
-7. Vaswani et al. (2017), [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762).
 
 
 ### Conclusión
@@ -7367,9 +7249,9 @@ $s=21+10r+f$
 
 donde:
 
-- $r\in\{0,\ldots,7\}$ representa una fila interna.
-- $f\in\{0,\ldots,7\}$ representa una columna.
-- $s$ es el índice correspondiente dentro de la matriz.
+- $r\in\{0,\ldots,7\}$representa una fila interna.
+- $f\in\{0,\ldots,7\}$representa una columna.
+- $s$es el índice correspondiente dentro de la matriz.
 
 El origen exacto de las coordenadas depende de la orientación interna del tablero.
 
@@ -7381,10 +7263,10 @@ Por ejemplo:
 
 | Desplazamiento | Incremento |
 |---|---:|
-| Horizontal | $\pm1$ |
-| Vertical | $\pm10$ |
-| Diagonal | $\pm9,\pm11$ |
-| Caballo | $\pm8,\pm12,\pm19,\pm21$ |
+| Horizontal | $\pm1$|
+| Vertical | $\pm10$|
+| Diagonal | $\pm9,\pm11$|
+| Caballo | $\pm8,\pm12,\pm19,\pm21$|
 
 Para examinar un desplazamiento:
 
@@ -7424,7 +7306,7 @@ Por tanto, una pieza podía codificarse como:
 
 $p=c+t$
 
-donde $t$ es el tipo de pieza.
+donde $t$es el tipo de pieza.
 
 Los bits restantes podían representar información adicional, como si la pieza ya había sido movida o determinadas condiciones asociadas al enroque.
 
@@ -7484,7 +7366,7 @@ y, después de analizar la posición:
 
 $P=T^{-1}(P',m,u)$
 
-donde $u$ representa la información necesaria para deshacer exactamente la jugada.
+donde $u$representa la información necesaria para deshacer exactamente la jugada.
 
 `PINFND` identificaba piezas clavadas contra el rey o la dama.
 
@@ -7578,13 +7460,13 @@ Estos valores son los del código original y no una reconstrucción aproximada.
 
 El valor asignado al rey debe interpretarse en el contexto de las rutinas internas de captura y evaluación, no como el valor real de sacrificar un rey. Su pérdida sigue estando sujeta a las reglas especiales del juego.
 
-Sea $n_{c,p}(P)$ el número de piezas de tipo $p$ pertenecientes al color $c$.
+Sea $n_{c,p}(P)$el número de piezas de tipo $p$pertenecientes al color $c$.
 
 La diferencia material puede expresarse como:
 
 $M(P)=\sum_p v_p\left[n_{W,p}(P)-n_{B,p}(P)\right]$
 
-donde $v_p$ corresponde a la tabla histórica.
+donde $v_p$corresponde a la tabla histórica.
 
 En unidades de peón, una posición en la que las blancas disponen de una torre adicional tendría una ventaja material nominal de cinco unidades.
 
@@ -7615,9 +7497,9 @@ $SEE(P,s)=\max\left(0,\,v_0-SEE(P',s)\right)$
 
 donde:
 
-- $s$ es la casilla objeto del intercambio.
-- $v_0$ es el valor de la pieza capturada.
-- $P'$ representa la posición después de la captura.
+- $s$es la casilla objeto del intercambio.
+- $v_0$es el valor de la pieza capturada.
+- $P'$representa la posición después de la captura.
 - El siguiente término estima las recapturas posibles.
 
 Esta ecuación describe el concepto de evaluación estática de intercambios, no una transcripción literal del código de `XCHNG`.
@@ -7666,7 +7548,7 @@ Una medida conceptual de control es:
 
 $C(P)=\sum_{s\in B}\left[A_W(P,s)-A_B(P,s)\right]$
 
-donde $A_W$ y $A_B$ representan los números de atacantes de cada bando.
+donde $A_W$y $A_B$representan los números de atacantes de cada bando.
 
 El listado muestra explícitamente que se acumulaba la diferencia entre cantidades de atacantes.
 
@@ -7706,7 +7588,7 @@ Sea:
 - $d$: profundidad restante.
 - $E(P)$: evaluación estática.
 - $T(P,m)$: posición resultante de ejecutar $m$.
-- $ M(P)$: movimientos legales.
+- $M(P)$: movimientos legales.
 
 Desde la perspectiva de blancas:
 
@@ -7736,7 +7618,7 @@ La cantidad de nodos crece aproximadamente como:
 
 $N(d)\approx b^d$
 
-donde $b$ representa el factor de ramificación medio.
+donde $b$representa el factor de ramificación medio.
 
 Si suponemos $b=30$:
 
@@ -7854,7 +7736,7 @@ Conceptualmente, la ordenación puede representarse como:
 
 $m_1,m_2,\ldots,m_n=\operatorname{sort}_{\downarrow}\left(\widehat V(P,m)\right)$
 
-donde $\widehat V$ representa una valoración preliminar.
+donde $\widehat V$representa una valoración preliminar.
 
 La evaluación previa tenía un costo computacional propio, pero podía compensarlo reduciendo considerablemente la exploración posterior.
 
@@ -8137,7 +8019,7 @@ $s\in S$
 
 una posición legal y:
 
-$ M(s)$
+$M(s)$
 
 el conjunto de movimientos legales disponibles.
 
@@ -8163,10 +8045,10 @@ $\widehat V(s;C)=\operatorname{Search}\left(s,C,E_{\mathrm{NNUE}},H,TT\right)$
 
 donde:
 
-- $C$ es el presupuesto computacional.
-- $E_{\mathrm{NNUE}}$ es la evaluación estática neuronal.
-- $H$ representa heurísticas de búsqueda.
-- $TT$ es la tabla de transposición.
+- $C$es el presupuesto computacional.
+- $E_{\mathrm{NNUE}}$es la evaluación estática neuronal.
+- $H$representa heurísticas de búsqueda.
+- $TT$es la tabla de transposición.
 
 La fuerza de Stockfish procede de la interacción entre estos elementos.
 
@@ -8289,10 +8171,10 @@ $A(p,s,O)=\operatorname{AttackTable}\left(p,s,I(O)\right)$
 
 donde:
 
-- $p$ es el tipo de pieza.
-- $s$ es su casilla.
-- $O$ es la ocupación.
-- $I$ transforma la ocupación relevante en un índice.
+- $p$es el tipo de pieza.
+- $s$es su casilla.
+- $O$es la ocupación.
+- $I$transforma la ocupación relevante en un índice.
 
 De esta manera se evita recorrer repetidamente cada casilla de una diagonal o columna.
 
@@ -8314,13 +8196,13 @@ La posición completa puede representarse conceptualmente como:
 
 $P=(B,C,R,EP,H,K,U)$
 
-donde $B$ representa la ocupación, $C$ el bando al turno, $R$ los derechos de enroque, $EP$ la captura al paso, $H$ el contador de la regla de cincuenta movimientos, $K$ la clave de Zobrist y $U$ el estado reversible.
+donde $B$representa la ocupación, $C$el bando al turno, $R$los derechos de enroque, $EP$la captura al paso, $H$el contador de la regla de cincuenta movimientos, $K$la clave de Zobrist y $U$el estado reversible.
 
 ### Generación y legalidad de movimientos
 
 El generador utiliza la representación bitboard y la información de ataques.
 
-Para una pieza $p$ en la casilla $s$, el conjunto de destinos potenciales puede expresarse como:
+Para una pieza $p$en la casilla $s$, el conjunto de destinos potenciales puede expresarse como:
 
 $D(p,s,P)=A(p,s,P)\setminus O_{\mathrm{propio}}$
 
@@ -8350,7 +8232,7 @@ Después de explorar la rama:
 
 $P=T^{-1}(P',m,U)$
 
-La estructura $U$ registra la información necesaria para restaurar el estado.
+La estructura $U$registra la información necesaria para restaurar el estado.
 
 Esto incluye datos como la pieza capturada, derechos de enroque, captura al paso y contadores.
 
@@ -8386,7 +8268,7 @@ Si el jugador al turno está en jaque mate:
 
 $N(s,d)=-M+\operatorname{ply}$
 
-donde $M$ es una constante de mate suficientemente grande.
+donde $M$es una constante de mate suficientemente grande.
 
 La dependencia respecto del ply permite preferir mates más rápidos y demorar derrotas inevitables.
 
@@ -8443,7 +8325,7 @@ Este pseudocódigo representa la estructura matemática fundamental.
 
 El Stockfish real utiliza una implementación mucho más compleja, con reducciones, extensiones, búsquedas de verificación, tipos de nodo y condiciones especiales.
 
-Para un factor de ramificación $b$ y profundidad $d$, una búsqueda completa tiene complejidad aproximada:
+Para un factor de ramificación $b$y profundidad $d$, una búsqueda completa tiene complejidad aproximada:
 
 $O(b^d)$
 
@@ -8557,7 +8439,7 @@ La clave se obtiene combinándolos mediante XOR:
 
 $K(P)=\bigoplus_{i\in F(P)}Z_i$
 
-donde $F(P)$ reúne las características relevantes.
+donde $F(P)$reúne las características relevantes.
 
 Cuando se realiza una jugada, la clave puede actualizarse incrementalmente aplicando XOR sobre las características modificadas.
 
@@ -8567,11 +8449,11 @@ $TT[K(P)]=(d,v,B,m,g)$
 
 donde:
 
-- $d$ es la profundidad.
-- $v$ es el valor almacenado.
-- $B$ representa el tipo de cota.
-- $m$ es una jugada recomendada.
-- $g$ representa información para reemplazo o antigüedad.
+- $d$es la profundidad.
+- $v$es el valor almacenado.
+- $B$representa el tipo de cota.
+- $m$es una jugada recomendada.
+- $g$representa información para reemplazo o antigüedad.
 
 Los tipos principales son:
 
@@ -8633,7 +8515,7 @@ Su función principal es estimar qué candidatos conviene explorar primero.
 
 SEE estima el resultado potencial de una secuencia de capturas sobre una casilla.
 
-Sea $s$ la casilla donde se produce el intercambio.
+Sea $s$la casilla donde se produce el intercambio.
 
 Una aproximación conceptual es:
 
@@ -8661,10 +8543,10 @@ $d'=d-1-r(d,n,c)$
 
 donde:
 
-- $d$ es la profundidad restante.
-- $n$ es el ordinal del movimiento.
-- $c$ representa el contexto.
-- $r$ es la reducción aplicada.
+- $d$es la profundidad restante.
+- $n$es el ordinal del movimiento.
+- $c$representa el contexto.
+- $r$es la reducción aplicada.
 
 Una forma ilustrativa es:
 
@@ -8720,7 +8602,7 @@ Falla especialmente en determinadas posiciones de *zugzwang*, donde la obligaci�
 
 Por esa razón, el motor utiliza restricciones contextuales y mecanismos de verificación.
 
-La reducción $R$ y las condiciones de aplicación cambian entre versiones.
+La reducción $R$y las condiciones de aplicación cambian entre versiones.
 
 La jugada nula no es un movimiento legal de ajedrez.
 
@@ -8736,7 +8618,7 @@ Una condición conceptual es:
 
 $E(P)+\Delta(d)<\alpha$
 
-donde $\Delta(d)$ es un margen dependiente de la profundidad.
+donde $\Delta(d)$es un margen dependiente de la profundidad.
 
 Si la evaluación estática supera ampliamente el límite beta a profundidad reducida, puede considerarse innecesario explorar el nodo exhaustivamente.
 
@@ -8772,7 +8654,7 @@ Una formulación simplificada es:
 
 $Q(P,\alpha,\beta)=\max\left(E(P),\max_{m\in C(P)}[-Q(T(P,m),-\beta,-\alpha)]\right)$
 
-donde $C(P)$ es un subconjunto táctico de movimientos.
+donde $C(P)$es un subconjunto táctico de movimientos.
 
 El valor estático utilizado como alternativa a continuar se denomina *stand pat*.
 
@@ -8821,7 +8703,7 @@ La primera transformación es:
 
 $a(P)=Wx(P)+b$
 
-El vector $x(P)$ es disperso.
+El vector $x(P)$es disperso.
 
 Si una característica está desactivada, no contribuye a la suma.
 
@@ -8829,7 +8711,7 @@ Por ello puede escribirse:
 
 $a(P)=b+\sum_{i:x_i(P)=1}W_i$
 
-donde $W_i$ es la columna correspondiente de la matriz de pesos.
+donde $W_i$es la columna correspondiente de la matriz de pesos.
 
 Esta estructura permite computar la transformación sumando solamente las contribuciones activas.
 
@@ -8851,7 +8733,7 @@ y por linealidad:
 
 $\boxed{a(P')=a(P)+W\Delta x}$
 
-Como una jugada normalmente modifica pocas características, $\Delta x$ contiene relativamente pocos elementos distintos de cero.
+Como una jugada normalmente modifica pocas características, $\Delta x$contiene relativamente pocos elementos distintos de cero.
 
 Por tanto:
 
@@ -8859,8 +8741,8 @@ $a(P')=a(P)+\sum_{i\in A}W_i-\sum_{j\in R}W_j$
 
 donde:
 
-- $A$ representa características agregadas.
-- $R$ representa características eliminadas.
+- $A$representa características agregadas.
+- $R$representa características eliminadas.
 
 No es necesario calcular nuevamente la transformación completa.
 
@@ -8889,13 +8771,13 @@ Para una transformación densa convencional:
 
 $O(NH)$
 
-donde $N$ es el número de entradas y $H$ el número de neuronas de salida.
+donde $N$es el número de entradas y $H$el número de neuronas de salida.
 
 Con actualización dispersa:
 
 $O(kH)$
 
-donde $k$ es el número de características modificadas.
+donde $k$es el número de características modificadas.
 
 Si:
 
@@ -8955,7 +8837,7 @@ Una cuantización conceptual es:
 
 $q=\operatorname{round}\left(\frac{x}{s}\right)$
 
-donde $s$ es una escala.
+donde $s$es una escala.
 
 La aproximación reconstruida es:
 
@@ -9012,10 +8894,10 @@ $
 
 donde:
 
-- $\theta$ son los parámetros de la red.
-- $P_i$ es una posición de entrenamiento.
-- $y_i$ es su objetivo.
-- $\ell$ es la función de pérdida.
+- $\theta$son los parámetros de la red.
+- $P_i$es una posición de entrenamiento.
+- $y_i$es su objetivo.
+- $\ell$es la función de pérdida.
 
 La selección de objetivos, transformaciones y criterios de entrenamiento depende de la metodología concreta de cada red.
 
@@ -9058,7 +8940,7 @@ R_{50}(P),
 O(P)
 \right)$
 
-donde $S$ representa la función de escalado.
+donde $S$representa la función de escalado.
 
 Esto no equivale a volver al antiguo evaluador clásico.
 
@@ -9080,7 +8962,7 @@ La evaluación corregida puede expresarse como:
 
 $E_c(P)=E_0(P)+C(P)$
 
-donde $C(P)$ representa una corrección calculada a partir de información estadística acumulada.
+donde $C(P)$representa una corrección calculada a partir de información estadística acumulada.
 
 El motor puede mantener historiales asociados a características como:
 
@@ -9308,7 +9190,7 @@ Q(C)=
 \right)
 $
 
-donde $C$ puede representar tiempo por jugada, nodos o presupuesto computacional.
+donde $C$puede representar tiempo por jugada, nodos o presupuesto computacional.
 
 Para comparar motores debe procurarse controlar las condiciones de prueba.
 
@@ -9387,9 +9269,9 @@ T(P,m),C_m
 \right)
 $
 
-y $C_m$ representa el esfuerzo computacional asignado a la variante.
+y $C_m$representa el esfuerzo computacional asignado a la variante.
 
-A diferencia de una evaluación exhaustiva, los presupuestos $C_m$ no son necesariamente iguales.
+A diferencia de una evaluación exhaustiva, los presupuestos $C_m$no son necesariamente iguales.
 
 Algunas ramas reciben:
 
@@ -9599,7 +9481,7 @@ Esta interacción constituye el fundamento de AlphaZero.
 
 Los métodos Monte Carlo utilizan muestreo para estimar magnitudes difíciles de calcular directamente.
 
-Si una variable aleatoria $X$ representa un resultado de interés, su esperanza puede aproximarse mediante:
+Si una variable aleatoria $X$representa un resultado de interés, su esperanza puede aproximarse mediante:
 
 $
  E[X]\approx\frac{1}{n}\sum_{i=1}^{n}X_i
@@ -9713,7 +9595,7 @@ donde:
 - $R$: derechos de enroque.
 - $EP$: condición de captura al paso.
 - $H$: contador de medias jugadas.
-- $ H$: información histórica necesaria para reglas como repetición.
+- $H$: información histórica necesaria para reglas como repetición.
 
 La función:
 
@@ -9851,7 +9733,7 @@ $
 h_{k+1}=h_k+F(h_k;W_k)
 $
 
-donde $F$ representa una transformación neuronal.
+donde $F$representa una transformación neuronal.
 
 La conexión residual facilita el entrenamiento de redes profundas.
 
@@ -9875,7 +9757,7 @@ $
 (s,a)
 $
 
-conecta el estado $s$ con:
+conecta el estado $s$con:
 
 $
 s'=T(s,a)
@@ -9923,7 +9805,7 @@ $
 W(s,a)=\sum_{i=1}^{N(s,a)}z_i
 $
 
-Cada $z_i$ es el valor retropropagado correspondiente a esa arista.
+Cada $z_i$es el valor retropropagado correspondiente a esa arista.
 
 Puede provenir de:
 
@@ -9949,7 +9831,7 @@ la media no está matemáticamente definida.
 
 Las implementaciones utilizan convenciones de inicialización, valores de primera visita o mecanismos como FPU (*First Play Urgency*).
 
-No debe interpretarse un $Q=0$ inicial como una estimación empírica obtenida de simulaciones.
+No debe interpretarse un $Q=0$inicial como una estimación empírica obtenida de simulaciones.
 
 Bono de exploración
 
@@ -9964,7 +9846,7 @@ P(s,a)
 \frac{\sqrt{\sum_bN(s,b)}}{1+N(s,a)}
 $
 
-donde $c_{\mathrm{puct}}$ regula el peso de la exploración.
+donde $c_{\mathrm{puct}}$regula el peso de la exploración.
 
 La regla PUCT
 
@@ -9979,9 +9861,9 @@ $
 
 La regla combina explotación y exploración.
 
-El término $Q$ favorece movimientos que han demostrado buenos resultados.
+El término $Q$favorece movimientos que han demostrado buenos resultados.
 
-El término $U$ favorece movimientos con alta probabilidad previa y pocas visitas relativas.
+El término $U$favorece movimientos con alta probabilidad previa y pocas visitas relativas.
 
 ### Ejemplo numérico de PUCT
 
@@ -10073,13 +9955,13 @@ Supongamos:
        s3
 ```
 
-Si PUCT selecciona A en $s_0$ y C en $s_1$, la simulación recorre:
+Si PUCT selecciona A en $s_0$y C en $s_1$, la simulación recorre:
 
 $
 s_0\rightarrow s_1\rightarrow s_3
 $
 
-No comienza directamente en $s_1$ ni elige arbitrariamente una hoja.
+No comienza directamente en $s_1$ni elige arbitrariamente una hoja.
 
 Cada nueva simulación vuelve a recorrer el árbol desde la raíz actual.
 
@@ -10113,7 +9995,7 @@ $
 W(s_L,a)=0
 $
 
-Los valores $Q$ todavía no contienen evidencia de visitas.
+Los valores $Q$todavía no contienen evidencia de visitas.
 
 En una implementación eficiente, no es necesario crear inmediatamente objetos completos para todas las posiciones hijas.
 
@@ -10183,7 +10065,7 @@ como estimación.
 
 El árbol no necesita conocer todavía el resultado final de esa variante.
 
-Después de múltiples simulaciones, las medias $Q$ representan agregaciones de valores de distintas hojas alcanzadas.
+Después de múltiples simulaciones, las medias $Q$representan agregaciones de valores de distintas hojas alcanzadas.
 
 Esto constituye una forma de aproximación del valor de las acciones.
 
@@ -10258,7 +10140,7 @@ $
 }
 $
 
-donde $\tau$ es la temperatura.
+donde $\tau$es la temperatura.
 
 Con una temperatura relativamente alta, la política conserva diversidad.
 
@@ -10274,7 +10156,7 @@ la política concentra prácticamente toda la probabilidad en la jugada con mayo
 
 Durante evaluación competitiva, el AlphaZero publicado seleccionaba la jugada de mayor número de visitas.
 
-Una media $Q$ alta después de una única visita puede ser poco fiable.
+Una media $Q$alta después de una única visita puede ser poco fiable.
 
 En cambio, una jugada que ha recibido muchas visitas ha sido seleccionada repetidamente por el equilibrio dinámico de PUCT.
 
@@ -10505,11 +10387,11 @@ puede calcularse bajo demanda.
 
 No es obligatorio almacenarlo independientemente.
 
-El bono $U$ tampoco necesita almacenarse: se calcula durante la selección.
+El bono $U$tampoco necesita almacenarse: se calcula durante la selección.
 
 Una posición puede alcanzarse mediante varias secuencias diferentes de movimientos.
 
-Las estadísticas $P,N,W,Q$ describen decisiones tomadas desde un estado.
+Las estadísticas $P,N,W,Q$describen decisiones tomadas desde un estado.
 
 Si dos caminos alcanzan el mismo estado, no necesariamente resulta correcto fusionar indiscriminadamente todas las estadísticas de las aristas que conducen a él.
 
@@ -10760,7 +10642,7 @@ $
 Q=\frac WN
 $
 
-Almacenar simultáneamente $W$, $N$ y $Q$ introduce redundancia.
+Almacenar simultáneamente $W$, $N$y $Q$introduce redundancia.
 
 Ventajas:
 
@@ -10803,7 +10685,7 @@ Desventaja:
 - Más memoria.
 - Necesidad de mantener consistencia entre tres campos.
 
-Para una implementación compacta monohilo, almacenar $W$ y $N$ suele ser una solución razonable.
+Para una implementación compacta monohilo, almacenar $W$y $N$suele ser una solución razonable.
 
 ### Arenas de memoria
 
@@ -11119,7 +11001,7 @@ La relación depende de la arquitectura de red, tamaño de lote y política de a
 
 Los aceleradores neuronales suelen procesar mejor lotes de posiciones que evaluaciones individuales.
 
-Si el motor reúne $B$ hojas para inferencia:
+Si el motor reúne $B$hojas para inferencia:
 
 $
 \{s_1,\ldots,s_B\}
@@ -11162,7 +11044,7 @@ $
 W'(s,a)=W(s,a)-v_W
 $
 
-donde $v_N$ y $v_W$ representan ajustes temporales.
+donde $v_N$y $v_W$representan ajustes temporales.
 
 Después de completar la inferencia, las contribuciones virtuales se retiran y se aplican los resultados reales.
 
@@ -11218,7 +11100,7 @@ TrainingSample
 
 Si se almacenan políticas densas, cada ejemplo puede ocupar mucho espacio.
 
-Para una política "*densa*" con $A$ acciones posibles y valores float32:
+Para una política "*densa*" con $A$acciones posibles y valores float32:
 
 $
 M_\pi=4A
@@ -11293,7 +11175,7 @@ $
 
 las medias acumuladas pueden dejar de ser consistentes con el evaluador actual.
 
-Además, los valores $Q$ reflejan la distribución de hojas exploradas bajo una política concreta.
+Además, los valores $Q$reflejan la distribución de hojas exploradas bajo una política concreta.
 
 Por lo tanto, la persistencia requiere control de versiones y reglas de invalidación.
 
@@ -11473,7 +11355,7 @@ El costo de una simulación depende de:
 - Costo de generación legal.
 - Costo de inferencia neuronal.
 
-Si una simulación recorre un camino de longitud $d$ y cada selección examina $b_i$ aristas:
+Si una simulación recorre un camino de longitud $d$y cada selección examina $b_i$aristas:
 
 $
 T_{\mathrm{selección}}
@@ -11662,8 +11544,16 @@ https://doi.org/10.1007/978-3-540-87608-3_6
 
 *Nota metodológica:* este documento distingue el MCTS general, el método AlphaZero publicado y las alternativas de implementación. Los ejemplos de estructuras C++, tamaños, arenas, cachés, políticas de descarte y algoritmos de compactación son propuestas técnicas ilustrativas, no una reproducción literal de una implementación interna de DeepMind. Las formulaciones de PUCT y entrenamiento se basan en las publicaciones originales. Las decisiones sobre memoria deben comprobarse experimentalmente para cada plataforma y evaluador.
 
-#-------------------------------------------------------------------------------------------------------------------------
-# La arquitectura
+#==================================[REVISADO HASTA AQUI]================================
+#==================================[REVISADO HASTA AQUI]================================
+#==================================[REVISADO HASTA AQUI]================================
+#==================================[REVISADO HASTA AQUI]================================
+#==================================[REVISADO HASTA AQUI]================================
+#==================================[REVISADO HASTA AQUI]================================
+#==================================[REVISADO HASTA AQUI]================================
+#==================================[REVISADO HASTA AQUI]================================
+
+# CAP 6 La arquitectura Akkad
 
 En la arquitectura se resume todo lo que tiene que tener una plataforma, y también lo que no va a tener nunca. Es en cierta
 medida el contrato intelectual o técnico de lo que se quiere conseguir con un desarrollo.
@@ -11678,73 +11568,30 @@ La plataforma combina motores de ajedrez, con sistemas embebidos, con técnicas 
 será *un perro que canta tangos* , no es maravilloso como lo hace, sino el mero hecho que lo haga.
 
 
-# Redes neuronales
+## Motores (players)
 
-Concepto y detalles de arquitecturas
-Representación
-Metodos numéricos
+## Evaluadores (evaluators)
 
-## De las máquinas
-Guiado por .pgn vs. aprendizaje al azar
+## Entrenamiento
 
+## Evaluación
 
-## Entrenamiento (Backpropagation)
+## Infraestructura
 
-### Pytorch
-### Tensorflow
-### Tensorflow Lite
+### UCI Interface
 
-### Arquitectura NNUE
-### Arquitectura MCTS
-### Arquitectura Transformer (Search less)
+### FICS Interface
 
 
-## Destilado
-
-### Destilado con red
-### Destilado con motor
 
 ## Comunicación
 
-### Sistema freechess.org
-### Sistema Universal Chess Interface (UCI)
 
-#### Comunicación
-#### Convenciones
-#### Métodos de enlace
-#### Repositorios de partidas
+#===================================[ERRANDS & ARRIETE ]================================
+#===================================[ERRANDS & ARRIETE ]================================
 
-Describir Entrada-Salida estándar * TCP/
+#===================================[ERRANDS & ARRIETE ]================================
 
-## 13. Aplicación al proyecto Akkad
-
-La incorporación de Microchess al proyecto Akkad tiene dos objetivos distintos:
-
-1. Recuperar los principios de su arquitectura algorítmica.
-2. Permitir comparaciones experimentales con motores y evaluadores más modernos.
-
-En una adaptación Python resulta razonable conservar:
-
-- La generación secuencial conceptual de GNM.
-- La organización del análisis mediante JANUS/STATE.
-- Las características MOB, MAXC y CC.
-- Las variables de intercambio WCAP y BCAP.
-- La función estratégica STRATGY.
-- La selección de jugadas por valoración de candidatos.
-
-Al mismo tiempo, pueden modernizarse aspectos que respondían exclusivamente a la escasez de memoria del KIM-1.
-
-En particular, la implementación de Akkad puede utilizar `python-chess` para validar legalidad, enroques, capturas al paso, promociones y posiciones terminales.
-
-Los parámetros `depth` y `qdepth` permiten controlar la profundidad de búsqueda y la exploración adicional de posiciones tácticas. Estos parámetros son extensiones de la adaptación moderna, no características equivalentes de la interfaz original de 1976.
-
-La separación entre player y evaluador permite que el evaluador Microchess sea utilizado por otros motores Python, como SARGON y SARGON-PLUS, respetando el contrato de evaluación compartido.
-
-Existe una diferencia conceptual importante: STRATGY fue concebida para valorar movimientos utilizando información anterior y posterior a cada candidato, mientras que un evaluador intercambiable puede recibir únicamente una posición.
-
-Por tanto, la adaptación debe distinguir la valoración histórica de jugadas de la evaluación posicional derivada, sin atribuirles equivalencia matemática completa.
-
-La implementación en Akkad debe considerarse una **reconstrucción moderna inspirada en el Microchess original**, no una emulación exacta del programa ensamblador de Jennings.
 
 # 45. Aplicación al proyecto Akkad
 
@@ -11826,7 +11673,7 @@ Para una implementación experimental compacta:
 
 1. Utilizar índices de nodos y aristas.
 2. Reservar memoria mediante arenas.
-3. Almacenar $P,N,W$ y derivar $Q$.
+3. Almacenar $P,N,W$y derivar $Q$.
 4. Crear nodos hijos bajo demanda.
 5. Mantener una pila temporal de simulación.
 6. Reutilizar subárboles cuando sea seguro.

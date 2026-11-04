@@ -18,7 +18,7 @@ param(
 $ErrorActionPreference='Stop'
 if ($Help -or $args -contains '--help') {
 @'
-picoKeras ARM v0.1.22 - Raspberry Pi Pico 2 W (RP2350)
+picoKeras ARM v0.1.28 - Raspberry Pi Pico 2 W (RP2350)
   .\build.ps1 [-Model archivo.tflite] [-ModelUrl https://.../modelo.tflite]
               [-ModelSha256 SHA256] [-PicoSdkPath RUTA]
               [-TflmInclude RUTA] [-TflmLibrary ARCHIVO.a]
@@ -28,8 +28,8 @@ picoKeras ARM v0.1.22 - Raspberry Pi Pico 2 W (RP2350)
   Si no existe un modelo y se configura -ModelUrl o PICOKERAS_MODEL_URL,
   se descarga a assets/model.tflite. No se inventa ni descarga un modelo arbitrario.
   ModelSha256/PICOKERAS_MODEL_SHA256 verifica los bytes descargados.
-  Si falta TFLM, se clona desde github.com/tensorflow/tflite-micro
-  (y se intenta compilar para ARM si falta la biblioteca .a).
+  TFLM se compila directamente con CMake/Ninja para RP2350; no requiere MSYS2.
+  -TflmLibrary permite usar una biblioteca ARM .a precompilada.
   -NoDownload impide descargas. El SDK y toolchain ARM deben estar instalados.
   Resultado: build-pico2-w/picoKeras.uf2
 '@ | Write-Output
@@ -143,30 +143,33 @@ $hostPicotool=Join-Path $HOME '.pico-sdk\picotool\2.3.1\picotool'
 $hostArgs=@()
 if(Test-Path (Join-Path $hostPicoTools 'pioasmConfig.cmake')) {$hostArgs += "-Dpioasm_DIR=$hostPicoTools"}
 if(Test-Path (Join-Path $hostPicotool 'picotoolConfig.cmake')) {$hostArgs += "-Dpicotool_DIR=$hostPicotool"}
-if ([string]::IsNullOrWhiteSpace($TflmLibrary)) {
-  $libs=@(Get-ChildItem -LiteralPath (Join-Path $TflmInclude 'tensorflow\lite\micro\tools\make\gen') `
-    -Filter libtensorflow-microlite.a -Recurse -File -ErrorAction SilentlyContinue |
-    Where-Object { $_.FullName -match 'cortex_m_generic' -and $_.FullName -match 'cortex.m33' })
-  if($libs.Count -gt 0){$TflmLibrary=$libs[0].FullName}
+# v0.1.28: TFLM is built by CMake/Ninja using the existing source tree.
+# -TflmLibrary remains an optional precompiled ARM .a override.
+if (-not [string]::IsNullOrWhiteSpace($TflmLibrary)) {
+  if (-not (Test-Path -LiteralPath $TflmLibrary -PathType Leaf)) {
+    throw "TflmLibrary no existe: $TflmLibrary"
+  }
+  if ([IO.Path]::GetExtension($TflmLibrary) -ine '.a') {
+    throw 'TflmLibrary debe ser una biblioteca ARM .a (no .lib de Windows).'
+  }
+  $TflmLibrary=(Resolve-Path -LiteralPath $TflmLibrary).Path
+  Write-Host '[picoKeras] Usando biblioteca ARM TFLM externa.'
+} else {
+  Write-Host '[picoKeras] TFLM sera compilado con CMake + Ninja (sin MSYS2/GNU Make).'
+  $downloads=Join-Path $TflmInclude 'tensorflow\lite\micro\tools\make\downloads'
+  $flatbuffers=Join-Path $downloads 'flatbuffers\include\flatbuffers\flatbuffers.h'
+  if (-not (Test-Path -LiteralPath $flatbuffers)) {
+    if ($NoDownload) { throw "Falta FlatBuffers: $flatbuffers (-NoDownload activo)." }
+    Write-Host '[picoKeras] Preparando dependencias TFLM mediante Python nativo...'
+    $deps=Join-Path $TflmInclude 'tensorflow\lite\micro\tools\make\download_dependencies.py'
+    Push-Location $TflmInclude
+    try {
+      & $python -u $deps --downloads_dir 'tensorflow/lite/micro/tools/make/downloads' --tensorflow_root $TflmInclude
+      if ($LASTEXITCODE -ne 0) { throw "Dependencias TFLM fallaron: $LASTEXITCODE" }
+    } finally { Pop-Location }
+    if (-not (Test-Path -LiteralPath $flatbuffers)) { throw "FlatBuffers sigue faltando: $flatbuffers" }
+  }
 }
-if (-not $TflmLibrary -or -not (Test-Path -LiteralPath $TflmLibrary -PathType Leaf)) {
-  $make=Get-Command make.exe -ErrorAction SilentlyContinue
-  if(-not $make){$make=Get-Command make -ErrorAction SilentlyContinue}
-  if(-not $make){throw 'Falta libtensorflow-microlite.a y GNU make. Instale GNU make o indique -TflmLibrary con un .a ARM Cortex-M33 compatible.'}
-  Write-Host 'Compilando TFLM para Cortex-M33 con GNU make...'
-  Push-Location $TflmInclude
-  try {
-    & $make.Source -f tensorflow/lite/micro/tools/make/Makefile `
-       TARGET=cortex_m_generic TARGET_ARCH=cortex-m33 "TARGET_TOOLCHAIN_ROOT=$toolchain" microlite
-    if($LASTEXITCODE -ne 0){throw "Fallo la compilacion TFLM ($LASTEXITCODE)"}
-  } finally {Pop-Location}
-  $libs=@(Get-ChildItem -LiteralPath (Join-Path $TflmInclude 'tensorflow\lite\micro\tools\make\gen') `
-     -Filter libtensorflow-microlite.a -Recurse -File -ErrorAction SilentlyContinue |
-     Where-Object { $_.FullName -match 'cortex_m_generic' -and $_.FullName -match 'cortex.m33' })
-  if($libs.Count -eq 0){throw 'GNU make termino pero no se encontro libtensorflow-microlite.a para cortex-m33'}
-  $TflmLibrary=$libs[0].FullName
-}
-if ([IO.Path]::GetExtension($TflmLibrary) -ne '.a') {throw 'Se requiere una biblioteca ARM .a; no se aceptan .lib de Windows.'}
 $build=Join-Path $root 'build-pico2-w'
 if($Clean -and (Test-Path $build)){Remove-Item $build -Recurse -Force}
 $gen=Join-Path $build 'generated'
@@ -184,7 +187,7 @@ $ssid=Quote-C $WifiSsid; $password=Quote-C $WifiPassword
 #define PICOKERAS_WIFI_PASSWORD $password
 #define PICOKERAS_UCI_PORT $Port
 "@ | Set-Content -LiteralPath $config -Encoding ascii
-Write-Host 'BUILD picoKeras ARM v0.1.22 - Pico 2 W'
+Write-Host 'BUILD picoKeras ARM v0.1.28 - Pico 2 W'
 Write-Host "MODEL: $Model"
 Write-Host "SDK: $PicoSdkPath"
 Write-Host "TFLM: $TflmInclude"

@@ -70,7 +70,7 @@ static err_t accepted(void*,tcp_pcb* pcb,err_t error) {
   tcp_recv(pcb,received);tcp_err(pcb,error_cb);std::printf("TCP connected\n");return ERR_OK;
 }
 static void command(Session& s,const std::string& cmd) {
-  if(cmd=="uci") {s.send("id name picoKeras ARM v0.1.20");s.send("id author Dr. Pedro E. Colla");s.send("uciok");}
+  if(cmd=="uci") {s.send("id name picoKeras ARM v0.1.28");s.send("id author Dr. Pedro E. Colla");s.send("uciok");}
   else if(cmd=="isready")s.send(model_ready?"readyok":"info string ERROR model initialization failed");
   else if(cmd=="ucinewgame")s.board.reset();
   else if(cmd.rfind("position ",0)==0) {
@@ -107,7 +107,7 @@ static void command(Session& s,const std::string& cmd) {
 }
 int main() {
   stdio_init_all();sleep_ms(1400);
-  std::printf("picoKeras ARM v0.1.20 BOOT board=%s\n",PICO_BOARD);
+  std::printf("picoKeras ARM v0.1.28 BOOT board=%s\n",PICO_BOARD);
   model_ready=pico_model_init();
   serial_session.send=[](const std::string& msg){std::printf("%s\n",msg.c_str());};
   tcp_session.send=[](const std::string& msg){tcp_send(msg);};

@@ -1,0 +1,4 @@
+#pragma once
+#define PICOKERAS_WIFI_SSID ""
+#define PICOKERAS_WIFI_PASSWORD ""
+#define PICOKERAS_UCI_PORT 6110
