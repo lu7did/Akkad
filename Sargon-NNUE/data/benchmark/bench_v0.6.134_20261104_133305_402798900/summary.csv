@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+aegir,sargon-plus,npz,,6,6,0,22.295,3715.761,3880.537,4680.262,2085.721,4680.262,87987,6,22290.000,3947.4,0.253385,OK,0,0
+buddy,sargon,classic,,6,6,0,1.974,329.074,338.099,414.804,240.678,414.804,4894,6,1967.000,2488.1,0.403442,OK,0,0

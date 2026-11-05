@@ -95,7 +95,7 @@
     "aegir": {
       "evaluator": "npz",
       "player": "sargon-plus",
-      "network": "../data/runs/lex/checkpoints/nnue_best.npz",
+      "network": "../../../networks/lex/checkpoints/nnue_best.npz",
       "depth": 4,
       "qdepth": 2,
       "tmax": 15000,

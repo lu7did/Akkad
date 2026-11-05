@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\tcp_external.py", line 62, in _send
+    try: self.sock.sendall((command+'\n').encode('utf-8'))
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\tcp_external.py", line 42, in __init__
+    self._send('uci')
+    ~~~~~~~~~~^^^^^^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\tcp_external.py", line 63, in _send
+    except OSError as exc: raise PlayerError(f'external: error enviando {command}: {exc}') from exc
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sargon_nnue.players.base.PlayerError: external: error enviando uci: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
+    evaluator, player = build_engine(args)
+                        ~~~~~~~~~~~~^^^^^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\factory.py", line 179, in build_engine
+    player = create_player(
+        player_kind,
+    ...<26 lines>...
+        lc0_uci_timeout=g("lc0_uci_timeout",60000),
+    )
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\__init__.py", line 41, in create_player
+    return TCPExternalUCIPlayer(url, timeout_ms=timeout_ms)
+  File "C:\Users\pedro\github\bobby\akkad\sargon-nnue\src\sargon_nnue\players\tcp_external.py", line 51, in __init__
+    raise PlayerError(f'external {url}: falló conexión UCI: {exc}') from exc
+sargon_nnue.players.base.PlayerError: external picosargon.local:6110: falló conexión UCI: external: error enviando uci: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
