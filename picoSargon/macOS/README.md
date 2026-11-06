@@ -1,37 +1,43 @@
-# picoSargon macOS v0.2.35
+# picoSargon macOS v0.2.36
 
-La implementación macOS se encuentra directamente en `akkad/picoSargon/macOS/`.
-El núcleo C++ se comparte con `picoSargon/x86/picoSargon/src` y la red Grumpy se conserva sin cambios.
+Fuente C++ compartida con x86; un motor UCI por stdin **no** abre ningún puerto TCP.
 
-## Compilación (macOS, Apple Silicon o Intel)
+## Compilar
 
 ```bash
-cd akkad/picoSargon/macOS
-chmod +x build.sh
-./build.sh
+./picoSargon/macOS/build.sh
 ```
 
-Requiere herramientas Xcode CLI y CMake 3.16 o superior.
+## Modos de uso (desde raíz akkad)
 
-## Ejecución y prueba
-
-Desde la raíz `akkad`:
+**Motor UCI local (sin puerto):**
 
 ```bash
-chmod +x tools/macos/*.sh
-./tools/macos/uci_smoke.sh
 ./tools/macos/run.sh
 ```
 
-## Mantenimiento de la estructura antigua
+En modo UCI, enviar `uci`, `isready`, `position startpos`, `go depth 2`;
+la respuesta UCI se escribe en stdout. Al arrancar en macOS se emite diagnóstico en stderr.
 
-El formato ZIP no puede borrar archivos existentes. Una vez extraído el parche, ejecutar en Windows
-`powershell -ExecutionPolicy Bypass -File tools/macos/cleanup_old_layout.ps1` o en macOS
-`bash tools/macos/cleanup_old_layout.sh` **desde la raíz de Akkad**.
-Ambos scripts preservan archivos desconocidos y detienen la limpieza si aparecen.
+**Servidor UCI/TCP (puerto predeterminado 6200):**
 
-El ejecutable para macOS se genera en `picoSargon/macOS/build/picoSargon` (sin `.exe`).
-Los perfiles `tinySargon` y `fastSargon` usan la clave `macos` para ejecutable y red.
-Las rutas relativas de `brains.json` siguen la convención histórica de los demás perfiles.
+```bash
+./tools/macos/run_listen.sh
+# O bien, escuchando conexiones de otras máquinas de la LAN:
+./tools/macos/run_listen.sh --host 0.0.0.0 --port 6200
+```
 
-Validación pendiente en macOS real.
+Dirección por defecto `127.0.0.1:6200` (sólo máquina local). El listener muestra
+INICIO, ESCUCHANDO, CONEXION, comandos recibidos, líneas `info` y `bestmove`,
+y DESCONEXION por stderr. Cada cliente TCP obtiene un proceso independiente;
+la red NNUE se carga por sesión. El puerto **6110 no es el predeterminado**.
+
+**Smoke test TCP:**
+
+```bash
+./tools/macos/tcp_smoke.sh
+```
+
+No requiere dependencias Python externas, sólo Python 3. El ejecutable nativo
+es `picoSargon/macOS/build/picoSargon` (sin `.exe`). `build.sh` permanece
+bajo `picoSargon/macOS`; scripts de ejecución bajo `tools/macos`.

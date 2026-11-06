@@ -113,7 +113,7 @@ std::string weights_argument(int argc,char** argv){
 
 
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.35"
+#define PICOSARGON_VERSION "0.2.36"
 #endif
 namespace {
 std::string trim_uci(std::string x) {
@@ -183,6 +183,11 @@ int main(int argc,char**argv){
  try{
   const auto weights=weights_argument(argc,argv);
   Grumpy net;net.load(weights);Board board;
+#ifdef __APPLE__
+  std::cerr << "[picoSargon " << PICOSARGON_VERSION
+            << "] macOS UCI/stdin iniciado; red=" << weights
+            << "; TCP=no (usar tools/macos/run_listen.sh para escuchar)" << std::endl;
+#endif
   int qdepth=2;std::string line;
   while(std::getline(std::cin,line)){
    std::istringstream ss(line);std::string cmd;ss>>cmd;

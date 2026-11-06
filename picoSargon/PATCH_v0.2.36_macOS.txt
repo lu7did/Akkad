@@ -1,0 +1,8 @@
+picoSargon macOS v0.2.36 — parche incremental sobre v0.2.35
+- Agrega tools/macos/run_listen.sh (127.0.0.1:6200 por defecto; --host/--port).
+- Agrega tools/macos/uci_tcp_server.py: servidor TCP multi-sesión con proceso UCI por cliente y telemetría stderr.
+- Agrega tools/macos/tcp_smoke.sh.
+- Host C++ v0.2.36 emite diagnóstico de arranque en stderr en macOS exclusivamente.
+- Actualiza CMake y README.
+- No cambia la red Grumpy ni los perfiles brains.json (conserva v0.2.35).
+Aplicar descomprimiendo ZIP sobre la raíz akkad. No reemplaza ni borra archivos fuera del parche.
