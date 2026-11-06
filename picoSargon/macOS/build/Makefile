@@ -129,101 +129,101 @@ picoSargon/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/build
 .PHONY : picoSargon/fast
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.o: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.o
+Users/pedrocolla/akkad/picoSargon/x86/src/board.o: Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/board.o
 
 # target to build an object file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o
+Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.i: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.i
+Users/pedrocolla/akkad/picoSargon/x86/src/board.i: Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/board.i
 
 # target to preprocess a source file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.i
+Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.i
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.s: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.s
+Users/pedrocolla/akkad/picoSargon/x86/src/board.s: Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/board.s
 
 # target to generate assembly for a file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.s
+Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.s
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.o: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.o
+Users/pedrocolla/akkad/picoSargon/x86/src/engine.o: Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/engine.o
 
 # target to build an object file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o
+Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.i: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.i
+Users/pedrocolla/akkad/picoSargon/x86/src/engine.i: Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/engine.i
 
 # target to preprocess a source file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.i
+Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.i
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.s: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.s
+Users/pedrocolla/akkad/picoSargon/x86/src/engine.s: Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/engine.s
 
 # target to generate assembly for a file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.s
+Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.s
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.o: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.o
+Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.o: Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.o
 
 # target to build an object file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o
+Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.i: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.i
+Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.i: Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.i
 
 # target to preprocess a source file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.i
+Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.i
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.s: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.s
+Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.s: Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.s
 
 # target to generate assembly for a file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.s
+Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.s
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.o: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.o
+Users/pedrocolla/akkad/picoSargon/x86/src/host_main.o: Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/host_main.o
 
 # target to build an object file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o
+Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.i: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.i
+Users/pedrocolla/akkad/picoSargon/x86/src/host_main.i: Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/host_main.i
 
 # target to preprocess a source file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.i
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.i
+Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.i
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.i
 
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.s: Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.s
+Users/pedrocolla/akkad/picoSargon/x86/src/host_main.s: Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/host_main.s
 
 # target to generate assembly for a file
-Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.s
-.PHONY : Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.s
+Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picoSargon.dir/build.make CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.s
+.PHONY : Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.s
 
 # Help Target
 help:
@@ -234,18 +234,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... picoSargon"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.o"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.i"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.s"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.o"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.i"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.s"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.o"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.i"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.s"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.o"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.i"
-	@echo "... Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.s"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/board.o"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/board.i"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/board.s"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/engine.o"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/engine.i"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/engine.s"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.o"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.i"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.s"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/host_main.o"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/host_main.i"
+	@echo "... Users/pedrocolla/akkad/picoSargon/x86/src/host_main.s"
 .PHONY : help
 
 

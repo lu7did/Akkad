@@ -72,76 +72,76 @@ include CMakeFiles/picoSargon.dir/flags.make
 CMakeFiles/picoSargon.dir/codegen:
 .PHONY : CMakeFiles/picoSargon.dir/codegen
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o: CMakeFiles/picoSargon.dir/flags.make
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o: CMakeFiles/picoSargon.dir/flags.make
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.i
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.i
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.s
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.s
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o: CMakeFiles/picoSargon.dir/flags.make
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o: CMakeFiles/picoSargon.dir/flags.make
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.i
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.i
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.s
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.s
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o: CMakeFiles/picoSargon.dir/flags.make
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o: CMakeFiles/picoSargon.dir/flags.make
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.i
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.i
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.s
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.s
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o: CMakeFiles/picoSargon.dir/flags.make
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o: CMakeFiles/picoSargon.dir/flags.make
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o: /Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o: CMakeFiles/picoSargon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o -MF CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o.d -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o -c /Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.i
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp > CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.i
 
-CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.s
+CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp -o CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.s
 
 # Object files for target picoSargon
 picoSargon_OBJECTS = \
-"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o" \
-"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o" \
-"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o" \
-"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o"
+"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o" \
+"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o" \
+"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o" \
+"CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o"
 
 # External object files for target picoSargon
 picoSargon_EXTERNAL_OBJECTS =
 
-picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/host_main.cpp.o
-picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/board.cpp.o
-picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/engine.cpp.o
-picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/picoSargon/src/grumpy.cpp.o
+picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/host_main.cpp.o
+picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/board.cpp.o
+picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/engine.cpp.o
+picoSargon: CMakeFiles/picoSargon.dir/Users/pedrocolla/akkad/picoSargon/x86/src/grumpy.cpp.o
 picoSargon: CMakeFiles/picoSargon.dir/build.make
 picoSargon: CMakeFiles/picoSargon.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable picoSargon"
