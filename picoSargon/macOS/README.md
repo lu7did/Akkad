@@ -1,4 +1,4 @@
-# picoSargon macOS v0.2.37
+# picoSargon macOS v0.2.38
 
 La implementación reside en `akkad/picoSargon/macOS`, sin subdirectorio intermedio.
 Todo el tooling macOS de picoSargon reside en `akkad/picoSargon/tools/macos`.
@@ -45,3 +45,11 @@ En Windows puede utilizarse `picoSargon/tools/macos/cleanup_old_layout.ps1`.
 `build.sh` es el único script macOS de picoSargon fuera de `picoSargon/tools/macos`.
 El ejecutable generado es `picoSargon/macOS/build/picoSargon`, sin extensión `.exe`.
 La red sigue alojada en `picoSargon/x86/picoSargon/assets/grumpy.bin`.
+
+## Telemetría del listener (v0.2.38)
+
+La salida del servidor es local por stderr, con hora HH:MM:SS y emojis.
+Se presentan encabezado y rutas, conexión (IP y puerto de origen), comandos
+`position` y `go`, respuestas `info` y `bestmove`, desconexión y cierre.
+Los mensajes UCI sobre TCP se transmiten sin alteraciones. No se registra
+la advertencia de firewall en el arranque.
