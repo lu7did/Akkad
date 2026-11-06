@@ -9,7 +9,7 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 AKKAD_ROOT="$(cd -- "$SCRIPT_DIR/../../.." && pwd -P)"
 SARGON_ROOT="$AKKAD_ROOT/Sargon-NNUE"
-BRAINS_JSON="$SARGON_ROOT/data/brains/brains_amelia.json"
+BRAINS_JSON="$SARGON_ROOT/etc/brains/brains.json"
 
 BRAIN_ID="${1:-${LISTEN_BRAIN:-amelia}}"
 PORT="${2:-${LISTEN_PORT:-6200}}"
@@ -67,6 +67,7 @@ if [[ "$HOST" == '0.0.0.0' ]]; then
 fi
 
 cd "$SARGON_ROOT"
+
 exec "$PYTHON_BIN" -m sargon_nnue.sargon_listen \
   --mode TCP \
   --host "$HOST" \
