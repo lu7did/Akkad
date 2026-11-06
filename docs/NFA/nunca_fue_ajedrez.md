@@ -1,10 +1,10 @@
-Planteo outline de "Nunca fue ajedrez"
-Libro de experiencias de investigación de Dr. Pedro E. Colla
 
-[Portada]
+![Portada NFA](images/NFA_Cover_tittle_Red.jpg)
 
 # Prefacio
 
+Planteo outline de "Nunca fue ajedrez"
+Libro de experiencias de investigación de Dr. Pedro E. Colla
 Es un manual anotado,un journal de actividades
 
 # CAP 1 Introducción
@@ -76,7 +76,7 @@ Pero todos los métodos explorados, y algunos mas no mencionados, se caracteriza
 
 Por cierto que tambien hay exponentes en ésta familia, algunos muy famosos.
 
-[FOTO DE ALPHAZERO-KASPAROV]
+![Portada NFA](images/Kasparov-DeepBlue.jpg)
 
 AlphaZero es un programa de Inteligencia Artificial desarrollado por Google DeepMind que revolucionó los juegos de mesa de estrategia (ajedrez, shogi y go) al aprender a dominarlos de forma completamente autónoma.
 A diferencia de los motores tradicionales que dependen del conocimiento acumulado por humanos durante siglos, AlphaZero aprendió a jugar partiendo de cero, jugando millones de partidas contra sí mismo utilizando únicamente
@@ -117,7 +117,7 @@ Se explorarán algunos de los algoritmos involucrados en la medida que se discut
 
 Carece de sentido tratar de emular o superar a *stockfish* (o por caso a *AlphaZero*), es un esfuerzo de muchas personas, con enormes recursos materiales, de tiempo y tecnológicos por lo que tratar de conseguir algo distinto es un desafío que requiere calibrar los recursos disponibles.
 
-[FOTO DE STOCKFISH]
+![Stockfish image](images/stockfish.png)
 
 El epítome actual de los motores está representado por *stockfish*, y eso lleva a preguntarse si hay espacio para que otro proyecto, sin replicarlo, realice alguna
 contribución al estado del arte.
@@ -132,7 +132,7 @@ microcontroladores, problema de optimización de performance. O quizás solo hab
 El planteo conceptual del esfuerzo es determinar que componentes, sub-sistemas o módulos, tendrá la implementación para permitir ayudar en los objetivos y luego definir como se
 conectarán entre si aplicando que convenciones.
 
-[AQUI VIENE UN DIAGRAMA]
+![sargon-NNUE](images/sargon-nnue.png)
 
 Los objetivos van mutando con el aprendizaje, por lo tanto es mas facil contarlos 
 cuando el proyecto esté terminado que al comenzar. 
@@ -244,16 +244,16 @@ Diseñado originalmente en 1976 por Peter R. Jennings para el microcomputador ho
 limitada podía ejecutar una simulación interactiva inteligente, ayudando a cimentar el mercado del software comercial independiente.
 
 Fuentes
-[1] (https://chessprogramming.org/Peter_Jennings),
-[2] (https://en.wikipedia.org/wiki/Microchess),
-[3] (https://es.wikipedia.org/wiki/Microchess),
-[4] (https://wiki.texto-plano.xyz/microchess),
-[5] (https://www.microsiervos.com/archivo/ordenadores/historia-microchess-juego-ajedrez-1k-primer-software-comercial-historia.html),
-[6] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
+[1](https://chessprogramming.org/Peter_Jennings),
+[2](https://en.wikipedia.org/wiki/Microchess),
+[3](https://es.wikipedia.org/wiki/Microchess),
+[4](https://wiki.texto-plano.xyz/microchess),
+[5](https://www.microsiervos.com/archivo/ordenadores/historia-microchess-juego-ajedrez-1k-primer-software-comercial-historia.html),
+[6](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
 
 ### Mas cercano en el tiempo
 
-[FOTOGRAFIA DE KIM-1 con MicroChess]
+![microChess-KIM-1](images/microChess-KIM1.jpg)
 
 En el año 1976, las computadoras domésticas daban sus primeros pasos. El KIM-1 de MOS Technology no era una computadora convencional, 
 se trataba de una placa de circuito impreso sin caja, provista de un microprocesador MOS 6502 a 1 MHz, un teclado hexadecimal de 24 teclas, un display de 7 segmentos
@@ -269,10 +269,6 @@ El 18 de diciembre de 1976 nació *Microchess*.
 [2](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), 
 [3](https://es.wikipedia.org/wiki/Microchess), 
 [4](https://benlo.com/microchess/)
-
-#### El primer hito comercial
-
-[FOTOGRAFIA DE MICROCHESS]
 
 Inicialmente, Jennings vendía el programa por $10 dólares enviando un manual físico que contenía el código fuente completo en lenguaje ensamblador.
 Los compradores debían teclear línea por línea los códigos hexadecimales en sus computadoras.
@@ -293,7 +289,8 @@ En lugar de un árbol de búsqueda masivo, Jennings se enfocó en:
 
 [1](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
 [1](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
-[1](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+[3](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En),
+[4](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
 * Accesibilidad y entretenimiento
    El creador afirmaba que parte de su éxito comercial radicaba en que el programa cometía errores humanos,
@@ -311,13 +308,14 @@ En lugar de un árbol de búsqueda masivo, Jennings se enfocó en:
 #### Implementación Técnica
 
 El programa original de Microchess ocupaba exactamente 924 bytes de memoria. En ese espacio diminuto se incluyó el generador de movimientos, la lógica de validación,
-la función de evaluación, la interfaz de entrada/salida y las variables del juego. [1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
+la función de evaluación, la interfaz de entrada/salida y las variables del juego. 
+[1](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En)
 
 * Lenguaje: Código máquina / Ensamblador puro del MOS 6502. [1](https://es.wikipedia.org/wiki/Microchess)
 * Interfaz de Usuario Básica: Sin gráficos. El jugador introducía su movimiento en formato numérico (por ejemplo, anotando las coordenadas de origen y destino por número
  de casilla) usando las teclas de la placa KIM-1, y el display de 7 segmentos respondía mostrando la jugada de la máquina. [1](https://www.computerhistory.org/chess/early-microcomputer-chess/), [2](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 * Estructura de Datos Ultra-Comprimida: En lugar de mapear un tablero clásico de 64 casillas completas (que consumiría demasiada memoria para la época),
- utilizaba una matriz compacta orientada al conteo y posición de piezas activas de cada bando. [1] (https://chessprogramming.org/MicroChess)
+ utilizaba una matriz compacta orientada al conteo y posición de piezas activas de cada bando. [1](https://chessprogramming.org/MicroChess)
 
 #### Características Principales
 
@@ -330,10 +328,13 @@ partida de aproximadamente una hora en total.
 #### Estrategia de juego
 
 Para operar en menos de 1 KB de RAM sin desbordar la pila de llamadas (stack) del procesador 6502, Jennings ideó un algoritmo simplificado basado en variaciones
-de Minimax con poda Alpha-Beta rudimentaria: [1] (https://fvcalderan.github.io/myworks/articles/minimax_chess_engine.pdf), [2] (https://chessprogramming.org/MicroChess)
+de Minimax con poda Alpha-Beta rudimentaria: 
+[1](https://fvcalderan.github.io/myworks/articles/minimax_chess_engine.pdf), 
+[2](https://chessprogramming.org/MicroChess)
 
-En un Árbol de Búsqueda (Búsqueda por Plies), Microchess calculaba usualmente hasta 3 plies de profundidad (3 medios movimientos: Jugada CPU $\rightarrow $Respuesta Humana $\rightarrow $Réplica CPU).
-[1] (https://en.wikipedia.org/wiki/Microchess), [2] (https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+En un Árbol de Búsqueda (Búsqueda por Plies), Microchess calculaba usualmente hasta 3 plies de profundidad (3 medios movimientos: Jugada CPU $\rightarrow$ Respuesta Humana $\rightarrow$ Réplica CPU).
+[1](https://en.wikipedia.org/wiki/Microchess)
+[2](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
 * Generación de movimientos: El motor barría las piezas secuencialmente para encontrar movimientos legales.
 * Inversión de Tablero (Board Reversing): Para ahorrar código de evaluación duplicado para blancas y negras, el programa "espejaba" o invertía internamente el tablero para
@@ -377,7 +378,8 @@ ocasionalmente rescatadas en éste trabajo.
 #### Desempeño y Limitaciones
 
 A nivel de juego puro, la crítica de la época y los historiadores posteriores (como Tim Harding) llegaron a catalogar el juego de Microchess como "terrible" en comparación con lo que vendría después. El motor cometía despistes graves y tácticos debido a su corta profundidad de cálculo y a que omitía cálculos complejos de finales. [1](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
-Sin embargo, su potencia radicaba en la eficiencia. Mientras que competidores posteriores como Sargon requerían máquinas mucho más caras con al menos 8K o 16K de memoria, Microchess demostró que la optimización de código extrema podía suplir la falta de hardware, convirtiéndose en una leyenda irrepetible de la ingeniería informática. [1] (https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), [2](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
+Sin embargo, su potencia radicaba en la eficiencia. Mientras que competidores posteriores como Sargon requerían máquinas mucho más caras con al menos 8K o 16K de memoria, Microchess demostró que la optimización de código extrema podía suplir la falta de hardware, convirtiéndose en una leyenda irrepetible de la ingeniería informática. 
+[1](https://www.schach-computer.info/wiki/index.php?title=Jennings,_Peter_En), [2](https://translate.google.com/translate?u=https://en.wikipedia.org/wiki/Microchess&hl=es&sl=en&tl=es&client=sge)
 
 Sería interesante estudiar en mas detalle un fragmento de su código fuente en ensamblador 6502, ver cómo resolvía problemas específicos como el enroque o la promoción o
 incluso  saber más sobre el duelo histórico entre Bobby Fischer y el Commodore ChessMate basado en este software?
@@ -386,7 +388,7 @@ Pero dejamos las cuestiones técnicas para mas adelante, cuando las analizaremos
 
 ## Sargon: the old buddy (1978/1979)
 
-[FOTOGRAFIA DE SARGON]
+![sargon](images/sargon.jpg)
 
 Sargón fue el primer motor de juego para ajedrez automático relativamente completo comercialmente accesible, si bien existieron esfuerzos anteriores estaban normalmente
 implementados en grandes plataformas de cómputos (mainframe, VAX y otras) que tenían escasas opciones de accederlas. 
@@ -549,7 +551,7 @@ Desde el punto de vista táctico, cada pieza tiene una "personalidad" única def
 
 ## Notaciones
 
-[TABLERO CON REFERENCIA]
+![TABLERO CON REFERENCIA](images/chessboard.jpg)
 
 Las notaciones en el ajedrez son los sistemas de escritura utilizados para registrar los movimientos de una partida. Esto permite recrear juegos históricos, estudiar teoría, publicar libros y permitir que las computadoras procesen el juego.
 A lo largo de la historia han existido varios sistemas, pero hoy en día la Notación Algebraica es el estándar internacional oficial de la FIDE.
@@ -599,7 +601,7 @@ Utiliza la notación algebraica pero siempre con las iniciales de las piezas en 
 
 Ejemplo real de un archivo PGN (El famoso "Mate del Pastor"):
 
-text
+<div>
 [Event "Partida Amistosa"]
 [Site "Mar del Plata, ARG"]
 [Date "2026.10.31"]
@@ -608,7 +610,7 @@ text
 [Result "1-0"]
 
 1. e4 e5 2. Ac4 Cc6 3. Dh5 Cf6 4. Dxf7# 1-0
-Usa el código con precaución.
+</div>
 
 ### Notación Descriptiva (El Sistema Antiguo)
 
@@ -637,9 +639,12 @@ No registra los movimientos, sino que es un método de notación para describir 
 Ejemplo:
 
 La posición inicial del ajedrez en formato FEN se escribe así:
+
+<div>
 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-(Donde la w indica que juegan blancas, y KQkq indica que ambos bandos aún pueden enrocar en ambos lados).
-¿Te gustaría que hagamos un pequeño ejercicio donde te escriba una jugada en notación algebraica y tú intentes deducir qué pieza se movió y qué ocurrió en el tablero?
+</div>
+
+Donde la w indica que juegan blancas, y KQkq indica que ambos bandos aún pueden enrocar en ambos lados.
 
 ## Sistema ELO
 
@@ -671,7 +676,9 @@ cuando compiten.
 
 Antes de actualizar los puntos de un jugador, el sistema necesita calcular la expectativa de puntuación (probabilidad de victoria) de un Jugador A frente a un Jugador B.
 Un resultado de 1 representa una victoria, 0.5 un empate y 0 una derrota. La fórmula matemática para hallar la expectativa del Jugador A ($E_{A}$) es:
+
 $E_{A}=\frac{1}{1+10^{\frac{R_{B}-R_{A}}{400}}}$
+
 Donde:
 * $R_{A}$: Elo actual del Jugador A.
 * $R_{B}$: Elo actual del Jugador B.
@@ -688,7 +695,9 @@ Resultado: El Jugador A tiene una expectativa del 76% (0.76 puntos esperados). E
 ### 🧮 Cómo se calcula el intercambio de Elo tras una partida
 
 Cuando dos jugadores terminan una partida, sus puntuaciones se actualizan según la diferencia entre el resultado real y el resultado esperado. La fórmula es:
+
 $R_{A}^{\prime }=R_{A}+K\times (S_{A}-E_{A})$
+
 Donde:
 * $R_{A}^{\prime }$: El nuevo Elo del Jugador A.
 * $R_{A}$: El Elo anterior del Jugador A.
@@ -701,9 +710,10 @@ Donde:
 
 📝 Ejemplo de Cálculo de Intercambio (K = 20):
 
-Siguiendo el caso anterior donde Jugador A (1800, 
+Siguiendo el caso anterior donde Jugador A (1800) 
 
-$E_A = 0.76$juega contra Jugador B (1600, $E_B = 0.24$):
+$E_{A} = 0.76$ juega contra Jugador B (1600) $E_{B} = 0.24$ :
+
 * Escenario 1: Gana el Jugador A (el favorito).
 	* Nuevo Elo de A: $1800 + 20 \times (1 - 0.76) = 1800 + 20 \times (0.24) = \mathbf{1804.8}$(+4.8 puntos).
 	* Nuevo Elo de B: $1600 + 20 \times (0 - 0.24) = 1600 - 4.8 = \mathbf{1595.2}$(-4.8 puntos).
@@ -717,17 +727,21 @@ $E_A = 0.76$juega contra Jugador B (1600, $E_B = 0.24$):
 
 Si dos jugadores disputan un bloque o match largo de muchas partidas (lo suficientemente grande para mitigar la varianza), podemos usar la proporción de puntos obtenidos para calcular la diferencia exacta de Elo ($\Delta R$) que existe entre ellos.
 La fórmula matemática para despejar la diferencia de Elo a partir del porcentaje de puntos ganados o proporción ($P$) es la inversa de la fórmula logística:
+
 $\Delta{R}=400\times \log _{10}\left(\frac{P}{1-P}\right)$
-Donde $P$es la proporción de puntos obtenidos (Puntos ganados / Puntos totales disputados).
+
+Donde $P$ es la proporción de puntos obtenidos (Puntos ganados / Puntos totales disputados).
 
 📝 Ejemplo Basado en Proporción:
 
 Dos amigos juegan un match de 20 partidas. El Jugador A obtiene 15 puntos (combinando victorias y empates) y el Jugador B obtiene 5 puntos.
-1. Calculamos la proporción de A: $P = \frac{15}{20} = 0.75$(75% de los puntos).
-2. Aplicamos la fórmula inversa: $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{1 - 0.75}\right)$
-3. $\Delta{R} = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)$
-4. Como $\log_{10}(3) \approx 0.4771$:
-5. $\Delta{R} = 400 \times 0.4771 \approx \mathbf{190.8}$
+1. Calculamos la proporción de A: 
+   $P = \frac{15}{20} = 0.75$ (75% de los puntos).
+2. Aplicamos la fórmula inversa: 
+   $\Delta R = 400 \times \log_{10}\left(\frac{0.75}{1 - 0.75}\right)$
+   $\Delta{R} = 400 \times \log_{10}\left(\frac{0.75}{0.25}\right) = 400 \times \log_{10}(3)$
+3. Como $\log_{10}(3) \approx 0.4771$:
+4. $\Delta{R} = 400 \times 0.4771 \approx \mathbf{190.8}$
 
 Resultado: Basado puramente en el desempeño de este match, el rendimiento del Jugador A estuvo 191 puntos de Elo por encima del Jugador B. Si el Jugador B tuviera un Elo estimado de 1500, el Jugador A jugó al nivel de un Elo de 1691.
 
@@ -827,32 +841,33 @@ utilizará un algoritmo de normalización matemática llamado *Algoritmo de Elo 
 
 El objetivo del algoritmo es calcular un Elo Base de Software ($Elo_{Base}$). Este indicador representa la fuerza táctica intrínseca del código del motor si todos compitieran exactamente sobre la misma máquina de referencia.
 
-Paso 1: Obtener el Factor de Rendimiento Bruto (NPS)
+Paso 1️⃣: Obtener el Factor de Rendimiento Bruto (NPS)
 
 En lugar de multiplicar GHz por RAM por núcleos, dejamos que el motor corra en su máquina objetivo un set estandarizado de posiciones complejas (por ejemplo, el test suite *Colditz* o *Arasan*) durante 3 minutos y extraemos el NPS promedio reportado por el motor mediante el protocolo UCI.
 * Para motores tradicionales (CPU): El NPS mide posiciones tradicionales evaluadas por segundo.
 * Para motores de redes neuronales puras (GPU como Lc0): El NPS suele medir "Nodos de Búsqueda" o evaluaciones de la red por segundo.
 
-Paso 2: Calcular el Factor de Penalización/Bonificación por Hardware ($F_{H}$)
+Paso 2️⃣: Calcular el Factor de Penalización/Bonificación por Hardware ($F_{H}$)
 
 Definimos una Máquina de Referencia Estándar (por ejemplo: 1 CPU de 4 núcleos a 3.0 GHz, sin GPU, 8 GB RAM). 
-Esta máquina produce un número de nodos de referencia conocido como $NPS_{Ref}$para un motor base.
+Esta máquina produce un número de nodos de referencia conocido como $NPS_{Ref}$ para un motor base.
 Calculamos el coeficiente de ventaja de hardware ($F_{H}$mediante la siguiente 
 fórmula logarítmica (el logaritmo es crucial porque en ajedrez, duplicar la velocidad del hardware no duplica
 la fuerza, sino que ofrece retornos decrecientes):
 
-$F_{H}=\log _{2}\left(\frac{NPS_{Motor}}{NPS_{Ref}}\right$
+$F_{H}=\log _{2}(\frac{NPS_{Motor}}{NPS_{Ref}}$
 
 Si un motor corre en una supercomputadora y genera 16 veces más NPS que la máquina de referencia, su
 
- $F_{H}$será $\log_{2}(16) = 4$
+ $F_{H}$ será $\log_{2}(16) = 4$
 
-Paso 3: Aplicar la Equivalencia de Elo por Duplicación de Velocidad 
+Paso 3️⃣: Aplicar la Equivalencia de Elo por Duplicación de Velocidad 
 
 $\Delta Elo_{NPS}$
 
 Históricamente, en el desarrollo de motores como Stockfish, se ha demostrado una regla empírica constante: Duplicar la velocidad de cálculo (nodos por segundo) equivale a un aumento de aproximadamente entre 50 y 70 puntos de Elo reales (utilizaremos el estándar de la industria de 60 puntos de Elo).
 El factor de corrección por hardware en puntos de Elo $C_{Elo}$es:
+
 $C_{Elo}=F_{H}\times 60$
 
 Paso 4: Calcular el Elo Neto de Software ($Elo_{Base}$)
@@ -864,7 +879,7 @@ $Elo_{Base}=Elo_{Medido}-C_{Elo}$
 📝 Ejemplo Práctico de Aplicación
 
 Imaginemos que ponemos a competir a dos motores en un torneo en línea y obtenemos sus Elos medidos tras 100 partidas. Queremos saber cuál software es mejor si corrieran en igualdad de condiciones.
-* Establecemos el $NPS_{Ref}$de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
+* Establecemos el $NPS_{Ref}$ de la comunidad: 1,000,000 nodos por segundo (1 MNPS).
 
 Caso Motor A: Stockfish (Corriendo en una Laptop Modesta)
 
@@ -872,7 +887,7 @@ Caso Motor A: Stockfish (Corriendo en una Laptop Modesta)
 * Rendimiento: Genera 2,000,000 de nodos por segundo (2 MNPS).
 * Elo Medido en el torneo: 3300.
 	1. $F_H = \log_{2}(2,000,000 / 1,000,000) = \log_{2}(2) = 1$
-	2. $C_{Elo} = 1 \times 60 = 60$puntos de ventaja por hardware.
+	2. $C_{Elo} = 1 \times 60 = 60$ puntos de ventaja por hardware.
 	3. $Elo_{Base} = 3300 - 60 = \mathbf{3240}$
 
 Caso Motor B: Leela Chess Zero (Corriendo en una PC Gamer de Gama Alta)
@@ -881,13 +896,13 @@ Caso Motor B: Leela Chess Zero (Corriendo en una PC Gamer de Gama Alta)
 * Rendimiento: Gracias a su potente GPU, su equivalencia de procesamiento alcanza los 16,000,000 de nodos por segundo (16 MNPS).
 * Elo Medido en el torneo: 3450 (Ganó el torneo).
 	1. $F_H = \log_{2}(16,000,000 / 1,000,000) = \log_{2}(16) = 4$
-	2. $C_{Elo} = 4 \times 60 = 240$puntos de ventaja por hardware.
+	2. $C_{Elo} = 4 \times 60 = 240$ puntos de ventaja por hardware.
 	3. $Elo_{Base} = 3450 - 240 = \mathbf{3210}$
 
 🏆 Conclusión del Algoritmo
 
 Aunque el Motor B ganó el torneo en la práctica con un Elo de 3450 frente a los 3300 del Motor A, el algoritmo ECES demuestra que en nivel de igualdad de condiciones (Elo Base), el código del Motor A es superior (3240 vs 3210). Si mudáramos el Motor A a la computadora del Motor B, el Motor A alcanzaría un Elo real estimado de 3240 + 240 = 3480, aplastando al Motor B.
-¿Te gustaría que adaptemos este algoritmo para incluir una penalización por la gestión de la Memoria RAM (Tablas de Hash), las cuales reducen drásticamente el NPS necesario en los finales de partida?
+¿Te gustaría que adaptemos este algoritmo para incluir una penalización por la gestión de la Memoria RAM (*Tablas de Hash*), las cuales reducen drásticamente el NPS necesario en los finales de partida?
 
 Para integrar la gestión de la memoria RAM en el algoritmo, debemos entender cómo la utiliza un motor de ajedrez. Los motores no usan la RAM de forma pasiva; la destinan principalmente a las Tablas de Hash (Transposition Tables).
 Estas tablas actúan como una memoria caché de cortísimo plazo: si el motor ya calculó una posición en una línea profunda, guarda el resultado en la RAM. Si vuelve a encontrarse con esa misma posición por otro orden de jugadas (transposición), no la vuelve a calcular; lee la respuesta directamente de la memoria.
@@ -901,7 +916,7 @@ Añadiremos un nuevo factor independiente de penalización por el tamaño de las
 Paso 1: Definir los Parámetros de la RAM de Referencia
 
 Establecemos un tamaño estándar de Tablas de Hash en RAM para la comunidad informática como base neutra:
-* $Hash_{Ref} = 1024 \text{ MB}$(1 GB asignado exclusivamente al motor).
+* $Hash_{Ref} = 1024 \text{ MB}$ (1 GB asignado exclusivamente al motor).
 
 Paso 2: Calcular el Coeficiente de Ventaja por Hash $F_{Hash}$
 
@@ -909,16 +924,15 @@ De acuerdo con las pruebas empíricas acumuladas en torneos informáticos como e
 Calculamos el factor logarítmico de ventaja por memoria:
 
 
-$F_{Hash}=\log _{2}\left(\frac{Hash_{Motor}}{Hash_{Ref}}\right)$
+$F_{Hash}=\log _{2}(\frac{Hash_{Motor}}{Hash_{Ref}})$
 
 El factor de corrección por RAM en puntos de Elo ($C_{RAM}$) es:
-
 
 $C_{RAM}=F_{Hash}\times 10$
 
 Paso 3: Combinar los Factores en la Fórmula Final de Elo Base
 
-Ahora, el cálculo del Elo Neto de Software $Elo_{Base}$restará tanto la potencia bruta de procesamiento $C_{Elo}$calculada previamente, como la ventaja táctica de memoria caché $C_{RAM}$:
+Ahora, el cálculo del Elo Neto de Software $Elo_{Base}$ restará tanto la potencia bruta de procesamiento $C_{Elo}$ calculada previamente, como la ventaja táctica de memoria caché $C_{RAM}$:
 
 $Elo_{Base}=Elo_{Medido}-C_{Elo}-C_{RAM}$
 
@@ -976,9 +990,9 @@ Antiguamente, el análisis se hacía de forma puramente humana (moviendo las pie
 📉 Ejemplos prácticos de un análisis
 
 Durante un análisis, las jugadas se evalúan y se clasifican mediante símbolos universales. Aquí tienes cómo se vería un fragmento de análisis:
-* Identificar el Error Grave (Blunder - ??):
+* Identificar el Error Grave (*Blunder*):
 	* Ejemplo: "En la jugada 14, moví 14. Tfe1??. No me di cuenta de que al quitar la torre de f1, desprotegí el peón de f2. El motor me muestra que mi rival tenía la jugada táctica 14... Cg4!, atacando f2 y ganando la partida de inmediato."
-* Descubrir la Jugada Brillante (Brilliant - !!):
+* Descubrir la Jugada Brillante (*Brilliant*):
 	* Ejemplo: "Mi rival sacrificó su dama con 22... Dxf3!!. En el momento pensé que se había equivocado, pero analizando la línea completa descubrí que tras mi captura 23. gxf3, sus alfiles coordinaban un jaque mate inevitable en tres movimientos. Fue un sacrificio profundamente calculado."
 * Encontrar "La Jugada Profiláctica" (Prevención):
 	* Ejemplo: "Antes de lanzar mi ataque en el flanco de dama, debí jugar 18. h3!. El análisis me demuestra que esa jugada silenciosa evitaba que el caballo enemigo saltara a g4 y arruinara mis planes ofensivos."
@@ -998,22 +1012,22 @@ En el ajedrez, los nombres no se asignan de forma automática; nacen de la histo
 
 Tienen nombre para que los jugadores no tengan que memorizar secuencias numéricas largas, sino conceptos estratégicos.
 * Por origen geográfico: Se nombran según el lugar donde se jugaron por primera vez o donde se popularizó su estudio.
-	* Ejemplo: La Apertura Española (1. e4 e5 2. Cf3 Cc6 3. Ab5) o la Defensa Siciliana (1. e4 c5).
+	* Ejemplo: *La Apertura Española* (1. e4 e5 2. Cf3 Cc6 3. Ab5) o la Defensa Siciliana (1. e4 c5).
 * Por el apellido del jugador: En honor al ajedrecista que la descubrió o la llevó a la élite.
-	* Ejemplo: La Defensa Alekhine (1. e4 Cf6), nombrada por el campeón mundial Alexander Alekhine.
+	* Ejemplo: *La Defensa Alekhine* (1. e4 Cf6), nombrada por el campeón mundial Alexander Alekhine.
 
 ### Partidas Históricas (Bautizos por su belleza o contexto)
 
 Cuando una partida alcanza un nivel de genialidad artística o drama político inigualable, la comunidad internacional le otorga un nombre propio.
-* La Partida Inmortal (1851): También conocida como *evergreen* donde Adolf Anderssen sacrificó casi todas sus piezas mayores (sus dos torres y la dama) para dar un jaque mate espectacular con sus tres piezas menores restantes. Se le llamó así porque su belleza vivirá para siempre.
-* La Partida del Siglo (1956): Un joven Bobby Fischer de solo 13 años derrotó al maestro Donald Byrne realizando un sacrificio de dama alucinante que revolucionó el ajedrez mundial.
+* La *Partida Inmortal* (1851): También conocida como *evergreen* donde Adolf Anderssen sacrificó casi todas sus piezas mayores (sus dos torres y la dama) para dar un jaque mate espectacular con sus tres piezas menores restantes. Se le llamó así porque su belleza vivirá para siempre.
+* La *Partida del Siglo* (1956): Un joven Bobby Fischer de solo 13 años derrotó al maestro Donald Byrne realizando un sacrificio de dama alucinante que revolucionó el ajedrez mundial.
 
 ### Patrones Tácticos y de Mate
 
 Ciertas configuraciones de piezas que se repiten constantemente reciben nombres visuales o históricos para facilitar su reconocimiento rápido durante el juego.
-* El Mate del Pastor: El clásico mate en 4 jugadas que aprovecha la debilidad del peón en f7.
-* El Mate del Pasillo: Ocurre cuando un rey queda atrapado detrás de su propia barrera de peones y una torre o dama enemiga lo ataca en la octava fila.
-* La Clavada / El Tenedor: Nombres descriptivos de recursos tácticos (un "tenedor" es cuando un caballo ataca a dos piezas importantes a la vez, como si las pinchara juntas).
+* El *Mate del Pastor*: El clásico mate en 4 jugadas que aprovecha la debilidad del peón en f7.
+* El *Mate del Pasillo*: Ocurre cuando un rey queda atrapado detrás de su propia barrera de peones y una torre o dama enemiga lo ataca en la octava fila.
+* La *Clavada / El Tenedor*: Nombres descriptivos de recursos tácticos (un "tenedor" es cuando un caballo ataca a dos piezas importantes a la vez, como si las pinchara juntas).
 
 
 ## Métodos de aprendizaje
@@ -1031,7 +1045,7 @@ La hoja de ruta puede ser dividida en 4 etapas lógicas para dominar el juego, d
 * 3️⃣ Pensamiento Estratégico
 * 4️⃣ Competencia
 
-### Etapa 1: La Alfabetización Visual y Reglas (Elo 0 - 600)
+### Etapa 1️⃣: La Alfabetización Visual y Reglas (Elo 0 - 600)
 
 El objetivo en esta fase es acostumbrar al ojo a la geometría del tablero y no cometer ilegalidades.
 
@@ -1039,7 +1053,7 @@ El objetivo en esta fase es acostumbrar al ojo a la geometría del tablero y no 
 * Paso 2: Fluidez de la Notación. Aprender a leer y escribir en notación algebraica de forma fluida. Si no puedes "hablar" el idioma del ajedrez, no podrás leer libros ni entender análisis.
 * Paso 3: Evitar la "ceguera de piezas". Jugar partidas amistosas con un único objetivo táctico: no regalar piezas en una sola jugada (comúnmente llamado colgarse una pieza). Antes de mover, el cerebro debe hacerse la "pregunta de seguridad": ¿A qué casillas ataca la pieza que voy a mover y qué casillas deja de defender?
 
-### Etapa 2: El Despertar Táctico (Elo 600 - 1200)
+### Etapa 2️⃣: El Despertar Táctico (Elo 600 - 1200)
 
 En el ajedrez amateur, el 99% de las partidas se deciden por táctica (errores de cálculo inmediatos). Aquí aprendes a usar la fuerza bruta calculada.
 
@@ -1052,7 +1066,7 @@ En el ajedrez amateur, el 99% de las partidas se deciden por táctica (errores d
 
 * Paso 3: Construir un "Repertorio de Aperturas" minimalista. No memorizar líneas profundas. Aprender los Principios de la Apertura: controlar el centro con los peones, desarrollar los caballos y alfiles rápidamente, y poner el rey a salvo mediante el enroque. Elegir una sola apertura con Blancas (ej. Apertura Italiana) y una defensa sólida con Negras (ej. Defensa Karo-Kann o e5).
 
-### Etapa 3: Pensamiento Estratégico y Posicional (Elo 1200 - 1600)
+### Etapa 3️⃣: Pensamiento Estratégico y Posicional (Elo 1200 - 1600)
 
 Aquí el jugador descubre que no siempre hay un golpe táctico disponible. Se aprende a formular planes a largo plazo cuando el tablero está en calma.
 
@@ -1060,7 +1074,7 @@ Aquí el jugador descubre que no siempre hay un golpe táctico disponible. Se ap
 * Paso 2: El Método de Análisis Post-Partida. Aplicar obligatoriamente la regla de oro: revisar cada partida jugada. El humano progresa cuando encuentra el momento exacto donde su plan estratégico falló y busca la alternativa correcta utilizando el motor como asistente.
 * Paso 3: Introducción a los Finales. Estudiar la teoría de finales básicos. El ajedrez se aprende al revés: es más fácil entender el poder de tres piezas en un tablero vacío que el de 32 piezas al inicio. Dominar los finales de peones (regla del cuadrado, la oposición del rey) y finales básicos de torres.
 
-### Etapa 4: Especialización y Competición (Elo 1600+)
+### Etapa 4️⃣: Especialización y Competición (Elo 1600+)
 
 El juego se vuelve un deporte psicológico y de resistencia. El entrenamiento se asemeja al de un atleta.
 
@@ -1140,9 +1154,9 @@ El ajedrez es un juego:
 
 Podemos definir una utilidad terminal desde la perspectiva de las blancas:
 
-$U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\\ 0 & \text{si la partida termina en tablas}\\\ -1 & \text{si ganan las negras} \end{cases}$
+$U(s)= \begin{cases} +1 & \text{si ganan las blancas}\\ 0 & \text{si la partida termina en tablas}\\ -1 & \text{si ganan las negras} \end{cases}$
 
-Por lo tanto, si $U_B(s)$ representa la utilidad para las blancas y $U_N(s)$la de las negras:
+Por lo tanto, si $U_B(s)$ representa la utilidad para las blancas y $U_N(s)$ la de las negras:
 
 $U_N(s)=-U_B(s)$
 
@@ -1275,7 +1289,7 @@ $E(s) $
 
 De este modo:
 
-$V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\\ E(s) & \text{si }d=0\\\ \max\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MAX}\\\ \min\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MIN} \end{cases}$
+$V(s,d)= \begin{cases} U(s) & \text{si }s\text{ es terminal}\\ E(s) & \text{si }d=0\\ \max\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MAX}\\ \min\limits\_{a\in A(s)}V(T(s,a),d-1) & \text{si mueve MIN} \end{cases}$
 
 Esto convierte Minimax en una búsqueda heurística de horizonte finito.
 
@@ -1295,7 +1309,7 @@ Donde:
 - $C(s)$: control del centro y actividad de las piezas.
 - $T(s)$: factores tácticos o posicionales adicionales.
 
-Los coeficientes $w_i$determinan la importancia relativa de cada característica y deben elegirse de acuerdo con la escala de cada término.
+Los coeficientes $w_i$ determinan la importancia relativa de cada característica y deben elegirse de acuerdo con la escala de cada término.
 
 Una aproximación tradicional al valor material, expresada en centipeones, es:
 
@@ -1326,9 +1340,9 @@ $E\_\theta(s)=f\_\theta(\phi(s))$
 
 Donde:
 
-- $\phi(s)$representa la codificación de la posición.
-- $\theta$contiene los parámetros entrenados.
-- $f\_\theta$produce una valoración de la posición.
+- $\phi(s)$ representa la codificación de la posición.
+- $\theta$ contiene los parámetros entrenados.
+- $f_{\theta}$ produce una valoración de la posición.
 
 En motores que utilizan redes del tipo *NNUE (Efficiently Updatable Neural Network)* donde la red actúa como evaluador de las hojas del árbol, frecuentemente con mecanismos de actualización incremental de características.
 
@@ -1530,7 +1544,7 @@ $V(C)=4$
 
 Por lo tanto:
 
-$\boxed{V(s)=4,\qquad a^\*=C}]
+$\boxed{V(s)=4,\qquad a^\*=C}$
 
 El resultado es idéntico al obtenido con Minimax completo, pero una hoja no fue evaluada.
 
@@ -1734,18 +1748,19 @@ $M=100000$
 
 Desde una perspectiva fija de las blancas:
 
-$U(s)= \begin{cases} +M & \text{mate favorable a blancas}\\\ -M & \text{mate favorable a negras}\\\ 0 & \text{tablas} \end{cases}$
+$U(s)= \begin{cases} +M & \text{mate favorable a blancas}\\ -M & \text{mate favorable a negras}\\ 0 & \text{tablas} \end{cases}$
 
 Para priorizar los mates más rápidos y retrasar las derrotas inevitables, puede incorporarse la distancia al mate en medias jugadas:
 
-$U(s)= \begin{cases} M-p & \text{mate de las blancas}\\\ -M+p & \text{mate de las negras}\\\ 0 & \text{tablas} \end{cases}$
+$U(s)= \begin{cases} M-p & \text{mate de las blancas}\\ -M+p & \text{mate de las negras}\\ 0 & \text{tablas} \end{cases}$
 
-donde $p$es la distancia desde la raíz hasta el estado terminal.
+donde $p$ es la distancia desde la raíz hasta el estado terminal.
 
 Así, una victoria por mate en menos jugadas recibe una puntuación mayor, y una derrota más lejana recibe una puntuación menos negativa.
 
-Debe existir una distinción entre los valores devueltos al protocolo UCI como centipeones (`score cp`) y las puntuaciones de mate (`score mate`), ya que no tienen el mismo significado.
+Debe existir una distinción entre los valores devueltos al protocolo UCI como *centipeones* (`score cp`) y las puntuaciones de mate (`score mate`), ya que no tienen el mismo significado.
 
+>Un centipeón (o centipawn en inglés) es una unidad de medida utilizada en el ajedrez por computadora para evaluar la ventaja o desventaja de una posición, equivalente a la centésima parte del valor de un peón (0.01 peones).
 
 ## Análisis de una posición concreta
 
@@ -1779,10 +1794,10 @@ Supongamos que un motor analiza una posición más equilibrada y considera las s
 
 | Jugada | Evaluación Minimax hipotética |
 | ------ | ----------------------------- |
-| 1.e4   | +35 cp                        |
-| 1.d4   | +24 cp                        |
-| 1.Nf3  | +18 cp                        |
-| 1.c4   | +28 cp                        |
+| e4   | +35 cp                        |
+| d4   | +24 cp                        |
+| Nf3  | +18 cp                        |
+| c4   | +28 cp                        |
 
 Estos valores son exclusivamente ilustrativos; no corresponden a la salida medida de un motor específico.
 
@@ -2152,15 +2167,15 @@ La interacción real entre los componentes es recursiva, y no estrictamente secu
 
 Además de las técnicas ya presentadas, pueden utilizarse:
 
-* Principal Variation Search (PVS). Parte de la hipótesis de que el primer movimiento, después de una buena ordenación, probablemente sea el mejor. Los movimientos posteriores se examinan inicialmente con ventanas estrechas, y se reexaminan cuando es necesario.
+* *Principal Variation Search (PVS)*. Parte de la hipótesis de que el primer movimiento, después de una buena ordenación, probablemente sea el mejor. Los movimientos posteriores se examinan inicialmente con ventanas estrechas, y se reexaminan cuando es necesario.
 
-* Null Move Pruning. Permite estimar si una posición parece suficientemente favorable incluso concediendo ficticiamente un turno al adversario. Puede producir cortes eficientes, pero requiere precauciones importantes, especialmente en posiciones de zugzwang.
+* *Null Move Pruning*. Permite estimar si una posición parece suficientemente favorable incluso concediendo ficticiamente un turno al adversario. Puede producir cortes eficientes, pero requiere precauciones importantes, especialmente en posiciones de zugzwang.
 
-* Late Move Reductions (LMR). Reduce inicialmente la profundidad para algunos movimientos tardíos y considerados menos prometedores. Cuando una búsqueda reducida indica que podrían ser importantes, puede requerirse una búsqueda de verificación más profunda.
+* *Late Move Reductions (LMR)*. Reduce inicialmente la profundidad para algunos movimientos tardíos y considerados menos prometedores. Cuando una búsqueda reducida indica que podrían ser importantes, puede requerirse una búsqueda de verificación más profunda.
 
-* Futility Pruning. Descarta ciertas ramas próximas al horizonte cuando una cota basada en evaluación estática y márgenes de seguridad indica que probablemente no mejorarán alfa.
+* *Futility Pruning*. Descarta ciertas ramas próximas al horizonte cuando una cota basada en evaluación estática y márgenes de seguridad indica que probablemente no mejorarán alfa.
 
-* Extensiones selectivas. Incrementan la profundidad ante situaciones especialmente relevantes, como determinados jaques o secuencias forzadas.
+* *Extensiones selectivas*. Incrementan la profundidad ante situaciones especialmente relevantes, como determinados jaques o secuencias forzadas.
 
 Debe destacarse una diferencia conceptual: mientras que la poda Alfa-Beta clásica conserva el resultado Minimax exacto al horizonte elegido, algunas de estas optimizaciones introducen aproximaciones heurísticas. Por tanto, al
 incorporar LMR, Null Move Pruning o Futility Pruning, ya no puede garantizarse en general la igualdad exacta con una búsqueda Minimax exhaustiva de profundidad fija.
