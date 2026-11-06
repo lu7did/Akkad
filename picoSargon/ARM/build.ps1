@@ -15,7 +15,7 @@ param(
 # En PowerShell, --help se procesa como una forma de switch de ayuda.
 if ($help -or ($args -contains '--help')) {
     @'
-Compilacion picoSargon ARM v0.2.39
+Compilacion picoSargon ARM v0.2.40
 
 Sintaxis:
   .\build.ps1 [-Board pico2_w|pico_w] [-steroids:$true|$false] [-twins:$true|$false]

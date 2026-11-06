@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(picoSargon VERSION 0.2.39 LANGUAGES CXX)
+project(picoSargon VERSION 0.2.40 LANGUAGES CXX)
 option(STEROIDS "Enable aspiration windows, SEE and razoring (experimental)" OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

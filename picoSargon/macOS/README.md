@@ -1,4 +1,4 @@
-# picoSargon macOS v0.2.39
+# picoSargon macOS v0.2.40
 
 La implementación reside en `akkad/picoSargon/macOS`, sin subdirectorio intermedio.
 Todo el tooling macOS de picoSargon reside en `akkad/picoSargon/tools/macos`.
@@ -31,22 +31,20 @@ El núcleo C++ es compartido con `picoSargon/x86`.
 ./picoSargon/tools/macos/tcp_smoke.sh # con listener activo en otra terminal
 ```
 
-## Limpieza de la estructura equivocada (v0.2.35 / v0.2.36)
+## Limpieza integral de las estructuras obsoletas
 
 ```bash
-./picoSargon/tools/macos/cleanup_old_layout.sh
+python3 picoSargon/tools/migrate_layout_v0.2.40.py --apply
 ```
 
-El script borra solamente los archivos originales de los dos parches antiguos si su
-SHA-256 sigue siendo idéntico. Preserva cualquier archivo editado o desconocido.
-Nunca borra automáticamente la carpeta general `akkad/tools` si tiene otros contenidos.
-En Windows puede utilizarse `picoSargon/tools/macos/cleanup_old_layout.ps1`.
+El migrador recoloca los archivos de los directorios intermedios y elimina
+los builds duplicados. Los conflictos se respaldan fuera del repositorio.
 
 `build.sh` es el único script macOS de picoSargon fuera de `picoSargon/tools/macos`.
 El ejecutable generado es `picoSargon/macOS/build/picoSargon`, sin extensión `.exe`.
 La red sigue alojada en `picoSargon/x86/assets/grumpy.bin`.
 
-## Telemetría del listener (v0.2.39)
+## Telemetría del listener (v0.2.40)
 
 La salida del servidor es local por stderr, con hora HH:MM:SS y emojis.
 Se presentan encabezado y rutas, conexión (IP y puerto de origen), comandos

@@ -9,7 +9,7 @@ import subprocess
 import sys
 import threading
 
-VERSION = '0.2.39'
+VERSION = '0.2.40'
 PRINT_LOCK = threading.Lock()
 
 
