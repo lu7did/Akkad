@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-ROOT="$(cd -- "$HERE/../.." && pwd -P)"
+ROOT="$(cd -- "$HERE/../../.." && pwd -P)"
 ENGINE="$ROOT/picoSargon/macOS/build/picoSargon"
 WEIGHTS="$ROOT/picoSargon/x86/picoSargon/assets/grumpy.bin"
 HOST="${LISTEN_HOST:-127.0.0.1}"
@@ -9,7 +9,7 @@ PORT="${LISTEN_PORT:-6200}"
 PYTHON="${LISTEN_PYTHON:-python3}"
 usage() {
   cat <<'HELP'
-Uso: ./tools/macos/run_listen.sh [--host DIRECCION] [--port PUERTO] [--help]
+Uso: ./picoSargon/tools/macos/run_listen.sh [--host DIRECCION] [--port PUERTO] [--help]
 Defecto: 127.0.0.1:6200 (sólo conexiones locales)
 Para permitir conexiones desde la LAN: --host 0.0.0.0
 Variables: LISTEN_HOST, LISTEN_PORT, LISTEN_PYTHON

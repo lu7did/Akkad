@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-ROOT="$(cd -- "$HERE/../.." && pwd -P)"
+ROOT="$(cd -- "$HERE/../../.." && pwd -P)"
 HOST="${LISTEN_HOST:-127.0.0.1}"
 PORT="${LISTEN_PORT:-6200}"
 python3 - "$HOST" "$PORT" <<'PYTEST'

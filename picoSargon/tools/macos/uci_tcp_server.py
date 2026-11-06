@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Listener UCI TCP multipsesión para picoSargon macOS; sólo biblioteca estándar.
+"""Listener UCI TCP multisesión para picoSargon macOS; sólo biblioteca estándar.
 
 Una conexión TCP equivale a un proceso UCI independiente: tablero, búsqueda y
 estado no se comparten entre clientes. Logs en stderr, nunca dentro del canal TCP.
