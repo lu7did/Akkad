@@ -1,0 +1,6 @@
+Akkad picoSargon v0.2.35 - reorganización macOS
+Extraer en la raíz akkad. Después ejecutar tools/macos/cleanup_old_layout.ps1 en Windows
+(o tools/macos/cleanup_old_layout.sh en macOS) para retirar la carpeta antigua.
+No hay un mecanismo seguro para eliminar archivos mediante una extracción ZIP normal.
+Versiones: picoSargon 0.2.35, Sargon-NNUE/brains.py 0.6.193.
+Compilar macOS: picoSargon/macOS/build.sh. Ejecutar: tools/macos/run.sh.

@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 from .cli_common import add_engine_args
 
-VERSION='0.6.192'
+VERSION='0.6.193'
 # `rating_elo` is metadata, never a listener CLI parameter.
 ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout', 'alternate-network', 'alternate-evaluator', 'bellman-nmin', 'bellman-alpha', 'bellman-lambda', 'bellman-gamma']
 METADATA_KEYS = {'rating_elo'}

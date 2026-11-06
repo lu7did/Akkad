@@ -73,7 +73,8 @@
       "evaluator": "grumpy",
       "network": {
         "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
+        "macos": "../../picoSargon/x86/picoSargon/assets/grumpy.bin"
       },
       "depth": 2,
       "qdepth": 0
@@ -205,12 +206,12 @@
       "engine-path": {
         "windows": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon",
-        "macos": "../picoSargon/macOS/picoSargon/build/picoSargon"
+        "macos": "../../picoSargon/macOS/build/picoSargon"
       },
       "network": {
         "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "macos": "../picoSargon/x86/picoSargon/assets/grumpy.bin"
+        "macos": "../../picoSargon/x86/picoSargon/assets/grumpy.bin"
       },
       "depth": 6,
       "qdepth": 2,
@@ -219,8 +220,16 @@
     "fastSargon": {
       "player": "picosargon",
       "evaluator": "null",
-      "engine-path": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
-      "network": "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
+      "engine-path": {
+        "windows": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon",
+        "macos": "../../picoSargon/macOS/build/picoSargon"
+      },
+      "network": {
+        "windows": "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
+        "macos": "../../picoSargon/x86/picoSargon/assets/grumpy.bin"
+      },
       "depth": 2,
       "qdepth": 1,
       "tmax": 5000,

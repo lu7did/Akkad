@@ -103,13 +103,17 @@ std::string weights_argument(int argc,char** argv){
  }
  if(!weights.empty())return weights;
  if(!brains.empty())return get_weights_from_brains(brains,brain);
+ #if defined(_WIN32)
  throw std::runtime_error("uso: picoSargon.exe <grumpy.bin> | --weights <grumpy.bin> | --brains <brains.json> [--brain tinySargon]");
+#else
+ throw std::runtime_error("uso: picoSargon <grumpy.bin> | --weights <grumpy.bin> | --brains <brains.json> [--brain tinySargon]");
+#endif
 }
 }
 
 
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.34"
+#define PICOSARGON_VERSION "0.2.35"
 #endif
 namespace {
 std::string trim_uci(std::string x) {
