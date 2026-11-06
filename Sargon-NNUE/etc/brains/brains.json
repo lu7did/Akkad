@@ -206,12 +206,12 @@
       "engine-path": {
         "windows": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon",
-        "macos": "../../picoSargon/macOS/build/picoSargon"
+        "macos": "/Users/pedrocolla/akkad/picoSargon/macOS/build/picoSargon"
       },
       "network": {
         "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
         "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "macos": "../../picoSargon/x86/picoSargon/assets/grumpy.bin"
+        "macos": "/Users/pedrocolla/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
       },
       "depth": 6,
       "qdepth": 2,

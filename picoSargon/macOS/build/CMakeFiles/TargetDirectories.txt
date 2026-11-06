@@ -1,0 +1,3 @@
+/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles/picoSargon.dir
+/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles/edit_cache.dir
+/Users/pedrocolla/akkad/picoSargon/macOS/build/CMakeFiles/rebuild_cache.dir
