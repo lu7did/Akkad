@@ -21,10 +21,10 @@ Pero en la esencia el problema no es, una vez actualizado, diferente a como lo p
 * la Tipo A (fuerza bruta, evaluar todas las jugadas posibles)
 * la Tipo B (búsqueda selectiva, evaluar solo las mejores jugadas).
 
-Y los dos tipos han evolucionado. Los de *Tipo A* se han rendido ante la evidencia de un juego que logra presentar el formidable desafío de $10^{130}$combinaciones a explorar, imposible.
+Y los dos tipos han evolucionado. Los de *Tipo A* se han rendido ante la evidencia de un juego que logra presentar el formidable desafío de $10^{130}$ combinaciones a explorar, imposible.
 
 **Claude Shannon** lo formuló como una famosa analogía basada en sus conclusiones elementales: 
-si convirtiéramos cada uno de los átomos del universo observable (aproximadamente $10^{80}$) en una supercomputadora —incluso en un computador cuántico operando a la máxima velocidad permitida por las leyes de la física y las pusiéramos a calcular combinaciones desde el Big Bang hasta hoy, apenas habrían analizado una fracción infinitesimal
+si convirtiéramos cada uno de los átomos del universo observable (aproximadamente $10^{80}$ ) en una supercomputadora —incluso en un computador cuántico operando a la máxima velocidad permitida por las leyes de la física y las pusiéramos a calcular combinaciones desde el Big Bang hasta hoy, apenas habrían analizado una fracción infinitesimal
 del total.
 
 Sin embargo el enfoque de fuerza bruta es abordable si se limita el *horizonte* dentro del cual se analizan las jugadas posibles; planteado de ésta forma el problema pasa a ser que tan lejos permite el algoritmo y la tecnología mover ese horizonte
@@ -33,7 +33,7 @@ hacia el futuro.
 **MicroChess** o **Sargon** , legendarias implementaciones ambas, hacen eso, aplican un método **minimax alpha/beta* para tratar de reducir el árbol de posibilidades
 y, en un tiempo objetivo que se considere razonable examnar la mayor cantidad de jugadas posibles y elegir la mejor. Esos motores en sus ambientes de hardware originales no podían hacerlo mas que dos jugadas hacia adelante, hoy en hardware moderno el mismo
 algoritmo puede analizar hasta 7 u 8 jugadas hacia adelante. Pero alli aparece la siguiente limitación, como evaluamos el posible valor de cada jugada comparada con otras. Aparecen los otros componentes de la estrategia, el valor de la i-esima
-posición **Valor ($V_i$)** y la **Política ($P_i$o $\pi_{i}$), es decir que capacidad tiene una jugada para darme el mayor beneficio (usualmente tratar de ganar la partida) y entre las posibles cual es el criterio para elegir una movida en lugar de
+posición **Valor ($V_i$)** y la **Política ($P_i$o $\pi_{i}$ ), es decir que capacidad tiene una jugada para darme el mayor beneficio (usualmente tratar de ganar la partida) y entre las posibles cual es el criterio para elegir una movida en lugar de
 otra.
 
 **MicroChess** o **Sargon** tenían (*tienen*) analisis muy simplificados basado en una heurística determinada que asigna valor a las piezas, a la ocupación de ciertos sectores del tablero y a la chance que en la próxima jugada ocurra algo relevante (tal como
@@ -62,7 +62,7 @@ A diferencia de la Inteligencia Artificial moderna basada en redes neuronales y 
  El equipo contó con la asesoría de Grandes Maestros de ajedrez para afinar esta base de datos y su libro de aperturas.
 
 En esencia se trata de cantidades masivas de potencia de cálculo para explorar millones de jugadas por segundo, en cambio **Sargon** puede, en un día bueno, explorar algunos miles a 2 jugadas hacia adelante) pero usando el algoritmo *minimax* y una funcion
-de ($V_i$) y  $\pi_{i}$dada por una combinación de posiciones recordadas y comparadas de partidas pasadas y preferencias de los entrenadores. El programa nunca se hizo público y solo se dispone de descripciones superficiales de su funcionamiento.
+de ($V_i$) y  $\pi_{i}$ dada por una combinación de posiciones recordadas y comparadas de partidas pasadas y preferencias de los entrenadores. El programa nunca se hizo público y solo se dispone de descripciones superficiales de su funcionamiento.
 
 Pero estaba claro que el enfoque de *Deep Blue* ponía el sendero de la fuerza bruta muy lejos de la disponibilidad habitual de experimentadores con menos recursos.
 
@@ -150,7 +150,7 @@ Uno de los aprendizajes mas tempranos consiste en comprender como es el ciclo de
 de un determinado esquema de juego, el que podría resumirse en algunos pasos que
 se repiten:
 
-* Se parte de una idea o estrategia para medir $V_i$y $\pi_{i}$
+* Se parte de una idea o estrategia para medir $V_i$ y $\pi_{i}$
 * Implementarlo.
 * Encontrar la forma de calibrarlo o entrenarlo.
 * Probar el funcionamiento básico (**dry run**).
@@ -225,6 +225,9 @@ Utilizaba una estrategia Tipo B (selectiva), analizando las 7 mejores jugadas po
 ### La era académica y los primeros torneos (1960 - 1977)
 
 #### El programa Kotok-McCarthy (1962):
+
+![Kotok-McCarthy](images/McCarthy.jpg)
+
 Desarrollado en el MIT bajo la tutela de John McCarthy. En 1966 protagonizó el primer match de ajedrez entre computadoras de la historia, enfrentándose vía telégrafo
 al programa del Instituto de Física Teórica y Experimental (ITEP) de la Unión Soviética. El programa soviético ganó el encuentro 3-1.
 
@@ -2444,7 +2447,7 @@ Una formulación posible es utilizar las recompensas únicamente al finalizar la
 
 Desde la perspectiva de las blancas:
 
-$z= \begin{cases} +1 & \text{victoria de las blancas}\\\ 0 & \text{tablas}\\\ -1 & \text{victoria de las negras} \end{cases}$
+$z= \begin{cases} +1 & \text{victoria de las blancas}\\ 0 & \text{tablas}\\ -1 & \text{victoria de las negras} \end{cases}$
 
 Para las negras, el resultado tiene signo opuesto:
 
@@ -2468,9 +2471,9 @@ $\boxed{ G_t=\sum\_{k=0}^{T-t-1}\gamma^k r\_{t+k+1} }$
 
 donde:
 
-- $T$representa el instante terminal.
-- $r\_{t+k+1}$es la recompensa recibida después de una acción.
-- $\gamma\in[0,1]$es el factor de descuento.
+- $T$ representa el instante terminal.
+- $r_{t+k+1}$ es la recompensa recibida después de una acción.
+- $\gamma\in[0,1]$ es el factor de descuento.
 
 El factor de descuento permite dar menor peso a recompensas alejadas temporalmente.
 
@@ -2550,13 +2553,13 @@ $\boxed{ V^\*(s)= \min\_{a\in A(s)} \left[ r_B(s,a)+\gamma V^\*(T(s,a)) \right] 
 
 Por lo tanto:
 
-$\boxed{ V^\*(s)= \begin{cases} \max\limits\_{a\in A(s)} [r_B(s,a)+\gamma V^\*(T(s,a))] & \text{turno blanco}\\\$6pt] \min\limits\_{a\in A(s)} [r_B(s,a)+\gamma V^\*(T(s,a))] & \text{turno negro} \end{cases} }$
+$\boxed{ V^\*(s)= \begin{cases} \max\limits\_{a\in A(s)} [r_B(s,a)+\gamma V^\*(T(s,a))] & \text{turno blanco}\\$6pt] \min\limits\_{a\in A(s)} [r_B(s,a)+\gamma V^\*(T(s,a))] & \text{turno negro} \end{cases} }$
 
 Esta es la versión adversarial de la ecuación de optimalidad.
 
-Cuando $\gamma=1$y las recompensas no terminales son nulas, la formulación coincide con la recurrencia básica de Minimax:
+Cuando $\gamma=1$ y las recompensas no terminales son nulas, la formulación coincide con la recurrencia básica de Minimax:
 
-$V^\*(s)= \begin{cases} \max_a V^\*(T(s,a)) & \text{blancas}\\\ \min_a V^\*(T(s,a)) & \text{negras} \end{cases}$
+$V^\*(s)= \begin{cases} \max_a V^\*(T(s,a)) & \text{blancas}\\ \min_a V^\*(T(s,a)) & \text{negras} \end{cases}$
 
 Así, Minimax y Bellman no son principios incompatibles.
 
@@ -2640,7 +2643,7 @@ $\boxed{a^\*=a_1}$
 Valor de las acciones desde la perspectiva blanca
 Valores hipotéticos obtenidos cambiando el signo de las evaluaciones de los estados sucesores.
 
--0.3-0.10.10.30.5a₁a₂a₃
+$-0.3 -0.1 +0.1 +0.3 +0.5 a_{1} a_{2} ... a_{n}$
 
 La interpretación importante es que $a_1$no se selecciona por ser visualmente atractiva ni por obtener una ventaja material inmediata, sino porque conduce a una posición que, según el evaluador, resulta desfavorable para el adversario.
 
@@ -2683,7 +2686,7 @@ $X\_{\text{peones blancos}}\in\\{0,1\\}^{8\times8}$
 
 donde:
 
-$X\_{ij}= \begin{cases} 1 & \text{si existe un peón blanco en }(i,j)\\\ 0 & \text{en otro caso} \end{cases}$
+$X\_{ij}= \begin{cases} 1 & \text{si existe un peón blanco en }(i,j)\\ 0 & \text{en otro caso} \end{cases}$
 
 La representación básica tiene:
 
@@ -2751,7 +2754,7 @@ Para obtener probabilidades de victoria, tablas y derrota resulta más apropiado
 
 $\mathbf p\_\theta(s)= \begin{bmatrix} P\_\theta(W\mid s)\\\ P\_\theta(D\mid s)\\\ P\_\theta(L\mid s) \end{bmatrix}$
 
-mediante una función Softmax.
+mediante una función *Softmax*.
 
 Entonces, el valor esperado puede obtenerse como:
 
@@ -2793,7 +2796,7 @@ El entrenamiento ajusta los pesos mediante descenso por gradiente:
 
 $\boxed{ \theta\_{k+1} = \theta_k-\eta\nabla\_\theta L_V(\theta_k) }$
 
-donde $\eta$es la tasa de aprendizaje.
+donde $\eta$ es la tasa de aprendizaje.
 
 Este mecanismo es una forma de aprendizaje Monte Carlo a partir de retornos completos.
 
@@ -2827,7 +2830,7 @@ $y_t=r_t$
 
 Así, una expresión completa es:
 
-$\boxed{ y_t= \begin{cases} r_t & \text{si }s\_{t+1}\text{ es terminal}\\\ r_t-\gamma V\_{\bar\theta}(s\_{t+1}) & \text{en otro caso} \end{cases} }$
+$\boxed{ y_t= \begin{cases} r_t & \text{si }s\_{t+1}\text{ es terminal}\\ r_t-\gamma V\_{\bar\theta}(s\_{t+1}) & \text{en otro caso} \end{cases} }$
 
 El error TD es:
 
@@ -3090,11 +3093,11 @@ Entonces:
 
 $\boxed{ \pi\_\phi(a\mid s)= \frac{ \exp(\ell\_\phi(s,a)/\tau) }{ \sum\_{b\in A(s)} \exp(\ell\_\phi(s,b)/\tau) } }$
 
-donde $\tau>0$es un parámetro de temperatura.
+donde $\tau>0$ es un parámetro de temperatura.
 
-Si $\tau$es grande, la distribución tiende a ser más uniforme.
+Si $\tau$ es grande, la distribución tiende a ser más uniforme.
 
-Si $\tau$es pequeña, se concentra alrededor de las jugadas con mayor puntuación.
+Si $\tau$ es pequeña, se concentra alrededor de las jugadas con mayor puntuación.
 
 Para una política determinista de evaluación, puede seleccionarse:
 
@@ -3112,10 +3115,6 @@ Supongamos que la red produce las siguientes probabilidades entre cuatro jugadas
 | c2c4       | 0,05         |
 
 Distribución de una política neuronal
-
-Ejemplo hipotético de probabilidades de selección de movimientos.
-
-00.150.30.450.6e2e4d2d4g1f3c2c4
 
 La política considera que e2e4 es la alternativa preferida, pero no elimina completamente las otras opciones.
 
@@ -3346,9 +3345,9 @@ Una alternativa es comenzar con una política entrenada mediante partidas existe
 
 Esto no contradice el uso de Bellman: modifica la inicialización y la distribución inicial de experiencias.
 
-Para evitar que el sistema repita exclusivamente las jugadas consideradas mejores, puede utilizarse una política $\varepsilon$-greedy:
+Para evitar que el sistema repita exclusivamente las jugadas consideradas mejores, puede utilizarse una política $\varepsilon$ -greedy:
 
-$\pi\_\varepsilon(a\mid s)= \begin{cases} \text{acción óptima estimada} & \text{con probabilidad }1-\varepsilon\\\ \text{acción legal aleatoria} & \text{con probabilidad }\varepsilon \end{cases}$
+$\pi\_\varepsilon(a\mid s)= \begin{cases} \text{acción óptima estimada} & \text{con probabilidad }1-\varepsilon\\ \text{acción legal aleatoria} & \text{con probabilidad }\varepsilon \end{cases}$
 
 En caso de empates entre acciones, puede establecerse una regla de desempate aleatoria.
 
@@ -3404,31 +3403,19 @@ La política ha modificado su comportamiento:
 
 Antes del aprendizaje
 
-a₁
+a₁ = 40%
 
-40%
+a₂ = 35%
 
-a₂
-
-35%
-
-a₃
-
-25%
+a₃ = 25%
 
 Después del aprendizaje
 
-a₁
+a₁ = 25%
 
-25%
+a₂ = 60%
 
-a₂
-
-60%
-
-a₃
-
-15%
+a₃ = 15%
 
 Los números son ilustrativos y no implican una regla fija de actualización entre ventaja y probabilidades.
 
@@ -3436,7 +3423,7 @@ El ejemplo muestra la lógica del entrenamiento: una experiencia evaluada favora
 
 Pero el sistema todavía necesita resolver un problema crítico.
 
-¿La jugada $a_2$es realmente buena o simplemente el evaluador se equivoca al considerar mala la posición del adversario?
+¿La jugada $a_2$ es realmente buena o simplemente el evaluador se equivoca al considerar mala la posición del adversario?
 
 Para responder, necesitamos utilizar información más sólida que una única predicción de la red.
 
@@ -3446,11 +3433,7 @@ Una posibilidad particularmente interesante consiste en combinar la red neuronal
 
 La red produce estimaciones de valor y probabilidades iniciales de jugadas, mientras que la búsqueda examina posibles consecuencias y corrige parcialmente esas estimaciones.
 
-Este es el principio general de los sistemas que combinan redes de política y valor con Monte Carlo Tree Search (MCTS), como AlphaZero. Conviene precisar que AlphaZero no es simplemente un sistema de Deep Q-Learning ni utiliza como objetivo principal el residuo Bellman TD(0): su entrenamiento publicado utiliza resultados finales de partidas y distribuciones de acciones obtenidas de la búsqueda.&#x20;
-
-[image](https://www.google.com/s2/favicons?domain=https://doi.org\&sz=32)
-
-Science+1
+Este es el principio general de los sistemas que combinan redes de política y valor con Monte Carlo Tree Search (MCTS), como AlphaZero. Conviene precisar que AlphaZero no es simplemente un sistema de Deep Q-Learning ni utiliza como objetivo principal el residuo Bellman TD(0): su entrenamiento publicado utiliza resultados finales de partidas y distribuciones de acciones obtenidas de la búsqueda.
 
 La red calcula:
 
@@ -3470,10 +3453,10 @@ La búsqueda utiliza estas dos salidas para decidir qué ramas explorar.
 
 En una implementación de MCTS puede mantenerse, para cada acción:
 
-- $N(s,a)$: cantidad de visitas.
-- $W(s,a)$: suma de valores acumulados.
-- $Q(s,a)=W(s,a)/N(s,a)$: valor medio estimado.
-- $P(s,a)$: probabilidad previa neuronal.
+- $N(s,a)$ : cantidad de visitas.
+- $W(s,a)$ : suma de valores acumulados.
+- $Q(s,a)=W(s,a)/N(s,a)$ : valor medio estimado.
+- $P(s,a)$ : probabilidad previa neuronal.
 
 Una regla frecuente, denominada PUCT, selecciona movimientos utilizando:
 
@@ -3483,11 +3466,11 @@ donde un término de exploración puede ser:
 
 $\boxed{ U(s,a)= c\_{\text{puct}} P(s,a) \frac{ \sqrt{\sum_b N(s,b)} }{ 1+N(s,a) } }$
 
-El término $Q$favorece movimientos que han obtenido evaluaciones elevadas.
+El término $Q$ favorece movimientos que han obtenido evaluaciones elevadas.
 
-El término $U$promueve movimientos con probabilidad previa significativa y pocas visitas.
+El término $U$ promueve movimientos con probabilidad previa significativa y pocas visitas.
 
-Esta expresión presupone que $Q$está representado desde la perspectiva del jugador que selecciona la acción en $s$.
+Esta expresión presupone que $Q$ está representado desde la perspectiva del jugador que selecciona la acción en $s$.
 
 Supongamos que una simulación alcanza una posición hoja:
 
@@ -3505,7 +3488,7 @@ Para una trayectoria:
 
 $s_0\rightarrow s_1\rightarrow \cdots\rightarrow s_L$
 
-con recompensas intermedias cero y $\gamma=1$, el valor de la hoja desde la perspectiva del jugador activo en $s_t$es:
+con recompensas intermedias cero y $\gamma=1$, el valor de la hoja desde la perspectiva del jugador activo en $s_t$ es:
 
 $\boxed{ v_t=(-1)^{L-t}v_L }$
 
@@ -3541,10 +3524,6 @@ El tercero introduce regularización.
 
 De esta forma, la red intenta aprender a reproducir parte del comportamiento de una búsqueda mucho más costosa, permitiendo orientar mejor búsquedas futuras.&#x20;
 
-[image](https://www.google.com/s2/favicons?domain=https://www.davidsilver.uk\&sz=32)
-
-davidsilver.uk+1
-
 Existen tres estrategias que conviene distinguir:
 
 | Estrategia   | Objetivo de valor                                | Obtención de la política               |
@@ -3577,7 +3556,7 @@ $s'\_a=T(s,a)$
 
 calculamos un valor aproximado de acción:
 
-$\boxed{ \hat Q(s,a)= \begin{cases} r(s,a) & \text{si la jugada termina la partida}\\\$4pt] r(s,a)-\gamma V\_{\bar\theta}(s'\_a) & \text{en otro caso} \end{cases} }$
+$\boxed{ \hat Q(s,a)= \begin{cases} r(s,a) & \text{si la jugada termina la partida}\\$4pt] r(s,a)-\gamma V\_{\bar\theta}(s'\_a) & \text{en otro caso} \end{cases} }$
 
 Esta expresión genera una estimación del valor de cada jugada sin realizar una búsqueda extensa.
 
@@ -3587,9 +3566,9 @@ $\boxed{ y_V(s)= \max\_{a\in A(s)}\hat Q(s,a) }$
 
 La pérdida de valor será:
 
-$\boxed{ L_V= \left[ V\_\theta(s)-\operatorname{stopgrad}(y_V(s)) \right]^2 }$
+$\boxed{ L_V= \left[ V\_\theta(s)-\text{stopgrad}(y_V(s)) \right]^2 }$
 
-La operación $\operatorname{stopgrad}$indica que el objetivo se considera constante durante la actualización.
+La operación $\text{stopgrad}$indica que el objetivo se considera constante durante la actualización.
 
 Con ello se evita propagar el gradiente a través del propio cálculo del objetivo Bellman.
 
@@ -3627,7 +3606,7 @@ con tratamiento terminal especial.
 
 Consistencia de política:
 
-$\boxed{ \pi\_\theta(a\mid s)\approx \operatorname{Softmax} \left( \hat Q(s,a)/\tau \right) }$
+$\boxed{ \pi\_\theta(a\mid s)\approx \text{Softmax} \left( \hat Q(s,a)/\tau \right) }$
 
 La primera relación busca que el valor de una posición sea coherente con las consecuencias de sus jugadas.
 
@@ -3638,7 +3617,13 @@ En términos conceptuales, ambas cabezas aprenden aproximaciones diferentes de u
 Una implementación conceptual puede utilizar el siguiente esquema:
 
 ```
-initialize network(theta)initialize target_network(theta_target)initialize replay_buffer()for iteration in range(max_iterations):    # 1. Generar partidas    games = self_play(        network=theta,        exploration=True    )    replay_buffer.add(games)    # 2. Seleccionar posiciones    batch = replay_buffer.sample_batch()    value_targets = []    policy_targets = []    for position in batch.positions:        legal_moves = generate_legal_moves(position)        action_values = []        # 3. Evaluar cada sucesor legal        for move in legal_moves:            child = make_move(position, move)            if is_terminal(child):                q = terminal_reward_for_mover(child)            else:                q = -gamma * target_network.value(child)
+initialize network(theta)
+initialize target_network(theta_target)
+initialize replay_buffer()
+for iteration in range(max_iterations):
+    # 1. Generar partidas
+        games = self_play(        network=theta,        exploration=True    )    replay_buffer.add(games)    # 2. Seleccionar posiciones    batch = replay_buffer.sample_batch()    value_targets = []    policy_targets = []    for position in batch.positions:        legal_moves = generate_legal_moves(position)        action_values = []        # 3. Evaluar cada sucesor legal        for move in legal_moves:            child = make_move(position, move)            if is_terminal(child):                q = terminal_reward_for_mover(child)
+        else:                q = -gamma * target_network.value(child)
 ```
 
 El pseudocódigo describe la estructura del método y omite detalles como el tratamiento de posiciones terminales ya presentes en el lote, las máscaras legales, los límites de partidas, la gestión de gradientes y la evaluación de nuevos modelos.
@@ -3861,10 +3846,6 @@ La búsqueda, en cambio, puede verificar concretamente una secuencia de movimien
 Por ello, una arquitectura puramente neuronal sin búsqueda tiene una limitación importante cuando se enfrenta a problemas tácticos que requieren razonamiento combinatorio preciso.
 
 La existencia de sistemas eficaces que combinan redes de valor y política con búsqueda ofrece evidencia de la utilidad de esta complementariedad, pero no demuestra que toda arquitectura híbrida supere a cualquier sistema neuronal directo.&#x20;
-
-[image](https://www.google.com/s2/favicons?domain=https://www.nature.com\&sz=32)
-
-Nature+1
 
 El ajedrez presenta una dificultad adicional: muchas posiciones permiten obtener tablas mediante juego correcto.
 
