@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
-project(picoSargon VERSION 0.2.38 LANGUAGES CXX)
+project(picoSargon VERSION 0.2.39 LANGUAGES CXX)
 if(NOT APPLE)
  message(FATAL_ERROR "Este build corresponde exclusivamente a macOS")
 endif()
 option(STEROIDS "Enable experimental search optimizations" OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(SHARED_HOST "${CMAKE_CURRENT_SOURCE_DIR}/../x86/picoSargon")
+set(SHARED_HOST "${CMAKE_CURRENT_SOURCE_DIR}/../x86")
 add_executable(picoSargon
  "${SHARED_HOST}/src/host_main.cpp"
  "${SHARED_HOST}/src/board.cpp"

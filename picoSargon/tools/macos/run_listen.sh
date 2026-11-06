@@ -3,7 +3,7 @@ set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 ROOT="$(cd -- "$HERE/../../.." && pwd -P)"
 ENGINE="$ROOT/picoSargon/macOS/build/picoSargon"
-WEIGHTS="$ROOT/picoSargon/x86/picoSargon/assets/grumpy.bin"
+WEIGHTS="$ROOT/picoSargon/x86/assets/grumpy.bin"
 HOST="${LISTEN_HOST:-127.0.0.1}"
 PORT="${LISTEN_PORT:-6200}"
 PYTHON="${LISTEN_PYTHON:-python3}"

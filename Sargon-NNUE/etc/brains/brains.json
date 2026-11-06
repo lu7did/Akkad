@@ -72,9 +72,9 @@
       "player": "microchess",
       "evaluator": "grumpy",
       "network": {
-        "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "macos": "../../picoSargon/x86/picoSargon/assets/grumpy.bin"
+        "windows": "../../picoSargon/debian/assets/grumpy.bin",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin",
+        "macos": "../../picoSargon/x86/assets/grumpy.bin"
       },
       "depth": 2,
       "qdepth": 0
@@ -204,14 +204,14 @@
       "player": "picosargon",
       "evaluator": "null",
       "engine-path": {
-        "windows": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon",
-        "macos": "/Users/pedrocolla/akkad/picoSargon/macOS/build/picoSargon"
+        "windows": "../../picoSargon/x86/build/picoSargon.exe",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/build/picoSargon",
+        "macos": "../../picoSargon/macOS/build/picoSargon"
       },
       "network": {
-        "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "macos": "/Users/pedrocolla/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
+        "windows": "../../picoSargon/debian/assets/grumpy.bin",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin",
+        "macos": "../../picoSargon/x86/assets/grumpy.bin"
       },
       "depth": 6,
       "qdepth": 2,
@@ -221,14 +221,14 @@
       "player": "picosargon",
       "evaluator": "null",
       "engine-path": {
-        "windows": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon",
+        "windows": "../../picoSargon/x86/build/picoSargon.exe",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/build/picoSargon",
         "macos": "../../picoSargon/macOS/build/picoSargon"
       },
       "network": {
-        "windows": "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "macos": "../../picoSargon/x86/picoSargon/assets/grumpy.bin"
+        "windows": "../../picoSargon/x86/assets/grumpy.bin",
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin",
+        "macos": "../../picoSargon/x86/assets/grumpy.bin"
       },
       "depth": 2,
       "qdepth": 1,

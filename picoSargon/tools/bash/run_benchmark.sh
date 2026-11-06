@@ -1,7 +1,7 @@
 cd ~/chess/akkad/Sargon-NNUE
 
 python -m sargon_nnue.sargon_benchmark \
-  --brain data/brains/brains.json \
+  --brain etc/brains/brains.json \
   --ids tinySargon \
   --mode positions \
   --positions 3 \

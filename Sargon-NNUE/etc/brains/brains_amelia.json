@@ -5,10 +5,10 @@
       "player": "picosargon",
       "evaluator": "null",
       "engine-path": {
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon"
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/build/picoSargon"
       },
       "network": {
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin"
       },
       "depth": 6,
       "qdepth": 2,

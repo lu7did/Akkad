@@ -15,7 +15,7 @@ param(
 # En PowerShell, --help se procesa como una forma de switch de ayuda.
 if ($help -or ($args -contains '--help')) {
     @'
-Compilacion picoSargon ARM v0.2.33
+Compilacion picoSargon ARM v0.2.39
 
 Sintaxis:
   .\build.ps1 [-Board pico2_w|pico_w] [-steroids:$true|$false] [-twins:$true|$false]
@@ -60,7 +60,7 @@ $BuildName = if ($twins) {
 }
 $Build = Join-Path $Project $BuildName
 $Tools = Join-Path (Split-Path -Parent $Project) 'tools'
-$Embed = Join-Path $Tools 'embed_grumpy.py'
+$Embed = Join-Path $Tools 'ARM\embed_grumpy.py'
 $Weights = Join-Path $Project 'assets\grumpy.bin'
 $Header = Join-Path $Project 'include\generated_grumpy.hpp'
 

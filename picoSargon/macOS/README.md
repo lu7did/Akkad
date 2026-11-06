@@ -1,8 +1,8 @@
-# picoSargon macOS v0.2.38
+# picoSargon macOS v0.2.39
 
 La implementación reside en `akkad/picoSargon/macOS`, sin subdirectorio intermedio.
 Todo el tooling macOS de picoSargon reside en `akkad/picoSargon/tools/macos`.
-El núcleo C++ es compartido con `picoSargon/x86/picoSargon`.
+El núcleo C++ es compartido con `picoSargon/x86`.
 
 ## Compilación desde la raíz de Akkad
 
@@ -44,9 +44,9 @@ En Windows puede utilizarse `picoSargon/tools/macos/cleanup_old_layout.ps1`.
 
 `build.sh` es el único script macOS de picoSargon fuera de `picoSargon/tools/macos`.
 El ejecutable generado es `picoSargon/macOS/build/picoSargon`, sin extensión `.exe`.
-La red sigue alojada en `picoSargon/x86/picoSargon/assets/grumpy.bin`.
+La red sigue alojada en `picoSargon/x86/assets/grumpy.bin`.
 
-## Telemetría del listener (v0.2.38)
+## Telemetría del listener (v0.2.39)
 
 La salida del servidor es local por stderr, con hora HH:MM:SS y emojis.
 Se presentan encabezado y rutas, conexión (IP y puerto de origen), comandos
