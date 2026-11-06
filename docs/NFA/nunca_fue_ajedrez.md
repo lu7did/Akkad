@@ -9674,7 +9674,6 @@ https://github.com/LeelaChessZero/lc0
 
 
 
-
 # CAP 9 Stockfish: the "*beast*"
 
 **Autores originales:** Tord Romstad, Marco Costalba y Joona Kiiski  
@@ -9754,10 +9753,10 @@ $\widehat V(s;C)=\text{Search}\left(s,C,E_{\mathrm{NNUE}},H,TT\right)$
 
 donde:
 
-- $C$es el presupuesto computacional.
-- $E_{\mathrm{NNUE}}$es la evaluación estática neuronal.
-- $H$representa heurísticas de búsqueda.
-- $TT$es la tabla de transposición.
+- $C$ es el presupuesto computacional.
+- $E_{\mathrm{NNUE}}$ es la evaluación estática neuronal.
+- $H$ representa heurísticas de búsqueda.
+- $TT$ es la tabla de transposición.
 
 La fuerza de Stockfish procede de la interacción entre estos elementos.
 
@@ -9880,10 +9879,10 @@ $A(p,s,O)=\text{AttackTable}\left(p,s,I(O)\right)$
 
 donde:
 
-- $p$es el tipo de pieza.
-- $s$es su casilla.
-- $O$es la ocupación.
-- $I$transforma la ocupación relevante en un índice.
+- $p$ es el tipo de pieza.
+- $s$ es su casilla.
+- $O$ es la ocupación.
+- $I$ transforma la ocupación relevante en un índice.
 
 De esta manera se evita recorrer repetidamente cada casilla de una diagonal o columna.
 
@@ -9905,7 +9904,7 @@ La posición completa puede representarse conceptualmente como:
 
 $P=(B,C,R,EP,H,K,U)$
 
-donde $B$representa la ocupación, $C$el bando al turno, $R$los derechos de enroque, $EP$la captura al paso, $H$el contador de la regla de cincuenta movimientos, $K$la clave de Zobrist y $U$el estado reversible.
+donde $B$ representa la ocupación, $C$ el bando al turno, $R$ los derechos de enroque, $EP$ la captura al paso, $H$ el contador de la regla de cincuenta movimientos, $K$ la clave de Zobrist y $U$ el estado reversible.
 
 ## Generación y legalidad de movimientos
 
@@ -9941,7 +9940,7 @@ Después de explorar la rama:
 
 $P=T^{-1}(P',m,U)$
 
-La estructura $U$registra la información necesaria para restaurar el estado.
+La estructura $U$ registra la información necesaria para restaurar el estado.
 
 Esto incluye datos como la pieza capturada, derechos de enroque, captura al paso y contadores.
 
@@ -9953,7 +9952,7 @@ La actualización incremental evita recalcular completamente determinadas estruc
 
 En un juego de suma cero, el valor ideal de una posición puede escribirse:
 
-$V(s)=\begin{cases}\max_m V(T(s,m)), & \text{juegan blancas}\\\min_m V(T(s,m)), & \text{juegan negras}\end{cases}$
+$$V(s)=\begin{cases}\max_m V(T(s,m)), & \text{juegan blancas}\\\min_m V(T(s,m)), & \text{juegan negras}\end{cases}$$
 
 suponiendo que los valores positivos favorecen a blancas.
 
@@ -9977,7 +9976,7 @@ Si el jugador al turno está en jaque mate:
 
 $N(s,d)=-M+\text{ply}$
 
-donde $M$es una constante de mate suficientemente grande.
+donde $M$ es una constante de mate suficientemente grande.
 
 La dependencia respecto del ply permite preferir mates más rápidos y demorar derrotas inevitables.
 
@@ -10034,7 +10033,7 @@ Este pseudocódigo representa la estructura matemática fundamental.
 
 El Stockfish real utiliza una implementación mucho más compleja, con reducciones, extensiones, búsquedas de verificación, tipos de nodo y condiciones especiales.
 
-Para un factor de ramificación $b$y profundidad $d$, una búsqueda completa tiene complejidad aproximada:
+Para un factor de ramificación $b$ y profundidad $d$ , una búsqueda completa tiene complejidad aproximada:
 
 $O(b^d)$
 
@@ -10049,11 +10048,8 @@ La eficiencia real de Stockfish requiere mucho más que alfa-beta convencional.
 ## Principal Variation Search
 
 Stockfish utiliza una búsqueda estructurada alrededor de una línea principal o *Principal Variation* (PV).
-
 La PV representa la mejor secuencia de jugadas encontrada hasta ese momento, bajo las hipótesis de la búsqueda.
-
 La técnica PVS utiliza ventanas estrechas para examinar candidatos que probablemente no mejoren la línea principal.
-
 En una búsqueda de valores enteros, una ventana nula puede representarse como:
 
 $[\alpha,\alpha+1)$
@@ -10148,7 +10144,7 @@ La clave se obtiene combinándolos mediante XOR:
 
 $K(P)=\bigoplus_{i\in F(P)}Z_i$
 
-donde $F(P)$reúne las características relevantes.
+donde $F(P)$ reúne las características relevantes.
 
 Cuando se realiza una jugada, la clave puede actualizarse incrementalmente aplicando XOR sobre las características modificadas.
 
@@ -10158,11 +10154,11 @@ $TT[K(P)]=(d,v,B,m,g)$
 
 donde:
 
-- $d$es la profundidad.
-- $v$es el valor almacenado.
-- $B$representa el tipo de cota.
-- $m$es una jugada recomendada.
-- $g$representa información para reemplazo o antigüedad.
+- $d$ es la profundidad.
+- $v$ es el valor almacenado.
+- $B$ representa el tipo de cota.
+- $m$ es una jugada recomendada.
+- $g$ representa información para reemplazo o antigüedad.
 
 Los tipos principales son:
 
@@ -10224,7 +10220,7 @@ Su función principal es estimar qué candidatos conviene explorar primero.
 
 SEE estima el resultado potencial de una secuencia de capturas sobre una casilla.
 
-Sea $s$la casilla donde se produce el intercambio.
+Sea $s$ la casilla donde se produce el intercambio.
 
 Una aproximación conceptual es:
 
@@ -10252,10 +10248,10 @@ $d'=d-1-r(d,n,c)$
 
 donde:
 
-- $d$es la profundidad restante.
-- $n$es el ordinal del movimiento.
-- $c$representa el contexto.
-- $r$es la reducción aplicada.
+- $d$ es la profundidad restante.
+- $n$ es el ordinal del movimiento.
+- $c$ representa el contexto.
+- $r$ es la reducción aplicada.
 
 Una forma ilustrativa es:
 
@@ -10311,7 +10307,7 @@ Falla especialmente en determinadas posiciones de *zugzwang*, donde la obligaci�
 
 Por esa razón, el motor utiliza restricciones contextuales y mecanismos de verificación.
 
-La reducción $R$y las condiciones de aplicación cambian entre versiones.
+La reducción $R$ y las condiciones de aplicación cambian entre versiones.
 
 La jugada nula no es un movimiento legal de ajedrez.
 
@@ -10327,7 +10323,7 @@ Una condición conceptual es:
 
 $E(P)+\Delta(d)<\alpha$
 
-donde $\Delta(d)$es un margen dependiente de la profundidad.
+donde $\Delta(d)$ es un margen dependiente de la profundidad.
 
 Si la evaluación estática supera ampliamente el límite beta a profundidad reducida, puede considerarse innecesario explorar el nodo exhaustivamente.
 
@@ -10363,31 +10359,19 @@ Una formulación simplificada es:
 
 $Q(P,\alpha,\beta)=\max\left(E(P),\max_{m\in C(P)}[-Q(T(P,m),-\beta,-\alpha)]\right)$
 
-donde $C(P)$es un subconjunto táctico de movimientos.
+donde $C(P)$ es un subconjunto táctico de movimientos.
 
 El valor estático utilizado como alternativa a continuar se denomina *stand pat*.
 
 Cuando el rey está en jaque, no es válido detenerse con una evaluación estática convencional ignorando la obligación de responder.
 
-El motor debe considerar movimientos que resuelvan el jaque.
+El motor debe considerar movimientos que resuelvan el jaque, por tanto, el comportamiento de quiescence depende del estado táctico. No se exploran necesariamente todos los movimientos legales, la búsqueda puede concentrarse en capturas, promociones y otros movimientos tácticos relevantes según el contexto.
 
-Por tanto, el comportamiento de quiescence depende del estado táctico.
+SEE y las estadísticas de movimientos ayudan a controlar su costo, Quiescence reduce el efecto horizonte, pero no lo elimina completamente.
 
-No se exploran necesariamente todos los movimientos legales.
-
-La búsqueda puede concentrarse en capturas, promociones y otros movimientos tácticos relevantes según el contexto.
-
-SEE y las estadísticas de movimientos ayudan a controlar su costo.
-
-Quiescence reduce el efecto horizonte, pero no lo elimina completamente.
-
-Una combinación que comienza con una jugada tranquila puede quedar fuera de su campo de exploración.
+Una combinación que comienza con una jugada poco relevante puede quedar fuera de su campo de exploración.
 
 ## Evaluación neuronal NNUE
-
-NNUE significa:
-
-**Efficiently Updatable Neural Network**.
 
 Su principio central consiste en combinar una red neuronal con estructuras de actualización incremental que permitan ejecutar evaluaciones muy frecuentes en CPU.
 
@@ -10412,7 +10396,7 @@ La primera transformación es:
 
 $a(P)=Wx(P)+b$
 
-El vector $x(P)$es disperso.
+El vector $x(P)$ es disperso.
 
 Si una característica está desactivada, no contribuye a la suma.
 
@@ -10420,7 +10404,7 @@ Por ello puede escribirse:
 
 $a(P)=b+\sum_{i:x_i(P)=1}W_i$
 
-donde $W_i$es la columna correspondiente de la matriz de pesos.
+donde $W_i$ es la columna correspondiente de la matriz de pesos.
 
 Esta estructura permite computar la transformación sumando solamente las contribuciones activas.
 
@@ -10442,7 +10426,7 @@ y por linealidad:
 
 $\boxed{a(P')=a(P)+W\Delta x}$
 
-Como una jugada normalmente modifica pocas características, $\Delta x$contiene relativamente pocos elementos distintos de cero.
+Como una jugada normalmente modifica pocas características, $\Delta x$ contiene relativamente pocos elementos distintos de cero.
 
 Por tanto:
 
@@ -10450,8 +10434,8 @@ $a(P')=a(P)+\sum_{i\in A}W_i-\sum_{j\in R}W_j$
 
 donde:
 
-- $A$representa características agregadas.
-- $R$representa características eliminadas.
+- $A$ representa características agregadas.
+- $R$ representa características eliminadas.
 
 No es necesario calcular nuevamente la transformación completa.
 
@@ -10480,13 +10464,13 @@ Para una transformación densa convencional:
 
 $O(NH)$
 
-donde $N$es el número de entradas y $H$el número de neuronas de salida.
+donde $N$ es el número de entradas y $H$ el número de neuronas de salida.
 
 Con actualización dispersa:
 
 $O(kH)$
 
-donde $k$es el número de características modificadas.
+donde $k$ es el número de características modificadas.
 
 Si:
 
@@ -10546,7 +10530,7 @@ Una cuantización conceptual es:
 
 $q=\text{round}\left(\frac{x}{s}\right)$
 
-donde $s$es una escala.
+donde $s$ es una escala.
 
 La aproximación reconstruida es:
 
@@ -10603,10 +10587,10 @@ $
 
 donde:
 
-- $\theta$son los parámetros de la red.
-- $P_i$es una posición de entrenamiento.
-- $y_i$es su objetivo.
-- $\ell$es la función de pérdida.
+- $\theta$ son los parámetros de la red.
+- $P_i$ es una posición de entrenamiento.
+- $y_i$ es su objetivo.
+- $\ell$ es la función de pérdida.
 
 La selección de objetivos, transformaciones y criterios de entrenamiento depende de la metodología concreta de cada red.
 
@@ -10731,7 +10715,8 @@ Tampoco corresponde interpretar el valor como una probabilidad directa de victor
 
 Stockfish puede utilizar tablas de finales Syzygy.
 
-Estas bases proporcionan información exacta sobre determinados finales cubiertos por su configuración.
+>Las tablas de finales Syzygy son bases de datos informáticas de ajedrez que contienen la verdad absoluta y el cálculo perfecto para cualquier posición de final con 7 piezas o menos (incluyendo ambos reyes)
+>Estas bases proporcionan información exacta sobre determinados finales cubiertos por su configuración.
 
 Entre las magnitudes utilizadas se encuentran:
 
@@ -10771,15 +10756,11 @@ Comparten información, especialmente mediante la tabla de transposición y otra
 
 El escalado, no obstante, no es ideal:
 
-$
-S(p)=\frac{T(1)}{T(p)}
-$
+$S(p)=\frac{T(1)}{T(p)}$
 
 En general:
 
-$
-S(p)<p
-$
+$S(p)<p$
 
 debido a:
 
@@ -10817,8 +10798,7 @@ La decisión depende de:
 
 Puede expresarse conceptualmente:
 
-$
-t_{\mathrm{jugada}}
+$t_{\mathrm{jugada}}
 =
 t_{\mathrm{base}}
 \cdot
@@ -10826,8 +10806,7 @@ f_{\mathrm{estabilidad}}
 \cdot
 f_{\mathrm{valor}}
 \cdot
-f_{\mathrm{esfuerzo}}
-$
+f_{\mathrm{esfuerzo}}$
 
 Esta expresión describe las familias de factores utilizadas, no una fórmula literal de la implementación.
 
@@ -10845,35 +10824,23 @@ Las métricas principales son:
 
 **Nodos examinados:**
 
-$
-N
-$
+$N$
 
 **Tiempo de ejecución:**
 
-$
-t
-$
+$t$
 
 **Nodos por segundo:**
 
-$
-NPS=\frac{N}{t}
-$
+$NPS=\frac{N}{t}$
 
 **Tiempo por nodo:**
 
-$
-t_n=\frac{t}{N}
-$
+$t_n=\frac{t}{N}$
 
 Si el tiempo se expresa en milisegundos:
 
-$
-t_n[\mathrm{ms}]
-=
-\frac{1000t[\mathrm{s}]}{N}
-$
+$t_n[\mathrm{ms}]=\frac{1000t[\mathrm{s}]}{N}$
 
 Un NPS elevado indica que el motor procesa muchos nodos por unidad de tiempo.
 
@@ -10891,13 +10858,7 @@ Una medida experimental más informativa es la calidad de decisión obtenida baj
 
 Por ejemplo:
 
-$
-Q(C)=
-\text{Performance}
-\left(
-\text{Engine},C
-\right)
-$
+$Q(C)=\text{Performance}\left(\text{Engine},C\right)$
 
 donde $C$puede representar tiempo por jugada, nodos o presupuesto computacional.
 
@@ -10913,17 +10874,13 @@ El objetivo es determinar si el cambio mejora la fuerza real del motor.
 
 Sea:
 
-$
-H_0:\Delta Elo\leq0
-$
+$H_0:\Delta Elo\leq0$
 
 la hipótesis de que la modificación no mejora el rendimiento.
 
 Y:
 
-$
-H_1:\Delta Elo>0
-$
+$H_1:\Delta Elo>0$
 
 la hipótesis alternativa.
 
@@ -10933,15 +10890,7 @@ El Sequential Probability Ratio Test permite evaluar evidencia acumulada y deten
 
 Una formulación abstracta utiliza:
 
-$
-\Lambda_n=
-\log
-\frac{
-L(\text{datos}_n\mid H_1)
-}{
-L(\text{datos}_n\mid H_0)
-}
-$
+$\Lambda_n=\log\frac{L(\text{datos}_n\mid H_1)}{L(\text{datos}_n\mid H_0)}$
 
 y compara este valor con umbrales de aceptación o rechazo.
 
@@ -10978,9 +10927,9 @@ T(P,m),C_m
 \right)
 $
 
-y $C_m$representa el esfuerzo computacional asignado a la variante.
+y $C_m$ representa el esfuerzo computacional asignado a la variante.
 
-A diferencia de una evaluación exhaustiva, los presupuestos $C_m$no son necesariamente iguales.
+A diferencia de una evaluación exhaustiva, los presupuestos $C_m$ no son necesariamente iguales.
 
 Algunas ramas reciben:
 
@@ -11084,9 +11033,7 @@ La característica más importante de Stockfish es que distribuye el presupuesto
 
 Si:
 
-$
-C=\sum_i C_i
-$
+$C=\sum_i C_i$
 
 representa el presupuesto total, el motor asigna más recursos a ramas consideradas prometedoras.
 
@@ -11145,8 +11092,6 @@ https://www.chessprogramming.org/
 **[12] Romstad, Tord; Costalba, Marco; Kiiski, Joona, y colaboradores.** *Stockfish Project History.* Historia del proyecto y evolución desde Glaurung.  
 https://stockfishchess.org/about/
 
-
-[===================================================================================]
 
 # CAP 10 Leela Chess Zero (LC0)
 
@@ -11618,17 +11563,9 @@ Una interfaz separada por TCP o proceso conserva aislamiento, permite reiniciar 
 [32] Lin et al., **Tracing the Thought of a Grandmaster-level Chess-Playing Transformer** (2026): https://arxiv.org/abs/2604.10158
 
 
-
-#==================================[REVISADO HASTA AQUI]================================
-#==================================[REVISADO HASTA AQUI]================================
-#==================================[REVISADO HASTA AQUI]================================
-#==================================[REVISADO HASTA AQUI]================================
-#==================================[REVISADO HASTA AQUI]================================
-#==================================[REVISADO HASTA AQUI]================================
-#==================================[REVISADO HASTA AQUI]================================
-#==================================[REVISADO HASTA AQUI]================================
-
 # CAP 11 La arquitectura Akkad
+
+[Arquitectura Akkad](images/sargon-nnue.png)
 
 Al completar la retrospectiva de los capítulos anteriores es legítimo, e inevitable,
 preguntarse que es posible agregarles que además tenga algún grado de novedad.
@@ -11636,7 +11573,7 @@ preguntarse que es posible agregarles que además tenga algún grado de novedad.
 >El Imperio acadio (o simplemente Akkad) fue el primer imperio de la historia de la humanidad, fundado en la antigua Mesopotamia hacia el siglo XXIV a. C. (en torno al año 2334 a. C.) por Sargón de Acad (Sargón el Grande)
 
 El proyecto Akkad es, fundamentalmente, una experiencia de aprendizaje sobre un tema
-vasto y complejo. 
+vasto y complejo como son las estructuras de decisión y la apliación de redes neurales al problema. 
 
 Pero es también el desarrollo de una intuición sobre que quizás existan aspectos no
 totalmente explorados en la intersección entre sistemas muy pequeños, en la tradición
@@ -12389,7 +12326,17 @@ Ese protocolo es implementado por otro *adapter/proxy* denominado *fics-uci.py* 
 
 # CAP 13 Portabilidad
 
-## Optimización (MacOS/Debian/ARM)
+El ambiente *Sargon-NNUE* opera como una *nursery* donde se evalúan algoritmos, principalmente en forma relativa entre si.
+
+El algoritmo *Sargón clásico* (histórico) es usado como referencia, para ser interesante un nuevo algoritmo debe, en promedio, batirlo consistentemente.
+
+También son motivo de estudio los parámetros de ejecución, en particular *depth*, *qdepth* y el tiempo máximo de jugada *timeout* entre otros.
+
+Sin embargo, la implementación en Python pone ciertos límites a la performance obtenible, la cual puede ser aceptable en una máquina potente pero no serlo tanto en en ambientes mas pequeños. Si bien Python está disponible para la placa Raspberry Pi y se dispone de una versión *microPython* para la placa Raspberry Pi Pico la performance de los mismos es relativamente limitada e inviable respectivamente.
+
+Para lograr niveles de performance aceptables la implementación es portada en una versión monolítica de alta performance escrita en C++.
+
+Las distintas versiones y los resultados obtenidos con las mismas se discute en las secciones siguientes.
 
 ## AlphaZero (C++)
 
@@ -12428,31 +12375,19 @@ El archivo principal de la implementación es:
 
 Está organizado alrededor de cuatro clases o estructuras fundamentales.
 
-Sargon-NNUE
-
-Factory → AlphaZeroX86UCIPlayer
-
-Protocolo UCI
-
-Engine (C++17)
-
-Estado UCI · opciones · posiciones · hilo de búsqueda
-
-MCTS + Node
-
-Selección PUCT · expansión · retropropagación · decisión
-
-LC0Inference
-
-BackendManager → EvaluateBatch()
-
-Windows
-
-ONNX / DirectML / GPU
-
-Debian ARM64
-
-Eigen / OpenBLAS / CPU
+* Sargon-NNUE
+  * Factory → AlphaZeroX86UCIPlayer
+  * Protocolo UCI
+  * Engine (C++17)
+  * Estado UCI · opciones · posiciones · hilo de búsqueda
+* MCTS + Node
+  * Selección PUCT · expansión · retropropagación · decisión
+* LC0Inference
+  * BackendManager → EvaluateBatch()
+* Windows
+  * ONNX / DirectML / GPU
+* Debian ARM64
+  * Eigen / OpenBLAS / CPU
 
 La clase `Engine` administra el estado del motor, incluyendo `Settings`, `PositionHistory`, la instancia de `LC0Inference`, un hilo de búsqueda y una bandera atómica de cancelación.
 
@@ -12461,8 +12396,6 @@ Implementa los comandos `uci`, `isready`, `ucinewgame`, `setoption`, `position`,
 La búsqueda se ejecuta en un `std::thread`, lo que permite recibir `stop` mientras se realiza la búsqueda. Las salidas UCI se serializan mediante un `std::mutex`.
 
 Una particularidad importante: cuando cambia una opción mediante `setoption`, se invalida la instancia neuronal, que debe construirse nuevamente. Además, `ucinewgame` libera el backend y no conserva el árbol MCTS previo.
-
-### 2.2. `LC0Inference`: evaluación neuronal
 
 `LC0Inference` es utilizada para la evaluación neuronal, esta clase constituye el punto de integración entre el algoritmo MCTS propio de Akkad y las bibliotecas C++ de Lc0.
 
@@ -12491,8 +12424,8 @@ Por consiguiente, no está explotando la capacidad de inferencia masiva que podr
 
 La evaluación entrega:
 
-- Un valor \\(q\\), desde la perspectiva del jugador que debe mover.
-- Un vector de probabilidades de política \\(p_i\\), asociado a los movimientos legales.
+- Un valor $\(q\)$, desde la perspectiva del jugador que debe mover.
+- Un vector de probabilidades de política $\(p_i\)$, asociado a los movimientos legales.
 
 La implementación sanea valores de política negativos o no finitos, normaliza las probabilidades y, si todas son nulas, utiliza una distribución uniforme.
 
@@ -12513,48 +12446,46 @@ La clase `MCTS` implementa cuatro operaciones: selección, expansión, evaluaci�
 
 Su diseño es semejante al del player Python `alphazero.py`, pero no es una traducción completamente equivalente en sus límites de recursos y tratamiento de estados.
 
-### Formulación matemática del algoritmo
+### Implementación del algoritmo
 
 Una red compatible con la interfaz de Lc0 representa una función:
 
-\\[ f\_\theta(s)=(\mathbf p\_\theta(s),v\_\theta(s)) \\]
+$f\_\theta(s)=(\mathbf p\_\theta(s),v\_\theta(s))$
 
 donde:
 
-- \\(s\\) representa una posición con su historial relevante.
-- \\(\theta\\) representa los parámetros entrenados de la red.
-- \\(\mathbf p\_\theta(s)\\) es la política de movimientos.
-- \\(v\_\theta(s)\\) es la estimación del resultado de la partida.
+- $\(s\)$ representa una posición con su historial relevante.
+- $\(\theta\)$ representa los parámetros entrenados de la red.
+- $\(\mathbf p\_\theta(s)\)$ es la política de movimientos.
+- $\(v\_\theta(s)\)$ es la estimación del resultado de la partida.
 
 Para redes con una cabeza WDL (victoria, tablas, derrota), el valor puede representarse como:
 
-\\[ v(s)=P(W\mid s)-P(L\mid s) \\]
+$v(s)=P(W\mid s)-P(L\mid s)$
 
 y queda normalmente restringido a:
 
-\\[ -1\le v(s)\le 1 \\]
+$-1\le v(s)\le 1$
 
 En `LC0Inference::eval`, Akkad utiliza el campo `q` que devuelve Lc0, sin reconstruir manualmente WDL. Esto permite que el backend gestione las particularidades de la representación neuronal.
 
 La distribución de política se normaliza sobre los movimientos legales:
 
-\\[ P(a_i\mid s)= \frac{\max(0,p_i)} {\sum\_{j\in A(s)}\max(0,p_j)} \\]
+$P(a_i\mid s)= \frac{\max(0,p_i)} {\sum\_{j\in A(s)}\max(0,p_j)}$
 
 con un tratamiento adicional para valores no finitos y suma nula.
 
-### 3.2. Selección mediante PUCT
-
 La selección mediante *PUCT* ocasiona que el algoritmo seleccione la jugada que maximiza:
 
-\\[ a^\*=\arg\max_a \left[ Q(s,a)+U(s,a) \right] \\]
+$a^\*=\arg\max_a \left[ Q(s,a)+U(s,a) \right]$
 
 donde:
 
-\\[ Q(s,a)= \begin{cases} \dfrac{W(s,a)}{N(s,a)}, & N(s,a)>0\\\ 0, & N(s,a)=0 \end{cases} \\]
+$Q(s,a)= \begin{cases} \dfrac{W(s,a)}{N(s,a)}, & N(s,a)>0\\\ 0, & N(s,a)=0 \end{cases}$
 
 y:
 
-\\[ U(s,a)= c\_{\mathrm{puct}}P(s,a) \frac{\sqrt{\max(1,\sum_b N(s,b))}}{1+N(s,a)} \\]
+$U(s,a)= c\_{\mathrm{puct}}P(s,a) \frac{\sqrt{\max(1,\sum_b N(s,b))}}{1+N(s,a)}$
 
 El parámetro `Cpuct` determina la importancia de explorar movimientos poco visitados pero prometedores según la red.
 
@@ -12562,7 +12493,7 @@ Un valor elevado favorece la exploración. Un valor reducido aumenta la explotac
 
 En la configuración C++ actual:
 
-\\[ c\_{\mathrm{puct}}=1.5 \\]
+$c\_{\mathrm{puct}}=1.5$
 
 La implementación utiliza un PUCT relativamente sencillo, con una constante fija. No reproduce necesariamente todas las heurísticas modernas del buscador oficial de Lc0, como las diversas formas de ajuste de exploración, procesamiento por lotes o reutilización sofisticada de información.
 
@@ -12571,25 +12502,25 @@ Si el nodo seleccionado no está expandido:
 1. Se generan los movimientos legales con las clases de ajedrez de Lc0.
 2. Se solicita una evaluación neuronal.
 3. Se almacenan los priors y se inicializan las estadísticas.
-4. Se devuelve el valor \\(v(s)\\) para retropropagar.
+4. Se devuelve el valor $\(v(s)\)$ para retropropagar.
 
 La expansión inicial de la raíz se efectúa antes de comenzar el contador de simulaciones.
 
 Si una posición es terminal, el código devuelve:
 
-\\[ v\_{\text{terminal}}= \begin{cases} +1 & \text{si ganó el jugador que debe mover}\\\ 0 & \text{si hay tablas}\\\ -1 & \text{si perdió el jugador que debe mover} \end{cases} \\]
+$v\_{\text{terminal}}= \begin{cases} +1 & \text{si ganó el jugador que debe mover}\\ 0 & \text{si hay tablas}\\ -1 & \text{si perdió el jugador que debe mover} \end{cases}$
 
 La interpretación se realiza mediante el resultado de partida calculado sobre `PositionHistory`.
 
 Al retroceder desde un nodo descendiente al padre (retropropagación), se invierte el signo del valor:
 
-\\[ v\_{\text{padre}}=-v\_{\text{hijo}} \\]
+$v\_{\text{padre}}=-v\_{\text{hijo}}$
 
 Luego:
 
-\\[ N(s,a)\leftarrow N(s,a)+1 \\]
+$N(s,a)\leftarrow N(s,a)+1$
 
-\\[ W(s,a)\leftarrow W(s,a)+v\_{\text{padre}} \\]
+$W(s,a)\leftarrow W(s,a)+v\_{\text{padre}}$
 
 Esto es necesario porque el valor neuronal está expresado desde la perspectiva del jugador que debe mover. En un juego de suma cero, el beneficio de un jugador es el perjuicio de su adversario.
 
@@ -12597,7 +12528,7 @@ Al finalizar, no se elige necesariamente el movimiento con mayor valor neuronal.
 
 Se prioriza, lexicográficamente:
 
-\\[ a^\*=\arg\max_a \left(N(s,a),Q(s,a),P(s,a)\right) \\]
+$a^\*=\arg\max_a \left(N(s,a),Q(s,a),P(s,a)\right)$
 
 Es decir, primero las visitas, luego el valor medio y finalmente la probabilidad de política.
 
@@ -12605,17 +12536,17 @@ Si ninguna arista fue visitada, se selecciona el movimiento con mayor prior neur
 
 Esto distingue al algoritmo MCTS de un evaluador que simplemente elige:
 
-\\[ a^\*=\arg\max_a v(s_a) \\]
+$a^\*=\arg\max_a v(s_a)$
 
-El motor transforma el valor \\(q\\) en una puntuación aproximada expresada en *centipeones*
+El motor transforma el valor $\(q\)$ en una puntuación aproximada expresada en *centipeones*
 
-\\[ cp=400\\,\text{atanh}(q) \\]
+$cp=400\\,\text{atanh}(q)$
 
 equivalentemente:
 
-\\[ cp=200\ln\left(\frac{1+q}{1-q}\right) \\]
+$cp=200\ln\left(\frac{1+q}{1-q}\right)$
 
-Antes de la conversión restringe \\(q\\) al intervalo \\([-0.999,0.999]\\).
+Antes de la conversión restringe $\(q\)$ al intervalo $\([-0.999,0.999]\)$.
 
 Esto sirve para presentar una puntuación compatible con la telemetría UCI, pero no convierte la evaluación neuronal en una medida material de centipeones equivalente a la de Stockfish.
 
@@ -12696,7 +12627,7 @@ El factory restringe explícitamente los evaluadores permitidos a cuatro.
 
 Esto no significa que `classic` o `grumpy` sean conceptualmente incapaces de participar en MCTS. Significa que la arquitectura actual exige un contrato de política y valor y que el factory solo admite las cuatro implementaciones indicadas.
 
-En particular, una función que únicamente devuelve una evaluación escalar \\(v(s)\\) no proporciona por sí sola los priors \\(P(s,a)\\).
+En particular, una función que únicamente devuelve una evaluación escalar $\(v(s)\)$ no proporciona por sí sola los priors $\(P(s,a)\)$.
 
 ### 5.2. Player `AlphaZero-X86` (C++)
 
@@ -12879,7 +12810,7 @@ La red se evalúa mediante los componentes CPU de Lc0, utilizando Eigen y OpenBL
 
 Para una capa densa:
 
-\\[ \mathbf y=\phi(W\mathbf x+\mathbf b) \\]
+$\mathbf y=\phi(W\mathbf x+\mathbf b)$
 
 el cálculo se efectúa sobre CPU con las optimizaciones matemáticas disponibles para ARM64.
 
@@ -12948,7 +12879,7 @@ El backend determina cómo se ejecutan las operaciones matemáticas sobre un dis
 
 En términos generales:
 
-\\[ f\_\theta^{\text{Windows}}(s) \approx f\_\theta^{\text{ARM64}}(s) \\]
+$f\_\theta^{\text{Windows}}(s) \approx f\_\theta^{\text{ARM64}}(s)$
 
 cuando ambas plataformas cargan exactamente los mismos pesos y aplican el mismo esquema de entrada y salida.
 
@@ -12991,19 +12922,19 @@ En particular, no es correcto afirmar que cualquier red LC0 que funcione en Dire
 
 Para una operación matricial densa:
 
-\\[ Y=WX \\]
+$Y=WX$
 
-con \\(W\in\mathbb R^{m\times n}\\), el coste aritmético aproximado por vector de entrada es:
+con $W\in\mathbb R^{m\times n}$, el coste aritmético aproximado por vector de entrada es:
 
-\\[ O(mn) \\]
+$O(mn)$
 
 En redes convolucionales el coste crece con el número de canales, las dimensiones espaciales y el tamaño de los kernels.
 
 En arquitecturas Transformer, la atención densa tiene un componente cuadrático respecto de la cantidad de tokens:
 
-\\[ O(T^2d) \\]
+$O(T^2d)$
 
-donde \\(T\\) representa los tokens y \\(d\\) su dimensión interna, aunque el coste total también incluye las proyecciones lineales y las capas de alimentación.
+donde $\(T\)$ representa los tokens y $\(d\)$ su dimensión interna, aunque el coste total también incluye las proyecciones lineales y las capas de alimentación.
 
 La Raspberry Pi puede ejecutar una red grande siempre que la memoria, el backend y el tiempo de inferencia lo permitan. Sin embargo, al utilizar CPU y evaluaciones unitarias, puede resultar mucho más conveniente una red pequeña.
 
@@ -13067,7 +12998,7 @@ Una revisión posterior de Lc0 podría modificar el tratamiento de redes, operac
 
 Para comparaciones científicamente válidas deben mantenerse iguales:
 
-\\[ (\text{revisión Lc0},\theta,\text{posición}, \text{opciones de búsqueda}) \\]
+$(\text{revisión Lc0},\theta,\text{posición}, \text{opciones de búsqueda})$
 
 y variar únicamente la plataforma o el backend que se desea estudiar.
 
@@ -13077,19 +13008,15 @@ El método de inferencia utiliza:
 EvaluateBatch(..., 1)
 ```
 
-Un MCTS con búsqueda paralela o evaluaciones agrupadas podría aprovechar mejor una GPU mediante lotes de tamaño \\(B>1\\).
+Un MCTS con búsqueda paralela o evaluaciones agrupadas podría aprovechar mejor una GPU mediante lotes de tamaño $B>1$.
 
 Esto abre una oportunidad de optimización, especialmente para Windows, pero no es una modificación trivial: requiere controlar evaluaciones pendientes, nodos concurrentes y sincronización de estadísticas.
 
 Además, la memoria del árbol actualmente no se reutiliza entre movimientos.
 
-El `README.md` de AlphaZero conserva valores descriptivos antiguos, como 128 simulaciones, mientras `src/config.h` establece 1000.
-
 Para documentar la configuración vigente debe prevalecer el código, distinguiendo el default del ejecutable de los parámetros que un brain modifica al inicializarlo.
 
-### Qué convendría medir en Windows y Raspberry Pi
-
-No recomendaría comparar directamente la cantidad de nodos informada por AlphaZero contra los nodos de Stockfish o Sargon-Plus. Las unidades de trabajo son diferentes.
+No es posible comparar directamente la cantidad de nodos informada por AlphaZero contra los nodos de Stockfish o Sargon-Plus. Las unidades de trabajo son diferentes.
 
 Para AlphaZero, las principales magnitudes de interés son:
 
@@ -13104,7 +13031,7 @@ Para AlphaZero, las principales magnitudes de interés son:
 | Porcentaje de tiempo en inferencia | Cuello de botella neuronal             |
 | Resultado en partidas              | Calidad competitiva final              |
 
-La telemetría actual contiene simulaciones, tiempo, NPS calculado sobre simulaciones, nodos expandidos, visitas de la mejor jugada y valor \\(q\\). No descompone el tiempo entre inferencia neuronal y lógica de búsqueda.
+La telemetría actual contiene simulaciones, tiempo, NPS calculado sobre simulaciones, nodos expandidos, visitas de la mejor jugada y valor $\(q\)$. No descompone el tiempo entre inferencia neuronal y lógica de búsqueda.
 
 Un benchmark controlado debería utilizar exactamente las mismas posiciones, pesos y presupuestos.
 
@@ -13149,15 +13076,24 @@ La principal mejora inmediata no es incorporar otra red neuronal ni optimizar pr
 
 Siguiente paso más importante: construir una prueba reproducible que ejecute un conjunto fijo de posiciones con T1-256x10 en Windows y Raspberry Pi, registre la evaluación neuronal y las estadísticas MCTS, y compruebe explícitamente el signo de la puntuación tanto con blancas como con negras. Esa prueba establecería una base técnica confiable para todas las optimizaciones posteriores.
 
+### Performance ajedrecistica
 
-# CAP 14 Entrenamiento
+La versión Win64 bate en la comparación a todos las combinaciones de jugador y evaluador en la comparación interna
+corriendo con una red Leela Chess Zero de tamaño pequeño *t1-256x10-distilled-swa-2432500.pb.gz*, integrada en
+*lichess.org* bajo el nombre *bobby_pcolla* alcanza un ELO asignado por la plataforma que se estabiliza en el
+entorno de 2500.
+
+[lichess-AlphaZero](images/lichess-AlphaZero.jpg)
+
+Por su parte la versión debian corriendo en una plataforma Raspberry Pi con la misma red neural es integrada en la plataforma *Free Chess (FICS)*, si bien no tiene ELO asignado por no haber cumplido aún con las condiciones es posible estimar  un ELO de 2500 que alcanza en comparación con otros bots con los que compite aunque la muestra es menos representativa que en el caso de *lichess*.
+
+[fics_elo](images/fics_elo.png)
+
 
 [*********************************************************************************]
 [*********************************************************************************]
 [*********************************************************************************]
 
-- **AlphaZero-X86:** ejecutable C++ del proyecto Akkad que recibe red y backend. El nombre es histórico: la configuración también contiene rutas Debian. No se debe suponer compatibilidad binaria entre plataformas.
-- **picoAlpha, picoSargon, picoKeras:** wrappers hacia **ejecutables locales UCI**. Los nombres `pico` no prueban ejecución física en una placa: los perfiles actuales apuntan mayoritariamente a binarios de escritorio o Raspberry Pi.
 
 
 ## picoSargon (C++)
@@ -13174,8 +13110,6 @@ A diferencia de AlphaZero, que utiliza MCTS y una red con salidas de política y
 6. Los pesos comprimidos están embebidos en Flash en ARM, pero la implementación actual descomprime cada red a 1.680 bytes de RAM. Por tanto, no cumple literalmente el objetivo de mantener todos los pesos exclusivamente en Flash.
 
 La última conclusión es especialmente importante: para documentar correctamente el uso de memoria debemos distinguir el almacenamiento persistente de los pesos de su representación operativa.
-
-## 2. Comparación general de las plataformas
 
 | Característica          | Windows x86-64                             | Debian / Raspberry Pi | ARM / Pico 2 W                |
 | ----------------------- | ------------------------------------------ | --------------------- | ----------------------------- |
@@ -13196,23 +13130,6 @@ La última conclusión es especialmente importante: para documentar correctament
 | Compilación             | CMake/MSVC                                 | CMake/GCC             | Pico SDK/CMake/Ninja          |
 | Salida                  | `.exe`                                     | Ejecutable Linux      | Firmware `.uf2`               |
 
-## Relación con los jugadores y evaluadores de Sargon-NNUE
-
-Hay que distinguir entre la combinación Sargon-Plus/NPZ y el motor picoSargon. Ambos pertenecen a la misma familia conceptual, pero no constituyen la misma implementación.
-
-| Player de Sargon-NNUE | Evaluador | Algoritmo                          | Ejecución         |
-| --------------------- | --------- | ---------------------------------- | ----------------- |
-| `sargon-plus`         | `npz`     | Sargon-Plus Python, alfa-beta      | Interna           |
-| `sargon-plus`         | `classic` | Sargon-Plus Python, alfa-beta      | Interna           |
-| `sargon-plus`         | `grumpy`  | Sargon-Plus Python, alfa-beta      | Interna           |
-| `picosargon`          | `null`    | picoSargon C++, alfa-beta y Grumpy | Motor UCI externo |
-
-La combinación `sargon-plus/npz` aparece explícitamente en el brain `aegir`. El player `picosargon`, con evaluador `null`, aparece en `tinySargon` y `fastSargon`.
-
-El evaluador `null` no significa que picoSargon juegue sin evaluación neuronal. Significa que Sargon-NNUE delega la búsqueda y la evaluación al ejecutable externo.
-
-### Red NNUE  NPZ y Grumpy
-
 | Aspecto                         | Sargon-Plus / NPZ          | picoSargon / Grumpy                        |
 | ------------------------------- | -------------------------- | ------------------------------------------ |
 | Implementación                  | Python/NumPy               | C++ entero                                 |
@@ -13227,39 +13144,20 @@ El evaluador `null` no significa que picoSargon juegue sin evaluación neuronal.
 | Entrenamiento                   | NPZ entrenable             | Pesos Grumpy preentrenados                 |
 | Portabilidad a microcontrolador | Costosa                    | Muy favorable                              |
 
-La red NPZ de la línea de base tiene arquitectura:
-
-\\[ 781\longrightarrow64\longrightarrow1 \\]
-
-y aproximadamente 50.000 parámetros principales.
-
-Grumpy utiliza una representación considerablemente más compacta, que examinaremos matemáticamente.
-
-Importante: picoSargon no admite seleccionar `npz` como evaluador desde UCI. Para hacerlo sería necesario implementar otro evaluador C++ y modificar su contrato de carga. No es una combinación disponible actualmente.
-
-### Arquitectura interna del motor
+La red NNUE (Grumpy) utiliza una representación considerablemente más compacta, que examinaremos matemáticamente.
 
 El núcleo se organiza en tres clases principales: `Board`, `Grumpy` y `Engine`.
 
 Interfaz UCI
-
 Windows/Linux: consola · Pico ARM: TCP/Wi-Fi
-
 Engine — búsqueda
-
-Iterative deepening · Negamax · α-β · PVS · LMR · TT · Quiescence
-
+    Iterative deepening · Negamax · α-β · PVS · LMR · TT · Quiescence
 Board
-
-Mailbox 120 · movimientos · legalidad · repetición
-
+    Mailbox 120 · movimientos · legalidad · repetición
 Grumpy
-
-Características · acumuladores enteros · salida neuronal
-
+    Características · acumuladores enteros · salida neuronal
 Infraestructura de plataforma
-
-Memoria · reloj · sistema operativo · núcleos
+    Memoria · reloj · sistema operativo · núcleos
 
 En `board.hpp`, la clase `Board` contiene:
 
@@ -13271,9 +13169,9 @@ uint8_t castling=15;
 
 La representación es un tablero mailbox 120: una matriz conceptual de 10 columnas y 12 filas, donde las 64 casillas de ajedrez ocupan una región interior rodeada de casillas de protección.
 
-La transformación de una casilla de índice \\(s\\), entre 0 y 63, a su representación mailbox es:
+La transformación de una casilla de índice $\(s\)$, entre 0 y 63, a su representación mailbox es:
 
-\\[ m(s)=21+10\left\lfloor\frac{s}{8}\right\rfloor+(s\bmod8) \\]
+$m(s)=21+10\left\lfloor\frac{s}{8}\right\rfloor+(s\bmod8)$
 
 Este modelo facilita comprobar movimientos mediante desplazamientos constantes, evitando que los recorridos salgan inadvertidamente de los límites del tablero.
 
@@ -13283,13 +13181,13 @@ En ARM, la variante `TWINS` agrega una interfaz para reutilizar buffers de movim
 
 El motor utiliza una búsqueda de suma cero. Su ecuación fundamental es:
 
-\\[ V(s,d)=\max\_{a\in A(s)}[-V(T(s,a),d-1)] \\]
+$V(s,d)=\max\_{a\in A(s)}[-V(T(s,a),d-1)]$
 
 con evaluación neuronal al alcanzar una hoja.
 
 La poda alfa-beta mantiene dos cotas:
 
-\\[ \alpha\le V(s,d)\le\beta \\]
+$\alpha\le V(s,d)\le\beta$
 
 Cuando se demuestra que una rama no puede mejorar el resultado del jugador actual, se interrumpe su exploración.
 
@@ -13321,7 +13219,7 @@ Si el rey no está en jaque, calcula primero una evaluación estática (stand pa
 
 En forma simplificada:
 
-\\[ Q(s,\alpha,\beta)= \max\left( E(s), \max\_{a\in A\_{\text{tácticas}}(s)} [-Q(T(s,a),-\beta,-\alpha)] \right) \\]
+$Q(s,\alpha,\beta)= \max\left( E(s), \max\_{a\in A\_{\text{tácticas}}(s)} [-Q(T(s,a),-\beta,-\alpha)] \right)$
 
 Esta formulación requiere un tratamiento especial cuando el rey está en jaque, porque no es válido quedarse inmóvil o considerar exclusivamente capturas.
 
@@ -13334,8 +13232,6 @@ La opción de compilación `STEROIDS` agrega tres mecanismos principales:
 - Razoring: ante ciertas posiciones superficiales cuyo valor está suficientemente por debajo de alfa, utiliza una búsqueda quiescence para comprobar si corresponde evitar la búsqueda completa.
 
 Estas técnicas cambian el coste de cada nodo y el árbol explorado. No representan modificaciones de la red neuronal.
-
-## Red NNUE Grumpy
 
 La red empleada es una función neuronal compacta de valoración de posiciones, con dos perspectivas de características y aritmética entera.
 
@@ -13357,7 +13253,7 @@ Cada grupo de 12 bytes representa 96 bits, suficientes para almacenar 16 valores
 
 Por tanto:
 
-\\[ 105\times16=1680 \\]
+$105\times16=1680$
 
 El resultado de descomprimir la red son 1.680 parámetros, cada uno almacenado en un byte.
 
@@ -13377,45 +13273,33 @@ La representación considera las combinaciones de:
 - 6 tipos de pieza.
 - 64 casillas.
 
-Esto produce:
-
-\\[ 2\times6\times64=768 \\]
-
-características posibles.
+Esto produce $2\times6\times64=768$ características posibles.
 
 En lugar de almacenar una matriz densa de \\(768\times8=6144\\) pesos independientes, Grumpy factoriza las contribuciones espaciales.
 
-Para una característica \\(f=(c,p,r,k)\\), el peso que recibe la neurona \\(j\\) se reconstruye como:
+Para una característica $f=(c,p,r,k)$, el peso que recibe la neurona $\(j\)$ se reconstruye como:
 
-\\[ w\_{f,j}=w^{\text{fila}}\_{c,p,r,j} +w^{\text{columna}}\_{c,p,k,j} \\]
+$w\_{f,j}=w^{\text{fila}}\_{c,p,r,j} +w^{\text{columna}}\_{c,p,k,j}$
 
-donde \\(r\\) es la fila y \\(k\\) la columna de la pieza.
+donde $\(r\)$ es la fila y $\(k\)$ la columna de la pieza.
 
-Cada combinación de color y tipo de pieza necesita:
+Cada combinación de color y tipo de pieza necesita $(8+8)\times8=128$ parámetros. 
 
-\\[ (8+8)\times8=128 \\]
-
-parámetros.
-
-Como existen 12 combinaciones de color y tipo:
-
-\\[ 12\times128=1536 \\]
+Como existen 12 combinaciones de color y tipo $12\times128=1536$
 
 Esta factorización reduce los 6.144 pesos de una matriz densa equivalente a 1.536 valores almacenados: una reducción del 75 %.
 
 La operación reconstruye los pesos cuando los necesita, evitando mantener una matriz densa en memoria.
 
-El evaluador construye dos vectores:
-
-\\[ \mathbf a,\mathbf c\in\mathbb Z^8 \\]
+El evaluador construye dos vectores $\mathbf a,\mathbf c\in\mathbb Z^8$
 
 Uno corresponde a la disposición de piezas observada desde una perspectiva y el otro a su representación transformada.
 
 Para cada pieza ocupante se acumulan las contribuciones correspondientes:
 
-\\[ a_j=b_j+\sum\_{f\in F(s)}w\_{f,j} \\]
+$a_j=b_j+\sum\_{f\in F(s)}w\_{f,j}$
 
-\\[ c_j=b_j+\sum\_{f\in F'(s)}w\_{f,j} \\]
+$c_j=b_j+\sum\_{f\in F'(s)}w\_{f,j}$
 
 La segunda perspectiva utiliza una transformación de orientación expresada en C++ mediante:
 
@@ -13433,7 +13317,7 @@ Esto es una diferencia importante frente a una NNUE incremental de mayor complej
 
 La red utiliza una activación acotada:
 
-\\[ \phi(x)=\min(32,\max(0,x)) \\]
+$\phi(x)=\min(32,\max(0,x))$
 
 Es una variante de ReLU recortada.
 
@@ -13441,9 +13325,9 @@ Su principal ventaja es que opera exclusivamente con enteros y limita las amplit
 
 La arquitectura utiliza ocho grupos de pesos de salida (buckets).
 
-La selección depende del número total de piezas \\(n\\):
+La selección depende del número total de piezas $\(n$\):
 
-\\[ b=\left\lfloor\frac{n-2}{4}\right\rfloor \\]
+$b=\left\lfloor\frac{n-2}{4}\right\rfloor$
 
 para el rango permitido por el evaluador.
 
@@ -13464,13 +13348,13 @@ Esto permite utilizar distintos coeficientes de evaluación según la fase aprox
 
 Para el bucket \\(b\\), el cálculo es:
 
-\\[ z_b = 8\beta_b+ \sum\_{j=0}^{15}v\_{b,j}\phi(h_j) \\]
+$z_b = 8\beta_b+ \sum\_{j=0}^{15}v\_{b,j}\phi(h_j)$
 
-donde \\(h_j\\) concatena los ocho acumuladores de ambas perspectivas, comenzando por la correspondiente al jugador que mueve.
+donde $\(h_j\)$ concatena los ocho acumuladores de ambas perspectivas, comenzando por la correspondiente al jugador que mueve.
 
 La salida neuronal se escala:
 
-\\[ E\_{\text{NN}}= \text{trunc}\left(\frac{400z_b}{1024}\right) \\]
+$E\_{\text{NN}}= \text{trunc}\left(\frac{400z_b}{1024}\right)$
 
 La división utiliza aritmética entera y truncamiento hacia cero.
 
@@ -13478,7 +13362,7 @@ Grumpy no depende exclusivamente de su salida neuronal.
 
 El código agrega una evaluación material:
 
-\\[ E(s)=E\_{\text{NN}}(s)+E\_{\text{material}}(s) \\]
+$E(s)=E\_{\text{NN}}(s)+E\_{\text{material}}(s)$
 
 El material se obtiene de una constante empaquetada de 64 bits:
 
@@ -13488,7 +13372,7 @@ constexpr uint64_t packed = 0x3847D12C4B064ULL;
 
 Para cada tipo de pieza se extrae un campo de 10 bits:
 
-\\[ m_p=(packed\gg 10p)\ \&\ 1023 \\]
+$m_p=(packed\gg 10p)\ \&\ 1023$
 
 La combinación de evaluación neuronal y material proporciona una función escalar que `Engine` convierte a la perspectiva del jugador que mueve antes de usarla en Negamax.
 
@@ -13498,9 +13382,7 @@ Los derechos de enroque y otras condiciones siguen estando presentes en la repre
 
 La principal ventaja de esta arquitectura es el coste de almacenamiento. Su principal limitación es su capacidad de representación, considerablemente menor que la de redes densas y NNUE más grandes.
 
-## Integración de Grumpy en Flash
-
-Este es uno de los aspectos más importantes de la portación al RP2350.
+La integración de Grumpy en memoria Flash es uno de los aspectos más importantes de la portación al RP2350.
 
 En Windows y Debian el programa carga `grumpy.bin` desde el sistema de archivos.
 
@@ -13624,7 +13506,7 @@ La segunda alternativa de la tabla anterior es la que presenta el compromiso má
 
 En modo TWINS el ahorro potencial de RAM de los dos arreglos `raw_` sería:
 
-\\[ 2\times1680=3360\text{ bytes} \\]
+$2\times1680=3360\text{ bytes}$
 
 No incluye el resto del estado de los objetos `Grumpy`, pero sí sus matrices de parámetros.
 
@@ -13643,11 +13525,11 @@ Cada instancia de `Engine` contiene, entre otras estructuras:
 
 La tabla de historial tiene:
 
-\\[ 2\times64\times64 \\]
+$2\times64\times64$
 
 entradas de 16 bits, lo que representa:
 
-\\[ 2\times64\times64\times2=16384\text{ bytes} \\]
+$2\times64\times64\times2=16384\text{ bytes}$
 
 por `Engine`, sin contar alineación ni otros miembros.
 
@@ -13714,9 +13596,9 @@ for (size_t i = 0; i < all.size(); ++i)
 
 Por tanto:
 
-\\[ A_0=\\{a_0,a_2,a_4,\ldots\\} \\]
+$A_0=\\{a_0,a_2,a_4,\ldots\\}$
 
-\\[ A_1=\\{a_1,a_3,a_5,\ldots\\} \\]
+$A_1=\\{a_1,a_3,a_5,\ldots\\}$
 
 Esto produce un reparto estático de cantidad de movimientos aproximadamente equilibrado.
 
@@ -13724,7 +13606,7 @@ Sin embargo, la carga computacional de cada movimiento puede ser muy diferente.
 
 Una jugada puede requerir 50.000 nodos y otra solamente 500. Por consiguiente, distribuir el mismo número de movimientos no implica distribuir el mismo trabajo.
 
-Para cada profundidad \\(d\\):
+Para cada profundidad $\(d\)$:
 
 1. El núcleo 0 ordena los movimientos de la raíz.
 2. Divide la lista entre los dos núcleos.
@@ -13748,17 +13630,17 @@ std::atomic<int> twin_alpha{-1000000};
 
 Supongamos que el núcleo 0 encuentra una jugada con puntuación:
 
-\\[ V(a_0)=+80 \\]
+$V(a_0)=+80$
 
 Publica:
 
-\\[ \alpha\_{\text{global}}=80 \\]
+$\alpha\_{\text{global}}=80$
 
 Cuando el núcleo 1 comienza una nueva jugada, puede realizar una búsqueda con ventana estrecha para determinar si esa jugada supera 80.
 
 En términos generales, la prueba consiste en:
 
-\\[ V(a)>\alpha\_{\text{global}}? \\]
+$V(a)>\alpha\_{\text{global}}?$
 
 Si no supera la cota, no es necesario calcular su valor exacto para decidir si mejora la mejor jugada conocida.
 
@@ -13808,7 +13690,7 @@ El código utiliza `compare_exchange_weak` para publicar una mejora.
 
 Conceptualmente implementa:
 
-\\[ \alpha\_{\text{global}}\leftarrow \max(\alpha\_{\text{global}},v\_{\text{verificado}}) \\]
+$\alpha\_{\text{global}}\leftarrow \max(\alpha\_{\text{global}},v\_{\text{verificado}})$
 
 La operación es atómica, de manera que ambos núcleos pueden intentar actualizar la cota sin perder una mejora concurrente.
 
@@ -13835,25 +13717,25 @@ Si el núcleo 0 termina en 25 ms y el núcleo 1 termina en 80 ms, el primero deb
 
 El tiempo de pared aproximado de una iteración es:
 
-\\[ T_d\approx \max(T\_{0,d},T\_{1,d})+T\_{\text{sincronización}} \\]
+$T_d\approx \max(T\_{0,d},T\_{1,d})+T\_{\text{sincronización}}$
 
 No es:
 
-\\[ T_d=\frac{T\_{\text{secuencial}}}{2} \\]
+$T_d=\frac{T\_{\text{secuencial}}}{2}$
 
 El rendimiento depende de la distribución del coste de las ramas, la efectividad de las podas y la sincronización.
 
 Para dos núcleos, el speedup ideal es:
 
-\\[ S_2=\frac{T_1}{T_2}=2 \\]
+$S_2=\frac{T_1}{T_2}=2$
 
 pero el tiempo real incluye trabajo secuencial, sincronización y desequilibrio.
 
 Una aproximación mediante la ley de Amdahl sería:
 
-\\[ S_2\le \frac{1}{f+\frac{1-f}{2}} \\]
+$S_2\le \frac{1}{f+\frac{1-f}{2}}$
 
-donde \\(f\\) representa la fracción del trabajo que no puede paralelizarse.
+donde $f$ representa la fracción del trabajo que no puede paralelizarse.
 
 En alfa-beta existe otra complicación: la cantidad de nodos explorados depende del orden en que se conocen los resultados y se actualizan las cotas.
 
@@ -13996,23 +13878,6 @@ Esto importa porque los parámetros declarados por un brain de Sargon-NNUE para 
 
 En ARM, la versión actual del servidor UCI no utiliza `go depth N` para modificar el límite compilado.
 
-### Identidad de las redes en las tres plataformas
-
-Verifiqué los tres archivos binarios de Grumpy incluidos en la línea de base.
-
-| Archivo                               | Tamaño  | SHA-256 idéntico |
-| ------------------------------------- | ------- | ---------------- |
-| `x86/picoSargon/assets/grumpy.bin`    | 1.304 B | Sí               |
-| `debian/picoSargon/assets/grumpy.bin` | 1.304 B | Sí               |
-| `ARM/assets/grumpy.bin`               | 1.304 B | Sí               |
-
-La huella SHA-256 común es:
-
-```
-974d44e2d0c9540e5ab309e0af36dd2ad42bbd5b2928fa02dbc8a18c5717d6bb
-```
-
-Esto demuestra identidad de pesos, no necesariamente identidad de comportamiento entre todos los ejecutables.
 
 La implementación ARM tiene diferencias respecto de Windows/Debian en el manejo de estados de tablas, buffers, paralelismo y algunas condiciones de búsqueda.
 
@@ -14022,7 +13887,7 @@ Un aspecto adicional de validación es que el evaluador Python `GrumpyEvaluator`
 
 En ARM, donde los pesos se generan durante la construcción del firmware, la integridad puede verificarse en la etapa de generación. Sería conveniente hacer explícita esa verificación antes de compilar.
 
-### Evaluación crítica de la implementación
+### Implementación
 
 Windows y Debian comparten el núcleo C++ y sus pesos. ARM conserva el mismo evaluador, pero incorpora cambios propios en la búsqueda, especialmente con TWINS.
 
@@ -14052,34 +13917,22 @@ Duplicar la tabla de historial, la TT, los buffers de búsqueda y mantener un st
 
 La optimización de memoria debería medirse mediante el archivo de enlace `.map`, las secciones estáticas y las marcas máximas de stack y heap durante búsquedas representativas.
 
-### Trabajo futuro
-
-| Prioridad | Intervención                                              | Beneficio esperado                    | Riesgo     |
-| --------- | --------------------------------------------------------- | ------------------------------------- | ---------- |
-| 1         | Medir Flash/SRAM real con mapa de enlace                  | Diagnóstico preciso                   | Bajo       |
-| 2         | Prueba de equivalencia del evaluador entre plataformas    | Garantía de paridad neuronal          | Bajo       |
-| 3         | Corregir identificadores de versión ARM                   | Trazabilidad                          | Bajo       |
-| 4         | Almacenar parámetros descomprimidos directamente en Flash | Ahorro de hasta 3.360 B SRAM en TWINS | Medio      |
-| 5         | Medir `sync_ms` y utilización de cada núcleo              | Identificar desequilibrios            | Bajo       |
-| 6         | Evaluación incremental de Grumpy                          | Menor coste por hoja                  | Medio/alto |
-| 7         | Balanceo dinámico TWINS                                   | Posible mejora de rendimiento         | Alto       |
-
-picoSargon representa una arquitectura diferente de AlphaZero: utiliza búsqueda alfa-beta relativamente sofisticada y una red neuronal extremadamente compacta, en lugar de MCTS con redes grandes de política y valor.
-
-Su principal ventaja es que puede ejecutar búsqueda neuronal en un microcontrolador Cortex-M33 con recursos muy limitados.
-
 La portación ARM conserva los parámetros neuronales utilizados en Windows y Debian, pero modifica sustancialmente la gestión de memoria y la ejecución paralela.
 
-Las dos precisiones más importantes son:
+### Performance ajedrecistica
 
-Primera: TWINS no es un algoritmo de balanceo dinámico de carga. Es una partición estática de jugadas raíz acompañada de cooperación mediante una cota alfa compartida y sincronización por profundidad.
+En comparación con otros motores locales el algoritmo Sargón corriendo en una placa Raspberry Pi Pico 1W un comportamiento excelente batiendo a todos los algoritmos basados en búsqueda minimax básica.
 
-Segunda: Grumpy está embebida en Flash como archivo comprimido, pero sus parámetros se descomprimen a SRAM. Para eliminar por completo la memoria RAM utilizada por los pesos es necesario modificar esa representación operativa y verificarla en el mapa de enlace.
+Puesto a competir en la plataforma *lichess.org* alcanza una performance promediando  1700-1800 en forma consistente.
 
-Mi recomendación concreta es conservar por ahora el algoritmo de búsqueda y realizar primero una auditoría de memoria y de equivalencia entre los evaluadores. Dejaría para una segunda etapa la reestructuración de Grumpy para acceder directamente a parámetros constantes en Flash y, solamente después de medir el desequilibrio real, consideraría introducir balanceo dinámico en TWINS.
+![lichess-picoSargon](images/lichess_picoSargon.png)
 
-El análisis anterior está basado en inspección estática de la línea de base. No constituye una certificación de rendimiento ni de ocupación física de memoria, que requieren ejecutar el firmware y examinar los artefactos de compilación.
 
+# CAP 14 Entrenamiento
+
+
+- **AlphaZero-X86:** ejecutable C++ del proyecto Akkad que recibe red y backend. El nombre es histórico: la configuración también contiene rutas Debian. No se debe suponer compatibilidad binaria entre plataformas.
+- **picoAlpha, picoSargon, picoKeras:** wrappers hacia **ejecutables locales UCI**. Los nombres `pico` no prueban ejecución física en una placa: los perfiles actuales apuntan mayoritariamente a binarios de escritorio o Raspberry Pi.
 
 
 # CAP 12 Implementación
