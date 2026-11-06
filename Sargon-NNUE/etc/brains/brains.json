@@ -26,8 +26,8 @@
       "player": "AlphaZero-X86",
       "evaluator": "null",
       "engine-path": {
-         "windows": "../../AlphaZero/build/AlphaZero.exe",
-         "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero"
+        "windows": "../../AlphaZero/build/AlphaZero.exe",
+        "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero"
       },
       "lc0-weights": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
       "lc0-backend": "onnx-dml",
@@ -78,19 +78,19 @@
       "depth": 2,
       "qdepth": 0
     },
-     "belly": {
-        "player": "bellman",
-        "evaluator": "bellmanR",
-        "network": "../etc/bellman/bellman.json",
-        "alternate-evaluator": "grumpy",
-        "alternate-network": "../../../networks/grumpy/grumpy.bin",
-        "bellman-nmin": 2,
-        "bellman-alpha": 1.0,
-        "bellman-lambda": 0.25,
-        "bellman-gamma": 1.0,
-        "depth": 2,
-        "qdepth": 2,
-        "tmax": 15000
+    "belly": {
+      "player": "bellman",
+      "evaluator": "bellmanR",
+      "network": "../etc/bellman/bellman.json",
+      "alternate-evaluator": "grumpy",
+      "alternate-network": "../../../networks/grumpy/grumpy.bin",
+      "bellman-nmin": 2,
+      "bellman-alpha": 1.0,
+      "bellman-lambda": 0.25,
+      "bellman-gamma": 1.0,
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000
     },
     "aegir": {
       "evaluator": "npz",
@@ -138,7 +138,7 @@
       "tmax": 10000,
       "rating_elo": 400
     },
-    "badGyal" : {
+    "badGyal": {
       "player": "picoalpha",
       "evaluator": "null",
       "engine-path": "../../picoAlpha/x86/picoAlpha/build/picoAlpha.exe",
@@ -152,7 +152,7 @@
       "player": "keras",
       "evaluator": "keras",
       "network": "../data/runs/keras/small.INT8.tf",
-      "nodes" : 1,
+      "nodes": 1,
       "rating_elo": 400
     },
     "penelope": {
@@ -160,24 +160,24 @@
       "evaluator": "null",
       "engine-path": "../../picoKeras/X86/build/Release/picoKeras.exe",
       "network": "../../../networks/keras/medium.tf",
-      "nodes" : 1,
+      "nodes": 1,
       "rating_elo": 400
     },
     "argos": {
       "player": "keras",
       "evaluator": "keras",
       "network": "../data/runs/keras/small.tf",
-      "nodes" : 1,
+      "nodes": 1,
       "rating_elo": 400
     },
     "odiseo": {
       "player": "keras",
       "evaluator": "keras",
       "network": "../data/runs/keras/medium.tf",
-      "nodes" : 1,
+      "nodes": 1,
       "rating_elo": 400
     },
-    "tinyAlpha" : {
+    "tinyAlpha": {
       "player": "picoalpha",
       "evaluator": "null",
       "engine-path": "../../picoAlpha/x86/picoAlpha/build/picoAlpha.exe",
@@ -190,13 +190,13 @@
     "picoAlpha": {
       "player": "external",
       "evaluator": "null",
-      "url" :  "picoalpha.local:6110",
+      "url": "picoalpha.local:6110",
       "rating_elo": 400
     },
     "circe": {
       "player": "external",
       "evaluator": "null",
-      "url" :  "amelia.local:6200",
+      "url": "amelia.local:6200",
       "rating_elo": 400
     },
     "tinySargon": {
@@ -204,11 +204,13 @@
       "evaluator": "null",
       "engine-path": {
         "windows": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon"
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/build/picoSargon",
+        "macos": "../picoSargon/macOS/picoSargon/build/picoSargon"
       },
       "network": {
         "windows": "../../picoSargon/debian/picoSargon/assets/grumpy.bin",
-        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin"
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/picoSargon/assets/grumpy.bin",
+        "macos": "../picoSargon/x86/picoSargon/assets/grumpy.bin"
       },
       "depth": 6,
       "qdepth": 2,
@@ -218,7 +220,7 @@
       "player": "picosargon",
       "evaluator": "null",
       "engine-path": "../../picoSargon/x86/picoSargon/build/picoSargon.exe",
-      "network"    : "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
+      "network": "../../picoSargon/x86/picoSargon/assets/grumpy.bin",
       "depth": 2,
       "qdepth": 1,
       "tmax": 5000,
@@ -228,13 +230,13 @@
     "picoSargon": {
       "player": "external",
       "evaluator": "null",
-      "url" :  "picosargon.local:6110",
+      "url": "picosargon.local:6110",
       "rating_elo": 400
     },
     "manon": {
       "player": "external",
       "evaluator": "null",
-      "url" :  "192.168.68.109:6110",
+      "url": "192.168.68.109:6110",
       "rating_elo": 400
     },
     "alphie": {

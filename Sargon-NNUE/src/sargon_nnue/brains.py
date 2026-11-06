@@ -80,7 +80,7 @@ def resolve_platform_paths(config):
     Missing platform alternatives raise an error rather than running the wrong binary.
     """
     result = dict(config)
-    platform = 'windows' if os.name == 'nt' else 'debian'
+    platform = 'windows' if os.name == 'nt' else ('macos' if sys.platform == 'darwin' else 'debian')
     for key in PATH_KEYS:
         value = result.get(key)
         if not isinstance(value, dict):
@@ -88,7 +88,8 @@ def resolve_platform_paths(config):
         if not value or any(not isinstance(k, str) or not isinstance(v, str) for k, v in value.items()):
             raise ValueError(f'{key}: mapa de rutas inválido')
         choices = (('windows', 'win32', 'default') if platform == 'windows'
-                   else ('debian', 'linux', 'default'))
+                   else (('macos', 'darwin', 'default') if platform == 'macos'
+                          else ('debian', 'linux', 'default')))
         chosen = next((value[k] for k in choices if isinstance(value.get(k), str) and value[k]), None)
         if chosen is None:
             raise ValueError(f'{key}: falta ruta para {platform}')

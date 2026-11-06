@@ -1,0 +1,7 @@
+Akkad picoSargon v0.2.34 - portación macOS
+Aplicar extrayendo este ZIP EN la raíz de akkad (rutas comienzan picoSargon/ y Sargon-NNUE/).
+Fuentes compartidos C++: host_main.cpp. CMake x86: versión sincronizada v0.2.34.
+Nuevo destino: picoSargon/macOS/picoSargon.
+Resolver Python: añade macos/darwin sin alterar Windows/Debian.
+Perfil tinySargon: añade rutas para macOS.
+No se modifica ARM ni se sustituye la red Grumpy.

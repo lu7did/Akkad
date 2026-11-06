@@ -13,6 +13,9 @@
 #include <map>
 #include <iomanip>
 #include <algorithm>
+#if defined(__APPLE__)
+#include <sys/sysctl.h>
+#endif
 // Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
 // No LC0 dependency; only retrieves brains[brain]["network"].
 namespace {
@@ -56,9 +59,18 @@ std::string platform_path(JsonCursor& j){
 #ifdef _WIN32
  const char* primary="windows";
 #else
+ #if defined(__APPLE__)
+ const char* primary="macos";
+#else
  const char* primary="debian";
 #endif
- for(const char* k:{primary,"linux","default"}){
+#endif
+ #if defined(__APPLE__)
+ for(const char* k:{"macos","darwin","default"})
+#else
+ for(const char* k:{primary,"linux","default"})
+#endif
+ {
   auto it=paths.find(k);if(it!=paths.end()&&!it->second.empty())return it->second;
  }
  throw std::runtime_error(std::string("brains.json: falta network para plataforma ")+primary);
@@ -97,7 +109,7 @@ std::string weights_argument(int argc,char** argv){
 
 
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.26"
+#define PICOSARGON_VERSION "0.2.34"
 #endif
 namespace {
 std::string trim_uci(std::string x) {
@@ -112,6 +124,10 @@ std::string trim_uci(std::string x) {
 std::string system_release(){
 #ifdef _WIN32
  return "Windows";
+#elif defined(__APPLE__)
+ char name[256]; size_t len=sizeof(name);
+ if(sysctlbyname("kern.osproductversion",name,&len,nullptr,0)==0) return std::string("macOS ")+name;
+ return "macOS";
 #else
  std::ifstream in("/etc/os-release");
  std::string line;
@@ -125,6 +141,12 @@ std::string system_release(){
 std::string total_memory(){
 #ifdef _WIN32
  // Keep the Windows identifier stable without introducing new OS dependencies.
+ return "RAM n/d";
+#elif defined(__APPLE__)
+ uint64_t bytes=0;size_t size=sizeof(bytes);
+ if(sysctlbyname("hw.memsize",&bytes,&size,nullptr,0)==0){
+  std::ostringstream os;os<<std::fixed<<std::setprecision(2)<<(static_cast<double>(bytes)/1073741824.0)<<" GiB RAM";return os.str();
+ }
  return "RAM n/d";
 #else
  std::ifstream in("/proc/meminfo");
@@ -142,7 +164,11 @@ std::string uci_identity(){
 #ifdef _WIN32
  return std::string("picoSargon C++ v")+PICOSARGON_VERSION+" (Windows)";
 #else
+ #if defined(__APPLE__)
+ return std::string("picoSargon C++ v")+PICOSARGON_VERSION+" ("+system_release()+" / "+total_memory()+")";
+#else
  return std::string("picoSargon C++ v")+PICOSARGON_VERSION+" (debian "+system_release()+" / "+total_memory()+")";
+#endif
 #endif
 }
 }
