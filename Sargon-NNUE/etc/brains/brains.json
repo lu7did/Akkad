@@ -242,6 +242,12 @@
       "url": "picosargon.local:6110",
       "rating_elo": 400
     },
+    "macia": {
+      "player": "external",
+      "evaluator": "null",
+      "url": "macia.local:6200",
+      "rating_elo": 400
+    },
     "manon": {
       "player": "external",
       "evaluator": "null",

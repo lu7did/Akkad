@@ -10,7 +10,7 @@ import subprocess
 import sys
 import threading
 
-VERSION = '0.2.50'
+VERSION = '0.2.52'
 PRINT_LOCK = threading.Lock()
 
 
@@ -134,12 +134,30 @@ def handle(conn, addr, ns):
         conn.settimeout(0.5)
         buffer = b''
         quit_requested = False
+        client_eof = False
         while proc.poll() is None and not done.is_set():
             try:
                 chunk = conn.recv(4096)
             except socket.timeout:
                 continue
             if not chunk:
+                # TCP half-close (e.g. printf | nc): the client has no more
+                # commands, but may still be reading replies. Do not kill the
+                # engine or close the connection before its stdout is drained.
+                client_eof = True
+                if buffer.strip():
+                    # Accept a final command without a newline.
+                    line = buffer.rstrip(b'\r')
+                    if line:
+                        try:
+                            proc.stdin.write(line + b'\n')
+                        except (OSError, BrokenPipeError, ValueError):
+                            pass
+                try:
+                    proc.stdin.write(b'quit\n')
+                    proc.stdin.flush()
+                except (OSError, BrokenPipeError, ValueError):
+                    pass
                 break
             buffer += chunk
             if len(buffer) > 65536:
@@ -161,11 +179,18 @@ def handle(conn, addr, ns):
                     break
             if quit_requested:
                 break
-        if quit_requested:
+        if quit_requested or client_eof:
+            # Wait for the engine to consume queued UCI commands and exit.
+            # stdout is forwarded by engine_output; wait for that pump too.
+            # A bounded grace period prevents a defective engine from holding
+            # a disconnected client open indefinitely.
+            grace = max(10.0, (ns.timeout or 15000) / 1000.0 + 5.0)
             try:
-                proc.wait(timeout=2)
+                proc.wait(timeout=grace)
             except subprocess.TimeoutExpired:
-                pass
+                emit('⚠️', 'Motor: tiempo agotado al cerrar la sesion')
+            if proc.poll() is not None:
+                done.wait(timeout=3.0)
     except (OSError, ValueError) as exc:
         emit('❌', f'Client error {addr[0]}:{addr[1]}: {exc}')
     finally:

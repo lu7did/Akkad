@@ -1,0 +1,7 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error,decision_method,bellman_visits,bellman_w,bellman_d,bellman_l,bellman_q,bellman_s,bellman_legal_examined,bellman_hash_hits,bellman_qualified
+macia,external,null,,positions,1,1,r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3,W,b1c3,589.316,588,425173,6,OK,,,,,,,,,,,
+macia,external,null,,positions,1,2,rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,c4d5,494.678,493,367600,6,OK,,,,,,,,,,,
+macia,external,null,,positions,1,3,rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,B,b8c6,230.308,227,224032,6,OK,,,,,,,,,,,
+macia,external,null,,positions,1,4,rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3,W,b1c3,265.307,264,270502,6,OK,,,,,,,,,,,
+macia,external,null,,positions,1,5,rnbqkbnr/pppp1ppp/8/4p3/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 2,B,b8c6,357.435,356,309342,6,OK,,,,,,,,,,,
+macia,external,null,,positions,1,6,rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 1 3,W,b1c3,481.161,480,363487,6,OK,,,,,,,,,,,

@@ -1,6 +1,6 @@
 ﻿param(
     [string]$Python  = "C:\Users\pedro\ufasta\Scripts\python.exe",
-    [string]$Ip      = "192.168.68.105",
+    [string]$Ip      = "192.168.68.110",
     [int]$Port       = 6200,
     [string]$Event   = "Pruebas de picoSargon",
     [int]$Timeout    = 60000,
