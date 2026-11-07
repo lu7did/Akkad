@@ -79,6 +79,12 @@ class UCISession:
                     if isinstance(decision, dict) and decision.get('method') == 'BELLMAN':
                         # There is no calibrated CP equivalent of a WDL statistic.
                         self.send(f"info depth 0 nodes {choice.nodes} time {max(1,round(choice.elapsed_ms))} nps {round(1000*choice.nodes/choice.elapsed_ms) if choice.elapsed_ms>0 else 0}")
+                    elif str(getattr(self.player, "name", "")).upper() == "ALPHAZERO-X86" and getattr(self.player, "last_uci_info", None):
+                        # The embedded AlphaZero produces its own authoritative UCI info.
+                        # Keep it on TCP stdout; never send native stderr diagnostics here.
+                        for info_line in self.player.last_uci_info:
+                            self.send(info_line)
+                            self.log(f"📊 UCI {info_line}")
                     else:
                         self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
                     self.send("bestmove "+bestmove)

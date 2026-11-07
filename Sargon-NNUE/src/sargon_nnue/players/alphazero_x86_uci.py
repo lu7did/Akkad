@@ -22,7 +22,8 @@ class AlphaZeroX86UCIPlayer(ExternalUCIPlayer):
         self.backend_options=backend_options if backend_options else ('gpu=0' if self.backend=='onnx-dml' else '')
         super().__init__([str(exe),'--weights',str(weights),'--backend',self.backend,
                           '--backend-options',self.backend_options],
-                         movetime_ms=max(self.tmax_ms,1), timeout_ms=max(int(timeout_ms),self.tmax_ms+10000),label=self.name)
+                         movetime_ms=max(self.tmax_ms,1), timeout_ms=max(int(timeout_ms),self.tmax_ms+10000),
+                         label=self.name, inherit_stderr=True)
         self._send(f'setoption name Simulations value {self.simulations}')
         self._send(f'setoption name Cpuct value {self.cpuct}')
         self._send(f'setoption name TMax value {self.tmax_ms}')
@@ -36,12 +37,15 @@ class AlphaZeroX86UCIPlayer(ExternalUCIPlayer):
         self._send(pos)
         self._send(f'go nodes {self.simulations}'+(f' movetime {self.tmax_ms}' if self.tmax_ms else ''))
         depth=0;nodes=0;score_stm=0;best=None
+        self.last_uci_info = []
         deadline=start+self.timeout_ms/1000
         while time.monotonic()<deadline:
             try:line=self.q.get(timeout=max(.001,deadline-time.monotonic()))
             except queue.Empty:break
             if line is None:raise PlayerError('AlphaZero-X86 terminated')
             if line.startswith('info '):
+                # Preserve the actual native UCI info for the TCP client.
+                self.last_uci_info.append(line)
                 fields=line.split()
                 for key in ('depth','nodes'):
                     if key in fields:

@@ -46,7 +46,8 @@ class ExternalUCIPlayer(Player):
     name = "UCI-EXTERNAL"
 
     def __init__(self, command: str, movetime_ms: int = 1000,
-                 timeout_ms: int = 30000, label: str = "EXTERNAL"):
+                 timeout_ms: int = 30000, label: str = "EXTERNAL", *,
+                 inherit_stderr: bool = False):
         self.command = command
         self.movetime_ms = int(movetime_ms)
         self.timeout_ms = int(timeout_ms)
@@ -55,7 +56,7 @@ class ExternalUCIPlayer(Player):
             command,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
+            stderr=None if inherit_stderr else subprocess.DEVNULL,
             text=True,
             bufsize=1,
             shell=False,
