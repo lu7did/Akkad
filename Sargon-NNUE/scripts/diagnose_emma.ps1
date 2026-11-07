@@ -32,7 +32,7 @@ if ([string]::IsNullOrWhiteSpace($AkkadRoot)) {
 }
 
 $exeCandidates = @(
-    (Join-Path $root 'AlphaZero\build\AlphaZero.exe'),
+    (Join-Path $root 'AlphaZero\X86\build\AlphaZero.exe'),
     (Join-Path $root 'AlphaZero\build\Release\AlphaZero.exe')
 )
 $exe = $exeCandidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1

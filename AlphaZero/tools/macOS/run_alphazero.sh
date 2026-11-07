@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Native AlphaZero UCI runner for macOS, v0.1.3
+# Native AlphaZero UCI runner for macOS, v0.2.0
 set -Eeuo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 AZ="$(cd -- "$HERE/../.." && pwd -P)"
 AKKAD="$(cd -- "$AZ/.." && pwd -P)"
-EXE="$AZ/build/AlphaZero"
+EXE="$AZ/macOS/build/AlphaZero"
 SIMULATIONS=1000
 TIMEOUT=60000
-WEIGHTS="/Users/pedrocolla/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"
+WEIGHTS="${ALPHAZERO_WEIGHTS:-}"
 BACKEND=eigen
 BACKEND_OPTIONS=''
 usage() {
 cat <<'HELP'
-AlphaZero macOS UCI v0.1.3
+AlphaZero macOS UCI v0.2.0
 Usage: run_alphazero.sh [--weights FILE] [--simulations N] [--timeout MS] [--help]
 Defaults: simulations=1000, timeout=60000ms, backend=eigen (CPU).
          weights: ALPHAZERO_WEIGHTS or existing macOS emma weights in brains.json.

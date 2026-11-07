@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AlphaZero macOS UCI smoke test v0.1.5
+# AlphaZero macOS UCI smoke test v0.2.0
 set -Eeuo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 RUN="$HERE/run_alphazero.sh"
@@ -10,7 +10,7 @@ STARTUP_TIMEOUT=180
 SEARCH_TIMEOUT=60
 usage() {
 cat <<'HELP'
-AlphaZero macOS UCI smoke test v0.1.5
+AlphaZero macOS UCI smoke test v0.2.0
 Usage: uci_smoke.sh [--weights FILE] [--simulations N] [--timeout MS]
                     [--startup-timeout SEC] [--search-timeout SEC] [--help]
 Defaults: simulations=8, timeout=15000 ms, startup-timeout=180 s,
@@ -42,13 +42,15 @@ done
 (( SIMULATIONS >= 1 && SIMULATIONS <= 10000000 )) || { echo 'ERROR: simulations outside 1..10000000' >&2; exit 2; }
 (( TIMEOUT >= 1 && TIMEOUT <= 3600000 )) || { echo 'ERROR: timeout outside 1..3600000' >&2; exit 2; }
 (( STARTUP_TIMEOUT >= 1 && SEARCH_TIMEOUT >= 1 )) || { echo 'ERROR: timeouts must be positive' >&2; exit 2; }
-[[ -x "$RUN" ]] || { echo "ERROR: missing runner: $RUN" >&2; exit 2; }
+[[ -f "$RUN" ]] || { echo "ERROR: runner absent: $RUN (restore run_alphazero.sh from this patch)" >&2; exit 2; }
+[[ -r "$RUN" ]] || { echo "ERROR: runner unreadable: $RUN" >&2; exit 2; }
 command -v python3 >/dev/null || { echo 'ERROR: python3 not found' >&2; exit 2; }
 export AZ_SMOKE_RUN="$RUN" AZ_SMOKE_WEIGHTS="$WEIGHTS" AZ_SMOKE_SIMS="$SIMULATIONS" \
   AZ_SMOKE_TIMEOUT="$TIMEOUT" AZ_SMOKE_STARTUP="$STARTUP_TIMEOUT" AZ_SMOKE_SEARCH="$SEARCH_TIMEOUT"
 python3 - <<'PY'
 import os, queue, re, subprocess, sys, threading, time
-cmd = [os.environ['AZ_SMOKE_RUN'], '--simulations', os.environ['AZ_SMOKE_SIMS'],
+# Invoke through bash so ZIP extraction need not preserve executable bits.
+cmd = ['/bin/bash', os.environ['AZ_SMOKE_RUN'], '--simulations', os.environ['AZ_SMOKE_SIMS'],
        '--timeout', os.environ['AZ_SMOKE_TIMEOUT']]
 if os.environ['AZ_SMOKE_WEIGHTS']:
     cmd += ['--weights', os.environ['AZ_SMOKE_WEIGHTS']]

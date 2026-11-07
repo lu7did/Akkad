@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
-EXE="$ROOT/build/AlphaZero"
+EXE="$ROOT/debian/build/AlphaZero"
 [[ -x "$EXE" ]] || { echo "ERROR: ejecutable no encontrado: $EXE (ejecutar tools/bash/build.sh)" >&2; exit 2; }
 WEIGHTS="${ALPHAZERO_WEIGHTS:-}"
 if [[ $# -gt 0 && "${1:0:1}" != '-' ]]; then WEIGHTS="$1"; shift; fi

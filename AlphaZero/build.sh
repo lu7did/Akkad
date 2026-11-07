@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Akkad/AlphaZero - unified native POSIX builder.
-# Replaces build_macos.sh, build_debian.sh, build_posix.sh and build_raspberrypi.sh.
+# v0.2.0 - builds into platform-specific directories. Replaces legacy builders.
 set -Eeuo pipefail
 
 usage() {
@@ -21,6 +21,7 @@ Variables de entorno:
   LC0_SOURCE=ruta    Arbol de fuentes local de LC0 (alternativa al clone remoto).
   BUILD_JOBS=N       Paralelismo (MacOS: numero de CPU; Linux: 2).
   CLEAN_BUILD=1      Regenera el directorio Meson de esta plataforma.
+  Salidas: macOS/build/AlphaZero o debian/build/AlphaZero.
   SKIP_APT=1         Omite apt-get en RBPi.
 
 Ejemplos:
@@ -69,19 +70,19 @@ ARCH="$(uname -m)"
 case "$TARGET" in
   MacOS)
     [[ "$HOST_OS" == Darwin && "$ARCH" == arm64 ]] || fail "MacOS requiere Darwin arm64 nativo; detectado $HOST_OS/$ARCH"
-    PLATFORM=macos ;;
+    PLATFORM=macOS ;;
   Debian|RBPi)
     [[ "$HOST_OS" == Linux && "$ARCH" == aarch64 ]] || fail "$TARGET requiere Linux aarch64; detectado $HOST_OS/$ARCH"
     PLATFORM=debian ;;
   Posix)
     case "$HOST_OS/$ARCH" in
-      Darwin/arm64) PLATFORM=macos ;;
+      Darwin/arm64) PLATFORM=macOS ;;
       Linux/aarch64) PLATFORM=debian ;;
       *) fail "Posix solo soporta Darwin/arm64 o Linux/aarch64; detectado $HOST_OS/$ARCH" ;;
     esac ;;
 esac
 
-if [[ "$PLATFORM" == macos ]]; then
+if [[ "$PLATFORM" == macOS ]]; then
   [[ "$(sysctl -n sysctl.proc_translated 2>/dev/null || printf 0)" != 1 ]] || fail 'usar una terminal ARM64 nativa, no Rosetta'
   JOBS="${BUILD_JOBS:-$(sysctl -n hw.ncpu)}"
 else
@@ -125,9 +126,9 @@ fi
 
 LC0_REF="${LC0_REF:-v0.32.1}"
 LC0_SOURCE="${LC0_SOURCE:-}"
-ROOT="$HERE/build"
+ROOT="$HERE/$PLATFORM/build"
 VENDOR="$ROOT/lc0-src"
-MESON_DIR="$ROOT/lc0-build-${PLATFORM}-arm64"
+MESON_DIR="$ROOT/lc0-build"
 OUT="$ROOT/AlphaZero"
 
 [[ -f "$HERE/src/akkad_alphazero_main.cc" ]] || fail 'falta src/akkad_alphazero_main.cc'

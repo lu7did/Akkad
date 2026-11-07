@@ -18,7 +18,7 @@ if [[ ! -d "${SARGON_ROOT}/src/sargon_nnue" ]]; then
 fi
 
 BRAINS_JSON="${BRAINS_JSON:-${SARGON_ROOT}/data/brains/brains.json}"
-ALPHAZERO_EXE="${ALPHAZERO_EXE:-${AKKAD_ROOT}/AlphaZero/build/AlphaZero}"
+ALPHAZERO_EXE="${ALPHAZERO_EXE:-${AKKAD_ROOT}/AlphaZero/debian/build/AlphaZero}"
 AZ_WEIGHTS="${AZ_WEIGHTS:-${SARGON_ROOT}/data/runs/lc0/t1-256x10-distilled-swa-2432500.pb.gz}"
 AZ_BACKEND="${AZ_BACKEND:-eigen}"
 AZ_SIMULATIONS="${AZ_SIMULATIONS:-8}"

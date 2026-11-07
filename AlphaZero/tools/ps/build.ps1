@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$LC0Source = "",
     [string]$LC0Ref = "master",
     [ValidateSet('onnx','eigen')][string]$Backend = 'onnx', # default: no arguments builds ONNX/DirectML
@@ -12,8 +12,8 @@
     [switch]$RebuildAbseil
 )
 $ErrorActionPreference = 'Stop'
-$here = $PSScriptRoot
-$build = Join-Path $here 'build'
+$here = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
+$build = Join-Path $here 'X86/build'
 $vendor = Join-Path $build 'lc0-src'
 $mesonBuild = Join-Path $build 'lc0-build'
 New-Item -ItemType Directory -Force -Path $build | Out-Null
