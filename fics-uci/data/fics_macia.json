@@ -330,6 +330,28 @@
       "modalidad": "blitz",
       "rated": false,
       "motor": "picoSargon C++ v0.2.52 (macOS 27.2 / 8.00 GiB RAM)"
+    },
+    {
+      "id": "2026-11-07T16:28:19.330756+00:00:1",
+      "fics_game": 1,
+      "fecha_inicio_utc": "2026-11-07T16:28:19.330756+00:00",
+      "fecha_fin_utc": "2026-11-07T16:33:43.969879+00:00",
+      "usuario_propio": "GuestNMKL",
+      "elo_propio": "++++",
+      "color_propio": "blancas",
+      "usuario_contrincante": "GriffySr",
+      "elo_contrincante": 1987,
+      "color_contrincante": "negras",
+      "resultado": 1.0,
+      "resultado_fics": "1-0",
+      "razon": "(GuestNMKL vs. GriffySr) GriffySr resigns",
+      "cantidad_movidas": 55,
+      "cantidad_medias_jugadas": 109,
+      "tiempo_segundos": 324.637,
+      "control_tiempo": "2+12",
+      "modalidad": "blitz",
+      "rated": false,
+      "motor": "picoSargon C++ v0.2.52 (macOS 27.2 / 8.00 GiB RAM)"
     }
   ]
 }
