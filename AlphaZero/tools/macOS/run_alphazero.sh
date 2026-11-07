@@ -7,7 +7,7 @@ AKKAD="$(cd -- "$AZ/.." && pwd -P)"
 EXE="$AZ/build/AlphaZero"
 SIMULATIONS=1000
 TIMEOUT=60000
-WEIGHTS="${ALPHAZERO_WEIGHTS:-}"
+WEIGHTS="/Users/pedrocolla/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"
 BACKEND=eigen
 BACKEND_OPTIONS=''
 usage() {
