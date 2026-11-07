@@ -37,3 +37,7 @@ C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime_providers_shared.d
 /picoKeras/ARM/third_party/tflm-tree/
 
 /akkad.zip
+# picoSargon - artefactos de compilacion
+/picoSargon/macOS/build/
+/picoSargon/debian/build/
+/picoSargon/x86/build-host-windows/
