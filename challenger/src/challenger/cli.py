@@ -27,6 +27,8 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--qdepth", type=int, default=0, help="Sargon histórico: debe ser 0 (sin quiescence); ignorado por Random, Stockfish y Human")
     p.add_argument("--verbose", action="store_true", help="Muestra jugadas y tiempos")
     p.add_argument("--gui", action="store_true", help="Muestra tablero gráfico")
+    p.add_argument("--monitor", metavar="HOST:PORT", default=None,
+                   help="Observa un stream UCI TCP en un tablero; no juega")
     p.add_argument("--forever", action="store_true", help="Juega repetidamente, esperando 10 segundos entre partidas")
     p.add_argument("--run", type=int, metavar="N", help="Juega N partidas (1..999); >999 equivale a --forever")
     p.add_argument("--pgn", metavar="ARCHIVO", help="Acumula cada partida terminada en este archivo PGN")
@@ -55,6 +57,18 @@ def _print_arguments(args) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    if args.monitor is not None:
+        from .monitor import MonitorGUI, parse_endpoint
+        try:
+            host, port = parse_endpoint(args.monitor)
+        except ValueError as exc:
+            parser().error(f"--monitor: {exc}")
+        try:
+            MonitorGUI(host, port).run()
+            return 0
+        except (KeyboardInterrupt, Exception) as exc:
+            print(f"challenger monitor: {exc}", file=sys.stderr)
+            return 2
     if args.fen is not None:
         try:
             initial = chess.Board(args.fen)

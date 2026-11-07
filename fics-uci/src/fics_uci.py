@@ -24,7 +24,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.18"
+VERSION = "0.2.19"
 
 VERBOSE = False
 
@@ -66,6 +66,135 @@ def normalize_brain_name(name):
     return match.group(1).strip() if match else (name or "Desconocido")
 
 
+class UCIMonitor:
+    """Best-effort TCP broadcast of newline-delimited UCI frames.
+
+    Each subscriber has its own bounded queue and sender thread; slow or dead
+    subscribers never block the FICS/UCI bridge.
+    """
+    def __init__(self, port, host="0.0.0.0"):
+        self.host, self.port = host, port
+        self.stop_event = threading.Event()
+        self.lock = threading.Lock()
+        self.clients = {}
+        self.latest_position = None
+        self.latest_go = None
+        self.sock = None
+
+    def start(self):
+        try:
+            listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            listener.bind((self.host, self.port))
+            listener.listen(16)
+            listener.settimeout(0.5)
+            self.sock = listener
+            threading.Thread(target=self.accept_loop, daemon=True, name="uci-monitor-accept").start()
+            print(f"{time.strftime('%H:%M:%S')} ⚙️ MONITOR TCP {self.host}:{self.port}", flush=True)
+            return True
+        except OSError as exc:
+            print(f"{time.strftime('%H:%M:%S')} ⚙️ MONITOR no disponible {self.host}:{self.port}: {exc}", flush=True)
+            try:
+                listener.close()
+            except (OSError, UnboundLocalError):
+                pass
+            return False
+
+    def accept_loop(self):
+        while not self.stop_event.is_set():
+            try:
+                client, address = self.sock.accept()
+                client.settimeout(2.0)
+                outbound = queue.Queue(maxsize=512)
+                with self.lock:
+                    self.clients[client] = outbound
+                    snapshot = self.latest_position
+                    pending_go = self.latest_go
+                    if snapshot:
+                        outbound.put_nowait("ucinewgame\n")
+                        outbound.put_nowait(snapshot + "\n")
+                        if pending_go:
+                            outbound.put_nowait(pending_go + "\n")
+                threading.Thread(target=self.send_loop, args=(client, outbound), daemon=True,
+                                 name="uci-monitor-client").start()
+            except socket.timeout:
+                continue
+            except OSError:
+                if not self.stop_event.is_set():
+                    time.sleep(0.2)
+
+    def remove(self, client):
+        with self.lock:
+            self.clients.pop(client, None)
+        try:
+            client.close()
+        except OSError:
+            pass
+
+    def send_loop(self, client, outbound):
+        try:
+            while not self.stop_event.is_set():
+                try:
+                    frame = outbound.get(timeout=0.5)
+                except queue.Empty:
+                    continue
+                client.sendall(frame.encode("utf-8"))
+        except OSError:
+            pass
+        finally:
+            self.remove(client)
+
+    def publish(self, frame):
+        frame = str(frame).strip("\r\n")
+        if not frame or self.stop_event.is_set():
+            return
+        with self.lock:
+            if frame == "ucinewgame":
+                self.latest_position = None
+                self.latest_go = None
+            elif frame.startswith("position "):
+                self.latest_position = frame
+                self.latest_go = None
+            elif frame.startswith("go "):
+                self.latest_go = frame
+            elif frame.startswith("bestmove ") or frame == "stop":
+                self.latest_go = None
+            count = 0
+            for client, outbound in list(self.clients.items()):
+                try:
+                    outbound.put_nowait(frame + "\n")
+                    count += 1
+                except queue.Full:
+                    # A saturated subscriber is disconnected by its sender thread.
+                    self.clients.pop(client, None)
+                    try:
+                        client.shutdown(socket.SHUT_RDWR)
+                    except OSError:
+                        pass
+        if count:
+            print(f"{time.strftime('%H:%M:%S')} 🔀 {frame}", flush=True)
+
+    def close(self):
+        self.stop_event.set()
+        if self.sock is not None:
+            try:
+                self.sock.close()
+            except OSError:
+                pass
+        with self.lock:
+            clients = list(self.clients)
+            self.clients.clear()
+        for client in clients:
+            try:
+                client.shutdown(socket.SHUT_RDWR)
+                client.close()
+            except OSError:
+                pass
+
+
+UCI_MONITOR = None
+
+
 class SocketLink:
     def __init__(self, name, host, port, events, telnet=False):
         self.name, self.events, self.telnet = name, events, telnet
@@ -83,6 +212,8 @@ class SocketLink:
     def send(self, text, secret=False):
         with self.lock:
             self.sock.sendall((text + "\n").encode("utf-8"))
+        if self.name == "UCI" and UCI_MONITOR is not None and not secret:
+            UCI_MONITOR.publish(text)
         if not secret:
             detailed = (text.startswith(("position ", "go ")) or
                         (self.name == "FICS" and bool(re.fullmatch(r"[a-h][1-8][a-h][1-8][qrbn]?", text))))
@@ -136,6 +267,8 @@ class SocketLink:
                 self.buffer += text.replace("\r\n", "\n").replace("\r", "\n")
                 while "\n" in self.buffer:
                     line, self.buffer = self.buffer.split("\n", 1)
+                    if self.name == "UCI" and UCI_MONITOR is not None:
+                        UCI_MONITOR.publish(line)
                     self.events.put((self.name, self, line))
                 if self.telnet and re.search(
                     r"(?:login:|password:|fics%|Press return to enter[^\n]*)\s*$",
@@ -475,6 +608,8 @@ class Bridge:
                         log("ℹ️", "JSON", f"Partida ya registrada (id={unique_game_id})")
                 except (OSError, ValueError, json.JSONDecodeError) as exc:
                     log("❌", "JSON", f"No se pudo guardar partida #{game}: {exc}")
+        if UCI_MONITOR is not None:
+            UCI_MONITOR.publish(f"info string monitor gameover {result}")
         self.reset_game()
         self.last_seek_refresh = 0
         return True
@@ -788,6 +923,9 @@ class Bridge:
                 self.lock_history("Partida iniciada fuera de startpos; historial no reconstruible")
                 return
             log("✅", "SYNC", "Posición inicial verificada")
+            if UCI_MONITOR is not None:
+                UCI_MONITOR.publish("ucinewgame")
+                UCI_MONITOR.publish(self.history.uci_position())
             if self.uci_ok:
                 self.uci_ready = False
                 self.uci.send("ucinewgame")
@@ -818,6 +956,10 @@ class Bridge:
             elif status != "same":
                 self.lock_history("FICS no confirmó nuestra jugada")
                 return
+        if UCI_MONITOR is not None and status in ("forward", "rewind"):
+            # FICS confirmed board is authoritative even on a final move for
+            # which there will be no subsequent engine search.
+            UCI_MONITOR.publish(self.history.uci_position())
         if self.search_fen and self.search_fen != self.history.board.fen():
             self.cancel_search("Cambió el tablero durante la búsqueda")
         if self.history.board.turn == my_color:
@@ -1026,6 +1168,8 @@ def main():
     p = argparse.ArgumentParser(description="FICS↔UCI TCP · configuración YAML")
     p.add_argument("--config", default=None)
     p.add_argument("--json", default=None, help="Archivo JSON acumulativo de partidas terminadas")
+    p.add_argument("--monitor", type=int, default=None, metavar="PUERTO",
+                   help="Difundir UCI por TCP (opcional, 1..65535); escucha en 0.0.0.0")
     p.add_argument("--stop-timeout", type=float, default=None,
                    help="Segundos máximos para recibir bestmove tras stop (default 5)")
     p.add_argument("--retry", type=float, default=None,
@@ -1098,11 +1242,18 @@ def main():
         p.error("Rango de tiempo inválido")
     if min(a.engine_timeout, a.connect_timeout, a.seek_timeout, a.seek_retry) <= 0:
         p.error("Timeouts inválidos")
+    if a.monitor is not None and not 1 <= a.monitor <= 65535:
+        p.error("--monitor requiere un puerto entre 1 y 65535")
     if not a.password and a.user.lower() != "guest":
         log("🔐", "FICS", "Se enviará contraseña vacía (configurada)")
     global VERBOSE
     VERBOSE = a.verbose
     log("⚙️", "APP", f"Verbose={'ON' if VERBOSE else 'OFF'}")
+    global UCI_MONITOR
+    UCI_MONITOR = UCIMonitor(a.monitor) if a.monitor is not None else None
+    if UCI_MONITOR is not None and not UCI_MONITOR.start():
+        # Failure to bind the optional monitor must never stop gameplay.
+        UCI_MONITOR = None
     try:
         Bridge(a).run()
     except KeyboardInterrupt:
@@ -1110,6 +1261,9 @@ def main():
     except (OSError, RuntimeError) as exc:
         log("❌", "APP", str(exc))
         sys.exit(1)
+    finally:
+        if UCI_MONITOR is not None:
+            UCI_MONITOR.close()
 
 
 if __name__ == "__main__":
