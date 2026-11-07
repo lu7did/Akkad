@@ -10,13 +10,13 @@ import subprocess
 import sys
 import threading
 
-VERSION = '0.2.49'
+VERSION = '0.2.50'
 PRINT_LOCK = threading.Lock()
 
 
 def emit(symbol, message):
     with PRINT_LOCK:
-        print(f'{datetime.now():%H:%M:%S} {symbol} {message}', file=sys.stderr, flush=True)
+        print(f'[{datetime.now():%H:%M:%S}] {symbol} {message}', file=sys.stderr, flush=True)
 
 
 def arguments():
@@ -103,8 +103,8 @@ def handle(conn, addr, ns):
             try:
                 for data in iter(proc.stdout.readline, b''):
                     message = data.decode('utf-8', 'replace').strip()
-                    if message.startswith(('info ', 'bestmove ')):
-                        emit('🧠', message)
+                    # UCI is forwarded unchanged. No human logging from stdout:
+                    # all diagnostics arrive in order on the engine stderr pipe.
                     conn.sendall(data)
             except (OSError, ValueError):
                 pass
@@ -119,7 +119,7 @@ def handle(conn, addr, ns):
                     # ya lo presentó una vez con el encabezado solicitado.
                     if message.startswith('[picoSargon ') and 'macOS UCI/stdin iniciado' in message:
                         continue
-                    if message.startswith('[') and ' 🧮 core[' in message:
+                    if message.startswith('[') and (' 🧮 core[' in message or ' 🧠 info ' in message or ' 🧠 bestmove ' in message):
                         # The engine owns per-core timestamps and formatting.
                         # Keep each record intact and do not prefix it with a warning.
                         with PRINT_LOCK:

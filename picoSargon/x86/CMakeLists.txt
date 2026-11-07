@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(picoSargon VERSION 0.2.49 LANGUAGES CXX)
+project(picoSargon VERSION 0.2.50 LANGUAGES CXX)
 option(STEROIDS "Enable aspiration windows, SEE and razoring (experimental)" ON)
 option(MULTICORE "Enable parallel root search on host platforms" ON)
 set(CMAKE_CXX_STANDARD 17)

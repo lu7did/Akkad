@@ -2,6 +2,8 @@
 #include "engine.hpp"
 #include "grumpy.hpp"
 #include <chrono>
+#include <ctime>
+#include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -29,7 +31,7 @@
 #include <sys/sysctl.h>
 #endif
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.49"
+#define PICOSARGON_VERSION "0.2.50"
 #endif
 // Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
 // No LC0 dependency; only retrieves brains[brain]["network"].
@@ -351,9 +353,30 @@ int main(int argc,char**argv){
     const int ply=2*(board.fullmove-1)+(board.turn==-1?1:0);
     const int white_cp=(board.turn==1?result.score:-result.score);
     const auto nps=elapsed_ms>0 ? (result.nodes*1000ULL/static_cast<unsigned long long>(elapsed_ms)) : 0ULL;
-    std::cout<<"info ply "<<ply<<" depth "<<result.depth<<" score cp "<<white_cp
-             <<" nodes "<<result.nodes<<" time "<<elapsed_ms<<" nps "<<nps<<"\n";
-    std::cout<<"bestmove "<<(result.has_move?Board::notation(result.best):"0000")<<"\n";
+    // Build once. Only these two unadorned lines enter UCI stdout.
+    std::ostringstream info_line;
+    info_line<<"info ply "<<ply<<" depth "<<result.depth<<" score cp "<<white_cp
+             <<" nodes "<<result.nodes<<" time "<<elapsed_ms<<" nps "<<nps;
+    const std::string best_line="bestmove "+(result.has_move?Board::notation(result.best):"0000");
+    // Worker telemetry was printed to stderr by the coordinator before
+    // search_parallel returned. Publish these human diagnostics on the SAME
+    // stderr stream, preserving core[] -> info -> bestmove order.
+    const auto diagnostic=[&](const std::string& text){
+      std::time_t now=std::time(nullptr);std::tm tm{};
+#if defined(_WIN32)
+      localtime_s(&tm,&now);
+#else
+      localtime_r(&now,&tm);
+#endif
+      char stamp[16]{};
+      std::strftime(stamp,sizeof(stamp),"%H:%M:%S",&tm);
+      std::fprintf(stderr,"[%s] 🧠 %s\n",stamp,text.c_str());
+      std::fflush(stderr);
+    };
+    diagnostic(info_line.str());
+    diagnostic(best_line);
+    std::cout<<info_line.str()<<"\n";
+    std::cout<<best_line<<"\n";
    }else if(cmd=="quit")break;
    std::cout.flush();
   }

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(picoSargon VERSION 0.2.49 LANGUAGES CXX)
+project(picoSargon VERSION 0.2.50 LANGUAGES CXX)
 if(NOT APPLE)
  message(FATAL_ERROR "Este build corresponde exclusivamente a macOS")
 endif()
