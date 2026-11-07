@@ -6,6 +6,15 @@
 #include <chrono>
 #include <cmath>
 #include <filesystem>
+#include <system_error>
+#if defined(_WIN32)
+#define NOMINMAX
+#include <windows.h>
+#elif defined(__APPLE__)
+#include <mach-o/dyld.h>
+#elif defined(__linux__)
+#include <unistd.h>
+#endif
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -25,6 +34,34 @@
 using namespace lczero;
 namespace {
 std::mutex output_mu;
+// stdout is reserved for machine-readable UCI; telemetry uses stderr only.
+void telemetry(const std::string& s) {
+  std::lock_guard<std::mutex> lock(output_mu);
+  std::cerr << s << '\n' << std::flush;
+}
+std::string absolute_path(const std::string& path) {
+  if (path.empty()) return "(not configured)";
+  std::error_code ec;
+  auto p = std::filesystem::absolute(std::filesystem::path(path), ec);
+  return ec ? path : p.lexically_normal().string();
+}
+std::string executable_path(const char* argv0) {
+#if defined(_WIN32)
+  std::vector<char> buf(32768);
+  auto n = GetModuleFileNameA(nullptr, buf.data(), static_cast<DWORD>(buf.size()));
+  if (n && n < buf.size()) return absolute_path(std::string(buf.data(), n));
+#elif defined(__APPLE__)
+  uint32_t sz = 0;
+  _NSGetExecutablePath(nullptr, &sz);
+  std::vector<char> buf(sz + 1);
+  if (_NSGetExecutablePath(buf.data(), &sz) == 0) return absolute_path(buf.data());
+#elif defined(__linux__)
+  std::vector<char> buf(4096);
+  auto n = readlink("/proc/self/exe", buf.data(), buf.size() - 1);
+  if (n > 0) return absolute_path(std::string(buf.data(), static_cast<size_t>(n)));
+#endif
+  return absolute_path(argv0 ? argv0 : "");
+}
 void say(const std::string& s) { std::lock_guard<std::mutex> l(output_mu); std::cout << s << '\n' << std::flush; }
 std::string trim(std::string s) { auto a=s.find_first_not_of(" \t\r\n"); if(a==std::string::npos)return {}; auto b=s.find_last_not_of(" \t\r\n");return s.substr(a,b-a+1); }
 struct Settings {
@@ -197,7 +234,10 @@ class Engine {
     if(line.rfind("setoption name ",0)==0){
       cancel();auto rest=line.substr(15); auto p=rest.find(" value ");
       auto name=trim(rest.substr(0,p)),value=p==std::string::npos?"":trim(rest.substr(p+7));
-      if(name=="WeightsFile")settings_.weights=value;
+      if(name=="WeightsFile"){
+        settings_.weights=value;
+        telemetry("⚙️ network=" + absolute_path(settings_.weights));
+      }
       else if(name=="Backend")settings_.backend=value;
       else if(name=="BackendOptions")settings_.backend_options=value;
       else if(name=="Simulations")settings_.simulations=std::clamp(std::stoi(value),1,10000000);
@@ -243,11 +283,19 @@ class Engine {
             int cp=int(400*std::atanh(q));
             std::ostringstream info;
             const auto elapsed=std::max(0LL,static_cast<long long>(r.ms));
-            const auto nps=elapsed>0 ? (static_cast<long long>(r.simulations)*1000/elapsed) : 0LL;
+            const auto nps=elapsed>0 ? (static_cast<long long>(r.nodes)*1000/elapsed) : 0LL;
             info<<"info ply "<<root_ply<<" depth 0 score cp "<<(root_black?-cp:cp)
-                <<" nodes "<<r.simulations<<" time "<<elapsed<<" nps "<<nps
+                <<" nodes "<<r.nodes<<" time "<<elapsed<<" nps "<<nps
                 <<" string ALPHAZERO simulations="<<r.simulations<<" tree_nodes="<<r.nodes<<" elapsed_ms="<<int(r.ms)<<" best_visits="<<r.visits<<" q="<<r.q;
             say(info.str());
+            std::ostringstream detail;
+            detail << "🧠 AlphaZero analysis ply=" << root_ply
+                   << " nodes=" << r.nodes
+                   << " simulations=" << r.simulations
+                   << " elapsed_ms=" << elapsed
+                   << " nps=" << nps
+                   << " best_visits=" << r.visits;
+            telemetry(detail.str());
           }
           say("bestmove "+r.best);
         }catch(const std::exception& e){say(std::string("info string ERROR search: ")+e.what());say("bestmove 0000");}
@@ -262,6 +310,11 @@ class Engine {
   void cmd_cpuct(double n){settings_.cpuct=std::max(0.0001,n);}
   void cmd_verbose(int n){settings_.verbose=std::clamp(n,0,2);}
   void cmd_weights(std::string w){settings_.weights=std::move(w);}
+  void report_startup(const char* argv0) const {
+    telemetry("⚙️ AlphaZero " + std::string(az_config::kVersion));
+    telemetry("⚙️ executable=" + executable_path(argv0));
+    telemetry("⚙️ network=" + absolute_path(settings_.weights));
+  }
   void cmd_backend(std::string b){settings_.backend=std::move(b);}
   void cmd_backend_opts(std::string b){settings_.backend_options=std::move(b);}
 };
@@ -283,6 +336,7 @@ int main(int argc,char**argv){
       else if(a=="--help"){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N]"<<std::endl;return 0;}
       else throw std::runtime_error("unknown CLI argument: "+a);
     }
+    engine.report_startup(argc > 0 ? argv[0] : nullptr);
     std::string line;while(std::getline(std::cin,line)){
       line=trim(line);if(line=="quit")break;
       try{engine.process(line);}catch(const std::exception& e){say(std::string("info string ERROR command: ")+e.what());}
