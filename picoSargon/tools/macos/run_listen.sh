@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+#  run_listen.sh --cores n --depth n --qdepth n --timeout nnnnn
+#
+#
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 ROOT="$(cd -- "$HERE/../../.." && pwd -P)"
