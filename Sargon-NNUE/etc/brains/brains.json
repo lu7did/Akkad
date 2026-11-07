@@ -26,14 +26,14 @@
       "player": "AlphaZero-X86",
       "evaluator": "null",
       "engine-path": {
-        "windows": "../../AlphaZero/X86/build/AlphaZero.exe",
-        "debian": "../../AlphaZero/debian/build/AlphaZero",
-        "macos": "/Users/pedrocolla/akkad/AlphaZero/macOS/build/AlphaZero"
+        "windows": "../../AlphaZero/build/AlphaZero.exe",
+        "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
+        "macos": "../../AlphaZero/macOS/build/AlphaZero"
       },
       "lc0-weights": {
         "windows": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
         "debian": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
-        "macos": "/Users/pedrocolla/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"
+        "macos": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz"
       },
       "lc0-backend": {
         "windows": "onnx-dml",
@@ -54,7 +54,7 @@
     "amelie": {
       "player": "AlphaZero-X86",
       "evaluator": "null",
-      "engine-path": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
+      "engine-path": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
       "lc0-weights": "/home/pi/chess/networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
       "lc0-backend": "eigen",
       "lc0-backend-options": "",
@@ -67,7 +67,7 @@
     "daphne": {
       "player": "AlphaZero-X86",
       "evaluator": "null",
-      "engine-path": "../../AlphaZero/X86/build/AlphaZero.exe",
+      "engine-path": "../x86/AlphaZero/build/AlphaZero.exe",
       "lc0-weights": "../../../Chess_History_pb/lc0/t1-512x15x8h-distilled-swa-3395000.pb.gz",
       "lc0-backend": "onnx-dml",
       "lc0-backend-options": "gpu=0",
