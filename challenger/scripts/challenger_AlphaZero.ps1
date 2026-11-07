@@ -1,6 +1,6 @@
 ﻿param(
     [string]$Python  = "C:\Users\pedro\ufasta\Scripts\python.exe",
-    [string]$Ip      = "127.0.0.1",
+    [string]$Ip      = "192.168.68.116",
     [int]$Port       = 6200,
     [string]$Event   = "Pruebas de AlphaZero-X86",
     [int]$Timeout    = 60000,
