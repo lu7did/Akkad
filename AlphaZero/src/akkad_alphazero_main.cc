@@ -280,7 +280,7 @@ int main(int argc,char**argv){
         else if(a=="--cpuct")engine.cmd_cpuct(std::stod(v));
         else engine.cmd_verbose(std::stoi(v));
       }
-      else if(a=="--help"){std::cerr<<"AlphaZero.exe --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N]"<<std::endl;return 0;}
+      else if(a=="--help"){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N]"<<std::endl;return 0;}
       else throw std::runtime_error("unknown CLI argument: "+a);
     }
     std::string line;while(std::getline(std::cin,line)){

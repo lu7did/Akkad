@@ -2,7 +2,7 @@
 // Akkad AlphaZero-X86: configuration defaults (overridden by CLI, then UCI).
 // Paths may be absolute or relative to the process working directory.
 namespace az_config {
-inline constexpr const char* kUciName = "AlphaZero-X86 0.1.2";
+inline constexpr const char* kUciName = "AlphaZero 0.1.3";
 inline constexpr const char* kUciAuthor = "Dr. Pedro E. Colla";
 inline constexpr const char* kWeightsFile = ""; // required unless supplied externally
 inline constexpr const char* kBackend = "onnx-dml"; // "eigen" for CPU

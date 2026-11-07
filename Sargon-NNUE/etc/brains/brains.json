@@ -27,15 +27,29 @@
       "evaluator": "null",
       "engine-path": {
         "windows": "../../AlphaZero/build/AlphaZero.exe",
-        "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero"
+        "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
+        "macos": "../../AlphaZero/build/AlphaZero"
       },
-      "lc0-weights": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
-      "lc0-backend": "onnx-dml",
-      "lc0-backend-options": "gpu=0",
+      "lc0-weights": {
+        "windows": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+        "debian": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+        "macos": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz"
+      },
+      "lc0-backend": {
+        "windows": "onnx-dml",
+        "debian": "eigen",
+        "macos": "eigen"
+      },
+      "lc0-backend-options": {
+        "windows": "gpu=0",
+        "debian": "",
+        "macos": ""
+      },
       "az-simulations": 1200,
       "az-cpuct": 1.5,
       "tmax": 10000,
-      "rating_elo": 400
+      "rating_elo": 400,
+      "timeout": 60000
     },
     "amelie": {
       "player": "AlphaZero-X86",

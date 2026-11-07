@@ -81950,6 +81950,28 @@
       "modalidad": "blitz",
       "rated": false,
       "motor": "penelope"
+    },
+    {
+      "id": "2026-11-07T16:31:30.183936+00:00:10",
+      "fics_game": 10,
+      "fecha_inicio_utc": "2026-11-07T16:31:30.183936+00:00",
+      "fecha_fin_utc": "2026-11-07T16:34:12.054162+00:00",
+      "usuario_propio": "GuestJCLC",
+      "elo_propio": "++++",
+      "color_propio": "blancas",
+      "usuario_contrincante": "walpurti",
+      "elo_contrincante": 2337,
+      "color_contrincante": "negras",
+      "resultado": 0.0,
+      "resultado_fics": "0-1",
+      "razon": "(GuestJCLC vs. walpurti) GuestJCLC checkmated",
+      "cantidad_movidas": 38,
+      "cantidad_medias_jugadas": 76,
+      "tiempo_segundos": 161.87,
+      "control_tiempo": "5+0",
+      "modalidad": "blitz",
+      "rated": false,
+      "motor": "penelope"
     }
   ]
 }

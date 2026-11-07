@@ -72,6 +72,7 @@ def defaults(player,evaluator):
     return defaults
 
 PATH_KEYS = frozenset({'alternate-network','network','engine-path','stockfish-path','lc0-weights','lc0-uci-path','cerebrum-a','cerebrum-b'})
+PLATFORM_VALUE_KEYS = frozenset({'lc0-backend', 'lc0-backend-options'})
 
 def resolve_platform_paths(config):
     """Resolve platform-specific paths without changing the serialized profile.
@@ -81,16 +82,16 @@ def resolve_platform_paths(config):
     """
     result = dict(config)
     platform = 'windows' if os.name == 'nt' else ('macos' if sys.platform == 'darwin' else 'debian')
-    for key in PATH_KEYS:
+    for key in PATH_KEYS | PLATFORM_VALUE_KEYS:
         value = result.get(key)
         if not isinstance(value, dict):
             continue
         if not value or any(not isinstance(k, str) or not isinstance(v, str) for k, v in value.items()):
-            raise ValueError(f'{key}: mapa de rutas inválido')
+            raise ValueError(f'{key}: mapa de opciones por plataforma inválido')
         choices = (('windows', 'win32', 'default') if platform == 'windows'
                    else (('macos', 'darwin', 'default') if platform == 'macos'
                           else ('debian', 'linux', 'default')))
-        chosen = next((value[k] for k in choices if isinstance(value.get(k), str) and value[k]), None)
+        chosen = next((value[k] for k in choices if isinstance(value.get(k), str) and (value[k] or key in PLATFORM_VALUE_KEYS)), None)
         if chosen is None:
             raise ValueError(f'{key}: falta ruta para {platform}')
         result[key] = chosen
