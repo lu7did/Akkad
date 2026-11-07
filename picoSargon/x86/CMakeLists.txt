@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
-project(picoSargon VERSION 0.2.40 LANGUAGES CXX)
-option(STEROIDS "Enable aspiration windows, SEE and razoring (experimental)" OFF)
+project(picoSargon VERSION 0.2.42 LANGUAGES CXX)
+option(STEROIDS "Enable aspiration windows, SEE and razoring (experimental)" ON)
+option(MULTICORE "Enable parallel root search on host platforms" ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(picoSargon src/host_main.cpp src/board.cpp src/engine.cpp src/grumpy.cpp)
@@ -24,3 +25,10 @@ set_target_properties(picoSargon PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}"
     RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}"
 )
+
+if(MULTICORE)
+ find_package(Threads REQUIRED)
+ target_link_libraries(picoSargon PRIVATE Threads::Threads)
+ target_compile_definitions(picoSargon PRIVATE PICOSARGON_MULTICORE=1)
+endif()
+message(STATUS "picoSargon MULTICORE=${MULTICORE}")

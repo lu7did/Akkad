@@ -9,7 +9,7 @@ import subprocess
 import sys
 import threading
 
-VERSION = '0.2.40'
+VERSION = '0.2.42'
 PRINT_LOCK = threading.Lock()
 
 
@@ -24,9 +24,12 @@ def arguments():
     ap.add_argument('--port', type=int, default=6200)
     ap.add_argument('--engine', type=Path, required=True)
     ap.add_argument('--weights', type=Path, required=True)
+    ap.add_argument('--cores', type=int)
     ns = ap.parse_args()
     if not 1 <= ns.port <= 65535:
         ap.error('--port debe estar entre 1 y 65535')
+    if ns.cores is not None and not 1 <= ns.cores <= 1024:
+        ap.error('--cores debe estar entre 1 y 1024')
     if not ns.engine.is_file() or not ns.weights.is_file():
         ap.error('no se encuentra ejecutable o red NNUE')
     return ns
@@ -37,7 +40,7 @@ def handle(conn, addr, ns):
     proc = None
     try:
         proc = subprocess.Popen(
-            [str(ns.engine), '--weights', str(ns.weights)],
+            [str(ns.engine), '--weights', str(ns.weights)] + (['--cores', str(ns.cores)] if ns.cores is not None else []),
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             bufsize=0,
         )
@@ -63,7 +66,12 @@ def handle(conn, addr, ns):
                     # ya lo presentó una vez con el encabezado solicitado.
                     if message.startswith('[picoSargon ') and 'macOS UCI/stdin iniciado' in message:
                         continue
-                    if message:
+                    if message.startswith('[') and ' 🧮 core[' in message:
+                        # The engine owns per-core timestamps and formatting.
+                        # Keep each record intact and do not prefix it with a warning.
+                        with PRINT_LOCK:
+                            print(message, file=sys.stderr, flush=True)
+                    elif message:
                         emit('⚠️', f'Motor: {message}')
             except (OSError, ValueError):
                 pass

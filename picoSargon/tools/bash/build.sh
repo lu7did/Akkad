@@ -2,5 +2,5 @@
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$HERE/../../debian" && pwd)"
-cmake -S "$ROOT" -B "$ROOT/build" -DCMAKE_BUILD_TYPE=Release -DSTEROIDS="${STEROIDS:-ON}"
+cmake -S "$ROOT" -B "$ROOT/build" -DCMAKE_BUILD_TYPE=Release -DSTEROIDS="${STEROIDS:-ON}" -DMULTICORE="${MULTICORE:-ON}"
 cmake --build "$ROOT/build" --parallel "${JOBS:-2}"

@@ -13,6 +13,18 @@
 #include <map>
 #include <iomanip>
 #include <algorithm>
+#ifdef PICOSARGON_MULTICORE
+#include <thread>
+#include <set>
+#if defined(__APPLE__)
+#include <sys/types.h>
+#elif defined(_WIN32)
+#define NOMINMAX
+#include <windows.h>
+#else
+#include <fstream>
+#endif
+#endif
 #if defined(__APPLE__)
 #include <sys/sysctl.h>
 #endif
@@ -91,9 +103,20 @@ std::string get_weights_from_brains(const std::string& filename,const std::strin
  }
  throw std::runtime_error("brains.json: no existe network para "+brain+": "+network);
 }
-std::string weights_argument(int argc,char** argv){
+std::string weights_argument(int argc,char** argv
+#ifdef PICOSARGON_MULTICORE
+ ,unsigned& cores
+#endif
+){
  std::string weights,brains,brain="tinySargon";
  for(int i=1;i<argc;++i){std::string a=argv[i];
+#ifdef PICOSARGON_MULTICORE
+  if(a=="--cores"){
+   if(++i>=argc)throw std::runtime_error("falta valor para --cores");
+   std::string raw=argv[i];if(raw.empty()||raw.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("--cores debe ser entero positivo");
+   unsigned long n=std::stoul(raw);if(n<1||n>1024)throw std::runtime_error("--cores fuera de rango 1..1024");cores=static_cast<unsigned>(n);
+  }else
+#endif
   if(a=="--brains"||a=="--brain"||a=="--weights"){
    if(++i>=argc)throw std::runtime_error("falta valor para "+a);
    if(a=="--brains")brains=argv[i];else if(a=="--brain")brain=argv[i];else weights=argv[i];
@@ -113,7 +136,7 @@ std::string weights_argument(int argc,char** argv){
 
 
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.40"
+#define PICOSARGON_VERSION "0.2.42"
 #endif
 namespace {
 std::string trim_uci(std::string x) {
@@ -178,10 +201,45 @@ std::string uci_identity(){
 }
 
 using namespace picoSargon;
+#ifdef PICOSARGON_MULTICORE
+namespace {
+unsigned physical_cores(){
+#if defined(__APPLE__)
+ int n=0;size_t length=sizeof(n);
+ if(sysctlbyname("hw.physicalcpu",&n,&length,nullptr,0)==0&&n>0)return static_cast<unsigned>(n);
+#elif defined(_WIN32)
+ DWORD bytes=0;GetLogicalProcessorInformation(nullptr,&bytes);
+ if(bytes){std::vector<unsigned char> buffer(bytes);
+  auto* info=reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION>(buffer.data());
+  if(GetLogicalProcessorInformation(info,&bytes)){
+   unsigned n=0;for(DWORD i=0;i<bytes/sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);++i)
+    if(info[i].Relationship==RelationProcessorCore)++n;
+   if(n)return n;
+  }}
+#else
+ // Linux sysfs topology: one distinct (package, core) pair per physical core.
+ std::set<std::pair<int,int>> topology;
+ const unsigned logical=std::max(1u,std::thread::hardware_concurrency());
+ for(unsigned i=0;i<logical*4&&i<4096;++i){
+  const std::string dir="/sys/devices/system/cpu/cpu"+std::to_string(i)+"/topology/";
+  std::ifstream core(dir+"core_id"),package(dir+"physical_package_id");int c,p=0;
+  if(core>>c){if(!(package>>p))p=0;topology.insert({p,c});}
+ }
+ if(!topology.empty())return static_cast<unsigned>(topology.size());
+#endif
+ return std::max(1u,std::thread::hardware_concurrency());
+}
+}
+#endif
 static uint64_t milliseconds(){return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();}
 int main(int argc,char**argv){
  try{
+#ifdef PICOSARGON_MULTICORE
+  unsigned cores=2;
+  const auto weights=weights_argument(argc,argv,cores);
+#else
   const auto weights=weights_argument(argc,argv);
+#endif
   Grumpy net;net.load(weights);Board board;
 #ifdef __APPLE__
   std::cerr << "[picoSargon " << PICOSARGON_VERSION
@@ -192,10 +250,19 @@ int main(int argc,char**argv){
   while(std::getline(std::cin,line)){
    std::istringstream ss(line);std::string cmd;ss>>cmd;
    if(cmd=="uci"){
-    std::cout<<"id name "<<uci_identity()<<"\nid author Dr. Pedro E. Colla\noption name QDepth type spin default 2 min 0 max 32\nuciok\n";
+    std::cout<<"id name "<<uci_identity()<<"\nid author Dr. Pedro E. Colla\noption name QDepth type spin default 2 min 0 max 32\n"
+#ifdef PICOSARGON_MULTICORE
+             <<"option name Cores type spin default 2 min 1 max 1024\n"
+#endif
+             <<"uciok\n";
    }else if(cmd=="isready")std::cout<<"readyok\n";
    else if(cmd=="setoption"){
     std::string name,parameter,value;ss>>name>>parameter>>value;
+#ifdef PICOSARGON_MULTICORE
+    if(name=="name"&&parameter=="Cores"&&value=="value"){
+     int next;if(ss>>next&&next>=1&&next<=1024)cores=static_cast<unsigned>(next);
+    }
+#endif
     if(name=="name"&&parameter=="QDepth"&&value=="value"){
      int next;if(ss>>next&&next>=0&&next<=32)qdepth=next;
     }
@@ -214,7 +281,11 @@ int main(int argc,char**argv){
     if(depth<1||depth>40)throw std::runtime_error("depth out of range");
     Engine engine(net,milliseconds,[]{return false;},{},qdepth);
     const auto search_start=std::chrono::steady_clock::now();
+#ifdef PICOSARGON_MULTICORE
+    auto result=cores>1?engine.search_parallel(board,depth,timelimit,std::min(cores,physical_cores())):engine.search(board,depth,timelimit);
+#else
     auto result=engine.search(board,depth,timelimit);
+#endif
     const auto elapsed_ms=std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::steady_clock::now()-search_start).count();
     const int ply=2*(board.fullmove-1)+(board.turn==-1?1:0);

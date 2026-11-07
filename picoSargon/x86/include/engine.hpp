@@ -27,13 +27,22 @@ class Engine {
  int qdepth_=2;static constexpr int MAX_PLY=40, TT_SIZE=256;
  struct Entry {uint64_t key=0;int32_t score=0;int8_t depth=-1;uint8_t bound=0;Move best{};};
  std::array<Entry,TT_SIZE> tt_{};
+ // All per-ply legal/pseudo buffers are reserved before search starts.
+ // The upper bound for legal chess moves is 218; 256 leaves margin.
+ std::array<std::vector<Move>,MAX_PLY+3> legal_buffers_{};
+ std::array<std::vector<Move>,MAX_PLY+3> pseudo_buffers_{};
+ void prepare_buffers(Board& board);
  std::array<std::array<Move,2>,MAX_PLY> killers_{};
  std::array<std::array<std::array<uint16_t,64>,64>,2> history_{};
  void check();uint64_t hash(const Board&)const;
  int negamax(Board&,int depth,int qleft,int alpha,int beta,int ply,bool pv);
  void order(Board&,std::vector<Move>&,int ply,Move ttmove);
+ bool buffers_ready_=false;
 public:
  Engine(const Grumpy& net,ClockFn clock,StopFn stop,MemoryFn memory={},int qdepth=2):net_(net),clock_(clock),stop_(stop),memory_(memory),qdepth_(qdepth){}
  SearchResult search(Board& board,int max_depth=4,uint64_t time_limit_ms=0);
+#ifdef PICOSARGON_MULTICORE
+ SearchResult search_parallel(const Board& board,int max_depth,uint64_t time_limit_ms,unsigned requested_cores);
+#endif
 };
 }

@@ -17,6 +17,8 @@ public:
  int piece(int sq) const; bool attacked(int sq120,int by) const; bool in_check(int color=0) const;
  void pseudo(std::vector<Move>& out) const;
  void legal(std::vector<Move>& out);
+ void legal(std::vector<Move>& out,std::vector<Move>& scratch);
+ void reserve_search(size_t additional_plies);
  void push(Move m); void pop();
  Move parse(const std::string& uci);
  static std::string notation(Move m);

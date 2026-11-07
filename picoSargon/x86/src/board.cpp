@@ -20,7 +20,18 @@ else{const int*dirs=kind==3?BI:kind==4?RO:KI;int n=kind==3||kind==4?4:8;for(int 
 void Board::save(Undo& u,int i){u.indices[u.count]=static_cast<uint8_t>(i);u.values[u.count]=cells[i];++u.count;}
 void Board::push(Move m){int fr=m.from,to=m.to,a=at120(fr),z=at120(to),v=piece(fr),capt=piece(to),side=turn; if(v*side<=0)throw std::runtime_error("push invalid source");Undo u{};u.move=m;u.turn=turn;u.castle=castling;u.ep=ep;u.halfmove=halfmove;u.fullmove=fullmove;save(u,a);save(u,z);if(std::abs(v)==1&&to==ep&&!capt){int cap=at120(to-8*side);capt=int(cells[cap])-6;save(u,cap);cells[cap]=6;}if(std::abs(v)==6&&std::abs(to-fr)==2){int rf=to==6?7:to==2?0:to==62?63:56;int rt=to==6?5:to==2?3:to==62?61:59;int ra=at120(rf),rz=at120(rt);save(u,ra);save(u,rz);cells[rz]=cells[ra];cells[ra]=6;}undos_.push_back(u);cells[a]=6;cells[z]=static_cast<uint8_t>(6+(m.promo?side*m.promo:v));if(v==6)castling&=~3;if(v==-6)castling&=~12;if(fr==7||to==7)castling&=~1;if(fr==0||to==0)castling&=~2;if(fr==63||to==63)castling&=~4;if(fr==56||to==56)castling&=~8;ep=std::abs(v)==1&&std::abs(to-fr)==16?(fr+to)/2:-1;halfmove=std::abs(v)==1||capt?0:halfmove+1;if(side==-1)++fullmove;turn=-side;history_.push_back(position_key());}
 void Board::pop(){if(undos_.empty())throw std::runtime_error("pop empty");Undo u=undos_.back();undos_.pop_back();for(int j=0;j<u.count;++j)cells[u.indices[j]]=u.values[j];turn=u.turn;castling=u.castle;ep=u.ep;halfmove=u.halfmove;fullmove=u.fullmove;history_.pop_back();}
-void Board::legal(std::vector<Move>& out){std::vector<Move> candidates;pseudo(candidates);out.clear();int side=turn;for(Move m:candidates){push(m);bool safe=!in_check(side);pop();if(safe)out.push_back(m);}}
+void Board::reserve_search(size_t additional_plies){
+ const size_t capacity=history_.size()+additional_plies+2;
+ undos_.reserve(undos_.size()+additional_plies+2);
+ history_.reserve(capacity);
+}
+void Board::legal(std::vector<Move>& out,std::vector<Move>& scratch){
+ pseudo(scratch);out.clear();int side=turn;
+ for(Move m:scratch){push(m);bool safe=!in_check(side);pop();if(safe)out.push_back(m);}
+}
+void Board::legal(std::vector<Move>& out){
+ std::vector<Move> scratch;scratch.reserve(256);legal(out,scratch);
+}
 std::string Board::notation(Move m){std::string s; s+=char('a'+m.from%8);s+=char('1'+m.from/8);s+=char('a'+m.to%8);s+=char('1'+m.to/8);if(m.promo){const char* p=" pnbrq";s+=p[m.promo];}return s;}
 Move Board::parse(const std::string& uci){std::vector<Move> moves;legal(moves);for(Move m:moves)if(notation(m)==uci)return m;throw std::runtime_error("illegal move: "+uci);}
 bool Board::is_capture(Move m)const{return piece(m.to)!=0||(std::abs(piece(m.from))==1&&int(m.to)==ep&&m.from%8!=m.to%8);}

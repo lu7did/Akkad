@@ -1,8 +1,0 @@
-Akkad — picoSargon macOS v0.2.38
-Parche incremental sobre v0.2.37. Extraer en el directorio raíz akkad.
-- Nuevo formato de telemetría del listener macOS, sin etiquetas INFO ni prefijos entre corchetes.
-- Arranque, cliente (IP:puerto origen), comandos position/go, info/bestmove, desconexión y detención.
-- Se suprime advertencia de firewall y encabezado redundante del proceso hijo.
-- Se mantiene UCI/TCP intacto y las herramientas dentro de picoSargon/tools/macos.
-- Se actualiza versión en host C++ y CMake macOS/x86: v0.2.38.
-- No altera los valores predeterminados de host/puerto: 127.0.0.1:6200.
