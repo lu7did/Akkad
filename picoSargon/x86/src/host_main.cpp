@@ -31,7 +31,7 @@
 #include <sys/sysctl.h>
 #endif
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.50"
+#define PICOSARGON_VERSION "0.2.51"
 #endif
 // Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
 // No LC0 dependency; only retrieves brains[brain]["network"].
