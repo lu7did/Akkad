@@ -5,7 +5,7 @@ HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 PROJECT="$(cd -- "$HERE/../.." && pwd -P)"
 LISTENER="$PROJECT/debian/build/picoSargon_listen"
 ENGINE="$PROJECT/debian/build/picoSargon"
-WEIGHTS="$PROJECT/debian/assets/grumpy.bin"
+WEIGHTS="$PROJECT/ARM/assets/grumpy.bin"
 # Forward --help even before binaries have been built.
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   cat <<'HELP'
