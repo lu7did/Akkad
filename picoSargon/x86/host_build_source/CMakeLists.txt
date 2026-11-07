@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(picoSargon_host VERSION 0.2.45 LANGUAGES CXX)
+project(picoSargon_host VERSION 0.2.46 LANGUAGES CXX)
 option(STEROIDS "Enable search optimizations" ON)
 option(MULTICORE "Enable parallel root search on host platforms" ON)
 set(CMAKE_CXX_STANDARD 17)

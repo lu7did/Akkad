@@ -11,7 +11,13 @@ SHARED="$HERE/../x86"
 for source in board.cpp engine.cpp grumpy.cpp host_main.cpp; do
   if [[ ! -f "$SHARED/src/$source" ]]; then
     echo "ERROR: Fuente compartido faltante: $SHARED/src/$source" >&2
-    echo "Verificar que el parche v0.2.45 se haya descomprimido en la raiz akkad." >&2
+    echo "Verificar que el parche v0.2.46 se haya descomprimido en la raiz akkad." >&2
+    exit 1
+  fi
+done
+for header in board.hpp engine.hpp grumpy.hpp; do
+  if [[ ! -f "$SHARED/include/$header" ]]; then
+    echo "ERROR: Cabecera compartida faltante: $SHARED/include/$header" >&2
     exit 1
   fi
 done
