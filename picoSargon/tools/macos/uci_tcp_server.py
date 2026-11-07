@@ -10,7 +10,7 @@ import subprocess
 import sys
 import threading
 
-VERSION = '0.2.44'
+VERSION = '0.2.49'
 PRINT_LOCK = threading.Lock()
 
 
@@ -26,11 +26,20 @@ def arguments():
     ap.add_argument('--engine', type=Path, required=True)
     ap.add_argument('--weights', type=Path, required=True)
     ap.add_argument('--cores', type=int)
+    ap.add_argument('--depth', type=int)
+    ap.add_argument('--qdepth', type=int)
+    ap.add_argument('--timeout', type=int)
+    ap.add_argument('--brains', type=Path)
+    ap.add_argument('--brain', default='tinySargon')
     ns = ap.parse_args()
     if not 1 <= ns.port <= 65535:
         ap.error('--port debe estar entre 1 y 65535')
     if ns.cores is not None and not 1 <= ns.cores <= 1024:
         ap.error('--cores debe estar entre 1 y 1024')
+    if ns.depth is not None and not 1 <= ns.depth <= 40: ap.error('--depth debe estar entre 1 y 40')
+    if ns.qdepth is not None and not 0 <= ns.qdepth <= 32: ap.error('--qdepth debe estar entre 0 y 32')
+    if ns.timeout is not None and not 1 <= ns.timeout <= 2147483647: ap.error('--timeout debe estar entre 1 y 2147483647 ms')
+    if ns.brains is not None and not ns.brains.is_file(): ap.error('--brains no existe')
     if not ns.engine.is_file() or not ns.weights.is_file():
         ap.error('no se encuentra ejecutable o red NNUE')
     # Determine the build mode from the actual engine UCI interface, not
@@ -71,12 +80,20 @@ def arguments():
     return ns
 
 
+def engine_args(ns):
+    args = [str(ns.engine), '--weights', str(ns.weights)]
+    if ns.brains is not None: args += ['--brains', str(ns.brains), '--brain', ns.brain]
+    for key in ('cores','depth','qdepth','timeout'):
+        value = getattr(ns, key)
+        if value is not None: args += ['--' + key, str(value)]
+    return args
+
 def handle(conn, addr, ns):
     emit('✅', f'Client connected fm {addr[0]}:{addr[1]}')
     proc = None
     try:
         proc = subprocess.Popen(
-            [str(ns.engine), '--weights', str(ns.weights)] + (['--cores', str(ns.cores)] if ns.cores is not None else []),
+            engine_args(ns),
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             bufsize=0,
         )

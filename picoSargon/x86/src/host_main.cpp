@@ -28,6 +28,9 @@
 #if defined(__APPLE__)
 #include <sys/sysctl.h>
 #endif
+#ifndef PICOSARGON_VERSION
+#define PICOSARGON_VERSION "0.2.49"
+#endif
 // Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
 // No LC0 dependency; only retrieves brains[brain]["network"].
 namespace {
@@ -98,46 +101,100 @@ std::string get_weights_from_brains(const std::string& filename,const std::strin
  // Prefer the original working-directory convention used by Sargon-NNUE scripts.
  if(fs::is_regular_file(path))return fs::absolute(path).string();
  fs::path file=fs::absolute(filename).parent_path();
- for(const fs::path& base:{file,file/"scripts",file.parent_path()/"scripts"}){
+ for(const fs::path& base:{file,file/"scripts",file.parent_path()/"scripts",file.parent_path().parent_path()/"src"}){
   auto candidate=(base/path).lexically_normal();if(fs::is_regular_file(candidate))return candidate.string();
  }
  throw std::runtime_error("brains.json: no existe network para "+brain+": "+network);
 }
-std::string weights_argument(int argc,char** argv
+struct HostOptions {
+ std::string weights, brains, brain="tinySargon";
+ int depth=4, qdepth=2;
+ uint64_t timeout=15000;
 #ifdef PICOSARGON_MULTICORE
- ,unsigned& cores
+ unsigned cores=2;
 #endif
-){
- std::string weights,brains,brain="tinySargon";
- for(int i=1;i<argc;++i){std::string a=argv[i];
+};
+int checked_number(const std::string& raw,const std::string& name,int lo,int hi){
+ if(raw.empty()||raw.find_first_not_of("0123456789")!=std::string::npos)
+  throw std::runtime_error(name+" debe ser un entero decimal");
+ unsigned long long v=0;
+ try{v=std::stoull(raw);}catch(const std::exception&){throw std::runtime_error(name+" fuera de rango");}
+ if(v<static_cast<unsigned>(lo)||v>static_cast<unsigned>(hi))
+  throw std::runtime_error(name+" fuera de rango "+std::to_string(lo)+".."+std::to_string(hi));
+ return static_cast<int>(v);
+}
+// Read one numeric field from the selected brain. A missing/null field is ignored.
+// A fresh cursor is required because JsonCursor::key consumes preceding properties.
+bool brain_number(const std::string& contents,const std::string& brain,const std::string& field,int& value){
+ JsonCursor j{contents};
+ if(!j.key("brains")||!j.key(brain)||!j.key(field))return false;
+ j.ws();const auto first=j.i;
+ while(j.i<j.s.size()&&std::isdigit(static_cast<unsigned char>(j.s[j.i])))++j.i;
+ if(first==j.i){
+  if(j.s.compare(j.i,4,"null")==0)return false;
+  throw std::runtime_error("brains.json: "+field+" debe ser un numero entero");
+ }
+ const auto raw=j.s.substr(first,j.i-first);
+ const int lo=field=="qdepth"?0:1;
+ const int hi=field=="depth"?40:(field=="qdepth"?32:2147483647);
+ value=checked_number(raw,"brains.json "+field,lo,hi);
+ j.ws();if(j.i<j.s.size()&&j.s[j.i]!=','&&j.s[j.i]!='}')
+  throw std::runtime_error("brains.json: numero invalido en "+field);
+ return true;
+}
+HostOptions parse_options(int argc,char** argv){
+ HostOptions opt;
+ bool cliDepth=false,cliQdepth=false,cliTimeout=false;
+ for(int i=1;i<argc;++i){const std::string a=argv[i];
+  if(a=="--help"||a=="-h"){
+   std::cout<<"picoSargon v"<<PICOSARGON_VERSION<<"\n";
+   std::cout<<"Uso: picoSargon --weights <grumpy.bin> [--depth 1..40] [--qdepth 0..32] [--timeout MS]";
 #ifdef PICOSARGON_MULTICORE
-  if(a=="--cores"){
-   if(++i>=argc)throw std::runtime_error("falta valor para --cores");
-   std::string raw=argv[i];if(raw.empty()||raw.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("--cores debe ser entero positivo");
-   unsigned long n=std::stoul(raw);if(n<1||n>1024)throw std::runtime_error("--cores fuera de rango 1..1024");cores=static_cast<unsigned>(n);
-  }else
+   std::cout<<" [--cores 1..1024]";
 #endif
-  if(a=="--brains"||a=="--brain"||a=="--weights"){
+   std::cout<<"\n       picoSargon --brains <brains.json> [--brain tinySargon] [mismas opciones]\n";
+   std::cout<<"Prioridad: argumentos > brains.json > defaults; go depth/movetime y setoption QDepth prevalecen.\n";
+   std::exit(0);
+  }
+  if(a=="--depth"||a=="--qdepth"||a=="--timeout"||a=="--brain"||a=="--brains"||a=="--weights"
+#ifdef PICOSARGON_MULTICORE
+   ||a=="--cores"
+#endif
+   ){
    if(++i>=argc)throw std::runtime_error("falta valor para "+a);
-   if(a=="--brains")brains=argv[i];else if(a=="--brain")brain=argv[i];else weights=argv[i];
+   const std::string value=argv[i];
+   if(a=="--depth"){opt.depth=checked_number(value,a,1,40);cliDepth=true;}
+   else if(a=="--qdepth"){opt.qdepth=checked_number(value,a,0,32);cliQdepth=true;}
+   else if(a=="--timeout"){opt.timeout=static_cast<uint64_t>(checked_number(value,a,1,2147483647));cliTimeout=true;}
+   else if(a=="--brain")opt.brain=value;
+   else if(a=="--brains")opt.brains=value;
+   else if(a=="--weights")opt.weights=value;
+#ifdef PICOSARGON_MULTICORE
+   else if(a=="--cores")opt.cores=static_cast<unsigned>(checked_number(value,a,1,1024));
+#endif
   }else if(!a.empty()&&a[0]=='-')throw std::runtime_error("opcion desconocida: "+a);
-  else if(weights.empty())weights=a;
+  else if(opt.weights.empty())opt.weights=a;
   else throw std::runtime_error("argumentos de pesos duplicados");
  }
- if(!weights.empty())return weights;
- if(!brains.empty())return get_weights_from_brains(brains,brain);
- #if defined(_WIN32)
- throw std::runtime_error("uso: picoSargon.exe <grumpy.bin> | --weights <grumpy.bin> | --brains <brains.json> [--brain tinySargon]");
-#else
- throw std::runtime_error("uso: picoSargon <grumpy.bin> | --weights <grumpy.bin> | --brains <brains.json> [--brain tinySargon]");
-#endif
+ if(!opt.brains.empty()){
+  std::ifstream in(opt.brains,std::ios::binary);
+  if(!in)throw std::runtime_error("no se puede abrir brains.json: "+opt.brains);
+  const std::string contents((std::istreambuf_iterator<char>(in)),std::istreambuf_iterator<char>());
+  int value=0;
+  if(!cliDepth&&brain_number(contents,opt.brain,"depth",value))opt.depth=value;
+  if(!cliQdepth&&brain_number(contents,opt.brain,"qdepth",value))opt.qdepth=value;
+  if(!cliTimeout){
+   if(brain_number(contents,opt.brain,"timeout",value)||brain_number(contents,opt.brain,"tmax",value))
+    opt.timeout=static_cast<uint64_t>(value);
+  }
+  if(opt.weights.empty())opt.weights=get_weights_from_brains(opt.brains,opt.brain);
+ }
+ if(opt.weights.empty())throw std::runtime_error("falta --weights <red> o --brains <brains.json>; usar --help");
+ return opt;
 }
 }
 
 
-#ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.46"
-#endif
 namespace {
 std::string trim_uci(std::string x) {
  auto b=x.find_first_not_of(" \t\r\n");
@@ -235,10 +292,12 @@ static uint64_t milliseconds(){return std::chrono::duration_cast<std::chrono::mi
 int main(int argc,char**argv){
  try{
 #ifdef PICOSARGON_MULTICORE
-  unsigned cores=2;
-  const auto weights=weights_argument(argc,argv,cores);
+  const HostOptions options=parse_options(argc,argv);
+  unsigned cores=options.cores;
+  const auto& weights=options.weights;
 #else
-  const auto weights=weights_argument(argc,argv);
+  const HostOptions options=parse_options(argc,argv);
+  const auto& weights=options.weights;
 #endif
   Grumpy net;net.load(weights);Board board;
 #ifdef __APPLE__
@@ -246,11 +305,11 @@ int main(int argc,char**argv){
             << "] macOS UCI/stdin iniciado; red=" << weights
             << "; TCP=no (usar picoSargon/tools/macos/run_listen.sh para escuchar)" << std::endl;
 #endif
-  int qdepth=2;std::string line;
+  int qdepth=options.qdepth;std::string line;
   while(std::getline(std::cin,line)){
    std::istringstream ss(line);std::string cmd;ss>>cmd;
    if(cmd=="uci"){
-    std::cout<<"id name "<<uci_identity()<<"\nid author Dr. Pedro E. Colla\noption name QDepth type spin default 2 min 0 max 32\n"
+    std::cout<<"id name "<<uci_identity()<<"\nid author Dr. Pedro E. Colla\noption name QDepth type spin default "<<qdepth<<" min 0 max 32\n"
 #ifdef PICOSARGON_MULTICORE
              <<"option name Cores type spin default 2 min 1 max 1024\n"
 #endif
@@ -276,9 +335,10 @@ int main(int argc,char**argv){
     }else throw std::runtime_error("position expects fen/startpos");
     while(ss>>t){if(t=="moves")continue;board.push(board.parse(t));}
    }else if(cmd=="go"){
-    int depth=4;uint64_t timelimit=15000;std::string t;
+    int depth=options.depth;uint64_t timelimit=options.timeout;std::string t;
     while(ss>>t){if(t=="depth")ss>>depth;else if(t=="movetime")ss>>timelimit;}
     if(depth<1||depth>40)throw std::runtime_error("depth out of range");
+    if(timelimit==0||timelimit>2147483647ULL)throw std::runtime_error("movetime fuera de rango");
     Engine engine(net,milliseconds,[]{return false;},{},qdepth);
     const auto search_start=std::chrono::steady_clock::now();
 #ifdef PICOSARGON_MULTICORE

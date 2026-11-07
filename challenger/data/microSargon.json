@@ -3,27 +3,27 @@
     "schema_version": 2,
     "json_file": "microSargon.json",
     "created_at": "2026-11-01T22:59:31-03:00",
-    "last_modified_at": "2026-11-06T20:28:07-03:00",
-    "games": 298,
+    "last_modified_at": "2026-11-07T00:36:12-03:00",
+    "games": 299,
     "wins": 0,
     "wins_pct": 0.0,
     "draws": 50,
-    "draws_pct": 16.779,
-    "losses": 248,
-    "losses_pct": 83.221
+    "draws_pct": 16.722,
+    "losses": 249,
+    "losses_pct": 83.278
   },
   "events": {
     "Pruebas de picoSargon": {
       "event": "Pruebas de picoSargon",
       "started_at": "2026-11-01T22:59:32-03:00",
-      "last_run_at": "2026-11-06T20:28:07-03:00",
-      "games": 298,
+      "last_run_at": "2026-11-07T00:36:12-03:00",
+      "games": 299,
       "wins": 0,
       "wins_pct": 0.0,
       "draws": 50,
-      "draws_pct": 16.779,
-      "losses": 248,
-      "losses_pct": 83.221,
+      "draws_pct": 16.722,
+      "losses": 249,
+      "losses_pct": 83.278,
       "games_detail": {
         "20261102T022247.160458Z-791ede26": {
           "game_id": "20261102T022247.160458Z-791ede26",
@@ -9949,6 +9949,40 @@
           "move_count": 48,
           "duration_seconds": 11.757,
           "opponent_id": "picoSargon C++ v0.2.39 (macOS 27.2 / 8.00 GiB RAM)"
+        },
+        "20261107T033612.766401Z-b88d0710": {
+          "game_id": "20261107T033612.766401Z-b88d0710",
+          "result": "0-1",
+          "outcome": "loss",
+          "reason": "CHECKMATE",
+          "challenger_color": "white",
+          "finished_at": "2026-11-07T00:36:12-03:00",
+          "brain": "sargon",
+          "challenger_version": "0.2.1",
+          "execution_arguments": {
+            "ip": "192.168.68.105",
+            "port": 6200,
+            "fen": null,
+            "color": "random",
+            "brain": "sargon",
+            "stockfish": null,
+            "stockfish_movetime": 2000,
+            "plies": 2,
+            "qdepth": 0,
+            "verbose": false,
+            "gui": true,
+            "forever": true,
+            "run": null,
+            "pgn": null,
+            "evento": "Pruebas de picoSargon",
+            "json": "..\\data\\microSargon.json",
+            "gametime": 30.0,
+            "timeout": 60000,
+            "seed": null
+          },
+          "move_count": 30,
+          "duration_seconds": 11.675,
+          "opponent_id": "picoSargon C++ v0.2.46 (macOS 27.2 / 8.00 GiB RAM)"
         }
       }
     }
