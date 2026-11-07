@@ -136,7 +136,7 @@ std::string weights_argument(int argc,char** argv
 
 
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.42"
+#define PICOSARGON_VERSION "0.2.44"
 #endif
 namespace {
 std::string trim_uci(std::string x) {

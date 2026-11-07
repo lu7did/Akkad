@@ -11,9 +11,10 @@ CORES="${PICOSARGON_CORES:-}"
 usage() {
   cat <<'HELP'
 Uso: ./picoSargon/tools/macos/run_listen.sh [--host DIRECCION] [--port PUERTO] [--cores N] [--help]
-Defecto: 0.0.0.0:6200 (LAN; proteger con firewall)
-Para permitir conexiones desde la LAN: --host 0.0.0.0
-Variables: LISTEN_HOST, LISTEN_PORT, LISTEN_PYTHON
+Defecto: --host 0.0.0.0 --port 6200
+--cores N es obligatorio si el ejecutable fue compilado con MULTICORE=ON.
+--cores N no se admite si el ejecutable fue compilado con MULTICORE=OFF.
+Variables: LISTEN_HOST, LISTEN_PORT, LISTEN_PYTHON, PICOSARGON_CORES
 Telemetría: stderr; protocolo UCI: por conexión TCP.
 HELP
 }

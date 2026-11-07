@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """picoSargon macOS: servidor UCI/TCP multicliente; telemetría solo a stderr."""
 import argparse
+import os
 from datetime import datetime
 from pathlib import Path
 import signal
@@ -9,7 +10,7 @@ import subprocess
 import sys
 import threading
 
-VERSION = '0.2.42'
+VERSION = '0.2.44'
 PRINT_LOCK = threading.Lock()
 
 
@@ -20,7 +21,7 @@ def emit(symbol, message):
 
 def arguments():
     ap = argparse.ArgumentParser(description='picoSargon macOS UCI/TCP listener')
-    ap.add_argument('--host', default='127.0.0.1')
+    ap.add_argument('--host', default='0.0.0.0')
     ap.add_argument('--port', type=int, default=6200)
     ap.add_argument('--engine', type=Path, required=True)
     ap.add_argument('--weights', type=Path, required=True)
@@ -32,6 +33,41 @@ def arguments():
         ap.error('--cores debe estar entre 1 y 1024')
     if not ns.engine.is_file() or not ns.weights.is_file():
         ap.error('no se encuentra ejecutable o red NNUE')
+    # Determine the build mode from the actual engine UCI interface, not
+    # from an environment variable or an assumption about CMake cache.
+    try:
+        probe = subprocess.run(
+            [str(ns.engine), '--weights', str(ns.weights)],
+            input='uci\nquit\n', text=True, capture_output=True,
+            timeout=5, check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        ap.error(f'no se pudo consultar las opciones UCI del motor: {exc}')
+    if probe.returncode != 0 or 'uciok' not in probe.stdout.splitlines():
+        ap.error('el ejecutable no completo correctamente el handshake UCI')
+    multicore = any(line.strip().startswith('option name Cores ') for line in probe.stdout.splitlines())
+    if multicore and ns.cores is None:
+        ap.error('MULTICORE=ON: es obligatorio indicar --cores N (ejemplo: --cores 4)')
+    if not multicore and ns.cores is not None:
+        ap.error('MULTICORE=OFF: este ejecutable no admite --cores; recompilar con MULTICORE=ON')
+    ns.multicore = multicore
+    # The host C++ engine caps workers at physical cores; match macOS logic.
+    if multicore:
+        physical = None
+        if sys.platform == 'darwin':
+            try:
+                found = subprocess.run(
+                    ['sysctl', '-n', 'hw.physicalcpu'],
+                    capture_output=True, text=True, timeout=3, check=True,
+                )
+                physical = int(found.stdout.strip())
+            except (OSError, ValueError, subprocess.SubprocessError):
+                pass
+        if not physical or physical < 1:
+            physical = os.cpu_count() or 1
+        ns.effective_cores = min(ns.cores, physical)
+    else:
+        ns.effective_cores = 1
     return ns
 
 
@@ -150,6 +186,9 @@ def main():
     emit('💻', f'picoSargon macOS UCI/TCP v{VERSION}')
     emit('⚙️', f'Motor: {ns.engine}')
     emit('⚙️', f'NNUE:  {ns.weights}')
+    # Startup configuration, not the count of root moves available per position.
+    with PRINT_LOCK:
+        print(f'[{datetime.now():%H:%M:%S}] ⚙️ MULTICORE={ns.multicore} CORE={ns.effective_cores}', file=sys.stderr, flush=True)
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
             listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
