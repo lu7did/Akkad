@@ -28,12 +28,12 @@
       "engine-path": {
         "windows": "../../AlphaZero/build/AlphaZero.exe",
         "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
-        "macos": "../../AlphaZero/macOS/build/AlphaZero"
+        "macos": "/Users/pedrocolla/akkad//AlphaZero/macOS/build/AlphaZero"
       },
       "lc0-weights": {
         "windows": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
         "debian": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
-        "macos": "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz"
+        "macos": "/Users/pedrocolla/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"
       },
       "lc0-backend": {
         "windows": "onnx-dml",
