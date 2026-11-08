@@ -3,9 +3,9 @@
 $ErrorActionPreference = 'Stop'
 $Ip = '0.0.0.0'
 $Port = 6200
-$Brain = 'amelie'
+$Brain = 'emma'
 $Python = 'python'
-$Cores = 1
+$Cores = 4
 $Help = $false
 
 for ($i = 0; $i -lt $args.Count; $i++) {
