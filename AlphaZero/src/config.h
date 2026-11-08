@@ -2,12 +2,13 @@
 // Akkad AlphaZero-X86: configuration defaults (overridden by CLI, then UCI).
 // Paths may be absolute or relative to the process working directory.
 namespace az_config {
-inline constexpr const char* kVersion = "v0.2.2";
-inline constexpr const char* kUciName = "AlphaZero v0.2.2";
+inline constexpr const char* kVersion = "v0.2.4";
+inline constexpr const char* kUciName = "AlphaZero v0.2.4";
 inline constexpr const char* kUciAuthor = "Dr. Pedro E. Colla";
 inline constexpr const char* kWeightsFile = ""; // required unless supplied externally
 inline constexpr const char* kBackend = "onnx-dml"; // "eigen" for CPU
 inline constexpr const char* kBackendOptions = "gpu=0";
+inline constexpr int kBatchSize = 8; // max distinct MCTS leaves per LC0 batch
 inline constexpr int kSimulations = 1000; // MCTS simulation budget
 inline constexpr int kMaxTreeNodes = 0; // 0 = unlimited; includes root expansion
 inline constexpr int kTMaxMs = 10000; // search time budget

@@ -10,7 +10,7 @@
 #*================================================================================================================*
 #* uci.py
 #* Implementa la sesion y los comandos del protocolo UCI
-#* v0.6.153
+#* v0.6.199
 #=================================================================================================================*
 from __future__ import annotations
 import sys
@@ -67,7 +67,10 @@ class UCISession:
                     board = self.board.copy(stack=True) if str(getattr(self.player,"name","")).upper() in ("ALPHAZERO","LC0-UCI","EXTERNAL","ALPHAZERO-X86") else self.board.copy(stack=False)
                     if self.audit is not None and self.audit.enabled:
                         self.audit.event("uci_go_begin", go_index=self._go_index, command=line, fen=board.fen(), turn="white" if board.turn else "black", legal_moves=len(list(board.legal_moves)))
-                    choice = self.player.choose(board)
+                    if str(getattr(self.player, "name", "")).upper() == "ALPHAZERO-X86":
+                        choice = self.player.choose(board, go_command=line)
+                    else:
+                        choice = self.player.choose(board)
                     bestmove = choice.move.uci() if choice.move else "(none)"
                     if choice.move is not None and choice.move not in board.legal_moves:
                         raise ValueError(f"player devolvió jugada ilegal antes de transmitir: {choice.move}")

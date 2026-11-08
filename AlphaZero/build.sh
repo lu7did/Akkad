@@ -147,7 +147,17 @@ fi
 
 git -C "$VENDOR" submodule update --init --recursive
 [[ -f "$VENDOR/src/main.cc" ]] || fail 'cambio en el arbol de LC0: falta src/main.cc'
+AZ_MULTICORE="${AZ_MULTICORE:-ON}"
+case "$AZ_MULTICORE" in ON|OFF) ;; *) fail 'AZ_MULTICORE debe ser ON u OFF';; esac
 cp "$HERE/src/akkad_alphazero_main.cc" "$VENDOR/src/main.cc"
+if [[ "$AZ_MULTICORE" == OFF ]]; then
+  python3 - "$VENDOR/src/main.cc" <<'PY_MULTICORE'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1]);p.write_text('#define AZ_MULTICORE 0\n'+p.read_text(encoding='utf-8'),encoding='utf-8')
+PY_MULTICORE
+fi
+printf 'MULTICORE=%s (compilacion)\n' "$AZ_MULTICORE"
 
 # Adjust the build copy, never the tracked config.h source.
 python3 - "$HERE/src/config.h" "$VENDOR/src/config.h" <<'PY'

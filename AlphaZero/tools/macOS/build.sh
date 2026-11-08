@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Akkad / AlphaZero: macOS native build wrapper v0.2.0
+# Akkad / AlphaZero: macOS native build wrapper v0.2.4
 # Auto-installs missing build dependencies; keeps the shared C++ build unchanged.
 set -Eeuo pipefail
 
@@ -8,7 +8,7 @@ ROOT="$(cd -- "$HERE/../.." && pwd -P)"
 
 usage() {
   cat <<'HELP'
-AlphaZero macOS build v0.2.0
+AlphaZero macOS build v0.2.4
 Uso: ./build.sh [--help]
 
 Instala las dependencias que falten y luego compila AlphaZero C++ usando
@@ -18,6 +18,7 @@ Dependencias: Xcode Command Line Tools, Homebrew, git, cmake, meson,
               ninja, python3, pkg-config, protobuf y eigen.
 
 Variables:
+  AZ_MULTICORE=ON|OFF    Activa/desactiva MULTICORE (default ON).
   BUILD_JOBS=N            Numero de compilaciones paralelas.
   LC0_REF=v0.32.1         Version de LC0 si hay que descargarla.
   LC0_SOURCE=PATH         Fuentes locales de LC0.

@@ -9,6 +9,7 @@ param(
     [string]$DmlVersion = '1.15.4',
     [switch]$CleanSource,
     [string]$AbseilRef = "20250512.1",
+    [ValidateSet("ON","OFF")][string]$MultiCore = "ON",
     [switch]$RebuildAbseil
 )
 $ErrorActionPreference = 'Stop'
@@ -66,6 +67,11 @@ if (-not $LC0Source) {
 $main = Join-Path $vendor 'src/main.cc'
 if (-not (Test-Path $main)) { throw 'LC0 source layout changed: src/main.cc missing' }
 Copy-Item (Join-Path $here 'src/akkad_alphazero_main.cc') $main -Force
+if ($MultiCore -eq 'OFF') {
+    $original = [IO.File]::ReadAllText($main)
+    [IO.File]::WriteAllText($main, "#define AZ_MULTICORE 0`n" + $original)
+}
+Write-Host "MULTICORE=$MultiCore (compilacion)"
 Copy-Item (Join-Path $here 'src/config.h') (Join-Path $vendor 'src/config.h') -Force
 # Set up Visual Studio C++ tools automatically when invoked from a normal
 # PowerShell/venv session. Ninja and MSVC remain the selected build toolchain.
