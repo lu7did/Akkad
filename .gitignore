@@ -41,3 +41,7 @@ C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime_providers_shared.d
 /picoSargon/macOS/build/
 /picoSargon/debian/build/
 /picoSargon/x86/build-host-windows/
+# AlphaZero - directorios de compilación
+/AlphaZero/X86/build/
+/AlphaZero/debian/build/
+/AlphaZero/macOS/build/

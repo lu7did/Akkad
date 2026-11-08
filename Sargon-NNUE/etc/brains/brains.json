@@ -27,7 +27,7 @@
       "evaluator": "null",
       "engine-path": {
         "windows": "../../AlphaZero/build/AlphaZero.exe",
-        "debian": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
+        "debian": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
         "macos": "/Users/pedrocolla/akkad//AlphaZero/macOS/build/AlphaZero"
       },
       "lc0-weights": {
