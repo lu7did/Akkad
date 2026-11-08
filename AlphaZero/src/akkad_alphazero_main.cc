@@ -23,6 +23,7 @@
 #include <cstdint>
 #include <limits>
 #include <sstream>
+#include <iomanip>
 #include <string>
 #include <thread>
 #include <utility>
@@ -437,9 +438,9 @@ static Result run_root_parallel(const PositionHistory& h,LC0Inference& initial,c
   aggregate.visits=aggregate.root_visits[best];
   aggregate.q=aggregate.visits?aggregate.root_sums[best]/aggregate.visits:0.;
   aggregate.ms=std::chrono::duration<double,std::milli>(Clock::now()-start).count();
-  telemetry("⚙️ AlphaZero multicore setup_ms=" + std::to_string(
+  telemetry("⚙️ AlphaZero multicore setup=" + std::to_string(
     std::chrono::duration<double,std::milli>(initialization_end-start).count()) +
-    " workers=" + std::to_string(started));
+    " msecs workers=" + std::to_string(started));
   per_core.assign(work.begin(),work.begin()+started);
   return aggregate;
 }
@@ -465,12 +466,12 @@ class Engine {
     pool.reserve(static_cast<size_t>(active));
     pool.push_back(eval_.get());
     for(int i=1;i<active;++i)pool.push_back(secondary_evals_[static_cast<size_t>(i-1)].get());
-    telemetry("⚙️ AlphaZero backend_pool new="+std::to_string(
+    telemetry("⚙️ AlphaZero backend new="+std::to_string(
                 static_cast<int>(secondary_evals_.size())+1-cached_before)+
-              " reused="+std::to_string(std::min(active,cached_before))+
-              " ready="+std::to_string(pool.size())+
-              " cached="+std::to_string(secondary_evals_.size()+1)+
-              " preparation_ms="+std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
+              "/"+std::to_string(std::min(active,cached_before))+
+              "/"+std::to_string(pool.size())+
+              "/"+std::to_string(secondary_evals_.size()+1)+
+              " preparation="+std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now()-start).count())+
               " weights="+absolute_path(settings_.weights));
     return pool;
@@ -593,12 +594,12 @@ class Engine {
       }
       if(settings_.timeout>0 && (ms<=0 || ms>settings_.timeout))ms=settings_.timeout;
       if(ms<=0)ms=1000; // Avoid unbounded search when no clock or limit exists.
-      telemetry("⚙️ AlphaZero go mode="+time_mode+" budget_ms="+std::to_string(ms)+
-                " remaining_ms="+std::to_string(remaining)+" increment_ms="+std::to_string(increment)+
-                " movestogo="+std::to_string(movestogo)+" simulations="+std::to_string(sims)+
-                " batch_size="+std::to_string(settings_.batch_size)+
-                " cores_requested="+std::to_string(settings_.cores)+
-                " cores_active="+std::to_string(effective_cores(settings_)));
+      telemetry("⚙️ AlphaZero go mode="+time_mode+" timeout="+std::to_string(ms)+
+                " remaining="+std::to_string(remaining)+" increment="+std::to_string(increment)+
+                " movestogo="+std::to_string(movestogo)+" sims="+std::to_string(sims)+
+                " batch="+std::to_string(settings_.batch_size)+
+                " cores="+std::to_string(settings_.cores)+"/"+
+                std::to_string(effective_cores(settings_)));
       auto snapshot=history_;auto cfg=settings_;const int root_ply=current_ply_;
       const bool root_black=snapshot.IsBlackToMove();
       // Create the pool once and retain it across searches and new games.
@@ -618,11 +619,14 @@ class Engine {
           auto r=run_root_parallel(snapshot,*eval_,cfg,stop_,sims,ms,per_core,pool);
           for(const auto& core:per_core){
             const auto& cr=core.result;
-            telemetry("🧠 AlphaZero core["+std::to_string(core.core)+"] simulations="+
-              std::to_string(cr.simulations)+" allocated="+std::to_string(core.allocation)+
-              " nodes="+std::to_string(cr.nodes)+" nn_evals="+std::to_string(cr.evaluations)+
-              " batches="+std::to_string(cr.batches)+" nn_ms="+std::to_string(cr.nn_ms)+
-              " elapsed_ms="+std::to_string(core.wall_ms)+" stop="+cr.stop_reason);
+            std::ostringstream core_log;
+            core_log << "🧠 AlphaZero core[" << core.core << "] stop=" << cr.stop_reason
+                     << " sims=" << cr.simulations << " alloc=" << core.allocation
+                     << " nodes=" << cr.nodes << " nn_evals=" << cr.evaluations
+                     << " batches=" << cr.batches
+                     << " nn_ms=" << std::fixed << std::setprecision(1) << cr.nn_ms
+                     << " msecs elapsed=" << core.wall_ms;
+            telemetry(core_log.str());
           }
           if(true){
             auto q=std::clamp(r.q,-0.999,0.999);

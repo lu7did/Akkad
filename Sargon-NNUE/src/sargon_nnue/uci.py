@@ -10,7 +10,7 @@
 #*================================================================================================================*
 #* uci.py
 #* Implementa la sesion y los comandos del protocolo UCI
-#* v0.6.199
+#* v0.6.200
 #=================================================================================================================*
 from __future__ import annotations
 import sys
@@ -29,6 +29,35 @@ class UCISession:
         self.writer.write(s+"\n"); self.writer.flush()
         if self.audit is not None and self.audit.enabled:
             self.audit.event("uci_tx", line=s)
+    def _log_alphazero_uci_info(self, line: str):
+        """Compact stderr-only console view; forward unmodified UCI to TCP."""
+        words = line.split()
+        if not (len(words) >= 2 and words[0] == 'info' and 'ALPHAZERO' in words):
+            self.log(f"📊 UCI {line}")
+            return
+        def value(key, default='?'):
+            try:
+                index = words.index(key)
+                return words[index + 1]
+            except (ValueError, IndexError):
+                return default
+        extra = {}
+        for word in words[words.index('ALPHAZERO') + 1:]:
+            if '=' in word:
+                key, item = word.split('=', 1)
+                extra[key] = item
+        sims = extra.get('simulations', extra.get('sims', '?'))
+        self.log(f"📊 UCI info ply {value('ply')} sims={sims} depth {value('depth')} "
+                 f"score {value('score', 'cp')} {value('cp')} nodes {value('nodes')} "
+                 f"time {value('time')} nps {value('nps')} "
+                 f"tree_nodes={extra.get('tree_nodes', '?')} "
+                 f"elapsed={extra.get('elapsed_ms', '?')} best={extra.get('best_visits', '?')}")
+        self.log(f"📊 UCI info ply {value('ply')} sims={sims} "
+                 f"stop={extra.get('stop', '?')} q={extra.get('q', '?')} "
+                 f"batch={extra.get('batch_size', '?')} cores={extra.get('cores', '?')} "
+                 f"batches={extra.get('batches', '?')} evals={extra.get('evals', '?')} "
+                 f"nn_ms={extra.get('nn_ms', '?')}")
+
     def set_position(self,line:str):
         parts=line.split()
         if len(parts)<2: raise ValueError("position incompleto")
@@ -87,7 +116,7 @@ class UCISession:
                         # Keep it on TCP stdout; never send native stderr diagnostics here.
                         for info_line in self.player.last_uci_info:
                             self.send(info_line)
-                            self.log(f"📊 UCI {info_line}")
+                            self._log_alphazero_uci_info(info_line)
                     else:
                         self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
                     self.send("bestmove "+bestmove)
