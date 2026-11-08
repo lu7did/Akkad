@@ -34,6 +34,7 @@
 #define AZ_MULTICORE 1
 #endif
 #include "config.h"
+#include "lc0_startup_telemetry.h"
 #include "chess/board.h"
 #include "chess/position.h"
 #include "neural/backend.h"
@@ -72,7 +73,11 @@ std::string executable_path(const char* argv0) {
 #endif
   return absolute_path(argv0 ? argv0 : "");
 }
-void say(const std::string& s) { std::lock_guard<std::mutex> l(output_mu); std::cout << s << '\n' << std::flush; }
+void say(const std::string& s) {
+  std::lock_guard<std::mutex> l(output_mu);
+  std::cout << s << '\n' << std::flush; // UCI: no decorations on stdout.
+  std::cerr << "➡️ UCI " << s << '\n' << std::flush;
+}
 std::string trim(std::string s) { auto a=s.find_first_not_of(" \t\r\n"); if(a==std::string::npos)return {}; auto b=s.find_last_not_of(" \t\r\n");return s.substr(a,b-a+1); }
 struct Settings {
   std::string weights=az_config::kWeightsFile, backend=az_config::kBackend,
@@ -640,6 +645,8 @@ class Engine {
                 <<" batch_size="<<cfg.batch_size<<" cores="<<per_core.size()<<" batches="<<r.batches
                 <<" evals="<<r.evaluations<<" nn_ms="<<int(r.nn_ms)
                 <<" stop="<<r.stop_reason;
+            // Keep the complete UCI info frame machine-readable. Human-friendly
+            // short/extended renderings are emitted by the TCP listener on stderr.
             say(info.str());
             std::ostringstream detail;
             detail << "🧠 AlphaZero analysis ply=" << root_ply
@@ -691,6 +698,7 @@ class Engine {
 };
 } // namespace
 int main(int argc,char**argv){
+  az_lc0_telemetry::ScopedFilters lc0_diagnostic_filters;
   try{
     Engine engine;
     for(int i=1;i<argc;++i){std::string a=argv[i];
@@ -712,6 +720,7 @@ int main(int argc,char**argv){
     engine.report_startup(argc > 0 ? argv[0] : nullptr);
     std::string line;while(std::getline(std::cin,line)){
       line=trim(line);if(line=="quit")break;
+      telemetry("⬅️ UCI " + line);
       try{engine.process(line);}catch(const std::exception& e){say(std::string("info string ERROR command: ")+e.what());}
     }
     engine.close();return 0;

@@ -150,6 +150,7 @@ git -C "$VENDOR" submodule update --init --recursive
 AZ_MULTICORE="${AZ_MULTICORE:-ON}"
 case "$AZ_MULTICORE" in ON|OFF) ;; *) fail 'AZ_MULTICORE debe ser ON u OFF';; esac
 cp "$HERE/src/akkad_alphazero_main.cc" "$VENDOR/src/main.cc"
+cp "$HERE/src/lc0_startup_telemetry.h" "$VENDOR/src/lc0_startup_telemetry.h"
 if [[ "$AZ_MULTICORE" == OFF ]]; then
   python3 - "$VENDOR/src/main.cc" <<'PY_MULTICORE'
 from pathlib import Path

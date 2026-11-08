@@ -10,7 +10,7 @@
 #*================================================================================================================*
 #* uci.py
 #* Implementa la sesion y los comandos del protocolo UCI
-#* v0.6.200
+#* v0.6.201
 #=================================================================================================================*
 from __future__ import annotations
 import sys
@@ -27,18 +27,26 @@ class UCISession:
         self._go_index = 0
     def send(self,s:str):
         self.writer.write(s+"\n"); self.writer.flush()
+        # Diagnostic mirror only. Never prepend icons to wire UCI.
+        if s.startswith('info ') and 'ALPHAZERO' in s:
+            self._log_alphazero_uci_info(s)
+        else:
+            self.log(f"➡️ UCI {s}")
         if self.audit is not None and self.audit.enabled:
             self.audit.event("uci_tx", line=s)
     def _log_alphazero_uci_info(self, line: str):
-        """Compact stderr-only console view; forward unmodified UCI to TCP."""
+        """Print compact and extended diagnostic mirrors of one intact UCI frame.
+
+        The original UCI frame is sent unmodified by send(); icons and
+        presentation-only labels must NEVER reach the TCP socket.
+        """
         words = line.split()
         if not (len(words) >= 2 and words[0] == 'info' and 'ALPHAZERO' in words):
-            self.log(f"📊 UCI {line}")
+            self.log(f"➡️ UCI {line}")
             return
         def value(key, default='?'):
             try:
-                index = words.index(key)
-                return words[index + 1]
+                return words[words.index(key) + 1]
             except (ValueError, IndexError):
                 return default
         extra = {}
@@ -47,12 +55,17 @@ class UCISession:
                 key, item = word.split('=', 1)
                 extra[key] = item
         sims = extra.get('simulations', extra.get('sims', '?'))
-        self.log(f"📊 UCI info ply {value('ply')} sims={sims} depth {value('depth')} "
-                 f"score {value('score', 'cp')} {value('cp')} nodes {value('nodes')} "
+        ply = value('ply', extra.get('ply', '?'))
+        elapsed = extra.get('elapsed_ms', extra.get('elapsed', value('time')))
+        cp = value('cp')
+        self.log(f"➡️ UCI info ply {ply} sims={sims} score cp {cp} "
+                 f"nodes {value('nodes')} time {value('time')} nps {value('nps')} elapsed {elapsed}")
+        self.log(f"📊 UCI info ply {ply} sims={sims} depth {value('depth')} "
+                 f"score cp {cp} nodes {value('nodes')} "
                  f"time {value('time')} nps {value('nps')} "
-                 f"tree_nodes={extra.get('tree_nodes', '?')} "
-                 f"elapsed={extra.get('elapsed_ms', '?')} best={extra.get('best_visits', '?')}")
-        self.log(f"📊 UCI info ply {value('ply')} sims={sims} "
+                 f"nodes={extra.get('tree_nodes', value('nodes'))} "
+                 f"elapsed={elapsed} best={extra.get('best_visits', '?')}")
+        self.log(f"📊 UCI info ply {ply} sims={sims} "
                  f"stop={extra.get('stop', '?')} q={extra.get('q', '?')} "
                  f"batch={extra.get('batch_size', '?')} cores={extra.get('cores', '?')} "
                  f"batches={extra.get('batches', '?')} evals={extra.get('evals', '?')} "
@@ -116,7 +129,6 @@ class UCISession:
                         # Keep it on TCP stdout; never send native stderr diagnostics here.
                         for info_line in self.player.last_uci_info:
                             self.send(info_line)
-                            self._log_alphazero_uci_info(info_line)
                     else:
                         self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
                     self.send("bestmove "+bestmove)

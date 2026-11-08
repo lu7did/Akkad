@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AlphaZero macOS TCP/UCI listener v0.2.6
+# AlphaZero macOS TCP/UCI listener v0.2.9
 set -Eeuo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 AKKAD="$(cd -- "$HERE/../../.." && pwd -P)"
@@ -11,7 +11,7 @@ PYTHON="${PYTHON_BIN:-python3}"
 CORES=1
 usage() {
  cat <<'HELP'
-AlphaZero macOS TCP/UCI listener v0.2.6
+AlphaZero macOS TCP/UCI listener v0.2.9
 Uso: ./run_listen.sh [--ip IP] [--port NUM] [--brain ID] [--python PATH] [--cores N] [--help]
 IP por defecto: 0.0.0.0; puerto: 6200; brain: emma.
 La configuración del motor y red proviene de Sargon-NNUE/etc/brains/brains.json.
@@ -37,13 +37,13 @@ command -v "$PYTHON" >/dev/null 2>&1 || { echo "ERROR: Python no encontrado: $PY
 # Validate the deployed executable, not only the source code version.
 ENGINE="$AKKAD/AlphaZero/macOS/build/AlphaZero"
 ENGINE_ID="$(printf 'uci\nquit\n' | "$ENGINE" 2>/dev/null | grep -m1 '^id name ' || true)"
-if [[ "$ENGINE_ID" != 'id name AlphaZero v0.2.6' ]]; then
+if [[ "$ENGINE_ID" != 'id name AlphaZero v0.2.9' ]]; then
   echo "ERROR: binario AlphaZero incompatible o desactualizado: $ENGINE" >&2
   echo "ERROR: identidad detectada: ${ENGINE_ID:-ninguna}" >&2
   echo 'Recompilar: bash AlphaZero/tools/macOS/build.sh' >&2
   exit 2
 fi
-printf '⚙️ AlphaZero executable=%s version=v0.2.6\n' "$ENGINE" >&2
+printf '⚙️ AlphaZero executable=%s version=v0.2.9\n' "$ENGINE" >&2
 export PYTHONPATH="$SARGON/src${PYTHONPATH:+:$PYTHONPATH}"
 cd "$SARGON"
 exec "$PYTHON" -m sargon_nnue.sargon_listen --brain "$SARGON/etc/brains/brains.json" --id "$BRAIN" --mode TCP --host "$IP" --port "$PORT"

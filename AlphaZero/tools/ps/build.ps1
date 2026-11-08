@@ -73,6 +73,7 @@ if ($MultiCore -eq 'OFF') {
 }
 Write-Host "MULTICORE=$MultiCore (compilacion)"
 Copy-Item (Join-Path $here 'src/config.h') (Join-Path $vendor 'src/config.h') -Force
+Copy-Item (Join-Path $here 'src/lc0_startup_telemetry.h') (Join-Path $vendor 'src/lc0_startup_telemetry.h') -Force
 # Set up Visual Studio C++ tools automatically when invoked from a normal
 # PowerShell/venv session. Ninja and MSVC remain the selected build toolchain.
 if (-not (Get-Command cl.exe -ErrorAction SilentlyContinue) -or

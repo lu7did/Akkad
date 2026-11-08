@@ -10,7 +10,7 @@
 #*================================================================================================================*
 #* __init__.py
 #* Inicializa el paquete y expone su version
-#* v0.6.200
+#* v0.6.201
 #=================================================================================================================*
-"""Sargon-NNUE v0.6.200 experimental Lc0/AlphaZero integration."""
-__version__ = "0.6.200"
+"""Sargon-NNUE v0.6.201 experimental Lc0/AlphaZero integration."""
+__version__ = "0.6.201"
