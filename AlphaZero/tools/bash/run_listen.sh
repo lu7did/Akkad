@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AlphaZero debian TCP/UCI listener v0.2.11
+# AlphaZero debian TCP/UCI listener v0.2.12
 set -Eeuo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 AKKAD="$(cd -- "$HERE/../../.." && pwd -P)"
@@ -11,7 +11,7 @@ PYTHON="${PYTHON_BIN:-python3}"
 CORES=1
 usage() {
  cat <<'HELP'
-AlphaZero debian TCP/UCI listener v0.2.11
+AlphaZero debian TCP/UCI listener v0.2.12
 Uso: ./run_listen.sh [--ip IP] [--port NUM] [--brain ID] [--python PATH] [--cores N] [--help]
 IP por defecto: 0.0.0.0; puerto: 6200; brain: amelie.
 La configuración del motor y red proviene de Sargon-NNUE/etc/brains/brains.json.
@@ -37,7 +37,7 @@ command -v "$PYTHON" >/dev/null 2>&1 || { echo "ERROR: Python no encontrado: $PY
 ENGINE="$AKKAD/AlphaZero/debian/build/AlphaZero"
 ENGINE_ID="$("$ENGINE" --version 2>/dev/null || true)"
 case "$ENGINE_ID" in
-  'AlphaZero v0.2.11 build='*) ;;
+  'AlphaZero v0.2.12 build='*) ;;
   *) printf 'ERROR: binario incompatible: %s (version=%s)\n' "$ENGINE" "$ENGINE_ID" >&2; exit 2 ;;
 esac
 printf '⚙️ AlphaZero launcher executable=%s\n' "$ENGINE" >&2

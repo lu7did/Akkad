@@ -86,9 +86,35 @@ if (-not (Get-Command cl.exe -ErrorAction SilentlyContinue) -or
     if ($LASTEXITCODE -ne 0 -or -not $vsPath) { throw 'Visual Studio C++ build tools were not found' }
     $vcvars = Join-Path $vsPath 'VC/Auxiliary/Build/vcvars64.bat'
     if (-not (Test-Path -LiteralPath $vcvars)) { throw "MSVC environment script not found: $vcvars" }
-    # cmd emits environment variables as KEY=VALUE; avoid treating them as code.
-    $envLines = & cmd.exe /d /s /c "`"`"$vcvars`" >nul && set`""
-    if ($LASTEXITCODE -ne 0) { throw "Failed to initialize MSVC via $vcvars" }
+    # Initialize MSVC in cmd.exe and import its environment into PowerShell.
+    # PowerShell's native-argument quoting can strip the inner quotes around
+    # "C:\Program Files\...\vcvars64.bat". Pass a single command line via
+    # ProcessStartInfo, so cmd.exe receives the quoting exactly as intended.
+    $cmd = if ($env:ComSpec) { $env:ComSpec } else { Join-Path $env:WINDIR 'System32/cmd.exe' }
+    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $startInfo.FileName = $cmd
+    $startInfo.Arguments = '/d /s /c ""' + $vcvars + '" >nul && set"'
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $startInfo
+    try {
+        if (-not $process.Start()) { throw "Cannot launch MSVC environment initializer: $cmd" }
+        $stdoutRead = $process.StandardOutput.ReadToEndAsync()
+        $stderrRead = $process.StandardError.ReadToEndAsync()
+        $process.WaitForExit()
+        $envLines = @($stdoutRead.GetAwaiter().GetResult() -split "`r?`n")
+        $vcvarsErrors = $stderrRead.GetAwaiter().GetResult()
+        if ($process.ExitCode -ne 0) {
+            throw "Failed to initialize MSVC via $vcvars (exit=$($process.ExitCode)): $vcvarsErrors"
+        }
+    }
+    finally { $process.Dispose() }
+    if (-not ($envLines | Where-Object { $_ -match '^VSCMD_VER=' })) {
+        throw "vcvars64.bat did not return VSCMD_VER: $vcvars"
+    }
     foreach ($envLine in $envLines) {
         if ($envLine -match '^([^=]+)=(.*)$') {
             [Environment]::SetEnvironmentVariable($Matches[1], $Matches[2], 'Process')
@@ -258,7 +284,7 @@ Write-Host "Direct import libraries: $($names -join ', ')"
 # Validate the deployed binary after copying, not just Meson exit status.
 $builtEngine = Join-Path $build 'AlphaZero.exe'
 $reportedVersion = (& $builtEngine --version 2>$null | Out-String).Trim()
-if ($LASTEXITCODE -ne 0 -or -not $reportedVersion.StartsWith('AlphaZero v0.2.11 build=')) {
+if ($LASTEXITCODE -ne 0 -or -not $reportedVersion.StartsWith('AlphaZero v0.2.12 build=')) {
     throw "AlphaZero build identity mismatch: $builtEngine ($reportedVersion)"
 }
 Write-Host "⚙️ build verified: $builtEngine ($reportedVersion)"

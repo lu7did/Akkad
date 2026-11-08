@@ -54,8 +54,16 @@
     "amelie": {
       "player": "AlphaZero-X86",
       "evaluator": "null",
-      "engine-path": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
-      "lc0-weights": "/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+      "engine-path": {
+        "windows": "C:/Users/pedro/github/bobby/akkad/AlphaZero/X86/build/AlphaZero.exe",
+        "debian": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
+        "macos": "/Users/pedrocolla/akkad//AlphaZero/macOS/build/AlphaZero"
+      },
+      "lc0-weights": {
+        "windows": "C:/Users/pedro/github/bobby/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+        "debian": "/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+        "macos": "/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"
+      },
       "lc0-backend": "eigen",
       "lc0-backend-options": "",
       "az-simulations": 1200,
