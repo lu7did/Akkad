@@ -458,13 +458,17 @@ class Engine {
   std::vector<LC0Inference*> prepare_inference(int active){
     ready();
     const auto start=std::chrono::steady_clock::now();
+    const int cached_before=(eval_?1:0)+static_cast<int>(secondary_evals_.size());
     while(static_cast<int>(secondary_evals_.size())<active-1)
       secondary_evals_.push_back(std::make_unique<LC0Inference>(settings_));
     std::vector<LC0Inference*> pool;
     pool.reserve(static_cast<size_t>(active));
     pool.push_back(eval_.get());
     for(int i=1;i<active;++i)pool.push_back(secondary_evals_[static_cast<size_t>(i-1)].get());
-    telemetry("⚙️ AlphaZero backend_pool ready="+std::to_string(pool.size())+
+    telemetry("⚙️ AlphaZero backend_pool new="+std::to_string(
+                static_cast<int>(secondary_evals_.size())+1-cached_before)+
+              " reused="+std::to_string(std::min(active,cached_before))+
+              " ready="+std::to_string(pool.size())+
               " cached="+std::to_string(secondary_evals_.size()+1)+
               " preparation_ms="+std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now()-start).count())+
