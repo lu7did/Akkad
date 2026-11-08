@@ -353,7 +353,8 @@ static int effective_cores(const Settings& cfg){
 }
 static Result run_root_parallel(const PositionHistory& h,LC0Inference& initial,const Settings& cfg,
                                 std::atomic<bool>& stop,int simulations,int ms,
-                                std::vector<CoreResult>& per_core){
+                                std::vector<CoreResult>& per_core,
+                                const std::vector<LC0Inference*>& inference_pool){
   using Clock=std::chrono::steady_clock;
   const auto start=Clock::now();
   const int cores=effective_cores(cfg);
@@ -379,14 +380,11 @@ static Result run_root_parallel(const PositionHistory& h,LC0Inference& initial,c
   // Split simulations and node cap deterministically, never oversubscribe.
   const int active=std::max(1,std::min({cores,simulations,
       cfg.max_tree_nodes>0?cfg.max_tree_nodes:cores}));
-  // Backend construction is serialized to avoid races in LC0 registration.
-  std::vector<std::unique_ptr<LC0Inference>> backends;
-  backends.reserve(static_cast<size_t>(active));
-  for(int i=0;i<active;++i){
-    if(stop.load())break;
-    backends.push_back(std::make_unique<LC0Inference>(cfg));
-  }
-  const int started=static_cast<int>(backends.size());
+  // Backends (and their immutable weights) were created once by Engine.
+  // Workers have exclusive access to their own backend instance.
+  if(inference_pool.size()<static_cast<size_t>(active))
+    throw std::runtime_error("insufficient persistent LC0 workers");
+  const int started=active;
   if(started==0){ Result aborted;aborted.stop_reason="stop";return aborted; }
   const auto initialization_end=Clock::now();
   const int remaining_ms=std::max(1,ms-static_cast<int>(
@@ -398,7 +396,7 @@ static Result run_root_parallel(const PositionHistory& h,LC0Inference& initial,c
     work[i].core=i;work[i].allocation=allocation;
     workers.emplace_back([&,i,allocation,node_cap](){
       try{
-        MCTS m(*backends[i],cfg.cpuct,stop,node_cap,cfg.batch_size);
+        MCTS m(*inference_pool[static_cast<size_t>(i)],cfg.cpuct,stop,node_cap,cfg.batch_size);
         auto t=Clock::now();
         work[i].result=m.choose(h,allocation,remaining_ms,&priors);
         work[i].wall_ms=std::chrono::duration<double,std::milli>(Clock::now()-t).count();
@@ -450,7 +448,29 @@ class Engine {
   PositionHistory history_;
   int current_ply_=0;
   std::unique_ptr<LC0Inference> eval_;
+  std::vector<std::unique_ptr<LC0Inference>> secondary_evals_;
   std::thread search_;
+  void invalidate_inference(){
+    secondary_evals_.clear();
+    eval_.reset();
+    telemetry("⚙️ AlphaZero inference cache invalidated (weights/backend changed)");
+  }
+  std::vector<LC0Inference*> prepare_inference(int active){
+    ready();
+    const auto start=std::chrono::steady_clock::now();
+    while(static_cast<int>(secondary_evals_.size())<active-1)
+      secondary_evals_.push_back(std::make_unique<LC0Inference>(settings_));
+    std::vector<LC0Inference*> pool;
+    pool.reserve(static_cast<size_t>(active));
+    pool.push_back(eval_.get());
+    for(int i=1;i<active;++i)pool.push_back(secondary_evals_[static_cast<size_t>(i-1)].get());
+    telemetry("⚙️ AlphaZero backend_pool ready="+std::to_string(pool.size())+
+              " cached="+std::to_string(secondary_evals_.size()+1)+
+              " preparation_ms="+std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now()-start).count())+
+              " weights="+absolute_path(settings_.weights));
+    return pool;
+  }
   std::atomic<bool> stop_{false};
   void cancel(){stop_=true;if(search_.joinable())search_.join();stop_=false;}
   void ready(){
@@ -480,11 +500,14 @@ class Engine {
       try{ready();}catch(const std::exception& e){say(std::string("info string ERROR ")+e.what());}
       say("readyok");return;
     }
-    if(line=="ucinewgame"){cancel();eval_.reset();return;}
+    if(line=="ucinewgame"){cancel();return;} // Reset game history elsewhere; retain immutable weights.
     if(line=="stop"){stop_=true;return;}
     if(line.rfind("setoption name ",0)==0){
       cancel();auto rest=line.substr(15); auto p=rest.find(" value ");
       auto name=trim(rest.substr(0,p)),value=p==std::string::npos?"":trim(rest.substr(p+7));
+      const bool reload = (name=="WeightsFile" && value!=settings_.weights) ||
+                          (name=="Backend" && value!=settings_.backend) ||
+                          (name=="BackendOptions" && value!=settings_.backend_options);
       if(name=="WeightsFile"){
         settings_.weights=value;
         telemetry("⚙️ network=" + absolute_path(settings_.weights));
@@ -504,7 +527,7 @@ class Engine {
       else if(name=="Cpuct")settings_.cpuct=std::max(0.0001,std::stod(value));
       else if(name=="TMax")settings_.tmax=std::clamp(std::stoi(value),0,3600000);
       else if(name=="Verbose")settings_.verbose=std::clamp(std::stoi(value),0,2);
-      eval_.reset();return;
+      if(reload)invalidate_inference();return;
     }
     if(line.rfind("position ",0)==0){
       cancel();auto s=line.substr(9);std::string fen,moves;
@@ -574,10 +597,21 @@ class Engine {
                 " cores_active="+std::to_string(effective_cores(settings_)));
       auto snapshot=history_;auto cfg=settings_;const int root_ply=current_ply_;
       const bool root_black=snapshot.IsBlackToMove();
-      search_=std::thread([this,snapshot=std::move(snapshot),sims,ms,cfg,root_ply,root_black]()mutable{
+      // Create the pool once and retain it across searches and new games.
+      // Preparation is serialized in the UCI command thread, outside MCTS threads.
+      std::vector<LC0Inference*> pool;
+      try {
+        const int workers=std::max(1,std::min({effective_cores(cfg),sims,
+          cfg.max_tree_nodes>0?cfg.max_tree_nodes:effective_cores(cfg)}));
+        pool=prepare_inference(workers);
+      }catch(const std::exception& e){
+        say(std::string("info string ERROR backend pool: ")+e.what());
+        say("bestmove 0000");return;
+      }
+      search_=std::thread([this,snapshot=std::move(snapshot),sims,ms,cfg,root_ply,root_black,pool=std::move(pool)]()mutable{
         try{
           std::vector<CoreResult> per_core;
-          auto r=run_root_parallel(snapshot,*eval_,cfg,stop_,sims,ms,per_core);
+          auto r=run_root_parallel(snapshot,*eval_,cfg,stop_,sims,ms,per_core,pool);
           for(const auto& core:per_core){
             const auto& cr=core.result;
             telemetry("🧠 AlphaZero core["+std::to_string(core.core)+"] simulations="+
