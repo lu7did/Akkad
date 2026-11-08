@@ -1,6 +1,6 @@
 ﻿param(
     [string]$Python  = "C:\Users\pedro\ufasta\Scripts\python.exe",
-    [string]$Ip      = "192.168.68.116",
+    [string]$Ip      = "amelia.local",
     [int]$Port       = 6200,
     [string]$Event   = "Pruebas de AlphaZero-X86",
     [int]$Timeout    = 60000,

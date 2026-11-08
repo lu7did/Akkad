@@ -1,6 +1,7 @@
 """Native AlphaZero-X86 UCI player. Neural inference runs inside AlphaZero.exe."""
 from __future__ import annotations
 import os
+import sys
 import queue
 import time
 from pathlib import Path
@@ -26,6 +27,9 @@ class AlphaZeroX86UCIPlayer(ExternalUCIPlayer):
             cores=max(1,min(256,int(cores_env)))
         except ValueError as exc:
             raise PlayerError(f'Invalid AKKAD_AZ_CORES: {cores_env}') from exc
+        print(f"⚙️ AlphaZero launcher executable={exe}", file=sys.stderr, flush=True)
+        print(f"⚙️ AlphaZero launcher network={weights}", file=sys.stderr, flush=True)
+        print(f"⚙️ AlphaZero launcher backend={self.backend} cores={cores}", file=sys.stderr, flush=True)
         super().__init__([str(exe),'--weights',str(weights),'--backend',self.backend,
                           '--backend-options',self.backend_options,'--cores',str(cores)],
                          movetime_ms=max(self.tmax_ms,1), timeout_ms=max(int(timeout_ms),self.tmax_ms+10000),

@@ -249,3 +249,10 @@ chmod +x "$OUT"
 printf 'SUCCESS: %s (%s; Akkad MCTS; LC0 C++; backend eigen CPU)\n' "$OUT" "$ARCH"
 printf 'Uso: %s --weights /ruta/absoluta/red.pb.gz --backend eigen\n' "$OUT"
 
+
+# Check the copied binary, never accept an old build silently.
+version_line="$("$OUT" --version 2>/dev/null || true)"
+case "$version_line" in
+  'AlphaZero v0.2.11 build='*) printf '⚙️ build verified: %s (%s)\n' "$OUT" "$version_line" ;;
+  *) fail "binario compilado no coincide con v0.2.11: $version_line" ;;
+esac

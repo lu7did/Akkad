@@ -521,6 +521,7 @@ class Engine {
       if(name=="WeightsFile"){
         settings_.weights=value;
         telemetry("⚙️ network=" + absolute_path(settings_.weights));
+    telemetry("⚙️ backend=" + settings_.backend + " backend_options=" + settings_.backend_options);
     telemetry("⚙️ MULTICORE=" + std::string(AZ_MULTICORE ? "ON" : "OFF") +
               " requested="+std::to_string(settings_.cores)+
               " available="+std::to_string(std::max(1u,std::thread::hardware_concurrency()))+
@@ -684,7 +685,17 @@ class Engine {
   void cmd_verbose(int n){settings_.verbose=std::clamp(n,0,2);}
   void cmd_weights(std::string w){settings_.weights=std::move(w);}
   void report_startup(const char* argv0) const {
-    telemetry("⚙️ AlphaZero " + std::string(az_config::kVersion));
+    telemetry("⚙️ AlphaZero C++ " + std::string(az_config::kVersion) +
+              " build=" + std::string(__DATE__) + " " + __TIME__);
+#if defined(_WIN32)
+    telemetry("⚙️ platform=Windows X86 compiler=MSVC " + std::to_string(_MSC_VER));
+#elif defined(__APPLE__)
+    telemetry("⚙️ platform=macOS compiler=" + std::string(__VERSION__));
+#elif defined(__linux__)
+    telemetry("⚙️ platform=Debian/Linux compiler=" + std::string(__VERSION__));
+#else
+    telemetry("⚙️ platform=unknown compiler=unknown");
+#endif
     telemetry("⚙️ executable=" + executable_path(argv0));
     telemetry("⚙️ network=" + absolute_path(settings_.weights));
     telemetry("⚙️ MULTICORE=" + std::string(AZ_MULTICORE ? "ON" : "OFF") +
@@ -714,7 +725,11 @@ int main(int argc,char**argv){
         else if(a=="--cpuct")engine.cmd_cpuct(std::stod(v));
         else engine.cmd_verbose(std::stoi(v));
       }
-      else if(a=="--help"){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--batch-size N] [--cores N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N]"<<std::endl;return 0;}
+      else if(a=="--version"){
+        std::cout << az_config::kUciName << " build=" << __DATE__ << " " << __TIME__ << std::endl;
+        return 0;
+      }
+      else if(a=="--help"){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--batch-size N] [--cores N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N] [--version]"<<std::endl;return 0;}
       else throw std::runtime_error("unknown CLI argument: "+a);
     }
     engine.report_startup(argc > 0 ? argv[0] : nullptr);

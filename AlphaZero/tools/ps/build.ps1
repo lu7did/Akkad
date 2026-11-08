@@ -254,3 +254,11 @@ if ($missing.Count) {
 }
 Write-Host "Created and validated: $programExe (backend: $Backend)"
 Write-Host "Direct import libraries: $($names -join ', ')"
+
+# Validate the deployed binary after copying, not just Meson exit status.
+$builtEngine = Join-Path $build 'AlphaZero.exe'
+$reportedVersion = (& $builtEngine --version 2>$null | Out-String).Trim()
+if ($LASTEXITCODE -ne 0 -or -not $reportedVersion.StartsWith('AlphaZero v0.2.11 build=')) {
+    throw "AlphaZero build identity mismatch: $builtEngine ($reportedVersion)"
+}
+Write-Host "⚙️ build verified: $builtEngine ($reportedVersion)"
