@@ -54,13 +54,13 @@
     "amelie": {
       "player": "AlphaZero-X86",
       "evaluator": "null",
-      "engine-path": "/home/pi/chess/akkad/AlphaZero/build/AlphaZero",
-      "lc0-weights": "/home/pi/chess/networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+      "engine-path": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
+      "lc0-weights": "/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
       "lc0-backend": "eigen",
       "lc0-backend-options": "",
-      "az-simulations": 400,
+      "az-simulations": 1200,
       "az-cpuct": 1.5,
-      "tmax": 8000,
+      "tmax": 15000,
       "timeout": 60000,
       "rating_elo": 400
     },
