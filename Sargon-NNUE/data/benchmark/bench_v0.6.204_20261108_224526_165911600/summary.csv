@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+classic,sargon-plus,classic,,10,10,0,12.661,1266.054,1104.619,2186.688,820.060,2186.688,33437,10,12650.000,2643.2,0.378639,OK,0,0
+emma,AlphaZero-X86,null,onnx-dml,10,10,0,17.421,1742.146,1748.626,1852.442,1621.627,1852.442,11942,10,17377.000,687.2,1.458839,OK,0,0

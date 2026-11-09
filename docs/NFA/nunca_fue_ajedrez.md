@@ -14226,3 +14226,143 @@ Las componentes cambian de manera opuesta (contra-varían) al cambio de las unid
 Las componentes cambian de la misma manera (co-varían) que el cambio de las unidades de medida. También se les conoce como covectores o formas lineales.
 * La analogía: Piensa en el gradiente (la pendiente o densidad de algo). Si mides el cambio de temperatura por metro (\(^{\circ}\text{C}/\text{m}\)) y cambias la unidad a centímetros, el cambio por centímetro (\(^{\circ}\text{C}/\text{cm}\)) será 100 veces menor.
 * La regla: Unidad más chica \(\rightarrow \) Número más chico. Van en la misma dirección.
+
+
+# Apéndice J Experimento de evaluación
+Ahora sí podemos definir el problema con precisión. Y hay una conclusión importante: en ajedrez, la coincidencia entre las jugadas de dos motores no puede evaluarse correctamente suponiendo que todas las jugadas legales son equiprobables.
+
+Más aún, necesitamos distinguir dos fenómenos:
+
+1. Coincidencia de resultados: ambos motores eligen la misma jugada.
+2. Coincidencia de razonamiento: ambos motores llegan a ella mediante procesos de evaluación y búsqueda semejantes.
+
+Lo primero es observable. Lo segundo no puede deducirse directamente de lo primero.
+
+Tenemos 10 posiciones de ajedrez, $\(P_1,\ldots,P\_{10}\)$, y dos motores A y B.
+
+Para cada posición:
+
+- Ambos reciben exactamente el mismo tablero.
+- Existen entre 5 y 30 movimientos legales.
+- Cada motor selecciona su mejor jugada.
+- Registramos si ambos seleccionaron el mismo movimiento.
+
+Definimos:
+
+$X_i=\begin{cases} 1 & \text{si A y B eligen la misma jugada}\\ 0 & \text{en caso contrario} \end{cases}$
+
+El número de coincidencias es:
+
+$K=\sum\_{i=1}^{10}X_i$
+
+El problema es determinar:
+
+$P(K\geq k\mid H_0)$
+
+Donde $\(H_0\)$ debe representar un modelo razonable de motores que actúan independientemente, pero que están sujetos a las preferencias que naturalmente impone cada posición de ajedrez.
+
+La dificultad no es calcular esa probabilidad, sino construir una hipótesis nula válida.
+
+## 2. Por qué el número de jugadas legales no alcanza
+
+Consideremos tres posiciones hipotéticas, todas con 20 movimientos legales.
+
+| Posición | Característica                            | Probabilidad hipotética de coincidencia |
+| -------- | ----------------------------------------- | --------------------------------------- |
+| A        | Mate en una jugada, fácilmente detectable | 98 %                                    |
+| B        | Una jugada claramente superior            | 80 %                                    |
+| C        | Varias continuaciones razonables          | 20 %                                    |
+
+Los porcentajes son ilustrativos, no estimaciones empíricas.
+
+En los tres casos tenemos 20 movimientos legales. Sin embargo, la probabilidad de que dos motores independientes seleccionen el mismo movimiento puede ser muy diferente.
+
+Esto se debe a que los motores no seleccionan movimientos al azar: intentan maximizar una función de evaluación, normalmente mediante algún procedimiento de búsqueda.
+
+Incluso motores con algoritmos completamente distintos pueden coincidir porque la posición tiene una respuesta objetivamente superior.
+
+Por eso, 10 coincidencias en posiciones triviales pueden aportar menos evidencia de similitud entre motores que 7 coincidencias en posiciones estratégicamente ambiguas.
+
+## 3. Una formulación matemática más apropiada
+
+Supongamos que, para cada posición \\(P_i\\), conocemos la distribución de elecciones de una población de motores independientes y suficientemente diversos.
+
+Denominemos:
+
+$p_i(m)=P(\text{un motor elige }m\mid P_i)$
+
+Si los dos motores se comportaran como extracciones independientes de esa población, la probabilidad de coincidencia sería:
+
+$\boxed{q_i=\sum\_{m\in M_i}p_i(m)^2}$
+
+Donde $\(M_i\)$ es el conjunto de movimientos legales.
+
+La expresión mide la concentración de las preferencias colectivas de los motores.
+
+Cuando prácticamente todos prefieren el mismo movimiento, $\(q_i\)$ se acerca a 1.
+
+Cuando las preferencias están repartidas entre muchos movimientos, $\(q_i\)$ disminuye.
+
+Esto permite considerar la dificultad real de cada posición, no solamente su factor de ramificación.
+
+Es un modelo de referencia poblacional. Si A y B pertenecen a familias de motores con preferencias distintas, deberíamos usar sus respectivas distribuciones en lugar de una distribución común.
+
+## 4. Cómo realizaría el experimento
+
+Mi propuesta sería construir un test de coincidencia ajustado por dificultad de posición.
+
+Paso 1. Seleccionar las 10 posiciones
+
+Utilizar posiciones con distinta dificultad, evitando que predominen mates evidentes, jugadas forzadas o posiciones procedentes de libros de aperturas.
+
+Paso 2. Construir una población de referencia
+
+Ejecutar diferentes motores de ajedrez, preferentemente de arquitecturas y evaluadores diversos, sobre esas mismas posiciones. Mantener condiciones de búsqueda comparables.
+
+Paso 3. Estimar las probabilidades
+
+Calcular para cada posición la frecuencia con que los motores de referencia seleccionan cada movimiento. A partir de estas frecuencias, estimar $\(q_i\)$, incluyendo la incertidumbre por el tamaño limitado de la muestra.
+
+Paso 4. Calcular la significación
+
+Comparar las coincidencias de los dos motores investigados contra las coincidencias esperadas entre motores de referencia independientes.
+
+Si podemos tratar las coincidencias en las diez posiciones como independientes, la distribución exacta se calcula mediante:
+
+$G(z)=\prod\_{i=1}^{10}\left[(1-q_i)+q_i z\right]$
+
+El coeficiente de $\(z^j\)$ es la probabilidad de exactamente $\(j\)$ coincidencias. Sumando los coeficientes desde $\(k$\)$ hasta 10 obtenemos el valor p.
+
+Si hay dependencias entre posiciones o entre familias de motores, conviene utilizar simulaciones con pares completos de motores en lugar de esta factorización.
+
+## 5. Ejemplo del impacto de las preferencias
+
+Supongamos, solo para ilustrar, que las diez posiciones presentan una probabilidad aproximadamente constante de coincidencia entre motores independientes.
+
+Probabilidad de 10 coincidencias sobre 10 posiciones
+
+| Coincidencia por posición | 10 de 10            |
+| ------------------------- | ------------------- |
+| 5%                        | 0,0000000000097656% |
+| 20%                       | 0,00001024%         |
+| 50%                       | 0,097656%           |
+| 80%                       | 10,737%             |
+| 95%                       | 59,874%             |
+
+Observá la diferencia: con un 5 % de probabilidad por posición, diez coincidencias serían extraordinariamente raras. Pero si la coincidencia esperable es del 95 %, las diez coincidencias se producirían aproximadamente en el 60 % de los experimentos.
+
+Por tanto, sin una estimación de las preferencias, no se puede asignar un valor p fiable a las diez coincidencias.
+
+## 6. ¿Las coincidencias demuestran que los motores analizaron igual?
+
+No necesariamente. Incluso si las coincidencias resultaran estadísticamente extraordinarias, eso demostraría una similitud de comportamiento difícil de explicar mediante el modelo nulo elegido, no que los motores realizaron el mismo análisis.
+
+Para investigar similitudes internas convendría registrar también:
+
+- Las principales variantes (principal variations, PV) de cada motor.
+- Las evaluaciones de las posiciones y sus cambios con la profundidad.
+- Las alternativas consideradas mediante MultiPV.
+- La estabilidad de la jugada elegida cuando aumenta la profundidad.
+- Las coincidencias de errores, especialmente cuando una jugada inferior es elegida por ambos motores.
+
+En particular, las coincidencias en errores poco frecuentes pueden resultar mucho más informativas que las coincidencias en jugadas óptimas.

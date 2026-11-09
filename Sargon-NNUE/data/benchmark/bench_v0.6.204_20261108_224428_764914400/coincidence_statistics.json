@@ -1,0 +1,51 @@
+{
+  "method": "poisson-binomial_uniform_legal_moves",
+  "interpretation": "P(K>=k | H0); no es P(H0|datos) ni prueba razonamiento idéntico",
+  "pairs": [
+    {
+      "brain_a": "classic",
+      "brain_b": "emma",
+      "coincidences": 0,
+      "positions": 10,
+      "p_tail": 1.0,
+      "q_by_position": [
+        0.041666666666666664,
+        0.037037037037037035,
+        0.025,
+        0.0196078431372549,
+        0.02631578947368421,
+        0.029411764705882353,
+        0.025,
+        0.02631578947368421,
+        0.02857142857142857,
+        0.023255813953488372
+      ],
+      "reference_engines_by_position": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "method": "uniform_legal_moves",
+      "legal_moves_by_position": [
+        24,
+        27,
+        40,
+        51,
+        38,
+        34,
+        40,
+        38,
+        35,
+        43
+      ],
+      "warning": "H0 uniforme e independiente: NO representa preferencias reales de motores"
+    }
+  ]
+}

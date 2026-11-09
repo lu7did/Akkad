@@ -1,0 +1,71 @@
+{
+  "tool": "sargon_benchmark",
+  "version": "0.6.204",
+  "brain_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\etc\\brains\\brains.json",
+  "brain_ids": [
+    "classic",
+    "emma"
+  ],
+  "brains": {
+    "classic": {
+      "evaluator": "classic",
+      "player": "sargon-plus",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 974.4
+    },
+    "emma": {
+      "player": "AlphaZero-X86",
+      "evaluator": "null",
+      "engine-path": "C:/Users/pedro/github/bobby/akkad/AlphaZero/X86/build/AlphaZero.exe",
+      "lc0-weights": "C:/Users/pedro/github/bobby/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 1200,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 400,
+      "timeout": 60000
+    }
+  },
+  "mode": "positions",
+  "suite": "bratko-kopec",
+  "bratko_kopec_ids": [
+    21,
+    24,
+    14,
+    12,
+    5,
+    13,
+    4,
+    2,
+    17,
+    16
+  ],
+  "seed": null,
+  "reference_csv": [],
+  "chance_model": "uniform",
+  "positions": 10,
+  "plies": null,
+  "rounds": 1,
+  "warmup": 1,
+  "timeout_s": 90,
+  "python": "C:\\Users\\pedro\\ufasta\\Scripts\\python.exe",
+  "fixed_fens": [
+    "3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1",
+    "r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1",
+    "rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1",
+    "r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1",
+    "r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1",
+    "r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1",
+    "rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w - - 0 1",
+    "3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1",
+    "r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1",
+    "r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w - - 0 1"
+  ],
+  "opening": [],
+  "fens": []
+}

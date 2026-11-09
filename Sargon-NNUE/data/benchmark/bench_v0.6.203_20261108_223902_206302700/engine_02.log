@@ -1,0 +1,207 @@
+\u2699\ufe0f AlphaZero launcher executable=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\X86\build\AlphaZero.exe
+\u2699\ufe0f AlphaZero launcher network=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+\u2699\ufe0f AlphaZero launcher backend=onnx-dml cores=1
+⚙️ AlphaZero C++ v0.2.12 build=Nov  8 2026 13:56:55
+⚙️ platform=Windows X86 compiler=MSVC 1951
+⚙️ executable=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\X86\build\AlphaZero.exe
+⚙️ network=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+⚙️ MULTICORE=ON requested=1 available=8 active=1 backend=onnx-dml
+⬅️ UCI uci
+➡️ UCI id name AlphaZero v0.2.12
+➡️ UCI id author Dr. Pedro E. Colla
+➡️ UCI option name WeightsFile type string default C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+➡️ UCI option name Backend type string default onnx-dml
+➡️ UCI option name BackendOptions type string default gpu=0
+➡️ UCI option name BatchSize type spin default 8 min 1 max 256
+➡️ UCI option name Cores type spin default 1 min 1 max 256
+➡️ UCI option name Simulations type spin default 1000 min 1 max 10000000
+➡️ UCI option name MaxTreeNodes type spin default 0 min 0 max 10000000
+➡️ UCI option name Cpuct type string default 1.500000
+➡️ UCI option name TMax type spin default 10000 min 0 max 3600000
+➡️ UCI option name Timeout type spin default 60000 min 0 max 3600000
+➡️ UCI option name Verbose type spin default 1 min 0 max 2
+➡️ UCI uciok
+⬅️ UCI isready
+⚙️ Loading weights file from: C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+➡️ UCI readyok
+⬅️ UCI setoption name Simulations value 1200
+⬅️ UCI setoption name Cpuct value 1.5
+⬅️ UCI setoption name TMax value 10000
+⬅️ UCI setoption name Timeout value 60000
+⬅️ UCI isready
+➡️ UCI readyok
+\u2699\ufe0f EXEC player=alphazero-x86 | evaluator=null | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=10000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.201 \U0001f9e0 evaluator=NULL \U0001f3ae player=AlphaZero-X86
+\u2b05\ufe0f uci
+\u27a1\ufe0f UCI id name default
+\u27a1\ufe0f UCI id author Pedro E. Colla
+\u27a1\ufe0f UCI option name SargonResult type string default none
+\u27a1\ufe0f UCI uciok
+\u2b05\ufe0f isready
+\u27a1\ufe0f UCI readyok
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position startpos
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=2989.2 msecs elapsed=3002.3
+➡️ UCI info ply 0 depth 0 score cp 46 nodes 1201 time 3002 nps 400 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=3002 best_visits=298 q=0.116066 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2989 stop=completed
+🧠 AlphaZero analysis ply=0 cores=1 nodes=1201 simulations=1200 elapsed_ms=3002 nps=400 best_visits=298 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=2989.23 selection_ms=8.1426 expansion_ms=1.9844 backup_ms=0.6612 unaccounted_ms=2.2849 stop=completed
+➡️ UCI bestmove e2e4
+\u27a1\ufe0f UCI info ply 0 sims=1200 score cp 46 nodes 1201 time 3002 nps 400 elapsed 3002
+\U0001f4ca UCI info ply 0 sims=1200 depth 0 score cp 46 nodes 1201 time 3002 nps 400 nodes=1201 elapsed=3002 best=298
+\U0001f4ca UCI info ply 0 sims=1200 stop=completed q=0.116066 batch=8 cores=1 batches=151 evals=1201 nn_ms=2989
+\u27a1\ufe0f UCI bestmove e2e4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=3282.1 msecs elapsed=3295.3
+➡️ UCI info ply 0 depth 0 score cp 356 nodes 1201 time 3295 nps 364 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=3295 best_visits=584 q=0.711918 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=3282 stop=completed
+🧠 AlphaZero analysis ply=0 cores=1 nodes=1201 simulations=1200 elapsed_ms=3295 nps=364 best_visits=584 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=3282.07 selection_ms=8.2411 expansion_ms=2.1673 backup_ms=0.6967 unaccounted_ms=2.1686 stop=completed
+➡️ UCI bestmove g3f5
+\u27a1\ufe0f UCI info ply 0 sims=1200 score cp 356 nodes 1201 time 3295 nps 364 elapsed 3295
+\U0001f4ca UCI info ply 0 sims=1200 depth 0 score cp 356 nodes 1201 time 3295 nps 364 nodes=1201 elapsed=3295 best=584
+\U0001f4ca UCI info ply 0 sims=1200 stop=completed q=0.711918 batch=8 cores=1 batches=151 evals=1201 nn_ms=3282
+\u27a1\ufe0f UCI bestmove g3f5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=3038.1 msecs elapsed=3051.5
+➡️ UCI info ply 1 depth 0 score cp 157 nodes 1201 time 3051 nps 393 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=3051 best_visits=725 q=-0.373754 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=3038 stop=completed
+🧠 AlphaZero analysis ply=1 cores=1 nodes=1201 simulations=1200 elapsed_ms=3051 nps=393 best_visits=725 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=3038.13 selection_ms=8.507 expansion_ms=1.9269 backup_ms=0.6751 unaccounted_ms=2.2411 stop=completed
+➡️ UCI bestmove f8g8
+\u27a1\ufe0f UCI info ply 1 sims=1200 score cp 157 nodes 1201 time 3051 nps 393 elapsed 3051
+\U0001f4ca UCI info ply 1 sims=1200 depth 0 score cp 157 nodes 1201 time 3051 nps 393 nodes=1201 elapsed=3051 best=725
+\U0001f4ca UCI info ply 1 sims=1200 stop=completed q=-0.373754 batch=8 cores=1 batches=151 evals=1201 nn_ms=3038
+\u27a1\ufe0f UCI bestmove f8g8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=2827.2 msecs elapsed=2841.4
+➡️ UCI info ply 0 depth 0 score cp 410 nodes 1201 time 2841 nps 422 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2841 best_visits=719 q=0.772755 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2827 stop=completed
+🧠 AlphaZero analysis ply=0 cores=1 nodes=1201 simulations=1200 elapsed_ms=2841 nps=422 best_visits=719 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=2827.15 selection_ms=9.2485 expansion_ms=1.9099 backup_ms=0.7038 unaccounted_ms=2.3703 stop=completed
+➡️ UCI bestmove d2e4
+\u27a1\ufe0f UCI info ply 0 sims=1200 score cp 410 nodes 1201 time 2841 nps 422 elapsed 2841
+\U0001f4ca UCI info ply 0 sims=1200 depth 0 score cp 410 nodes 1201 time 2841 nps 422 nodes=1201 elapsed=2841 best=719
+\U0001f4ca UCI info ply 0 sims=1200 stop=completed q=0.772755 batch=8 cores=1 batches=151 evals=1201 nn_ms=2827
+\u27a1\ufe0f UCI bestmove d2e4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=2842.7 msecs elapsed=2858.6
+➡️ UCI info ply 1 depth 0 score cp -16 nodes 1201 time 2858 nps 420 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2858 best_visits=1150 q=0.0415341 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2842 stop=completed
+🧠 AlphaZero analysis ply=1 cores=1 nodes=1201 simulations=1200 elapsed_ms=2858 nps=420 best_visits=1150 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=2842.72 selection_ms=10.5276 expansion_ms=1.974 backup_ms=0.7596 unaccounted_ms=2.6429 stop=completed
+➡️ UCI bestmove d7f5
+\u27a1\ufe0f UCI info ply 1 sims=1200 score cp -16 nodes 1201 time 2858 nps 420 elapsed 2858
+\U0001f4ca UCI info ply 1 sims=1200 depth 0 score cp -16 nodes 1201 time 2858 nps 420 nodes=1201 elapsed=2858 best=1150
+\U0001f4ca UCI info ply 1 sims=1200 stop=completed q=0.0415341 batch=8 cores=1 batches=151 evals=1201 nn_ms=2842
+\u27a1\ufe0f UCI bestmove d7f5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1134 nn_evals=1134 batches=143 nn_ms=3310.9 msecs elapsed=3326.2
+➡️ UCI info ply 1 depth 0 score cp -702 nodes 1134 time 3326 nps 340 string ALPHAZERO simulations=1200 tree_nodes=1134 elapsed_ms=3326 best_visits=1137 q=0.942196 batch_size=8 cores=1 batches=143 evals=1134 nn_ms=3310 stop=completed
+🧠 AlphaZero analysis ply=1 cores=1 nodes=1134 simulations=1200 elapsed_ms=3326 nps=340 best_visits=1137 batches=143 avg_batch=7.93007 max_batch=8 nn_evals=1134 nn_ms=3310.89 selection_ms=10.1273 expansion_ms=1.9114 backup_ms=0.803 unaccounted_ms=2.4834 stop=completed
+➡️ UCI bestmove c6e5
+\u27a1\ufe0f UCI info ply 1 sims=1200 score cp -702 nodes 1134 time 3326 nps 340 elapsed 3326
+\U0001f4ca UCI info ply 1 sims=1200 depth 0 score cp -702 nodes 1134 time 3326 nps 340 nodes=1134 elapsed=3326 best=1137
+\U0001f4ca UCI info ply 1 sims=1200 stop=completed q=0.942196 batch=8 cores=1 batches=143 evals=1134 nn_ms=3310
+\u27a1\ufe0f UCI bestmove c6e5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=2433.4 msecs elapsed=2443.4
+➡️ UCI info ply 1 depth 0 score cp 162 nodes 1201 time 2443 nps 491 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2443 best_visits=966 q=-0.386319 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2433 stop=completed
+🧠 AlphaZero analysis ply=1 cores=1 nodes=1201 simulations=1200 elapsed_ms=2443 nps=491 best_visits=966 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=2433.38 selection_ms=6.4136 expansion_ms=1.3523 backup_ms=0.5267 unaccounted_ms=1.6908 stop=completed
+➡️ UCI bestmove c8f5
+\u27a1\ufe0f UCI info ply 1 sims=1200 score cp 162 nodes 1201 time 2443 nps 491 elapsed 2443
+\U0001f4ca UCI info ply 1 sims=1200 depth 0 score cp 162 nodes 1201 time 2443 nps 491 nodes=1201 elapsed=2443 best=966
+\U0001f4ca UCI info ply 1 sims=1200 stop=completed q=-0.386319 batch=8 cores=1 batches=151 evals=1201 nn_ms=2433
+\u27a1\ufe0f UCI bestmove c8f5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=2558.7 msecs elapsed=2572.2
+➡️ UCI info ply 1 depth 0 score cp 25 nodes 1201 time 2572 nps 466 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2572 best_visits=983 q=-0.0634717 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2558 stop=completed
+🧠 AlphaZero analysis ply=1 cores=1 nodes=1201 simulations=1200 elapsed_ms=2572 nps=466 best_visits=983 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=2558.7 selection_ms=9.0687 expansion_ms=1.6645 backup_ms=0.6081 unaccounted_ms=2.124 stop=completed
+➡️ UCI bestmove c5b3
+\u27a1\ufe0f UCI info ply 1 sims=1200 score cp 25 nodes 1201 time 2572 nps 466 elapsed 2572
+\U0001f4ca UCI info ply 1 sims=1200 depth 0 score cp 25 nodes 1201 time 2572 nps 466 nodes=1201 elapsed=2572 best=983
+\U0001f4ca UCI info ply 1 sims=1200 stop=completed q=-0.0634717 batch=8 cores=1 batches=151 evals=1201 nn_ms=2558
+\u27a1\ufe0f UCI bestmove c5b3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=3196.3 msecs elapsed=3208.8
+➡️ UCI info ply 1 depth 0 score cp 81 nodes 1201 time 3208 nps 374 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=3208 best_visits=327 q=-0.199922 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=3196 stop=completed
+🧠 AlphaZero analysis ply=1 cores=1 nodes=1201 simulations=1200 elapsed_ms=3208 nps=374 best_visits=327 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=3196.27 selection_ms=8.2079 expansion_ms=1.921 backup_ms=0.5952 unaccounted_ms=1.8517 stop=completed
+➡️ UCI bestmove c7c6
+\u27a1\ufe0f UCI info ply 1 sims=1200 score cp 81 nodes 1201 time 3208 nps 374 elapsed 3208
+\U0001f4ca UCI info ply 1 sims=1200 depth 0 score cp 81 nodes 1201 time 3208 nps 374 nodes=1201 elapsed=3208 best=327
+\U0001f4ca UCI info ply 1 sims=1200 stop=completed q=-0.199922 batch=8 cores=1 batches=151 evals=1201 nn_ms=3196
+\u27a1\ufe0f UCI bestmove c7c6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=3079.3 msecs elapsed=3095.2
+➡️ UCI info ply 0 depth 0 score cp 198 nodes 1201 time 3095 nps 388 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=3095 best_visits=1086 q=0.458908 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=3079 stop=completed
+🧠 AlphaZero analysis ply=0 cores=1 nodes=1201 simulations=1200 elapsed_ms=3095 nps=388 best_visits=1086 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=3079.25 selection_ms=10.4287 expansion_ms=2.0824 backup_ms=0.7617 unaccounted_ms=2.6519 stop=completed
+➡️ UCI bestmove e4f5
+\u27a1\ufe0f UCI info ply 0 sims=1200 score cp 198 nodes 1201 time 3095 nps 388 elapsed 3095
+\U0001f4ca UCI info ply 0 sims=1200 depth 0 score cp 198 nodes 1201 time 3095 nps 388 nodes=1201 elapsed=3095 best=1086
+\U0001f4ca UCI info ply 0 sims=1200 stop=completed q=0.458908 batch=8 cores=1 batches=151 evals=1201 nn_ms=3079
+\u27a1\ufe0f UCI bestmove e4f5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+\u2b05\ufe0f go
+⬅️ UCI position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+⬅️ UCI go nodes 1200 movetime 10000
+⚙️ AlphaZero go mode=movetime timeout=10000 remaining=-1 increment=0 movestogo=0 sims=1200 batch=8 cores=1/1
+⚙️ AlphaZero backend new=0/1/1/1 preparation=0 weights=C:\Users\pedro\github\Bobby\Akkad\AlphaZero\assets\t1-256x10-distilled-swa-2432500.pb.gz
+🧠 AlphaZero core[0] stop=completed sims=1200 alloc=1200 nodes=1201 nn_evals=1201 batches=151 nn_ms=2730.2 msecs elapsed=2742.0
+➡️ UCI info ply 0 depth 0 score cp 485 nodes 1201 time 2742 nps 438 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2742 best_visits=811 q=0.837925 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2730 stop=completed
+🧠 AlphaZero analysis ply=0 cores=1 nodes=1201 simulations=1200 elapsed_ms=2742 nps=438 best_visits=811 batches=151 avg_batch=7.95364 max_batch=8 nn_evals=1201 nn_ms=2730.24 selection_ms=7.5451 expansion_ms=1.4336 backup_ms=0.7897 unaccounted_ms=2.0284 stop=completed
+➡️ UCI bestmove d4d5
+\u27a1\ufe0f UCI info ply 0 sims=1200 score cp 485 nodes 1201 time 2742 nps 438 elapsed 2742
+\U0001f4ca UCI info ply 0 sims=1200 depth 0 score cp 485 nodes 1201 time 2742 nps 438 nodes=1201 elapsed=2742 best=811
+\U0001f4ca UCI info ply 0 sims=1200 stop=completed q=0.837925 batch=8 cores=1 batches=151 evals=1201 nn_ms=2730
+\u27a1\ufe0f UCI bestmove d4d5
+\u2b05\ufe0f quit

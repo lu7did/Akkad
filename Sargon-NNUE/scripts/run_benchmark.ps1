@@ -11,4 +11,5 @@
 #* run_benchmark.ps1
 #* Benchmarks Sargon-NNUE
 #=================================================================================================================*
-.\sargon_benchmark.ps1 --brain ..\etc\brains\brains.json --ids macia picoSargon
+.\sargon_benchmark.ps1 --brain ..\etc\brains\brains.json --ids classic emma
+

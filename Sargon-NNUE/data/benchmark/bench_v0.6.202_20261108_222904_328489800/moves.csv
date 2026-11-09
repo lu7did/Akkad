@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error,decision_method,bellman_visits,bellman_w,bellman_d,bellman_l,bellman_q,bellman_s,bellman_legal_examined,bellman_hash_hits,bellman_qualified
+macia,external,null,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor macia cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.202_20261108_222904_328489800\engine_01.log,,,,,,,,,,
+picoSargon,external,null,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor picoSargon cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.202_20261108_222904_328489800\engine_02.log,,,,,,,,,,

@@ -9,10 +9,10 @@
 #* License: CC AS BY 4.0
 #*================================================================================================================*
 #* sargon_benchmark.py
-#* SARGON BENCHMARK version 0.6.134 — medición de decisiones de brains reales vía UCI.
-#* v0.6.153
+#* SARGON BENCHMARK version 0.6.202 — medición de decisiones de brains reales vía UCI.
+#* v0.6.202
 #=================================================================================================================*
-"""SARGON BENCHMARK v0.6.134 — medición de decisiones de brains reales vía UCI.
+"""SARGON BENCHMARK v0.6.202 — medición de decisiones de brains reales vía UCI.
 
 Reutiliza brains.py, sargon_listen.py y UCI de sargon_match.py. No implementa
 ningún algoritmo de búsqueda o evaluador alternativo.
@@ -23,6 +23,7 @@ import argparse
 import csv
 import json
 import math
+import random
 import queue
 import re
 import statistics
@@ -36,8 +37,9 @@ import chess
 
 from .brains import get, read, to_argv
 from .sargon_match import UCI
+from .benchmark_bratko_kopec import (choose_positions, compute_matrices, load_reference_csv, print_matrix)
 
-VERSION = "0.6.134"
+VERSION = "0.6.204"
 # Distintas aperturas, incluyendo posiciones con ambos bandos para mover.
 # La posición inicial se utiliza como calentamiento por defecto.
 DEFAULT_POSITIONS = (
@@ -515,7 +517,15 @@ def _arguments(argv=None):
     ap.add_argument("--list", action="store_true", help="mostrar IDs disponibles y terminar")
     ap.add_argument("--mode", choices=("positions", "play"), default="positions",
                     help="positions: mismas posiciones; play: cada brain juega sus propios plies")
-    ap.add_argument("--positions", type=int, default=6, help="número de posiciones por ronda")
+    ap.add_argument("--positions", type=int, default=10, help="número de posiciones por ronda (default 10)")
+    ap.add_argument("--suite", choices=("bratko-kopec", "custom"), default="bratko-kopec",
+                    help="conjunto de posiciones (default: Bratko–Kopec, 24 diagramas)")
+    ap.add_argument("--seed", type=int, default=None,
+                    help="semilla para reproducir la selección aleatoria Bratko–Kopec")
+    ap.add_argument("--reference-csv", action="append", default=[],
+                    help="moves.csv de motores de referencia; solo usado con --chance-model reference")
+    ap.add_argument("--chance-model", choices=("uniform", "reference"), default="uniform",
+                    help="uniform: sin referencias, q=1/jugadas legales (default); reference: estimación poblacional")
     ap.add_argument("--plies", type=int, default=8, help="plies por ronda en --mode play")
     ap.add_argument("--rounds", type=int, default=1)
     ap.add_argument("--warmup", type=int, default=1, help="evaluaciones iniciales no medidas")
@@ -560,11 +570,23 @@ def main(argv=None):
         configs[identity] = resolve_paths(config, _project_root(), brain_file)
     try:
         if args.mode == "positions":
-            suite = position_suite(args.fen or [], args.opening or [], args.positions)
+            if args.fen or args.opening or args.suite == "custom":
+                suite = position_suite(args.fen or [], args.opening or [], args.positions)
+                suite_ids = []
+                suite_name = "custom"
+            else:
+                selection = choose_positions(args.positions, args.seed)
+                suite_ids = [number for number, fen in selection]
+                suite = [chess.Board(fen) for number, fen in selection]
+                for board in suite:
+                    if board.is_game_over(claim_draw=True):
+                        raise ValueError(f"posición Bratko–Kopec terminal: {board.fen()}")
+                suite_name = "bratko-kopec"
         else:
             if len(args.opening or []) > 1 or len(args.fen or []) > 1 or (args.opening and args.fen):
                 raise ValueError("en --mode play se admite una sola --opening o una sola --fen")
             suite = []
+            suite_ids, suite_name = [], "play"
             # Validación previa de apertura/FEN, sin arrancar motores.
             if args.opening:
                 board_from_opening(args.opening[0])
@@ -589,10 +611,15 @@ def main(argv=None):
           f"rounds={args.rounds} positions={args.positions if args.mode=='positions' else args.plies} "
           f"warmup={args.warmup}", flush=True)
     print(f"📁 {folder}", flush=True)
+    if args.mode == 'positions':
+        print(f"♟️ Posiciones: {suite_name} | IDs={suite_ids if suite_ids else 'personalizadas'} "
+              f"| seed={args.seed if args.seed is not None else 'aleatoria (FEN en manifest)'}", flush=True)
     manifest = {
         "tool": "sargon_benchmark", "version": VERSION,
         "brain_file": str(brain_file), "brain_ids": identities,
         "brains": configs, "mode": args.mode,
+        "suite": suite_name, "bratko_kopec_ids": suite_ids,
+        "seed": args.seed, "reference_csv": args.reference_csv, "chance_model": args.chance_model,
         "positions": args.positions if args.mode == "positions" else None,
         "plies": args.plies if args.mode == "play" else None,
         "rounds": args.rounds, "warmup": args.warmup,
@@ -630,6 +657,33 @@ def main(argv=None):
     _write_csv(folder / "moves.csv", MOVE_FIELDS, all_rows)
     _write_csv(folder / "summary.csv", SUMMARY_FIELDS, summaries)
     report(summaries)
+    if args.mode == "positions":
+        try:
+            refs = load_reference_csv(args.reference_csv) if args.chance_model == 'reference' else {}
+            legal_counts = {b.fen(): len(list(b.legal_moves)) for b in suite}
+            coincidences, probabilities, detail = compute_matrices(
+                identities, all_rows, suite, rounds=args.rounds,
+                references=refs, legal_counts=legal_counts, chance_model=args.chance_model)
+            matrix_fields = ("brain", *identities)
+            _write_csv(folder / "coincidences.csv", matrix_fields, coincidences)
+            _write_csv(folder / "chance_probabilities.csv", matrix_fields, probabilities)
+            (folder / "coincidence_statistics.json").write_text(
+                json.dumps({"method": ("poisson-binomial_uniform_legal_moves" if args.chance_model == 'uniform' else "poisson-binomial_leave_pair_out_smoothed"),
+                            "interpretation": "P(K>=k | H0); no es P(H0|datos) ni prueba razonamiento idéntico",
+                            "pairs": detail}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            print_matrix("📊 Coincidencias de bestmove (de " + str(args.positions*args.rounds) + "):", identities, coincidences)
+            label = ("H0 uniforme, sin referencias" if args.chance_model == 'uniform' else "H0 poblacional, exploratoria")
+            print_matrix(f"📊 P(K >= coincidencias | H0) — {label}:", identities, probabilities)
+            print("ℹ️ P(x) indica la probabilidad de obtener por azar al menos la cantidad observada de coincidencias, bajo el modelo H0 indicado.", flush=True)
+            if args.chance_model == 'uniform':
+                print("⚠️ H0 supone elección uniforme e independiente entre jugadas legales; NO modela preferencias reales de motores.", flush=True)
+            elif len(identities) < 4 and not args.reference_csv:
+                print("⚠️ N/D: se requieren motores de referencia para el modelo poblacional.", flush=True)
+            print("⚠️ El valor p NO es la probabilidad de que las coincidencias sean por azar, ni demuestra análisis idéntico.", flush=True)
+            print("✅ Matrices: coincidences.csv, chance_probabilities.csv; detalle: coincidence_statistics.json", flush=True)
+        except (ValueError, OSError) as exc:
+            print(f"❌ No se pudieron generar las matrices: {exc}", flush=True)
+            return 2
     print("✅ CSV detalle: moves.csv", flush=True)
     print("✅ CSV resumen: summary.csv", flush=True)
     print("✅ Configuración: manifest.json", flush=True)

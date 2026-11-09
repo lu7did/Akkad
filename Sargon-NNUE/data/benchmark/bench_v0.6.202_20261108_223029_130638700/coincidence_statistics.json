@@ -1,0 +1,17 @@
+{
+  "method": "poisson-binomial_leave_pair_out_smoothed",
+  "interpretation": "P(K>=k | H0), exploratoria; NO demuestra razonamiento idéntico",
+  "pairs": [
+    {
+      "brain_a": "messy",
+      "brain_b": "emma",
+      "coincidences": 0,
+      "positions": 10,
+      "p_tail": "",
+      "q_by_position": [],
+      "reference_engines_by_position": [],
+      "method": "smoothed_reference_leave_pair_out",
+      "warning": "exploratorio: muestra pequeña y posible dependencia entre motores/posiciones"
+    }
+  ]
+}

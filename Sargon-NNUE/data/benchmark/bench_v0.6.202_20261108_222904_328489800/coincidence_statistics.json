@@ -1,0 +1,5 @@
+{
+  "method": "poisson-binomial_leave_pair_out_smoothed",
+  "interpretation": "P(K>=k | H0), exploratoria; NO demuestra razonamiento idéntico",
+  "pairs": []
+}

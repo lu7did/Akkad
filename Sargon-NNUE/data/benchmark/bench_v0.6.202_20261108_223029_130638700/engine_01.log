@@ -1,0 +1,65 @@
+\u2699\ufe0f EXEC player=random | evaluator=null | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.201 \U0001f9e0 evaluator=NULL \U0001f3ae player=RANDOM
+\u2b05\ufe0f uci
+\u27a1\ufe0f UCI id name default
+\u27a1\ufe0f UCI id author Pedro E. Colla
+\u27a1\ufe0f UCI option name SargonResult type string default none
+\u27a1\ufe0f UCI uciok
+\u2b05\ufe0f isready
+\u27a1\ufe0f UCI readyok
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 20 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove h2h4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 37 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove d8a8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 38 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove c7b8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 33 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove f2g3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 33 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove g7g5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 24 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove d7e7
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 34 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove d1f1
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 40 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove e2b5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 26 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove d7c5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 34 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove e7c5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+\u2b05\ufe0f go
+\u27a1\ufe0f UCI info depth 0 nodes 45 score cp 0 time 0
+\u27a1\ufe0f UCI bestmove a2a4
+\u2b05\ufe0f quit
