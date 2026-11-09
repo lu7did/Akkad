@@ -1,0 +1,30 @@
+[    0.000s] INFO brain=argos python=C:\Users\pedro\ufasta\scripts\python.exe timeout=120.0s
+[    0.000s] INFO command=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-m', 'sargon_nnue.sargon_listen', '--mode', 'STDIN', '--player', 'keras', '--evaluator', 'keras', '--network', '../../../networks/keras/small.tf', '--nodes', '1']
+[    0.000s] INFO network=../../../networks/keras/small.tf
+[    0.005s] INFO pid=68588
+[    0.005s] STDIN  uci
+[    0.141s] STDERR Traceback (most recent call last):
+[    0.141s] STDERR   File "<frozen runpy>", line 203, in _run_module_as_main
+[    0.141s] STDERR   File "<frozen runpy>", line 88, in _run_code
+[    0.142s] STDERR   File "C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+[    0.142s] STDERR     raise SystemExit(main())
+[    0.142s] STDERR                      ~~~~^^
+[    0.142s] STDERR   File "C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 182, in main
+[    0.142s] STDERR     return _run_stdin(args)
+[    0.142s] STDERR   File "C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
+[    0.142s] STDERR     evaluator, player = build_engine(args)
+[    0.142s] STDERR                         ~~~~~~~~~~~~^^^^^^
+[    0.142s] STDERR   File "C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\src\sargon_nnue\factory.py", line 156, in build_engine
+[    0.142s] STDERR     evaluator = create_evaluator(
+[    0.142s] STDERR         evaluator_kind,
+[    0.142s] STDERR     ...<13 lines>...
+[    0.142s] STDERR         z_uniform_mix=g("z_uniform_mix",0.01),z_policy=g("z_policy","uniform"),audit=audit,
+[    0.142s] STDERR     )
+[    0.142s] STDERR   File "C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\src\sargon_nnue\evaluators\__init__.py", line 42, in create_evaluator
+[    0.143s] STDERR     return KerasEvaluator(network)
+[    0.143s] STDERR   File "C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\src\sargon_nnue\evaluators\keras_eval.py", line 32, in __init__
+[    0.143s] STDERR     raise EvaluatorError(f'network keras requiere directorio TensorFlow SavedModel: {p}')
+[    0.143s] STDERR sargon_nnue.evaluators.base.EvaluatorError: network keras requiere directorio TensorFlow SavedModel: C:\Users\pedro\github\networks\keras\small.tf
+[    0.159s] ERROR EOF antes de uciok; exit=None
+[    0.159s] STDIN  quit
+[    0.159s] INFO exit=1 log=C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\diagnostic_argos.log

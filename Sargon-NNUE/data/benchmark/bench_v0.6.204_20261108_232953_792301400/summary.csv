@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+argos,keras,keras,,10,10,0,1.170,117.015,116.101,140.386,96.977,140.386,381,10,1161.000,328.2,3.071249,OK,0,0
+odiseo,keras,keras,,10,10,0,2.437,243.683,244.780,306.162,190.717,306.162,381,10,2428.000,156.9,6.395890,OK,0,0

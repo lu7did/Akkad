@@ -189,14 +189,14 @@
     "argos": {
       "player": "keras",
       "evaluator": "keras",
-      "network": "../data/runs/keras/small.tf",
+      "network": "C:/Users/pedro/github/bobby/networks/keras/small.tf",
       "nodes": 1,
       "rating_elo": 400
     },
     "odiseo": {
       "player": "keras",
       "evaluator": "keras",
-      "network": "../data/runs/keras/medium.tf",
+      "network": "C:/Users/pedro/github/bobby/networks/keras/medium.tf",
       "nodes": 1,
       "rating_elo": 400
     },

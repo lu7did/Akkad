@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error,decision_method,bellman_visits,bellman_w,bellman_d,bellman_l,bellman_q,bellman_s,bellman_legal_examined,bellman_hash_hits,bellman_qualified
+argos,keras,keras,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor argos cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.204_20261108_230820_408688400\engine_01.log,,,,,,,,,,
+odiseo,keras,keras,,positions,0,0,,,,0.000,,,,ERROR,RuntimeError: motor odiseo cerró salida esperando uciok; revisar C:\Users\pedro\github\Bobby\Akkad\Sargon-NNUE\data\benchmark\bench_v0.6.204_20261108_230820_408688400\engine_02.log,,,,,,,,,,
