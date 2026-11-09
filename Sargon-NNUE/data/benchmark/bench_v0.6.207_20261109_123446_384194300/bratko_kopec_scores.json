@@ -1,0 +1,58 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "argos",
+      "T": 4,
+      "L": 3,
+      "S": 7,
+      "B": 1.7142857142857142,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    },
+    {
+      "brain": "odiseo",
+      "T": 5,
+      "L": 4,
+      "S": 9,
+      "B": 1.3333333333333333,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    },
+    {
+      "brain": "emma",
+      "T": 10,
+      "L": 6,
+      "S": 16,
+      "B": 3.0,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "argos",
+      "argos": 0.0,
+      "odiseo": 0.380952,
+      "emma": -1.285714
+    },
+    {
+      "brain": "odiseo",
+      "argos": -0.380952,
+      "odiseo": 0.0,
+      "emma": -1.666667
+    },
+    {
+      "brain": "emma",
+      "argos": 1.285714,
+      "odiseo": 1.666667,
+      "emma": 0.0
+    }
+  ]
+}

@@ -1,1 +1,0 @@
-AlphaZero macOS v0.1.3: shared C++ MCTS + LC0 inference; scripts in tools/macOS. Build wrapper delegates to unified build.sh --OS MacOS. `--simulations N` and `--timeout MS` are passed to the C++ engine. Updated emma brain for macOS paths and Eigen backend. No network weights distributed.

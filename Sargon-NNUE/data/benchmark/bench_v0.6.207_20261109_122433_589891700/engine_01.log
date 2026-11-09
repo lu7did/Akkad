@@ -1,0 +1,169 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1794237873.798294   29784 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1794237874.944164   29784 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1794237876.235410   29784 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI AVX_VNNI_INT8 AVX_NE_CONVERT FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+\u2699\ufe0f EXEC player=keras | evaluator=keras | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=120000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.201 \U0001f9e0 evaluator=KERAS \U0001f3ae player=KERAS
+\u2b05\ufe0f uci
+\u27a1\ufe0f UCI id name default
+\u27a1\ufe0f UCI id author Pedro E. Colla
+\u27a1\ufe0f UCI option name SargonResult type string default none
+\u27a1\ufe0f UCI uciok
+\u2b05\ufe0f isready
+\u27a1\ufe0f UCI readyok
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+I0000 00:00:1794237876.777470   35280 service.cc:154] XLA service 0x2b8d8eb8e00 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1794237876.777540   35280 service.cc:170]   StreamExecutor [0]: Host, Default Version (Driver: 0.0.0; Runtime: 0.0.0; Toolkit: 0.0.0; DNN: 0.0.0)
+I0000 00:00:1794237876.811907   35280 device_compiler.h:208] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+\u265f\ufe0f KERAS plies=1 legal=20 nodes=20 evals=20 batches=1 best=d2d4 cp=1 ms=319.6
+\u27a1\ufe0f UCI info depth 1 nodes 20 score cp 1 time 319
+\u27a1\ufe0f UCI bestmove d2d4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=40 nodes=40 evals=40 batches=1 best=d6d1 cp=-190 ms=123.1
+\u27a1\ufe0f UCI info depth 1 nodes 40 score cp -190 time 123
+\u27a1\ufe0f UCI bestmove d6d1
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=f2e3 cp=47 ms=107.5
+\u27a1\ufe0f UCI info depth 1 nodes 33 score cp 47 time 107
+\u27a1\ufe0f UCI bestmove f2e3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=27 nodes=27 evals=27 batches=1 best=e7d8 cp=-31 ms=101.8
+\u27a1\ufe0f UCI info depth 1 nodes 27 score cp -31 time 101
+\u27a1\ufe0f UCI bestmove e7d8
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=e5e6 cp=87 ms=121.6
+\u27a1\ufe0f UCI info depth 1 nodes 38 score cp 87 time 121
+\u27a1\ufe0f UCI bestmove e5e6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=51 nodes=51 evals=51 batches=1 best=c3d5 cp=39 ms=139.2
+\u27a1\ufe0f UCI info depth 1 nodes 51 score cp 39 time 139
+\u27a1\ufe0f UCI bestmove c3d5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=24 nodes=24 evals=24 batches=1 best=g5g6 cp=129 ms=126.3
+\u27a1\ufe0f UCI info depth 1 nodes 24 score cp 129 time 126
+\u27a1\ufe0f UCI bestmove g5g6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=34 nodes=34 evals=34 batches=1 best=a3e7 cp=82 ms=111.7
+\u27a1\ufe0f UCI info depth 1 nodes 34 score cp 82 time 111
+\u27a1\ufe0f UCI bestmove a3e7
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=13 nodes=13 evals=13 batches=1 best=e2c3 cp=69 ms=90.5
+\u27a1\ufe0f UCI info depth 1 nodes 13 score cp 69 time 90
+\u27a1\ufe0f UCI bestmove e2c3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2kr1bnr/pbpq4/2n1pp2/3p3p/3P1P1B/2N2N1Q/PPP3PP/2KR1B1R w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=d1e1 cp=106 ms=90.9
+\u27a1\ufe0f UCI info depth 1 nodes 38 score cp 106 time 90
+\u27a1\ufe0f UCI bestmove d1e1
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=37 nodes=37 evals=37 batches=1 best=c6e5 cp=92 ms=115.0
+\u27a1\ufe0f UCI info depth 1 nodes 37 score cp 92 time 115
+\u27a1\ufe0f UCI bestmove c6e5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=36 nodes=36 evals=36 batches=1 best=f2f4 cp=78 ms=112.6
+\u27a1\ufe0f UCI info depth 1 nodes 36 score cp 78 time 112
+\u27a1\ufe0f UCI bestmove f2f4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=38 nodes=38 evals=38 batches=1 best=d7f5 cp=-3 ms=102.2
+\u27a1\ufe0f UCI info depth 1 nodes 38 score cp -3 time 102
+\u27a1\ufe0f UCI bestmove d7f5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=45 nodes=45 evals=45 batches=1 best=b2b3 cp=3 ms=127.6
+\u27a1\ufe0f UCI info depth 1 nodes 45 score cp 3 time 127
+\u27a1\ufe0f UCI bestmove b2b3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=31 nodes=31 evals=31 batches=1 best=b3b4 cp=175 ms=105.5
+\u27a1\ufe0f UCI info depth 1 nodes 31 score cp 175 time 105
+\u27a1\ufe0f UCI bestmove b3b4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=43 nodes=43 evals=43 batches=1 best=f1f6 cp=89 ms=129.2
+\u27a1\ufe0f UCI info depth 1 nodes 43 score cp 89 time 129
+\u27a1\ufe0f UCI bestmove f1f6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w kq - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=g5e3 cp=16 ms=110.4
+\u27a1\ufe0f UCI info depth 1 nodes 35 score cp 16 time 110
+\u27a1\ufe0f UCI bestmove g5e3
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=26 nodes=26 evals=26 batches=1 best=c7c6 cp=-36 ms=96.6
+\u27a1\ufe0f UCI info depth 1 nodes 26 score cp -36 time 96
+\u27a1\ufe0f UCI bestmove c7c6
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=43 nodes=43 evals=43 batches=1 best=c6b4 cp=-8 ms=98.9
+\u27a1\ufe0f UCI info depth 1 nodes 43 score cp -8 time 98
+\u27a1\ufe0f UCI bestmove c6b4
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3rr3/2pq2pk/p2p1pnp/8/2QBPP2/1P6/P5PP/4RRK1 b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=d6d5 cp=0 ms=80.2
+\u27a1\ufe0f UCI info depth 1 nodes 33 score cp 0 time 80
+\u27a1\ufe0f UCI bestmove d6d5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=40 nodes=40 evals=40 batches=1 best=c3b5 cp=88 ms=94.8
+\u27a1\ufe0f UCI info depth 1 nodes 40 score cp 88 time 94
+\u27a1\ufe0f UCI bestmove c3b5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=47 nodes=47 evals=47 batches=1 best=h3h7 cp=138 ms=139.5
+\u27a1\ufe0f UCI info depth 1 nodes 47 score cp 138 time 139
+\u27a1\ufe0f UCI bestmove h3h7
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=33 nodes=33 evals=33 batches=1 best=d7c5 cp=-1 ms=78.9
+\u27a1\ufe0f UCI info depth 1 nodes 33 score cp -1 time 78
+\u27a1\ufe0f UCI bestmove d7c5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=35 nodes=35 evals=35 batches=1 best=c8f5 cp=24 ms=85.1
+\u27a1\ufe0f UCI info depth 1 nodes 35 score cp 24 time 85
+\u27a1\ufe0f UCI bestmove c8f5
+\u2b05\ufe0f ucinewgame
+\u2b05\ufe0f position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+\u2b05\ufe0f go movetime 120000
+\u265f\ufe0f KERAS plies=1 legal=40 nodes=40 evals=40 batches=1 best=e4f5 cp=39 ms=93.1
+\u27a1\ufe0f UCI info depth 1 nodes 40 score cp 39 time 93
+\u27a1\ufe0f UCI bestmove e4f5
+\u2b05\ufe0f quit

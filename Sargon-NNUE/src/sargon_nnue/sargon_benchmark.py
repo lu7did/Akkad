@@ -9,10 +9,10 @@
 #* License: CC AS BY 4.0
 #*================================================================================================================*
 #* sargon_benchmark.py
-#* SARGON BENCHMARK version 0.6.202 — medición de decisiones de brains reales vía UCI.
-#* v0.6.202
+#* SARGON BENCHMARK version 0.6.207 — medición de decisiones de brains reales vía UCI.
+#* v0.6.207
 #=================================================================================================================*
-"""SARGON BENCHMARK v0.6.202 — medición de decisiones de brains reales vía UCI.
+"""SARGON BENCHMARK v0.6.207 — medición de decisiones de brains reales vía UCI.
 
 Reutiliza brains.py, sargon_listen.py y UCI de sargon_match.py. No implementa
 ningún algoritmo de búsqueda o evaluador alternativo.
@@ -37,9 +37,10 @@ import chess
 
 from .brains import get, read, to_argv
 from .sargon_match import UCI
-from .benchmark_bratko_kopec import (choose_positions, compute_matrices, load_reference_csv, print_matrix)
+from .benchmark_bratko_kopec import (BK_FORSYTH, choose_positions, compute_matrices, load_reference_csv, print_matrix)
+from .benchmark_bk_profile import canonical_suite, write_bk_report
 
-VERSION = "0.6.204"
+VERSION = "0.6.207"
 # Distintas aperturas, incluyendo posiciones con ambos bandos para mover.
 # La posición inicial se utiliza como calentamiento por defecto.
 DEFAULT_POSITIONS = (
@@ -130,6 +131,26 @@ class BenchmarkUCI(UCI):
                 self.last_info.update(_get_info(line))
             if line.startswith(expected):
                 return line
+
+
+    def move_bk(self, board: chess.Board, timeout: float, movetime_ms: int):
+        """Ejecutar una búsqueda Bratko-Kopec temporizada usando UCI go movetime.
+
+        Nota: motores que ignoran movetime y aplican su propio límite no
+        reproducen el protocolo histórico de dos minutos.
+        """
+        self.send('position fen ' + board.fen())
+        self.last_info = {}
+        self.last_bellman = {}
+        self.send(f'go movetime {movetime_ms}')
+        response = self.until('bestmove ', timeout)
+        parts = response.split()
+        if len(parts) < 2 or parts[1] in ('(none)', '0000'):
+            raise RuntimeError(f'bestmove vacío: {response}; revisar {self.log.name}')
+        move = chess.Move.from_uci(parts[1])
+        if move not in board.legal_moves:
+            raise RuntimeError(f'bestmove ilegal: {response}; revisar {self.log.name}')
+        return move
 
 
 def _project_root() -> Path:
@@ -395,14 +416,15 @@ def report(summaries: list[dict], max_blocks: int = 24) -> None:
 
 def request_move(engine: BenchmarkUCI, board: chess.Board, timeout: float,
                  identity: str, config: dict, mode: str, round_no: int,
-                 index: int) -> tuple[dict, chess.Move | None]:
+                 index: int, bk_movetime_ms: int | None = None) -> tuple[dict, chess.Move | None]:
     start = time.perf_counter()
     move = None
     status, error = "OK", ""
     engine.last_info = {}
     engine.last_bellman = {}
     try:
-        move = engine.move(board, timeout)
+        move = (engine.move_bk(board, timeout, bk_movetime_ms) if bk_movetime_ms is not None
+                else engine.move(board, timeout))
     except Exception as exc:
         status, error = "ERROR", f"{type(exc).__name__}: {exc}"
     wall_ms = (time.perf_counter() - start) * 1000.0
@@ -458,7 +480,13 @@ def _log_move(row: dict) -> None:
 
 def benchmark_one(identity: str, config: dict, args, log_file: Path,
                   suite: list[chess.Board]) -> list[dict]:
-    command = [args.python, "-m", "sargon_nnue.sargon_listen", "--mode", "STDIN"] + to_argv(config)
+    engine_config = dict(config)
+    if args.bratko_kopec:
+        # Al usar el mismo proceso de escucha, evitar que tmax del perfil
+        # reduzca inadvertidamente el presupuesto de BK antes de 120s.
+        engine_config['tmax'] = args.bk_movetime * 1000
+        engine_config['timeout'] = max(int(engine_config.get('timeout') or 0), args.bk_movetime * 1000 + 15000)
+    command = [args.python, "-m", "sargon_nnue.sargon_listen", "--mode", "STDIN"] + to_argv(engine_config)
     rows: list[dict] = []
     engine = None
     try:
@@ -474,8 +502,10 @@ def benchmark_one(identity: str, config: dict, args, log_file: Path,
             if args.mode == "positions":
                 for idx, board in enumerate(suite, start=1):
                     engine.send("ucinewgame")
-                    row, _ = request_move(engine, board, args.timeout, identity,
-                                          config, args.mode, round_no, idx)
+                    budget = max(args.timeout, args.bk_movetime + 20) if args.bratko_kopec else args.timeout
+                    row, _ = request_move(engine, board, budget, identity,
+                                          config, args.mode, round_no, idx,
+                                          args.bk_movetime * 1000 if args.bratko_kopec else None)
                     rows.append(row)
                     _log_move(row)
                     if row["status"] != "OK":
@@ -518,6 +548,10 @@ def _arguments(argv=None):
     ap.add_argument("--mode", choices=("positions", "play"), default="positions",
                     help="positions: mismas posiciones; play: cada brain juega sus propios plies")
     ap.add_argument("--positions", type=int, default=10, help="número de posiciones por ronda (default 10)")
+    ap.add_argument("--bk-movetime", type=int, default=120,
+                    help="segundos por posición BK (default 120; histórico 120)")
+    ap.add_argument("--bratko-kopec", action="store_true",
+                    help="evaluación completa BK: 24 posiciones, 12 tácticas y 12 levers; índice B")
     ap.add_argument("--suite", choices=("bratko-kopec", "custom"), default="bratko-kopec",
                     help="conjunto de posiciones (default: Bratko–Kopec, 24 diagramas)")
     ap.add_argument("--seed", type=int, default=None,
@@ -544,6 +578,14 @@ def main(argv=None):
     ap, args = _arguments(argv)
     if args.positions < 1 or args.plies < 1 or args.rounds < 1 or args.warmup < 0:
         ap.error("--positions, --plies y --rounds deben ser positivos; --warmup >= 0")
+    if args.bratko_kopec and (args.mode != "positions" or args.fen or args.opening or args.suite == "custom"):
+        ap.error("--bratko-kopec exige --mode positions y no admite --fen, --opening ni --suite custom")
+    if args.bratko_kopec and args.bk_movetime < 1:
+        ap.error("--bk-movetime requiere al menos 1 segundo")
+    if args.bratko_kopec and args.rounds != 1:
+        ap.error("--bratko-kopec requiere --rounds 1 para mantener la puntuación histórica de 24 posiciones")
+    if args.bratko_kopec:
+        args.positions = 24
     if args.timeout <= 0 or args.heartbeat <= 0:
         ap.error("--timeout y --heartbeat deben ser > 0")
     brain_file = Path(args.brain).expanduser().resolve()
@@ -568,8 +610,14 @@ def main(argv=None):
         except (ValueError, OSError) as exc:
             ap.error(f"brain {identity!r}: {exc}")
         configs[identity] = resolve_paths(config, _project_root(), brain_file)
+    bk_entries = None
     try:
-        if args.mode == "positions":
+        if args.bratko_kopec:
+            bk_entries=canonical_suite(chess,BK_FORSYTH)
+            suite=[entry["board"] for entry in bk_entries]
+            suite_ids=list(range(1,25))
+            suite_name="bratko-kopec-full"
+        elif args.mode == "positions":
             if args.fen or args.opening or args.suite == "custom":
                 suite = position_suite(args.fen or [], args.opening or [], args.positions)
                 suite_ids = []
@@ -618,7 +666,10 @@ def main(argv=None):
         "tool": "sargon_benchmark", "version": VERSION,
         "brain_file": str(brain_file), "brain_ids": identities,
         "brains": configs, "mode": args.mode,
-        "suite": suite_name, "bratko_kopec_ids": suite_ids,
+        "suite": suite_name, "bratko_kopec_full": bool(args.bratko_kopec),
+        "bratko_kopec_scoring": "final_bestmove_binary" if args.bratko_kopec else None,
+        "bk_movetime_s": args.bk_movetime if args.bratko_kopec else None,
+        "bratko_kopec_ids": suite_ids,
         "seed": args.seed, "reference_csv": args.reference_csv, "chance_model": args.chance_model,
         "positions": args.positions if args.mode == "positions" else None,
         "plies": args.plies if args.mode == "play" else None,
@@ -657,6 +708,8 @@ def main(argv=None):
     _write_csv(folder / "moves.csv", MOVE_FIELDS, all_rows)
     _write_csv(folder / "summary.csv", SUMMARY_FIELDS, summaries)
     report(summaries)
+    if args.bratko_kopec:
+        write_bk_report(folder,identities,all_rows,bk_entries)
     if args.mode == "positions":
         try:
             refs = load_reference_csv(args.reference_csv) if args.chance_model == 'reference' else {}

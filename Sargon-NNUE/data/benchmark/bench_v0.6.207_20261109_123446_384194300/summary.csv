@@ -1,0 +1,4 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+argos,keras,keras,,24,24,0,2.497,104.049,101.536,131.083,77.348,136.537,860,24,2472.000,347.9,2.903701,OK,0,0
+odiseo,keras,keras,,24,24,0,5.296,220.650,218.826,280.780,167.311,302.090,860,24,5274.000,163.1,6.157663,OK,0,0
+emma,AlphaZero-X86,null,onnx-dml,24,24,0,40.059,1669.129,1733.917,1766.215,478.374,1769.816,27753,24,39969.000,694.4,1.443415,OK,0,0

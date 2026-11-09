@@ -1033,6 +1033,135 @@ Ciertas configuraciones de piezas que se repiten constantemente reciben nombres 
 * La *Clavada / El Tenedor*: Nombres descriptivos de recursos tácticos (un "tenedor" es cuando un caballo ataca a dos piezas importantes a la vez, como si las pinchara juntas).
 
 
+## Test de Bratko-Kopec
+
+El Test de Bratko-Kopec es un conjunto de problemas de ajedrez diseñado para evaluar y comparar la fuerza de juego de los programas de computadora y de los jugadores humanos.
+Fue creado en 1982 por el científico de la computación esloveno Ivan Bratko y el maestro internacional de ajedrez y académico estadounidense Danny Kopec.
+Se utiliza para:
+• Evaluar motores de ajedrez: Medir la capacidad táctica y posicional de los programas de ajedrez.
+• Establecer correlaciones de Elo: Ayudar a estimar el sistema de puntuación Elo de un jugador o máquina según el tiempo y la cantidad de respuestas correctas.
+• Analizar la toma de decisiones: Comparar cómo resuelven problemas los humanos frente a las computadoras.
+
+El test consiste en 24 posiciones de ajedrez cuidadosamente seleccionadas que el sujeto o programa debe resolver.
+• División temátiica: Las posiciones están divididas equitativamente en dos tipos de desafíos:
+	• 12 problemas tácticos: Requieren el cálculo preciso de variantes combinatorias y combinaciones de mate o ganancia de material.
+	• 12 problemas posicionales: Requieren comprensión del juego a largo plazo, como la estructura de peones, el espacio o la colocación de piezas.
+• Dinámica: Para cada posición, se debe encontrar la mejor jugada. Originalmente, se asignaba un límite de tiempo por posición para evaluar la velocidad de procesamiento y la intuición.
+El test otorga al evaluado un tiempo máximo de 2 minutos por posición. Durante ese tiempo, se permite seleccionar hasta 4 opciones de jugada en orden de preferencia o prioridad. [1](http://www.kopecchess.com/Kopec_Chess_Services/Bratko_Kopec_Test.html)
+El sistema de puntuación funciona de la siguiente manera: [1](http://www.kopecchess.com/Kopec_Chess_Services/Bratko_Kopec_Test.html)
+• Si la primera opción elegida es la jugada correcta, se obtienen 1.00 punto.
+• Si es la segunda opción, se asignan 0.50 puntos.
+• Si es la tercera opción, se asignan 0.33 puntos.
+• Si es la cuarta opción, se asignan 0.25 puntos. [1](http://www.kopecchess.com/Kopec_Chess_Services/Bratko_Kopec_Test.html)
+Dado que el test cuenta con un total de 24 posiciones, la puntuación máxima absoluta es de 24 puntos. [1](https://chessprogramming.org/Bratko-Kopec_Test), [2](http://www.kopecchess.com/Kopec_Chess_Services/Bratko_Kopec_Test.html)
+
+### Tabla de equivalencia de Elo estimado
+
+La puntuación acumulada se correlaciona de forma directa con un nivel de fuerza de juego o Elo estimado aproximado: [1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm), [2](http://www.kopecchess.com/Kopec_Chess_Services/Bratko_Kopec_Test.html)
+
+Puntuación final	Nivel de juego / Rango de Elo estimado
+
+0 a 4 puntos	Novato / Aficionado bajo (< 1300 a 1599 Elo)
+5 a 6 puntos	Jugador de club / Clase B o C (1600 - 1799 Elo)
+7 a 8 puntos	Experto / Clase A (1800 - 1999 Elo)
+9 a 12 puntos	Candidato a Maestro (2000 - 2199 Elo)
+13 a 16 puntos	Maestro Nacional / Maestro FIDE (2200 - 2399 Elo)
+17 a 24 puntos	Maestro Internacional / Gran Maestro (2400+ Elo)
+
+
+### Posiciones más famosas del test
+
+Aunque el test completo está codificado en formato EPD (Extended Position Description) para computadoras, hay dos tipos de posiciones emblemáticas que definen la esencia del Bratko-Kopec [1](https://webdocs.cs.ualberta.ca/~tony/OldPapers/Workshop-BK-1989.pdf), [2](https://chessprogramming.org/Bratko-Kopec_Test), [3](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+1. La posición de ruptura posicional (Posición "Lever" o Palanca):
+Varias de las 12 posiciones estratégicas obligan al evaluado a identificar rupturas de peones muy precisas. Son situaciones donde no hay un mate inmediato ni una ganancia material obvia, sino que se mide si el motor o el humano comprende cuándo y dónde abrir la posición para activar sus piezas a largo plazo. 
+
+[1](https://www.chess.com/es/blog/Nicator65/evaluacion-de-posiciones-parte-i-nivel-aficionado), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm), [3](https://webdocs.cs.ualberta.ca/~tony/OldPapers/Workshop-BK-1989.pdf)
+
+2. El sacrificio táctico profundo (Posiciones de combinación):
+Dentro del bloque táctico, existen posiciones clásicas donde la mejor jugada es un sacrificio intuitivo de pieza para destruir el enroque enemigo. Para los primeros motores de ajedrez de los años 80 y 90, estas posiciones eran un dolor de cabeza, ya que requerían calcular muchas líneas secundarias antes de ver la recompensa material o el mate. 
+[1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+Si quieres profundizar, puedo explicarte la fórmula matemática adicional (el factor B) que usaban Bratko y Kopec para medir si un jugador tiende a ser más táctico o más posicional. ¿Te gustaría conocerla?
+
+
+El factor B (o perfil de estilo) es un índice matemático diseñado por Ivan Bratko y Danny Kopec para determinar de forma cuantitativa el estilo dominante de un jugador (o programa informático). 
+[1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+Sirve para medir si un ajedrecista se inclina marcadamente hacia la táctica (cálculo y combinaciones) o hacia lo posicional (estrategia y estructuras de peones). 
+
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+La fórmula matemática exacta se define como: 
+[1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+$\(B=\frac{12\times (T-L)}{S}\)$
+
+Los componentes de la fórmula son:
+
+• $\(T\)$: Puntuación obtenida exclusivamente en las 12 posiciones tácticas.
+• $\(L\)$: Puntuación obtenida exclusivamente en las 12 posiciones posicionales (denominadas Lever o "palanca" de peones).
+• $\(S\)$: Puntuación total acumulada en el test (\(T + L\)).
+• $\(12\)$: Un factor constante multiplicador para normalizar y escalar el resultado final. 
+
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2] (https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+¿Cómo se interpretan los resultados?
+
+Para interpretar los resultados se toma el valor del factor $\(B\)$  que oscilará generalmente en un rango numérico que revela el "perfil psicológico y técnico" en el tablero: 
+[1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+* Factor $\(B\)$ significativamente positivo (\(B > 0\)): Indica un perfil netamente táctico. El evaluado resuelve mucho mejor los problemas de cálculo, mates y combinaciones forzadas que los de comprensión posicional profunda. [1] (https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2] (https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+* Factor $\(B\)$ significativamente negativo $(\(B < 0\))$: Indica un perfil netamente posicional / estratégico. El evaluado muestra una fuerte intuición para mejorar sus piezas y comprender las estructuras de peones, pero flaquea bajo presión combinatoria. 
+  [1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+• Factor $\(B\)$ cercano a cero ($\(B \approx 0\)$) indicará un perfil equilibrado (universal). Las habilidades de cálculo y los conceptos estratégicos se encuentran al mismo nivel, que es el rasgo ideal de los jugadores de élite modernos.
+
+Si se obtienen 7 puntos en el bloque táctico $(\(T = 7\))$ y 4 puntos en el bloque posicional $(\(L = 4\))$, tu puntuación total será de *11 puntos* $(\(S = 11\))$. Aplicando la fórmula:
+
+$\(B=\frac{12\times (7-4)}{11}=\frac{12\times 3}{11}=\frac{36}{11}\approx +3.27\)$
+
+Al arrojar un resultado de *+3.27*, el test concluye que posees un estilo de juego predominantemente táctico y que tu principal área de mejora radica en la estrategia posicional. 
+
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+
+Cuando [Ivan Bratko](https://www.google.com/search?kgmid=%2Fm%2F02vnx7k&q=Ivan+Bratko) y [Danny Kopec](https://www.google.com/search?kgmid=%2Fm%2F04954d&q=Danny+Kopec) aplicaron el test y calcularon el factor B en las computadoras de los años 80, confirmaron numéricamente lo que la comunidad ajedrecística sospechaba: las máquinas de esa época tenían un factor B fuertemente positivo. Esto revelaba un perfil extremadamente desequilibrado que sufría de graves deficiencias estructurales.
+
+[1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+Los tipos de debilidades específicas que el factor B dejó al descubierto en los motores de los 80 incluyen:
+
+1. El "Efecto Horizonte" posicional
+
+Las computadoras de los 80 dependían casi exclusivamente de la "fuerza bruta" (calcular millones de jugadas por segundo en un árbol de variantes continuo). 
+
+[1](https://pages.mini.pw.edu.pl/~mandziukj/2015-01-13.pdf), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+• La debilidad: En las posiciones posicionales (bloque Lever), la solución requería maniobras lentas o mantener la tensión de peones sin ganancias inmediatas.
+• Debido a que el beneficio estratégico real se encontraba más allá del número de jugadas que la máquina podía calcular (su "horizonte"), el motor no detectaba ninguna ventaja a corto plazo y descartaba la jugada correcta.
+
+2. Sesgo extremo hacia las capturas (Codicia algorítmica)
+
+Para optimizar el tiempo de procesamiento, los programadores ordenaban las listas de jugadas candidatas priorizando los intercambios materiales. 
+[1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+* La debilidad: Esto generaba una ansiedad por capturar piezas (eagerness for capture). El factor B penalizaba esto con dureza porque, en las posiciones estratégicas del test, la mejor jugada solía ser mantener la tensión o realizar una sutil jugada de profilaxis. Las computadoras preferían capturar inmediatamente o iniciar líneas tácticas estériles solo porque ganaban un peón temporalmente, destruyendo su propia estructura en el proceso. 
+  [1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+1. Incapacidad para evaluar planes a largo plazo
+
+Las funciones de evaluación de los años 80 asignaban valores numéricos rígidos (ej. un peón vale 1, un caballo 3, etc.) combinados con reglas geométricas básicas (como duplicar torres en una columna abierta).
+
+* La debilidad: Las máquinas eran incapaces de entender conceptos abstractos como "mayoría de peones en el flanco de dama" o "restricción de espacio a largo plazo". El bloque de problemas posicionales demostró que, aunque un motor pudiera calcular a gran profundidad táctica, su capacidad para valorar la posición final resultante era defectuosa, inclinándose sistemáticamente por la opción incorrecta si no había amenazas directas de mate o pérdida de material.
+
+4. Vulnerabilidad ante sacrificios intuitivos humanos
+
+El test demostró que las máquinas fallaban en resolver ciertas posiciones de ataque donde el bando fuerte sacrificaba una pieza sin una variante forzada de mate a la vista. Un humano maestro encontraba la jugada de sacrificio por intuición y conceptos tácticos generales. La computadora, al no ver un mate en 5 o 6 jugadas forzadas, asumía erróneamente que perder material la dejaba en desventaja y decidía no sacrificar, perdiendo la oportunidad de ganar la partida.
+
+Gracias a los hallazgos del factor B en el set de Bratko-Kopec, la informática de los años 90 dio un vuelco. Los programadores entendieron que no bastaba con hacer procesadores más rápidos; tenían que reescribir las funciones de evaluación para enseñarle "conceptos estratégicos" a las computadoras, logrando eventualmente que el factor B de las máquinas bajara hasta un nivel equilibrado y universal $(\(B \approx 0\))$, tal como juegan los motores modernos hoy en día. [1] (https://chessprogramming.org/Bratko-Kopec_Test)
+
+
+
 ## Métodos de aprendizaje
 
 Aprender ajedrez de forma eficiente es un viaje que va desde el control muscular básico (mover las piezas sin tirarlas) hasta el desarrollo de una mente estratégica capaz de predecir el futuro. Un humano no aprende acumulando datos, sino automatizando patrones.
@@ -7879,8 +8008,85 @@ https://github.com/billforsternz/retro-sargon
 
 https://en.chessbase.com/post/sargon-a-che-program-from-the-past/820
 
+# CAP 8 Belle *El poder de la fuerza bruta*
 
-# CAP 8 Monte Carlo Tree Search (MCTS) *the latest*
+El algoritmo de la computadora Belle se basó en un enfoque híbrido pionero de *"fuerza bruta"* que combinaba software y circuitos integrados diseñados a medida. Su núcleo lógico seguía la filosofía clásica del estilo de Chess 4.5 (el programa dominante de la época), pero trasladando las operaciones más lentas directamente a la arquitectura física (hardware) para ganar velocidad. 
+[1](https://www2.seas.gwu.edu/~simhaweb/champalg/chess/chess), [2](https://chessprogramming.org/Belle)
+
+Los detalles técnicos de su algoritmo y estructura se dividen en cuatro pilares fundamentales:
+
+## El Motor de Búsqueda: Poda Alfa-Beta en Microcódigo
+
+En el corazón del software de Belle operaba el algoritmo Minimax con poda Alfa-Beta. Su función era explorar el árbol de decisiones del juego (jugadas posibles y respuestas del oponente) descartando automáticamente las ramas que demostraran ser peores que las ya analizadas. 
+[1](https://en.wikipedia.org/wiki/Belle_(chess_machine)), [2](https://www.bcs.org/articles-opinion-and-research/chess-engines-and-the-evolution-of-ai-systems/), [3](https://www.scribd.com/document/444491656/ARTICULO-1-IBM-S-DEEP-BLUE-CHESS-GRANDMASTER-CHIPS)
+
+* Implementación: A diferencia de las computadoras convencionales que ejecutaban este software en un sistema operativo normal, Ken Thompson programó la poda alfa-beta directamente en un procesador de microcódigo de 1Kx64 bits conectado al chip controlador (un LSI-11). Esto permitía que las decisiones de control de la búsqueda se tomaran casi a la velocidad de la electricidad en los circuitos. 
+
+[1](https://chessprogramming.org/Belle), [2](https://en.wikipedia.org/wiki/Belle_(chess_machine))
+
+## Generación Combinatoria de Movimientos (Hardware)
+
+El cuello de botella de cualquier algoritmo de ajedrez es calcular qué piezas se pueden mover y a dónde. Belle resolvió esto mediante 64 circuitos combinatorios paralelos (uno por cada casilla del tablero). 
+[1](https://chessprogramming.org/Belle)
+
+* El Algoritmo de Selección: El generador de movimientos no arrojaba las jugadas al azar; incorporaba un algoritmo de ordenamiento físico prioritario. Identificaba instantáneamente la pieza bajo ataque de mayor valor y la pieza atacante de menor valor (técnica conocida hoy como MVV-LVA). Al ordenar los movimientos "más agresivos" primero, la poda alfa-beta se volvía drásticamente más eficiente, ignorando millones de jugadas inútiles. 
+  [1](https://www.scribd.com/document/444491656/ARTICULO-1-IBM-S-DEEP-BLUE-CHESS-GRANDMASTER-CHIPS), [2](https://spectrum.ieee.org/in-1983-this-bell-labs-computer-was-the-first-machine-to-become-a-chess-master)
+
+1. Función de Evaluación Incremental y "Lazy"
+
+Para ponerle una calificación numérica a una posición del tablero (determinar si el blanco o el negro están mejor), Belle utilizaba 4 placas de circuito dedicadas exclusivamente a la función de evaluación. Su algoritmo implementaba dos conceptos clave: 
+[1](https://en.wikipedia.org/wiki/Belle_(chess_machine))
+
+* Evaluación Incremental (Lazy Evaluation): Para ahorrar tiempo de cómputo, Belle no recalculaba toda la posición desde cero tras cada jugada. El hardware modificaba el puntaje sumando o restando únicamente los cambios causados por la última pieza que se movió (evaluación incremental). Si una posición arrojaba un puntaje tan malo que la poda alfa-beta la iba a descartar de inmediato, el sistema aplicaba una evaluación rápida (lazy) y pasaba a la siguiente jugada sin perder tiempo analizando detalles finos posicionales. 
+  [1](https://chessprogramming.org/Belle)
+* Criterios Evaluados: El hardware medía el valor material de las piezas, la estructura de peones, la movilidad y de forma muy avanzada para su tiempo: la posición del rey y su seguridad relativa dependiendo de la fase de la partida (apertura o final). 
+  [1](https://spectrum.ieee.org/in-1983-this-bell-labs-computer-was-the-first-machine-to-become-a-chess-master), [2](https://www.kylegiddon.com/computer-chess-endgames/)
+
+## Tablas de Transposición (Memoria Caché)
+
+El ajedrez es propenso a la "transposición", situaciones donde diferentes órdenes de jugadas llevan exactamente a la misma posición en el tablero.
+
+* El Algoritmo de Almacenamiento: Belle incorporaba un algoritmo de indexación acoplado a 1 megabyte de memoria RAM (una cantidad masiva para finales de los 70). Cada vez que el motor terminaba de evaluar una posición a cierta profundidad, guardaba el resultado. Antes de calcular un nuevo movimiento, el algoritmo consultaba esta tabla de transposición; si la posición ya existía, reciclaba el resultado al instante, evitando calcular por duplicado millones de nodos en el árbol de búsqueda. 
+  [1](https://en.wikipedia.org/wiki/Belle_(chess_machine)), [2](https://chessprogramming.org/Belle), [3](https://spectrum.ieee.org/in-1983-this-bell-labs-computer-was-the-first-machine-to-become-a-chess-master)
+
+## El Legado del Algoritmo
+
+Gracias a este diseño donde el algoritmo y el hardware eran una misma cosa, Belle lograba calcular de manera óptima profundidades promedio de 8 plies (8 niveles de jugadas por adelantado), extendiéndose aún más en jugadas forzadas (búsqueda de quietud o quiescence search). [1] (https://www.chess.com/article/view/computers-and-chess---a-history), [2] (https://www2.seas.gwu.edu/~simhaweb/champalg/chess/chess), [3] (https://www.scribd.com/document/444491656/ARTICULO-1-IBM-S-DEEP-BLUE-CHESS-GRANDMASTER-CHIPS)
+Esta arquitectura exacta sirvió de plano estructural directo para el proyecto ChipTest, el cual evolucionó posteriormente en Deep Thought y, finalmente, en IBM Deep Blue, la supercomputadora que derrotó a Garry Kasparov en 1997. 
+[1](https://en.wikipedia.org/wiki/Belle_(chess_machine)), [2](https://chessprogramming.org/Belle)
+
+En el ajedrez por computadora, el algoritmo Minimax con poda alfa-beta tiene un límite de profundidad fijo (por ejemplo, buscar exactamente hasta 8 jugadas de adelante). El grave peligro de detener la búsqueda rígidamente en ese límite es el llamado "efecto horizonte": la computadora puede realizar una jugada evaluándola como "excelente" solo porque la pérdida masiva de material ocurre en la jugada 9, justo más allá de su horizonte de visión.
+Para solucionar esto, Belle utilizaba la búsqueda de quietud (quiescence search). Técnicamente, consiste en una extensión selectiva del árbol de búsqueda que se activa únicamente cuando se alcanza el límite de profundidad planificado, con el objetivo de no evaluar posiciones "tormentosas" o inestables.
+Aquí te detallo su funcionamiento técnico y cómo lo implementaba Belle:
+
+## El concepto de posición "Quieta" vs. "Ruidosa"
+
+Una posición es inestable (o ruidosa) si existen amenazas tácticas inmediatas que alterarán drásticamente el balance material en el siguiente turno. La búsqueda de quietud asume que evaluar estáticamente una posición así dará un resultado completamente falso.
+
+* Movimientos permitidos: Mientras que la búsqueda normal analiza todas las jugadas legales, la búsqueda de quietud reduce drásticamente el árbol y solo calcula movimientos violentos o tácticos:
+	• Capturas de piezas.
+	• Promociones de peones.
+	• Jaques (en algunas configuraciones, aunque a veces se omiten para evitar que el árbol explote).
+
+## El mecanismo del "Stand-Pat" (Margen de Seguridad)
+
+Para evitar que la búsqueda de quietud se vuelva infinita o evalúe jugadas suicidas, el algoritmo introduce una regla matemática llamada Stand-Pat (quedarse como está).
+• Antes de evaluar cualquier captura en la fase de quietud, el algoritmo calcula el valor de la posición actual mediante la función de evaluación estática básica.
+• Si el puntaje de la posición actual (sin hacer ninguna captura) ya es lo suficientemente alto como para causar una poda alfa-beta (supera el límite beta), el algoritmo se detiene inmediatamente y devuelve ese valor.
+• Esto actúa como una "red de seguridad": asume que el jugador tiene la opción de no capturar nada y simplemente mantener la posición si las capturas disponibles empeoran su situación.
+
+## Poda por Delta (Delta Pruning)
+
+En la búsqueda de quietud, Belle y los motores modernos emplean una optimización llamada Delta Pruning.
+* Si un bando está evaluando capturar un peón, pero se encuentra en una desventaja material equivalente a una torre, el algoritmo ni siquiera calcula la captura.
+* Sabe matemáticamente que ganar un peón (1 punto) no va a salvar la posición frente al umbral requerido, por lo que corta esa rama del árbol al instante sin gastar microsegundos de hardware.
+Belle tenía una ventaja masiva para realizar esto gracias a sus circuitos de generación de movimientos:
+* Filtro físico instantáneo: Su hardware podía generar exclusivamente capturas en un solo ciclo de reloj. No perdía tiempo separando jugadas posicionales de las capturas; los circuitos integrados de las casillas filtraban directamente qué piezas estaban atacadas por piezas de menor valor.
+* Evaluación incremental ultrarrápida: Dado que las capturas cambian drásticamente el valor material (por ejemplo, una torre desaparece del tablero), las placas de evaluación incremental de Belle restaban el valor de la pieza capturada instantáneamente en el circuito, acelerando las decisiones de la poda alfa-beta dentro de la fase de quietud.
+En resumen, la búsqueda de quietud convertía el horizonte rígido de Belle en un horizonte elástico. Si la posición en la capa 8 estaba en medio de un intercambio masivo de piezas, Belle seguía buscando en la capa 9, 10 o la que hiciera falta, deteniéndose únicamente cuando el tablero quedaba en paz ("quieto"), garantizando que la evaluación final fuera matemáticamente sólida.
+
+
+# CAP 9 Monte Carlo Tree Search (MCTS) *the latest*
 
 **Antecedentes:** Monte Carlo Tree Search (MCTS), 2006; AlphaGo, 2015–2016; AlphaGo Zero y AlphaZero, 2017–2018.  
 **Autores de referencia:** Rémi Coulom; Levente Kocsis y Csaba Szepesvári; David Silver, Demis Hassabis y colaboradores de DeepMind.  
@@ -9674,7 +9880,7 @@ https://github.com/LeelaChessZero/lc0
 
 
 
-# CAP 9 Stockfish: the "*beast*"
+# CAP 10 Stockfish: the "*beast*"
 
 **Autores originales:** Tord Romstad, Marco Costalba y Joona Kiiski  
 **Año de creación:** 2008  
@@ -11093,7 +11299,7 @@ https://www.chessprogramming.org/
 https://stockfishchess.org/about/
 
 
-# CAP 10 Leela Chess Zero (LC0)
+# CAP 11 Leela Chess Zero (LC0)
 
 **Alcance:** historia del proyecto, modelo computacional y formulación matemática, familias de redes, catálogo público verificable, entrenamiento y experimentos externos, evolución de `lc0.exe` e integración de evaluación en otros programas.  
 **Criterio de evidencia:** se distinguen datos publicados, aproximaciones matemáticas generales e inferencias de ingeniería. El catálogo es un **inventario curado de familias y modelos nombrados**, no un volcado exhaustivo de todos los checkpoints: el proyecto declara cientos de miles de redes históricas.
@@ -11563,7 +11769,7 @@ Una interfaz separada por TCP o proceso conserva aislamiento, permite reiniciar 
 [32] Lin et al., **Tracing the Thought of a Grandmaster-level Chess-Playing Transformer** (2026): https://arxiv.org/abs/2604.10158
 
 
-# CAP 11 La arquitectura Akkad
+# CAP 12 La arquitectura Akkad
 
 [Arquitectura Akkad](images/sargon-nnue.png)
 
@@ -12120,7 +12326,7 @@ Los fragmentos siguientes son **ilustrativos de campos**, no reemplazan rutas re
 
 Los valores por defecto válidos son los de la **factory y el inyector CLI de la versión instalada**, no los constructores tomados aisladamente. El código no sustituye automáticamente los archivos ausentes por archivos conocidos.
 
-# CAP 12 Evaluación
+# CAP 13 Evaluación
 
 Está claro que la plataforma *Sargón-NNUE* provee la flexibilidad necesaria para
 explorar y experimentar en las distintas etapas de formación de un jugador automatizado
@@ -12180,9 +12386,146 @@ La siguiente es una secuencia típica de comparación, se confrontan un motor fo
 
 El sargón clásico se configura para una profundidad 2 (2 ply) típica de las implementaciones de la época mientras que el motor local *Sargón-Plus* se lo define como un algoritmo altamente optimizado con exploración de profundidad 4 y Quiesce 2 (qdepth), si bien los motores no compiten entre si es posible observar que la respuesta a algunas de las posiciones es la misma pero la cantidad de nodos evaluados en el mismo tiempo límite de 15 segundos es prácticamente dos ordenes de magnitud mas grande en la implementación optimizada.
 
-Esta medición sirve para comprender si un algoritmo es suficientemente eficiente 
-en cuanto a la organización y uso de los recursos al margen de su potencia para el
-juego propiamente dicho
+Esta medición sirve para comprender si un algoritmo es suficientemente eficiente en cuanto a la organización y uso de los recursos al margen de su potencia para el juego propiamente dicho
+
+>El programa *sargon-benchmark.py* calcula el test de Bratko-Kopec indicando el perfil de cada motor evaluado
+>y la comparación entre todos los participantes en el benchmark
+
+## Evaluación de las coincidencias
+
+La coincidencia entre las jugadas de dos motores no puede evaluarse correctamente suponiendo que todas las jugadas legales son equiprobables.
+
+Más aún, necesitamos distinguir dos fenómenos:
+
+1. Coincidencia de resultados: ambos motores eligen la misma jugada.
+2. Coincidencia de razonamiento: ambos motores llegan a ella mediante procesos de evaluación y búsqueda semejantes.
+
+Lo primero es observable. Lo segundo no puede deducirse directamente de lo primero.
+
+Tenemos 10 posiciones de ajedrez, $\(P_1,\ldots,P\_{10}\)$, y dos motores A y B.
+
+Para cada posición:
+
+- Ambos reciben exactamente el mismo tablero.
+- Existen entre 5 y 30 movimientos legales.
+- Cada motor selecciona su mejor jugada.
+- Registramos si ambos seleccionaron el mismo movimiento.
+
+Definimos:
+
+$X_i=\begin{cases} 1 & \text{si A y B eligen la misma jugada}\\ 0 & \text{en caso contrario} \end{cases}$
+
+El número de coincidencias es:
+
+$K=\sum\_{i=1}^{10}X_i$
+
+El problema es determinar:
+
+$P(K\geq k\mid H_0)$
+
+Donde $\(H_0\)$ debe representar un modelo razonable de motores que actúan independientemente, pero que están sujetos a las preferencias que naturalmente impone cada posición de ajedrez.
+
+La dificultad no es calcular esa probabilidad, sino construir una hipótesis nula válida.
+
+### ¿Por qué el número de jugadas legales no alcanza?
+
+Consideremos tres posiciones hipotéticas, todas con 20 movimientos legales.
+
+| Posición | Característica                            | Probabilidad hipotética de coincidencia |
+| -------- | ----------------------------------------- | --------------------------------------- |
+| A        | Mate en una jugada, fácilmente detectable | 98 %                                    |
+| B        | Una jugada claramente superior            | 80 %                                    |
+| C        | Varias continuaciones razonables          | 20 %                                    |
+
+En los tres casos tenemos 20 movimientos legales. Sin embargo, la probabilidad de que dos motores independientes seleccionen el mismo movimiento puede ser muy diferente.
+
+Esto se debe a que los motores no seleccionan movimientos al azar: intentan maximizar una función de evaluación, normalmente mediante algún procedimiento de búsqueda.
+
+Incluso motores con algoritmos completamente distintos pueden coincidir porque la posición tiene una respuesta objetivamente superior.
+
+Por eso, 10 coincidencias en posiciones triviales pueden aportar menos evidencia de similitud entre motores que 7 coincidencias en posiciones estratégicamente ambiguas.
+
+### Una formulación matemática más apropiada
+
+Supongamos que, para cada posición $\(P_i\)$, conocemos la distribución de elecciones de una población de motores independientes y suficientemente diversos.
+
+Denominemos:
+
+$p_i(m)=P(\text{un motor elige }m\mid P_i)$
+
+Si los dos motores se comportaran como extracciones independientes de esa población, la probabilidad de coincidencia sería:
+
+$\boxed{q_i=\sum\_{m\in M_i}p_i(m)^2}$
+
+Donde $\(M_i\)$ es el conjunto de movimientos legales.
+
+La expresión mide la concentración de las preferencias colectivas de los motores.
+
+Cuando prácticamente todos prefieren el mismo movimiento, $\(q_i\)$ se acerca a 1.
+
+Cuando las preferencias están repartidas entre muchos movimientos, $\(q_i\)$ disminuye.
+
+Esto permite considerar la dificultad real de cada posición, no solamente su factor de ramificación.
+
+Es un modelo de referencia poblacional, Si A y B pertenecen a familias de motores con preferencias distintas, deberíamos usar sus respectivas distribuciones en lugar de una distribución común.
+
+### Diseño de Experimento (DoE)
+
+Se trata de construir un test de coincidencia ajustado por dificultad de posición.
+
+* Paso 1. Seleccionar las 10 posiciones
+
+Utilizar posiciones con distinta dificultad, evitando que predominen mates evidentes, jugadas forzadas o posiciones procedentes de libros de aperturas.
+
+* Paso 2. Construir una población de referencia
+
+Ejecutar diferentes motores de ajedrez, preferentemente de arquitecturas y evaluadores diversos, sobre esas mismas posiciones. Mantener condiciones de búsqueda comparables.
+
+* Paso 3. Estimar las probabilidades
+
+Calcular para cada posición la frecuencia con que los motores de referencia seleccionan cada movimiento. A partir de estas frecuencias, estimar $\(q_i\)$, incluyendo la incertidumbre por el tamaño limitado de la muestra.
+
+* Paso 4. Calcular la significación
+
+Comparar las coincidencias de los dos motores investigados contra las coincidencias esperadas entre motores de referencia independientes.
+
+Si podemos tratar las coincidencias en las diez posiciones como independientes, la distribución exacta se calcula mediante:
+
+$G(z)=\prod\_{i=1}^{10}\left[(1-q_i)+q_i z\right]$
+
+El coeficiente de $\(z^j\)$ es la probabilidad de exactamente $\(j\)$ coincidencias. Sumando los coeficientes desde $\(k$\)$ hasta 10 obtenemos el valor p.
+
+Si hay dependencias entre posiciones o entre familias de motores, conviene utilizar simulaciones con pares completos de motores en lugar de esta factorización.
+
+Supongamos, solo para ilustrar, que las diez posiciones presentan una probabilidad aproximadamente constante de coincidencia entre motores independientes.
+
+Probabilidad de 10 coincidencias sobre 10 posiciones
+
+| Coincidencia por posición | 10 de 10            |
+| ------------------------- | ------------------- |
+| 5%                        | 0,0000000000097656% |
+| 20%                       | 0,00001024%         |
+| 50%                       | 0,097656%           |
+| 80%                       | 10,737%             |
+| 95%                       | 59,874%             |
+
+La diferencia con un 5 % de probabilidad por posición, diez coincidencias serían extraordinariamente raras. Pero si la coincidencia esperable es del 95 %, las diez coincidencias se producirían aproximadamente en el 60 % de los experimentos.
+
+Por tanto, sin una estimación de las preferencias, no se puede asignar un valor p (*p-value*) fiable a las diez coincidencias.
+
+Las coincidencias no necesariamente muestran que la evaluación fue la misma. Incluso si las coincidencias resultaran estadísticamente extraordinarias, eso demostraría una similitud de comportamiento difícil de explicar mediante el modelo nulo elegido, no que los motores realizaron el mismo análisis.
+
+Para investigar similitudes internas convendría registrar también:
+
+- Las principales variantes (principal variations, PV) de cada motor.
+- Las evaluaciones de las posiciones y sus cambios con la profundidad.
+- Las alternativas consideradas mediante MultiPV.
+- La estabilidad de la jugada elegida cuando aumenta la profundidad.
+- Las coincidencias de errores, especialmente cuando una jugada inferior es elegida por ambos motores.
+
+En particular, las coincidencias en errores poco frecuentes pueden resultar mucho más informativas que las coincidencias en jugadas óptimas.
+
+> La probabilidad resultante indica probabilidad que la $H_0$ sea cierta, es decir que los parecidos se traten de una cuestión de azar. Por lo tanto cuanto mas alta es esa probabilidad mas alta es la probabilidad que los motores elijan sus jugadas como resultado de una evaluación similar de la ventaja de una respuesta determinada. 
 
 ## Match entre algoritmos
 
@@ -12324,7 +12667,7 @@ Dentro de esta comunicación, existen elementos técnicos clave a destacar:
 Ese protocolo es implementado por otro *adapter/proxy* denominado *fics-uci.py* quien configuración de la cuenta mediante establece la conexión *telnet* con el servidor e interactúa con una instancia accesible de un *brain* utilizando TCP/IP y protocolo UCI, hacia el servidor FICS se utiliza el protocolo *Style 12* que requiere.
 
 
-# CAP 13 Portabilidad
+# CAP 14 Portabilidad
 
 El ambiente *Sargon-NNUE* opera como una *nursery* donde se evalúan algoritmos, principalmente en forma relativa entre si.
 
@@ -13928,14 +14271,14 @@ Puesto a competir en la plataforma *lichess.org* alcanza una performance promedi
 ![lichess-picoSargon](images/lichess_picoSargon.png)
 
 
-# CAP 14 Entrenamiento
+# CAP 15 Entrenamiento
 
 
 - **AlphaZero-X86:** ejecutable C++ del proyecto Akkad que recibe red y backend. El nombre es histórico: la configuración también contiene rutas Debian. No se debe suponer compatibilidad binaria entre plataformas.
 - **picoAlpha, picoSargon, picoKeras:** wrappers hacia **ejecutables locales UCI**. Los nombres `pico` no prueban ejecución física en una placa: los perfiles actuales apuntan mayoritariamente a binarios de escritorio o Raspberry Pi.
 
 
-# CAP 12 Implementación
+# CAP 16 Implementación
 
 ## Entrenamiento
 
@@ -14228,141 +14571,3 @@ Las componentes cambian de la misma manera (co-varían) que el cambio de las uni
 * La regla: Unidad más chica \(\rightarrow \) Número más chico. Van en la misma dirección.
 
 
-# Apéndice J Experimento de evaluación
-Ahora sí podemos definir el problema con precisión. Y hay una conclusión importante: en ajedrez, la coincidencia entre las jugadas de dos motores no puede evaluarse correctamente suponiendo que todas las jugadas legales son equiprobables.
-
-Más aún, necesitamos distinguir dos fenómenos:
-
-1. Coincidencia de resultados: ambos motores eligen la misma jugada.
-2. Coincidencia de razonamiento: ambos motores llegan a ella mediante procesos de evaluación y búsqueda semejantes.
-
-Lo primero es observable. Lo segundo no puede deducirse directamente de lo primero.
-
-Tenemos 10 posiciones de ajedrez, $\(P_1,\ldots,P\_{10}\)$, y dos motores A y B.
-
-Para cada posición:
-
-- Ambos reciben exactamente el mismo tablero.
-- Existen entre 5 y 30 movimientos legales.
-- Cada motor selecciona su mejor jugada.
-- Registramos si ambos seleccionaron el mismo movimiento.
-
-Definimos:
-
-$X_i=\begin{cases} 1 & \text{si A y B eligen la misma jugada}\\ 0 & \text{en caso contrario} \end{cases}$
-
-El número de coincidencias es:
-
-$K=\sum\_{i=1}^{10}X_i$
-
-El problema es determinar:
-
-$P(K\geq k\mid H_0)$
-
-Donde $\(H_0\)$ debe representar un modelo razonable de motores que actúan independientemente, pero que están sujetos a las preferencias que naturalmente impone cada posición de ajedrez.
-
-La dificultad no es calcular esa probabilidad, sino construir una hipótesis nula válida.
-
-## 2. Por qué el número de jugadas legales no alcanza
-
-Consideremos tres posiciones hipotéticas, todas con 20 movimientos legales.
-
-| Posición | Característica                            | Probabilidad hipotética de coincidencia |
-| -------- | ----------------------------------------- | --------------------------------------- |
-| A        | Mate en una jugada, fácilmente detectable | 98 %                                    |
-| B        | Una jugada claramente superior            | 80 %                                    |
-| C        | Varias continuaciones razonables          | 20 %                                    |
-
-Los porcentajes son ilustrativos, no estimaciones empíricas.
-
-En los tres casos tenemos 20 movimientos legales. Sin embargo, la probabilidad de que dos motores independientes seleccionen el mismo movimiento puede ser muy diferente.
-
-Esto se debe a que los motores no seleccionan movimientos al azar: intentan maximizar una función de evaluación, normalmente mediante algún procedimiento de búsqueda.
-
-Incluso motores con algoritmos completamente distintos pueden coincidir porque la posición tiene una respuesta objetivamente superior.
-
-Por eso, 10 coincidencias en posiciones triviales pueden aportar menos evidencia de similitud entre motores que 7 coincidencias en posiciones estratégicamente ambiguas.
-
-## 3. Una formulación matemática más apropiada
-
-Supongamos que, para cada posición \\(P_i\\), conocemos la distribución de elecciones de una población de motores independientes y suficientemente diversos.
-
-Denominemos:
-
-$p_i(m)=P(\text{un motor elige }m\mid P_i)$
-
-Si los dos motores se comportaran como extracciones independientes de esa población, la probabilidad de coincidencia sería:
-
-$\boxed{q_i=\sum\_{m\in M_i}p_i(m)^2}$
-
-Donde $\(M_i\)$ es el conjunto de movimientos legales.
-
-La expresión mide la concentración de las preferencias colectivas de los motores.
-
-Cuando prácticamente todos prefieren el mismo movimiento, $\(q_i\)$ se acerca a 1.
-
-Cuando las preferencias están repartidas entre muchos movimientos, $\(q_i\)$ disminuye.
-
-Esto permite considerar la dificultad real de cada posición, no solamente su factor de ramificación.
-
-Es un modelo de referencia poblacional. Si A y B pertenecen a familias de motores con preferencias distintas, deberíamos usar sus respectivas distribuciones en lugar de una distribución común.
-
-## 4. Cómo realizaría el experimento
-
-Mi propuesta sería construir un test de coincidencia ajustado por dificultad de posición.
-
-Paso 1. Seleccionar las 10 posiciones
-
-Utilizar posiciones con distinta dificultad, evitando que predominen mates evidentes, jugadas forzadas o posiciones procedentes de libros de aperturas.
-
-Paso 2. Construir una población de referencia
-
-Ejecutar diferentes motores de ajedrez, preferentemente de arquitecturas y evaluadores diversos, sobre esas mismas posiciones. Mantener condiciones de búsqueda comparables.
-
-Paso 3. Estimar las probabilidades
-
-Calcular para cada posición la frecuencia con que los motores de referencia seleccionan cada movimiento. A partir de estas frecuencias, estimar $\(q_i\)$, incluyendo la incertidumbre por el tamaño limitado de la muestra.
-
-Paso 4. Calcular la significación
-
-Comparar las coincidencias de los dos motores investigados contra las coincidencias esperadas entre motores de referencia independientes.
-
-Si podemos tratar las coincidencias en las diez posiciones como independientes, la distribución exacta se calcula mediante:
-
-$G(z)=\prod\_{i=1}^{10}\left[(1-q_i)+q_i z\right]$
-
-El coeficiente de $\(z^j\)$ es la probabilidad de exactamente $\(j\)$ coincidencias. Sumando los coeficientes desde $\(k$\)$ hasta 10 obtenemos el valor p.
-
-Si hay dependencias entre posiciones o entre familias de motores, conviene utilizar simulaciones con pares completos de motores en lugar de esta factorización.
-
-## 5. Ejemplo del impacto de las preferencias
-
-Supongamos, solo para ilustrar, que las diez posiciones presentan una probabilidad aproximadamente constante de coincidencia entre motores independientes.
-
-Probabilidad de 10 coincidencias sobre 10 posiciones
-
-| Coincidencia por posición | 10 de 10            |
-| ------------------------- | ------------------- |
-| 5%                        | 0,0000000000097656% |
-| 20%                       | 0,00001024%         |
-| 50%                       | 0,097656%           |
-| 80%                       | 10,737%             |
-| 95%                       | 59,874%             |
-
-Observá la diferencia: con un 5 % de probabilidad por posición, diez coincidencias serían extraordinariamente raras. Pero si la coincidencia esperable es del 95 %, las diez coincidencias se producirían aproximadamente en el 60 % de los experimentos.
-
-Por tanto, sin una estimación de las preferencias, no se puede asignar un valor p fiable a las diez coincidencias.
-
-## 6. ¿Las coincidencias demuestran que los motores analizaron igual?
-
-No necesariamente. Incluso si las coincidencias resultaran estadísticamente extraordinarias, eso demostraría una similitud de comportamiento difícil de explicar mediante el modelo nulo elegido, no que los motores realizaron el mismo análisis.
-
-Para investigar similitudes internas convendría registrar también:
-
-- Las principales variantes (principal variations, PV) de cada motor.
-- Las evaluaciones de las posiciones y sus cambios con la profundidad.
-- Las alternativas consideradas mediante MultiPV.
-- La estabilidad de la jugada elegida cuando aumenta la profundidad.
-- Las coincidencias de errores, especialmente cuando una jugada inferior es elegida por ambos motores.
-
-En particular, las coincidencias en errores poco frecuentes pueden resultar mucho más informativas que las coincidencias en jugadas óptimas.

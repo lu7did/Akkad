@@ -11,5 +11,6 @@
 #* run_benchmark.ps1
 #* Benchmarks Sargon-NNUE
 #=================================================================================================================*
-.\sargon_benchmark.ps1 --brain ..\etc\brains\brains.json --ids argos odiseo
+.\sargon_benchmark.ps1 --brain ..\etc\brains\brains.json --bratko-kopec --ids argos odiseo emma
+
 
