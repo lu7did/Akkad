@@ -1,3 +1,3 @@
 
-python nurse_dryrun.py --brains etc/brains/brains.json --id penelope
+python -m nurse.dryrun --brains ../etc/brains/brains.json --id penelope
 
