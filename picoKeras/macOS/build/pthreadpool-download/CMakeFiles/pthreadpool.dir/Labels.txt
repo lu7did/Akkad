@@ -1,0 +1,14 @@
+# Target labels
+ pthreadpool
+# Source files and their labels
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/CMakeFiles/pthreadpool
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/CMakeFiles/pthreadpool.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/CMakeFiles/pthreadpool-complete.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-build.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-configure.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-download.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-install.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-mkdir.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-patch.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-test.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-update.rule

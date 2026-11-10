@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(picoKeras VERSION 0.2.10 LANGUAGES CXX)
+project(picoKeras VERSION 0.2.14 LANGUAGES CXX)
 
 if(NOT APPLE)
   message(FATAL_ERROR "picoKeras/macOS requires macOS")
@@ -17,6 +17,19 @@ endif()
 # macOS uses the same source and TFLite backend as Debian; Apple Silicon CPU
 # optimizations are handled by TFLite's XNNPACK, Accelerate and the toolchain.
 option(PICOKERAS_XNNPACK "Enable optimized XNNPACK CPU delegate" ON)
+# KleidiAI is optional inside XNNPACK. Disable it by default while the
+# pinned upstream GitLab archive fails its SHA256 check. Do not bypass hashes.
+option(PICOKERAS_KLEIDIAI "Enable optional KleidiAI kernels in XNNPACK" OFF)
+set(XNNPACK_ENABLE_KLEIDIAI ${PICOKERAS_KLEIDIAI} CACHE BOOL "KleidiAI" FORCE)
+# TensorFlow 2.18.1 vendors older libraries (e.g. FP16 with cmake_minimum_required
+# below 3.5), which CMake 4 no longer accepts without this compatibility floor.
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5 CACHE STRING "Compatibility floor for old TFLite subprojects")
+# FP16's old build invokes a nested CMake process to fetch PSimd if this is
+# missing. Require a prepared checkout instead, to avoid the CMake 4 failure.
+set(PSIMD_SOURCE_DIR "" CACHE PATH "Pinned PSimd source checkout for FP16")
+if(NOT EXISTS "${PSIMD_SOURCE_DIR}/CMakeLists.txt")
+  message(FATAL_ERROR "Missing PSimd checkout: build using tools/macOS/build.sh")
+endif()
 option(PICOKERAS_NATIVE "Optimize for the build machine CPU (less portable binary)" ON)
 option(PICOKERAS_LTO "Enable IPO/LTO when supported" ON)
 set(TFLITE_ENABLE_XNNPACK ${PICOKERAS_XNNPACK} CACHE BOOL "XNNPACK" FORCE)
@@ -55,3 +68,4 @@ if(MULTICORE)
   target_compile_definitions(picoKeras PRIVATE PICOKERAS_MULTICORE=1)
 endif()
 message(STATUS "picoKeras ${PROJECT_VERSION} MULTICORE=${MULTICORE}")
+

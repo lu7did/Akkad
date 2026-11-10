@@ -1,0 +1,7 @@
+/Users/pedrocolla/akkad/picoKeras/macOS/build/flatbuffers-flatc/src/flatbuffers-flatc-build/CMakeFiles/flatc.dir
+/Users/pedrocolla/akkad/picoKeras/macOS/build/flatbuffers-flatc/src/flatbuffers-flatc-build/CMakeFiles/edit_cache.dir
+/Users/pedrocolla/akkad/picoKeras/macOS/build/flatbuffers-flatc/src/flatbuffers-flatc-build/CMakeFiles/rebuild_cache.dir
+/Users/pedrocolla/akkad/picoKeras/macOS/build/flatbuffers-flatc/src/flatbuffers-flatc-build/CMakeFiles/list_install_components.dir
+/Users/pedrocolla/akkad/picoKeras/macOS/build/flatbuffers-flatc/src/flatbuffers-flatc-build/CMakeFiles/install.dir
+/Users/pedrocolla/akkad/picoKeras/macOS/build/flatbuffers-flatc/src/flatbuffers-flatc-build/CMakeFiles/install/local.dir
+/Users/pedrocolla/akkad/picoKeras/macOS/build/flatbuffers-flatc/src/flatbuffers-flatc-build/CMakeFiles/install/strip.dir

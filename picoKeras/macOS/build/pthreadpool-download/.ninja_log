@@ -1,0 +1,21 @@
+# ninja log v7
+0	12	1794318787256884446	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-mkdir	ffb19586ff8e5a12
+0	12	1794318787256884446	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-mkdir	ffb19586ff8e5a12
+12	1038	1794318788282922884	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-download	3ad0983024ba1db4
+12	1038	1794318788282922884	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-download	3ad0983024ba1db4
+1038	1054	1794318788298446789	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-update	f0bb6ccb9f5cc4b
+1038	1054	1794318788298446789	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-update	f0bb6ccb9f5cc4b
+1054	1070	1794318788314521738	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-patch	410187e21ade2ec0
+1054	1070	1794318788314521738	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-patch	410187e21ade2ec0
+1070	1085	1794318788329845267	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-configure	e2f417b126bd6de3
+1070	1085	1794318788329845267	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-configure	e2f417b126bd6de3
+1085	1098	1794318788343281163	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-build	63c311cf8eac31ca
+1085	1098	1794318788343281163	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-build	63c311cf8eac31ca
+1098	1112	1794318788356952392	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-install	be3a4a0b6d7ccc6
+1098	1112	1794318788356952392	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-install	be3a4a0b6d7ccc6
+1112	1128	1794318788372592381	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-test	5461bec007bbeeda
+1112	1128	1794318788372592381	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-test	5461bec007bbeeda
+1128	1146	1794318788390901424	CMakeFiles/pthreadpool-complete	38d3ae0cca4aa2a6
+1128	1146	1794318788390901424	pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-done	38d3ae0cca4aa2a6
+1128	1146	1794318788390901424	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/CMakeFiles/pthreadpool-complete	38d3ae0cca4aa2a6
+1128	1146	1794318788390901424	/Users/pedrocolla/akkad/picoKeras/macOS/build/pthreadpool-download/pthreadpool-prefix/src/pthreadpool-stamp/pthreadpool-done	38d3ae0cca4aa2a6

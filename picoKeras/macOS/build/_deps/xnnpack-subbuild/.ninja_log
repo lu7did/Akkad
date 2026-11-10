@@ -1,0 +1,21 @@
+# ninja log v7
+0	12	1794318790547041781	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-mkdir	fe1261bd3a9557b2
+12	19426	1794318809960791654	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-download	3a1d5b3d6e956a5d
+1	33	1794319445463395744	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-update	220056fbb06f7139
+33	45	1794319445507086000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-patch	6b1374b68703a403
+45	57	1794319445518867000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-configure	b1746d619be5b1bb
+57	69	1794319445530635000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-build	6f751950f2323882
+69	80	1794319445542337000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-install	ceaeb3157ed0c73
+80	92	1794319445553713000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-test	9aa93526f0e491e1
+92	108	1794319445569760000	CMakeFiles/xnnpack-populate-complete	ece9e85e89b02dc9
+92	108	1794319445569760000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-done	ece9e85e89b02dc9
+92	108	1794319445569760000	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/xnnpack-subbuild/CMakeFiles/xnnpack-populate-complete	ece9e85e89b02dc9
+1	32	1794319930176567174	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-update	220056fbb06f7139
+32	44	1794319930218911000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-patch	6b1374b68703a403
+44	55	1794319930230505000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-configure	b1746d619be5b1bb
+55	67	1794319930242082000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-build	6f751950f2323882
+67	79	1794319930253974000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-install	ceaeb3157ed0c73
+79	90	1794319930265456000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-test	9aa93526f0e491e1
+90	106	1794319930281637000	CMakeFiles/xnnpack-populate-complete	ece9e85e89b02dc9
+90	106	1794319930281637000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/xnnpack-populate-stamp/xnnpack-populate-done	ece9e85e89b02dc9
+90	106	1794319930281637000	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/xnnpack-subbuild/CMakeFiles/xnnpack-populate-complete	ece9e85e89b02dc9

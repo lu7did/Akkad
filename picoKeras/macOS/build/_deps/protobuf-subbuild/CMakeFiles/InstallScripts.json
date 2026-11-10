@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/protobuf-subbuild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

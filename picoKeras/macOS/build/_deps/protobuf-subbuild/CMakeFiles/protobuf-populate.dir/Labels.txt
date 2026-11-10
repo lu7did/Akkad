@@ -1,0 +1,14 @@
+# Target labels
+ protobuf-populate
+# Source files and their labels
+/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/protobuf-subbuild/CMakeFiles/protobuf-populate
+/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/protobuf-subbuild/CMakeFiles/protobuf-populate.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/protobuf-subbuild/CMakeFiles/protobuf-populate-complete.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-build.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-configure.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-download.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-install.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-mkdir.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-patch.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-test.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-update.rule

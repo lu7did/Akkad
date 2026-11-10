@@ -1,0 +1,21 @@
+# ninja log v7
+0	12	1794318759640114423	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-mkdir	d1484014c709eb47
+0	12	1794318759640114423	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-mkdir	d1484014c709eb47
+12	342	1794318759969602067	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-download	9ff672a875d23f1e
+12	342	1794318759969602067	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-download	9ff672a875d23f1e
+342	358	1794318759985715808	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-update	411896331249f9b1
+342	358	1794318759985715808	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-update	411896331249f9b1
+358	373	1794318760000476335	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-patch	8b7297a0924874fb
+358	373	1794318760000476335	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-patch	8b7297a0924874fb
+373	387	1794318760014583150	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-configure	1e1503e8278e872b
+373	387	1794318760014583150	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-configure	1e1503e8278e872b
+387	401	1794318760028632673	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-build	1d9ccef2cbd41742
+387	401	1794318760028632673	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-build	1d9ccef2cbd41742
+401	413	1794318760040952438	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-install	f6b2ca86b6853b45
+401	413	1794318760040952438	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-install	f6b2ca86b6853b45
+413	425	1794318760052518825	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-test	460b223c82854e48
+413	425	1794318760052518825	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-test	460b223c82854e48
+425	441	1794318760069068942	CMakeFiles/fft2d-populate-complete	19078a19a54add8f
+425	441	1794318760069068942	fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-done	19078a19a54add8f
+425	441	1794318760069068942	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/CMakeFiles/fft2d-populate-complete	19078a19a54add8f
+425	441	1794318760069068942	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/fft2d-subbuild/fft2d-populate-prefix/src/fft2d-populate-stamp/fft2d-populate-done	19078a19a54add8f

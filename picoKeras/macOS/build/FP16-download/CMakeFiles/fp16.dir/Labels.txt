@@ -1,0 +1,14 @@
+# Target labels
+ fp16
+# Source files and their labels
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/CMakeFiles/fp16
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/CMakeFiles/fp16.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/CMakeFiles/fp16-complete.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-build.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-configure.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-download.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-install.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-mkdir.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-patch.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-test.rule
+/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-update.rule

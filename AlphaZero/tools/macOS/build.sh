@@ -1,137 +1,170 @@
 #!/usr/bin/env bash
-# Akkad / AlphaZero: macOS native build wrapper v0.2.4
-# Auto-installs missing build dependencies; keeps the shared C++ build unchanged.
+# Akkad AlphaZero - autonomous macOS Apple Silicon builder.
+# Install: AlphaZero/tools/macOS/build.sh
 set -Eeuo pipefail
 
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-ROOT="$(cd -- "$HERE/../.." && pwd -P)"
+AZ="$(cd -- "$HERE/../.." && pwd -P)"
+DEST="$AZ/macOS/build"
+SRC="$DEST/lc0-src"
+MESON="$DEST/lc0-build"
+OUT="$DEST/AlphaZero"
+LC0_REF="${LC0_REF:-v0.32.1}"
+JOBS="${BUILD_JOBS:-$(sysctl -n hw.ncpu 2>/dev/null || echo 4)}"
+MULTICORE="${AZ_MULTICORE:-ON}"
+SKIP_INSTALL="${AZ_SKIP_INSTALL:-0}"
+CLEAN=0
 
-usage() {
-  cat <<'HELP'
-AlphaZero macOS build v0.2.4
-Uso: ./build.sh [--help]
-
-Instala las dependencias que falten y luego compila AlphaZero C++ usando
-AlphaZero/build.sh --OS MacOS (Apple Silicon arm64).
-
-Dependencias: Xcode Command Line Tools, Homebrew, git, cmake, meson,
-              ninja, python3, pkg-config, protobuf y eigen.
-
-Variables:
-  AZ_MULTICORE=ON|OFF    Activa/desactiva MULTICORE (default ON).
-  BUILD_JOBS=N            Numero de compilaciones paralelas.
-  LC0_REF=v0.32.1         Version de LC0 si hay que descargarla.
-  LC0_SOURCE=PATH         Fuentes locales de LC0.
-  CLEAN_BUILD=1           Reconstruye el directorio Meson.
-  AZ_SKIP_INSTALL=1       No instala: solo comprueba dependencias.
-  AZ_AUTO_INSTALL_BREW=0  No instala Homebrew si falta.
-
+info(){ printf '[AlphaZero/macOS] %s\n' "$*"; }
+fail(){ printf 'ERROR: %s\n' "$*" >&2; exit 2; }
+usage(){ cat <<'HELP'
+AlphaZero - compilador autonomo macOS Apple Silicon
+Uso: ./build.sh [--jobs N] [--multicore ON|OFF] [--clean] [--no-install-deps] [--help]
+  --jobs N            Trabajos paralelos (default: numero de CPUs logicas)
+  --multicore ON|OFF  MULTICORE (default: ON)
+  --clean             Nueva configuracion Meson; conserva fuentes y build previo
+  --no-install-deps   Falla si faltan dependencias, no las instala
+  --help              Ayuda
+Variables: LC0_REF=v0.32.1, LC0_SOURCE=/ruta/lc0, BUILD_JOBS=N,
+           AZ_MULTICORE=ON, AZ_SKIP_INSTALL=1
 Salida: AlphaZero/macOS/build/AlphaZero
-Nota: Homebrew o Xcode pueden solicitar contrasena/autorizacion del usuario.
+No requiere AlphaZero/build.sh.
 HELP
 }
-
-fail() { printf 'ERROR: %s\n' "$*" >&2; exit 2; }
-info() { printf '[AlphaZero/macOS] %s\n' "$*"; }
-
-if (( $# > 0 )); then
+while (($#)); do
   case "$1" in
-    -h|--help) [[ $# -eq 1 ]] || fail 'argumentos adicionales a --help'; usage; exit 0 ;;
-    *) usage >&2; fail "argumento desconocido: $1" ;;
+    -h|--help) usage; exit 0;;
+    --jobs|--multicore)
+      (($#>=2)) || fail "falta valor para $1"
+      if [[ "$1" == --jobs ]]; then JOBS="$2"; else MULTICORE="$2"; fi
+      shift 2;;
+    --jobs=*) JOBS="${1#*=}"; shift;;
+    --multicore=*) MULTICORE="${1#*=}"; shift;;
+    --clean) CLEAN=1; shift;;
+    --no-install-deps) SKIP_INSTALL=1; shift;;
+    *) fail "opcion desconocida $1 (usar --help)";;
   esac
-fi
+done
+[[ "$(uname -s)" == Darwin && "$(uname -m)" == arm64 ]] || fail 'requiere macOS Apple Silicon nativo (arm64)'
+[[ "$(sysctl -n sysctl.proc_translated 2>/dev/null || echo 0)" != 1 ]] || fail 'terminal ejecutandose bajo Rosetta; usar terminal arm64'
+[[ "$JOBS" =~ ^[1-9][0-9]*$ ]] || fail '--jobs debe ser entero positivo'
+[[ "$MULTICORE" == ON || "$MULTICORE" == OFF ]] || fail '--multicore debe ser ON u OFF'
+[[ -f "$AZ/src/akkad_alphazero_main.cc" && -f "$AZ/src/config.h" && -f "$AZ/src/lc0_startup_telemetry.h" ]] || fail 'faltan archivos en AlphaZero/src (main.cc, config.h o telemetria)'
 
-[[ "$(uname -s)" == Darwin ]] || fail 'este script requiere macOS'
-[[ "$(uname -m)" == arm64 ]] || fail 'este constructor requiere Apple Silicon arm64 en Terminal nativa'
-[[ "$(sysctl -n sysctl.proc_translated 2>/dev/null || printf 0)" != 1 ]] || fail 'abrir Terminal arm64, no Rosetta'
-
-# CLT installation is managed by macOS; the GUI installer must finish before
-# this script can continue. Do not install anything as root or erase caches.
 if ! xcode-select -p >/dev/null 2>&1 || ! xcrun --find clang++ >/dev/null 2>&1; then
-  if [[ "${AZ_SKIP_INSTALL:-0}" == 1 ]]; then
-    fail 'faltan las Xcode Command Line Tools (ejecutar xcode-select --install)'
-  fi
-  info 'Faltan las Xcode Command Line Tools; solicitando instalacion de macOS.'
+  [[ "$SKIP_INSTALL" != 1 ]] || fail 'faltan Xcode Command Line Tools'
+  info 'Solicitando instalacion de Xcode Command Line Tools'
   xcode-select --install || true
-  fail 'completa la instalacion de Xcode Command Line Tools y vuelve a ejecutar build.sh'
+  fail 'completar instalacion de Xcode Command Line Tools y repetir build.sh'
 fi
-
-# Find Homebrew even when this shell has not loaded its Apple Silicon PATH.
-find_brew() {
-  if command -v brew >/dev/null 2>&1; then command -v brew; return 0; fi
-  if [[ -x /opt/homebrew/bin/brew ]]; then printf '%s\n' /opt/homebrew/bin/brew; return 0; fi
-  if [[ -x /usr/local/bin/brew ]]; then printf '%s\n' /usr/local/bin/brew; return 0; fi
+find_brew(){
+  if command -v brew >/dev/null 2>&1; then command -v brew; return; fi
+  for f in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$f" ]]; then printf '%s\n' "$f"; return; fi
+  done
   return 1
 }
-
 BREW="$(find_brew || true)"
-# Do not bootstrap Homebrew when the existing toolchain already satisfies all
-# checks? Homebrew is required here to install missing package-based libraries.
 if [[ -z "$BREW" ]]; then
-  [[ "${AZ_SKIP_INSTALL:-0}" != 1 ]] || fail 'Homebrew no disponible (AZ_SKIP_INSTALL=1)'
-  [[ "${AZ_AUTO_INSTALL_BREW:-1}" != 0 ]] || fail 'Homebrew no disponible (AZ_AUTO_INSTALL_BREW=0)'
-  command -v curl >/dev/null 2>&1 || fail 'curl es necesario para instalar Homebrew'
-  info 'Homebrew no esta instalado. Se ejecutara su instalador oficial (puede pedir autorizacion).'
-  installer="$(mktemp "${TMPDIR:-/tmp}/akkad-homebrew.XXXXXXXX")"
+  [[ "$SKIP_INSTALL" != 1 ]] || fail 'Homebrew no instalado'
+  [[ "${AZ_AUTO_INSTALL_BREW:-1}" != 0 ]] || fail 'Homebrew no instalado y AZ_AUTO_INSTALL_BREW=0'
+  command -v curl >/dev/null 2>&1 || fail 'falta curl para instalar Homebrew'
+  info 'Instalando Homebrew mediante el instalador oficial'
+  installer="$(mktemp "${TMPDIR:-/tmp}/az-brew.XXXXXXXX")"
   trap 'rm -f -- "${installer:-}"' EXIT
-  curl --fail --location --show-error --silent \
-    https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh \
-    --output "$installer" || fail 'no se pudo descargar el instalador oficial de Homebrew'
-  /bin/bash "$installer" || fail 'la instalacion de Homebrew no termino correctamente'
-  rm -f -- "$installer"
-  trap - EXIT
+  curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "$installer"
+  /bin/bash "$installer"
+  rm -f -- "$installer"; trap - EXIT
   BREW="$(find_brew || true)"
-  [[ -n "$BREW" ]] || fail 'Homebrew instalado pero no se encontro brew'
+  [[ -n "$BREW" ]] || fail 'Homebrew no disponible despues de instalarlo'
 fi
-
-# Make brew-supplied tools discoverable in current process AND child build.sh.
-# shellcheck disable=SC2046
- eval "$("$BREW" shellenv)"
+eval "$("$BREW" shellenv)"
 BREW="$(command -v brew)"
-
-# Package names and actual command names differ for pkgconf/protobuf.
-# Formula checks also cover headers needed by the LC0 Meson build.
 missing=()
-require_tool() {
-  local executable="$1" formula="$2"
-  if ! command -v "$executable" >/dev/null 2>&1; then missing+=("$formula"); fi
-}
-require_tool git git
-require_tool cmake cmake
-require_tool meson meson
-require_tool ninja ninja
-require_tool python3 python
-require_tool pkg-config pkgconf
-require_tool protoc protobuf
-
-# Eigen is a header-only dependency and cannot be detected as an executable.
-if ! "$BREW" list --versions eigen >/dev/null 2>&1; then
-  missing+=(eigen)
-fi
-# Avoid duplicating packages when multiple checks refer to the same formula.
-if (( ${#missing[@]} )); then
-  unique=()
-  for formula in "${missing[@]}"; do
-    found=0
-    for existing in "${unique[@]:-}"; do
-      if [[ "$existing" == "$formula" ]]; then found=1; break; fi
-    done
-    if (( ! found )); then unique+=("$formula"); fi
-  done
-  if [[ "${AZ_SKIP_INSTALL:-0}" == 1 ]]; then
-    fail "faltan dependencias: ${unique[*]} (AZ_SKIP_INSTALL=1)"
-  fi
-  info "Instalando dependencias faltantes con Homebrew: ${unique[*]}"
-  "$BREW" install --formula "${unique[@]}" || fail 'Homebrew no pudo instalar las dependencias'
-else
-  info 'Las dependencias detectadas ya estan disponibles.'
-fi
-
-# Verify what the shared builder needs after installation.
-for tool in git meson ninja python3 cmake pkg-config protoc; do
-  command -v "$tool" >/dev/null 2>&1 || fail "falta $tool aun despues de Homebrew"
+require_cmd(){ command -v "$1" >/dev/null 2>&1 || missing+=("$2"); }
+require_cmd git git
+require_cmd cmake cmake
+require_cmd meson meson
+require_cmd ninja ninja
+require_cmd python3 python
+require_cmd pkg-config pkgconf
+require_cmd protoc protobuf
+for formula in eigen protobuf; do
+  "$BREW" list --versions "$formula" >/dev/null 2>&1 || missing+=("$formula")
 done
-"$BREW" list --versions eigen >/dev/null 2>&1 || fail 'falta eigen aun despues de Homebrew'
+if ((${#missing[@]})); then
+  [[ "$SKIP_INSTALL" != 1 ]] || fail "faltan dependencias: ${missing[*]}"
+  unique=(); for name in "${missing[@]}"; do
+    seen=0; for prior in "${unique[@]:-}"; do [[ "$prior" == "$name" ]] && seen=1; done
+    ((seen)) || unique+=("$name")
+  done
+  info "Instalando con Homebrew: ${unique[*]}"
+  "$BREW" install --formula "${unique[@]}"
+fi
+for tool in git cmake meson ninja python3 pkg-config protoc; do
+  command -v "$tool" >/dev/null 2>&1 || fail "falta $tool tras instalar dependencias"
+done
+[[ -d "$("$BREW" --prefix eigen)/include/eigen3" ]] || fail 'no se encuentra Eigen'
 
-info 'Dependencias verificadas. Iniciando compilacion compartida de AlphaZero.'
-exec bash "$ROOT/build.sh" --OS MacOS
+mkdir -p -- "$DEST"
+info "root=$AZ jobs=$JOBS MULTICORE=$MULTICORE LC0=$LC0_REF"
+if [[ ! -e "$SRC" ]]; then
+  if [[ -n "${LC0_SOURCE:-}" ]]; then
+    [[ -f "$LC0_SOURCE/meson.build" ]] || fail 'LC0_SOURCE no contiene meson.build'
+    git clone --local -- "$(cd -- "$LC0_SOURCE" && pwd -P)" "$SRC"
+  else
+    git clone --depth 1 --branch "$LC0_REF" https://github.com/LeelaChessZero/lc0.git "$SRC"
+  fi
+fi
+[[ -f "$SRC/meson.build" && -f "$SRC/src/main.cc" ]] || fail "LC0 incompleto en $SRC; no se borraran los archivos"
+git -C "$SRC" submodule update --init --recursive
+cp -- "$AZ/src/akkad_alphazero_main.cc" "$SRC/src/main.cc"
+cp -- "$AZ/src/lc0_startup_telemetry.h" "$SRC/src/lc0_startup_telemetry.h"
+python3 - "$AZ/src/config.h" "$SRC/src/config.h" "$MULTICORE" "$SRC/src/main.cc" <<'PY'
+from pathlib import Path
+import sys
+src, target, multi, main = sys.argv[1:]
+config = Path(src).read_text(encoding='utf-8')
+if 'kBackend = "onnx-dml"' not in config and 'kBackend = "eigen"' not in config:
+    raise SystemExit('ERROR: backend desconocido en src/config.h')
+config = config.replace('kBackend = "onnx-dml"', 'kBackend = "eigen"')
+config = config.replace('kBackendOptions = "gpu=0"', 'kBackendOptions = ""')
+Path(target).write_text(config, encoding='utf-8')
+p = Path(main)
+content = p.read_text(encoding='utf-8')
+p.write_text('#define AZ_MULTICORE '+('1' if multi == 'ON' else '0')+'\n'+content, encoding='utf-8')
+PY
+options=(-Ddefault_library=static -Dlc0=true -Dgtest=false -Donnx=false -Dblas=true -Dopenblas=false -Ddnnl=false -Dispc=false)
+valid=0
+if (( ! CLEAN )) && [[ -f "$MESON/build.ninja" && -f "$MESON/meson-info/meson-info.json" ]]; then
+  if meson introspect "$MESON" --buildoptions >/dev/null 2>&1 && python3 - "$MESON" "$SRC" <<'PY'
+import pathlib,json,sys
+b,s=(pathlib.Path(p).resolve() for p in sys.argv[1:])
+try:
+    d=json.loads((b/'meson-info/meson-info.json').read_text())['directories']
+    assert pathlib.Path(d['build']).resolve()==b
+    assert pathlib.Path(d['source']).resolve()==s
+except (OSError,ValueError,KeyError,AssertionError,TypeError):
+    raise SystemExit(1)
+PY
+  then valid=1; fi
+fi
+if ((valid)); then
+  if ! meson setup --reconfigure "$MESON" "${options[@]}"; then valid=0; fi
+fi
+if ((!valid)); then
+  if [[ -e "$MESON" ]]; then
+    backup="$MESON.stale.$(date +%Y%m%d-%H%M%S).$$"
+    mv -- "$MESON" "$backup"
+    info "Build previo conservado en $backup"
+  fi
+  meson setup "$MESON" "$SRC" --backend=ninja --buildtype=release "${options[@]}"
+fi
+meson compile -C "$MESON" -j "$JOBS" lc0
+binary="$(find "$MESON" -type f -name lc0 -perm -u+x -print -quit)"
+[[ -n "$binary" ]] || fail 'el build termino sin encontrar el binario lc0'
+cp -- "$binary" "$OUT"
+chmod +x "$OUT"
+info "OK ejecutable=$OUT"
+"$OUT" --version || true
+

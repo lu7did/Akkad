@@ -1,0 +1,21 @@
+# ninja log v7
+0	13	1794318812724311142	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-mkdir	f28447050a1c2121
+13	23458	1794318836168810795	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-download	1307ee9babbe2827
+1	33	1794319447832349327	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-update	4ea2dbff4c316d98
+33	45	1794319447875649000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-patch	cfcc18d2ac1207d7
+45	58	1794319447889468000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-configure	c44cc5bd9d45630e
+59	70	1794319447901127000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-build	3a90bad228948ef0
+70	82	1794319447912785000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-install	6250c0ef166a62df
+82	93	1794319447924314000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-test	2b9a2434eeb3252e
+93	110	1794319447940761000	CMakeFiles/protobuf-populate-complete	12bdc140875b58f9
+93	110	1794319447940761000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-done	12bdc140875b58f9
+93	110	1794319447940761000	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/protobuf-subbuild/CMakeFiles/protobuf-populate-complete	12bdc140875b58f9
+0	32	1794319932503172384	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-update	4ea2dbff4c316d98
+32	44	1794319932546369000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-patch	cfcc18d2ac1207d7
+44	56	1794319932558272000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-configure	c44cc5bd9d45630e
+56	68	1794319932569948000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-build	3a90bad228948ef0
+68	79	1794319932581636000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-install	6250c0ef166a62df
+79	91	1794319932593282000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-test	2b9a2434eeb3252e
+91	107	1794319932609345000	CMakeFiles/protobuf-populate-complete	12bdc140875b58f9
+91	107	1794319932609345000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/protobuf-populate-stamp/protobuf-populate-done	12bdc140875b58f9
+91	107	1794319932609345000	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/protobuf-subbuild/CMakeFiles/protobuf-populate-complete	12bdc140875b58f9

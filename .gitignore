@@ -45,3 +45,6 @@ C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime_providers_shared.d
 /AlphaZero/X86/build/
 /AlphaZero/debian/build/
 /AlphaZero/macOS/build/
+# picoKeras macOS - archivos de compilación
+/picoKeras/macOS/build/
+/picoKeras/macOS/third_party/psimd/

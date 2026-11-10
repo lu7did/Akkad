@@ -1,0 +1,21 @@
+# ninja log v7
+0	12	1794318699970990467	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-mkdir	5a08d1d06dda54ff
+13	6405	1794318706363501312	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-download	2d048917df52caf1
+1	32	1794319443840360130	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-update	1acd3576039dd5dd
+32	44	1794319443882946000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-patch	6554c4de34e166e8
+44	56	1794319443894809000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-configure	cee7f71866256ecf
+56	67	1794319443906406000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-build	b76a53481288b71f
+68	79	1794319443918108000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-install	25fb3820baa679d6
+79	91	1794319443929743000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-test	8a26b72047559f3d
+91	107	1794319443946315000	CMakeFiles/abseil-cpp-populate-complete	90fff8be4a76bab4
+91	107	1794319443946315000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-done	90fff8be4a76bab4
+91	107	1794319443946315000	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/abseil-cpp-subbuild/CMakeFiles/abseil-cpp-populate-complete	90fff8be4a76bab4
+0	32	1794319928585395175	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-update	1acd3576039dd5dd
+32	43	1794319928627797000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-patch	6554c4de34e166e8
+43	54	1794319928638742000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-configure	cee7f71866256ecf
+54	65	1794319928649710000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-build	b76a53481288b71f
+65	76	1794319928660685000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-install	25fb3820baa679d6
+76	87	1794319928671485000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-test	8a26b72047559f3d
+87	102	1794319928686373000	CMakeFiles/abseil-cpp-populate-complete	90fff8be4a76bab4
+87	102	1794319928686373000	/Users/pedrocolla/akkad/picoKeras/macOS/build/src/abseil-cpp-populate-stamp/abseil-cpp-populate-done	90fff8be4a76bab4
+87	102	1794319928686373000	/Users/pedrocolla/akkad/picoKeras/macOS/build/_deps/abseil-cpp-subbuild/CMakeFiles/abseil-cpp-populate-complete	90fff8be4a76bab4

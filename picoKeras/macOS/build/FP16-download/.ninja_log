@@ -1,0 +1,21 @@
+# ninja log v7
+1	14	1794318810194081437	fp16-prefix/src/fp16-stamp/fp16-mkdir	32fa7f5e78cce8e0
+1	14	1794318810194081437	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-mkdir	32fa7f5e78cce8e0
+14	932	1794318811111609041	fp16-prefix/src/fp16-stamp/fp16-download	122900bf93198055
+14	932	1794318811111609041	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-download	122900bf93198055
+932	949	1794318811128548161	fp16-prefix/src/fp16-stamp/fp16-update	69cdabd4f210147d
+932	949	1794318811128548161	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-update	69cdabd4f210147d
+949	964	1794318811143838732	fp16-prefix/src/fp16-stamp/fp16-patch	57be69c211d4cd83
+949	964	1794318811143838732	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-patch	57be69c211d4cd83
+964	977	1794318811157025334	fp16-prefix/src/fp16-stamp/fp16-configure	d7c38f3a77967424
+964	977	1794318811157025334	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-configure	d7c38f3a77967424
+977	990	1794318811169807393	fp16-prefix/src/fp16-stamp/fp16-build	1b1ac44ba3b453b9
+977	990	1794318811169807393	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-build	1b1ac44ba3b453b9
+990	1002	1794318811181593322	fp16-prefix/src/fp16-stamp/fp16-install	c8b01950aa819b80
+990	1002	1794318811181593322	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-install	c8b01950aa819b80
+1002	1014	1794318811193655420	fp16-prefix/src/fp16-stamp/fp16-test	f9c80ab2f25ce909
+1002	1014	1794318811193655420	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-test	f9c80ab2f25ce909
+1014	1030	1794318811210335121	CMakeFiles/fp16-complete	719c8c0c708c1dd7
+1014	1030	1794318811210335121	fp16-prefix/src/fp16-stamp/fp16-done	719c8c0c708c1dd7
+1014	1030	1794318811210335121	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/CMakeFiles/fp16-complete	719c8c0c708c1dd7
+1014	1030	1794318811210335121	/Users/pedrocolla/akkad/picoKeras/macOS/build/FP16-download/fp16-prefix/src/fp16-stamp/fp16-done	719c8c0c708c1dd7

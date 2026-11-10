@@ -1,0 +1,21 @@
+# ninja log v7
+0	12	1794318788476188650	fxdiv-prefix/src/fxdiv-stamp/fxdiv-mkdir	7e2615ed49667ad8
+0	12	1794318788476188650	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-mkdir	7e2615ed49667ad8
+12	1145	1794318789609543625	fxdiv-prefix/src/fxdiv-stamp/fxdiv-download	a026ed521793764
+12	1145	1794318789609543625	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-download	a026ed521793764
+1146	1913	1794318789610177294	fxdiv-prefix/src/fxdiv-stamp/fxdiv-update	273413e910db5c3c
+1146	1913	1794318789610177294	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-update	273413e910db5c3c
+1913	1925	1794318790389219969	fxdiv-prefix/src/fxdiv-stamp/fxdiv-patch	83ed3f8a769b7585
+1913	1925	1794318790389219969	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-patch	83ed3f8a769b7585
+1925	1937	1794318790400621731	fxdiv-prefix/src/fxdiv-stamp/fxdiv-configure	62621861ded6642d
+1925	1937	1794318790400621731	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-configure	62621861ded6642d
+1937	1948	1794318790411867699	fxdiv-prefix/src/fxdiv-stamp/fxdiv-build	90d6e71efb2ed4a9
+1937	1948	1794318790411867699	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-build	90d6e71efb2ed4a9
+1948	1959	1794318790423099667	fxdiv-prefix/src/fxdiv-stamp/fxdiv-install	211d33d678eacb80
+1948	1959	1794318790423099667	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-install	211d33d678eacb80
+1959	1970	1794318790434058301	fxdiv-prefix/src/fxdiv-stamp/fxdiv-test	23359bb57214834a
+1959	1970	1794318790434058301	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-test	23359bb57214834a
+1970	1986	1794318790449649831	CMakeFiles/fxdiv-complete	c9f0e8d75dde3dab
+1970	1986	1794318790449649831	fxdiv-prefix/src/fxdiv-stamp/fxdiv-done	c9f0e8d75dde3dab
+1970	1986	1794318790449649831	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/CMakeFiles/fxdiv-complete	c9f0e8d75dde3dab
+1970	1986	1794318790449649831	/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-done	c9f0e8d75dde3dab

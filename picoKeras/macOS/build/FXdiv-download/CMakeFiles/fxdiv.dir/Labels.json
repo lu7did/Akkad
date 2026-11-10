@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/CMakeFiles/fxdiv"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/CMakeFiles/fxdiv.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/CMakeFiles/fxdiv-complete.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-build.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-configure.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-download.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-install.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-mkdir.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-patch.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-test.rule"
+		},
+		{
+			"file" : "/Users/pedrocolla/akkad/picoKeras/macOS/build/FXdiv-download/fxdiv-prefix/src/fxdiv-stamp/fxdiv-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"fxdiv"
+		],
+		"name" : "fxdiv"
+	}
+}
