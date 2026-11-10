@@ -9,6 +9,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <memory>
+#include <mutex>
+#include <unordered_map>
 namespace fs = std::filesystem;
 namespace ps = picoSargon;
 namespace {
@@ -18,26 +21,66 @@ void check(TF_Status* st, const char* step) {
 struct Status { TF_Status* p=TF_NewStatus(); ~Status(){TF_DeleteStatus(p);} };
 void release(void* data, size_t, void*) { std::free(data); }
 }
-struct Evaluator::Impl {
+// TensorFlow C does not offer a safe general-purpose API for cloning a
+// restored SavedModel session into multiple independent sessions while sharing
+// its variable tensors. Share a single immutable *inference* model/session
+// instead. TF_SessionRun supports concurrent calls; each call owns its own
+// input/output TF_Tensors and Status. This assumes no training/mutating ops.
+struct SharedSavedModel {
  TF_Graph* graph=TF_NewGraph();
  TF_Session* session=nullptr;
  TF_SessionOptions* options=TF_NewSessionOptions();
+ SharedSavedModel(const std::string& path,int threads){
+  try{
+   Status st;
+   auto append_varint=[](std::string& bytes,unsigned x){
+    while(x>=128){bytes.push_back(char((x&127)|128));x>>=7;}bytes.push_back(char(x));
+   };
+   std::string config;
+   config.push_back(char(0x10));append_varint(config,unsigned(threads));
+   config.push_back(char(0x28));append_varint(config,1);
+   TF_SetConfig(options,config.data(),config.size(),st.p);
+   check(st.p,"TF_SetConfig");
+   const char* tags[]={"serve"};
+   session=TF_LoadSessionFromSavedModel(options,nullptr,path.c_str(),tags,1,graph,nullptr,st.p);
+   check(st.p,"TF_LoadSessionFromSavedModel");
+  }catch(...){cleanup();throw;}
+ }
+ void cleanup() noexcept{
+  if(session){Status status;TF_CloseSession(session,status.p);TF_DeleteSession(session,status.p);session=nullptr;}
+  if(options){TF_DeleteSessionOptions(options);options=nullptr;}
+  if(graph){TF_DeleteGraph(graph);graph=nullptr;}
+ }
+ ~SharedSavedModel(){cleanup();}
+};
+namespace {
+std::shared_ptr<SharedSavedModel> cached_model(const std::string& path,int threads){
+ static std::mutex mutex;
+ static std::unordered_map<std::string,std::weak_ptr<SharedSavedModel>> cache;
+ const auto key=fs::weakly_canonical(fs::path(path)).string()+"#"+std::to_string(threads);
+ std::lock_guard<std::mutex> lock(mutex);
+ if(auto existing=cache[key].lock())return existing;
+ auto loaded=std::make_shared<SharedSavedModel>(path,threads);
+ cache[key]=loaded;
+ std::cerr<<"TensorFlow shared SavedModel loaded once; concurrent TF_SessionRun, per-call tensors\n";
+ return loaded;
+}
+}
+struct Evaluator::Impl {
+ std::shared_ptr<SharedSavedModel> model;
+ TF_Graph* graph=nullptr;  // non-owning; retained by model
+ TF_Session* session=nullptr; // non-owning; retained by model
  TF_Output input{},output{};
  std::vector<int64_t> input_dims;
- std::vector<float> values;
  TF_DataType input_type=TF_FLOAT,output_type=TF_FLOAT;
  bool flat=false;
- Impl(const std::string& model_path,size_t) {
-  try {
-   fs::path dir(model_path);
-   if(!fs::is_directory(dir)||!fs::exists(dir/"saved_model.pb"))
-    throw std::runtime_error("Expected SavedModel directory (.tf with saved_model.pb); for .keras run tools/prepare_model.py first");
-   Status status;
-   const char* tags[]={"serve"};
-   session=TF_LoadSessionFromSavedModel(options,nullptr,dir.string().c_str(),tags,1,graph,nullptr,status.p);
-   check(status.p,"TF_LoadSessionFromSavedModel");
-   // Signature ops can vary between exported Keras versions: supplied via --input-op / --output-op.
-  } catch(...) { cleanup();throw; }
+ Impl(const std::string& model_path,size_t,int threads) {
+  fs::path dir(model_path);
+  if(!fs::is_directory(dir)||!fs::exists(dir/"saved_model.pb"))
+   throw std::runtime_error("Expected SavedModel directory (.tf with saved_model.pb); for .keras run tools/prepare_model.py first");
+  model=cached_model(dir.string(),threads);
+  graph=model->graph;
+  session=model->session;
  }
  void configure(const std::string& in_name,const std::string& out_name) {
   auto resolve=[&](const std::string& spec)->TF_Output {
@@ -103,14 +146,7 @@ struct Evaluator::Impl {
   const bool rank4=(nd==4 && input_dims[1]==8 && input_dims[2]==8 && input_dims[3]==12);
   flat=(nd==2 && input_dims[1]==768);
   if(!rank4&&!flat)throw std::runtime_error("Input must be [batch,8,8,12] or [batch,768]");
-  values.resize(768);
  }
- void cleanup() noexcept {
-  if(session){Status status;TF_CloseSession(session,status.p);TF_DeleteSession(session,status.p);session=nullptr;}
-  if(options){TF_DeleteSessionOptions(options);options=nullptr;}
-  if(graph){TF_DeleteGraph(graph);graph=nullptr;}
- }
- ~Impl(){cleanup();}
  void encode(const ps::Board& b,float* dest) {
   std::fill(dest,dest+768,0.f);
   const bool black=b.turn==-1;
@@ -150,7 +186,7 @@ struct Evaluator::Impl {
   } catch(...){if(y)TF_DeleteTensor(y);throw;}
  }
 };
-Evaluator::Evaluator(const std::string& file,size_t arena):impl_(std::make_unique<Impl>(file,arena)){}
+Evaluator::Evaluator(const std::string& file,size_t arena,int threads):impl_(std::make_unique<Impl>(file,arena,threads)){}
 Evaluator::~Evaluator()=default;
 void Evaluator::configure(const std::string& in,const std::string& out){impl_->configure(in,out);}
 double Evaluator::eval(const ps::Board& board){return impl_->evaluate_batch({board})[0];}

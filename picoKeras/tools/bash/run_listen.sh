@@ -4,7 +4,7 @@ set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd -- "$HERE/../.." && pwd)"
 if [[ "${1:-}" == '--help' || $# -eq 0 ]]; then
- echo 'Usage: run_listen.sh /path/to/model.tflite [--host IP] [--port N]';exit 0
+ echo 'Usage: run_listen.sh /path/to/model.tflite [--host IP] [--port N] [--cores N|auto] [--depth N] [--tmax MS]';exit 0
 fi
 MODEL="$1"; shift
 [[ -f "$MODEL" && "$MODEL" == *.tflite ]] || { echo "Missing .tflite model: $MODEL" >&2;exit 1; }

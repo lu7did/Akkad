@@ -7,7 +7,7 @@
 class Evaluator {
  struct Impl;std::unique_ptr<Impl> impl_;
 public:
- Evaluator(const std::string&,size_t arena=0);
+ Evaluator(const std::string&,size_t arena=0,int inference_threads=1);
  ~Evaluator();
  void configure(const std::string& input_op,const std::string& output_op);
  double eval(const picoSargon::Board&);

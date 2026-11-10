@@ -9,25 +9,43 @@
 #include <stdexcept>
 #include <vector>
 #include <cstdint>
+#include <memory>
+#include <mutex>
+#include <unordered_map>
 
 namespace ps = picoSargon;
 namespace {
 void require(bool ok, const std::string& msg) { if (!ok) throw std::runtime_error(msg); }
 }
+namespace {
+std::shared_ptr<const tflite::FlatBufferModel> cached_flatbuffer(const std::string& path){
+ static std::mutex mutex;
+ static std::unordered_map<std::string,std::weak_ptr<const tflite::FlatBufferModel>> cache;
+ const auto key=std::filesystem::weakly_canonical(path).string();
+ std::lock_guard<std::mutex> lock(mutex);
+ if(auto existing=cache[key].lock())return existing;
+ auto loaded=tflite::FlatBufferModel::BuildFromFile(path.c_str());
+ require(bool(loaded),"Cannot load TFLite model: "+path);
+ std::shared_ptr<const tflite::FlatBufferModel> shared(std::move(loaded));
+ cache[key]=shared;
+ std::cerr<<"TFLite FlatBuffer shared among independent interpreters\n";
+ return shared;
+}
+}
 struct Evaluator::Impl {
- std::unique_ptr<tflite::FlatBufferModel> model;
+ std::shared_ptr<const tflite::FlatBufferModel> model;
  std::unique_ptr<tflite::Interpreter> interpreter;
  bool flat=false;
- explicit Impl(const std::string& path,size_t) {
-  require(std::filesystem::path(path).extension()==".tflite", "Debian engine accepts only converted .tflite networks: "+path);
-  require(std::filesystem::is_regular_file(path),"Debian TFLite requires a .tflite file: "+path);
-  model=tflite::FlatBufferModel::BuildFromFile(path.c_str());
+ explicit Impl(const std::string& path,size_t,int threads) {
+  require(std::filesystem::path(path).extension()==".tflite", "TFLite backend accepts only converted .tflite networks: "+path);
+  require(std::filesystem::is_regular_file(path),"TFLite backend requires a .tflite file: "+path);
+  model=cached_flatbuffer(path);
   require(bool(model),"Cannot load TFLite model: "+path);
   tflite::ops::builtin::BuiltinOpResolver resolver;
   tflite::InterpreterBuilder(*model,resolver)(&interpreter);
   require(bool(interpreter),"TFLite interpreter creation failed (unsupported op?)");
   require(interpreter->inputs().size()==1 && interpreter->outputs().size()==1,"Exactly one input and one output required");
-  interpreter->SetNumThreads(1);
+  interpreter->SetNumThreads(threads);
   auto* in=interpreter->input_tensor(0);
   require(in && in->dims,"Invalid input tensor");
   const auto* d=in->dims;
@@ -89,7 +107,7 @@ struct Evaluator::Impl {
   return result;
  }
 };
-Evaluator::Evaluator(const std::string& path,size_t arena):impl_(std::make_unique<Impl>(path,arena)){}
+Evaluator::Evaluator(const std::string& path,size_t arena,int threads):impl_(std::make_unique<Impl>(path,arena,threads)){}
 Evaluator::~Evaluator()=default;
 void Evaluator::configure(const std::string& input,const std::string& output){impl_->configure(input,output);}
 double Evaluator::eval(const ps::Board& b){return impl_->evaluate_batch({b})[0];}

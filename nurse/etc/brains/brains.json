@@ -105,13 +105,22 @@
       },
       "args": {
          "windows": [
-           "--weights", "C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf"
+           "--weights", "C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf",
+           "--cores", "4",
+           "--depth", "3",
+           "--tmax", "15000"
          ],
          "debian": [
-           "--weights", "/home/pi/chess/akkad/picoKeras/assets/medium.tf"
+           "--weights", "/home/pi/chess/akkad/picoKeras/assets/medium.tf",
+           "--cores", "4",
+           "--depth", "3",
+           "--tmax", "15000"
          ],
          "macOS": [
-           "--weights", "/Users/pedrocolla/akkad/picoKeras/assets/medium.tf"
+           "--weights", "/Users/pedrocolla/akkad/picoKeras/assets/medium.tf",
+           "--cores", "4",
+           "--depth", "3",
+           "--tmax", "15000"
          ]
          },
 

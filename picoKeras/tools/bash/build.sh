@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# picoKeras Debian build v0.2.6
+# picoKeras Debian build v0.2.10
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd -- "$HERE/../.." && pwd)"
@@ -8,8 +8,10 @@ BUILD="$SRC/build"
 TF="${TFLITE_ROOT:-$SRC/third_party/tensorflow}"
 TF_VERSION="${TF_VERSION:-v2.18.1}"
 JOBS="${BUILD_JOBS:-1}"
+MULTICORE="${MULTICORE:-ON}"
+[[ "$MULTICORE" == ON || "$MULTICORE" == OFF ]] || { echo "MULTICORE must be ON or OFF" >&2; exit 2; }
 if [[ "${1:-}" == '--help' || "${1:-}" == '-h' ]]; then
-  echo 'Usage: build.sh [--help] (environment: TFLITE_ROOT, TF_VERSION, BUILD_JOBS, INSTALL_DEPS=0, CLEAN_BUILD=1)'
+  echo 'Usage: build.sh [--help] (environment: TFLITE_ROOT, TF_VERSION, BUILD_JOBS, MULTICORE=ON|OFF, INSTALL_DEPS=0, CLEAN_BUILD=1)'
   echo 'Builds from picoKeras/src with TFLite backend in picoKeras/debian/build'
   exit 0
 fi
@@ -35,9 +37,9 @@ if [[ -f "$BUILD/CMakeCache.txt" ]]; then
   if [[ "$src_cached" != "$SRC" ]];then rm -rf "$BUILD";fi
 fi
 if command -v ninja >/dev/null;then
- cmake -S "$SRC" -B "$BUILD" -G Ninja -DCMAKE_BUILD_TYPE=Release -DTFLITE_ROOT="$TF"
+ cmake -S "$SRC" -B "$BUILD" -G Ninja -DCMAKE_BUILD_TYPE=Release -DTFLITE_ROOT="$TF" -DMULTICORE="$MULTICORE"
 else
- cmake -S "$SRC" -B "$BUILD" -DCMAKE_BUILD_TYPE=Release -DTFLITE_ROOT="$TF"
+ cmake -S "$SRC" -B "$BUILD" -DCMAKE_BUILD_TYPE=Release -DTFLITE_ROOT="$TF" -DMULTICORE="$MULTICORE"
 fi
 cmake --build "$BUILD" --target picoKeras --parallel "$JOBS"
 echo "Built picoKeras Debian: $BUILD/picoKeras"

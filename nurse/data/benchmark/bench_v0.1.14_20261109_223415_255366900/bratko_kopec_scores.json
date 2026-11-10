@@ -1,0 +1,40 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "penelope",
+      "T": 5,
+      "L": 6,
+      "S": 11,
+      "B": -1.0909090909090908,
+      "errors": 0,
+      "interpretation": "Predominio estratégico (levers)",
+      "complete": true
+    },
+    {
+      "brain": "emma",
+      "T": 10,
+      "L": 6,
+      "S": 16,
+      "B": 3.0,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "penelope",
+      "penelope": 0.0,
+      "emma": -4.090909
+    },
+    {
+      "brain": "emma",
+      "penelope": 4.090909,
+      "emma": 0.0
+    }
+  ]
+}

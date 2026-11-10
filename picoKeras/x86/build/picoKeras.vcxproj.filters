@@ -10,6 +10,9 @@
     <ClCompile Include="C:\Users\pedro\github\Bobby\Akkad\picoKeras\src\model_tf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\pedro\github\Bobby\Akkad\picoKeras\src\multicore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\pedro\github\Bobby\Akkad\picoKeras\x86\CMakeLists.txt" />

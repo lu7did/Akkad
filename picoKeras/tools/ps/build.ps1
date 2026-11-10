@@ -4,12 +4,13 @@ param(
  [ValidateSet('Debug','Release','RelWithDebInfo')][string]$Config='Release',
  [switch]$NoDownload,
  [switch]$Clean,
+ [ValidateSet('ON','OFF')][string]$Multicore='ON',
  [switch]$Help
 )
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
 if ($Help) {
- Write-Host 'Usage: build.ps1 [-TensorFlowRoot DIR] [-Config Release|Debug|RelWithDebInfo] [-NoDownload] [-Clean] [-Help]'
+ Write-Host 'Usage: build.ps1 [-TensorFlowRoot DIR] [-Config Release|Debug|RelWithDebInfo] [-NoDownload] [-Clean] [-Multicore ON|OFF] [-Help]'
  Write-Host 'Builds picoKeras X86 using shared picoKeras/src. Output: picoKeras/x86/build (Release subdirectory with MSVC).'
  return
 }
@@ -51,7 +52,7 @@ if (Test-Path (Join-Path $build 'CMakeCache.txt')) {
    Write-Host 'Removing obsolete CMake cache' ; Remove-Item $build -Recurse -Force
  }
 }
-& cmake -S $platform -B $build "-DTENSORFLOW_ROOT=$TensorFlowRoot"
+& cmake -S $platform -B $build "-DTENSORFLOW_ROOT=$TensorFlowRoot" "-DMULTICORE=$Multicore"
 if ($LASTEXITCODE -ne 0) {throw "CMake configure failed ($LASTEXITCODE)"}
 & cmake --build $build --config $Config --target picoKeras
 if ($LASTEXITCODE -ne 0) {throw "CMake build failed ($LASTEXITCODE)"}

@@ -1,5 +1,8 @@
 #include "board.hpp"
 #include "model.hpp"
+#ifdef PICOKERAS_MULTICORE
+#include "multicore.hpp"
+#endif
 #include <algorithm>
 #include <chrono>
 #include <limits>
@@ -13,6 +16,11 @@
 #include <memory>
 #include <functional>
 #include <iomanip>
+#include <thread>
+#include <cstdint>
+#ifndef _WIN32
+#include <csignal>
+#endif
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <winsock2.h>
@@ -68,22 +76,93 @@ static void position(Board& b,const std::string& command){
 }
 struct Session {
  Board b;Evaluator& eval;std::function<void(const std::string&)> send;
+ std::vector<Evaluator*> workers;int cores=1,infer_threads=1,depth=1;std::int64_t tmax=15000;
  void command(const std::string& line){
-  if(line=="uci"){send("id name picoKeras v0.2.6");send("id author Dr. Pedro E. Colla 2026");send("uciok");}
+  if(line=="uci"){send("id name picoKeras v0.2.10");send("id author Dr. Pedro E. Colla 2026");send("uciok");}
   else if(line=="isready")send("readyok");
   else if(line=="ucinewgame")b.reset();
   else if(line.rfind("position ",0)==0)position(b,line);
-  else if(line.rfind("go",0)==0){auto r=choose(b,eval);
-   // The network returns a dimensionless scalar from the rival's perspective.
-   // atanh is an explicitly heuristic mapping to centipawns, not calibrated cp.
+  else if(line.rfind("go",0)==0){
+   // Preserve the pre-MULTICORE depth-1 batched evaluator exactly for --cores 1.
+   Result r;
+   int effective_depth=1;
+   std::uint64_t nodes=0;
+#ifdef PICOKERAS_MULTICORE
+   std::uint64_t leaves=0,batches=0,evaluations=0;
+   std::int64_t infer_us=0;
+   int active_workers=1;
+   bool deadline_reached=false;
+#endif
+   std::int64_t budget=tmax;
+   {std::istringstream is(line);std::string word;
+    while(is>>word)if(word=="movetime"){
+     std::string millis;
+     if(!(is>>millis))throw std::runtime_error("go movetime missing value");
+     budget=(std::min)(tmax,static_cast<std::int64_t>(std::stoll(millis)));
+     if(budget<1)throw std::runtime_error("go movetime must be positive");
+    }
+   }
+#ifdef PICOKERAS_MULTICORE
+   if(cores>1 && depth>=2){
+    const auto parallel=choose_multicore(b,workers,depth,budget);
+    r.move=parallel.move;r.found=parallel.found;
+    r.rival_value=-parallel.score;r.inspected=static_cast<int>(parallel.nodes);
+    r.ms=parallel.elapsed_ms;
+    nodes=parallel.nodes;leaves=parallel.leaves;batches=parallel.batches;
+    evaluations=parallel.evaluations;infer_us=parallel.inference_us;
+    active_workers=parallel.workers;
+    deadline_reached=parallel.timed_out;
+    effective_depth=parallel.depth;
+    std::ostringstream imbalance;
+    imbalance<<"[";
+    for(size_t k=0;k<parallel.worker_nodes.size();++k){
+     if(k)imbalance<<",";
+     imbalance<<parallel.worker_nodes[k];
+    }
+    imbalance<<"]";
+    std::ostringstream telemetry;
+    telemetry<<"MULTICORE=ON cores="<<cores<<" workers="<<active_workers
+             <<" infer_threads="<<infer_threads<<" depth="<<parallel.depth<<" requested_depth="<<depth
+             <<" nodes="<<nodes<<" leaves="<<leaves
+             <<" batches="<<batches<<" evals="<<evaluations
+             <<" worker_nodes="<<imbalance.str()
+             <<" infer_ms="<<std::fixed<<std::setprecision(2)<<infer_us/1000.0
+             <<" elapsed_ms="<<r.ms
+             <<" nps="<<(r.ms>0?nodes*1000/r.ms:0)
+             <<" status="<<(deadline_reached?"partial":"complete")
+             <<" fallback="<<(parallel.fallback?"true":"false");
+    telemetry<<" level_ms=[";
+    for(size_t k=0;k<parallel.level_ms.size();++k){if(k)telemetry<<",";telemetry<<parallel.level_ms[k];}
+    telemetry<<"]";
+    std::cerr<<telemetry.str()<<'\n';
+    send("info string "+telemetry.str());
+   }else
+#endif
+   {
+    r=choose(b,eval);nodes=static_cast<std::uint64_t>(r.inspected);
+    effective_depth=1;
+    std::ostringstream telemetry;
+    telemetry<<"MULTICORE="
+#ifdef PICOKERAS_MULTICORE
+             <<"ON"
+#else
+             <<"OFF"
+#endif
+             <<" cores=1 workers=1 infer_threads=1 depth=1"
+             <<" nodes="<<nodes<<" elapsed_ms="<<r.ms
+             <<" nps="<<(r.ms>0?nodes*1000/r.ms:0);
+    std::cerr<<telemetry.str()<<'\n';send("info string "+telemetry.str());
+   }
+   // Neural scalar output is interpreted from the side to move; centipawns
+   // remain an uncalibrated heuristic as in the original picoKeras.
    const double q=std::clamp(-r.rival_value,-0.999,0.999);
    const long cp_side=std::lround(400.0*std::atanh(q));
    const long cp_white=(b.turn==1?cp_side:-cp_side);
    const int ply=2*(b.fullmove-1)+(b.turn==-1?1:0);
-   const auto nps=r.ms>0 ? static_cast<long long>(r.inspected)*1000/r.ms : 0LL;
+   const auto nps=r.ms>0 ? static_cast<long long>(nodes)*1000/r.ms : 0LL;
    std::ostringstream info;
-   info<<"info ply "<<ply<<" depth 1 score cp "<<cp_white
-       <<" nodes "<<r.inspected<<" time "<<r.ms<<" nps "<<nps
+   info<<"info ply "<<ply<<" depth "<<effective_depth<<" score cp "<<cp_white
+       <<" nodes "<<nodes<<" time "<<r.ms<<" nps "<<nps
        <<" string cp_heuristic_atanh eval_rival "<<std::fixed<<std::setprecision(4)<<r.rival_value;
    send(info.str());send(std::string("bestmove ")+(r.found?Board::notation(r.move):"(none)"));
 
@@ -96,26 +175,76 @@ using sock_t=SOCKET;static void closesock(sock_t s){closesocket(s);}static const
 using sock_t=int;static void closesock(sock_t s){close(s);}static constexpr sock_t badsock=-1;
 #endif
 int main(int argc,char**argv){try{
+#ifndef _WIN32
+ // TCP clients may disconnect while a UCI reply is being sent. On POSIX,
+ // prevent SIGPIPE from terminating the whole listener process.
+ std::signal(SIGPIPE, SIG_IGN);
+#endif
  std::string network,host="0.0.0.0",input_op="auto",output_op="auto";int port=6110;bool stdio=true;bool explicit_stdio=false,explicit_tcp=false;size_t arena=32*1024*1024;
+ int cores_requested=0,search_depth=0;std::int64_t tmax_ms=15000;
  for(int i=1;i<argc;++i){std::string k=argv[i];auto value=[&](){if(i+1>=argc)throw std::runtime_error("missing value for "+k);return std::string(argv[++i]);};
-  if(k=="--weights" || k=="--network")network=value();else if(k=="--host")host=value();else if(k=="--port")port=std::stoi(value());else if(k=="--arena")arena=std::stoull(value());else if(k=="--stdio"){stdio=true;explicit_stdio=true;}else if(k=="--tcp"){stdio=false;explicit_tcp=true;}else if(k=="--input-op")input_op=value();else if(k=="--output-op")output_op=value();
+  if(k=="--weights" || k=="--network")network=value();else if(k=="--host")host=value();else if(k=="--port")port=std::stoi(value());else if(k=="--arena")arena=std::stoull(value());else if(k=="--stdio"){stdio=true;explicit_stdio=true;}else if(k=="--tcp"){stdio=false;explicit_tcp=true;}else if(k=="--cores"){
+    const auto value_str=value();
+    if(value_str=="auto")cores_requested=0;
+    else {cores_requested=std::stoi(value_str);if(cores_requested<1)throw std::runtime_error("--cores must be >=1 or auto");}
+   }else if(k=="--depth")search_depth=std::stoi(value());
+   else if(k=="--tmax")tmax_ms=std::stoll(value());
+   else if(k=="--input-op")input_op=value();else if(k=="--output-op")output_op=value();
   else if(k=="--help"){
    std::cout
-    << "picoKeras 0.2.6 --weights model.tf [--arena BYTES] [--stdio | --tcp [--host 0.0.0.0] [--port 6110]]\n"
+    << "picoKeras 0.2.10 --weights MODEL [--cores N|auto] [--depth N] [--tmax MS] [--arena BYTES] [--stdio | --tcp [--host 0.0.0.0] [--port 6110]]\n"
     << "Default mode: UCI over stdin/stdout. --tcp explicitly enables TCP listener.\n"
     << "--stdio remains accepted for compatibility; --stdio and --tcp cannot be combined.\n"
     << "TensorFlow SavedModel with FLOAT32 boundary; --network aliases --weights.\n"
+    << "--cores defaults to auto (hardware threads); --cores 1 preserves the original depth-1 path.\n"
+    << "--depth defaults to 2 if cores>1, otherwise 1. --tmax defaults to 15000ms.\n"
+    << "MULTICORE controls are compiled with -DMULTICORE=ON (default); OFF rejects cores>1.\n"
     << "--input-op and --output-op are configurable.\n";
    return 0;
   }
   else throw std::runtime_error("unknown argument: "+k);
  }
+ if(search_depth!=0 && (search_depth<1 || search_depth>8))throw std::runtime_error("--depth must be 1..8");
+ if(tmax_ms<1)throw std::runtime_error("--tmax must be >0");
+ const unsigned available=(std::max)(1u,std::thread::hardware_concurrency());
+ int cores=cores_requested==0?int(available):(std::min)(cores_requested,int(available));
+#ifndef PICOKERAS_MULTICORE
+ if(cores_requested==0)cores=1; // OFF build keeps the original default.
+ if(cores>1)throw std::runtime_error("--cores >1 requires MULTICORE=ON build");
+#endif
+ const int depth=cores==1?1:(search_depth==0?2:search_depth);
+ const int worker_count=cores==1?1:(cores>=4?cores/2:cores);
+ // Windows TensorFlow C uses one shared SavedModel session and its thread pool.
+ // TFLite uses separate interpreters, so its thread budget is per worker.
+#ifdef PICOKERAS_MODEL_TF
+ const int infer_threads=cores;
+#else
+ const int infer_threads=(std::max)(1,cores/worker_count);
+#endif
  if(explicit_stdio && explicit_tcp)throw std::runtime_error("--stdio and --tcp are mutually exclusive");
  if(network.empty())throw std::runtime_error("--weights (or --network) required");
  if(!stdio && (port<1||port>65535))throw std::runtime_error("--port must be 1..65535 in TCP mode");
- std::cerr<<"picoKeras v0.2.6 weights="<<network<<" host="<<host<<" port="<<port<<" arena="<<arena<<" mode="<<(stdio?"UCI-STDIO":"TCP")<<"\n";
- Evaluator ev(network,arena);ev.configure(input_op,output_op);
- if(stdio){Session s{Board(),ev,[](const std::string& str){std::cout<<str<<'\n'<<std::flush;}};std::string line;while(std::getline(std::cin,line)){try{s.command(line);}catch(const std::exception& e){s.send(std::string("info string ERROR ")+e.what());std::cerr<<"ERROR "<<e.what()<<'\n';}if(line=="quit")break;}return 0;}
+ std::cerr<<"picoKeras v0.2.10 weights="<<network<<" host="<<host<<" port="<<port<<" arena="<<arena<<" mode="<<(stdio?"UCI-STDIO":"TCP")
+          <<" MULTICORE="
+#ifdef PICOKERAS_MULTICORE
+          <<"ON"
+#else
+          <<"OFF"
+#endif
+          <<" cores="<<cores<<" available="<<available
+          <<" workers="<<worker_count<<" infer_threads="<<infer_threads
+          <<" depth="<<depth<<" tmax_ms="<<tmax_ms<<"\n";
+ Evaluator ev(network,arena,cores==1?1:infer_threads);ev.configure(input_op,output_op);
+ std::vector<std::unique_ptr<Evaluator>> extra;
+ std::vector<Evaluator*> workers{&ev};
+#ifdef PICOKERAS_MULTICORE
+ for(int i=1;i<worker_count;++i){
+  auto evaluator=std::make_unique<Evaluator>(network,arena,infer_threads);
+  evaluator->configure(input_op,output_op);
+  workers.push_back(evaluator.get());extra.push_back(std::move(evaluator));
+ }
+#endif
+ if(stdio){Session s{Board(),ev,[](const std::string& str){std::cout<<str<<'\n'<<std::flush;},workers,cores,infer_threads,depth,tmax_ms};std::string line;while(std::getline(std::cin,line)){try{s.command(line);}catch(const std::exception& e){s.send(std::string("info string ERROR ")+e.what());std::cerr<<"ERROR "<<e.what()<<'\n';}if(line=="quit")break;}return 0;}
 #ifdef _WIN32
  WSADATA wsa;if(WSAStartup(MAKEWORD(2,2),&wsa)!=0)throw std::runtime_error("WSAStartup failed");
 #endif
@@ -125,7 +254,7 @@ int main(int argc,char**argv){try{
  if(bind(server,reinterpret_cast<sockaddr*>(&addr),sizeof(addr))!=0||listen(server,4)!=0)throw std::runtime_error("bind/listen failed");
  std::cerr<<"TCP LISTEN "<<host<<":"<<port<<"\n";
  for(;;){sock_t client=accept(server,nullptr,nullptr);if(client==badsock)continue;std::cerr<<"TCP CONNECT\n";
-  Session session{Board(),ev,[client](const std::string& str){auto msg=str+"\n";const char* ptr=msg.data();size_t left=msg.size();while(left){const auto chunk=static_cast<int>((std::min)(left,static_cast<size_t>((std::numeric_limits<int>::max)())));auto n=send(client,ptr,chunk,0);if(n<=0)throw std::runtime_error("socket send failed");ptr+=n;left-=static_cast<size_t>(n);}}};
+  Session session{Board(),ev,[client](const std::string& str){auto msg=str+"\n";const char* ptr=msg.data();size_t left=msg.size();while(left){const auto chunk=static_cast<int>((std::min)(left,static_cast<size_t>((std::numeric_limits<int>::max)())));auto n=send(client,ptr,chunk,0);if(n<=0)throw std::runtime_error("socket send failed");ptr+=n;left-=static_cast<size_t>(n);}},workers,cores,infer_threads,depth,tmax_ms};
   std::string pending;char buff[4096];bool done=false;
   while(!done){auto n=recv(client,buff,static_cast<int>(sizeof(buff)),0);if(n<=0)break;pending.append(buff,static_cast<size_t>(n));
    while(true){auto at=pending.find('\n');if(at==std::string::npos)break;std::string line=pending.substr(0,at);pending.erase(0,at+1);if(!line.empty()&&line.back()=='\r')line.pop_back();

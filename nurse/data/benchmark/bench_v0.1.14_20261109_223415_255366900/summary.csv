@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+penelope,picoKeras,null,,24,24,0,390.038,16251.575,17199.465,18280.919,4434.283,18450.750,20635,24,389998.000,52.9,18.901759,OK,0,0
+emma,AlphaZero,null,,24,24,0,35.677,1486.530,1528.467,1697.839,424.121,1755.904,27753,24,35578.000,780.1,1.285508,OK,0,0
