@@ -23,7 +23,7 @@ from .uci_external import ExternalUCIPlayer, StockfishUCIPlayer
 
 def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
                   tmax_ms: int = 15000, seed: int | None = None, boost: int = 0, turbo: int = 0,
-                  engine_path: str | None = None, network: str | None = None, model: str | None = None, url: str | None = None, movetime_ms: int = 1000,
+                  engine_args=None, engine_path: str | None = None, network: str | None = None, model: str | None = None, url: str | None = None, movetime_ms: int = 1000,
                   timeout_ms: int = 30000, nodes: int = 5_000_000,
                   elo: int | str | None = "max", audit=None, telemetry=None,
                   stockfish_threads: int = 1, stockfish_hash: int = 256,
@@ -32,6 +32,12 @@ def create_player(kind: str, evaluator, *, depth: int = 2, qdepth: int = 2,
                   lc0_uci_nncache=200000, lc0_uci_options="", lc0_uci_depth=0,
                   lc0_uci_nodes=800, lc0_uci_movetime=0,lc0_uci_timeout=60000):
     key = kind.strip().lower()
+    if key == "uci":
+        from .generic_uci import GenericUCIPlayer
+        if not engine_path:
+            raise PlayerError('player=UCI requiere --engine-path')
+        return GenericUCIPlayer(engine_path, engine_args or [], tmax_ms=tmax_ms,
+                                timeout_ms=timeout_ms, telemetry=telemetry)
     if key == "keras":
         from .keras_player import KerasPlayer
         return KerasPlayer(evaluator, telemetry=telemetry, nodes=1 if nodes is None else nodes)

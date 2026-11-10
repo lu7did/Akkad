@@ -1,0 +1,4 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+emma,AlphaZero,null,,24,24,0,37.446,1560.270,1592.758,1698.918,455.586,1729.990,27753,24,37380.000,742.5,1.349276,OK,0,0
+fishy,stockfish,null,,24,24,0,184.127,7671.979,8004.043,8006.425,25.178,8007.649,184773091,24,184022.000,1004081.5,0.000997,OK,0,0
+buddy,sargon,classic,,24,24,0,19.333,805.534,797.562,1331.034,58.980,1378.896,29143,24,19288.000,1510.9,0.663378,OK,0,0

@@ -20,15 +20,16 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 from pathlib import Path
 from .cli_common import add_engine_args
 
-VERSION='0.6.193'
+VERSION='0.6.209'
 # `rating_elo` is metadata, never a listener CLI parameter.
-ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout', 'alternate-network', 'alternate-evaluator', 'bellman-nmin', 'bellman-alpha', 'bellman-lambda', 'bellman-gamma']
+ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'args', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout', 'alternate-network', 'alternate-evaluator', 'bellman-nmin', 'bellman-alpha', 'bellman-lambda', 'bellman-gamma']
 METADATA_KEYS = {'rating_elo'}
-PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras','microchess','bellman')
+PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras','microchess','bellman','uci')
 EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy','keras','microchess','bellmanR')
 
 def engine_parser():
@@ -41,6 +42,8 @@ def defaults(player,evaluator):
     p=engine_parser()
     defaults={}
     allowed = {'player','evaluator','depth','qdepth','tmax','boost','turbo'}
+    if player == 'uci':
+        allowed = {'player','evaluator','engine-path','args','tmax','timeout'}
     if player == 'sargon-plus':
         allowed.add('dmax')
     if player in ('stockfish','sunfish','external','lc0','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras'):
@@ -111,6 +114,19 @@ def validate(config, *, check_files=False):
     if ev not in EVALUATOR_CHOICES:raise ValueError('evaluator inválido: '+str(ev))
     if player=='bellman' and config.get('alternate-evaluator','grumpy')!='grumpy':raise ValueError('bellman: alternate-evaluator debe ser grumpy')
     if player=='bellman' and (ev!='bellmanR' or not config.get('network') or not config.get('alternate-network')):raise ValueError('bellman requiere evaluator=bellmanR, network JSON y alternate-network Grumpy BIN')
+    if player=='uci':
+        if ev!='null': raise ValueError('player UCI requiere evaluator=null')
+        if not isinstance(config.get('engine-path'), str) or not config['engine-path'].strip():
+            raise ValueError('player UCI requiere engine-path para la plataforma actual')
+        arguments=config.get('args', [])
+        if not isinstance(arguments,list) or any(not isinstance(x,str) for x in arguments):
+            raise ValueError('player UCI requiere args como lista de cadenas JSON')
+        allowed={'player','evaluator','engine-path','args','tmax','timeout','rating_elo'}
+        forbidden=set(config)-allowed
+        if forbidden: raise ValueError('player UCI no admite: '+', '.join(sorted(forbidden)))
+        for key in ('tmax','timeout'):
+            if key in config and (isinstance(config[key],bool) or not isinstance(config[key],int) or config[key]<1):
+                raise ValueError(f'player UCI: {key} debe ser entero positivo en ms')
     if player=='external' and ev!='null':raise ValueError('player external requiere evaluator null')
     if player=='external':
         from .players.tcp_external import parse_endpoint
@@ -136,13 +152,13 @@ def validate(config, *, check_files=False):
     if player=='alphazero' and ev not in ('lc0','tinygyal','znpz','zclassic','grumpy','keras'):raise ValueError('player alphazero requiere evaluator lc0, tinygyal, znpz o zclassic')
     if ev=='tinygyal' and not (config.get('network') or config.get('lc0-weights')):raise ValueError('evaluator tinygyal requiere network o lc0-weights')
     if ev=='lc0' and not config.get('lc0-weights'):raise ValueError('evaluator lc0 requiere lc0-weights')
-    if player not in ('stockfish','random','lc0','picosargon','external','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras') and ev=='null':raise ValueError('evaluator null solo válido para stockfish o random')
+    if player not in ('stockfish','random','lc0','picosargon','external','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras','uci') and ev=='null':raise ValueError('evaluator null solo válido para stockfish o random')
     if ev in ('npz','znpz','grumpy','keras') and not config.get('network'):raise ValueError(f'evaluator {ev} requiere network')
     if player == 'sunfish' and not config.get('engine-path'):raise ValueError('player externo requiere engine-path')
     if ev=='stockfish' and not config.get('stockfish-path'):raise ValueError('evaluator stockfish requiere stockfish-path')
     if check_files:
         for key in ('alternate-network','network','engine-path','stockfish-path','lc0-weights','lc0-uci-path'):
-            if config.get(key) and not (Path(str(config[key])).expanduser().is_dir() if (key == 'network' and player == 'picokeras') else Path(str(config[key])).expanduser().is_file()):
+            if config.get(key) and not (key == 'engine-path' and player == 'uci' and shutil.which(str(config[key]))) and not (Path(str(config[key])).expanduser().is_dir() if (key == 'network' and player == 'picokeras') else Path(str(config[key])).expanduser().is_file()):
                 raise ValueError(f'{key} no existe: {config[key]}')
     # Delegate type parsing and range validation to the real listener argparse.
     try: engine_parser().parse_args(to_argv(config))
@@ -156,7 +172,7 @@ def to_argv(config):
         if k in METADATA_KEYS or v is None:continue
         if k not in ENGINE_KEYS:raise ValueError('parámetro no permitido: '+k)
         if isinstance(v,bool):raise ValueError('valor booleano inesperado: '+k)
-        args.extend(['--'+k,str(v)])
+        args.extend(['--'+k,json.dumps(v, ensure_ascii=False) if k=='args' else str(v)])
     return args
 
 def read(path):
@@ -165,10 +181,32 @@ def read(path):
         raise ValueError('JSON requiere objeto raíz con propiedad brains')
     return data
 
+def _resolve_uci_executable(value: str, brain_file: Path) -> str:
+    """Resolve a UCI executable independently from the caller's working directory.
+
+    Historical Akkad brains use paths relative to Sargon-NNUE/scripts.  Keep
+    that convention, while accepting absolute paths, PATH commands and other
+    existing paths. Never manufacture an absolute path to a nonexistent file.
+    """
+    raw = Path(value).expanduser()
+    if raw.is_absolute():
+        return str(raw.resolve()) if raw.is_file() else value
+    project = Path(__file__).resolve().parents[2]
+    candidates = (project / 'scripts', Path.cwd(), project, brain_file.parent)
+    for base in candidates:
+        candidate = (base / raw).resolve()
+        if candidate.is_file():
+            return str(candidate)
+    found = shutil.which(value)
+    return found if found else value
+
 def get(path,id):
     data=read(path)
     if id not in data['brains']:raise ValueError(f'brain id no encontrado: {id}')
-    return validate(data['brains'][id])
+    cfg = validate(data['brains'][id])
+    if str(cfg.get('player','')).lower() == 'uci':
+        cfg['engine-path'] = _resolve_uci_executable(cfg['engine-path'], Path(path).resolve())
+    return cfg
 
 def inject(argv, *, id_option='--id', prefix=''):
     """Prepend profile engine arguments; explicitly supplied CLI arguments win."""
@@ -186,6 +224,6 @@ def inject(argv, *, id_option='--id', prefix=''):
     if prefix:
         injected=[]
         for k,v in cfg.items():
-            if k not in METADATA_KEYS and v is not None:injected.extend(['--'+prefix+k,str(v)])
+            if k not in METADATA_KEYS and v is not None:injected.extend(['--'+prefix+k,json.dumps(v,ensure_ascii=False) if k=='args' else str(v)])
     else:injected=to_argv(cfg)
     return injected+remainder

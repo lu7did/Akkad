@@ -1,0 +1,375 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "buddy": {
+      "evaluator": "classic",
+      "player": "sargon",
+      "depth": 3,
+      "qdepth": 0,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 974.4
+    },
+    "turby": {
+      "evaluator": "classic",
+      "player": "sargon-plus",
+      "depth": 4,
+      "dmax": 9,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": "0x01",
+      "rating_elo": 1381.7
+    },
+    "aegir": {
+      "evaluator": "npz",
+      "player": "sargon-plus",
+      "network": "../data/runs/lex/checkpoints/nnue_best.npz",
+      "depth": 4,
+      "qdepth": 2,
+      "tmax": 15000,
+      "dmax": 9,
+      "boost": "0x0000",
+      "turbo": "0x01",
+      "rating_elo": 1154.37
+    },
+    "stockfish": {
+      "evaluator": "null",
+      "player": "stockfish",
+      "engine-path": "C:/Users/pedro/github/bobby/stockfish/stockfish.exe",
+      "movetime": 1000,
+      "timeout": 60000,
+      "rating_elo": 1022.4,
+      "depth": 20,
+      "nodes": 0,
+      "elo": "max",
+      "stockfish-threads": 2,
+      "stockfish-hash": 256
+    },
+    "messy": {
+      "evaluator": "null",
+      "player": "random",
+      "depth": null,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 572.8
+    },
+
+    "smallAlpha": {
+      "player": "alphazero",
+      "evaluator": "tinygyal",
+      "network": "C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/data/runs/lczero/tinygyal-8.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-history": "allow-incomplete",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 400
+    },
+    "tinyAlpha" : {
+      "player": "picoalpha",
+      "evaluator": "null",
+      "engine-path": "C:/Users/pedro/github/bobby/akkad/sargon-nnue/native/picoAlpha/build_windows/Release/picoAlpha.exe",
+      "network": "C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/data/runs/lczero/tinygyal-8.pb.gz",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "timeout": 30000
+    },
+    "tinySargon": {
+      "player": "picosargon",
+      "evaluator": "null",
+      "engine-path": "C:/Users/pedro/github/Bobby/Akkad/Sargon-NNUE/native/picoSargon/build-host-windows/Release/picoSargon_host.exe",
+      "depth": 6,
+      "qdepth": 4,
+      "tmax": 15000,
+      "timeout": 30000,
+      "rating_elo": 400
+    },
+    "picoSargon": {
+      "player": "external",
+      "evaluator": "null",
+      "url" :  "picosargon.local:6110",
+      "rating_elo": 400
+    },
+    "picoAlpha": {
+      "player": "external",
+      "evaluator": "null",
+      "url" :  "picoalpha.local:6110",
+      "rating_elo": 400
+    },
+    "alphie": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-uci-nodes": 800,
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 15000,
+      "lc0-uci-threads": 1,
+      "rating_elo": 400.0
+    },
+    "sophie": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 1000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 1474.37
+    },
+    "zelmy": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "../data/runs/lczero/t1-512x15x8h-distilled-swa-3395000.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 400
+    },
+    "locus": {
+      "player": "lc0",
+      "evaluator": "null",
+      "lc0-uci-path": "../../../lc0/lc0.exe",
+      "lc0-weights": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-cpu",
+      "lc0-uci-nodes": 800,
+      "lc0-uci-threads": 1,
+      "lc0-uci-nncache": 200000,
+      "lc0-uci-timeout": 60000,
+      "rating_elo": 400.0
+    },
+    "frankie": {
+      "player": "sargon-plus",
+      "evaluator": "lc0",
+      "depth": 3,
+      "qdepth": 2,
+      "tmax": 15000,
+      "lc0-weights": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-cache": 10000,
+      "lc0-cp-scale": 400.0,
+      "rating_elo": 400.0
+    },
+    "subzero": {
+      "player": "sargon-plus",
+      "evaluator": "lc0",
+      "depth": 3,
+      "qdepth": 2,
+      "tmax": 10000,
+      "lc0-weights": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "lc0-cache": 10000,
+      "lc0-cp-scale": 400.0,
+      "rating_elo": 1361.22
+    },
+    "flash": {
+      "player": "lc0",
+      "evaluator": "null",
+      "lc0-uci-path": "../../../lc0/lc0.exe",
+      "lc0-weights": "../data/runs/lczero/t1-256x10-distilled-swa-2432500.pb.gz",
+      "lc0-backend": "onnx-dml",
+      "lc0-backend-options": "gpu=0",
+      "lc0-uci-nodes": 2000,
+      "lc0-uci-movetime": 15000,
+      "lc0-uci-threads": 1,
+      "rating_elo": 1506.37
+    },
+    "beavys": {
+      "player": "alphazero",
+      "evaluator": "lc0",
+      "lc0-weights": "../data/runs/lczero/tinygyal-8.pb.gz",
+      "lc0-backend": "eigen",
+      "az-simulations": 2000,
+      "az-cpuct": 1.5,
+      "tmax": 10000,
+      "rating_elo": 1330.37
+    },
+    "butthead": {
+      "player": "sargon-plus",
+      "evaluator": "lc0",
+      "depth": 3,
+      "qdepth": 2,
+      "tmax": 10000,
+      "lc0-weights": "../data/runs/lczero/tinygyal-8.pb.gz",
+      "lc0-backend": "eigen",
+      "lc0-cache": 10000,
+      "lc0-cp-scale": 400.0,
+      "rating_elo": 1134.4
+    },
+    "dwarf": {
+      "evaluator": "grumpy",
+      "player": "doc",
+      "network": "../data/runs/grumpy/grumpy.bin",
+      "depth": 4,
+      "qdepth": 4,
+      "tmax": 15000,
+      "rating_elo": 400
+    },
+    "kiddo": {
+      "evaluator": "grumpy",
+      "player": "sargon-plus",
+      "network": "../data/runs/grumpy/grumpy.bin",
+      "depth": 4,
+      "qdepth": 4,
+      "tmax": 15000,
+      "boost" : "0x0000",
+      "turbo" : "0x01",
+      "rating_elo": 400
+    },
+    "zephir": {
+      "evaluator": "npz",
+      "player": "doc",
+      "network": "../data/runs/lex/checkpoints/nnue_best.npz",
+      "depth": 4,
+      "qdepth": 4,
+      "tmax": 15000,
+      "rating_elo": 400
+    },
+
+    "classic": {
+      "evaluator": "classic",
+      "player": "sargon-plus",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 974.4
+    },
+    "alien": {
+      "evaluator": "cerebrum-1.1",
+      "network": "../data/runs/cerebrum/epoch-11-q.txt",
+      "player": "sargon-plus",
+      "depth": 4,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": "0x2000",
+      "turbo": "0x01",
+      "cerebrum-a": null,
+      "cerebrum-b": null,
+      "rating_elo": 830.86
+    },
+    "smart": {
+      "evaluator": "npz",
+      "network": "../data/runs/brainiac/05_refined_nnue/nnue_best.npz",
+      "player": "sargon-plus",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 1000.0
+    },
+    "chimera": {
+      "evaluator": "npz",
+      "player": "sargon-plus",
+      "network": "../data/runs/brainiac/05_refined_nnue/nnue_best.npz",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000,
+      "dmax": 9,
+      "boost": "0x0100",
+      "turbo": "0x01",
+      "rating_elo": 809.15
+    },
+    "njord": {
+      "evaluator": "npz",
+      "player": "sargon-plus",
+      "network": "../data/runs/brainiac/05_refined_nnue/nnue_best.npz",
+      "depth": 2,
+      "qdepth": 2,
+      "tmax": 15000,
+      "dmax": 9,
+      "boost": "0x0000",
+      "turbo": "0x01",
+      "rating_elo": 809.15
+    },
+    "fenix": {
+      "evaluator": "classic",
+      "player": "sargon-plus",
+      "depth": 2,
+      "qdepth": 2,
+      "dmax": 9,
+      "tmax": 15000,
+      "boost": "0x0100",
+      "turbo": "0x01",
+      "rating_elo": 809.15
+    },
+    "cerebrum": {
+      "evaluator": "cerebrum-1.1",
+      "network": "../data/runs/cerebrum/epoch-11-q.txt",
+      "player": "cerebrum",
+      "depth": null,
+      "qdepth": 3,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "cerebrum-a": null,
+      "cerebrum-b": null,
+      "rating_elo": 618.3
+    },
+    "blend": {
+      "evaluator": "classic",
+      "player": "sargon-plus",
+      "depth": 4,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": "0x0140",
+      "turbo": "0x00",
+      "rating_elo": 0
+    },
+    "blitzy": {
+      "evaluator": "classic",
+      "player": "sargon-plus",
+      "depth": 1,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 809.15
+    },
+    "blinky": {
+      "evaluator": "npz",
+      "player": "sargon-plus",
+      "network": "../data/runs/brainiac/05_refined_nnue/nnue_best.npz",
+      "depth": 1,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": 0,
+      "turbo": 0,
+      "rating_elo": 809.15
+    },
+    "boost": {
+      "evaluator": "npz",
+      "network": "../data/runs/brainiac/05_refined_nnue/nnue_best.npz",
+      "player": "sargon-plus",
+      "depth": 4,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": "0xffff",
+      "turbo": 0,
+      "rating_elo": 618.3
+    },
+    "turbo": {
+      "evaluator": "npz",
+      "network": "../data/runs/brainiac/05_refined_nnue/nnue_best.npz",
+      "player": "sargon-plus",
+      "depth": 9,
+      "qdepth": 2,
+      "tmax": 15000,
+      "boost": "0xffff",
+      "turbo": "0x01",
+      "rating_elo": 618.3
+    }
+  }
+}

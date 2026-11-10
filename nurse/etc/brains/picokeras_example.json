@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "penelope": {
+      "player": "picokeras",
+      "evaluator": "null",
+      "engine-path": "../x86/picoKeras/build/Release/picoKeras.exe",
+      "network": "../data/runs/keras/small.int8.tflite",
+      "tmax": 15000,
+      "timeout": 30000,
+      "rating_elo": 400
+    },
+    "penelope_tcp": {
+      "player": "external",
+      "evaluator": "null",
+      "url": "127.0.0.1:6110",
+      "rating_elo": 400
+    }
+  }
+}

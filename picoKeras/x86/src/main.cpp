@@ -69,7 +69,7 @@ static void position(Board& b,const std::string& command){
 struct Session {
  Board b;Evaluator& eval;std::function<void(const std::string&)> send;
  void command(const std::string& line){
-  if(line=="uci"){send("id name picoKeras v0.2.3");send("id author Dr. Pedro E. Colla 2026");send("uciok");}
+  if(line=="uci"){send("id name picoKeras v0.2.5");send("id author Dr. Pedro E. Colla 2026");send("uciok");}
   else if(line=="isready")send("readyok");
   else if(line=="ucinewgame")b.reset();
   else if(line.rfind("position ",0)==0)position(b,line);
@@ -96,14 +96,24 @@ using sock_t=SOCKET;static void closesock(sock_t s){closesocket(s);}static const
 using sock_t=int;static void closesock(sock_t s){close(s);}static constexpr sock_t badsock=-1;
 #endif
 int main(int argc,char**argv){try{
- std::string network,host="0.0.0.0",input_op="auto",output_op="auto";int port=6110;bool stdio=false;size_t arena=32*1024*1024;
+ std::string network,host="0.0.0.0",input_op="auto",output_op="auto";int port=6110;bool stdio=true;bool explicit_stdio=false,explicit_tcp=false;size_t arena=32*1024*1024;
  for(int i=1;i<argc;++i){std::string k=argv[i];auto value=[&](){if(i+1>=argc)throw std::runtime_error("missing value for "+k);return std::string(argv[++i]);};
-  if(k=="--network")network=value();else if(k=="--host")host=value();else if(k=="--port")port=std::stoi(value());else if(k=="--arena")arena=std::stoull(value());else if(k=="--stdio")stdio=true;else if(k=="--input-op")input_op=value();else if(k=="--output-op")output_op=value();
-  else if(k=="--help"){std::cout<<"picoKeras 0.2.3 --network model.tf [--host 0.0.0.0] [--port 6110] [--arena BYTES] [--stdio]\nTensorFlow SavedModel with FLOAT32 boundary; --input-op and --output-op are configurable.\n";return 0;}
+  if(k=="--weights" || k=="--network")network=value();else if(k=="--host")host=value();else if(k=="--port")port=std::stoi(value());else if(k=="--arena")arena=std::stoull(value());else if(k=="--stdio"){stdio=true;explicit_stdio=true;}else if(k=="--tcp"){stdio=false;explicit_tcp=true;}else if(k=="--input-op")input_op=value();else if(k=="--output-op")output_op=value();
+  else if(k=="--help"){
+   std::cout
+    << "picoKeras 0.2.5 --weights model.tf [--arena BYTES] [--stdio | --tcp [--host 0.0.0.0] [--port 6110]]\n"
+    << "Default mode: UCI over stdin/stdout. --tcp explicitly enables TCP listener.\n"
+    << "--stdio remains accepted for compatibility; --stdio and --tcp cannot be combined.\n"
+    << "TensorFlow SavedModel with FLOAT32 boundary; --network aliases --weights.\n"
+    << "--input-op and --output-op are configurable.\n";
+   return 0;
+  }
   else throw std::runtime_error("unknown argument: "+k);
  }
- if(network.empty()||port<1||port>65535)throw std::runtime_error("--network required, --port must be 1..65535");
- std::cerr<<"picoKeras v0.2.3 network="<<network<<" host="<<host<<" port="<<port<<" arena="<<arena<<" mode="<<(stdio?"stdin":"TCP")<<"\n";
+ if(explicit_stdio && explicit_tcp)throw std::runtime_error("--stdio and --tcp are mutually exclusive");
+ if(network.empty())throw std::runtime_error("--weights (or --network) required");
+ if(!stdio && (port<1||port>65535))throw std::runtime_error("--port must be 1..65535 in TCP mode");
+ std::cerr<<"picoKeras v0.2.5 weights="<<network<<" host="<<host<<" port="<<port<<" arena="<<arena<<" mode="<<(stdio?"UCI-STDIO":"TCP")<<"\n";
  Evaluator ev(network,arena);ev.configure(input_op,output_op);
  if(stdio){Session s{Board(),ev,[](const std::string& str){std::cout<<str<<'\n'<<std::flush;}};std::string line;while(std::getline(std::cin,line)){try{s.command(line);}catch(const std::exception& e){s.send(std::string("info string ERROR ")+e.what());std::cerr<<"ERROR "<<e.what()<<'\n';}if(line=="quit")break;}return 0;}
 #ifdef _WIN32

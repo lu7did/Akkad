@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+fishy,stockfish,null,,10,10,0,72.166,7216.604,8005.543,8031.777,83.076,8031.777,43956386,10,72082.000,609810.9,0.001642,OK,0,0
+buddy,sargon,classic,,10,10,0,7.141,714.120,646.024,1298.099,57.911,1298.099,11634,10,7122.000,1633.5,0.613822,OK,0,0

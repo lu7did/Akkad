@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+picoSargon,external,null,,24,24,0,42.334,1763.922,1661.780,2854.439,352.207,3117.455,27753,24,42227.000,657.2,1.525390,OK,0,0

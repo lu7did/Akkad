@@ -1,0 +1,11 @@
+[21:04:42] \U0001f4bb sargon-nurse v0.1.12 brain=picoSargon type=external ELO=n/a tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[21:04:42] \u2699\ufe0f TCP endpoint=picosargon.local:6110 retry_seconds=5.0
+[21:04:42] \U0001f512 external configuración verificada brain=picoSargon brains=C:\Users\pedro\github\Bobby\Akkad\nurse\etc\brains\brains.json endpoint=picosargon.local:6110 sha256=e297c2b01250c6f0
+[21:04:42] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[21:04:45] \U0001f310 TCP DNS host='picosargon.local' port=6110 resolved=['192.168.68.108']
+[21:04:45] \u2705 TCP socket fd=392 requested=picosargon.local:6110 resolved=['192.168.68.108'] peer=('192.168.68.108', 6110) local=('192.168.68.105', 31829)
+[21:04:45] \u27a1\ufe0f UCI stdin uci
+[21:04:45] \u26a0\ufe0f TCP lectura interrumpida: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+[21:04:45] \U0001f50c TCP desconectado
+[21:04:45] \U0001f50c TCP cerrado
+[21:04:45] \u274c fatal: EOF inesperado

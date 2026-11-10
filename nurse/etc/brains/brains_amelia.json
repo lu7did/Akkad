@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "amelia": {
+      "player": "picosargon",
+      "evaluator": "null",
+      "engine-path": {
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/build/picoSargon"
+      },
+      "network": {
+        "debian": "/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin"
+      },
+      "depth": 6,
+      "qdepth": 2,
+      "tmax": 15000,
+      "rating_elo": 618.3
+    }
+}
+}

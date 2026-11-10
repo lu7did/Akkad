@@ -1,0 +1,4 @@
+[19:43:26] \U0001f4bb sargon-nurse v0.1.7 brain=tiny type=uci ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[19:43:26] \u2699\ufe0f UCI engine=C:\Users\pedro\github\bobby\akkad\picoSargon\x86\build\picoSargon.exe args=['--weights', 'C:/Users/pedro/github/bobby/akkad/picoSargon/debian/assets/grumpy.bin'] options=[]
+[19:43:26] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[19:43:26] \u274c brain=tiny TransportError: no se pudo lanzar ['C:\\Users\\pedro\\github\\bobby\\akkad\\picoSargon\\x86\\build\\picoSargon.exe', '--weights', 'C:/Users/pedro/github/bobby/akkad/picoSargon/debian/assets/grumpy.bin']: [WinError 2] El sistema no puede encontrar el archivo especificado

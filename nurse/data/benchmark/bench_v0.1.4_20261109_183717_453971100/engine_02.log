@@ -1,0 +1,1370 @@
+[18:37:58] \U0001f4bb sargon-nurse v0.1.5 brain=fishy type=uci ELO=3000 tmax_ms=8000 timeout_ms=30000 warmup_movetime_ms=8000
+[18:37:58] \u2699\ufe0f UCI engine=C:\Users\pedro\github\Bobby\stockfish\stockfish.exe args=[] options=[]
+[18:37:58] \u2699\ufe0f timing efectivo tmax=120000ms timeout=30000ms warmup_movetime=120000ms
+[18:37:58] \U0001f680 subprocess pid=47920 cwd=C:\Users\pedro\github\Bobby\stockfish argv=['C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe']
+[18:37:58] \u27a1\ufe0f UCI stdin uci
+[18:37:58] \u2b05\ufe0f UCI stdout Stockfish 19 by the Stockfish developers (see AUTHORS file)
+[18:37:58] \u2b05\ufe0f UCI stdout id name Stockfish 19
+[18:37:58] \u2b05\ufe0f UCI stdout id author the Stockfish developers (see AUTHORS file)
+[18:37:58] \u2b05\ufe0f UCI stdout 
+[18:37:58] \u2b05\ufe0f UCI stdout option name Debug Log File type string default <empty>
+[18:37:58] \u2b05\ufe0f UCI stdout option name NumaPolicy type string default auto
+[18:37:58] \u2b05\ufe0f UCI stdout option name Threads type spin default 1 min 1 max 1024
+[18:37:58] \u2b05\ufe0f UCI stdout option name Hash type spin default 16 min 1 max 33554432
+[18:37:58] \u2b05\ufe0f UCI stdout option name Clear Hash type button
+[18:37:58] \u2b05\ufe0f UCI stdout option name Ponder type check default false
+[18:37:58] \u2b05\ufe0f UCI stdout option name MultiPV type spin default 1 min 1 max 256
+[18:37:58] \u2b05\ufe0f UCI stdout option name Skill Level type spin default 20 min 0 max 20
+[18:37:58] \u2b05\ufe0f UCI stdout option name Move Overhead type spin default 10 min 0 max 5000
+[18:37:58] \u2b05\ufe0f UCI stdout option name nodestime type spin default 0 min 0 max 10000
+[18:37:58] \u2b05\ufe0f UCI stdout option name UCI_Chess960 type check default false
+[18:37:58] \u2b05\ufe0f UCI stdout option name UCI_LimitStrength type check default false
+[18:37:58] \u2b05\ufe0f UCI stdout option name UCI_Elo type spin default 1320 min 1320 max 3190
+[18:37:58] \u2b05\ufe0f UCI stdout option name UCI_ShowWDL type check default false
+[18:37:58] \u2b05\ufe0f UCI stdout option name SyzygyPath type string default <empty>
+[18:37:58] \u2b05\ufe0f UCI stdout option name SyzygyProbeDepth type spin default 1 min 1 max 100
+[18:37:58] \u2b05\ufe0f UCI stdout option name Syzygy50MoveRule type check default true
+[18:37:58] \u2b05\ufe0f UCI stdout option name SyzygyProbeLimit type spin default 7 min 0 max 7
+[18:37:58] \u2b05\ufe0f UCI stdout option name EvalFile type string default nn-1a298aa575a0.nnue
+[18:37:58] \u2b05\ufe0f UCI stdout uciok
+[18:37:58] \u27a1\ufe0f UCI stdin isready
+[18:37:58] \u2b05\ufe0f UCI stdout readyok
+[18:37:58] \u2705 handshake UCI completo
+[18:37:58] \u27a1\ufe0f UCI stdin ucinewgame
+[18:37:58] \U0001f50e brain=fishy go='go movetime 120000' tmax=120000ms timeout=30000ms
+[18:37:58] \u27a1\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[18:37:58] \u27a1\ufe0f UCI stdin go movetime 120000
+[18:37:58] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:37:58] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:37:58] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:37:58] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 1 seldepth 2 multipv 1 score cp 30 nodes 20 nps 20000 hashfull 0 tbhits 0 time 1 pv d2d4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 2 seldepth 3 multipv 1 score cp 29 nodes 148 nps 148000 hashfull 0 tbhits 0 time 1 pv e2e4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 3 seldepth 5 multipv 1 score cp 22 nodes 1128 nps 1128000 hashfull 0 tbhits 0 time 1 pv e2e4 g8f6 b1c3
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 4 seldepth 5 multipv 1 score cp 23 nodes 1262 nps 1262000 hashfull 0 tbhits 0 time 1 pv e2e4 c7c6
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp 19 nodes 1692 nps 846000 hashfull 0 tbhits 0 time 2 pv e2e4 c7c6 g1f3 d7d5 e4d5 c6d5
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 6 seldepth 9 multipv 1 score cp 30 nodes 2282 nps 1141000 hashfull 0 tbhits 0 time 2 pv e2e4 d7d5 e4d5 d8d5
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 7 seldepth 10 multipv 1 score cp 25 nodes 2594 nps 864666 hashfull 0 tbhits 0 time 3 pv e2e4 c7c5 g1f3 b8c6 b1c3 a7a6 d2d4 c5d4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 8 seldepth 11 multipv 1 score cp 25 nodes 2712 nps 904000 hashfull 0 tbhits 0 time 3 pv e2e4 c7c5 g1f3 b8c6 b1c3 a7a6 d2d4 c5d4 f3d4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 9 seldepth 11 multipv 1 score cp 25 nodes 2871 nps 957000 hashfull 0 tbhits 0 time 3 pv e2e4 c7c5 g1f3 b8c6 b1c3 a7a6 d2d4 c5d4 f3d4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 10 seldepth 14 multipv 1 score cp 31 nodes 5728 nps 954666 hashfull 1 tbhits 0 time 6 pv e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 11 seldepth 15 multipv 1 score cp 26 nodes 12455 nps 1037916 hashfull 3 tbhits 0 time 12 pv e2e4 c7c5 g1f3 d7d6 f1c4 b8c6 d2d4 c5d4 f3d4 g8f6
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 12 seldepth 16 multipv 1 score cp 32 nodes 19250 nps 1069444 hashfull 6 tbhits 0 time 18 pv e2e4 c7c5 g1f3 d7d6 b1c3 c8g4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 13 seldepth 22 multipv 1 score cp 27 nodes 40595 nps 1068289 hashfull 13 tbhits 0 time 38 pv e2e4 c7c5 g1f3 b8c6 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4 e7e6 b1c3 d7d6 c3d5 e6d5 f1b5 f8e7 e1g1 e8g8
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 14 seldepth 17 multipv 1 score cp 27 nodes 43275 nps 1081875 hashfull 14 tbhits 0 time 40 pv e2e4 c7c5 g1f3 b8c6 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4 e7e6 b1c3 d7d6
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 15 seldepth 25 multipv 1 score cp 32 nodes 50786 nps 1080553 hashfull 15 tbhits 0 time 47 pv e2e4 c7c5 b1c3 d7d6 g1f3 g8f6 d2d4 c5d4 f3d4 g7g6 h2h3 f8g7 c1e3 e8g8
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 16 seldepth 23 multipv 1 score cp 39 nodes 75655 nps 1096449 hashfull 22 tbhits 0 time 69 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1g5 b8d7 f1e2 e7e6 f2f4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 17 seldepth 21 multipv 1 score cp 39 nodes 91328 nps 1100337 hashfull 26 tbhits 0 time 83 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1g5 b8d7 f1e2 e7e6 f2f4 h7h6 g5h4
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 18 seldepth 26 multipv 1 score cp 37 nodes 112909 nps 1106950 hashfull 33 tbhits 0 time 102 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 e7e5 f1b5 c8d7 b5d7 b8d7 d4f5 g8f6 c1g5
+[18:37:58] \u2b05\ufe0f UCI stdout info depth 19 seldepth 30 multipv 1 score cp 30 nodes 188712 nps 1110070 hashfull 58 tbhits 0 time 170 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1g5 e7e6 f2f4 h7h6 g5f6 d8f6 g2g3 f8e7 d1d2 b8c6 d4f3 e8g8
+[18:37:59] \u2b05\ufe0f UCI stdout info depth 20 seldepth 31 multipv 1 score cp 34 nodes 381392 nps 1089691 hashfull 122 tbhits 0 time 350 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f6g4 e3c1 f8e7 f1c4 e8g8 c3d5 e7h4
+[18:37:59] \u2b05\ufe0f UCI stdout info depth 21 seldepth 35 multipv 1 score cp 29 nodes 501951 nps 1086474 hashfull 163 tbhits 0 time 462 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 c8e6 d1d2 f8e7 f2f3 h7h5 c3d5 f6d5 e4d5 e6f5 f1e2 a6a5 a2a4 e8g8 e1g1
+[18:37:59] \u2b05\ufe0f UCI stdout info depth 22 seldepth 41 multipv 1 score cp 31 nodes 605559 nps 1085231 hashfull 200 tbhits 0 time 558 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 f2f3 c8e6 d1d2 h7h5 c3d5 f6d5 e4d5 e6f5 f1e2 e7h4
+[18:37:59] \u2b05\ufe0f UCI stdout info depth 23 seldepth 36 multipv 1 score cp 31 nodes 756886 nps 1089044 hashfull 263 tbhits 0 time 695 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 f2f3 c8e6 d1d2 h7h5 c3d5 f6d5 e4d5 e6f5 f1e2 a6a5 a2a4 e8g8 e1g1
+[18:37:59] \u2b05\ufe0f UCI stdout info depth 24 seldepth 50 multipv 1 score cp 30 nodes 1089832 nps 1092016 hashfull 386 tbhits 0 time 998 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 f2f3 c8e6 d1d2 h7h5 f1e2 b8d7 c3d5 e6d5 e4d5 d8c7 b3a5 e7d8
+[18:37:59] \u2b05\ufe0f UCI stdout info depth 25 seldepth 44 multipv 1 score cp 35 nodes 1287811 nps 1104469 hashfull 433 tbhits 0 time 1166 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 h2h3 c8e6 d1d2 b8d7 g2g4 b7b5 f1g2 a8c8 c3d5 e8g8
+[18:38:00] \u2b05\ufe0f UCI stdout info depth 26 seldepth 40 multipv 1 score cp 28 nodes 2112773 nps 1078495 hashfull 662 tbhits 0 time 1959 pv e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6 g1f3 c8d7 f1e2 g8e7 e1g1 e7f5 d4c5 f8c5 e2d3 e8g8 b1d2 f5h4 f1e1
+[18:38:02] \u2b05\ufe0f UCI stdout info depth 27 seldepth 45 multipv 1 score cp 25 nodes 3742675 nps 1079513 hashfull 902 tbhits 0 time 3467 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 d6e8 d4d5 e7c5 e5e1 d7d6 b1c3 c8f5 c3e4 f5e4 e1e4
+[18:38:02] \u2b05\ufe0f UCI stdout info depth 28 seldepth 50 multipv 1 score cp 24 nodes 3858460 nps 1082620 hashfull 909 tbhits 0 time 3564 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 e7f6 e5e1 f8e8 b1c3 e8e1 d1e1 f6d4 c3d5 b7b6 e1d1 d4f6 d5f6
+[18:38:02] \u2b05\ufe0f UCI stdout info depth 29 seldepth 45 multipv 1 score cp 23 nodes 4102825 nps 1084256 hashfull 925 tbhits 0 time 3784 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 e7f6 e5e1 f8e8 c1f4 e8e1 d1e1 d6e8 c2c3 d7d5 b1d2 c7c6 a2a4 a7a5 h2h3 e8d6
+[18:38:03] \u2b05\ufe0f UCI stdout info depth 30 seldepth 53 multipv 1 score cp 17 nodes 5456560 nps 1092841 hashfull 977 tbhits 0 time 4993 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 e7f6 e5e1 f8e8 c1f4 e8e1 d1e1 d6e8 b1c3 f6d4 c3d5 d7d6 f4g5 f7f6 e1e4 f6g5 f1c4 g8h8 e4d4
+[18:38:07] \u2b05\ufe0f UCI stdout info depth 31 seldepth 54 multipv 1 score cp 23 nodes 9540772 nps 1092746 hashfull 999 tbhits 0 time 8731 pv d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 c4d5 e6d5 c1g5 f8e7 e2e3 h7h6 g5h4 c7c6 f1d3 f6e4 h4e7 d8e7 d3e4 d5e4 g1e2 e8g8 d1b3 b8d7 e1g1 d7f6 h2h3 f8d8
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove e2e4 currmovenumber 2
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove c2c4 currmovenumber 3
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove e2e3 currmovenumber 4
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove b1c3 currmovenumber 5
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove c2c3 currmovenumber 6
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove g2g3 currmovenumber 7
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove h2h4 currmovenumber 8
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove a2a4 currmovenumber 9
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove h2h3 currmovenumber 10
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove b2b3 currmovenumber 11
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove g1f3 currmovenumber 12
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove d2d3 currmovenumber 13
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove a2a3 currmovenumber 14
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove b2b4 currmovenumber 15
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove g1h3 currmovenumber 16
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove f2f4 currmovenumber 17
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove b1a3 currmovenumber 18
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove f2f3 currmovenumber 19
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 29 currmove g2g4 currmovenumber 20
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 32 seldepth 36 multipv 1 score cp 23 upperbound nodes 10534625 nps 1092123 hashfull 1000 tbhits 0 time 9646 pv d2d4 g8f6
+[18:38:08] \u2b05\ufe0f UCI stdout info depth 32 currmove d2d4 currmovenumber 1
+[18:38:09] \u2b05\ufe0f UCI stdout info depth 32 seldepth 41 multipv 1 score cp 23 lowerbound nodes 11474043 nps 1088412 hashfull 1000 tbhits 0 time 10542 pv d2d4
+[18:38:09] \u2b05\ufe0f UCI stdout info depth 31 currmove d2d4 currmovenumber 1
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove e2e4 currmovenumber 2
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove g1f3 currmovenumber 3
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove e2e3 currmovenumber 4
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove c2c4 currmovenumber 5
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove b1c3 currmovenumber 6
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove b2b4 currmovenumber 7
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove b2b3 currmovenumber 8
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove a2a4 currmovenumber 9
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove a2a3 currmovenumber 10
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove b1a3 currmovenumber 11
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove h2h4 currmovenumber 12
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove g1h3 currmovenumber 13
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove c2c3 currmovenumber 14
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove g2g3 currmovenumber 15
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove f2f4 currmovenumber 16
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove g2g4 currmovenumber 17
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove h2h3 currmovenumber 18
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove f2f3 currmovenumber 19
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 31 currmove d2d3 currmovenumber 20
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 32 seldepth 43 multipv 1 score cp 22 nodes 12247847 nps 1085417 hashfull 1000 tbhits 0 time 11284 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 g2g3 d5c4 f1g2 b8c6 d1a4 f8b4 c1d2 f6d5 d2b4 d5b4 e1g1 a8b8 b1c3 a7a6 f3e5 e8g8 e5c6 b4c6 g2c6 b7c6 a4c4 b8b2 a1b1 b2b6 c3a4 b6b5 c4c3 h7h6 a4c5 d8d6
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d4 currmovenumber 1
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove e2e4 currmovenumber 2
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove c2c4 currmovenumber 3
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove g1f3 currmovenumber 4
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove g2g3 currmovenumber 5
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove e2e3 currmovenumber 6
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove b1c3 currmovenumber 7
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove c2c3 currmovenumber 8
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove a2a3 currmovenumber 9
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove b2b4 currmovenumber 10
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove a2a4 currmovenumber 11
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d3 currmovenumber 12
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove h2h4 currmovenumber 13
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove h2h3 currmovenumber 14
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f3 currmovenumber 15
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove g1h3 currmovenumber 16
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove g2g4 currmovenumber 17
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f4 currmovenumber 18
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove b2b3 currmovenumber 19
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove b1a3 currmovenumber 20
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 seldepth 47 multipv 1 score cp 21 upperbound nodes 12827210 nps 1084295 hashfull 1000 tbhits 0 time 11830 pv d2d4 g8f6
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d4 currmovenumber 1
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 33 seldepth 47 multipv 1 score cp 21 lowerbound nodes 13125569 nps 1083146 hashfull 1000 tbhits 0 time 12118 pv d2d4
+[18:38:10] \u2b05\ufe0f UCI stdout info depth 32 currmove d2d4 currmovenumber 1
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove e2e4 currmovenumber 2
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove g1f3 currmovenumber 3
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove e2e3 currmovenumber 4
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove c2c4 currmovenumber 5
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove g2g3 currmovenumber 6
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove b1c3 currmovenumber 7
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove a2a3 currmovenumber 8
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove a2a4 currmovenumber 9
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove h2h3 currmovenumber 10
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove h2h4 currmovenumber 11
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove c2c3 currmovenumber 12
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove f2f3 currmovenumber 13
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove b2b4 currmovenumber 14
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove f2f4 currmovenumber 15
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove b1a3 currmovenumber 16
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove b2b3 currmovenumber 17
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove g1h3 currmovenumber 18
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove g2g4 currmovenumber 19
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 32 currmove d2d3 currmovenumber 20
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 33 seldepth 47 multipv 1 score cp 19 upperbound nodes 13646239 nps 1082948 hashfull 1000 tbhits 0 time 12601 pv d2d4 g8f6
+[18:38:11] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d4 currmovenumber 1
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 33 seldepth 50 multipv 1 score cp 19 lowerbound nodes 14951560 nps 1078989 hashfull 1000 tbhits 0 time 13857 pv d2d4
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove d2d4 currmovenumber 1
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove e2e4 currmovenumber 2
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove g1f3 currmovenumber 3
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove c2c4 currmovenumber 4
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove e2e3 currmovenumber 5
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove g2g3 currmovenumber 6
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove h2h4 currmovenumber 7
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove a2a3 currmovenumber 8
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove a2a4 currmovenumber 9
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove h2h3 currmovenumber 10
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove b2b4 currmovenumber 11
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove c2c3 currmovenumber 12
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove g1h3 currmovenumber 13
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove b1c3 currmovenumber 14
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove b2b3 currmovenumber 15
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove g2g4 currmovenumber 16
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove f2f3 currmovenumber 17
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove f2f4 currmovenumber 18
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove d2d3 currmovenumber 19
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 32 currmove b1a3 currmovenumber 20
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 33 seldepth 50 multipv 1 score cp 16 upperbound nodes 15299228 nps 1078473 hashfull 1000 tbhits 0 time 14186 pv d2d4 g8f6
+[18:38:12] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d4 currmovenumber 1
+[18:38:13] \u2b05\ufe0f UCI stdout info depth 33 seldepth 50 multipv 1 score cp 16 lowerbound nodes 15581990 nps 1078263 hashfull 1000 tbhits 0 time 14451 pv d2d4
+[18:38:13] \u2b05\ufe0f UCI stdout info depth 32 currmove d2d4 currmovenumber 1
+[18:38:13] \u2b05\ufe0f UCI stdout info depth 33 seldepth 50 multipv 1 score cp 22 lowerbound nodes 15952505 nps 1078600 hashfull 1000 tbhits 0 time 14790 pv d2d4
+[18:38:13] \u2b05\ufe0f UCI stdout info depth 31 currmove d2d4 currmovenumber 1
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove e2e4 currmovenumber 2
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove g1f3 currmovenumber 3
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove c2c4 currmovenumber 4
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove b1c3 currmovenumber 5
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove e2e3 currmovenumber 6
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove c2c3 currmovenumber 7
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove h2h4 currmovenumber 8
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove g2g3 currmovenumber 9
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove h2h3 currmovenumber 10
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove b2b3 currmovenumber 11
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove b2b4 currmovenumber 12
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove a2a3 currmovenumber 13
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove g1h3 currmovenumber 14
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove g2g4 currmovenumber 15
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove f2f4 currmovenumber 16
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove b1a3 currmovenumber 17
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove f2f3 currmovenumber 18
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove d2d3 currmovenumber 19
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 31 currmove a2a4 currmovenumber 20
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 33 seldepth 50 multipv 1 score cp 20 nodes 16438875 nps 1078949 hashfull 1000 tbhits 0 time 15236 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 c1g5 e8g8 c4d5 e6d5 d1b3 b4c3 b3c3 c8f5 e2e3 b8d7 g5h4 h7h6 f1d3 f5d3 c3d3 c7c5 e1g1
+[18:38:14] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d4 currmovenumber 1
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove e2e4 currmovenumber 2
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove g1f3 currmovenumber 3
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove e2e3 currmovenumber 4
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove c2c4 currmovenumber 5
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove c2c3 currmovenumber 6
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove b1c3 currmovenumber 7
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove g2g3 currmovenumber 8
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove a2a3 currmovenumber 9
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove b2b3 currmovenumber 10
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove h2h4 currmovenumber 11
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove g1h3 currmovenumber 12
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f4 currmovenumber 13
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove g2g4 currmovenumber 14
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove b1a3 currmovenumber 15
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f3 currmovenumber 16
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove b2b4 currmovenumber 17
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove a2a4 currmovenumber 18
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove h2h3 currmovenumber 19
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d3 currmovenumber 20
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 seldepth 45 multipv 1 score cp 17 upperbound nodes 17559986 nps 1077101 hashfull 1000 tbhits 0 time 16303 pv d2d4 g8f6
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d4 currmovenumber 1
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 seldepth 45 multipv 1 score cp 17 lowerbound nodes 17764544 nps 1077161 hashfull 1000 tbhits 0 time 16492 pv d2d4
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d4 currmovenumber 1
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 seldepth 45 multipv 1 score cp 19 lowerbound nodes 17857820 nps 1077394 hashfull 1000 tbhits 0 time 16575 pv d2d4
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 32 currmove d2d4 currmovenumber 1
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 seldepth 46 multipv 1 score cp 22 lowerbound nodes 18040211 nps 1077928 hashfull 1000 tbhits 0 time 16736 pv d2d4
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 31 currmove d2d4 currmovenumber 1
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 seldepth 46 multipv 1 score cp 26 lowerbound nodes 18215481 nps 1078349 hashfull 1000 tbhits 0 time 16892 pv d2d4
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove d2d4 currmovenumber 1
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove e2e4 currmovenumber 2
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove g1f3 currmovenumber 3
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove b1c3 currmovenumber 4
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove c2c4 currmovenumber 5
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove e2e3 currmovenumber 6
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove h2h4 currmovenumber 7
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove f2f4 currmovenumber 8
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove b2b3 currmovenumber 9
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove g1h3 currmovenumber 10
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove g2g4 currmovenumber 11
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove b1a3 currmovenumber 12
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove a2a4 currmovenumber 13
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove c2c3 currmovenumber 14
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove f2f3 currmovenumber 15
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove b2b4 currmovenumber 16
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove g2g3 currmovenumber 17
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove d2d3 currmovenumber 18
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove h2h3 currmovenumber 19
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 30 currmove a2a3 currmovenumber 20
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 34 seldepth 46 multipv 1 score cp 22 nodes 18363243 nps 1078287 hashfull 1000 tbhits 0 time 17030 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 c7c5 c4d5 c5d4 d1d4 e6d5 e2e4 b8c6 f1b5 d5e4 d4d8 e8d8 f3g5 d8e8 e1g1 c8f5 f1e1 a8d8 c3e4 f6e4 g5e4 f8b4 e4c3 f5e6 c1f4 b4e7 e1e4
+[18:38:15] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d4 currmovenumber 1
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 35 seldepth 45 multipv 1 score cp 23 lowerbound nodes 18796553 nps 1078093 hashfull 1000 tbhits 0 time 17435 pv d2d4
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d4 currmovenumber 1
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 35 seldepth 45 multipv 1 score cp 25 lowerbound nodes 18942032 nps 1078764 hashfull 1000 tbhits 0 time 17559 pv d2d4
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d4 currmovenumber 1
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove e2e4 currmovenumber 2
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove g1f3 currmovenumber 3
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove c2c4 currmovenumber 4
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove b1c3 currmovenumber 5
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove e2e3 currmovenumber 6
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove c2c3 currmovenumber 7
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove a2a3 currmovenumber 8
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove g2g3 currmovenumber 9
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove h2h4 currmovenumber 10
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove h2h3 currmovenumber 11
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove a2a4 currmovenumber 12
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d3 currmovenumber 13
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove b2b3 currmovenumber 14
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove g1h3 currmovenumber 15
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove g2g4 currmovenumber 16
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove b1a3 currmovenumber 17
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f4 currmovenumber 18
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f3 currmovenumber 19
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 33 currmove b2b4 currmovenumber 20
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 35 seldepth 46 multipv 1 score cp 23 upperbound nodes 19181597 nps 1078587 hashfull 1000 tbhits 0 time 17784 pv d2d4 g8f6
+[18:38:16] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d4 currmovenumber 1
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 35 seldepth 48 multipv 1 score cp 23 lowerbound nodes 20710777 nps 1073987 hashfull 1000 tbhits 0 time 19284 pv d2d4
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d4 currmovenumber 1
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove e2e4 currmovenumber 2
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove g1f3 currmovenumber 3
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove c2c4 currmovenumber 4
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove c2c3 currmovenumber 5
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove e2e3 currmovenumber 6
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove b1c3 currmovenumber 7
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove a2a3 currmovenumber 8
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove g2g3 currmovenumber 9
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove h2h4 currmovenumber 10
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove a2a4 currmovenumber 11
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove g1h3 currmovenumber 12
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove h2h3 currmovenumber 13
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f3 currmovenumber 14
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove g2g4 currmovenumber 15
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove b1a3 currmovenumber 16
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f4 currmovenumber 17
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove b2b3 currmovenumber 18
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove b2b4 currmovenumber 19
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d3 currmovenumber 20
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 35 seldepth 48 multipv 1 score cp 20 upperbound nodes 21275158 nps 1072985 hashfull 1000 tbhits 0 time 19828 pv d2d4 g8f6
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d4 currmovenumber 1
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 35 seldepth 48 multipv 1 score cp 20 lowerbound nodes 21366370 nps 1072824 hashfull 1000 tbhits 0 time 19916 pv d2d4
+[18:38:18] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d4 currmovenumber 1
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 35 seldepth 48 multipv 1 score cp 26 lowerbound nodes 22053022 nps 1071940 hashfull 1000 tbhits 0 time 20573 pv d2d4
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d4 currmovenumber 1
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove e2e4 currmovenumber 2
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove b1c3 currmovenumber 3
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove g1f3 currmovenumber 4
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove c2c3 currmovenumber 5
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove a2a3 currmovenumber 6
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove b2b4 currmovenumber 7
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove c2c4 currmovenumber 8
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove g2g3 currmovenumber 9
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove e2e3 currmovenumber 10
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove h2h4 currmovenumber 11
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove b1a3 currmovenumber 12
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove h2h3 currmovenumber 13
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove a2a4 currmovenumber 14
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove g1h3 currmovenumber 15
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f4 currmovenumber 16
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove g2g4 currmovenumber 17
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove b2b3 currmovenumber 18
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f3 currmovenumber 19
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 33 currmove d2d3 currmovenumber 20
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 35 seldepth 51 multipv 1 score cp 23 nodes 22473528 nps 1071494 hashfull 1000 tbhits 0 time 20974 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 b8d7 c4d5 e6d5 c1g5 c7c6 e2e3 h7h6 g5h4 f8e7 d1c2 e8g8 f1d3 f8e8 e1g1 f6e4 h4e7 d8e7 h2h3 d7f6 f3e5 c6c5 f1c1 c8e6 c3e4 d5e4
+[18:38:19] \u2b05\ufe0f UCI stdout info depth 36 currmove d2d4 currmovenumber 1
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 36 seldepth 49 multipv 1 score cp 25 lowerbound nodes 23238014 nps 1070432 hashfull 1000 tbhits 0 time 21709 pv d2d4
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d4 currmovenumber 1
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove e2e4 currmovenumber 2
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove e2e3 currmovenumber 3
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove c2c4 currmovenumber 4
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove g1f3 currmovenumber 5
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove c2c3 currmovenumber 6
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove b1c3 currmovenumber 7
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove g2g3 currmovenumber 8
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d3 currmovenumber 9
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove g1h3 currmovenumber 10
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove a2a3 currmovenumber 11
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove b2b3 currmovenumber 12
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove b1a3 currmovenumber 13
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove b2b4 currmovenumber 14
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove g2g4 currmovenumber 15
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove f2f4 currmovenumber 16
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove h2h4 currmovenumber 17
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove a2a4 currmovenumber 18
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove f2f3 currmovenumber 19
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove h2h3 currmovenumber 20
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 36 seldepth 49 multipv 1 score cp 23 upperbound nodes 23631134 nps 1069814 hashfull 1000 tbhits 0 time 22089 pv d2d4 g8f6
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 36 currmove d2d4 currmovenumber 1
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 36 seldepth 49 multipv 1 score cp 23 lowerbound nodes 23767557 nps 1069695 hashfull 1000 tbhits 0 time 22219 pv d2d4
+[18:38:20] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d4 currmovenumber 1
+[18:38:21] \u2b05\ufe0f UCI stdout info depth 36 seldepth 49 multipv 1 score cp 26 lowerbound nodes 24402277 nps 1069806 hashfull 1000 tbhits 0 time 22810 pv d2d4
+[18:38:21] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d4 currmovenumber 1
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove e2e4 currmovenumber 2
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove c2c4 currmovenumber 3
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove e2e3 currmovenumber 4
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove b1c3 currmovenumber 5
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove g1f3 currmovenumber 6
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove c2c3 currmovenumber 7
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove a2a3 currmovenumber 8
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove b2b3 currmovenumber 9
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove g2g3 currmovenumber 10
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove d2d3 currmovenumber 11
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove b2b4 currmovenumber 12
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f3 currmovenumber 13
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove g1h3 currmovenumber 14
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove a2a4 currmovenumber 15
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove h2h4 currmovenumber 16
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove g2g4 currmovenumber 17
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f4 currmovenumber 18
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove b1a3 currmovenumber 19
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 34 currmove h2h3 currmovenumber 20
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 36 seldepth 49 multipv 1 score cp 22 upperbound nodes 24955319 nps 1069483 hashfull 1000 tbhits 0 time 23334 pv d2d4 g8f6
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 36 currmove d2d4 currmovenumber 1
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 36 seldepth 49 multipv 1 score cp 22 lowerbound nodes 25318875 nps 1068938 hashfull 1000 tbhits 0 time 23686 pv d2d4
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d4 currmovenumber 1
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove e2e4 currmovenumber 2
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove g1f3 currmovenumber 3
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove e2e3 currmovenumber 4
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove b1c3 currmovenumber 5
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove c2c4 currmovenumber 6
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove c2c3 currmovenumber 7
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove h2h3 currmovenumber 8
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove h2h4 currmovenumber 9
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove g2g3 currmovenumber 10
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove f2f3 currmovenumber 11
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove f2f4 currmovenumber 12
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove a2a3 currmovenumber 13
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove g2g4 currmovenumber 14
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove a2a4 currmovenumber 15
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove b1a3 currmovenumber 16
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove g1h3 currmovenumber 17
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove b2b3 currmovenumber 18
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove b2b4 currmovenumber 19
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 35 currmove d2d3 currmovenumber 20
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 36 seldepth 49 multipv 1 score cp 23 nodes 25674393 nps 1068653 hashfull 1000 tbhits 0 time 24025 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 c1g5 h7h6 g5f6 d8f6 e2e3 c7c5 c4d5 e6d5 f1e2 e8g8 e1g1 b4c3 b2c3 b8d7 a2a4 c5c4 d1c2 f8e8 h2h3 b7b6 f3d2
+[18:38:22] \u2b05\ufe0f UCI stdout info depth 37 currmove d2d4 currmovenumber 1
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove e2e4 currmovenumber 2
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove e2e3 currmovenumber 3
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove b1c3 currmovenumber 4
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove g1f3 currmovenumber 5
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove h2h3 currmovenumber 6
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove c2c4 currmovenumber 7
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove c2c3 currmovenumber 8
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove g2g4 currmovenumber 9
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove f2f3 currmovenumber 10
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove g1h3 currmovenumber 11
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove b1a3 currmovenumber 12
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove f2f4 currmovenumber 13
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove h2h4 currmovenumber 14
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove b2b3 currmovenumber 15
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove b2b4 currmovenumber 16
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove a2a4 currmovenumber 17
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove g2g3 currmovenumber 18
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove d2d3 currmovenumber 19
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 currmove a2a3 currmovenumber 20
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 37 seldepth 41 multipv 1 score cp 24 nodes 26568998 nps 1065786 hashfull 1000 tbhits 0 time 24929 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8e7 c1f4 e8g8 e2e3 b7b6 f1e2 c8a6 c4d5 f6d5 c3d5 d8d5 f4c7 d5a5 e1f1 b8d7 c7f4 a8c8 h2h4 f8d8 f1g1 a6e2 d1e2 h7h6
+[18:38:23] \u2b05\ufe0f UCI stdout info depth 38 currmove d2d4 currmovenumber 1
+[18:38:24] \u2b05\ufe0f UCI stdout info depth 38 seldepth 45 multipv 1 score cp 25 lowerbound nodes 27024316 nps 1064913 hashfull 1000 tbhits 0 time 25377 pv d2d4
+[18:38:24] \u2b05\ufe0f UCI stdout info depth 37 currmove d2d4 currmovenumber 1
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove e2e4 currmovenumber 2
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove g1f3 currmovenumber 3
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove c2c4 currmovenumber 4
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove c2c3 currmovenumber 5
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove b1c3 currmovenumber 6
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove e2e3 currmovenumber 7
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove b1a3 currmovenumber 8
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove g2g4 currmovenumber 9
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove g1h3 currmovenumber 10
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove d2d3 currmovenumber 11
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove h2h3 currmovenumber 12
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove b2b3 currmovenumber 13
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove f2f3 currmovenumber 14
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove a2a4 currmovenumber 15
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove a2a3 currmovenumber 16
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove f2f4 currmovenumber 17
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove h2h4 currmovenumber 18
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove b2b4 currmovenumber 19
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 37 currmove g2g3 currmovenumber 20
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 38 seldepth 45 multipv 1 score cp 26 nodes 28347469 nps 1064214 hashfull 1000 tbhits 0 time 26637 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8e7 c1f4 e8g8 e2e3 b7b6 a1c1 c7c5 d4c5 b6c5 f1e2 c8b7 e1g1 b8d7 f4g3 f8e8 d1b3 d8b6 b3b6 d7b6 c3b5
+[18:38:25] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d4 currmovenumber 1
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove e2e4 currmovenumber 2
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove g1f3 currmovenumber 3
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove c2c4 currmovenumber 4
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove c2c3 currmovenumber 5
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove g2g3 currmovenumber 6
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove e2e3 currmovenumber 7
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove b1c3 currmovenumber 8
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove h2h4 currmovenumber 9
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove a2a3 currmovenumber 10
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove h2h3 currmovenumber 11
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d3 currmovenumber 12
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove f2f3 currmovenumber 13
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove a2a4 currmovenumber 14
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove b1a3 currmovenumber 15
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove g1h3 currmovenumber 16
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove b2b3 currmovenumber 17
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove f2f4 currmovenumber 18
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove g2g4 currmovenumber 19
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove b2b4 currmovenumber 20
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 seldepth 45 multipv 1 score cp 23 upperbound nodes 29466843 nps 1063055 hashfull 1000 tbhits 0 time 27719 pv d2d4 g8f6
+[18:38:26] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d4 currmovenumber 1
+[18:38:28] \u2b05\ufe0f UCI stdout info depth 39 seldepth 45 multipv 1 score cp 23 lowerbound nodes 31695903 nps 1060773 hashfull 1000 tbhits 0 time 29880 pv d2d4
+[18:38:28] \u2b05\ufe0f UCI stdout info depth 38 currmove d2d4 currmovenumber 1
+[18:38:29] \u2b05\ufe0f UCI stdout info depth 39 seldepth 46 multipv 1 score cp 25 lowerbound nodes 32392536 nps 1059895 hashfull 1000 tbhits 0 time 30562 pv d2d4
+[18:38:29] \u2b05\ufe0f UCI stdout info depth 37 currmove d2d4 currmovenumber 1
+[18:38:30] \u2b05\ufe0f UCI stdout info depth 39 seldepth 46 multipv 1 score cp 28 lowerbound nodes 33374930 nps 1057607 hashfull 1000 tbhits 0 time 31557 pv d2d4
+[18:38:30] \u2b05\ufe0f UCI stdout info depth 36 currmove d2d4 currmovenumber 1
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove e2e4 currmovenumber 2
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove b1c3 currmovenumber 3
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove c2c4 currmovenumber 4
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove g2g3 currmovenumber 5
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove c2c3 currmovenumber 6
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove f2f3 currmovenumber 7
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove g1f3 currmovenumber 8
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove h2h3 currmovenumber 9
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove h2h4 currmovenumber 10
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove f2f4 currmovenumber 11
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove a2a4 currmovenumber 12
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove b2b3 currmovenumber 13
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove e2e3 currmovenumber 14
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove b1a3 currmovenumber 15
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove g1h3 currmovenumber 16
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove g2g4 currmovenumber 17
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove b2b4 currmovenumber 18
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove d2d3 currmovenumber 19
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 36 currmove a2a3 currmovenumber 20
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 seldepth 47 multipv 1 score cp 24 upperbound nodes 34186240 nps 1056598 hashfull 1000 tbhits 0 time 32355 pv d2d4 g8f6
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d4 currmovenumber 1
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove e2e4 currmovenumber 2
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove g1f3 currmovenumber 3
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove b1c3 currmovenumber 4
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove e2e3 currmovenumber 5
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove c2c4 currmovenumber 6
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d3 currmovenumber 7
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove c2c3 currmovenumber 8
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove g2g3 currmovenumber 9
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove f2f3 currmovenumber 10
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove a2a4 currmovenumber 11
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove h2h4 currmovenumber 12
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove a2a3 currmovenumber 13
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove g1h3 currmovenumber 14
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove b2b3 currmovenumber 15
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove f2f4 currmovenumber 16
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove b2b4 currmovenumber 17
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove g2g4 currmovenumber 18
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove b1a3 currmovenumber 19
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove h2h3 currmovenumber 20
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 seldepth 47 multipv 1 score cp 19 upperbound nodes 34841046 nps 1056493 hashfull 1000 tbhits 0 time 32978 pv d2d4 g8f6
+[18:38:31] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d4 currmovenumber 1
+[18:38:32] \u2b05\ufe0f UCI stdout info depth 39 seldepth 59 multipv 1 score cp 19 lowerbound nodes 35962769 nps 1055028 hashfull 1000 tbhits 0 time 34087 pv d2d4
+[18:38:32] \u2b05\ufe0f UCI stdout info depth 38 currmove d2d4 currmovenumber 1
+[18:38:33] \u2b05\ufe0f UCI stdout info depth 38 currmove e2e4 currmovenumber 2
+[18:38:33] \u2b05\ufe0f UCI stdout info depth 38 currmove c2c4 currmovenumber 3
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove e2e3 currmovenumber 4
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove g1f3 currmovenumber 5
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove b1c3 currmovenumber 6
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove g2g3 currmovenumber 7
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove c2c3 currmovenumber 8
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove h2h3 currmovenumber 9
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove a2a4 currmovenumber 10
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove b2b3 currmovenumber 11
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove f2f3 currmovenumber 12
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove b2b4 currmovenumber 13
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove a2a3 currmovenumber 14
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove f2f4 currmovenumber 15
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove g2g4 currmovenumber 16
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove b1a3 currmovenumber 17
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove g1h3 currmovenumber 18
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove h2h4 currmovenumber 19
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 38 currmove d2d3 currmovenumber 20
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 39 seldepth 59 multipv 1 score cp 25 nodes 37173147 nps 1054258 hashfull 1000 tbhits 0 time 35260 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 c1g5 h7h6 g5f6 d8f6 e2e3 c7c5 c4d5 e6d5 f1e2 e8g8 e1g1 b4c3 b2c3 b8d7 d4c5 d7c5 d1d5 c5a4 d5b3 a4c3 e2d3 c8e6 b3b7 a8b8 b7a6 b8b6 a6a5
+[18:38:34] \u2b05\ufe0f UCI stdout info depth 40 currmove d2d4 currmovenumber 1
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove e2e4 currmovenumber 2
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove g1f3 currmovenumber 3
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove c2c4 currmovenumber 4
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove b1c3 currmovenumber 5
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove e2e3 currmovenumber 6
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove c2c3 currmovenumber 7
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove h2h3 currmovenumber 8
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove b1a3 currmovenumber 9
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove f2f4 currmovenumber 10
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove a2a4 currmovenumber 11
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove h2h4 currmovenumber 12
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove g1h3 currmovenumber 13
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove g2g3 currmovenumber 14
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove b2b3 currmovenumber 15
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove f2f3 currmovenumber 16
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove g2g4 currmovenumber 17
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove d2d3 currmovenumber 18
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove b2b4 currmovenumber 19
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 currmove a2a3 currmovenumber 20
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 40 seldepth 41 multipv 1 score cp 22 nodes 39724094 nps 1051680 hashfull 1000 tbhits 0 time 37772 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 c1g5 h7h6 g5f6 d8f6 e2e3 c7c5 c4d5 e6d5 f1e2 e8g8 e1g1 b4c3 b2c3 b8d7 d1b3
+[18:38:36] \u2b05\ufe0f UCI stdout info depth 41 currmove d2d4 currmovenumber 1
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove e2e4 currmovenumber 2
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove c2c4 currmovenumber 3
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove a2a3 currmovenumber 4
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove e2e3 currmovenumber 5
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove b1c3 currmovenumber 6
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove c2c3 currmovenumber 7
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove g1f3 currmovenumber 8
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove g2g3 currmovenumber 9
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove h2h4 currmovenumber 10
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove b2b3 currmovenumber 11
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove f2f3 currmovenumber 12
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove b1a3 currmovenumber 13
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove g2g4 currmovenumber 14
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove f2f4 currmovenumber 15
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove a2a4 currmovenumber 16
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove g1h3 currmovenumber 17
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove b2b4 currmovenumber 18
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove d2d3 currmovenumber 19
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove h2h3 currmovenumber 20
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 seldepth 47 multipv 1 score cp 20 upperbound nodes 42773119 nps 1049157 hashfull 1000 tbhits 0 time 40769 pv d2d4 g8f6
+[18:38:39] \u2b05\ufe0f UCI stdout info depth 41 currmove d2d4 currmovenumber 1
+[18:38:41] \u2b05\ufe0f UCI stdout info depth 41 seldepth 47 multipv 1 score cp 20 lowerbound nodes 45144116 nps 1047791 hashfull 1000 tbhits 0 time 43085 pv d2d4
+[18:38:41] \u2b05\ufe0f UCI stdout info depth 40 currmove d2d4 currmovenumber 1
+[18:38:42] \u2b05\ufe0f UCI stdout info depth 41 seldepth 47 multipv 1 score cp 22 lowerbound nodes 45807894 nps 1047612 hashfull 1000 tbhits 0 time 43726 pv d2d4
+[18:38:42] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d4 currmovenumber 1
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove e2e4 currmovenumber 2
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove g1f3 currmovenumber 3
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove c2c4 currmovenumber 4
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove e2e3 currmovenumber 5
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove f2f3 currmovenumber 6
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove b1c3 currmovenumber 7
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove a2a4 currmovenumber 8
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove g2g3 currmovenumber 9
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove c2c3 currmovenumber 10
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove a2a3 currmovenumber 11
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove h2h4 currmovenumber 12
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove h2h3 currmovenumber 13
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove g1h3 currmovenumber 14
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove b1a3 currmovenumber 15
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove g2g4 currmovenumber 16
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove f2f4 currmovenumber 17
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove b2b3 currmovenumber 18
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove b2b4 currmovenumber 19
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 39 currmove d2d3 currmovenumber 20
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 41 seldepth 47 multipv 1 score cp 22 nodes 46773647 nps 1047280 hashfull 1000 tbhits 0 time 44662 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 c1g5 h7h6 g5f6 d8f6 e2e3 e8g8 a1c1 b8c6 c4d5 e6d5 f1d3 c6e7 d1b3 b4a5 e1g1 c7c6 e3e4 f6d6 e4e5 d6b4 b3b4 a5b4 c3e2 b4a5 a2a3
+[18:38:43] \u2b05\ufe0f UCI stdout info depth 42 currmove d2d4 currmovenumber 1
+[18:38:44] \u2b05\ufe0f UCI stdout info depth 42 seldepth 49 multipv 1 score cp 23 lowerbound nodes 48221928 nps 1044986 hashfull 1000 tbhits 0 time 46146 pv d2d4
+[18:38:44] \u2b05\ufe0f UCI stdout info depth 41 currmove d2d4 currmovenumber 1
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove e2e4 currmovenumber 2
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove g1f3 currmovenumber 3
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove b1c3 currmovenumber 4
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove a2a4 currmovenumber 5
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove c2c4 currmovenumber 6
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove g2g3 currmovenumber 7
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove c2c3 currmovenumber 8
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove e2e3 currmovenumber 9
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove b1a3 currmovenumber 10
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove g2g4 currmovenumber 11
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove f2f4 currmovenumber 12
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove h2h3 currmovenumber 13
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove b2b3 currmovenumber 14
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove g1h3 currmovenumber 15
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove h2h4 currmovenumber 16
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove b2b4 currmovenumber 17
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove d2d3 currmovenumber 18
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove f2f3 currmovenumber 19
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 41 currmove a2a3 currmovenumber 20
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 42 seldepth 49 multipv 1 score cp 21 upperbound nodes 50775467 nps 1034608 hashfull 1000 tbhits 0 time 49077 pv d2d4 g8f6
+[18:38:47] \u2b05\ufe0f UCI stdout info depth 42 currmove d2d4 currmovenumber 1
+[18:38:49] \u2b05\ufe0f UCI stdout info depth 42 currmove e2e4 currmovenumber 2
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove b1c3 currmovenumber 3
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove e2e3 currmovenumber 4
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove g1f3 currmovenumber 5
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove f2f3 currmovenumber 6
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove c2c3 currmovenumber 7
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove a2a4 currmovenumber 8
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove c2c4 currmovenumber 9
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove b1a3 currmovenumber 10
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove g2g3 currmovenumber 11
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove b2b3 currmovenumber 12
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove h2h3 currmovenumber 13
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove a2a3 currmovenumber 14
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove f2f4 currmovenumber 15
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove g2g4 currmovenumber 16
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove d2d3 currmovenumber 17
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove h2h4 currmovenumber 18
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove g1h3 currmovenumber 19
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove b2b4 currmovenumber 20
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 seldepth 49 multipv 1 score cp 19 upperbound nodes 53111889 nps 1028921 hashfull 1000 tbhits 0 time 51619 pv d2d4 g8f6
+[18:38:50] \u2b05\ufe0f UCI stdout info depth 42 currmove d2d4 currmovenumber 1
+[18:38:53] \u2b05\ufe0f UCI stdout info depth 42 seldepth 49 multipv 1 score cp 19 lowerbound nodes 56203720 nps 1025241 hashfull 1000 tbhits 0 time 54820 pv d2d4
+[18:38:53] \u2b05\ufe0f UCI stdout info depth 41 currmove d2d4 currmovenumber 1
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove e2e4 currmovenumber 2
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove g1f3 currmovenumber 3
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove b1c3 currmovenumber 4
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove a2a4 currmovenumber 5
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove c2c3 currmovenumber 6
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove c2c4 currmovenumber 7
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove f2f4 currmovenumber 8
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove b1a3 currmovenumber 9
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove e2e3 currmovenumber 10
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove f2f3 currmovenumber 11
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove b2b4 currmovenumber 12
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove d2d3 currmovenumber 13
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove h2h4 currmovenumber 14
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove g2g4 currmovenumber 15
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove b2b3 currmovenumber 16
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove g1h3 currmovenumber 17
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove g2g3 currmovenumber 18
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove h2h3 currmovenumber 19
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 41 currmove a2a3 currmovenumber 20
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 42 seldepth 50 multipv 1 score cp 18 nodes 58029028 nps 1024668 hashfull 1000 tbhits 0 time 56632 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 c1g5 h7h6 g5f6 d8f6 e2e3 c7c5 c4d5 e6d5 f1e2 b4c3 b2c3 b8d7 e1g1 e8g8 a2a4 f6d6 c3c4 d5c4 e2c4 c5d4 d1d4 d6d4 f3d4 f8d8 f1c1 d7e5 c4e2 c8d7 a4a5
+[18:38:55] \u2b05\ufe0f UCI stdout info depth 43 currmove d2d4 currmovenumber 1
+[18:38:56] \u2b05\ufe0f UCI stdout info depth 43 seldepth 49 multipv 1 score cp 20 lowerbound nodes 59595647 nps 1025125 hashfull 1000 tbhits 0 time 58135 pv d2d4
+[18:38:56] \u2b05\ufe0f UCI stdout info depth 42 currmove d2d4 currmovenumber 1
+[18:38:57] \u2b05\ufe0f UCI stdout info depth 42 currmove e2e4 currmovenumber 2
+[18:38:57] \u2b05\ufe0f UCI stdout info depth 42 currmove b1c3 currmovenumber 3
+[18:38:57] \u2b05\ufe0f UCI stdout info depth 42 currmove g1f3 currmovenumber 4
+[18:38:57] \u2b05\ufe0f UCI stdout info depth 42 currmove e2e3 currmovenumber 5
+[18:38:57] \u2b05\ufe0f UCI stdout info depth 42 currmove c2c4 currmovenumber 6
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove a2a3 currmovenumber 7
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove a2a4 currmovenumber 8
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove c2c3 currmovenumber 9
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove d2d3 currmovenumber 10
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove g2g3 currmovenumber 11
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove b2b4 currmovenumber 12
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove h2h3 currmovenumber 13
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove b2b3 currmovenumber 14
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove f2f3 currmovenumber 15
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove g2g4 currmovenumber 16
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove f2f4 currmovenumber 17
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove b1a3 currmovenumber 18
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove h2h4 currmovenumber 19
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 42 currmove g1h3 currmovenumber 20
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 43 seldepth 49 multipv 1 score cp 20 nodes 60745763 nps 1024812 hashfull 1000 tbhits 0 time 59275 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 c1g5 h7h6 g5f6 d8f6 e2e3 c7c5 c4d5 e6d5 f1e2 b4c3 b2c3 b8d7 e1g1 e8g8 a2a4 f6d6 c3c4 d5c4 e2c4 c5d4 d1d4 d6d4 f3d4 d7c5 a4a5 f8d8 f1b1 c8d7 f2f3 g8f8 e3e4 a8b8
+[18:38:58] \u2b05\ufe0f UCI stdout info depth 44 currmove d2d4 currmovenumber 1
+[18:39:05] \u2b05\ufe0f UCI stdout info depth 44 currmove e2e4 currmovenumber 2
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove b1c3 currmovenumber 3
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove c2c4 currmovenumber 4
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove g1f3 currmovenumber 5
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove a2a4 currmovenumber 6
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove c2c3 currmovenumber 7
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove e2e3 currmovenumber 8
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove b2b3 currmovenumber 9
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove h2h3 currmovenumber 10
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove h2h4 currmovenumber 11
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove g2g3 currmovenumber 12
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove a2a3 currmovenumber 13
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove b2b4 currmovenumber 14
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove f2f4 currmovenumber 15
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove f2f3 currmovenumber 16
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove g2g4 currmovenumber 17
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove b1a3 currmovenumber 18
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove d2d3 currmovenumber 19
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 currmove g1h3 currmovenumber 20
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 44 seldepth 52 multipv 1 score cp 18 nodes 69268036 nps 1019637 hashfull 1000 tbhits 0 time 67934 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 d1a4 b8c6 e2e3 e8g8 c1d2 d5c4 f1c4 b4d6 a4c2 a7a6 c3e4 c6b4 e4f6 d8f6 c2e4 a8b8 e1g1 b7b5 c4e2 c8b7 e4g4 f6e7 f1c1 f8c8 g4g5 e7g5 f3g5 c7c5 a2a3
+[18:39:06] \u2b05\ufe0f UCI stdout info depth 45 currmove d2d4 currmovenumber 1
+[18:39:12] \u2b05\ufe0f UCI stdout info depth 45 currmove e2e4 currmovenumber 2
+[18:39:12] \u2b05\ufe0f UCI stdout info depth 45 currmove b1c3 currmovenumber 3
+[18:39:12] \u2b05\ufe0f UCI stdout info depth 45 currmove g1f3 currmovenumber 4
+[18:39:12] \u2b05\ufe0f UCI stdout info depth 45 currmove e2e3 currmovenumber 5
+[18:39:12] \u2b05\ufe0f UCI stdout info depth 45 currmove c2c4 currmovenumber 6
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove g2g3 currmovenumber 7
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove c2c3 currmovenumber 8
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove a2a3 currmovenumber 9
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove a2a4 currmovenumber 10
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove f2f3 currmovenumber 11
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove d2d3 currmovenumber 12
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove f2f4 currmovenumber 13
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove h2h3 currmovenumber 14
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove b2b3 currmovenumber 15
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove b1a3 currmovenumber 16
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove h2h4 currmovenumber 17
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove g2g4 currmovenumber 18
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove b2b4 currmovenumber 19
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove g1h3 currmovenumber 20
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 seldepth 55 multipv 1 score cp 17 upperbound nodes 75847972 nps 1017752 hashfull 1000 tbhits 0 time 74525 pv d2d4 g8f6
+[18:39:13] \u2b05\ufe0f UCI stdout info depth 45 currmove d2d4 currmovenumber 1
+[18:39:15] \u2b05\ufe0f UCI stdout info depth 45 currmove e2e4 currmovenumber 2
+[18:39:15] \u2b05\ufe0f UCI stdout info depth 45 currmove b1c3 currmovenumber 3
+[18:39:15] \u2b05\ufe0f UCI stdout info depth 45 currmove g1f3 currmovenumber 4
+[18:39:16] \u2b05\ufe0f UCI stdout info depth 45 currmove c2c4 currmovenumber 5
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove g2g3 currmovenumber 6
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove a2a4 currmovenumber 7
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove e2e3 currmovenumber 8
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove h2h3 currmovenumber 9
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove c2c3 currmovenumber 10
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove f2f3 currmovenumber 11
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove b2b4 currmovenumber 12
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove b2b3 currmovenumber 13
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove a2a3 currmovenumber 14
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove h2h4 currmovenumber 15
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove f2f4 currmovenumber 16
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove b1a3 currmovenumber 17
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove g2g4 currmovenumber 18
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove d2d3 currmovenumber 19
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove g1h3 currmovenumber 20
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 seldepth 55 multipv 1 score cp 15 upperbound nodes 79876853 nps 1017267 hashfull 1000 tbhits 0 time 78521 pv d2d4 g8f6
+[18:39:17] \u2b05\ufe0f UCI stdout info depth 45 currmove d2d4 currmovenumber 1
+[18:39:22] \u2b05\ufe0f UCI stdout info depth 45 seldepth 56 multipv 1 score cp 15 lowerbound nodes 85688737 nps 1017632 hashfull 1000 tbhits 0 time 84204 pv d2d4
+[18:39:22] \u2b05\ufe0f UCI stdout info depth 44 currmove d2d4 currmovenumber 1
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove e2e4 currmovenumber 2
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove b1c3 currmovenumber 3
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove g1f3 currmovenumber 4
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove g2g3 currmovenumber 5
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove a2a4 currmovenumber 6
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove c2c4 currmovenumber 7
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove c2c3 currmovenumber 8
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove e2e3 currmovenumber 9
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove b2b4 currmovenumber 10
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove a2a3 currmovenumber 11
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove g2g4 currmovenumber 12
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove h2h3 currmovenumber 13
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove f2f4 currmovenumber 14
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove h2h4 currmovenumber 15
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove b2b3 currmovenumber 16
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove b1a3 currmovenumber 17
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove f2f3 currmovenumber 18
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove d2d3 currmovenumber 19
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 44 currmove g1h3 currmovenumber 20
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 45 seldepth 56 multipv 1 score cp 13 upperbound nodes 94361395 nps 1017878 hashfull 1000 tbhits 0 time 92704 pv d2d4 g8f6
+[18:39:31] \u2b05\ufe0f UCI stdout info depth 45 currmove d2d4 currmovenumber 1
+[18:39:36] \u2b05\ufe0f UCI stdout info depth 45 seldepth 56 multipv 1 score cp 13 lowerbound nodes 99533294 nps 1018347 hashfull 1000 tbhits 0 time 97740 pv d2d4
+[18:39:36] \u2b05\ufe0f UCI stdout info depth 44 currmove d2d4 currmovenumber 1
+[18:39:42] \u2b05\ufe0f UCI stdout info depth 44 currmove e2e4 currmovenumber 2
+[18:39:42] \u2b05\ufe0f UCI stdout info depth 44 currmove b1c3 currmovenumber 3
+[18:39:42] \u2b05\ufe0f UCI stdout info depth 44 currmove g1f3 currmovenumber 4
+[18:39:42] \u2b05\ufe0f UCI stdout info depth 44 currmove c2c4 currmovenumber 5
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove a2a4 currmovenumber 6
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove b2b4 currmovenumber 7
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove e2e3 currmovenumber 8
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove g2g3 currmovenumber 9
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove a2a3 currmovenumber 10
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove g2g4 currmovenumber 11
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove f2f4 currmovenumber 12
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove b2b3 currmovenumber 13
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove h2h4 currmovenumber 14
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove b1a3 currmovenumber 15
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove h2h3 currmovenumber 16
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove c2c3 currmovenumber 17
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove f2f3 currmovenumber 18
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove d2d3 currmovenumber 19
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 44 currmove g1h3 currmovenumber 20
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 45 seldepth 56 multipv 1 score cp 13 nodes 112731155 nps 1013942 hashfull 1000 tbhits 0 time 111181 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 e2e3 e8g8 c1d2 b4e7 c4d5 e6d5 f1d3 b7b6 f3e5 c8b7 e1g1 c7c5 d1f3 d8c8 h2h3 c8e6 f3g3 b8c6 f2f4 a8d8 c3b5 f6e4 d3e4 d5e4 f4f5 e6h6 e5g4
+[18:39:49] \u2b05\ufe0f UCI stdout info depth 46 currmove d2d4 currmovenumber 1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 46 seldepth 56 multipv 1 score cp 13 nodes 121219067 nps 1010158 hashfull 1000 tbhits 0 time 120000 pv d2d4 g8f6 c2c4 e7e6 g1f3 d7d5 b1c3 f8b4 e2e3 e8g8 c1d2 b4e7 c4d5 e6d5 f1d3 b7b6 f3e5 c8b7 e1g1 c7c5 d1f3 d8c8 h2h3 c8e6 f3g3 b8c6 f2f4 a8d8 c3b5 f6e4 d3e4 d5e4 f4f5 e6h6 e5g4
+[18:39:58] \u2b05\ufe0f UCI stdout bestmove d2d4 ponder g8f6
+[18:39:58] \u27a1\ufe0f UCI stdin ucinewgame
+[18:39:58] \U0001f50e brain=fishy go='go movetime 120000' tmax=120000ms timeout=30000ms
+[18:39:58] \u27a1\ufe0f UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[18:39:58] \u27a1\ufe0f UCI stdin go movetime 120000
+[18:39:58] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:39:58] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:39:58] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:39:58] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 1 seldepth 4 multipv 1 score cp -623 nodes 92 nps 92000 hashfull 0 tbhits 0 time 1 pv d7c6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 2 seldepth 4 multipv 1 score cp -595 nodes 153 nps 153000 hashfull 0 tbhits 0 time 1 pv d7c6 e3a7 b8c8
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 3 seldepth 4 multipv 1 score cp -595 nodes 227 nps 227000 hashfull 0 tbhits 0 time 1 pv d7c6 e3a7 b8c8
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 4 seldepth 7 multipv 1 score cp -543 nodes 417 nps 417000 hashfull 0 tbhits 0 time 1 pv a7a6 f7h7 d7e6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp -565 nodes 629 nps 629000 hashfull 0 tbhits 0 time 1 pv b7b6 c4e2 d7e6 f7f6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 6 seldepth 8 multipv 1 score cp -564 nodes 722 nps 722000 hashfull 0 tbhits 0 time 1 pv b7b6 c4e2 d7e6 f7f6 e6a2 f6d6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 7 seldepth 12 multipv 1 score cp -602 nodes 1210 nps 605000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 8 seldepth 6 multipv 1 score mate 3 nodes 1428 nps 714000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 9 seldepth 6 multipv 1 score mate 3 nodes 1605 nps 802500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 10 seldepth 6 multipv 1 score mate 3 nodes 1748 nps 874000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 11 seldepth 6 multipv 1 score mate 3 nodes 1910 nps 955000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 12 seldepth 6 multipv 1 score mate 3 nodes 2057 nps 1028500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 13 seldepth 6 multipv 1 score mate 3 nodes 2196 nps 1098000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 14 seldepth 6 multipv 1 score mate 3 nodes 2327 nps 1163500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 15 seldepth 6 multipv 1 score mate 3 nodes 2439 nps 1219500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 16 seldepth 6 multipv 1 score mate 3 nodes 2606 nps 1303000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 17 seldepth 6 multipv 1 score mate 3 nodes 2776 nps 1388000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 18 seldepth 6 multipv 1 score mate 3 nodes 2931 nps 1465500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 19 seldepth 6 multipv 1 score mate 3 nodes 3101 nps 1550500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 20 seldepth 6 multipv 1 score mate 3 nodes 3271 nps 1635500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 21 seldepth 6 multipv 1 score mate 3 nodes 3442 nps 1721000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 22 seldepth 6 multipv 1 score mate 3 nodes 3622 nps 1811000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 23 seldepth 6 multipv 1 score mate 3 nodes 3797 nps 1898500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 24 seldepth 6 multipv 1 score mate 3 nodes 3961 nps 1980500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 25 seldepth 6 multipv 1 score mate 3 nodes 4152 nps 2076000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 26 seldepth 6 multipv 1 score mate 3 nodes 4350 nps 1450000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 27 seldepth 6 multipv 1 score mate 3 nodes 4568 nps 1522666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 28 seldepth 6 multipv 1 score mate 3 nodes 4813 nps 1604333 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 29 seldepth 6 multipv 1 score mate 3 nodes 5117 nps 1705666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 30 seldepth 6 multipv 1 score mate 3 nodes 5472 nps 1824000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 31 seldepth 6 multipv 1 score mate 3 nodes 5850 nps 1950000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 32 seldepth 6 multipv 1 score mate 3 nodes 6405 nps 2135000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 33 seldepth 6 multipv 1 score mate 3 nodes 7015 nps 2338333 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 34 seldepth 6 multipv 1 score mate 3 nodes 7284 nps 2428000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 35 seldepth 6 multipv 1 score mate 3 nodes 8002 nps 2667333 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 36 seldepth 6 multipv 1 score mate 3 nodes 8516 nps 2838666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 37 seldepth 6 multipv 1 score mate 3 nodes 9027 nps 3009000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 38 seldepth 6 multipv 1 score mate 3 nodes 9807 nps 2451750 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 39 seldepth 6 multipv 1 score mate 3 nodes 10568 nps 2642000 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 40 seldepth 6 multipv 1 score mate 3 nodes 11081 nps 2770250 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 41 seldepth 6 multipv 1 score mate 3 nodes 11738 nps 2934500 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 42 seldepth 6 multipv 1 score mate 3 nodes 12416 nps 3104000 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 43 seldepth 6 multipv 1 score mate 3 nodes 12915 nps 3228750 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 44 seldepth 6 multipv 1 score mate 3 nodes 13626 nps 3406500 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 45 seldepth 6 multipv 1 score mate 3 nodes 14200 nps 3550000 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 46 seldepth 6 multipv 1 score mate 3 nodes 14879 nps 3719750 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 47 seldepth 6 multipv 1 score mate 3 nodes 15373 nps 3843250 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 48 seldepth 6 multipv 1 score mate 3 nodes 16037 nps 4009250 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 49 seldepth 6 multipv 1 score mate 3 nodes 16576 nps 4144000 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 50 seldepth 6 multipv 1 score mate 3 nodes 17236 nps 3447200 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 51 seldepth 6 multipv 1 score mate 3 nodes 17742 nps 3548400 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 52 seldepth 6 multipv 1 score mate 3 nodes 18329 nps 3665800 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 53 seldepth 6 multipv 1 score mate 3 nodes 18751 nps 3750200 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 54 seldepth 6 multipv 1 score mate 3 nodes 19403 nps 3880600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 55 seldepth 6 multipv 1 score mate 3 nodes 19925 nps 3985000 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 56 seldepth 6 multipv 1 score mate 3 nodes 20563 nps 4112600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 57 seldepth 6 multipv 1 score mate 3 nodes 21133 nps 4226600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 58 seldepth 6 multipv 1 score mate 3 nodes 21709 nps 4341800 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 59 seldepth 6 multipv 1 score mate 3 nodes 22430 nps 4486000 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 60 seldepth 6 multipv 1 score mate 3 nodes 23038 nps 4607600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 61 seldepth 6 multipv 1 score mate 3 nodes 23728 nps 4745600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 62 seldepth 6 multipv 1 score mate 3 nodes 24235 nps 4847000 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 63 seldepth 6 multipv 1 score mate 3 nodes 24890 nps 4978000 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 64 seldepth 6 multipv 1 score mate 3 nodes 25382 nps 4230333 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 65 seldepth 6 multipv 1 score mate 3 nodes 26149 nps 4358166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 66 seldepth 6 multipv 1 score mate 3 nodes 26704 nps 4450666 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 67 seldepth 6 multipv 1 score mate 3 nodes 27331 nps 4555166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 68 seldepth 6 multipv 1 score mate 3 nodes 28028 nps 4671333 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 69 seldepth 6 multipv 1 score mate 3 nodes 28591 nps 4765166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 70 seldepth 6 multipv 1 score mate 3 nodes 29285 nps 4880833 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 71 seldepth 6 multipv 1 score mate 3 nodes 29959 nps 4993166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 72 seldepth 6 multipv 1 score mate 3 nodes 30528 nps 5088000 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 73 seldepth 6 multipv 1 score mate 3 nodes 31243 nps 5207166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 74 seldepth 6 multipv 1 score mate 3 nodes 31771 nps 5295166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 75 seldepth 6 multipv 1 score mate 3 nodes 32384 nps 5397333 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 76 seldepth 6 multipv 1 score mate 3 nodes 33030 nps 5505000 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 77 seldepth 6 multipv 1 score mate 3 nodes 33564 nps 5594000 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 78 seldepth 6 multipv 1 score mate 3 nodes 34103 nps 4871857 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 79 seldepth 6 multipv 1 score mate 3 nodes 34483 nps 4926142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 80 seldepth 6 multipv 1 score mate 3 nodes 35057 nps 5008142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 81 seldepth 6 multipv 1 score mate 3 nodes 35682 nps 5097428 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 82 seldepth 6 multipv 1 score mate 3 nodes 36443 nps 5206142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 83 seldepth 6 multipv 1 score mate 3 nodes 37168 nps 5309714 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 84 seldepth 6 multipv 1 score mate 3 nodes 37678 nps 5382571 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 85 seldepth 6 multipv 1 score mate 3 nodes 38375 nps 5482142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 86 seldepth 6 multipv 1 score mate 3 nodes 39058 nps 5579714 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 87 seldepth 6 multipv 1 score mate 3 nodes 39668 nps 5666857 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 88 seldepth 6 multipv 1 score mate 3 nodes 40231 nps 5747285 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 89 seldepth 6 multipv 1 score mate 3 nodes 40811 nps 5830142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 90 seldepth 6 multipv 1 score mate 3 nodes 41434 nps 5919142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 91 seldepth 6 multipv 1 score mate 3 nodes 41969 nps 5995571 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 92 seldepth 6 multipv 1 score mate 3 nodes 42681 nps 5335125 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 93 seldepth 6 multipv 1 score mate 3 nodes 43232 nps 5404000 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 94 seldepth 6 multipv 1 score mate 3 nodes 43831 nps 5478875 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 95 seldepth 6 multipv 1 score mate 3 nodes 44436 nps 5554500 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 96 seldepth 6 multipv 1 score mate 3 nodes 45183 nps 5647875 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 97 seldepth 6 multipv 1 score mate 3 nodes 45783 nps 5722875 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 98 seldepth 6 multipv 1 score mate 3 nodes 46570 nps 5821250 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 99 seldepth 6 multipv 1 score mate 3 nodes 47228 nps 5903500 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 100 seldepth 6 multipv 1 score mate 3 nodes 47936 nps 5992000 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 101 seldepth 6 multipv 1 score mate 3 nodes 48457 nps 6057125 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 102 seldepth 6 multipv 1 score mate 3 nodes 49217 nps 6152125 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 103 seldepth 6 multipv 1 score mate 3 nodes 49866 nps 6233250 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 104 seldepth 6 multipv 1 score mate 3 nodes 50515 nps 6314375 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 105 seldepth 6 multipv 1 score mate 3 nodes 51236 nps 5692888 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 106 seldepth 6 multipv 1 score mate 3 nodes 52039 nps 5782111 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 107 seldepth 6 multipv 1 score mate 3 nodes 52738 nps 5859777 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 108 seldepth 6 multipv 1 score mate 3 nodes 53404 nps 5933777 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 109 seldepth 6 multipv 1 score mate 3 nodes 54129 nps 6014333 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 110 seldepth 6 multipv 1 score mate 3 nodes 54972 nps 6108000 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 111 seldepth 6 multipv 1 score mate 3 nodes 55726 nps 6191777 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 112 seldepth 6 multipv 1 score mate 3 nodes 56497 nps 6277444 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 113 seldepth 6 multipv 1 score mate 3 nodes 57082 nps 6342444 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 114 seldepth 6 multipv 1 score mate 3 nodes 57910 nps 6434444 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 115 seldepth 6 multipv 1 score mate 3 nodes 58672 nps 6519111 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 116 seldepth 6 multipv 1 score mate 3 nodes 59513 nps 6612555 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 117 seldepth 6 multipv 1 score mate 3 nodes 60275 nps 6027500 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 118 seldepth 6 multipv 1 score mate 3 nodes 60911 nps 6091100 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 119 seldepth 6 multipv 1 score mate 3 nodes 61589 nps 6158900 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 120 seldepth 6 multipv 1 score mate 3 nodes 62344 nps 6234400 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 121 seldepth 6 multipv 1 score mate 3 nodes 63155 nps 6315500 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 122 seldepth 6 multipv 1 score mate 3 nodes 64014 nps 6401400 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 123 seldepth 6 multipv 1 score mate 3 nodes 64857 nps 6485700 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 124 seldepth 6 multipv 1 score mate 3 nodes 65474 nps 6547400 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 125 seldepth 6 multipv 1 score mate 3 nodes 66195 nps 6619500 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 126 seldepth 6 multipv 1 score mate 3 nodes 66994 nps 6699400 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 127 seldepth 6 multipv 1 score mate 3 nodes 67747 nps 6774700 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 128 seldepth 6 multipv 1 score mate 3 nodes 68562 nps 6856200 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 129 seldepth 6 multipv 1 score mate 3 nodes 69313 nps 6931300 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 130 seldepth 6 multipv 1 score mate 3 nodes 70168 nps 6378909 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 131 seldepth 6 multipv 1 score mate 3 nodes 71025 nps 6456818 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 132 seldepth 6 multipv 1 score mate 3 nodes 71883 nps 6534818 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 133 seldepth 6 multipv 1 score mate 3 nodes 72625 nps 6602272 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 134 seldepth 6 multipv 1 score mate 3 nodes 73468 nps 6678909 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 135 seldepth 6 multipv 1 score mate 3 nodes 74219 nps 6747181 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 136 seldepth 6 multipv 1 score mate 3 nodes 75061 nps 6823727 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 137 seldepth 6 multipv 1 score mate 3 nodes 75826 nps 6893272 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 138 seldepth 6 multipv 1 score mate 3 nodes 76668 nps 6969818 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 139 seldepth 6 multipv 1 score mate 3 nodes 77521 nps 7047363 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 140 seldepth 6 multipv 1 score mate 3 nodes 78232 nps 7112000 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 141 seldepth 6 multipv 1 score mate 3 nodes 78944 nps 7176727 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 142 seldepth 6 multipv 1 score mate 3 nodes 79705 nps 6642083 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 143 seldepth 6 multipv 1 score mate 3 nodes 80537 nps 6711416 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 144 seldepth 6 multipv 1 score mate 3 nodes 81394 nps 6782833 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 145 seldepth 6 multipv 1 score mate 3 nodes 82244 nps 6853666 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 146 seldepth 6 multipv 1 score mate 3 nodes 83100 nps 6925000 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 147 seldepth 6 multipv 1 score mate 3 nodes 83962 nps 6996833 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 148 seldepth 6 multipv 1 score mate 3 nodes 84771 nps 7064250 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 149 seldepth 6 multipv 1 score mate 3 nodes 85618 nps 7134833 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 150 seldepth 6 multipv 1 score mate 3 nodes 86475 nps 6651923 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 151 seldepth 6 multipv 1 score mate 3 nodes 87324 nps 6717230 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 152 seldepth 6 multipv 1 score mate 3 nodes 88158 nps 6781384 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 153 seldepth 6 multipv 1 score mate 3 nodes 89012 nps 6847076 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 154 seldepth 6 multipv 1 score mate 3 nodes 89862 nps 6912461 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 155 seldepth 6 multipv 1 score mate 3 nodes 90710 nps 6977692 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 156 seldepth 6 multipv 1 score mate 3 nodes 91557 nps 7042846 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 157 seldepth 6 multipv 1 score mate 3 nodes 92405 nps 7108076 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 158 seldepth 6 multipv 1 score mate 3 nodes 93261 nps 7173923 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 159 seldepth 6 multipv 1 score mate 3 nodes 94107 nps 6721928 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 160 seldepth 6 multipv 1 score mate 3 nodes 94958 nps 6782714 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 161 seldepth 6 multipv 1 score mate 3 nodes 95757 nps 6839785 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 162 seldepth 6 multipv 1 score mate 3 nodes 96597 nps 6899785 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 163 seldepth 6 multipv 1 score mate 3 nodes 97442 nps 6960142 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 164 seldepth 6 multipv 1 score mate 3 nodes 98275 nps 7019642 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 165 seldepth 6 multipv 1 score mate 3 nodes 99110 nps 7079285 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 166 seldepth 6 multipv 1 score mate 3 nodes 99964 nps 7140285 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 167 seldepth 6 multipv 1 score mate 3 nodes 100816 nps 7201142 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 168 seldepth 6 multipv 1 score mate 3 nodes 101666 nps 7261857 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 169 seldepth 6 multipv 1 score mate 3 nodes 102347 nps 6823133 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 170 seldepth 6 multipv 1 score mate 3 nodes 103195 nps 6879666 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 171 seldepth 6 multipv 1 score mate 3 nodes 104040 nps 6936000 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 172 seldepth 6 multipv 1 score mate 3 nodes 104876 nps 6991733 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 173 seldepth 6 multipv 1 score mate 3 nodes 105725 nps 7048333 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 174 seldepth 6 multipv 1 score mate 3 nodes 106562 nps 7104133 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 175 seldepth 6 multipv 1 score mate 3 nodes 107408 nps 7160533 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 176 seldepth 6 multipv 1 score mate 3 nodes 108139 nps 7209266 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 177 seldepth 6 multipv 1 score mate 3 nodes 108900 nps 7260000 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 178 seldepth 6 multipv 1 score mate 3 nodes 109751 nps 7316733 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 179 seldepth 6 multipv 1 score mate 3 nodes 110605 nps 7373666 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 180 seldepth 6 multipv 1 score mate 3 nodes 111452 nps 7430133 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 181 seldepth 6 multipv 1 score mate 3 nodes 112302 nps 7018875 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 182 seldepth 6 multipv 1 score mate 3 nodes 113157 nps 7072312 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 183 seldepth 6 multipv 1 score mate 3 nodes 113921 nps 7120062 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 184 seldepth 6 multipv 1 score mate 3 nodes 114643 nps 7165187 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 185 seldepth 6 multipv 1 score mate 3 nodes 115491 nps 7218187 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 186 seldepth 6 multipv 1 score mate 3 nodes 116252 nps 7265750 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 187 seldepth 6 multipv 1 score mate 3 nodes 117093 nps 7318312 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 188 seldepth 6 multipv 1 score mate 3 nodes 117935 nps 7370937 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 189 seldepth 6 multipv 1 score mate 3 nodes 118782 nps 7423875 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 190 seldepth 6 multipv 1 score mate 3 nodes 119541 nps 7471312 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 191 seldepth 6 multipv 1 score mate 3 nodes 120389 nps 7524312 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 192 seldepth 6 multipv 1 score mate 3 nodes 121238 nps 7131647 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 193 seldepth 6 multipv 1 score mate 3 nodes 121873 nps 7169000 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 194 seldepth 6 multipv 1 score mate 3 nodes 122719 nps 7218764 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 195 seldepth 6 multipv 1 score mate 3 nodes 123565 nps 7268529 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 196 seldepth 6 multipv 1 score mate 3 nodes 124416 nps 7318588 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 197 seldepth 6 multipv 1 score mate 3 nodes 125189 nps 7364058 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 198 seldepth 6 multipv 1 score mate 3 nodes 126032 nps 7413647 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 199 seldepth 6 multipv 1 score mate 3 nodes 126879 nps 7463470 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 200 seldepth 6 multipv 1 score mate 3 nodes 127729 nps 7513470 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 201 seldepth 6 multipv 1 score mate 3 nodes 128576 nps 7563294 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 202 seldepth 6 multipv 1 score mate 3 nodes 129379 nps 7610529 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 203 seldepth 6 multipv 1 score mate 3 nodes 130231 nps 7660647 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 204 seldepth 6 multipv 1 score mate 3 nodes 131082 nps 7282333 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 205 seldepth 6 multipv 1 score mate 3 nodes 131921 nps 7328944 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 206 seldepth 6 multipv 1 score mate 3 nodes 132768 nps 7376000 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 207 seldepth 6 multipv 1 score mate 3 nodes 133624 nps 7423555 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 208 seldepth 6 multipv 1 score mate 3 nodes 134484 nps 7471333 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 209 seldepth 6 multipv 1 score mate 3 nodes 135343 nps 7519055 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 210 seldepth 6 multipv 1 score mate 3 nodes 136202 nps 7566777 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 211 seldepth 6 multipv 1 score mate 3 nodes 137053 nps 7614055 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 212 seldepth 6 multipv 1 score mate 3 nodes 137828 nps 7657111 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 213 seldepth 6 multipv 1 score mate 3 nodes 138678 nps 7704333 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 214 seldepth 6 multipv 1 score mate 3 nodes 139524 nps 7751333 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 215 seldepth 6 multipv 1 score mate 3 nodes 140379 nps 7388368 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 216 seldepth 6 multipv 1 score mate 3 nodes 141232 nps 7433263 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 217 seldepth 6 multipv 1 score mate 3 nodes 142081 nps 7477947 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 218 seldepth 6 multipv 1 score mate 3 nodes 142930 nps 7522631 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 219 seldepth 6 multipv 1 score mate 3 nodes 143775 nps 7567105 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 220 seldepth 6 multipv 1 score mate 3 nodes 144584 nps 7609684 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 221 seldepth 6 multipv 1 score mate 3 nodes 145355 nps 7650263 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 222 seldepth 6 multipv 1 score mate 3 nodes 146194 nps 7694421 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 223 seldepth 6 multipv 1 score mate 3 nodes 147035 nps 7738684 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 224 seldepth 6 multipv 1 score mate 3 nodes 147876 nps 7782947 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 225 seldepth 6 multipv 1 score mate 3 nodes 148728 nps 7827789 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 226 seldepth 6 multipv 1 score mate 3 nodes 149571 nps 7478550 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 227 seldepth 6 multipv 1 score mate 3 nodes 150335 nps 7516750 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 228 seldepth 6 multipv 1 score mate 3 nodes 151179 nps 7558950 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 229 seldepth 6 multipv 1 score mate 3 nodes 152021 nps 7601050 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 230 seldepth 6 multipv 1 score mate 3 nodes 152802 nps 7640100 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 231 seldepth 6 multipv 1 score mate 3 nodes 153643 nps 7682150 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 232 seldepth 6 multipv 1 score mate 3 nodes 154409 nps 7720450 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 233 seldepth 6 multipv 1 score mate 3 nodes 155257 nps 7762850 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 234 seldepth 6 multipv 1 score mate 3 nodes 156102 nps 7805100 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 235 seldepth 6 multipv 1 score mate 3 nodes 156952 nps 7847600 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 236 seldepth 6 multipv 1 score mate 3 nodes 157803 nps 7890150 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 237 seldepth 6 multipv 1 score mate 3 nodes 158651 nps 7554809 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 238 seldepth 6 multipv 1 score mate 3 nodes 159498 nps 7595142 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 239 seldepth 6 multipv 1 score mate 3 nodes 160333 nps 7634904 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 240 seldepth 6 multipv 1 score mate 3 nodes 161170 nps 7674761 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 241 seldepth 6 multipv 1 score mate 3 nodes 162008 nps 7714666 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 242 seldepth 6 multipv 1 score mate 3 nodes 162849 nps 7754714 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 243 seldepth 6 multipv 1 score mate 3 nodes 163692 nps 7794857 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 244 seldepth 6 multipv 1 score mate 3 nodes 164541 nps 7835285 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 245 seldepth 6 multipv 1 score mate 3 nodes 165389 nps 7875666 hashfull 0 tbhits 0 time 21 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:39:58] \u2b05\ufe0f UCI stdout bestmove d6d1 ponder c1d1
+[18:39:58] \u27a1\ufe0f UCI stdin ucinewgame
+[18:39:58] \U0001f50e brain=fishy go='go movetime 120000' tmax=120000ms timeout=30000ms
+[18:39:58] \u27a1\ufe0f UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[18:39:58] \u27a1\ufe0f UCI stdin go movetime 120000
+[18:39:58] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:39:58] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:39:58] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:39:58] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 1 seldepth 4 multipv 1 score cp 81 nodes 36 nps 36000 hashfull 0 tbhits 0 time 1 pv f2e3
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 2 seldepth 3 multipv 1 score cp 93 nodes 75 nps 75000 hashfull 0 tbhits 0 time 1 pv f2e3
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 3 seldepth 5 multipv 1 score cp 111 nodes 216 nps 216000 hashfull 0 tbhits 0 time 1 pv f2f3 g7g5 h5g6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 4 seldepth 5 multipv 1 score cp 123 nodes 354 nps 354000 hashfull 0 tbhits 0 time 1 pv f2f3 c6c5
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp 121 nodes 591 nps 591000 hashfull 0 tbhits 0 time 1 pv c1b1 f8g8 f2f3
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 6 seldepth 8 multipv 1 score cp 140 nodes 1164 nps 1164000 hashfull 0 tbhits 0 time 1 pv f2f3 f8g8 f4f5 f7f6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 7 seldepth 14 multipv 1 score cp 125 nodes 3184 nps 1061333 hashfull 0 tbhits 0 time 3 pv f4f5 f7f6 c1b1 f8e8
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 8 seldepth 11 multipv 1 score cp 149 nodes 4210 nps 1052500 hashfull 1 tbhits 0 time 4 pv f4f5 f7f6 c1b1 f8g8
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 9 seldepth 11 multipv 1 score cp 141 nodes 6250 nps 1041666 hashfull 1 tbhits 0 time 6 pv f2e3 f8g8 c1b1 d8e8
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 10 seldepth 12 multipv 1 score cp 140 nodes 7512 nps 939000 hashfull 2 tbhits 0 time 8 pv f2e3 f7f6 c1b1 f8e8 f4f5 d6d7 c3c2 c6c5 d4c5
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 11 seldepth 22 multipv 1 score cp 82 nodes 45889 nps 1240243 hashfull 8 tbhits 0 time 37 pv c1b1 d6d7
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 12 seldepth 13 multipv 1 score cp 235 nodes 48277 nps 1237871 hashfull 10 tbhits 0 time 39 pv d4d5 c6d5 e4e5 d6e6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 13 seldepth 19 multipv 1 score cp 182 nodes 58306 nps 1240553 hashfull 13 tbhits 0 time 47 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8e8 f2f3 d7d8 c3c7 d8c8 d4b5 c8c7 c1c7 e8c8 c7b7 c8c4
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 14 seldepth 27 multipv 1 score cp 153 nodes 98759 nps 1282584 hashfull 28 tbhits 0 time 77 pv d4d5 c6d5 e4e5 d6d7 b3d4 d7b7 f4f5 b7b8 f2g3 b8c8 f5f6 g7f6 e5f6
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 15 seldepth 32 multipv 1 score cp 172 nodes 137589 nps 1298009 hashfull 40 tbhits 0 time 106 pv d4d5 c6d5 e4e5 d6d7 b3d4 d7b7 f2e3 b7b8 c3c7 b8c8 e3d3 f8e8 d4b5 c8c7 c1c7 d8d7 b5d6 e8d8 c7d7 d8d7 d6f7
+[18:39:58] \u2b05\ufe0f UCI stdout info depth 16 seldepth 35 multipv 1 score cp 229 nodes 248248 nps 1327529 hashfull 72 tbhits 0 time 187 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8e8 f2e3 d7b7 e3d2 g7g5 f4f5 e7g8 f5f6 e8e5 c3c6
+[18:39:59] \u2b05\ufe0f UCI stdout info depth 17 seldepth 49 multipv 1 score cp 261 nodes 511556 nps 1364149 hashfull 157 tbhits 0 time 375 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8e8 f2e3 d7b7 e3d3 b7d7 c3c2 e8b8 c2c7 d7d8 f4f5 d8c8
+[18:39:59] \u2b05\ufe0f UCI stdout info depth 18 seldepth 40 multipv 1 score cp 286 nodes 883736 nps 1365897 hashfull 274 tbhits 0 time 647 pv d4d5 c6d5 e4e5 d6d7 b3d4 d7b7 f2e3 f8e8 e3d3 e8d7 f4f5 d8c8 c3c8 e7c8 d4b5 c8e7 b5d6 b7c7 c1c7 d7c7 d6f7 e7c6 f5f6 g7f6 e5f6
+[18:39:59] \u2b05\ufe0f UCI stdout info depth 19 seldepth 41 multipv 1 score cp 270 nodes 1200362 nps 1373411 hashfull 364 tbhits 0 time 874 pv d4d5 c6c5 f2f3 e7d5 e4d5 d6d5 c1e1 d5d3 c3d3 d8d3 e1e3 d3d1 e3c3 f8e7 f3e4 d1g1 e4f5 e7d6 b3d2 g7g6 f5f6 g1g4
+[18:40:00] \u2b05\ufe0f UCI stdout info depth 20 seldepth 42 multipv 1 score cp 287 nodes 1689958 nps 1363969 hashfull 509 tbhits 0 time 1239 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8b8 f2e3 b8e8 c3c2 d7d8 c2c7 d8c8 d4b5 c8c7 c1c7 e8c8 c7b7 d5d4 e3d4 e7c6 d4e3 c6d8 b7b6 c8c4 b6b8
+[18:40:00] \u2b05\ufe0f UCI stdout info depth 21 seldepth 54 multipv 1 score cp 290 nodes 2713008 nps 1374370 hashfull 685 tbhits 0 time 1974 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8a8 f2e3 b6b5 a4b5 a5a4 c1a1 d7a7 c3a3 f8e8 g4g5 h6g5 f4g5 e8d7 e3d3 a8h8 a3a4 a7a4 a1a4 h8h5 a4a7 d7d8
+[18:40:01] \u2b05\ufe0f UCI stdout info depth 22 seldepth 41 multipv 1 score cp 277 nodes 3170324 nps 1368879 hashfull 773 tbhits 0 time 2316 pv d4d5 c6c5 f2f3 e7d5 e4d5 d6d5 c3e3 g7g6 h5g6 f7g6 c1e1 d5d1 b3c1 d1e1 e3e1 f8f7 e1e4 d8d2 c1e2 d2d3 e4e3 c5c4 e2c3 h6h5 g4g5 h5h4 e3d3 c4d3 f3g4 d3d2 g4h4
+[18:40:01] \u2b05\ufe0f UCI stdout info depth 23 seldepth 56 multipv 1 score cp 293 nodes 3965419 nps 1347407 hashfull 879 tbhits 0 time 2943 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f6 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 f6h6 c3e3 h5h4 b3d2 d5d4 f3g4
+[18:40:02] \u2b05\ufe0f UCI stdout info depth 24 seldepth 45 multipv 1 score cp 306 nodes 4914051 nps 1324185 hashfull 943 tbhits 0 time 3711 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8a8 f2e3 b6b5 a4b5 a5a4 c3a3 f8e8 e3d3 d7a7 g4g5 h6g5 f4g5 a7b7 c1a1 b7a7 a1f1 a7b7 d3e3 b7c7 h5h6 g7h6 g5h6 e7g6
+[18:40:03] \u2b05\ufe0f UCI stdout info depth 25 seldepth 56 multipv 1 score cp 312 nodes 6457648 nps 1311463 hashfull 987 tbhits 0 time 4924 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f6 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 f6h6 b3d2 d5d4 d2e4 d4a4 e4g5 a4d4
+[18:40:04] \u2b05\ufe0f UCI stdout info depth 26 seldepth 56 multipv 1 score cp 323 nodes 7150046 nps 1310732 hashfull 994 tbhits 0 time 5455 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f5 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 b3c1 d5d4 c1e2 d4a4 h1h5 a4b4 c3e3 a5a4 e2g3
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c6 currmovenumber 2
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove b3a5 currmovenumber 3
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2f3 currmovenumber 4
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1d1 currmovenumber 5
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f4f5 currmovenumber 6
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3d3 currmovenumber 7
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3g3 currmovenumber 8
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c4 currmovenumber 9
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2g3 currmovenumber 10
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3h3 currmovenumber 11
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove g4g5 currmovenumber 12
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c2 currmovenumber 13
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2g1 currmovenumber 14
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1e1 currmovenumber 15
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2f1 currmovenumber 16
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1f1 currmovenumber 17
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3e3 currmovenumber 18
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1h1 currmovenumber 19
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c5 currmovenumber 20
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1g1 currmovenumber 21
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2g2 currmovenumber 22
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1c2 currmovenumber 23
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2e1 currmovenumber 24
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c3f3 currmovenumber 25
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1a1 currmovenumber 26
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2e3 currmovenumber 27
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove f2e2 currmovenumber 28
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove b3a1 currmovenumber 29
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove c1b1 currmovenumber 30
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove e4e5 currmovenumber 31
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove b3d2 currmovenumber 32
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 currmove b3c5 currmovenumber 33
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 27 seldepth 54 multipv 1 score cp 337 nodes 10130183 nps 1310671 hashfull 999 tbhits 0 time 7729 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f6 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 d5f5 c3c4 f6d6 b3c1 d6d1 c1e2 f5d5 c4c3 d5d3 f3e4 d3d2 c3e3 d2a2 h2h5
+[18:40:06] \u2b05\ufe0f UCI stdout info depth 28 currmove d4d5 currmovenumber 1
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3c6 currmovenumber 2
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove b3a5 currmovenumber 3
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove e4e5 currmovenumber 4
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2e3 currmovenumber 5
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f4f5 currmovenumber 6
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2e2 currmovenumber 7
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2f3 currmovenumber 8
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove g4g5 currmovenumber 9
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1c2 currmovenumber 10
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1h1 currmovenumber 11
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3e3 currmovenumber 12
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2f1 currmovenumber 13
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1g1 currmovenumber 14
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1e1 currmovenumber 15
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1f1 currmovenumber 16
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2g2 currmovenumber 17
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3c2 currmovenumber 18
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3f3 currmovenumber 19
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2e1 currmovenumber 20
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3h3 currmovenumber 21
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1a1 currmovenumber 22
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2g1 currmovenumber 23
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove b3d2 currmovenumber 24
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3g3 currmovenumber 25
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove b3a1 currmovenumber 26
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1b1 currmovenumber 27
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c1d1 currmovenumber 28
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove f2g3 currmovenumber 29
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3c4 currmovenumber 30
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3c5 currmovenumber 31
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove c3d3 currmovenumber 32
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 currmove b3c5 currmovenumber 33
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 28 seldepth 52 multipv 1 score cp 335 nodes 11610420 nps 1309544 hashfull 1000 tbhits 0 time 8866 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 c3g3 h6h5 g4h5 g6h6 b3d2 h6h5 d2c4 h5h2 g3g2 h2h4 f2f3 f7f5 d5d6 h4h3 f3f2 e7c6 c4e5 h3h6 d1g1 d8d6 g2g8 f8e7 g1g7 e7f6
+[18:40:07] \u2b05\ufe0f UCI stdout info depth 29 currmove d4d5 currmovenumber 1
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3c6 currmovenumber 2
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove b3a5 currmovenumber 3
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2g3 currmovenumber 4
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2f3 currmovenumber 5
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove e4e5 currmovenumber 6
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2e1 currmovenumber 7
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove b3d2 currmovenumber 8
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2g2 currmovenumber 9
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f4f5 currmovenumber 10
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1a1 currmovenumber 11
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2e3 currmovenumber 12
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3f3 currmovenumber 13
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3h3 currmovenumber 14
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1e1 currmovenumber 15
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3c2 currmovenumber 16
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2f1 currmovenumber 17
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1g1 currmovenumber 18
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3e3 currmovenumber 19
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1f1 currmovenumber 20
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3g3 currmovenumber 21
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2g1 currmovenumber 22
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3c4 currmovenumber 23
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1c2 currmovenumber 24
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove b3c5 currmovenumber 25
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove b3a1 currmovenumber 26
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove g4g5 currmovenumber 27
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1h1 currmovenumber 28
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove f2e2 currmovenumber 29
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1b1 currmovenumber 30
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3d3 currmovenumber 31
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c1d1 currmovenumber 32
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 currmove c3c5 currmovenumber 33
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 29 seldepth 53 multipv 1 score cp 327 nodes 14667814 nps 1305314 hashfull 1000 tbhits 0 time 11237 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8a8 f2e3 b6b5 a4b5 f8e8 c3a3 d7a7 a3a4 e7c8 c1c6 c8e7 c6c5 e7c8 d4f5 e8f8 c5c6 a8b8 f5d6 c8b6 a4a2 a5a4 e3d4 a7a5 c6c7 a4a3 c7f7 f8g8 f7c7 a5a4 d4c5 a4f4 a2a3
+[18:40:10] \u2b05\ufe0f UCI stdout info depth 30 currmove d4d5 currmovenumber 1
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3c6 currmovenumber 2
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove b3a5 currmovenumber 3
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2f3 currmovenumber 4
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2g3 currmovenumber 5
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2e3 currmovenumber 6
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f4f5 currmovenumber 7
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3c4 currmovenumber 8
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove e4e5 currmovenumber 9
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove b3d2 currmovenumber 10
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2f1 currmovenumber 11
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3c2 currmovenumber 12
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1c2 currmovenumber 13
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2g2 currmovenumber 14
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1g1 currmovenumber 15
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2g1 currmovenumber 16
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1f1 currmovenumber 17
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3f3 currmovenumber 18
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3g3 currmovenumber 19
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3e3 currmovenumber 20
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1e1 currmovenumber 21
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3h3 currmovenumber 22
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove b3a1 currmovenumber 23
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove g4g5 currmovenumber 24
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1h1 currmovenumber 25
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1a1 currmovenumber 26
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2e1 currmovenumber 27
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove f2e2 currmovenumber 28
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1b1 currmovenumber 29
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3c5 currmovenumber 30
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c1d1 currmovenumber 31
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove b3c5 currmovenumber 32
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 currmove c3d3 currmovenumber 33
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 30 seldepth 62 multipv 1 score cp 336 nodes 20902641 nps 1306905 hashfull 1000 tbhits 0 time 15994 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f5 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 f6d6 b3c1 d5d4 h2h5 d4a4 c1e2 a4b4 c3e3 d6d7 h5h8 f8g7 e3e8 a5a4 f3g4 a4a3 g4g5
+[18:40:14] \u2b05\ufe0f UCI stdout info depth 31 currmove d4d5 currmovenumber 1
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3c6 currmovenumber 2
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove b3a5 currmovenumber 3
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2e3 currmovenumber 4
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2g3 currmovenumber 5
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove e4e5 currmovenumber 6
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove b3d2 currmovenumber 7
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3c2 currmovenumber 8
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2f3 currmovenumber 9
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f4f5 currmovenumber 10
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3c5 currmovenumber 11
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3c4 currmovenumber 12
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3f3 currmovenumber 13
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3h3 currmovenumber 14
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1f1 currmovenumber 15
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1g1 currmovenumber 16
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove g4g5 currmovenumber 17
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2g1 currmovenumber 18
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2f1 currmovenumber 19
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove b3a1 currmovenumber 20
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1a1 currmovenumber 21
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1c2 currmovenumber 22
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1e1 currmovenumber 23
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3e3 currmovenumber 24
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1h1 currmovenumber 25
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3g3 currmovenumber 26
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2g2 currmovenumber 27
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2e1 currmovenumber 28
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove f2e2 currmovenumber 29
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1b1 currmovenumber 30
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c1d1 currmovenumber 31
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove c3d3 currmovenumber 32
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 currmove b3c5 currmovenumber 33
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 31 seldepth 60 multipv 1 score cp 339 nodes 29255841 nps 1313393 hashfull 1000 tbhits 0 time 22275 pv d4d5 c6c5 c1d1 f7f5 g4f5 e7d5 e4d5 d6d5 d1d5 d8d5 f2f3 d5f5 f3g4 f5d5 b3c1 d5d2 c3a3 d2g2 a3g3 g2c2 c1d3 c2a2 d3e5 a2a4 g4f5 b6b5 g3b3 b5b4 b3d3 c5c4 d3d8 f8e7 e5c6 e7f7 d8d7 f7f8
+[18:40:21] \u2b05\ufe0f UCI stdout info depth 32 currmove d4d5 currmovenumber 1
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3c6 currmovenumber 2
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove b3a5 currmovenumber 3
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2e2 currmovenumber 4
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2e3 currmovenumber 5
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3e3 currmovenumber 6
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1b1 currmovenumber 7
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3d3 currmovenumber 8
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2e1 currmovenumber 9
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove e4e5 currmovenumber 10
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1a1 currmovenumber 11
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3f3 currmovenumber 12
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1e1 currmovenumber 13
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f4f5 currmovenumber 14
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1h1 currmovenumber 15
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3g3 currmovenumber 16
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2g3 currmovenumber 17
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3h3 currmovenumber 18
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove g4g5 currmovenumber 19
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1f1 currmovenumber 20
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove b3a1 currmovenumber 21
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2g1 currmovenumber 22
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1c2 currmovenumber 23
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1g1 currmovenumber 24
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2g2 currmovenumber 25
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2f1 currmovenumber 26
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3c2 currmovenumber 27
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3c5 currmovenumber 28
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove f2f3 currmovenumber 29
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove b3d2 currmovenumber 30
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c1d1 currmovenumber 31
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove c3c4 currmovenumber 32
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 currmove b3c5 currmovenumber 33
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 32 seldepth 65 multipv 1 score cp 359 nodes 38034839 nps 1311772 hashfull 1000 tbhits 0 time 28995 pv d4d5 c6c5 c1d1 e7d5 e4d5 d6d5 d1d5 d8d5 f2f3 d5d1 f3e4 f8e8 c3c1 d1d6 c1c2 d6d1 c2b2 d1e1 e4f3 e1f1 f3e3 f1g1 b3d2 g1g4 d2f3 g7g5 h5g6 g4g6 f3e5 g6e6 e3f3 e6d6 e5c4 d6d3 f3g4 h6h5 g4f5
+[18:40:27] \u2b05\ufe0f UCI stdout info depth 33 currmove d4d5 currmovenumber 1
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3c6 currmovenumber 2
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove b3a5 currmovenumber 3
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3d3 currmovenumber 4
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2e3 currmovenumber 5
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove g4g5 currmovenumber 6
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2e2 currmovenumber 7
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2e1 currmovenumber 8
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1d1 currmovenumber 9
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f3 currmovenumber 10
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3g3 currmovenumber 11
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove b3d2 currmovenumber 12
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3f3 currmovenumber 13
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f4f5 currmovenumber 14
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove e4e5 currmovenumber 15
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1g1 currmovenumber 16
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3c4 currmovenumber 17
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove b3a1 currmovenumber 18
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2g1 currmovenumber 19
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1c2 currmovenumber 20
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2f1 currmovenumber 21
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1f1 currmovenumber 22
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3h3 currmovenumber 23
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2g2 currmovenumber 24
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1a1 currmovenumber 25
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1e1 currmovenumber 26
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1h1 currmovenumber 27
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3c2 currmovenumber 28
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3e3 currmovenumber 29
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove f2g3 currmovenumber 30
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c1b1 currmovenumber 31
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove c3c5 currmovenumber 32
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 currmove b3c5 currmovenumber 33
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 33 seldepth 60 multipv 1 score cp 357 nodes 41097073 nps 1313719 hashfull 1000 tbhits 0 time 31283 pv d4d5 c6c5 c1d1 e7d5 e4d5 d6d5 d1d5 d8d5 f2f3 d5d1 f3e4 d1e1 e4d5 e1f1 b3d2 f1f4 d2c4 f4g4 d5c6 g7g5 c6b6 g4g1 b6a5 f7f5 c3f3 f5f4 a5b5 f8e7 a4a5 g1b1 b5c5 b1a1 c5b5 a1b1 b5a4 b1c1 c4a3 e7d6 a5a6 d6c6 a4a5 c1c5 a5b4
+[18:40:30] \u2b05\ufe0f UCI stdout info depth 34 currmove d4d5 currmovenumber 1
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3c6 currmovenumber 2
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove b3a5 currmovenumber 3
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2g1 currmovenumber 4
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2e3 currmovenumber 5
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2g2 currmovenumber 6
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2g3 currmovenumber 7
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f4f5 currmovenumber 8
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3d3 currmovenumber 9
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3c4 currmovenumber 10
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f3 currmovenumber 11
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2e2 currmovenumber 12
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3f3 currmovenumber 13
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1d1 currmovenumber 14
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3h3 currmovenumber 15
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1f1 currmovenumber 16
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove b3a1 currmovenumber 17
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1c2 currmovenumber 18
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3c2 currmovenumber 19
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2e1 currmovenumber 20
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1e1 currmovenumber 21
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1g1 currmovenumber 22
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1a1 currmovenumber 23
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1h1 currmovenumber 24
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove f2f1 currmovenumber 25
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove g4g5 currmovenumber 26
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3e3 currmovenumber 27
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3g3 currmovenumber 28
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c1b1 currmovenumber 29
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove b3d2 currmovenumber 30
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove b3c5 currmovenumber 31
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove e4e5 currmovenumber 32
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 currmove c3c5 currmovenumber 33
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 34 seldepth 73 multipv 1 score cp 366 nodes 53491759 nps 1314907 hashfull 1000 tbhits 0 time 40681 pv d4d5 c6c5 c1d1 g7g6 h5g6 d6g6 f2f3 h6h5 g4g5 f7f5 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 f6d6 b3c1 f8e7 c3e3 d6e6 c1e2 e6e3 f3e3 c5c4 e2d4 c4c3 h2c2 d5c5 d4e2 c5c4 c2c3 c4a4 c3c7 e7d6 c7h7 b6b5 h7h6 d6d7 h6h5 b5b4
+[18:40:39] \u2b05\ufe0f UCI stdout info depth 35 currmove d4d5 currmovenumber 1
+[18:40:59] \u27a1\ufe0f UCI stdin stop
+[18:40:59] \u2b05\ufe0f UCI stdout info depth 35 seldepth 73 multipv 1 score cp 366 nodes 79678027 nps 1311076 hashfull 1000 tbhits 0 time 60773 pv d4d5 c6c5 c1d1 g7g6 h5g6 d6g6 f2f3 h6h5 g4g5 f7f5 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 f6d6 b3c1 f8e7 c3e3 d6e6 c1e2 e6e3 f3e3 c5c4 e2d4 c4c3 h2c2 d5c5 d4e2 c5c4 c2c3 c4a4 c3c7 e7d6 c7h7 b6b5 h7h6 d6d7 h6h5 b5b4
+[18:40:59] \u2b05\ufe0f UCI stdout bestmove d4d5 ponder c6c5
+[18:40:59] \u27a1\ufe0f UCI stdin quit
+[18:40:59] \U0001f50c subprocess detenido pid=47920

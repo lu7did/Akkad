@@ -127,6 +127,17 @@
       "turbo": "0x01",
       "rating_elo": 1154.37
     },
+    "fishy": {
+      "player": "UCI",
+      "evaluator": "null",
+      "engine-path": {
+        "windows": "../../../stockfish/stockfish.exe",
+        "debian": "/usr/local/bin/motor",
+        "macos": "/opt/homebrew/bin/motor"
+      },
+      "timeout": 30000,
+      "rating_elo": 400
+    },
     "stockfish": {
       "evaluator": "null",
       "player": "stockfish",

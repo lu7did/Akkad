@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "akkad-nurse"
+version = "0.1.15"
+description = "Akkad Nurse - independent UCI orchestration and pluggable chess engines"
+requires-python = ">=3.9"
+dependencies = ["python-chess>=1.999"]
+[project.scripts]
+sargon-nurse = "nurse.uci:main"
+nurse-listen = "nurse.listen:main"
+nurse-benchmark = "nurse.benchmark:main"
+nurse-match = "nurse.match:main"
+nurse-rally = "nurse.rally:main"
+[tool.setuptools.packages.find]
+where = ["src"]

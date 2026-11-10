@@ -1,0 +1,27 @@
+\u2699\ufe0f UCI launch ['C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe', '', '']
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 154, in _run_stdin
+    evaluator, player = build_engine(args)
+                        ~~~~~~~~~~~~^^^^^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\factory.py", line 179, in build_engine
+    player = create_player(
+        player_kind,
+    ...<27 lines>...
+        lc0_uci_timeout=g("lc0_uci_timeout",60000),
+    )
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\players\__init__.py", line 39, in create_player
+    return GenericUCIPlayer(engine_path, engine_args or [], tmax_ms=tmax_ms,
+                            timeout_ms=timeout_ms, telemetry=telemetry)
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\players\generic_uci.py", line 62, in __init__
+    self._until('uciok', self.timeout_ms)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\players\generic_uci.py", line 114, in _until
+    raise PlayerError(f'UCI: EOF esperando {prefix}, exit={self.proc.poll()}')
+sargon_nnue.players.base.PlayerError: UCI: EOF esperando uciok, exit=None

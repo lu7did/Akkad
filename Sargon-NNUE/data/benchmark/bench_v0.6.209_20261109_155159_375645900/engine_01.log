@@ -1,0 +1,63 @@
+\u2699\ufe0f UCI launch cwd=C:\Users\pedro\github\bobby\akkad\sargon-NNUE\scripts requested='C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe' resolved='C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe' args=[]
+\u2699\ufe0f UCI pid=6992 handshake start
+\u2699\ufe0f UCI stdin uci
+\u2699\ufe0f UCI stdout id name Stockfish 19
+\u2699\ufe0f UCI stdout uciok
+\u2699\ufe0f UCI stdin isready
+\u2699\ufe0f UCI stdout readyok
+\u2699\ufe0f UCI handshake complete uciok/readyok pid=6992
+\u2699\ufe0f EXEC player=uci | evaluator=null | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=120000 [default=15000]
+\U0001f9e9 Sargon-NNUE v0.6.209 \U0001f9e0 evaluator=NULL \U0001f3ae player=UCI
+\u2b05\ufe0f uci
+\u2b05\ufe0f isready
+\u2699\ufe0f UCI stdin isready
+\u2699\ufe0f UCI stdout readyok
+\u2b05\ufe0f ucinewgame
+\u2699\ufe0f UCI stdin ucinewgame
+\u2699\ufe0f UCI stdin isready
+\u2699\ufe0f UCI stdout readyok
+\u2b05\ufe0f position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2b05\ufe0f go
+\u2699\ufe0f UCI stdin isready
+\u2699\ufe0f UCI stdout readyok
+\u2699\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+\u2699\ufe0f UCI stdin go movetime 120000
+\u2699\ufe0f UCI stdout info string Available processors: 0-3
+\u2699\ufe0f UCI stdout info string Using 1 thread
+\u2699\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+\u2699\ufe0f UCI stdout info string Network replica 1: Shared memory.
+\u2699\ufe0f UCI stdout bestmove d2d4 ponder g8f6
+\u2699\ufe0f UCI bestmove d2d4 depth=45 nodes=111162941 elapsed=120000.1ms
+\u274c UCI: OSError: [Errno 22] Invalid argument
+\u2699\ufe0f UCI stdin quit
+Traceback (most recent call last):
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\uci.py", line 75, in loop
+    if info_line.startswith('info '): self.send(info_line)
+                                      ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\uci.py", line 29, in send
+    self.writer.write(s+"\n"); self.writer.flush()
+                               ~~~~~~~~~~~~~~~~~^^
+OSError: [Errno 22] Invalid argument
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 282, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 182, in main
+    return _run_stdin(args)
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\sargon_listen.py", line 157, in _run_stdin
+    UCISession(player, sys.stdin, sys.stdout, log, brain_name=args.brain_name).loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\uci.py", line 103, in loop
+    self.send(f"info string error {type(exc).__name__}: {exc}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\github\bobby\akkad\sargon-NNUE\src\sargon_nnue\uci.py", line 29, in send
+    self.writer.write(s+"\n"); self.writer.flush()
+                               ~~~~~~~~~~~~~~~~~^^
+OSError: [Errno 22] Invalid argument
+Exception ignored while flushing sys.stdout:
+OSError: [Errno 22] Invalid argument

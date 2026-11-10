@@ -40,7 +40,7 @@ from .sargon_match import UCI
 from .benchmark_bratko_kopec import (BK_FORSYTH, choose_positions, compute_matrices, load_reference_csv, print_matrix)
 from .benchmark_bk_profile import canonical_suite, write_bk_report
 
-VERSION = "0.6.207"
+VERSION = "0.6.209"
 # Distintas aperturas, incluyendo posiciones con ambos bandos para mover.
 # La posición inicial se utiliza como calentamiento por defecto.
 DEFAULT_POSITIONS = (
@@ -164,6 +164,9 @@ def resolve_paths(config: dict, project_root: Path, brain_file: Path) -> dict:
     Una ruta inexistente no se reescribe: el listener mostrará su diagnóstico.
     """
     output = dict(config)
+    from .brains import _resolve_uci_executable
+    if str(output.get('player','')).lower() == 'uci' and output.get('engine-path'):
+        output['engine-path'] = _resolve_uci_executable(output['engine-path'], brain_file)
     for key in FILE_KEYS:
         raw = config.get(key)
         if not isinstance(raw, str) or not raw.strip():

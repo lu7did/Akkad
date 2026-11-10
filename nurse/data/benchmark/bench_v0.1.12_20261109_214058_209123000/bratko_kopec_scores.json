@@ -1,0 +1,24 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "picoSargon",
+      "T": 6,
+      "L": 1,
+      "S": 7,
+      "B": 8.571428571428571,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "picoSargon",
+      "picoSargon": 0.0
+    }
+  ]
+}

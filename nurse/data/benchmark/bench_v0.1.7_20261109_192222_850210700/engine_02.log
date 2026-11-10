@@ -1,0 +1,10 @@
+[19:23:10] \U0001f4bb sargon-nurse v0.1.7 brain=penelope type=uci ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[19:23:10] \u2699\ufe0f UCI engine=C:\Users\pedro\github\bobby\akkad\picoKeras\X86\build\Release\picoKeras.exe args=['--weights', 'C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf', '--nodes', '1'] options=[]
+[19:23:10] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[19:23:10] \U0001f680 subprocess pid=48456 cwd=C:\Users\pedro\github\bobby\akkad\picoKeras\X86\build\Release argv=['C:\\Users\\pedro\\github\\bobby\\akkad\\picoKeras\\X86\\build\\Release\\picoKeras.exe', '--weights', 'C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf', '--nodes', '1']
+[19:23:10] \u27a1\ufe0f UCI stdin uci
+[19:23:10] \U0001f4cb child 2026-11-09 19:23:10.868594: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+[19:23:10] \U0001f4cb child FATAL unknown argument: --nodes
+[19:23:10] \u27a1\ufe0f UCI stdin quit
+[19:23:10] \U0001f50c subprocess detenido pid=48456
+[19:23:10] \u274c brain=penelope TransportError: EOF inesperado

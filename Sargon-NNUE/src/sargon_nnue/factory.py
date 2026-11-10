@@ -100,7 +100,7 @@ def build_engine(args, prefix: str = ""):
     # - STOCKFISH and player LC0-UCI are monolithic; require NULL.
     # - RANDOM does not evaluate positions; requires NULL.
     # - Other players require a real evaluator (CLASSIC by default).
-    if player_kind in {"stockfish", "random", "lc0", "picosargon", "external", "picoalpha", "alphazero-x86", "picokeras"}:
+    if player_kind in {"stockfish", "random", "lc0", "picosargon", "external", "picoalpha", "alphazero-x86", "picokeras", "uci"}:
         if requested_evaluator is None:
             evaluator_kind = "null"
         else:
@@ -115,7 +115,7 @@ def build_engine(args, prefix: str = ""):
         else:
             evaluator_kind = str(requested_evaluator).strip().lower()
             if evaluator_kind == "null":
-                raise PlayerError("evaluator=null sólo es válido con player=stockfish, player=lc0, player=picosargon, player=picoalpha, player=AlphaZero-X86, player=picokeras, player=external o player=random")
+                raise PlayerError("evaluator=null sólo es válido con player=stockfish, player=lc0, player=picosargon, player=picoalpha, player=AlphaZero-X86, player=picokeras, player=external, player=uci o player=random")
 
     if player_kind == "bellman" and evaluator_kind != "bellmanr":
         raise PlayerError("player=bellman requiere evaluator=bellmanR")
@@ -186,6 +186,7 @@ def build_engine(args, prefix: str = ""):
         boost=boost,
         turbo=turbo,
         engine_path=g("engine_path", None),
+        engine_args=g("args", []),
         model=g("model", None),
         network=(g("lc0_weights", None) or g("network", None)) if player_kind == "alphazero-x86" else g("network", None),
         url=g("url", None),

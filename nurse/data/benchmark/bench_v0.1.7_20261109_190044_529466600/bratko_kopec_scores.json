@@ -1,0 +1,58 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "emma",
+      "T": 10,
+      "L": 6,
+      "S": 16,
+      "B": 3.0,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    },
+    {
+      "brain": "fishy",
+      "T": 11,
+      "L": 9,
+      "S": 20,
+      "B": 1.2,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    },
+    {
+      "brain": "buddy",
+      "T": 0,
+      "L": 0,
+      "S": 0,
+      "B": null,
+      "errors": 0,
+      "interpretation": "INDETERMINADO (S=0)",
+      "complete": true
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "emma",
+      "emma": 0.0,
+      "fishy": 1.8,
+      "buddy": "N/D"
+    },
+    {
+      "brain": "fishy",
+      "emma": -1.8,
+      "fishy": 0.0,
+      "buddy": "N/D"
+    },
+    {
+      "brain": "buddy",
+      "emma": "N/D",
+      "fishy": "N/D",
+      "buddy": "N/D"
+    }
+  ]
+}

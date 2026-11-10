@@ -1,0 +1,831 @@
+[18:30:11] \U0001f4bb sargon-nurse v0.1.5 brain=fishy type=uci ELO=3000 tmax_ms=8000 timeout_ms=30000 warmup_movetime_ms=8000
+[18:30:11] \u2699\ufe0f UCI engine=C:\Users\pedro\github\Bobby\stockfish\stockfish.exe args=[] options=[]
+[18:30:11] \u2699\ufe0f timing efectivo tmax=8000ms timeout=30000ms warmup_movetime=8000ms
+[18:30:11] \U0001f680 subprocess pid=61264 cwd=C:\Users\pedro\github\Bobby\stockfish argv=['C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe']
+[18:30:11] \u27a1\ufe0f UCI stdin uci
+[18:30:11] \u2b05\ufe0f UCI stdout Stockfish 19 by the Stockfish developers (see AUTHORS file)
+[18:30:11] \u2b05\ufe0f UCI stdout id name Stockfish 19
+[18:30:11] \u2b05\ufe0f UCI stdout id author the Stockfish developers (see AUTHORS file)
+[18:30:11] \u2b05\ufe0f UCI stdout 
+[18:30:11] \u2b05\ufe0f UCI stdout option name Debug Log File type string default <empty>
+[18:30:11] \u2b05\ufe0f UCI stdout option name NumaPolicy type string default auto
+[18:30:11] \u2b05\ufe0f UCI stdout option name Threads type spin default 1 min 1 max 1024
+[18:30:11] \u2b05\ufe0f UCI stdout option name Hash type spin default 16 min 1 max 33554432
+[18:30:11] \u2b05\ufe0f UCI stdout option name Clear Hash type button
+[18:30:11] \u2b05\ufe0f UCI stdout option name Ponder type check default false
+[18:30:11] \u2b05\ufe0f UCI stdout option name MultiPV type spin default 1 min 1 max 256
+[18:30:11] \u2b05\ufe0f UCI stdout option name Skill Level type spin default 20 min 0 max 20
+[18:30:11] \u2b05\ufe0f UCI stdout option name Move Overhead type spin default 10 min 0 max 5000
+[18:30:11] \u2b05\ufe0f UCI stdout option name nodestime type spin default 0 min 0 max 10000
+[18:30:11] \u2b05\ufe0f UCI stdout option name UCI_Chess960 type check default false
+[18:30:11] \u2b05\ufe0f UCI stdout option name UCI_LimitStrength type check default false
+[18:30:11] \u2b05\ufe0f UCI stdout option name UCI_Elo type spin default 1320 min 1320 max 3190
+[18:30:11] \u2b05\ufe0f UCI stdout option name UCI_ShowWDL type check default false
+[18:30:11] \u2b05\ufe0f UCI stdout option name SyzygyPath type string default <empty>
+[18:30:11] \u2b05\ufe0f UCI stdout option name SyzygyProbeDepth type spin default 1 min 1 max 100
+[18:30:11] \u2b05\ufe0f UCI stdout option name Syzygy50MoveRule type check default true
+[18:30:11] \u2b05\ufe0f UCI stdout option name SyzygyProbeLimit type spin default 7 min 0 max 7
+[18:30:11] \u2b05\ufe0f UCI stdout option name EvalFile type string default nn-1a298aa575a0.nnue
+[18:30:11] \u2b05\ufe0f UCI stdout uciok
+[18:30:11] \u27a1\ufe0f UCI stdin isready
+[18:30:11] \u2b05\ufe0f UCI stdout readyok
+[18:30:11] \u2705 handshake UCI completo
+[18:30:11] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:11] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:11] \u27a1\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[18:30:11] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:11] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:11] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:11] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:11] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 1 seldepth 2 multipv 1 score cp 30 nodes 20 nps 20000 hashfull 0 tbhits 0 time 1 pv d2d4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 2 seldepth 3 multipv 1 score cp 29 nodes 148 nps 148000 hashfull 0 tbhits 0 time 1 pv e2e4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 3 seldepth 5 multipv 1 score cp 22 nodes 1128 nps 1128000 hashfull 0 tbhits 0 time 1 pv e2e4 g8f6 b1c3
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 4 seldepth 5 multipv 1 score cp 23 nodes 1262 nps 1262000 hashfull 0 tbhits 0 time 1 pv e2e4 c7c6
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp 19 nodes 1692 nps 846000 hashfull 0 tbhits 0 time 2 pv e2e4 c7c6 g1f3 d7d5 e4d5 c6d5
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 6 seldepth 9 multipv 1 score cp 30 nodes 2282 nps 1141000 hashfull 0 tbhits 0 time 2 pv e2e4 d7d5 e4d5 d8d5
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 7 seldepth 10 multipv 1 score cp 25 nodes 2594 nps 864666 hashfull 0 tbhits 0 time 3 pv e2e4 c7c5 g1f3 b8c6 b1c3 a7a6 d2d4 c5d4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 8 seldepth 11 multipv 1 score cp 25 nodes 2712 nps 904000 hashfull 0 tbhits 0 time 3 pv e2e4 c7c5 g1f3 b8c6 b1c3 a7a6 d2d4 c5d4 f3d4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 9 seldepth 11 multipv 1 score cp 25 nodes 2871 nps 957000 hashfull 0 tbhits 0 time 3 pv e2e4 c7c5 g1f3 b8c6 b1c3 a7a6 d2d4 c5d4 f3d4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 10 seldepth 14 multipv 1 score cp 31 nodes 5728 nps 954666 hashfull 1 tbhits 0 time 6 pv e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 11 seldepth 15 multipv 1 score cp 26 nodes 12455 nps 1132272 hashfull 3 tbhits 0 time 11 pv e2e4 c7c5 g1f3 d7d6 f1c4 b8c6 d2d4 c5d4 f3d4 g8f6
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 12 seldepth 16 multipv 1 score cp 32 nodes 19250 nps 1132352 hashfull 6 tbhits 0 time 17 pv e2e4 c7c5 g1f3 d7d6 b1c3 c8g4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 13 seldepth 22 multipv 1 score cp 27 nodes 40595 nps 1097162 hashfull 13 tbhits 0 time 37 pv e2e4 c7c5 g1f3 b8c6 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4 e7e6 b1c3 d7d6 c3d5 e6d5 f1b5 f8e7 e1g1 e8g8
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 14 seldepth 17 multipv 1 score cp 27 nodes 43275 nps 1109615 hashfull 14 tbhits 0 time 39 pv e2e4 c7c5 g1f3 b8c6 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4 e7e6 b1c3 d7d6
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 15 seldepth 25 multipv 1 score cp 32 nodes 50786 nps 1128577 hashfull 15 tbhits 0 time 45 pv e2e4 c7c5 b1c3 d7d6 g1f3 g8f6 d2d4 c5d4 f3d4 g7g6 h2h3 f8g7 c1e3 e8g8
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 16 seldepth 23 multipv 1 score cp 39 nodes 75655 nps 1129179 hashfull 22 tbhits 0 time 67 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1g5 b8d7 f1e2 e7e6 f2f4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 17 seldepth 21 multipv 1 score cp 39 nodes 91328 nps 1127506 hashfull 26 tbhits 0 time 81 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1g5 b8d7 f1e2 e7e6 f2f4 h7h6 g5h4
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 18 seldepth 26 multipv 1 score cp 37 nodes 112909 nps 1117910 hashfull 33 tbhits 0 time 101 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 e7e5 f1b5 c8d7 b5d7 b8d7 d4f5 g8f6 c1g5
+[18:30:11] \u2b05\ufe0f UCI stdout info depth 19 seldepth 30 multipv 1 score cp 30 nodes 188712 nps 1116639 hashfull 58 tbhits 0 time 169 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1g5 e7e6 f2f4 h7h6 g5f6 d8f6 g2g3 f8e7 d1d2 b8c6 d4f3 e8g8
+[18:30:12] \u2b05\ufe0f UCI stdout info depth 20 seldepth 31 multipv 1 score cp 34 nodes 381392 nps 1077378 hashfull 122 tbhits 0 time 354 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f6g4 e3c1 f8e7 f1c4 e8g8 c3d5 e7h4
+[18:30:12] \u2b05\ufe0f UCI stdout info depth 21 seldepth 35 multipv 1 score cp 29 nodes 501951 nps 1067980 hashfull 163 tbhits 0 time 470 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 c8e6 d1d2 f8e7 f2f3 h7h5 c3d5 f6d5 e4d5 e6f5 f1e2 a6a5 a2a4 e8g8 e1g1
+[18:30:12] \u2b05\ufe0f UCI stdout info depth 22 seldepth 41 multipv 1 score cp 31 nodes 605559 nps 1068005 hashfull 200 tbhits 0 time 567 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 f2f3 c8e6 d1d2 h7h5 c3d5 f6d5 e4d5 e6f5 f1e2 e7h4
+[18:30:12] \u2b05\ufe0f UCI stdout info depth 23 seldepth 36 multipv 1 score cp 31 nodes 756886 nps 1072076 hashfull 263 tbhits 0 time 706 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 f2f3 c8e6 d1d2 h7h5 c3d5 f6d5 e4d5 e6f5 f1e2 a6a5 a2a4 e8g8 e1g1
+[18:30:12] \u2b05\ufe0f UCI stdout info depth 24 seldepth 50 multipv 1 score cp 30 nodes 1089832 nps 1081182 hashfull 386 tbhits 0 time 1008 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 f2f3 c8e6 d1d2 h7h5 f1e2 b8d7 c3d5 e6d5 e4d5 d8c7 b3a5 e7d8
+[18:30:12] \u2b05\ufe0f UCI stdout info depth 25 seldepth 44 multipv 1 score cp 35 nodes 1287811 nps 1091365 hashfull 433 tbhits 0 time 1180 pv e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e5 d4b3 f8e7 h2h3 c8e6 d1d2 b8d7 g2g4 b7b5 f1g2 a8c8 c3d5 e8g8
+[18:30:13] \u2b05\ufe0f UCI stdout info depth 26 seldepth 40 multipv 1 score cp 28 nodes 2112773 nps 1067057 hashfull 662 tbhits 0 time 1980 pv e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6 g1f3 c8d7 f1e2 g8e7 e1g1 e7f5 d4c5 f8c5 e2d3 e8g8 b1d2 f5h4 f1e1
+[18:30:15] \u2b05\ufe0f UCI stdout info depth 27 seldepth 45 multipv 1 score cp 25 nodes 3742675 nps 1071172 hashfull 902 tbhits 0 time 3494 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 d6e8 d4d5 e7c5 e5e1 d7d6 b1c3 c8f5 c3e4 f5e4 e1e4
+[18:30:15] \u2b05\ufe0f UCI stdout info depth 28 seldepth 50 multipv 1 score cp 24 nodes 3858460 nps 1075678 hashfull 909 tbhits 0 time 3587 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 e7f6 e5e1 f8e8 b1c3 e8e1 d1e1 f6d4 c3d5 b7b6 e1d1 d4f6 d5f6
+[18:30:15] \u2b05\ufe0f UCI stdout info depth 29 seldepth 45 multipv 1 score cp 23 nodes 4102825 nps 1079406 hashfull 925 tbhits 0 time 3801 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 e7f6 e5e1 f8e8 c1f4 e8e1 d1e1 d6e8 c2c3 d7d5 b1d2 c7c6 a2a4 a7a5 h2h3 e8d6
+[18:30:16] \u2b05\ufe0f UCI stdout info depth 30 seldepth 53 multipv 1 score cp 17 nodes 5456560 nps 1094376 hashfull 977 tbhits 0 time 4986 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6 f3e5 c6e5 b5f1 f8e7 e1e5 e8g8 d2d4 e7f6 e5e1 f8e8 c1f4 e8e1 d1e1 d6e8 b1c3 f6d4 c3d5 d7d6 f4g5 f7f6 e1e4 f6g5 f1c4 g8h8 e4d4
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 31 seldepth 54 multipv 1 score cp 17 lowerbound nodes 8820590 nps 1102573 hashfull 999 tbhits 0 time 8000 pv d2d4 d7d5
+[18:30:19] \u2b05\ufe0f UCI stdout bestmove d2d4 ponder d7d5
+[18:30:19] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:19] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:19] \u27a1\ufe0f UCI stdin position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+[18:30:19] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:19] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:19] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:19] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:19] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 1 seldepth 6 multipv 1 score cp -16 nodes 68 nps 68000 hashfull 0 tbhits 0 time 1 pv f8e8
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 2 seldepth 4 multipv 1 score cp -13 nodes 114 nps 114000 hashfull 0 tbhits 0 time 1 pv f8e8
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 3 seldepth 4 multipv 1 score cp -8 nodes 184 nps 184000 hashfull 0 tbhits 0 time 1 pv f8e8
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 4 seldepth 6 multipv 1 score cp -9 nodes 454 nps 454000 hashfull 0 tbhits 0 time 1 pv f8e8 f3d2
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 5 seldepth 10 multipv 1 score cp -7 nodes 1587 nps 793500 hashfull 0 tbhits 0 time 2 pv d7c5 a4c5 c7c5 b2d4
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 6 seldepth 7 multipv 1 score cp -5 nodes 1776 nps 888000 hashfull 0 tbhits 0 time 2 pv d7c5 a4c5 c7c5 a1c1
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 7 seldepth 9 multipv 1 score cp 6 nodes 2477 nps 825666 hashfull 0 tbhits 0 time 3 pv f6h5 e2e3 e7f6
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 8 seldepth 12 multipv 1 score cp -2 nodes 5116 nps 852666 hashfull 1 tbhits 0 time 6 pv f6h5 b2c1 h5f6 c1f4 f8d8 a1c1 f6h5 f4e3
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 9 seldepth 15 multipv 1 score cp -1 nodes 12484 nps 960307 hashfull 3 tbhits 0 time 13 pv f6h5 b2c1 h5f6 d1e1 d7c5 a4c5 c7c5 c1e3 c5c7 a1d1
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 10 seldepth 11 multipv 1 score cp -1 nodes 12786 nps 983538 hashfull 3 tbhits 0 time 13 pv f6h5 b2c1 h5f6 d1e1 d7c5 a4c5 c7c5 c1e3 c5c7 a1d1
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 11 seldepth 15 multipv 1 score cp 10 nodes 17615 nps 1036176 hashfull 5 tbhits 0 time 17 pv d7c5 a4c5 c7c5 a1c1 f6d7 d3b1 e7f6
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 12 seldepth 15 multipv 1 score cp 26 nodes 25428 nps 1105565 hashfull 7 tbhits 0 time 23 pv d7c5 a4c5 c7c5 a1c1 f6d7 d3b1 e7f6
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 13 seldepth 15 multipv 1 score cp 63 nodes 29213 nps 1123576 hashfull 8 tbhits 0 time 26 pv b7e4 d3e4 c7c4 e2c4
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 14 seldepth 13 multipv 1 score cp 132 nodes 33429 nps 1152724 hashfull 10 tbhits 0 time 29 pv b7e4 d3e4 c7c4 e4d3 c4a4 f3d4 d7e5 d3c2
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 15 seldepth 35 multipv 1 score cp 74 nodes 69895 nps 1248125 hashfull 27 tbhits 0 time 56 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c7 a1c1 f6d5 c1c7 d5c7 d1c1
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 16 seldepth 37 multipv 1 score cp 140 nodes 113879 nps 1339752 hashfull 39 tbhits 0 time 85 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 f3d4 b6a4 d4c6
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 17 seldepth 40 multipv 1 score cp 145 nodes 195108 nps 1354916 hashfull 72 tbhits 0 time 144 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 f3d4 b6a4 a1b1 f6d5 d4c6 e7g5 d3c2 a4b2 d1d5 e6d5 b1b2 c8c7
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 18 seldepth 39 multipv 1 score cp 98 nodes 358196 nps 1388356 hashfull 135 tbhits 0 time 258 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 c8c1 d1c1 f6d7 b2d4 f8b8 c1c6
+[18:30:19] \u2b05\ufe0f UCI stdout info depth 19 seldepth 39 multipv 1 score cp 99 nodes 414713 nps 1405806 hashfull 157 tbhits 0 time 295 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 f6d5 b2d4 c8c1 d1c1 f8c8 c1c8 b6c8 f3d2 d5b6 d2c4 b6c4 d3c4 e7d8 g1f1 d8b6 d4c3 d6d5 c4d3 f7f6 a3a4 g8f7
+[18:30:20] \u2b05\ufe0f UCI stdout info depth 20 seldepth 36 multipv 1 score cp 97 nodes 562481 nps 1409726 hashfull 216 tbhits 0 time 399 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c7 a1c1 f6d5 c1c7 d5c7 d1c1 c7d5 g1f1 f8c8 c1c8 b6c8 f3d2 c8b6 d2c4
+[18:30:20] \u2b05\ufe0f UCI stdout info depth 21 seldepth 33 multipv 1 score cp 104 nodes 657459 nps 1410856 hashfull 241 tbhits 0 time 466 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c7 a1c1 f8c8 c1c7 c8c7 f3d4 f6d7 d4c6 e7f6 b2f6 g7f6 d3f1 d6d5 c6a5
+[18:30:20] \u2b05\ufe0f UCI stdout info depth 22 seldepth 47 multipv 1 score cp 94 nodes 905244 nps 1416657 hashfull 323 tbhits 0 time 639 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 f6d5 c1c6 c8c6 b5c6 f8b8 d3a6 e7d8 a6b7 g8f8 f3d2 d8c7 b2d4 g7g6
+[18:30:20] \u2b05\ufe0f UCI stdout info depth 23 seldepth 39 multipv 1 score cp 98 nodes 1017386 nps 1418948 hashfull 355 tbhits 0 time 717 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 f6d5 c1c6 c8c6 b5c6 f8c8 d1c1 c8b8 d3a6 e7d8 a6b7 e6e5 f3d2 d8c7 d2e4 g8f8
+[18:30:20] \u2b05\ufe0f UCI stdout info depth 24 seldepth 45 multipv 1 score cp 92 nodes 1187280 nps 1410071 hashfull 411 tbhits 0 time 842 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 f6d5 c1c6 c8c6 b5c6 f8c8 d1c1 c8b8 d3a6 e7d8 b2a1 e6e5 f3d2 d8g5 c6c7
+[18:30:20] \u2b05\ufe0f UCI stdout info depth 25 seldepth 52 multipv 1 score cp 92 nodes 1685692 nps 1410620 hashfull 548 tbhits 0 time 1195 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 f6d5 b2d4 c8c1 d1c1 f8c8 c1c8 b6c8 f3d2 d5b6 d2c4 b6c4 d3c4 e7d8 g1f1 d6d5 c4d3 g8f8 d4c3 f8e7 a3a4
+[18:30:21] \u2b05\ufe0f UCI stdout info depth 26 seldepth 37 multipv 1 score cp 99 nodes 1914003 nps 1408390 hashfull 606 tbhits 0 time 1359 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 f6d5 b2d4 c8c1 d1c1 f8c8 c1c8 b6c8 d3e4 d5b6 e4b7 e7d8 g1f1 c8e7 b7e4 f7f6 e4c2 e7c8
+[18:30:21] \u2b05\ufe0f UCI stdout info depth 27 seldepth 48 multipv 1 score cp 84 nodes 2752804 nps 1401631 hashfull 780 tbhits 0 time 1964 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c8 a1c1 f6d5 b2d4 e6e5 d4a1 a5a4 g2g3 c8c1 d1c1 f8c8 c1c6 g8f8 f3d2 f7f6 d2b1 f8f7 b1c3 c8c6 b5c6 d5c7 c3b5
+[18:30:22] \u2b05\ufe0f UCI stdout info depth 28 seldepth 49 multipv 1 score cp 82 nodes 4170111 nps 1381288 hashfull 934 tbhits 0 time 3019 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c7 a1c1 c7c1 d1c1 f6d5 b2d4 f8c8 c1c8 b6c8 f3d2 d5b6 d2c4 b6c4 d3c4 e7d8 d4c3 d6d5 c4d3 c8d6 g1f1 f7f6 c3d4
+[18:30:24] \u2b05\ufe0f UCI stdout info depth 29 seldepth 55 multipv 1 score cp 97 nodes 5866819 nps 1353360 hashfull 983 tbhits 0 time 4335 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c7 a1c1 f8c8 c1c7 c8c7 f3d4 a5a4 d4c6 e7f8 d1c1 c7c8 c1c2 f6d7 f2f4 d6d5 h3h4 f8d6 h4h5 c8c7 g2g3 d7c5 d3e2 c5b3 g1g2 f7f6
+[18:30:24] \u2b05\ufe0f UCI stdout info depth 30 seldepth 69 multipv 1 score cp 93 nodes 6963608 nps 1349274 hashfull 994 tbhits 0 time 5161 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c7 a1c1 f8c8 c1c7 c8c7 f3d4 e7f8 d4c6 a5a4 d1c1 c7c8 c1c2 f6d7 h3h4 d6d5 h4h5 f8d6 f2f4 g8f8 g2g3 d7c5 d3e2 c5b3 e2d3 f7f6 c2e2 b3c5 b2a1
+[18:30:25] \u2b05\ufe0f UCI stdout info depth 31 seldepth 67 multipv 1 score cp 105 nodes 7997500 nps 1344343 hashfull 997 tbhits 0 time 5949 pv b7e4 d3e4 c7c4 e2c4 c8c4 a4b6 d7b6 e4d3 c4c7 a1c1 f8c8 c1c7 c8c7 f3d4 e7f8 d4c6 a5a4 d1c1 c7c8 h3h4 f6d7 c1c2 d6d5 h4h5 f8d6 g2g3 g8f8 b2c1 d7e5 c6e5 c8c2 d3c2 d6e5 c1d2 f8e8 d2b4 e8d8 f2f4 e5d4 g1f1
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 32 seldepth 59 multipv 1 score cp 90 lowerbound nodes 10232983 nps 1331552 hashfull 999 tbhits 0 time 7685 pv b7e4
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 31 currmove b7e4 currmovenumber 1
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 32 seldepth 59 multipv 1 score cp 90 lowerbound nodes 10634619 nps 1329327 hashfull 1000 tbhits 0 time 8000 pv b7e4 d3e4
+[18:30:27] \u2b05\ufe0f UCI stdout bestmove b7e4 ponder d3e4
+[18:30:27] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:27] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:27] \u27a1\ufe0f UCI stdin position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+[18:30:27] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:27] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:27] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:27] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:27] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 1 seldepth 6 multipv 1 score cp 198 nodes 49 nps 49000 hashfull 0 tbhits 0 time 1 pv g3g4
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 2 seldepth 4 multipv 1 score cp 235 nodes 97 nps 97000 hashfull 0 tbhits 0 time 1 pv g3g4
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 3 seldepth 4 multipv 1 score cp 280 nodes 167 nps 167000 hashfull 0 tbhits 0 time 1 pv g3g4
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 4 seldepth 7 multipv 1 score cp 332 nodes 407 nps 407000 hashfull 0 tbhits 0 time 1 pv g3g4 h7g7 g4f5 e6f5
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 5 seldepth 6 multipv 1 score cp 345 nodes 473 nps 473000 hashfull 0 tbhits 0 time 1 pv g3g4 h7g7 g4f5 e6f5 e2h5
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 6 seldepth 7 multipv 1 score cp 382 nodes 1224 nps 1224000 hashfull 0 tbhits 0 time 1 pv g3g4 f5g4 e2g4 e7f6 e1g1
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 7 seldepth 10 multipv 1 score cp 356 nodes 1313 nps 1313000 hashfull 0 tbhits 0 time 1 pv g3g4 f5g4 e2g4 e7f6 e1g1 h7g7 g4h5
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 8 seldepth 12 multipv 1 score cp 356 nodes 1524 nps 762000 hashfull 0 tbhits 0 time 2 pv g3g4 h7g7 g4f5 e6f5 e2h5 d6e6 e1g1
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 9 seldepth 11 multipv 1 score cp 360 nodes 1681 nps 840500 hashfull 0 tbhits 0 time 2 pv g3g4 f5g4 e2g4 e7f6 e1g1 f8e7 g4h5
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 10 seldepth 14 multipv 1 score cp 351 nodes 2345 nps 1172500 hashfull 0 tbhits 0 time 2 pv g3g4 f5g4 e2g4 e7f6 c1b1 a8c8 g4h5 b7a6
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 11 seldepth 18 multipv 1 score cp 390 nodes 7711 nps 1101571 hashfull 2 tbhits 0 time 7 pv g3g4 h7g7 g4f5 e6f5 e2h5
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 12 seldepth 18 multipv 1 score cp 380 nodes 8939 nps 1117375 hashfull 2 tbhits 0 time 8 pv g3g4 h7g7 e1g1 f5g4 g1g4 e7f6 d1g1
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 13 seldepth 24 multipv 1 score cp 420 nodes 22689 nps 1134450 hashfull 8 tbhits 0 time 20 pv g3g4 f5g4 e2g4 e7f6 g4h3 f8e7 c1b1 a8g8 a2a4
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 14 seldepth 19 multipv 1 score cp 402 nodes 26323 nps 1196500 hashfull 10 tbhits 0 time 22 pv g3g4 f5g4 e2g4 e7f6 c1b1 b7c6 a2a4 a8d8 g4h3 c6e8 e1g1
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 15 seldepth 23 multipv 1 score cp 416 nodes 44107 nps 1160710 hashfull 20 tbhits 0 time 38 pv g3g4 f5g4 e2g4 e7f6 c1b1 b7c6 a2a4 c6e8 g4h3 a8d8 e1g1 h6h5 c3b5 d6b4 f4f5
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 16 seldepth 27 multipv 1 score cp 434 nodes 100945 nps 1173779 hashfull 47 tbhits 0 time 86 pv g3g4 f5g4 e2g4 e7f6 c1b1 b7c6 g4f3 a8d8 c3e2 c6e8 f4f5 f6e5 d4e5 d6e5 f5e6 e5e6
+[18:30:27] \u2b05\ufe0f UCI stdout info depth 17 seldepth 29 multipv 1 score cp 425 nodes 238400 nps 1162926 hashfull 102 tbhits 0 time 205 pv g3g4 a8d8 e1g1 h7g7 g4f5 e6f5 c1b1 d6e6 e2h5 b7c8 c3b5 a7a6 g1g7 f8g7 b5c7 e6f6
+[18:30:28] \u2b05\ufe0f UCI stdout info depth 18 seldepth 31 multipv 1 score cp 439 nodes 354629 nps 1182096 hashfull 140 tbhits 0 time 300 pv g3g4 a8d8 g4f5 e6f5 e1g1 h7g7 c3b5 d6e6 e2h5 b7c8 b5a7 c8d7 g1g7 f8g7
+[18:30:28] \u2b05\ufe0f UCI stdout info depth 19 seldepth 42 multipv 1 score cp 417 nodes 577204 nps 1180376 hashfull 230 tbhits 0 time 489 pv g3g4 a8d8 g4f5 e6f5 e1g1 d6f6 a2a3 f6h4 e2d2 h7g7 c1b1 g7g1 d1g1 e7d6 c3b5
+[18:30:28] \u2b05\ufe0f UCI stdout info depth 20 seldepth 38 multipv 1 score cp 424 nodes 794960 nps 1186507 hashfull 312 tbhits 0 time 670 pv g3g4 a8d8 e1g1 e7f6 g4f5 e6f5 e2h5 d6e6 d1e1 b7a6 a2a4 h7g7 h5h6 f6e5 h6h8 f8e7
+[18:30:28] \u2b05\ufe0f UCI stdout info depth 21 seldepth 37 multipv 1 score cp 424 nodes 967472 nps 1192937 hashfull 371 tbhits 0 time 811 pv g3g4 f5g4 e2g4 e7f6 c1b1 a8d8 g4f3 b7c6 c3e2 c6a4 b2b3 a4b5 e2g3 d8c8 f4f5 d6c7
+[18:30:28] \u2b05\ufe0f UCI stdout info depth 22 seldepth 34 multipv 1 score cp 428 nodes 1107153 nps 1189208 hashfull 417 tbhits 0 time 931 pv g3g4 f5g4 e2g4 e7f6 c1b1 a8d8 g4f3 b7c6 c3e2 c6a4 b2b3 a4b5 e2g3 d8c8 f4f5 d6c7 d1c1 c7c3 f3f2 f6g5 f5e6 f7f6 e5g6 f8e8 g3h5 e8d8
+[18:30:29] \u2b05\ufe0f UCI stdout info depth 23 seldepth 41 multipv 1 score cp 428 nodes 1823275 nps 1164287 hashfull 645 tbhits 0 time 1566 pv g3g4 f5g4 e2g4 e7f6 c1b1 a8d8 g4f3 d6e7 f4f5 f8g8 a2a4 f6g5 f3h5 h7g7 e5g4 b7c8 h2h4 g5h4 e1g1 h4g5 g4h6 g8f8 d1f1 e7f6 h6g4 f6d4 f5f6 g7g6 c3e2
+[18:30:33] \u2b05\ufe0f UCI stdout info depth 24 seldepth 54 multipv 1 score cp 445 nodes 6008679 nps 1134140 hashfull 992 tbhits 0 time 5298 pv g3g4 f5g4 e2g4 e7f6 c1b1 b7a6 g4f3 f8g8 f4f5 a8f8 e1g1 g8h8 f3f4 d6e7 f5e6 e7e6 h2h4 f8d8 a2a4 f6e5 d4e5 h7g7 g1g7
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 25 seldepth 54 multipv 1 score cp 476 nodes 9009154 nps 1128118 hashfull 999 tbhits 0 time 7986 pv g3g4 f5g4 e2g4 e7f6 c1b1 b7a6 g4f3 a8d8 e1g1 h7h8 a2a3 f6e5 d4e5 d6c6 f3g4 f8e7 g4g7 h8f8 f4f5 e6f5 e5e6 a6c8 e6f7 c6f6 c3d5 d8d5 d1d5 f6g7 g1g7
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 26 seldepth 54 multipv 1 score cp 476 nodes 9026003 nps 1128250 hashfull 999 tbhits 0 time 8000 pv g3g4 f5g4 e2g4 e7f6 c1b1 b7a6 g4f3 a8d8 e1g1 h7h8 a2a3 f6e5 d4e5 d6c6 f3g4 f8e7 g4g7 h8f8 f4f5 e6f5 e5e6 a6c8 e6f7 c6f6 c3d5 d8d5 d1d5 f6g7 g1g7
+[18:30:35] \u2b05\ufe0f UCI stdout bestmove g3g4 ponder f5g4
+[18:30:35] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:35] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:35] \u27a1\ufe0f UCI stdin position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b - - 0 1
+[18:30:35] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:35] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:35] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:35] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:35] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 1 seldepth 5 multipv 1 score cp 30 nodes 37 nps 37000 hashfull 0 tbhits 0 time 1 pv c6c5
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 2 seldepth 4 multipv 1 score cp -49 nodes 990 nps 990000 hashfull 0 tbhits 0 time 1 pv d8b6
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 3 seldepth 7 multipv 1 score cp -40 nodes 1304 nps 1304000 hashfull 0 tbhits 0 time 1 pv c8f5 a4a5 d8c8 d4d2 c8c7 h2h3
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 4 seldepth 6 multipv 1 score cp -40 nodes 1376 nps 1376000 hashfull 0 tbhits 0 time 1 pv c8f5 a4a5 d8c8 d4d2
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp -32 nodes 1540 nps 1540000 hashfull 0 tbhits 0 time 1 pv c8f5 a4a5 f7f6
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 6 seldepth 9 multipv 1 score cp -23 nodes 2113 nps 2113000 hashfull 0 tbhits 0 time 1 pv b7b6 f4f5 e7c5 d4f4 c5e3 f4e3
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 7 seldepth 10 multipv 1 score cp -20 nodes 3209 nps 1604500 hashfull 0 tbhits 0 time 2 pv c8f5 d4d2 d8a5 h2h3 a5b4
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 8 seldepth 12 multipv 1 score cp -27 nodes 3703 nps 1234333 hashfull 1 tbhits 0 time 3 pv c8f5 a4a5 d8d7 d4d2 h7h5 h2h3 d5d4 d2d4 d7d4 e3d4 f5c2
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 9 seldepth 12 multipv 1 score cp -27 nodes 3943 nps 1314333 hashfull 1 tbhits 0 time 3 pv c8f5 a4a5 d8d7 d4d2 h7h5 h2h3 d5d4 d2d4 d7d4 e3d4 f5c2
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 10 seldepth 12 multipv 1 score cp -27 nodes 4105 nps 1368333 hashfull 1 tbhits 0 time 3 pv c8f5 a4a5 d8d7 d4d2 h7h5 h2h3 d5d4 d2d4 d7d4 e3d4 f5c2
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 11 seldepth 12 multipv 1 score cp -27 nodes 4294 nps 1431333 hashfull 1 tbhits 0 time 3 pv c8f5 a4a5 d8d7 d4d2 h7h5 h2h3 d5d4 d2d4 d7d4 e3d4 f5c2
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 12 seldepth 17 multipv 1 score cp -7 nodes 13004 nps 1300400 hashfull 4 tbhits 0 time 10 pv c8f5 a4a5 h7h5 h2h3 h8h6 g1h2
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 13 seldepth 21 multipv 1 score cp -17 nodes 24431 nps 1285842 hashfull 7 tbhits 0 time 19 pv c8f5 a4a5 h7h5 d4d2 h5h4 h2h3 d5d4 d2d4 f5c2 d4d8 e7d8 e3c5 h8h5
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 14 seldepth 28 multipv 1 score cp -21 nodes 74012 nps 1213311 hashfull 24 tbhits 0 time 61 pv c8f5 a4a5 h7h5 c3a4 h8h6 d4d1 h5h4 f1f2 d8a5 a4b6 a7b6 a1a5 b6a5
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 15 seldepth 20 multipv 1 score cp -20 nodes 83303 nps 1207289 hashfull 28 tbhits 0 time 69 pv c8f5 a4a5 h7h5 c3a4 h8h6 d4c3 h6g6 f1f2 e8f8 e3c5 f8g8 c5e7 d8e7 a4c5 a8d8
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 16 seldepth 24 multipv 1 score cp -17 nodes 129016 nps 1205757 hashfull 39 tbhits 0 time 107 pv c8f5 a4a5 h7h5 c3a4 h8h6 d4c3 e8f8 a4c5 b7b6 a5b6 a7b6 c5b7 d8b8
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 17 seldepth 23 multipv 1 score cp -16 nodes 159014 nps 1195593 hashfull 51 tbhits 0 time 133 pv c8f5 h2h3 d8a5 a1c1 h7h5 c3e2 h5h4
+[18:30:35] \u2b05\ufe0f UCI stdout info depth 18 seldepth 30 multipv 1 score cp -16 nodes 319244 nps 1160887 hashfull 119 tbhits 0 time 275 pv c8f5 d4d2 h7h5 c3e2 c6c5 e2g3 f5c8 c2c3 h5h4 g3e2 c8f5 b2b4 h4h3 e3c5 e7c5 b4c5 h3g2 f1f2
+[18:30:36] \u2b05\ufe0f UCI stdout info depth 19 seldepth 40 multipv 1 score cp -60 nodes 642806 nps 1166617 hashfull 226 tbhits 0 time 551 pv c8f5 a4a5 h7h5 b2b4 h5h4 c3e2 h4h3 g2g3 c6c5 b4c5 a8c8 d4a4 f5d7 a4b4 d7g4 e2c3 d5d4 e3d4 d8d4 b4d4 e7c5 c3b5 c5d4 b5d4 c8c4 d4b5 e8e7 f1f2 f7f6 a5a6 b7a6 a1a6 h8d8 a6a7 d8d7
+[18:30:36] \u2b05\ufe0f UCI stdout info depth 20 seldepth 44 multipv 1 score cp -54 nodes 1389247 nps 1184353 hashfull 475 tbhits 0 time 1173 pv c8f5 a4a5 d8d7 b2b4 f5c2 c3e2 c2e4 d4c3 a7a6 e3c5 e7c5 b4c5 h7h5 a1a3 a8d8 e2d4 d7e7 a3b3 d8d7 f1f2 h5h4 f2b2 d7c7 b3b4 h4h3 g2g3
+[18:30:37] \u2b05\ufe0f UCI stdout info depth 21 seldepth 36 multipv 1 score cp -47 nodes 2477854 nps 1164952 hashfull 739 tbhits 0 time 2127 pv c8f5 a4a5 d8d7 b2b4 f5c2 c3e2 c2e4 d4c3 f7f5 a1d1 a7a6 d1d2 h8g8 e2g3
+[18:30:38] \u2b05\ufe0f UCI stdout info depth 22 seldepth 47 multipv 1 score cp -47 nodes 3532023 nps 1172650 hashfull 891 tbhits 0 time 3012 pv c8f5 a4a5 d8d7 d4d2 d5d4 d2d4 f5c2 d4d7 e8d7 f4f5 h8d8 f1f3 d7e8 g1f2 c2b3 f3h3 h7h6 a1e1 e7f8 h3g3 b7b6 c3e4 b3d5 e4d6 e8d7 a5b6 a7b6 e3b6
+[18:30:39] \u2b05\ufe0f UCI stdout info depth 23 seldepth 45 multipv 1 score cp -58 nodes 4482111 nps 1167520 hashfull 950 tbhits 0 time 3839 pv c8f5 a4a5 d8d7 b2b4 f5c2 c3e2 f7f5 d4c3 c2e4 e3c5 a7a6 e2d4 e7c5 b4c5 d7e7 f1f2 h8g8 a1a4 a8c8 a4b4 c8c7 h2h4 e7h4 d4e6 c7e7 e6g5 h7h6 g5e4 f5e4
+[18:30:40] \u2b05\ufe0f UCI stdout info depth 24 seldepth 39 multipv 1 score cp -51 nodes 5099672 nps 1162715 hashfull 969 tbhits 0 time 4386 pv c8f5 a4a5 d8d7 h2h3 h7h5 d4d2 h8h6 d2f2 e8f8 g1h2 f8g8 c3a4 d7e8 e3a7 f5c2 f2c2 a8a7 a4c5 e8f8 b2b4 e7c5 b4c5 h6e6 f1e1 e6e7
+[18:30:41] \u2b05\ufe0f UCI stdout info depth 25 seldepth 46 multipv 1 score cp -48 nodes 6183741 nps 1156920 hashfull 987 tbhits 0 time 5345 pv c8f5 a4a5 d8d7 d4d2 h7h5 d2f2 h8h6 h2h3 e8f8 g1h2 f8g8 c3a4 d7e8 e3a7 f5c2 a4c5 a8a7 f2c2 e7c5 c2c5 a7a8 f1f3
+[18:30:42] \u2b05\ufe0f UCI stdout info depth 26 seldepth 51 multipv 1 score cp -51 nodes 7352365 nps 1155305 hashfull 995 tbhits 0 time 6364 pv c8f5 a4a5 d8d7 d4d2 h7h5 d2f2 h8h6 h2h3 e8f8 g1h2 f8g8 c3a4 h6g6 e3a7 f5e4 f1g1 a8e8 a4c5 e7c5 a7c5 d7f5 c2c3 f7f6 e5f6 g6f6 g2g4 f5h7 g4h5 h7h5 g1g5 h5g5 f4g5 f6f2 c5f2 e8f8
+[18:30:42] \u2b05\ufe0f UCI stdout info depth 27 seldepth 47 multipv 1 score cp -51 nodes 7790124 nps 1153921 hashfull 997 tbhits 0 time 6751 pv c8f5 a4a5 d8d7 d4d2 h7h5 d2f2 h8h6 h2h3 a8c8 f1d1 e8f8 e3a7 f8g8 g1h2 f7f6 c3a4 c8e8 d1e1 f5e4 a4c3 e4f5 e5e6 f5e6 c3a4 e7d6 a7c5
+[18:30:42] \u2b05\ufe0f UCI stdout info depth 28 seldepth 48 multipv 1 score cp -47 nodes 8030331 nps 1152954 hashfull 997 tbhits 0 time 6965 pv c8f5 a4a5 d8d7 d4d2 h7h5 d2f2 h8h6 h2h3 h6g6 g1h2 e8f8 e3a7 f8g8 c3a4 a8e8 a4c5 e7c5 a7c5 f5e4 f1g1 d7f5 c2c3 f7f6 e5f6 g6f6 a1f1 e4d3 f1e1 e8e1 g1e1 d3e4 c5e3 f6g6 e1g1 d5d4 e3d4 f5a5 f2e2
+[18:30:42] \u2b05\ufe0f UCI stdout info depth 29 seldepth 46 multipv 1 score cp -48 nodes 8363445 nps 1151513 hashfull 998 tbhits 0 time 7263 pv c8f5 a4a5 d8d7 d4d2 h7h5 d2f2 h8h6 h2h3 h6g6 g1h2 e8f8 e3a7 f8g8 c3a4 a8e8 a4c5 e7c5 a7c5 f5e4 f1g1 d7f5 c2c3 f7f6 e5f6 g6f6 a1f1 e4d3 f1e1 e8e1 g1e1 d3e4 c5e3 f6g6 e1g1 d5d4 e3d4 f5a5 c3c4 a5f5 d4e5 f5d7 f2e3 d7d3 e3d3
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 30 seldepth 46 multipv 1 score cp -48 nodes 9164911 nps 1145613 hashfull 999 tbhits 0 time 8000 pv c8f5 a4a5 d8d7 d4d2 h7h5 d2f2 h8h6 h2h3 h6g6 g1h2 e8f8 e3a7 f8g8 c3a4 a8e8 a4c5 e7c5 a7c5 f5e4 f1g1 d7f5 c2c3 f7f6 e5f6 g6f6 a1f1 e4d3 f1e1 e8e1 g1e1 d3e4 c5e3 f6g6 e1g1 d5d4 e3d4 f5a5 c3c4 a5f5 d4e5 f5d7 f2e3 d7d3 e3d3
+[18:30:43] \u2b05\ufe0f UCI stdout bestmove c8f5 ponder a4a5
+[18:30:43] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:43] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:43] \u27a1\ufe0f UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[18:30:43] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:43] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:43] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:43] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:43] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 1 seldepth 4 multipv 1 score cp 81 nodes 36 nps 36000 hashfull 0 tbhits 0 time 1 pv f2e3
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 2 seldepth 3 multipv 1 score cp 93 nodes 75 nps 75000 hashfull 0 tbhits 0 time 1 pv f2e3
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 3 seldepth 5 multipv 1 score cp 111 nodes 216 nps 216000 hashfull 0 tbhits 0 time 1 pv f2f3 g7g5 h5g6
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 4 seldepth 5 multipv 1 score cp 123 nodes 354 nps 354000 hashfull 0 tbhits 0 time 1 pv f2f3 c6c5
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp 121 nodes 591 nps 591000 hashfull 0 tbhits 0 time 1 pv c1b1 f8g8 f2f3
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 6 seldepth 8 multipv 1 score cp 140 nodes 1164 nps 1164000 hashfull 0 tbhits 0 time 1 pv f2f3 f8g8 f4f5 f7f6
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 7 seldepth 14 multipv 1 score cp 125 nodes 3184 nps 1592000 hashfull 0 tbhits 0 time 2 pv f4f5 f7f6 c1b1 f8e8
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 8 seldepth 11 multipv 1 score cp 149 nodes 4210 nps 1403333 hashfull 1 tbhits 0 time 3 pv f4f5 f7f6 c1b1 f8g8
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 9 seldepth 11 multipv 1 score cp 141 nodes 6250 nps 1250000 hashfull 1 tbhits 0 time 5 pv f2e3 f8g8 c1b1 d8e8
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 10 seldepth 12 multipv 1 score cp 140 nodes 7512 nps 1252000 hashfull 2 tbhits 0 time 6 pv f2e3 f7f6 c1b1 f8e8 f4f5 d6d7 c3c2 c6c5 d4c5
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 11 seldepth 22 multipv 1 score cp 82 nodes 45889 nps 1434031 hashfull 8 tbhits 0 time 32 pv c1b1 d6d7
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 12 seldepth 13 multipv 1 score cp 235 nodes 48277 nps 1462939 hashfull 10 tbhits 0 time 33 pv d4d5 c6d5 e4e5 d6e6
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 13 seldepth 19 multipv 1 score cp 182 nodes 58306 nps 1388238 hashfull 13 tbhits 0 time 42 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8e8 f2f3 d7d8 c3c7 d8c8 d4b5 c8c7 c1c7 e8c8 c7b7 c8c4
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 14 seldepth 27 multipv 1 score cp 153 nodes 98759 nps 1410842 hashfull 28 tbhits 0 time 70 pv d4d5 c6d5 e4e5 d6d7 b3d4 d7b7 f4f5 b7b8 f2g3 b8c8 f5f6 g7f6 e5f6
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 15 seldepth 32 multipv 1 score cp 172 nodes 137589 nps 1418443 hashfull 40 tbhits 0 time 97 pv d4d5 c6d5 e4e5 d6d7 b3d4 d7b7 f2e3 b7b8 c3c7 b8c8 e3d3 f8e8 d4b5 c8c7 c1c7 d8d7 b5d6 e8d8 c7d7 d8d7 d6f7
+[18:30:43] \u2b05\ufe0f UCI stdout info depth 16 seldepth 35 multipv 1 score cp 229 nodes 248248 nps 1418560 hashfull 72 tbhits 0 time 175 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8e8 f2e3 d7b7 e3d2 g7g5 f4f5 e7g8 f5f6 e8e5 c3c6
+[18:30:44] \u2b05\ufe0f UCI stdout info depth 17 seldepth 49 multipv 1 score cp 261 nodes 511556 nps 1428927 hashfull 157 tbhits 0 time 358 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8e8 f2e3 d7b7 e3d3 b7d7 c3c2 e8b8 c2c7 d7d8 f4f5 d8c8
+[18:30:44] \u2b05\ufe0f UCI stdout info depth 18 seldepth 40 multipv 1 score cp 286 nodes 883736 nps 1444013 hashfull 274 tbhits 0 time 612 pv d4d5 c6d5 e4e5 d6d7 b3d4 d7b7 f2e3 f8e8 e3d3 e8d7 f4f5 d8c8 c3c8 e7c8 d4b5 c8e7 b5d6 b7c7 c1c7 d7c7 d6f7 e7c6 f5f6 g7f6 e5f6
+[18:30:44] \u2b05\ufe0f UCI stdout info depth 19 seldepth 41 multipv 1 score cp 270 nodes 1200362 nps 1462073 hashfull 364 tbhits 0 time 821 pv d4d5 c6c5 f2f3 e7d5 e4d5 d6d5 c1e1 d5d3 c3d3 d8d3 e1e3 d3d1 e3c3 f8e7 f3e4 d1g1 e4f5 e7d6 b3d2 g7g6 f5f6 g1g4
+[18:30:44] \u2b05\ufe0f UCI stdout info depth 20 seldepth 42 multipv 1 score cp 287 nodes 1689958 nps 1449363 hashfull 509 tbhits 0 time 1166 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8b8 f2e3 b8e8 c3c2 d7d8 c2c7 d8c8 d4b5 c8c7 c1c7 e8c8 c7b7 d5d4 e3d4 e7c6 d4e3 c6d8 b7b6 c8c4 b6b8
+[18:30:45] \u2b05\ufe0f UCI stdout info depth 21 seldepth 54 multipv 1 score cp 290 nodes 2713008 nps 1469668 hashfull 685 tbhits 0 time 1846 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8a8 f2e3 b6b5 a4b5 a5a4 c1a1 d7a7 c3a3 f8e8 g4g5 h6g5 f4g5 e8d7 e3d3 a8h8 a3a4 a7a4 a1a4 h8h5 a4a7 d7d8
+[18:30:45] \u2b05\ufe0f UCI stdout info depth 22 seldepth 41 multipv 1 score cp 277 nodes 3170324 nps 1463676 hashfull 773 tbhits 0 time 2166 pv d4d5 c6c5 f2f3 e7d5 e4d5 d6d5 c3e3 g7g6 h5g6 f7g6 c1e1 d5d1 b3c1 d1e1 e3e1 f8f7 e1e4 d8d2 c1e2 d2d3 e4e3 c5c4 e2c3 h6h5 g4g5 h5h4 e3d3 c4d3 f3g4 d3d2 g4h4
+[18:30:46] \u2b05\ufe0f UCI stdout info depth 23 seldepth 56 multipv 1 score cp 293 nodes 3965419 nps 1444071 hashfull 879 tbhits 0 time 2746 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f6 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 f6h6 c3e3 h5h4 b3d2 d5d4 f3g4
+[18:30:47] \u2b05\ufe0f UCI stdout info depth 24 seldepth 45 multipv 1 score cp 306 nodes 4914051 nps 1420656 hashfull 943 tbhits 0 time 3459 pv d4d5 c6d5 e4e5 d6d7 b3d4 d8a8 f2e3 b6b5 a4b5 a5a4 c3a3 f8e8 e3d3 d7a7 g4g5 h6g5 f4g5 a7b7 c1a1 b7a7 a1f1 a7b7 d3e3 b7c7 h5h6 g7h6 g5h6 e7g6
+[18:30:48] \u2b05\ufe0f UCI stdout info depth 25 seldepth 56 multipv 1 score cp 312 nodes 6457648 nps 1399576 hashfull 987 tbhits 0 time 4614 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f6 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 f6h6 b3d2 d5d4 d2e4 d4a4 e4g5 a4d4
+[18:30:48] \u2b05\ufe0f UCI stdout info depth 26 seldepth 56 multipv 1 score cp 323 nodes 7150046 nps 1392956 hashfull 994 tbhits 0 time 5133 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f5 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 b3c1 d5d4 c1e2 d4a4 h1h5 a4b4 c3e3 a5a4 e2g3
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c6 currmovenumber 2
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove b3a5 currmovenumber 3
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2f3 currmovenumber 4
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1d1 currmovenumber 5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f4f5 currmovenumber 6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3d3 currmovenumber 7
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3g3 currmovenumber 8
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c4 currmovenumber 9
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2g3 currmovenumber 10
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3h3 currmovenumber 11
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove g4g5 currmovenumber 12
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c2 currmovenumber 13
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2g1 currmovenumber 14
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1e1 currmovenumber 15
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2f1 currmovenumber 16
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1f1 currmovenumber 17
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3e3 currmovenumber 18
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1h1 currmovenumber 19
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3c5 currmovenumber 20
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1g1 currmovenumber 21
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2g2 currmovenumber 22
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1c2 currmovenumber 23
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2e1 currmovenumber 24
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c3f3 currmovenumber 25
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1a1 currmovenumber 26
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2e3 currmovenumber 27
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove f2e2 currmovenumber 28
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove b3a1 currmovenumber 29
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove c1b1 currmovenumber 30
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove e4e5 currmovenumber 31
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove b3d2 currmovenumber 32
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 currmove b3c5 currmovenumber 33
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 seldepth 54 multipv 1 score cp 337 nodes 10130183 nps 1368573 hashfull 999 tbhits 0 time 7402 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f6 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 d5f5 c3c4 f6d6 b3c1 d6d1 c1e2 f5d5 c4c3 d5d3 f3e4 d3d2 c3e3 d2a2 h2h5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 28 currmove d4d5 currmovenumber 1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 28 seldepth 54 multipv 1 score cp 337 nodes 10919911 nps 1364988 hashfull 1000 tbhits 0 time 8000 pv d4d5 c6c5 c1d1 g7g5 h5g6 d6g6 f2f3 h6h5 g4g5 f7f6 g5f6 g6f6 d1h1 e7d5 e4d5 d8d5 h1h2 d5f5 c3c4 f6d6 b3c1 d6d1 c1e2 f5d5 c4c3 d5d3 f3e4 d3d2 c3e3 d2a2 h2h5
+[18:30:51] \u2b05\ufe0f UCI stdout bestmove d4d5 ponder c6c5
+[18:30:51] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:51] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:51] \u27a1\ufe0f UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[18:30:51] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:51] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:51] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:51] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:51] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 1 seldepth 4 multipv 1 score cp -623 nodes 92 nps 92000 hashfull 0 tbhits 0 time 1 pv d7c6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 2 seldepth 4 multipv 1 score cp -595 nodes 153 nps 153000 hashfull 0 tbhits 0 time 1 pv d7c6 e3a7 b8c8
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 3 seldepth 4 multipv 1 score cp -595 nodes 227 nps 227000 hashfull 0 tbhits 0 time 1 pv d7c6 e3a7 b8c8
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 4 seldepth 7 multipv 1 score cp -543 nodes 417 nps 417000 hashfull 0 tbhits 0 time 1 pv a7a6 f7h7 d7e6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp -565 nodes 629 nps 629000 hashfull 0 tbhits 0 time 1 pv b7b6 c4e2 d7e6 f7f6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 6 seldepth 8 multipv 1 score cp -564 nodes 722 nps 722000 hashfull 0 tbhits 0 time 1 pv b7b6 c4e2 d7e6 f7f6 e6a2 f6d6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 7 seldepth 12 multipv 1 score cp -602 nodes 1210 nps 1210000 hashfull 0 tbhits 0 time 1 pv d6d1 c1d1 d7g4 d1c1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 8 seldepth 6 multipv 1 score mate 3 nodes 1428 nps 1428000 hashfull 0 tbhits 0 time 1 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 9 seldepth 6 multipv 1 score mate 3 nodes 1605 nps 1605000 hashfull 0 tbhits 0 time 1 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 10 seldepth 6 multipv 1 score mate 3 nodes 1748 nps 1748000 hashfull 0 tbhits 0 time 1 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 11 seldepth 6 multipv 1 score mate 3 nodes 1910 nps 1910000 hashfull 0 tbhits 0 time 1 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 12 seldepth 6 multipv 1 score mate 3 nodes 2057 nps 2057000 hashfull 0 tbhits 0 time 1 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 13 seldepth 6 multipv 1 score mate 3 nodes 2196 nps 2196000 hashfull 0 tbhits 0 time 1 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 14 seldepth 6 multipv 1 score mate 3 nodes 2327 nps 1163500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 15 seldepth 6 multipv 1 score mate 3 nodes 2439 nps 1219500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 16 seldepth 6 multipv 1 score mate 3 nodes 2606 nps 1303000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 17 seldepth 6 multipv 1 score mate 3 nodes 2776 nps 1388000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 18 seldepth 6 multipv 1 score mate 3 nodes 2931 nps 1465500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 19 seldepth 6 multipv 1 score mate 3 nodes 3101 nps 1550500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 20 seldepth 6 multipv 1 score mate 3 nodes 3271 nps 1635500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 21 seldepth 6 multipv 1 score mate 3 nodes 3442 nps 1721000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 22 seldepth 6 multipv 1 score mate 3 nodes 3622 nps 1811000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 23 seldepth 6 multipv 1 score mate 3 nodes 3797 nps 1898500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 24 seldepth 6 multipv 1 score mate 3 nodes 3961 nps 1980500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 25 seldepth 6 multipv 1 score mate 3 nodes 4152 nps 2076000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 26 seldepth 6 multipv 1 score mate 3 nodes 4350 nps 2175000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 27 seldepth 6 multipv 1 score mate 3 nodes 4568 nps 2284000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 28 seldepth 6 multipv 1 score mate 3 nodes 4813 nps 2406500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 29 seldepth 6 multipv 1 score mate 3 nodes 5117 nps 2558500 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 30 seldepth 6 multipv 1 score mate 3 nodes 5472 nps 2736000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 31 seldepth 6 multipv 1 score mate 3 nodes 5850 nps 2925000 hashfull 0 tbhits 0 time 2 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 32 seldepth 6 multipv 1 score mate 3 nodes 6405 nps 2135000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 33 seldepth 6 multipv 1 score mate 3 nodes 7015 nps 2338333 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 34 seldepth 6 multipv 1 score mate 3 nodes 7284 nps 2428000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 35 seldepth 6 multipv 1 score mate 3 nodes 8002 nps 2667333 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 36 seldepth 6 multipv 1 score mate 3 nodes 8516 nps 2838666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 37 seldepth 6 multipv 1 score mate 3 nodes 9027 nps 3009000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 38 seldepth 6 multipv 1 score mate 3 nodes 9807 nps 3269000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 39 seldepth 6 multipv 1 score mate 3 nodes 10568 nps 3522666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 40 seldepth 6 multipv 1 score mate 3 nodes 11081 nps 3693666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 41 seldepth 6 multipv 1 score mate 3 nodes 11738 nps 3912666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 42 seldepth 6 multipv 1 score mate 3 nodes 12416 nps 4138666 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 43 seldepth 6 multipv 1 score mate 3 nodes 12915 nps 4305000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 44 seldepth 6 multipv 1 score mate 3 nodes 13626 nps 4542000 hashfull 0 tbhits 0 time 3 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 45 seldepth 6 multipv 1 score mate 3 nodes 14200 nps 3550000 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 46 seldepth 6 multipv 1 score mate 3 nodes 14879 nps 3719750 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 47 seldepth 6 multipv 1 score mate 3 nodes 15373 nps 3843250 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 48 seldepth 6 multipv 1 score mate 3 nodes 16037 nps 4009250 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 49 seldepth 6 multipv 1 score mate 3 nodes 16576 nps 4144000 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 50 seldepth 6 multipv 1 score mate 3 nodes 17236 nps 4309000 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 51 seldepth 6 multipv 1 score mate 3 nodes 17742 nps 4435500 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 52 seldepth 6 multipv 1 score mate 3 nodes 18329 nps 4582250 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 53 seldepth 6 multipv 1 score mate 3 nodes 18751 nps 4687750 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 54 seldepth 6 multipv 1 score mate 3 nodes 19403 nps 4850750 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 55 seldepth 6 multipv 1 score mate 3 nodes 19925 nps 4981250 hashfull 0 tbhits 0 time 4 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 56 seldepth 6 multipv 1 score mate 3 nodes 20563 nps 4112600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 57 seldepth 6 multipv 1 score mate 3 nodes 21133 nps 4226600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 58 seldepth 6 multipv 1 score mate 3 nodes 21709 nps 4341800 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 59 seldepth 6 multipv 1 score mate 3 nodes 22430 nps 4486000 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 60 seldepth 6 multipv 1 score mate 3 nodes 23038 nps 4607600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 61 seldepth 6 multipv 1 score mate 3 nodes 23728 nps 4745600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 62 seldepth 6 multipv 1 score mate 3 nodes 24235 nps 4847000 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 63 seldepth 6 multipv 1 score mate 3 nodes 24890 nps 4978000 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 64 seldepth 6 multipv 1 score mate 3 nodes 25382 nps 5076400 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 65 seldepth 6 multipv 1 score mate 3 nodes 26149 nps 5229800 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 66 seldepth 6 multipv 1 score mate 3 nodes 26704 nps 5340800 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 67 seldepth 6 multipv 1 score mate 3 nodes 27331 nps 5466200 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 68 seldepth 6 multipv 1 score mate 3 nodes 28028 nps 5605600 hashfull 0 tbhits 0 time 5 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 69 seldepth 6 multipv 1 score mate 3 nodes 28591 nps 4765166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 70 seldepth 6 multipv 1 score mate 3 nodes 29285 nps 4880833 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 71 seldepth 6 multipv 1 score mate 3 nodes 29959 nps 4993166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 72 seldepth 6 multipv 1 score mate 3 nodes 30528 nps 5088000 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 73 seldepth 6 multipv 1 score mate 3 nodes 31243 nps 5207166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 74 seldepth 6 multipv 1 score mate 3 nodes 31771 nps 5295166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 75 seldepth 6 multipv 1 score mate 3 nodes 32384 nps 5397333 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 76 seldepth 6 multipv 1 score mate 3 nodes 33030 nps 5505000 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 77 seldepth 6 multipv 1 score mate 3 nodes 33564 nps 5594000 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 78 seldepth 6 multipv 1 score mate 3 nodes 34103 nps 5683833 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 79 seldepth 6 multipv 1 score mate 3 nodes 34483 nps 5747166 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 80 seldepth 6 multipv 1 score mate 3 nodes 35057 nps 5842833 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 81 seldepth 6 multipv 1 score mate 3 nodes 35682 nps 5947000 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 82 seldepth 6 multipv 1 score mate 3 nodes 36443 nps 6073833 hashfull 0 tbhits 0 time 6 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 83 seldepth 6 multipv 1 score mate 3 nodes 37168 nps 5309714 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 84 seldepth 6 multipv 1 score mate 3 nodes 37678 nps 5382571 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 85 seldepth 6 multipv 1 score mate 3 nodes 38375 nps 5482142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 86 seldepth 6 multipv 1 score mate 3 nodes 39058 nps 5579714 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 87 seldepth 6 multipv 1 score mate 3 nodes 39668 nps 5666857 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 88 seldepth 6 multipv 1 score mate 3 nodes 40231 nps 5747285 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 89 seldepth 6 multipv 1 score mate 3 nodes 40811 nps 5830142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 90 seldepth 6 multipv 1 score mate 3 nodes 41434 nps 5919142 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 91 seldepth 6 multipv 1 score mate 3 nodes 41969 nps 5995571 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 92 seldepth 6 multipv 1 score mate 3 nodes 42681 nps 6097285 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 93 seldepth 6 multipv 1 score mate 3 nodes 43232 nps 6176000 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 94 seldepth 6 multipv 1 score mate 3 nodes 43831 nps 6261571 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 95 seldepth 6 multipv 1 score mate 3 nodes 44436 nps 6348000 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 96 seldepth 6 multipv 1 score mate 3 nodes 45183 nps 6454714 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 97 seldepth 6 multipv 1 score mate 3 nodes 45783 nps 6540428 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 98 seldepth 6 multipv 1 score mate 3 nodes 46570 nps 6652857 hashfull 0 tbhits 0 time 7 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 99 seldepth 6 multipv 1 score mate 3 nodes 47228 nps 5903500 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 100 seldepth 6 multipv 1 score mate 3 nodes 47936 nps 5992000 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 101 seldepth 6 multipv 1 score mate 3 nodes 48457 nps 6057125 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 102 seldepth 6 multipv 1 score mate 3 nodes 49217 nps 6152125 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 103 seldepth 6 multipv 1 score mate 3 nodes 49866 nps 6233250 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 104 seldepth 6 multipv 1 score mate 3 nodes 50515 nps 6314375 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 105 seldepth 6 multipv 1 score mate 3 nodes 51236 nps 6404500 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 106 seldepth 6 multipv 1 score mate 3 nodes 52039 nps 6504875 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 107 seldepth 6 multipv 1 score mate 3 nodes 52738 nps 6592250 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 108 seldepth 6 multipv 1 score mate 3 nodes 53404 nps 6675500 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 109 seldepth 6 multipv 1 score mate 3 nodes 54129 nps 6766125 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 110 seldepth 6 multipv 1 score mate 3 nodes 54972 nps 6871500 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 111 seldepth 6 multipv 1 score mate 3 nodes 55726 nps 6965750 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 112 seldepth 6 multipv 1 score mate 3 nodes 56497 nps 7062125 hashfull 0 tbhits 0 time 8 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 113 seldepth 6 multipv 1 score mate 3 nodes 57082 nps 6342444 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 114 seldepth 6 multipv 1 score mate 3 nodes 57910 nps 6434444 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 115 seldepth 6 multipv 1 score mate 3 nodes 58672 nps 6519111 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 116 seldepth 6 multipv 1 score mate 3 nodes 59513 nps 6612555 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 117 seldepth 6 multipv 1 score mate 3 nodes 60275 nps 6697222 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 118 seldepth 6 multipv 1 score mate 3 nodes 60911 nps 6767888 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 119 seldepth 6 multipv 1 score mate 3 nodes 61589 nps 6843222 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 120 seldepth 6 multipv 1 score mate 3 nodes 62344 nps 6927111 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 121 seldepth 6 multipv 1 score mate 3 nodes 63155 nps 7017222 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 122 seldepth 6 multipv 1 score mate 3 nodes 64014 nps 7112666 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 123 seldepth 6 multipv 1 score mate 3 nodes 64857 nps 7206333 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 124 seldepth 6 multipv 1 score mate 3 nodes 65474 nps 7274888 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 125 seldepth 6 multipv 1 score mate 3 nodes 66195 nps 7355000 hashfull 0 tbhits 0 time 9 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 126 seldepth 6 multipv 1 score mate 3 nodes 66994 nps 6699400 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 127 seldepth 6 multipv 1 score mate 3 nodes 67747 nps 6774700 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 128 seldepth 6 multipv 1 score mate 3 nodes 68562 nps 6856200 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 129 seldepth 6 multipv 1 score mate 3 nodes 69313 nps 6931300 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 130 seldepth 6 multipv 1 score mate 3 nodes 70168 nps 7016800 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 131 seldepth 6 multipv 1 score mate 3 nodes 71025 nps 7102500 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 132 seldepth 6 multipv 1 score mate 3 nodes 71883 nps 7188300 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 133 seldepth 6 multipv 1 score mate 3 nodes 72625 nps 7262500 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 134 seldepth 6 multipv 1 score mate 3 nodes 73468 nps 7346800 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 135 seldepth 6 multipv 1 score mate 3 nodes 74219 nps 7421900 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 136 seldepth 6 multipv 1 score mate 3 nodes 75061 nps 7506100 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 137 seldepth 6 multipv 1 score mate 3 nodes 75826 nps 7582600 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 138 seldepth 6 multipv 1 score mate 3 nodes 76668 nps 7666800 hashfull 0 tbhits 0 time 10 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 139 seldepth 6 multipv 1 score mate 3 nodes 77521 nps 7047363 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 140 seldepth 6 multipv 1 score mate 3 nodes 78232 nps 7112000 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 141 seldepth 6 multipv 1 score mate 3 nodes 78944 nps 7176727 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 142 seldepth 6 multipv 1 score mate 3 nodes 79705 nps 7245909 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 143 seldepth 6 multipv 1 score mate 3 nodes 80537 nps 7321545 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 144 seldepth 6 multipv 1 score mate 3 nodes 81394 nps 7399454 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 145 seldepth 6 multipv 1 score mate 3 nodes 82244 nps 7476727 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 146 seldepth 6 multipv 1 score mate 3 nodes 83100 nps 7554545 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 147 seldepth 6 multipv 1 score mate 3 nodes 83962 nps 7632909 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 148 seldepth 6 multipv 1 score mate 3 nodes 84771 nps 7706454 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 149 seldepth 6 multipv 1 score mate 3 nodes 85618 nps 7783454 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 150 seldepth 6 multipv 1 score mate 3 nodes 86475 nps 7861363 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 151 seldepth 6 multipv 1 score mate 3 nodes 87324 nps 7938545 hashfull 0 tbhits 0 time 11 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 152 seldepth 6 multipv 1 score mate 3 nodes 88158 nps 7346500 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 153 seldepth 6 multipv 1 score mate 3 nodes 89012 nps 7417666 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 154 seldepth 6 multipv 1 score mate 3 nodes 89862 nps 7488500 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 155 seldepth 6 multipv 1 score mate 3 nodes 90710 nps 7559166 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 156 seldepth 6 multipv 1 score mate 3 nodes 91557 nps 7629750 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 157 seldepth 6 multipv 1 score mate 3 nodes 92405 nps 7700416 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 158 seldepth 6 multipv 1 score mate 3 nodes 93261 nps 7771750 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 159 seldepth 6 multipv 1 score mate 3 nodes 94107 nps 7842250 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 160 seldepth 6 multipv 1 score mate 3 nodes 94958 nps 7913166 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 161 seldepth 6 multipv 1 score mate 3 nodes 95757 nps 7979750 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 162 seldepth 6 multipv 1 score mate 3 nodes 96597 nps 8049750 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 163 seldepth 6 multipv 1 score mate 3 nodes 97442 nps 8120166 hashfull 0 tbhits 0 time 12 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 164 seldepth 6 multipv 1 score mate 3 nodes 98275 nps 7559615 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 165 seldepth 6 multipv 1 score mate 3 nodes 99110 nps 7623846 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 166 seldepth 6 multipv 1 score mate 3 nodes 99964 nps 7689538 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 167 seldepth 6 multipv 1 score mate 3 nodes 100816 nps 7755076 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 168 seldepth 6 multipv 1 score mate 3 nodes 101666 nps 7820461 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 169 seldepth 6 multipv 1 score mate 3 nodes 102347 nps 7872846 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 170 seldepth 6 multipv 1 score mate 3 nodes 103195 nps 7938076 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 171 seldepth 6 multipv 1 score mate 3 nodes 104040 nps 8003076 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 172 seldepth 6 multipv 1 score mate 3 nodes 104876 nps 8067384 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 173 seldepth 6 multipv 1 score mate 3 nodes 105725 nps 8132692 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 174 seldepth 6 multipv 1 score mate 3 nodes 106562 nps 8197076 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 175 seldepth 6 multipv 1 score mate 3 nodes 107408 nps 8262153 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 176 seldepth 6 multipv 1 score mate 3 nodes 108139 nps 8318384 hashfull 0 tbhits 0 time 13 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 177 seldepth 6 multipv 1 score mate 3 nodes 108900 nps 7778571 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 178 seldepth 6 multipv 1 score mate 3 nodes 109751 nps 7839357 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 179 seldepth 6 multipv 1 score mate 3 nodes 110605 nps 7900357 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 180 seldepth 6 multipv 1 score mate 3 nodes 111452 nps 7960857 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 181 seldepth 6 multipv 1 score mate 3 nodes 112302 nps 8021571 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 182 seldepth 6 multipv 1 score mate 3 nodes 113157 nps 8082642 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 183 seldepth 6 multipv 1 score mate 3 nodes 113921 nps 8137214 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 184 seldepth 6 multipv 1 score mate 3 nodes 114643 nps 8188785 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 185 seldepth 6 multipv 1 score mate 3 nodes 115491 nps 8249357 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 186 seldepth 6 multipv 1 score mate 3 nodes 116252 nps 8303714 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 187 seldepth 6 multipv 1 score mate 3 nodes 117093 nps 8363785 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 188 seldepth 6 multipv 1 score mate 3 nodes 117935 nps 8423928 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 189 seldepth 6 multipv 1 score mate 3 nodes 118782 nps 8484428 hashfull 0 tbhits 0 time 14 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 190 seldepth 6 multipv 1 score mate 3 nodes 119541 nps 7969400 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 191 seldepth 6 multipv 1 score mate 3 nodes 120389 nps 8025933 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 192 seldepth 6 multipv 1 score mate 3 nodes 121238 nps 8082533 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 193 seldepth 6 multipv 1 score mate 3 nodes 121873 nps 8124866 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 194 seldepth 6 multipv 1 score mate 3 nodes 122719 nps 8181266 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 195 seldepth 6 multipv 1 score mate 3 nodes 123565 nps 8237666 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 196 seldepth 6 multipv 1 score mate 3 nodes 124416 nps 8294400 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 197 seldepth 6 multipv 1 score mate 3 nodes 125189 nps 8345933 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 198 seldepth 6 multipv 1 score mate 3 nodes 126032 nps 8402133 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 199 seldepth 6 multipv 1 score mate 3 nodes 126879 nps 8458600 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 200 seldepth 6 multipv 1 score mate 3 nodes 127729 nps 8515266 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 201 seldepth 6 multipv 1 score mate 3 nodes 128576 nps 8571733 hashfull 0 tbhits 0 time 15 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 202 seldepth 6 multipv 1 score mate 3 nodes 129379 nps 8086187 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 203 seldepth 6 multipv 1 score mate 3 nodes 130231 nps 8139437 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 204 seldepth 6 multipv 1 score mate 3 nodes 131082 nps 8192625 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 205 seldepth 6 multipv 1 score mate 3 nodes 131921 nps 8245062 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 206 seldepth 6 multipv 1 score mate 3 nodes 132768 nps 8298000 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 207 seldepth 6 multipv 1 score mate 3 nodes 133624 nps 8351500 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 208 seldepth 6 multipv 1 score mate 3 nodes 134484 nps 8405250 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 209 seldepth 6 multipv 1 score mate 3 nodes 135343 nps 8458937 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 210 seldepth 6 multipv 1 score mate 3 nodes 136202 nps 8512625 hashfull 0 tbhits 0 time 16 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 211 seldepth 6 multipv 1 score mate 3 nodes 137053 nps 8061941 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 212 seldepth 6 multipv 1 score mate 3 nodes 137828 nps 8107529 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 213 seldepth 6 multipv 1 score mate 3 nodes 138678 nps 8157529 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 214 seldepth 6 multipv 1 score mate 3 nodes 139524 nps 8207294 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 215 seldepth 6 multipv 1 score mate 3 nodes 140379 nps 8257588 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 216 seldepth 6 multipv 1 score mate 3 nodes 141232 nps 8307764 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 217 seldepth 6 multipv 1 score mate 3 nodes 142081 nps 8357705 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 218 seldepth 6 multipv 1 score mate 3 nodes 142930 nps 8407647 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 219 seldepth 6 multipv 1 score mate 3 nodes 143775 nps 8457352 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 220 seldepth 6 multipv 1 score mate 3 nodes 144584 nps 8504941 hashfull 0 tbhits 0 time 17 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 221 seldepth 6 multipv 1 score mate 3 nodes 145355 nps 8075277 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 222 seldepth 6 multipv 1 score mate 3 nodes 146194 nps 8121888 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 223 seldepth 6 multipv 1 score mate 3 nodes 147035 nps 8168611 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 224 seldepth 6 multipv 1 score mate 3 nodes 147876 nps 8215333 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 225 seldepth 6 multipv 1 score mate 3 nodes 148728 nps 8262666 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 226 seldepth 6 multipv 1 score mate 3 nodes 149571 nps 8309500 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 227 seldepth 6 multipv 1 score mate 3 nodes 150335 nps 8351944 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 228 seldepth 6 multipv 1 score mate 3 nodes 151179 nps 8398833 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 229 seldepth 6 multipv 1 score mate 3 nodes 152021 nps 8445611 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 230 seldepth 6 multipv 1 score mate 3 nodes 152802 nps 8489000 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 231 seldepth 6 multipv 1 score mate 3 nodes 153643 nps 8535722 hashfull 0 tbhits 0 time 18 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 232 seldepth 6 multipv 1 score mate 3 nodes 154409 nps 8126789 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 233 seldepth 6 multipv 1 score mate 3 nodes 155257 nps 8171421 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 234 seldepth 6 multipv 1 score mate 3 nodes 156102 nps 8215894 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 235 seldepth 6 multipv 1 score mate 3 nodes 156952 nps 8260631 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 236 seldepth 6 multipv 1 score mate 3 nodes 157803 nps 8305421 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 237 seldepth 6 multipv 1 score mate 3 nodes 158651 nps 8350052 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 238 seldepth 6 multipv 1 score mate 3 nodes 159498 nps 8394631 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 239 seldepth 6 multipv 1 score mate 3 nodes 160333 nps 8438578 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 240 seldepth 6 multipv 1 score mate 3 nodes 161170 nps 8482631 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 241 seldepth 6 multipv 1 score mate 3 nodes 162008 nps 8526736 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 242 seldepth 6 multipv 1 score mate 3 nodes 162849 nps 8571000 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 243 seldepth 6 multipv 1 score mate 3 nodes 163692 nps 8615368 hashfull 0 tbhits 0 time 19 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 244 seldepth 6 multipv 1 score mate 3 nodes 164541 nps 8227050 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 245 seldepth 6 multipv 1 score mate 3 nodes 165389 nps 8269450 hashfull 0 tbhits 0 time 20 pv d6d1 c1d1 d7g4 d1c1 d8d1
+[18:30:51] \u2b05\ufe0f UCI stdout bestmove d6d1 ponder c1d1
+[18:30:51] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:51] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:51] \u27a1\ufe0f UCI stdin position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+[18:30:51] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:51] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:51] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:51] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:51] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 1 seldepth 11 multipv 1 score cp 79 nodes 111 nps 111000 hashfull 0 tbhits 0 time 1 pv c3d5 f6d5 f1f8 e7f8 e4d5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 2 seldepth 7 multipv 1 score cp 79 nodes 178 nps 178000 hashfull 0 tbhits 0 time 1 pv c3d5 f6d5 f1f8 e7f8 e4d5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 3 seldepth 7 multipv 1 score cp 83 nodes 345 nps 345000 hashfull 0 tbhits 0 time 1 pv a2a4 b5a4 c3a4
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 4 seldepth 7 multipv 1 score cp 79 nodes 439 nps 439000 hashfull 0 tbhits 0 time 1 pv c3d5 f6d5 f1f8 e7f8 e4d5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp 79 nodes 521 nps 521000 hashfull 0 tbhits 0 time 1 pv c3d5 f6d5 f1f8 e7f8 e4d5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 6 seldepth 9 multipv 1 score cp 74 nodes 2604 nps 868000 hashfull 0 tbhits 0 time 3 pv c3d5 f6d5 b3d5 f8f1 a1f1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 7 seldepth 9 multipv 1 score cp 76 nodes 2785 nps 928333 hashfull 0 tbhits 0 time 3 pv c3d5 f6d5 b3d5 a8b8 f1f8 g8f8
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 8 seldepth 13 multipv 1 score cp 89 nodes 3726 nps 931500 hashfull 0 tbhits 0 time 4 pv c3d5 f6d5 b3d5 e7f6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 9 seldepth 12 multipv 1 score cp 133 nodes 4927 nps 1231750 hashfull 0 tbhits 0 time 4 pv c3d5 f6d5 b3d5 f8f1 a1f1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 10 seldepth 18 multipv 1 score cp 76 nodes 8431 nps 1405166 hashfull 2 tbhits 0 time 6 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 d4e4 f8g8 e4e5 d6e5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 11 seldepth 19 multipv 1 score cp 79 nodes 20611 nps 1288187 hashfull 5 tbhits 0 time 16 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 d4e4 g7g6 a1f1 f8g7
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 12 seldepth 21 multipv 1 score cp 79 nodes 21802 nps 1282470 hashfull 5 tbhits 0 time 17 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 d4e4 g7g6 a1f1 f8g8
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 13 seldepth 19 multipv 1 score cp 97 nodes 27299 nps 1364950 hashfull 6 tbhits 0 time 20 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 d4e4 g7g6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 14 seldepth 16 multipv 1 score cp 94 nodes 29834 nps 1356090 hashfull 6 tbhits 0 time 22 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 d4e4 f8g8 e4e5 a6a5 a2a4 b5a4 a1a4 c7d8 e5e4
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 15 seldepth 20 multipv 1 score cp 152 nodes 34080 nps 1420000 hashfull 7 tbhits 0 time 24 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 e7f6
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 16 seldepth 29 multipv 1 score cp 174 nodes 63129 nps 1343170 hashfull 15 tbhits 0 time 47 pv c3d5 e6d5 b3d5 f6d5 d4d5 c8e6 d5e6 g8h8 e3d4 e7g5 c2c3 h7h6 e6g6 a8e8 f1f8 e8f8 a1f1 f8f1 g1f1
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 17 seldepth 28 multipv 1 score cp 192 nodes 94715 nps 1353071 hashfull 24 tbhits 0 time 70 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 b3c2 g7g6 e4e7 f6e7 e3f4 c8b7
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 18 seldepth 32 multipv 1 score cp 175 nodes 119404 nps 1356863 hashfull 33 tbhits 0 time 88 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 c8d7 e3f4 a8f8 f4g3 d7f5
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 19 seldepth 33 multipv 1 score cp 176 nodes 134623 nps 1346230 hashfull 37 tbhits 0 time 100 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 c8d7 d1c2 a8c8
+[18:30:51] \u2b05\ufe0f UCI stdout info depth 20 seldepth 43 multipv 1 score cp 169 nodes 174085 nps 1339115 hashfull 52 tbhits 0 time 130 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 c8d7 f1e1 g8f7
+[18:30:52] \u2b05\ufe0f UCI stdout info depth 21 seldepth 46 multipv 1 score cp 180 nodes 341468 nps 1318409 hashfull 123 tbhits 0 time 259 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3c2 c8d7 c2d3 a8e8 e3f4 g7g6 f1e1 g8g7 h2h3 g7f7 f4h6 e7f6 e1e8 d7e8
+[18:30:52] \u2b05\ufe0f UCI stdout info depth 22 seldepth 46 multipv 1 score cp 175 nodes 500491 nps 1306765 hashfull 189 tbhits 0 time 383 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 h2h3 c8b7 f1d1 a8e8 b3a4
+[18:30:52] \u2b05\ufe0f UCI stdout info depth 23 seldepth 48 multipv 1 score cp 171 nodes 1195073 nps 1310387 hashfull 462 tbhits 0 time 912 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 h2h3 c8b7 f1a1 a8b8 a1d1 a6a5 b3c2 g7g6 g1f2
+[18:30:53] \u2b05\ufe0f UCI stdout info depth 24 seldepth 59 multipv 1 score cp 176 nodes 2632913 nps 1315141 hashfull 806 tbhits 0 time 2002 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 h2h3 a6a5 a2a3 a8b8 e3f4 g7g6 g2g4 a5a4 b3d1 c8b7 d1f3 b8f8 f3e4 g8g7 g1g2 f8c8
+[18:30:53] \u2b05\ufe0f UCI stdout info depth 25 seldepth 51 multipv 1 score cp 184 nodes 2875196 nps 1316481 hashfull 832 tbhits 0 time 2184 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 h2h3 g7g6 b3c2 c8b7 c2e4 a8e8 e4f3 b7c8 g2g4 e8f8
+[18:30:54] \u2b05\ufe0f UCI stdout info depth 26 seldepth 45 multipv 1 score cp 177 nodes 3007674 nps 1318576 hashfull 844 tbhits 0 time 2281 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 h2h3 c8d7 b3c2 a8e8 e3f4 e8f8 f4g3 f8e8 f1b1
+[18:30:54] \u2b05\ufe0f UCI stdout info depth 27 seldepth 61 multipv 1 score cp 177 nodes 4033797 nps 1317373 hashfull 930 tbhits 0 time 3062 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 a6a5 f1e1 c8d7 h2h3 g8f7 e1f1 f7g8 e3f4 a8f8 d1e2 g7g6 g2g4 h7h5 g1g2 h5g4 e2g4
+[18:30:56] \u2b05\ufe0f UCI stdout info depth 28 seldepth 61 multipv 1 score cp 181 nodes 5600565 nps 1305188 hashfull 984 tbhits 0 time 4291 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 c8d7 e3f4 a8c8 h2h3 c8c5 a2a3 a6a5 g1h2 d7f5 f1f2 g7g6 f4e3 c5c8 d1e2 c8b8 g2g4
+[18:30:56] \u2b05\ufe0f UCI stdout info depth 29 seldepth 44 multipv 1 score cp 187 nodes 5745212 nps 1303064 hashfull 985 tbhits 0 time 4409 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 c8d7 e3f4 a8c8 h2h3 c8c5 a2a3 a6a5 f4e3 c5c8 g1h2 c8d8
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove b3e6 currmovenumber 2
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f6 currmovenumber 3
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4d6 currmovenumber 4
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4f6 currmovenumber 5
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove c3b5 currmovenumber 6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove e4e5 currmovenumber 7
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f5 currmovenumber 8
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove g1h1 currmovenumber 9
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4b6 currmovenumber 10
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove a1d1 currmovenumber 11
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove g2g3 currmovenumber 12
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove h2h3 currmovenumber 13
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove a2a4 currmovenumber 14
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f2 currmovenumber 15
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove g1f2 currmovenumber 16
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f4 currmovenumber 17
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove c3e2 currmovenumber 18
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove e3d2 currmovenumber 19
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove e3c1 currmovenumber 20
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1e1 currmovenumber 21
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove h2h4 currmovenumber 22
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove a1b1 currmovenumber 23
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove c3b1 currmovenumber 24
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove c3d1 currmovenumber 25
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove e3f2 currmovenumber 26
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove g2g4 currmovenumber 27
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove e3f4 currmovenumber 28
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1c1 currmovenumber 29
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1b1 currmovenumber 30
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f3 currmovenumber 31
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4d1 currmovenumber 32
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4b4 currmovenumber 33
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4d3 currmovenumber 34
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove a1c1 currmovenumber 35
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove e3h6 currmovenumber 36
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove c3a4 currmovenumber 37
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4d2 currmovenumber 38
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove b3c4 currmovenumber 39
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove e3g5 currmovenumber 40
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove a1e1 currmovenumber 41
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4e5 currmovenumber 42
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove b3a4 currmovenumber 43
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove f1d1 currmovenumber 44
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4c4 currmovenumber 45
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove a2a3 currmovenumber 46
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4c5 currmovenumber 47
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4a4 currmovenumber 48
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove b3d5 currmovenumber 49
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4d5 currmovenumber 50
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 currmove d4a7 currmovenumber 51
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 30 seldepth 60 multipv 1 score cp 174 nodes 10015252 nps 1290791 hashfull 1000 tbhits 0 time 7759 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 c8d7 f1e1 a8f8 e3f4 f8f7 h2h3 f7f4 e1e7 f4f7 e7e3 g8f8 d1h5 g7g6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 31 currmove c3d5 currmovenumber 1
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 31 seldepth 60 multipv 1 score cp 174 nodes 10325196 nps 1290649 hashfull 1000 tbhits 0 time 8000 pv c3d5 f6d5 f1f8 g8f8 e4d5 e6e5 a1f1 f8g8 d4e5 c7d8 e5e4 e7f6 c2c3 d8e7 e4e7 f6e7 b3d1 c8d7 f1e1 a8f8 e3f4 f8f7 h2h3 f7f4 e1e7 f4f7 e7e3 g8f8 d1h5 g7g6
+[18:30:59] \u2b05\ufe0f UCI stdout bestmove c3d5 ponder f6d5
+[18:30:59] \u27a1\ufe0f UCI stdin ucinewgame
+[18:30:59] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:30:59] \u27a1\ufe0f UCI stdin position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+[18:30:59] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:30:59] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:30:59] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:30:59] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:30:59] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 1 seldepth 5 multipv 1 score cp 73 nodes 61 nps 61000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 2 seldepth 5 multipv 1 score cp 73 nodes 112 nps 112000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 3 seldepth 4 multipv 1 score cp 73 nodes 167 nps 167000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 4 seldepth 5 multipv 1 score cp 108 nodes 227 nps 227000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 5 seldepth 7 multipv 1 score cp 137 nodes 295 nps 295000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 6 seldepth 10 multipv 1 score cp 125 nodes 405 nps 405000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6 c5c4 b3c4 d5c4 d2c4
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 7 seldepth 10 multipv 1 score cp 177 nodes 584 nps 584000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 8 seldepth 9 multipv 1 score cp 195 nodes 805 nps 805000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6 c5c4 g3g7 g8g7 f6e6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 9 seldepth 13 multipv 1 score cp 128 nodes 1827 nps 1827000 hashfull 0 tbhits 0 time 1 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 f6f4 g8g7 f4g4 g7f7 g4h4 f7g6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 10 seldepth 16 multipv 1 score cp 140 nodes 3312 nps 1104000 hashfull 0 tbhits 0 time 3 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f2 d7e8 g2g4
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 11 seldepth 18 multipv 1 score cp 132 nodes 8811 nps 1258714 hashfull 1 tbhits 0 time 7 pv g4g7 e7g7 f1f6 g7g3 h2g3 a5a4 f6e6 c8a8 d2f3 a4b3 a2b3 a8a2 f3e5 a2c2 e5c6 b7c6 e6c6
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 12 seldepth 15 multipv 1 score cp 132 nodes 9000 nps 1285714 hashfull 1 tbhits 0 time 7 pv g4g7 e7g7 f1f6 g7g3 h2g3 a5a4 f6e6 c8a8 d2f3 a4b3 a2b3 a8a2 f3e5
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 13 seldepth 16 multipv 1 score cp 134 nodes 9278 nps 1325428 hashfull 1 tbhits 0 time 7 pv g4g7 e7g7 f1f6 g7g3 h2g3 a5a4 f6e6 c8a8 d2f3 a4b3 a2b3 a8a2 c2c4
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 14 seldepth 29 multipv 1 score cp 137 nodes 21197 nps 1324812 hashfull 3 tbhits 0 time 16 pv g4g7 e7g7 f1f6 g7g3 h2g3 a5a4 f6e6 c8a8 g3g4 a4b3 d2b3 c5c4 b3d4 a8a2 e6d6 g8f7 g4g5
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 15 seldepth 23 multipv 1 score cp 136 nodes 25959 nps 1366263 hashfull 5 tbhits 0 time 19 pv g4g7 e7g7 f1f6 g7g3 h2g3 a5a4 f6e6 c8a8 g3g4 g8f7 e6e5 a4b3 d2b3 a8a2 b3c5 a2c2 d3d4
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 16 seldepth 28 multipv 1 score cp 140 nodes 48917 nps 1322081 hashfull 11 tbhits 0 time 37 pv g4g7 e7g7 f1f6 g7g3 h2g3 a5a4 d2f3 a4b3 a2b3 c8a8 f3g5 g8g7 f6f2 c6d7 f2f7 g7g6 f7d7 g6g5 d7g7 g5f5 g7h7
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 17 seldepth 25 multipv 1 score cp 156 nodes 93199 nps 1331414 hashfull 28 tbhits 0 time 70 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g4g5 e6e5 f6d6 e5e4 d3e4 a4b3 a2b3 d5e4 d2c4
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 18 seldepth 33 multipv 1 score cp 137 nodes 163206 nps 1326878 hashfull 58 tbhits 0 time 123 pv g4g7 e7g7 f1f6 g7g3 h2g3 c6d7 g3g4 g8g7 g4g5 c8f8 f6h6 f8f5 d2f3 f5g5 h6h7 g7h7 f3g5 h7g7 g5f3 d7e8 g1f2 g7f6 g2g4 e6e5 f2g3
+[18:30:59] \u2b05\ufe0f UCI stdout info depth 19 seldepth 37 multipv 1 score cp 163 nodes 314780 nps 1345213 hashfull 109 tbhits 0 time 234 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f4 a5a4 d2f3 a4b3 a2b3 c8a8 f3e5 d7e8 g2g4 a8a2 f4f2 b7b5 g1g2 c5c4 g2g3 e8g6 b3c4 b5c4 d3c4 d5c4 e5g6 g7g6
+[18:31:00] \u2b05\ufe0f UCI stdout info depth 20 seldepth 39 multipv 1 score cp 154 nodes 502498 nps 1329359 hashfull 186 tbhits 0 time 378 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f4 a5a4 d2f3 a4b3 a2b3 c8a8 f3e5 d7e8 g2g4 b7b5 h2h4 a8a3 g1g2 c5c4 b3b4
+[18:31:00] \u2b05\ufe0f UCI stdout info depth 21 seldepth 43 multipv 1 score cp 141 nodes 768664 nps 1336806 hashfull 282 tbhits 0 time 575 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f4 a5a4 d2f3 a4b3 a2b3 c8a8 f3e5 d7e8 g2g4 b7b5 h2h4 a8a1 f4f1 a1a3 f1c1
+[18:31:00] \u2b05\ufe0f UCI stdout info depth 22 seldepth 48 multipv 1 score cp 138 nodes 841300 nps 1346080 hashfull 301 tbhits 0 time 625 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f4 a5a4 d2f3 c8a8 f3e5 d7e8 g2g4 b7b5 h2h4 a4b3 a2b3 a8a3 g4g5 c5c4 f4f6 a3a1 g1h2 a1c1 b3c4 d5c4 h2g3 c1c2 f6e6 g7f8 e6f6 f8e7 d3c4 b5c4 e5c6 e7d7
+[18:31:00] \u2b05\ufe0f UCI stdout info depth 23 seldepth 43 multipv 1 score cp 164 nodes 1186793 nps 1353241 hashfull 402 tbhits 0 time 877 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g1h2 g8g7 g4g5 a4b3 a2b3 e8a8 f6e6 a8a2 d2f3 a2c2 h2g3 c2e2 f3h4 g7g8 h4f5
+[18:31:00] \u2b05\ufe0f UCI stdout info depth 24 seldepth 44 multipv 1 score cp 169 nodes 1506232 nps 1365577 hashfull 493 tbhits 0 time 1103 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f4 a5a4 d2f3 c8a8 f3e5 d7e8 g1f1 a4b3 a2b3 a8a2 f4f2 b7b5 f1e1 e8g6 e1d1 h7h5 d1c1 a2a1 c1d2 a1h1 h2h3 h1b1 e5d7
+[18:31:01] \u2b05\ufe0f UCI stdout info depth 25 seldepth 49 multipv 1 score cp 172 nodes 2189206 nps 1355545 hashfull 656 tbhits 0 time 1615 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f4 a5a4 d2f3 c8a8 f3e5 d7e8 g1f1 a4b3 a2b3 a8a2 f4f2 b7b5 f1e1 e8g6 e1d1 b5b4 h2h3 a2a1 d1d2 g6e8 e3e4 e8g6 e5d7
+[18:31:01] \u2b05\ufe0f UCI stdout info depth 26 seldepth 53 multipv 1 score cp 163 nodes 3019537 nps 1348007 hashfull 798 tbhits 0 time 2240 pv g4g7 e7g7 f1f6 c6d7 g3g7 g8g7 f6f4 a5a4 d2f3 c8a8 g1f1 a4b3 a2b3 a8a2 f3e5 d7e8 f4f2 b7b5 f1e1 e8g6 e1d1 h7h5 d1c1 a2a7 f2f4 a7a1 c1d2 b5b4 e5d7
+[18:31:03] \u2b05\ufe0f UCI stdout info depth 27 seldepth 63 multipv 1 score cp 180 nodes 5070584 nps 1344625 hashfull 952 tbhits 0 time 3771 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g1h2 g8g7 g4g5 e6e5 h2h3 e8e7 h3h4 a4a3 g2g4 g7g8 h4g3 e7e8 g3f2 e8a8 e3e4 d5e4 d3e4 c5c4 d2c4 c6e4
+[18:31:05] \u2b05\ufe0f UCI stdout info depth 28 seldepth 57 multipv 1 score cp 170 nodes 7499302 nps 1333920 hashfull 991 tbhits 0 time 5622 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g1h2 g8g7 g4g5 a4b3 a2b3 e8a8 f6f2 c6e8 h2g3 b7b5 g3f4 a8a2 d2f3 e8g6 f2d2 g7f7 e3e4 c5c4 b3b4 f7e7 f4e5
+[18:31:05] \u2b05\ufe0f UCI stdout info depth 29 seldepth 41 multipv 1 score cp 163 nodes 7640046 nps 1333341 hashfull 992 tbhits 0 time 5730 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g1h2 g8g7 g4g5 a4b3 a2b3 e8a8 f6f2 c6e8 h2g3 b7b5 g3f4 a8a2 d2f3 e8g6 f2d2 g7f7 e3e4 c5c4 b3b4 f7e7 e4d5 e6d5 d3c4 b5c4 c2c3 a2a3 d2e2 e7d7
+[18:31:05] \u2b05\ufe0f UCI stdout info depth 30 seldepth 59 multipv 1 score cp 158 nodes 7935066 nps 1331163 hashfull 993 tbhits 0 time 5961 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g1h2 g8g7 g4g5 a4b3 a2b3 e8a8 f6f2 c6e8 h2g3 b7b5 g3f4 a8a2 d2f3 e8g6 e3e4 c5c4 b3c4 b5c4 d3c4 a2a4 f3d4 d5e4 d4e6 g7f7 f4e5 f7e8
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 31 seldepth 64 multipv 1 score cp 170 lowerbound nodes 10015800 nps 1325016 hashfull 998 tbhits 0 time 7559 pv g4g7
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4g7 currmovenumber 1
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f6 currmovenumber 2
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g3f3 currmovenumber 3
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4g5 currmovenumber 4
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove h2h3 currmovenumber 5
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f3 currmovenumber 6
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4e6 currmovenumber 7
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove a2a4 currmovenumber 8
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove h2h4 currmovenumber 9
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove d3d4 currmovenumber 10
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove e3e4 currmovenumber 11
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove c2c3 currmovenumber 12
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove b3b4 currmovenumber 13
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove a2a3 currmovenumber 14
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove c2c4 currmovenumber 15
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4e2 currmovenumber 16
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4h4 currmovenumber 17
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f2 currmovenumber 18
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1e1 currmovenumber 19
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4d1 currmovenumber 20
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1a1 currmovenumber 21
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove d2f3 currmovenumber 22
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1c1 currmovenumber 23
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f4 currmovenumber 24
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1d1 currmovenumber 25
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1b1 currmovenumber 26
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4h3 currmovenumber 27
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4h5 currmovenumber 28
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g3h3 currmovenumber 29
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g1h1 currmovenumber 30
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove d2b1 currmovenumber 31
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove d2e4 currmovenumber 32
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove d2c4 currmovenumber 33
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove f1f5 currmovenumber 34
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4f5 currmovenumber 35
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4f3 currmovenumber 36
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4f4 currmovenumber 37
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4g6 currmovenumber 38
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4d4 currmovenumber 39
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4c4 currmovenumber 40
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4a4 currmovenumber 41
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4e4 currmovenumber 42
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 30 currmove g4b4 currmovenumber 43
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 31 seldepth 64 multipv 1 score cp 163 nodes 10198321 nps 1325145 hashfull 998 tbhits 0 time 7696 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g1h2 g8g7 g4g5 a4b3 a2b3 e8a8 f6f2 c6e8 h2g3 a8a2 d2f3 g7f8 g3f4 f8e7 f4e5 e8h5 e3e4 d5e4 d3e4 b7b5 f2d2 b5b4 e5f4 a2a1 g2g3
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 32 currmove g4g7 currmovenumber 1
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 32 seldepth 64 multipv 1 score cp 163 nodes 10612251 nps 1326531 hashfull 999 tbhits 0 time 8000 pv g4g7 e7g7 f1f6 g7g3 h2g3 c8e8 g3g4 a5a4 g1h2 g8g7 g4g5 a4b3 a2b3 e8a8 f6f2 c6e8 h2g3 a8a2 d2f3 g7f8 g3f4 f8e7 f4e5 e8h5 e3e4 d5e4 d3e4 b7b5 f2d2 b5b4 e5f4 a2a1 g2g3
+[18:31:07] \u2b05\ufe0f UCI stdout bestmove g4g7 ponder e7g7
+[18:31:07] \u27a1\ufe0f UCI stdin ucinewgame
+[18:31:07] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:31:07] \u27a1\ufe0f UCI stdin position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+[18:31:07] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:31:07] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:31:07] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:31:07] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:31:07] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 1 seldepth 3 multipv 1 score cp 82 nodes 16 nps 16000 hashfull 0 tbhits 0 time 1 pv e2c3
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 2 seldepth 3 multipv 1 score cp 116 nodes 37 nps 37000 hashfull 0 tbhits 0 time 1 pv e2c3
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 3 seldepth 4 multipv 1 score cp 137 nodes 73 nps 73000 hashfull 0 tbhits 0 time 1 pv e2c3
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 4 seldepth 5 multipv 1 score cp 145 nodes 177 nps 177000 hashfull 0 tbhits 0 time 1 pv f4f5 g6f5 e2f4
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 5 seldepth 6 multipv 1 score cp 164 nodes 252 nps 252000 hashfull 0 tbhits 0 time 1 pv f4f5 g6f5 e2f4
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 6 seldepth 7 multipv 1 score cp 214 nodes 466 nps 466000 hashfull 0 tbhits 0 time 1 pv f4f5 g6f5 e2f4
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 7 seldepth 10 multipv 1 score cp 195 nodes 725 nps 725000 hashfull 0 tbhits 0 time 1 pv f4f5 f7f6 e2f4 f6e5 d4e5 g6f5 f4d5 e7d7
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 8 seldepth 9 multipv 1 score cp 195 nodes 808 nps 808000 hashfull 0 tbhits 0 time 1 pv f4f5 f7f6 e2f4 f6e5 d4e5 g6f5 f4d5 e7d7
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 9 seldepth 14 multipv 1 score cp 152 nodes 1654 nps 1654000 hashfull 0 tbhits 0 time 1 pv f4f5 f7f6 e2f4 f6e5 d4e5 g6f5 f4d5 e7e6 d5c7 e6d7 c7e8 d7e8 e3d4
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 10 seldepth 16 multipv 1 score cp 193 nodes 2949 nps 1474500 hashfull 1 tbhits 0 time 2 pv f4f5 f7f6 e2f4 f6e5 d4e5 g6f5 f4d5 e7e6 d5c7 e6f7
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 11 seldepth 16 multipv 1 score cp 195 nodes 4460 nps 1486666 hashfull 1 tbhits 0 time 3 pv f4f5 f7f6 e2f4 f6e5 d4e5 g6f5 f4d5 e7e6 d5c7 e6f7 c7e8 f7e8
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 12 seldepth 24 multipv 1 score cp 128 nodes 14375 nps 1796875 hashfull 3 tbhits 0 time 8 pv f4f5 g6g5 e2c3 e8c6 e3e2 f7f6 e2e3 a7a5 h2h3 e7f7
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 13 seldepth 22 multipv 1 score cp 96 nodes 46112 nps 1646857 hashfull 10 tbhits 0 time 28 pv f4f5 g6g5 e3d2 f7f6 h2h3 e8d7
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 14 seldepth 27 multipv 1 score cp 89 nodes 97587 nps 1654016 hashfull 24 tbhits 0 time 59 pv f4f5 g6g5 e2c3 e8c6 c3d1
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 15 seldepth 30 multipv 1 score cp 83 nodes 161313 nps 1663020 hashfull 40 tbhits 0 time 97 pv f4f5 g6g5 h2h4 f7f6 h4g5 f6g5 g3g4 h5h4 e2g1 c4c3 g1h3 e8b5 h3g5 e7d8 f5f6 b5f1
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 16 seldepth 31 multipv 1 score cp 79 nodes 237639 nps 1697421 hashfull 63 tbhits 0 time 140 pv f4f5 g6g5 e2c3 e8c6 e3d2 f7f6 d2e3 e7f7 h2h3 a7a5 c3e2 f7e7 g3g4
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 17 seldepth 23 multipv 1 score cp 111 nodes 288590 nps 1728083 hashfull 78 tbhits 0 time 167 pv f4f5 g6g5 h2h4 f7f6 e2g1 g5h4 g3h4 e8a4 g1e2 a4c2 e3f4 c2e4 e2c3 e4g2 f4e3
+[18:31:07] \u2b05\ufe0f UCI stdout info depth 18 seldepth 38 multipv 1 score cp 106 nodes 370851 nps 1757587 hashfull 100 tbhits 0 time 211 pv f4f5 g6g5 h2h4 f7f6 h4g5 f6g5 g3g4 e7f8 g4h5 e8h5 e2c3 h5g4 c3d5 g4f5 d5c3 g5g4 d4d5 f8e7 e3f4
+[18:31:08] \u2b05\ufe0f UCI stdout info depth 19 seldepth 47 multipv 1 score cp 90 nodes 619518 nps 1765008 hashfull 156 tbhits 0 time 351 pv f4f5 g6g5 h2h4 f7f6 e2g1 g5h4 g3h4 e8d7 e5e6 d7e8 g1e2 e7d6 e2f4 d6c6 e3d2 c6d6 d2c1 d6c6 c1d1 a7a5 d1c2
+[18:31:08] \u2b05\ufe0f UCI stdout info depth 20 seldepth 41 multipv 1 score cp 71 nodes 897484 nps 1773683 hashfull 216 tbhits 0 time 506 pv f4f5 g6g5 h2h4 f7f6 e2g1 g5h4 g3h4 e8d7 e5e6 d7e8 g1e2 e7d6 e2f4 a7a5 e3d2 d6c6 d2e1 c6d6 e1d1
+[18:31:08] \u2b05\ufe0f UCI stdout info depth 21 seldepth 57 multipv 1 score cp 71 nodes 1037323 nps 1782341 hashfull 244 tbhits 0 time 582 pv f4f5 g6g5 h2h4 f7f6 e2g1 g5h4 g3h4 e8d7 e5e6 d7e8 g1e2 e7d6 e3d2 d6c7 e2f4 c7d6 d2e3 a7a5 e3d2 d6c6 d2e2 c6d6 e2f2
+[18:31:08] \u2b05\ufe0f UCI stdout info depth 22 seldepth 42 multipv 1 score cp 72 nodes 1056818 nps 1785165 hashfull 247 tbhits 0 time 592 pv f4f5 g6g5 h2h4 f7f6 e2g1 g5h4 g3h4 e8d7 e5e6 d7e8 g1e2 e7d6 e3d2 d6c7 e2f4 c7d6 d2e2 d6c6 e2e1 c6d6 e1f2 d6c6 f2e3 c6d6 e3d2 d6c6 d2c3 c6d6
+[18:31:08] \u2b05\ufe0f UCI stdout info depth 23 seldepth 63 multipv 1 score cp 69 nodes 1279464 nps 1794479 hashfull 296 tbhits 0 time 713 pv f4f5 g6g5 h2h4 f7f6 e2c3 e8c6 e3d2 a7a5 d2e3 e7f8 c3e2 c6a4 e3d2 a4e8 e2c3 e8c6 d2e1 f8e7 h4g5 f6g5 e1f2
+[18:31:09] \u2b05\ufe0f UCI stdout info depth 24 seldepth 59 multipv 1 score cp 53 nodes 2600647 nps 1793549 hashfull 571 tbhits 0 time 1450 pv f4f5 g6g5 h2h4 f7f6 e2c3 e8c6 e3d2 a7a5 d2e3 e7f8 c3e2 c6a4 e3d2 a4d7 e5e6 d7c6 e2c3 f8e7 d2e3 g5h4 g3h4 e7d6 e3f3
+[18:31:09] \u2b05\ufe0f UCI stdout info depth 25 seldepth 41 multipv 1 score cp 102 nodes 2844913 nps 1804003 hashfull 599 tbhits 0 time 1577 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6d7 d1e3 f5e6 f3f2 d7e8 h2h4 g5h4 g3h4 e8a4 f2f3 a4e8 e3d1 e6f5 d1c3 e8c6 f3e3 a7a6 e3f3 c6e8 c3d1 e8a4 d1e3 f5e6
+[18:31:09] \u2b05\ufe0f UCI stdout info depth 26 seldepth 45 multipv 1 score cp 105 nodes 2951626 nps 1801969 hashfull 618 tbhits 0 time 1638 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6d7 d1e3 f5e6 f3f2 d7e8 h2h4 g5h4 g3h4 e8a4 f2f3 a4b5 e3d1 e6f5 d1c3 b5e8 f3e2
+[18:31:09] \u2b05\ufe0f UCI stdout info depth 27 seldepth 61 multipv 1 score cp 122 nodes 3389503 nps 1811599 hashfull 671 tbhits 0 time 1871 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5g6 f3e2 a4c6 e2d2 a7a5 d2c3 c6b7 c3b2 b7c6 b2a3 h5h4 a3b2 c6b7 b2c2 b7c6 c2c3 h4g3
+[18:31:09] \u2b05\ufe0f UCI stdout info depth 28 seldepth 56 multipv 1 score cp 116 nodes 3441407 nps 1810314 hashfull 676 tbhits 0 time 1901 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5g6 f3e2 a4c6 e2d2 a7a5 d2c3 c6b7 c3b2 b7c6 b2a3 h5h4 a3b2 h4g3 h2g3 c6b7 b2c3 b7c6 c3d2
+[18:31:09] \u2b05\ufe0f UCI stdout info depth 29 seldepth 73 multipv 1 score cp 112 nodes 3848962 nps 1807024 hashfull 721 tbhits 0 time 2130 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5g6 f3e2 a4c6 e2d2 a7a5 d2c3 c6b7 c3c2 h5h4 c2b2 b7c6 b2c3 h4g3 h2g3 c6b7 c3c2 b7c6 c2c1 c6b7 c1b2 b7c6 b2a3 g6h5 e3f5 c6d7 f5d6 d7e6 d6b7 e6c8 b7d8 h5g6 d8c6 g6f5
+[18:31:09] \u2b05\ufe0f UCI stdout info depth 30 seldepth 72 multipv 1 score cp 128 nodes 3969877 nps 1808600 hashfull 731 tbhits 0 time 2195 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5g6 f3e2 a4c6 e2d2 c6b7 d2c3 a7a5 c3c2 b7a8 c2b2 a8c6 b2a3 h5h4 a3b2 c6b7 b2c1 b7c6 c1d2 h4g3 h2g3 c6b7 d2c2 b7c6 c2b2 c6b7 b2c1 b7c6 c1c2 c6b7 c2b2 b7c6 b2a3 g6h5 g3g4 h5g6 e3f5 c6d7 f5e7 g6h7 e7d5 d7g4 d5e3 g4f3 a3b2
+[18:31:10] \u2b05\ufe0f UCI stdout info depth 31 seldepth 81 multipv 1 score cp 144 nodes 4426068 nps 1809512 hashfull 777 tbhits 0 time 2446 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5e6 h2h4 g5h4 g3h4 a7a6 f3e2 a6a5 e2f2 a4b3 a2a3 b3a4 f2f3 a4b5 e3d1 e6f5 d1c3 b5d7 c3e2 d7a4 f3e3 a4c6 e2f4 f5g4 e5e6 c6e8 e6e7 g4h4 f4d5 h4g5
+[18:31:11] \u2b05\ufe0f UCI stdout info depth 32 seldepth 75 multipv 1 score cp 201 nodes 6162909 nps 1808365 hashfull 892 tbhits 0 time 3408 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5g6 f3e2 a4c6 e2d2 c6b7 d2c3 a7a5 c3c2 h5h4 c2c3 b7c6 c3b2 h4g3 h2g3 c6b7 b2c2 b7c6 c2c3 c6b7 c3b2 b7c6 b2a3 g6h5 g3g4 h5g6 e3f5 c6d7 f5e7 g6h6 e7d5 d7g4 d5e3 g4f3 a3b2 g5g4
+[18:31:11] \u2b05\ufe0f UCI stdout info depth 33 seldepth 87 multipv 1 score cp 211 nodes 7121077 nps 1798251 hashfull 930 tbhits 0 time 3960 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5g6 f3e2 a4c6 e2d2 c6b7 d2c3 a7a5 c3c2 b7c6 c2d2 c6a8 d2c1 a8c6 c1c2 c6b7 c2b2 b7c6 b2a3 h5h4 a3b2 c6b7 b2c3 b7c6 c3d2 g6h5 e3f5 c6d7 f5e7 h4g3 h2g3 d7e6 e7c6 e6f5 c6d8 h5g6 d8b7 g6h5 b7a5 h5g4 a5b7 g4g3 b7d8 f5g6 a2a4
+[18:31:12] \u2b05\ufe0f UCI stdout info depth 34 seldepth 75 multipv 1 score cp 235 nodes 8645615 nps 1766213 hashfull 961 tbhits 0 time 4895 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 c6a4 d1e3 f5g6 f3e2 a4c6 e2d2 a7a5 d2c2 c6b7 c2b2 b7c6 b2a3 h5h4 a3b2 c6b7 b2c3 b7c6 c3c2 c6b7 c2d2 b7c6 d2d1 c6b7 d1c1 b7c6 c1d2 g6h5 e3f5 c6d7 f5d6 h5g6
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 35 seldepth 83 multipv 1 score cp 259 lowerbound nodes 11583784 nps 1725574 hashfull 991 tbhits 0 time 6713 pv f4f5
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove f4f5 currmovenumber 1
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove e2c3 currmovenumber 2
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove e2g1 currmovenumber 3
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove h2h4 currmovenumber 4
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove e3f3 currmovenumber 5
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove h2h3 currmovenumber 6
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove e3f2 currmovenumber 7
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove e3d2 currmovenumber 8
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove g3g4 currmovenumber 9
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove a2a3 currmovenumber 10
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove a2a4 currmovenumber 11
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove e5e6 currmovenumber 12
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 32 currmove e2c1 currmovenumber 13
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 35 seldepth 83 multipv 1 score cp 254 nodes 11899050 nps 1721008 hashfull 993 tbhits 0 time 6914 pv f4f5 g6g5 e2c3 e8c6 f5f6 e7e6 e3f3 e6f5 c3d1 f5g6 d1e3 c6b7 f3e2 b7c6 e2d2 a7a5 d2c3 c6b7 c3b2 h5h4 b2c2 b7c6 c2c3 c6b7 c3b2 b7c6 b2c2 c6b7 c2c3 b7c6 c3d2 g6h5 e3f5 c6d7 f5d6 d7e6 d6b7 e6d7 b7d8 h5g6 d2c3 h4h3 d8b7 g6f5 b7d6 f5g6
+[18:31:14] \u2b05\ufe0f UCI stdout info depth 36 currmove f4f5 currmovenumber 1
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 36 seldepth 77 multipv 1 score cp 261 lowerbound nodes 12924843 nps 1709409 hashfull 996 tbhits 0 time 7561 pv f4f5
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 35 currmove f4f5 currmovenumber 1
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 36 seldepth 77 multipv 1 score cp 261 lowerbound nodes 13612901 nps 1701612 hashfull 997 tbhits 0 time 8000 pv f4f5 g6g5
+[18:31:15] \u2b05\ufe0f UCI stdout bestmove f4f5 ponder g6g5
+[18:31:15] \u27a1\ufe0f UCI stdin ucinewgame
+[18:31:15] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:31:15] \u27a1\ufe0f UCI stdin position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+[18:31:15] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:31:15] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:31:15] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:31:15] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:31:15] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 1 seldepth 4 multipv 1 score cp 123 nodes 39 nps 39000 hashfull 0 tbhits 0 time 1 pv f2f4
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 2 seldepth 4 multipv 1 score cp 134 nodes 84 nps 84000 hashfull 0 tbhits 0 time 1 pv f2f4
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 3 seldepth 4 multipv 1 score cp 152 nodes 138 nps 138000 hashfull 0 tbhits 0 time 1 pv f2f4
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 4 seldepth 5 multipv 1 score cp 175 nodes 233 nps 233000 hashfull 0 tbhits 0 time 1 pv f2f4 f7f6
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 5 seldepth 6 multipv 1 score cp 164 nodes 476 nps 476000 hashfull 0 tbhits 0 time 1 pv f2f4 f7f6 h2h3
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 6 seldepth 8 multipv 1 score cp 165 nodes 612 nps 612000 hashfull 0 tbhits 0 time 1 pv f2f4 f7f6 h2h3 c8c7 f1f3
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 7 seldepth 9 multipv 1 score cp 185 nodes 1054 nps 1054000 hashfull 0 tbhits 0 time 1 pv f2f4 c8c7
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 8 seldepth 12 multipv 1 score cp 263 nodes 1759 nps 879500 hashfull 0 tbhits 0 time 2 pv f2f4 c8c7 g3f5 f7f6
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 9 seldepth 11 multipv 1 score cp 229 nodes 2273 nps 1136500 hashfull 0 tbhits 0 time 2 pv f2f4 g8h8 f4f5 c8c7 f1f2 f7f6 f2f3 d7c8
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 10 seldepth 13 multipv 1 score cp 228 nodes 3369 nps 1123000 hashfull 1 tbhits 0 time 3 pv f2f4 d7d8 f1f3 c8c7 a1f1
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 11 seldepth 17 multipv 1 score cp 222 nodes 7242 nps 1207000 hashfull 2 tbhits 0 time 6 pv f2f4 c8c7 f1f3 f7f6 g3f5 a6c8 f3h3 d7f7 g2g4 c8f5 e4f5 c7e7 g4g5
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 12 seldepth 13 multipv 1 score cp 216 nodes 8008 nps 1144000 hashfull 2 tbhits 0 time 7 pv f2f4 c8c7 f1f3 a6c8 f4f5 f7f6 g3h5 g8f7 f3h3 f8h8 g2g4
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 13 seldepth 21 multipv 1 score cp 210 nodes 15868 nps 1133428 hashfull 5 tbhits 0 time 14 pv f2f4 d7d8 f1f3 c8c7 g3f5 a6c8 g2g4 f7f6 a1f1 c7f7 e2g2 c8f5 e4f5
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 14 seldepth 20 multipv 1 score cp 218 nodes 31419 nps 1122107 hashfull 11 tbhits 0 time 28 pv f2f4 c8c7 f1f3 f7f6 g3f5 a6c8 f3g3 d7d8 e2h5 c8f5 e4f5 d8d7
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 15 seldepth 24 multipv 1 score cp 225 nodes 75291 nps 1107220 hashfull 27 tbhits 0 time 68 pv f2f4 c8c7 f1f3 f7f6 g3f5 a6c8 g2g4 d7d8 f3h3 c8f5
+[18:31:15] \u2b05\ufe0f UCI stdout info depth 16 seldepth 23 multipv 1 score cp 232 nodes 92578 nps 1129000 hashfull 32 tbhits 0 time 82 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 a5b3 a1b1 b3a5 d3c2 d7f7 b1f1 c8f5 e4f5 c7e7 f1f3 e5e4 f3g3 g8h8
+[18:31:16] \u2b05\ufe0f UCI stdout info depth 17 seldepth 34 multipv 1 score cp 247 nodes 279159 nps 1086221 hashfull 107 tbhits 0 time 257 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 d7d8 a1e1 e5f4 e3f4 g7g5 f4g3 c8f5 e4f5 c7g7 h3h6 d8d7 h2h4 g5g4 h4h5 g7g5
+[18:31:16] \u2b05\ufe0f UCI stdout info depth 18 seldepth 32 multipv 1 score cp 228 nodes 325105 nps 1083683 hashfull 125 tbhits 0 time 300 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 d7d8 a1f1 c8f5 e4f5 h7h6 e2h5 f8f7 g2g4 d8d7 f4e5 d6e5 g4g5 g8f8 d3e2
+[18:31:16] \u2b05\ufe0f UCI stdout info depth 19 seldepth 41 multipv 1 score cp 218 nodes 394176 nps 1091900 hashfull 154 tbhits 0 time 361 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 d7d8 a1f1 c8f5 e4f5 h7h6 e2h5 f8f7 g2g4 d8d7 g4g5 e5e4 d3e4 d7a4 f1e1 c7e7
+[18:31:16] \u2b05\ufe0f UCI stdout info depth 20 seldepth 24 multipv 1 score cp 218 nodes 399302 nps 1093978 hashfull 155 tbhits 0 time 365 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 d7d8 a1f1 c8f5 e4f5 h7h6 e2h5 f8f7 g2g4 d8d7 g4g5 e5e4 d3e4 d7a4 f1e1 c7e7
+[18:31:16] \u2b05\ufe0f UCI stdout info depth 21 seldepth 31 multipv 1 score cp 225 nodes 428153 nps 1097828 hashfull 165 tbhits 0 time 390 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 d7d8 a1f1 c8f5 e4f5 h7h6 e2h5 f8f7 g2g4 d8d7 g4g5 e5e4 d3e4 a5c4 f1e1 d7a4 g5h6 g7h6 h5h6
+[18:31:16] \u2b05\ufe0f UCI stdout info depth 22 seldepth 43 multipv 1 score cp 226 nodes 995287 nps 1093721 hashfull 356 tbhits 0 time 910 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 d7d8 a1e1 c8f5 e4f5 f8f7 e2h5 h7h6 e3f2 d8d7 g2g4 g8f8 g4g5 f8e7 g5f6
+[18:31:16] \u2b05\ufe0f UCI stdout info depth 23 seldepth 40 multipv 1 score cp 221 nodes 1177697 nps 1090460 hashfull 409 tbhits 0 time 1080 pv f2f4 c8c7 g3f5 a6c8 f1f3 f7f6 f3h3 d7d8 a1e1 d8d7 e2c2 g8h8 e1f1 d7d8 g2g4 c7f7 c2f2
+[18:31:17] \u2b05\ufe0f UCI stdout info depth 24 seldepth 38 multipv 1 score cp 207 nodes 1449249 nps 1072723 hashfull 487 tbhits 0 time 1351 pv f2f4 c8c7 g3f5 a6c8 f1f3 d7d8 f3h3 f7f6 a1e1 d8d7 e2c2 g8h8 e1f1 d7d8 g2g4 e5f4 f1f4 g7g5 f4f3 c8f5 e4f5 c7g7 h3h5 f8g8 c2g2 d8e7 h5h6 g8f8
+[18:31:17] \u2b05\ufe0f UCI stdout info depth 25 seldepth 44 multipv 1 score cp 214 nodes 1935862 nps 1075478 hashfull 614 tbhits 0 time 1800 pv f2f4 c8c7 f1f3 f7f6 g3f5 a6c8 g2g4 d7d8 f3h3 c8f5 e4f5 h7h6 g1h1 c7e7 e2f2 e5f4 e3f4 g8f7 h3e3 e7e3 f2e3 d8e7 e3e6 e7e6 d5e6 f7e7 h1g2 e8c7 g2g3 f8d8 a1d1 a5c6
+[18:31:18] \u2b05\ufe0f UCI stdout info depth 26 seldepth 51 multipv 1 score cp 227 nodes 2982615 nps 1077923 hashfull 828 tbhits 0 time 2767 pv f2f4 c8c7 f1f3 f7f6 g3f5 a6c8 f3h3 d7d8 a1e1 d8d7 e2c2 a5b7 d3e2 d7d8 c2d1 c8f5 e4f5 d8d7 e2h5 b7d8 h5g6 h7g6 f5g6
+[18:31:19] \u2b05\ufe0f UCI stdout info depth 27 seldepth 44 multipv 1 score cp 210 nodes 4034943 nps 1076271 hashfull 920 tbhits 0 time 3749 pv f2f4 c8c7 f1f3 a6c8 g3f5 f7f6 f3h3 d7d8 a1e1 d8d7 e2c2 c8a6 c2a2 a6c8 g2g4 g8h8 h3f3 g7g6 f5h6 d7g7 f4e5 d6e5 g4g5 e8d6 a2f2 f6f5 e4f5 g6f5 d3f5 f8f5
+[18:31:20] \u2b05\ufe0f UCI stdout info depth 28 seldepth 53 multipv 1 score cp 213 nodes 5452518 nps 1071642 hashfull 976 tbhits 0 time 5088 pv f2f4 c8c7 f1f3 a6c8 g3f5 f7f6 f3g3 g8h8 g3h3 g7g6 f5h4 h8g7 f4e5 d6e5 e3h6 g7f7 h6f8 f7f8 e2e3 d7g7 h3g3 a5b7 a1f1 c7e7 h4f3 f8g8 h2h4 e8d6 f3h2
+[18:31:22] \u2b05\ufe0f UCI stdout info depth 29 seldepth 52 multipv 1 score cp 218 nodes 7143118 nps 1066933 hashfull 995 tbhits 0 time 6695 pv f2f4 c8c7 f1f3 a6c8 g3f5 f7f6 f3h3 d7d8 a1e1 d8d7 e2d1 c8a6 e3c1 g7g6 f5h6 g8h8 f4f5 g6g5 h3g3 a6c4 d3c2 a7a6 h2h4 g5h4 g3g4 b6b5 e1e3 b5b4 d1d2
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 30 seldepth 61 multipv 1 score cp 221 nodes 8130933 nps 1066911 hashfull 997 tbhits 0 time 7621 pv f2f4 c8c7 f1f3 a6c8 g3f5 f7f6 f3h3 d7d8 a1e1 d8d7 e2d1 c8a6 e3c1 g7g6 f5h6 g8h8 f4f5 g6g5 h3g3 a6c4 d3c2 d7g7 h6g4 f8g8 g3h3 a7a6 h3h6 b6b5 e1e3 b5b4 c3b4 c5b4 c1d2 c7b7 e3h3 g7c7 d2e1
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 31 seldepth 61 multipv 1 score cp 221 nodes 8552689 nps 1069086 hashfull 998 tbhits 0 time 8000 pv f2f4 c8c7 f1f3 a6c8 g3f5 f7f6 f3h3 d7d8 a1e1 d8d7 e2d1 c8a6 e3c1 g7g6 f5h6 g8h8 f4f5 g6g5 h3g3 a6c4 d3c2 d7g7 h6g4 f8g8 g3h3 a7a6 h3h6 b6b5 e1e3 b5b4 c3b4 c5b4 c1d2 c7b7 e3h3 g7c7 d2e1
+[18:31:23] \u2b05\ufe0f UCI stdout bestmove f2f4 ponder c8c7
+[18:31:23] \u27a1\ufe0f UCI stdin ucinewgame
+[18:31:23] \U0001f50e brain=fishy go='go movetime 8000' tmax=8000ms timeout=30000ms
+[18:31:23] \u27a1\ufe0f UCI stdin position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+[18:31:23] \u27a1\ufe0f UCI stdin go movetime 8000
+[18:31:23] \u2b05\ufe0f UCI stdout info string Available processors: 0-3
+[18:31:23] \u2b05\ufe0f UCI stdout info string Using 1 thread
+[18:31:23] \u2b05\ufe0f UCI stdout info string NNUE evaluation using nn-1a298aa575a0.nnue (109MiB, (86896, 1024, 32, 32, 1))
+[18:31:23] \u2b05\ufe0f UCI stdout info string Network replica 1: Shared memory.
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 1 seldepth 2 multipv 1 score cp -132 nodes 38 nps 38000 hashfull 0 tbhits 0 time 1 pv f8g8
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 2 seldepth 3 multipv 1 score cp -112 nodes 71 nps 71000 hashfull 0 tbhits 0 time 1 pv f8g8
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 3 seldepth 6 multipv 1 score cp -115 nodes 452 nps 452000 hashfull 0 tbhits 0 time 1 pv c8d8 f3g1
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 4 seldepth 7 multipv 1 score cp -118 nodes 593 nps 593000 hashfull 0 tbhits 0 time 1 pv c8d8 d2d3 f8g8
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 5 seldepth 8 multipv 1 score cp -114 nodes 1025 nps 1025000 hashfull 0 tbhits 0 time 1 pv c8d8 h1f1 f8g8 f3e1 e8f8
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 6 seldepth 9 multipv 1 score cp -116 nodes 1558 nps 779000 hashfull 1 tbhits 0 time 2 pv c8d8 f3e1 f8g8 h1g1 e8f8 f2f4 e5f4 e3f4
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 7 seldepth 11 multipv 1 score cp -117 nodes 1762 nps 881000 hashfull 1 tbhits 0 time 2 pv c8d8 f3e1 d7c8
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 8 seldepth 9 multipv 1 score cp -117 nodes 1865 nps 932500 hashfull 1 tbhits 0 time 2 pv c8d8 f3e1 d7c8 e1d3 f8g8 f2f4 e5f4 e3f4
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 9 seldepth 10 multipv 1 score cp -122 nodes 2064 nps 1032000 hashfull 1 tbhits 0 time 2 pv c8d8 f3e1 d7c8 e1d3 f8g8 f2f4 e5f4 e3f4 g6g5
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 10 seldepth 17 multipv 1 score cp -128 nodes 10929 nps 993545 hashfull 3 tbhits 0 time 11 pv c8d8 f3e1 a6a5 f2f4 e5f4 e3f4 f7e5 g2f2 f8f7 f4h6
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 11 seldepth 13 multipv 1 score cp -125 nodes 11895 nps 991250 hashfull 3 tbhits 0 time 12 pv c8d8 f3e1 a6a5 h1g1 d7c8 f2f4 e5f4 e3f4 f7e5 h2h1
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 12 seldepth 17 multipv 1 score cp -127 nodes 15266 nps 1090428 hashfull 5 tbhits 0 time 14 pv f8g8 f3e1 e8f8 f2f4 e5f4 e3f4 f7e5 g2f2 a6a5 e1f3 f8f7
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 13 seldepth 16 multipv 1 score cp -126 nodes 18113 nps 1132062 hashfull 5 tbhits 0 time 16 pv c8d8 f3e1 a6a5 h1g1 f8g8 f2f4 e5f4 e3f4 f7e5 g3h1 e8f8
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 14 seldepth 22 multipv 1 score cp -144 nodes 42593 nps 1064825 hashfull 14 tbhits 0 time 40 pv f8g8 f3e1 c8d8 h1f1 g8f8 f2f4 e5f4 e3f4 f7e5 e1f3
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 15 seldepth 24 multipv 1 score cp -132 nodes 69754 nps 1073138 hashfull 25 tbhits 0 time 65 pv f8g8 f3e1 e8f8 f2f4 e5f4 e3f4 a6a5 g2f2 c8e8 e1f3 f7e5 h2g2 e7d8 f4e3
+[18:31:23] \u2b05\ufe0f UCI stdout info depth 16 seldepth 29 multipv 1 score cp -134 nodes 209199 nps 1072815 hashfull 94 tbhits 0 time 195 pv f8g8 d2d3 e8f8 f3e1 c8e8 e3c1 e7d8 h1f1 h7h5
+[18:31:24] \u2b05\ufe0f UCI stdout info depth 17 seldepth 28 multipv 1 score cp -145 nodes 350467 nps 1062021 hashfull 149 tbhits 0 time 330 pv f8g8 d2e2 a6a5 e3c1 e8f8 f3e1 h7h6 f2f4 h8h7 e2f2
+[18:31:24] \u2b05\ufe0f UCI stdout info depth 18 seldepth 28 multipv 1 score cp -143 nodes 472279 nps 1070927 hashfull 196 tbhits 0 time 441 pv f8g8 d2e2 a6a5 h2g1 h7h6 f3h4 g6g5 h4f5 g7f5 g4f5 g8g7
+[18:31:24] \u2b05\ufe0f UCI stdout info depth 19 seldepth 32 multipv 1 score cp -136 nodes 742424 nps 1068235 hashfull 293 tbhits 0 time 695 pv f8g8 d2d3 e8f8 d3e2 a6a5 f3d2 h7h6 f2f4 h8h7 h1g1 e5f4 e3f4 f7e5 d2f3
+[18:31:24] \u2b05\ufe0f UCI stdout info depth 20 seldepth 31 multipv 1 score cp -143 nodes 1020319 nps 1070639 hashfull 394 tbhits 0 time 953 pv f8g8 d2e2 g6g5 h2g1 h7h6 g1f1 h8h7 g3f5 g8h8 h3h4 h7g8 g2h2 a6a5 h4g5 f6g5 f1e1 h8h7
+[18:31:25] \u2b05\ufe0f UCI stdout info depth 21 seldepth 34 multipv 1 score cp -148 nodes 1358471 nps 1073041 hashfull 506 tbhits 0 time 1266 pv f8g8 d2e2 a6a5 h2g1 e8f8 g1f1 c8e8 e2d3 e8d8 f1e2
+[18:31:25] \u2b05\ufe0f UCI stdout info depth 22 seldepth 35 multipv 1 score cp -153 nodes 1867776 nps 1064259 hashfull 635 tbhits 0 time 1755 pv f8g8 d2e2 a6a5 h2g1 e8f8 g1f1 c8d8 g2h2 g7e8 f1e1 g8g7 e1d1 h7h6 d1c1 f8g8 c1b1 g7h7 f3h4 g6g5 h4f5 e8g7 e3c1 g7f5 e4f5 h6h5
+[18:31:25] \u2b05\ufe0f UCI stdout info depth 23 seldepth 37 multipv 1 score cp -146 nodes 2263625 nps 1063233 hashfull 724 tbhits 0 time 2129 pv f8g8 d2e2 a6a5 h2g1 e8f8 g1f1 c8d8 f3e1 g7e8 f2f4 e5f4 e3f4 f7e5 f4c1 f8f7 e1d3 d7c8
+[18:31:26] \u2b05\ufe0f UCI stdout info depth 24 seldepth 37 multipv 1 score cp -141 nodes 2683114 nps 1064727 hashfull 798 tbhits 0 time 2520 pv f8g8 d2e2 a6a5 h2g1 e8f8 g1f1 c8d8 f3d2 g7e8 f2f4 h7h6 f4f5 g6g5 g2h2 g8g7 g3h5 g7h7 h3h4 f8g8 d2f3 e7f8 h4g5 h6g5 f1e1 f8h6
+[18:31:26] \u2b05\ufe0f UCI stdout info depth 25 seldepth 42 multipv 1 score cp -137 nodes 3074528 nps 1065694 hashfull 849 tbhits 0 time 2885 pv f8g8 d2e2 a6a5 h2g1 e8f8 g1f1 g7e8 f1e1 g8g7 e1d1 c8d8 e2d2 f8g8 d1c1 h7h6 e3h6 f7h6 d2h6 g7h7 h6d2 e7f8 g4g5 h8g7 h3h4 g8h8 g5f6 d8f6
+[18:31:29] \u2b05\ufe0f UCI stdout info depth 26 seldepth 52 multipv 1 score cp -126 nodes 5799773 nps 1051636 hashfull 990 tbhits 0 time 5515 pv f8g8 d2e2 e8f8 f3e1 g7e8 f2f4 h7h6 e1f3 g8g7 h2g1 f8g8 f4f5 g6g5 h3h4 g7h7 g3h5 c8b7 g2h2 e8g7 h5g3 g7e8 e2f2
+[18:31:31] \u2b05\ufe0f UCI stdout info depth 27 seldepth 44 multipv 1 score cp -127 nodes 8391279 nps 1051406 hashfull 1000 tbhits 0 time 7981 pv f8g8 h2g1 e8f8 g1f1 f7g5 d2e2 g5f3 e2f3 f8f7 f1e1 a6a5 e3c1 g7e8 f3e2 e7f8 c2d1 f8e7 h1g1 g6g5 h3h4 h7h6 g3f5 f7h7 g2h2 c8d8 c1e3
+[18:31:31] \u2b05\ufe0f UCI stdout info depth 28 seldepth 44 multipv 1 score cp -127 nodes 8411822 nps 1051477 hashfull 1000 tbhits 0 time 8000 pv f8g8 h2g1 e8f8 g1f1 f7g5 d2e2 g5f3 e2f3 f8f7 f1e1 a6a5 e3c1 g7e8 f3e2 e7f8 c2d1 f8e7 h1g1 g6g5 h3h4 h7h6 g3f5 f7h7 g2h2 c8d8 c1e3
+[18:31:31] \u2b05\ufe0f UCI stdout bestmove f8g8 ponder h2g1
+[18:31:31] \u27a1\ufe0f UCI stdin quit
+[18:31:31] \U0001f50c subprocess detenido pid=61264

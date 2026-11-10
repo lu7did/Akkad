@@ -1,0 +1,179 @@
+[20:12:25] \U0001f4bb sargon-nurse v0.1.7 brain=penelope type=uci ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[20:12:25] \u2699\ufe0f UCI engine=C:\Users\pedro\github\bobby\akkad\picoKeras\X86\build\Release\picoKeras.exe args=['--weights', 'C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf'] options=[]
+[20:12:25] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[20:12:26] \U0001f680 subprocess pid=58540 cwd=C:\Users\pedro\github\bobby\akkad\picoKeras\X86\build\Release argv=['C:\\Users\\pedro\\github\\bobby\\akkad\\picoKeras\\X86\\build\\Release\\picoKeras.exe', '--weights', 'C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf']
+[20:12:26] \u27a1\ufe0f UCI stdin uci
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.273039: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+[20:12:26] \U0001f4cb child picoKeras v0.2.6 weights=C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf host=0.0.0.0 port=6110 arena=33554432 mode=UCI-STDIO
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.282125: I tensorflow/cc/saved_model/reader.cc:83] Reading SavedModel from: C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.285632: I tensorflow/cc/saved_model/reader.cc:52] Reading meta graph with tags { serve }
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.285649: I tensorflow/cc/saved_model/reader.cc:147] Reading SavedModel debug info (if present) from: C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.285754: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+[20:12:26] \U0001f4cb child To enable the following instructions: AVX2 AVX_VNNI AVX_VNNI_INT8 AVX_NE_CONVERT FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[20:12:26] \U0001f4cb child WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+[20:12:26] \U0001f4cb child I0000 00:00:1794265946.328933   44600 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.332198: I tensorflow/cc/saved_model/loader.cc:236] Restoring SavedModel bundle.
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.501939: I tensorflow/cc/saved_model/loader.cc:220] Running initialization op on SavedModel bundle at path: C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf
+[20:12:26] \U0001f4cb child 2026-11-09 20:12:26.564375: I tensorflow/cc/saved_model/loader.cc:466] SavedModel load for tags { serve }; Status: success: OK. Took 282254 microseconds.
+[20:12:26] \U0001f4cb child TensorFlow bindings: input=serve_input_layer:0 output=StatefulPartitionedCall:0
+[20:12:26] \u2b05\ufe0f UCI stdout id name picoKeras v0.2.6
+[20:12:26] \u2b05\ufe0f UCI stdout id author Dr. Pedro E. Colla 2026
+[20:12:26] \u2b05\ufe0f UCI stdout uciok
+[20:12:26] \u27a1\ufe0f UCI stdin isready
+[20:12:26] \u2b05\ufe0f UCI stdout readyok
+[20:12:26] \u2705 handshake UCI completo
+[20:12:26] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:26] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:26] \u27a1\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[20:12:26] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:27] \U0001f4cb child I0000 00:00:1794265947.077995   51672 service.cc:148] XLA service 0x2508b50b5f0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+[20:12:27] \U0001f4cb child I0000 00:00:1794265947.078043   51672 service.cc:156]   StreamExecutor device (0): Host, Default Version
+[20:12:27] \U0001f4cb child I0000 00:00:1794265947.097408   51672 device_compiler.h:188] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+[20:12:27] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 8 nodes 20 time 505 nps 39 string cp_heuristic_atanh eval_rival -0.0204
+[20:12:27] \u2b05\ufe0f UCI stdout bestmove d2d4
+[20:12:27] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:27] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:27] \u27a1\ufe0f UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[20:12:27] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:27] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp -472 nodes 40 time 242 nps 165 string cp_heuristic_atanh eval_rival -0.8276
+[20:12:27] \u2b05\ufe0f UCI stdout bestmove d6d1
+[20:12:27] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:27] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:27] \u27a1\ufe0f UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[20:12:27] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:27] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 48 nodes 33 time 186 nps 177 string cp_heuristic_atanh eval_rival -0.1194
+[20:12:27] \u2b05\ufe0f UCI stdout bestmove f2e3
+[20:12:27] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:27] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:27] \u27a1\ufe0f UCI stdin position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+[20:12:27] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:27] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp 27 nodes 27 time 164 nps 164 string cp_heuristic_atanh eval_rival 0.0679
+[20:12:27] \u2b05\ufe0f UCI stdout bestmove e7d8
+[20:12:27] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:27] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:27] \u27a1\ufe0f UCI stdin position fen rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq - 0 1
+[20:12:27] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:27] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 36 nodes 38 time 213 nps 178 string cp_heuristic_atanh eval_rival -0.0904
+[20:12:27] \u2b05\ufe0f UCI stdout bestmove e5e6
+[20:12:27] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:27] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:27] \u27a1\ufe0f UCI stdin position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+[20:12:27] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:28] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 28 nodes 51 time 295 nps 172 string cp_heuristic_atanh eval_rival -0.0707
+[20:12:28] \u2b05\ufe0f UCI stdout bestmove c3d5
+[20:12:28] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:28] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:28] \u27a1\ufe0f UCI stdin position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+[20:12:28] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:28] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 69 nodes 24 time 149 nps 161 string cp_heuristic_atanh eval_rival -0.1713
+[20:12:28] \u2b05\ufe0f UCI stdout bestmove g5g6
+[20:12:28] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:28] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:28] \u27a1\ufe0f UCI stdin position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+[20:12:28] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:28] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 81 nodes 34 time 194 nps 175 string cp_heuristic_atanh eval_rival -0.1997
+[20:12:28] \u2b05\ufe0f UCI stdout bestmove a3e7
+[20:12:28] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:28] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:28] \u27a1\ufe0f UCI stdin position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+[20:12:28] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:28] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 56 nodes 13 time 198 nps 65 string cp_heuristic_atanh eval_rival -0.1388
+[20:12:28] \u2b05\ufe0f UCI stdout bestmove e2c3
+[20:12:28] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:28] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:28] \u27a1\ufe0f UCI stdin position fen 2kr1bnr/pbpq4/2n1pp2/3p3p/3P1P1B/2N2N1Q/PPP3PP/2KR1B1R w - - 0 1
+[20:12:28] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:28] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 63 nodes 38 time 197 nps 192 string cp_heuristic_atanh eval_rival -0.1565
+[20:12:28] \u2b05\ufe0f UCI stdout bestmove f1b5
+[20:12:28] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:28] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:28] \u27a1\ufe0f UCI stdin position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+[20:12:28] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:29] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp -70 nodes 37 time 211 nps 175 string cp_heuristic_atanh eval_rival -0.1733
+[20:12:29] \u2b05\ufe0f UCI stdout bestmove c6e5
+[20:12:29] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:29] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:29] \u27a1\ufe0f UCI stdin position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+[20:12:29] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:29] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 43 nodes 36 time 202 nps 178 string cp_heuristic_atanh eval_rival -0.1073
+[20:12:29] \u2b05\ufe0f UCI stdout bestmove f2f4
+[20:12:29] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:29] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:29] \u27a1\ufe0f UCI stdin position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+[20:12:29] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:29] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp -3 nodes 38 time 191 nps 198 string cp_heuristic_atanh eval_rival -0.0065
+[20:12:29] \u2b05\ufe0f UCI stdout bestmove d7f5
+[20:12:29] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:29] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:29] \u27a1\ufe0f UCI stdin position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+[20:12:29] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:29] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 3 nodes 45 time 254 nps 177 string cp_heuristic_atanh eval_rival -0.0084
+[20:12:29] \u2b05\ufe0f UCI stdout bestmove b2b3
+[20:12:29] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:29] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:29] \u27a1\ufe0f UCI stdin position fen rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1
+[20:12:29] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:29] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 152 nodes 31 time 180 nps 172 string cp_heuristic_atanh eval_rival -0.3628
+[20:12:29] \u2b05\ufe0f UCI stdout bestmove b3b4
+[20:12:29] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:29] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:29] \u27a1\ufe0f UCI stdin position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+[20:12:29] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:30] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 35 nodes 43 time 243 nps 176 string cp_heuristic_atanh eval_rival -0.0871
+[20:12:30] \u2b05\ufe0f UCI stdout bestmove f1f6
+[20:12:30] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:30] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:30] \u27a1\ufe0f UCI stdin position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w kq - 0 1
+[20:12:30] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:30] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 2 nodes 35 time 195 nps 179 string cp_heuristic_atanh eval_rival -0.0054
+[20:12:30] \u2b05\ufe0f UCI stdout bestmove g5e3
+[20:12:30] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:30] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:30] \u27a1\ufe0f UCI stdin position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+[20:12:30] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:30] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp 31 nodes 26 time 169 nps 153 string cp_heuristic_atanh eval_rival 0.0764
+[20:12:30] \u2b05\ufe0f UCI stdout bestmove g8h8
+[20:12:30] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:30] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:30] \u27a1\ufe0f UCI stdin position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+[20:12:30] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:30] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp 19 nodes 43 time 255 nps 168 string cp_heuristic_atanh eval_rival 0.0479
+[20:12:30] \u2b05\ufe0f UCI stdout bestmove d6d5
+[20:12:30] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:30] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:30] \u27a1\ufe0f UCI stdin position fen 3rr3/2pq2pk/p2p1pnp/8/2QBPP2/1P6/P5PP/4RRK1 b - - 0 1
+[20:12:30] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:31] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp 3 nodes 33 time 200 nps 165 string cp_heuristic_atanh eval_rival 0.0072
+[20:12:31] \u2b05\ufe0f UCI stdout bestmove c7c5
+[20:12:31] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:31] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:31] \u27a1\ufe0f UCI stdin position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+[20:12:31] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:31] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 52 nodes 40 time 256 nps 156 string cp_heuristic_atanh eval_rival -0.1281
+[20:12:31] \u2b05\ufe0f UCI stdout bestmove g3g4
+[20:12:31] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:31] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:31] \u27a1\ufe0f UCI stdin position fen 3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1
+[20:12:31] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:31] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 106 nodes 47 time 298 nps 157 string cp_heuristic_atanh eval_rival -0.2584
+[20:12:31] \u2b05\ufe0f UCI stdout bestmove f5h6
+[20:12:31] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:31] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:31] \u27a1\ufe0f UCI stdin position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+[20:12:31] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:31] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp 4 nodes 33 time 201 nps 164 string cp_heuristic_atanh eval_rival 0.0102
+[20:12:31] \u2b05\ufe0f UCI stdout bestmove f8e8
+[20:12:31] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:31] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:31] \u27a1\ufe0f UCI stdin position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1
+[20:12:31] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:32] \u2b05\ufe0f UCI stdout info ply 1 depth 1 score cp -6 nodes 35 time 215 nps 162 string cp_heuristic_atanh eval_rival -0.0158
+[20:12:32] \u2b05\ufe0f UCI stdout bestmove c8f5
+[20:12:32] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:32] \U0001f50e brain=penelope go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:32] \u27a1\ufe0f UCI stdin position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+[20:12:32] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:32] \u2b05\ufe0f UCI stdout info ply 0 depth 1 score cp 25 nodes 40 time 233 nps 171 string cp_heuristic_atanh eval_rival -0.0634
+[20:12:32] \u2b05\ufe0f UCI stdout bestmove e4f5
+[20:12:32] \u27a1\ufe0f UCI stdin quit
+[20:12:32] \U0001f50c subprocess detenido pid=58540

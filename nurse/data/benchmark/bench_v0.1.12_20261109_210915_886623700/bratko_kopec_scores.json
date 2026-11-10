@@ -1,0 +1,24 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "picoSargon",
+      "T": 0,
+      "L": 0,
+      "S": 0,
+      "B": null,
+      "errors": 24,
+      "interpretation": "INCOMPLETO",
+      "complete": false
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "picoSargon",
+      "picoSargon": "N/D"
+    }
+  ]
+}

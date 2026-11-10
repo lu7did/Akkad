@@ -1,0 +1,54 @@
+{
+  "brains": {
+    "emma": {
+      "type": "uci",
+      "evaluator": "null",
+      "player": {
+        "windows": "C:/Users/pedro/github/bobby/akkad/AlphaZero/X86/build/AlphaZero.exe",
+        "debian": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
+        "macOS": "/Users/pedrocolla/akkad/AlphaZero/macOS/build/AlphaZero"
+      },
+      "args": {
+        "windows": [
+          "--weights",
+          "C:/Users/pedro/github/bobby/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+          "--backend",
+          "onnx-dml",
+          "--backend-options",
+          "gpu=0",
+          "--simulations",
+          "1200",
+          "--cpuct",
+          "1.5"
+        ],
+        "debian": [
+          "--weights",
+          "../../../networks/lc0/t1-256x10-distilled-swa-2432500.pb.gz",
+          "--backend",
+          "eigen",
+          "--backend-options",
+          "",
+          "--simulations",
+          "1200",
+          "--cpuct",
+          "1.5"
+        ],
+        "macOS": [
+          "--weights",
+          "/Users/pedrocolla/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+          "--backend",
+          "eigen",
+          "--backend-options",
+          "",
+          "--simulations",
+          "1200",
+          "--cpuct",
+          "1.5"
+        ]
+      },
+      "tmax": 10000,
+      "timeout": 60000,
+      "ELO": 400
+    }
+  }
+}

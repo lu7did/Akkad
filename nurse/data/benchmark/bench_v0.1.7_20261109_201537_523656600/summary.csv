@@ -1,0 +1,4 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+pico,picoSargon,null,,24,24,0,1.216,50.665,44.771,124.287,3.084,132.750,398508,24,1183.000,336862.2,0.003051,OK,0,0
+picoSargon,external,null,,24,24,0,44.377,1849.025,1750.421,2792.583,433.163,2920.185,27753,24,44267.000,626.9,1.598984,OK,0,0
+penelope,picoKeras,null,,24,24,0,4.949,206.217,204.065,263.652,161.085,277.641,860,24,4917.000,174.9,5.754899,OK,0,0

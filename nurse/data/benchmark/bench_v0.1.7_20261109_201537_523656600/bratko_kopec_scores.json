@@ -1,0 +1,58 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "pico",
+      "T": 8,
+      "L": 2,
+      "S": 10,
+      "B": 7.2,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    },
+    {
+      "brain": "picoSargon",
+      "T": 10,
+      "L": 6,
+      "S": 16,
+      "B": 3.0,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    },
+    {
+      "brain": "penelope",
+      "T": 5,
+      "L": 4,
+      "S": 9,
+      "B": 1.3333333333333333,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "pico",
+      "pico": 0.0,
+      "picoSargon": 4.2,
+      "penelope": 5.866667
+    },
+    {
+      "brain": "picoSargon",
+      "pico": -4.2,
+      "picoSargon": 0.0,
+      "penelope": 1.666667
+    },
+    {
+      "brain": "penelope",
+      "pico": -5.866667,
+      "picoSargon": -1.666667,
+      "penelope": 0.0
+    }
+  ]
+}

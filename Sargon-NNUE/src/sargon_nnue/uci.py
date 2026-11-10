@@ -10,7 +10,7 @@
 #*================================================================================================================*
 #* uci.py
 #* Implementa la sesion y los comandos del protocolo UCI
-#* v0.6.201
+#* v0.6.153
 #=================================================================================================================*
 from __future__ import annotations
 import sys
@@ -27,50 +27,8 @@ class UCISession:
         self._go_index = 0
     def send(self,s:str):
         self.writer.write(s+"\n"); self.writer.flush()
-        # Diagnostic mirror only. Never prepend icons to wire UCI.
-        if s.startswith('info ') and 'ALPHAZERO' in s:
-            self._log_alphazero_uci_info(s)
-        else:
-            self.log(f"➡️ UCI {s}")
         if self.audit is not None and self.audit.enabled:
             self.audit.event("uci_tx", line=s)
-    def _log_alphazero_uci_info(self, line: str):
-        """Print compact and extended diagnostic mirrors of one intact UCI frame.
-
-        The original UCI frame is sent unmodified by send(); icons and
-        presentation-only labels must NEVER reach the TCP socket.
-        """
-        words = line.split()
-        if not (len(words) >= 2 and words[0] == 'info' and 'ALPHAZERO' in words):
-            self.log(f"➡️ UCI {line}")
-            return
-        def value(key, default='?'):
-            try:
-                return words[words.index(key) + 1]
-            except (ValueError, IndexError):
-                return default
-        extra = {}
-        for word in words[words.index('ALPHAZERO') + 1:]:
-            if '=' in word:
-                key, item = word.split('=', 1)
-                extra[key] = item
-        sims = extra.get('simulations', extra.get('sims', '?'))
-        ply = value('ply', extra.get('ply', '?'))
-        elapsed = extra.get('elapsed_ms', extra.get('elapsed', value('time')))
-        cp = value('cp')
-        self.log(f"➡️ UCI info ply {ply} sims={sims} score cp {cp} "
-                 f"nodes {value('nodes')} time {value('time')} nps {value('nps')} elapsed {elapsed}")
-        self.log(f"📊 UCI info ply {ply} sims={sims} depth {value('depth')} "
-                 f"score cp {cp} nodes {value('nodes')} "
-                 f"time {value('time')} nps {value('nps')} "
-                 f"nodes={extra.get('tree_nodes', value('nodes'))} "
-                 f"elapsed={elapsed} best={extra.get('best_visits', '?')}")
-        self.log(f"📊 UCI info ply {ply} sims={sims} "
-                 f"stop={extra.get('stop', '?')} q={extra.get('q', '?')} "
-                 f"batch={extra.get('batch_size', '?')} cores={extra.get('cores', '?')} "
-                 f"batches={extra.get('batches', '?')} evals={extra.get('evals', '?')} "
-                 f"nn_ms={extra.get('nn_ms', '?')}")
-
     def set_position(self,line:str):
         parts=line.split()
         if len(parts)<2: raise ValueError("position incompleto")
@@ -99,18 +57,22 @@ class UCISession:
                 if line=="uci":
                     self.send(f"id name {self.brain_name}"); self.send("id author Pedro E. Colla")
                     self.send("option name SargonResult type string default none"); self.send("uciok")
-                elif line=="isready": self.send("readyok")
+                elif line=="isready":
+                    if hasattr(self.player,'is_ready'):self.player.is_ready()
+                    self.send("readyok")
                 elif line=="ucinewgame":
                     self.board=chess.Board()
                     if hasattr(self.player,"new_game"):self.player.new_game()
                 elif line.startswith("position "): self.set_position(line)
                 elif line.startswith("go"):
                     self._go_index += 1
-                    board = self.board.copy(stack=True) if str(getattr(self.player,"name","")).upper() in ("ALPHAZERO","LC0-UCI","EXTERNAL","ALPHAZERO-X86") else self.board.copy(stack=False)
+                    board = self.board.copy(stack=True) if str(getattr(self.player,"name","")).upper() in ("ALPHAZERO","LC0-UCI","EXTERNAL","ALPHAZERO-X86","UCI") else self.board.copy(stack=False)
                     if self.audit is not None and self.audit.enabled:
                         self.audit.event("uci_go_begin", go_index=self._go_index, command=line, fen=board.fen(), turn="white" if board.turn else "black", legal_moves=len(list(board.legal_moves)))
-                    if str(getattr(self.player, "name", "")).upper() == "ALPHAZERO-X86":
+                    if str(getattr(self.player, 'name', '')).upper() == 'UCI':
                         choice = self.player.choose(board, go_command=line)
+                        for info_line in getattr(self.player, 'last_info', []):
+                            if info_line.startswith('info '): self.send(info_line)
                     else:
                         choice = self.player.choose(board)
                     bestmove = choice.move.uci() if choice.move else "(none)"
@@ -124,15 +86,11 @@ class UCISession:
                     if isinstance(decision, dict) and decision.get('method') == 'BELLMAN':
                         # There is no calibrated CP equivalent of a WDL statistic.
                         self.send(f"info depth 0 nodes {choice.nodes} time {max(1,round(choice.elapsed_ms))} nps {round(1000*choice.nodes/choice.elapsed_ms) if choice.elapsed_ms>0 else 0}")
-                    elif str(getattr(self.player, "name", "")).upper() == "ALPHAZERO-X86" and getattr(self.player, "last_uci_info", None):
-                        # The embedded AlphaZero produces its own authoritative UCI info.
-                        # Keep it on TCP stdout; never send native stderr diagnostics here.
-                        for info_line in self.player.last_uci_info:
-                            self.send(info_line)
                     else:
                         self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
                     self.send("bestmove "+bestmove)
-                elif line=="stop": pass
+                elif line=="stop":
+                    if hasattr(self.player,'stop'):self.player.stop()
                 elif line.startswith("setoption name SargonResult"): pass
                 elif line=="quit":
                     if self.audit is not None and self.audit.enabled:

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "nurse_classic": {
+      "type": "nurse",
+      "player": "sargon.py",
+      "evaluator": "classic.py",
+      "Depth": 2,
+      "QDepth": 0,
+      "timeout": 15000,
+      "ELO": 1000,
+      "tmax": 15000,
+      "warmup_movetime": 15000
+    },
+    "nurse_random": {
+      "type": "nurse",
+      "player": "random.py",
+      "evaluator": "null",
+      "timeout": 1000,
+      "ELO": 400,
+      "tmax": 15000,
+      "warmup_movetime": 15000
+    },
+    "fishy": {
+      "type": "uci",
+      "player": {
+        "windows": "../../../stockfish/stockfish.exe",
+        "debian": "/usr/games/stockfish",
+        "macOS": "/usr/local/bin/stockfish"
+      },
+      "evaluator": "null",
+      "timeout": 30000,
+      "ELO": 3000,
+      "tmax": 15000,
+      "warmup_movetime": 15000
+    },
+    "remote": {
+      "type": "external",
+      "ipaddress": "127.0.0.1",
+      "port": 6200,
+      "retry": 5,
+      "ELO": 1200,
+      "tmax": 15000,
+      "timeout": 30000,
+      "warmup_movetime": 15000
+    }
+  }
+}

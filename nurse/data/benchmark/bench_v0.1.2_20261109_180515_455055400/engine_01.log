@@ -1,0 +1,15 @@
+[18:05:15] \U0001f4bb sargon-nurse v0.1.2 brain=fishy type=uci ELO=3000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[18:05:15] \u2699\ufe0f UCI engine=C:\Users\pedro\github\Bobby\stockfish\stockfish.exe args=[]
+[18:05:15] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[18:05:15] \U0001f680 subprocess pid=6240 cwd=C:\Users\pedro\github\Bobby\stockfish argv=['C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe']
+[18:05:15] \u2b05\ufe0f UCI init Stockfish 19 by the Stockfish developers (see AUTHORS file)
+[18:05:15] \u2b05\ufe0f UCI init 
+[18:05:15] \u2705 handshake UCI completo
+[18:05:15] \U0001f50e brain=fishy go='go movetime 15000' tmax=15000ms timeout=30000ms
+[18:05:30] \U0001f50e brain=fishy go='go movetime 15000' tmax=15000ms timeout=30000ms
+[18:05:45] \U0001f50e brain=fishy go='go movetime 15000' tmax=15000ms timeout=30000ms
+[18:06:00] \U0001f50e brain=fishy go='go movetime 15000' tmax=15000ms timeout=30000ms
+[18:06:15] \U0001f50e brain=fishy go='go movetime 15000' tmax=15000ms timeout=30000ms
+[18:06:30] \U0001f50e brain=fishy go='go movetime 15000' tmax=15000ms timeout=30000ms
+[18:06:30] \U0001f50e brain=fishy go='go movetime 15000' tmax=15000ms timeout=30000ms
+[18:06:35] \U0001f50c subprocess detenido pid=6240

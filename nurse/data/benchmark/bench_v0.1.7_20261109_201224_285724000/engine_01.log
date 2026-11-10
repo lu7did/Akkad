@@ -1,0 +1,214 @@
+[20:12:24] \U0001f4bb sargon-nurse v0.1.7 brain=pico type=uci ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[20:12:24] \u2699\ufe0f UCI engine=C:\Users\pedro\github\bobby\akkad\picoSargon\x86\build\picoSargon.exe args=['--weights', 'C:/Users/pedro/github/bobby/akkad/picoSargon/assets/grumpy.bin'] options=[]
+[20:12:24] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[20:12:24] \U0001f680 subprocess pid=19056 cwd=C:\Users\pedro\github\bobby\akkad\picoSargon\x86\build argv=['C:\\Users\\pedro\\github\\bobby\\akkad\\picoSargon\\x86\\build\\picoSargon.exe', '--weights', 'C:/Users/pedro/github/bobby/akkad/picoSargon/assets/grumpy.bin']
+[20:12:24] \u27a1\ufe0f UCI stdin uci
+[20:12:24] \u2b05\ufe0f UCI stdout id name picoSargon C++ v0.2.58 (Windows)
+[20:12:24] \u2b05\ufe0f UCI stdout id author Dr. Pedro E. Colla
+[20:12:24] \u2b05\ufe0f UCI stdout option name QDepth type spin default 2 min 0 max 32
+[20:12:24] \u2b05\ufe0f UCI stdout uciok
+[20:12:24] \u27a1\ufe0f UCI stdin isready
+[20:12:24] \u2b05\ufe0f UCI stdout readyok
+[20:12:24] \u2705 handshake UCI completo
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 10 nodes 2195 time 5 nps 439000
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove b1c3
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 10 nodes 2195 time 5 nps 439000
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove b1c3
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp -29995 nodes 7295 time 19 nps 383947
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove d6d1
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 1 depth 4 score cp -29995 nodes 7295 time 19 nps 383947
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove d6d1
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 48 nodes 14768 time 36 nps 410222
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove f2g3
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 48 nodes 14768 time 36 nps 410222
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove f2g3
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp -40 nodes 16282 time 48 nps 339208
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove c8c7
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 1 depth 4 score cp -40 nodes 16282 time 48 nps 339208
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove c8c7
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 96 nodes 10338 time 26 nps 397615
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove e5e6
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 96 nodes 10338 time 26 nps 397615
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove e5e6
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 117 nodes 38554 time 123 nps 313447
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove c3d5
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 117 nodes 38554 time 123 nps 313447
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove c3d5
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 178 nodes 3777 time 7 nps 539571
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove g3h4
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 178 nodes 3777 time 7 nps 539571
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove g3h4
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 145 nodes 26291 time 74 nps 355283
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove a3d6
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 145 nodes 26291 time 74 nps 355283
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove a3d6
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 19 nodes 1127 time 2 nps 563500
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove e2c3
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 19 nodes 1127 time 2 nps 563500
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove e2c3
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 2kr1bnr/pbpq4/2n1pp2/3p3p/3P1P1B/2N2N1Q/PPP3PP/2KR1B1R w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 301 nodes 23875 time 68 nps 351102
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove c1b1
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 301 nodes 23875 time 68 nps 351102
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove c1b1
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 1 depth 4 score cp 8 nodes 15044 time 43 nps 349860
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove c6e5
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp 8 nodes 15044 time 43 nps 349860
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove c6e5
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp -31 nodes 18907 time 56 nps 337625
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove f2f4
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp -31 nodes 18907 time 56 nps 337625
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove f2f4
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 1 depth 4 score cp 86 nodes 10686 time 30 nps 356200
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove d7f5
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp 86 nodes 10686 time 30 nps 356200
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove d7f5
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:24] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 125 nodes 14720 time 42 nps 350476
+[20:12:24] \u2b05\ufe0f UCI stdout bestmove a1d1
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 info ply 0 depth 4 score cp 125 nodes 14720 time 42 nps 350476
+[20:12:24] \U0001f4cb child [20:12:24] \U0001f9e0 bestmove a1d1
+[20:12:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:24] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:24] \u27a1\ufe0f UCI stdin position fen rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1
+[20:12:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 701 nodes 8575 time 26 nps 329807
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove d1d2
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 0 depth 4 score cp 701 nodes 8575 time 26 nps 329807
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove d1d2
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 0 depth 4 score cp 437 nodes 5614 time 17 nps 330235
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove g4g7
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 437 nodes 5614 time 17 nps 330235
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove g4g7
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w kq - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 252 nodes 10392 time 30 nps 346400
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove d1h5
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 0 depth 4 score cp 252 nodes 10392 time 30 nps 346400
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove d1h5
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp 73 nodes 21972 time 62 nps 354387
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove h7h6
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 1 depth 4 score cp 73 nodes 21972 time 62 nps 354387
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove h7h6
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 1 depth 4 score cp -105 nodes 26585 time 85 nps 312764
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove c5b3
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp -105 nodes 26585 time 85 nps 312764
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove c5b3
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen 3rr3/2pq2pk/p2p1pnp/8/2QBPP2/1P6/P5PP/4RRK1 b - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp 140 nodes 9257 time 25 nps 370280
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove c7c5
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 1 depth 4 score cp 140 nodes 9257 time 25 nps 370280
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove c7c5
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 147 nodes 19270 time 56 nps 344107
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove c3b5
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 0 depth 4 score cp 147 nodes 19270 time 56 nps 344107
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove c3b5
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen 3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 187 nodes 43770 time 127 nps 344645
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove f5h6
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 0 depth 4 score cp 187 nodes 43770 time 127 nps 344645
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove f5h6
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp 54 nodes 23504 time 74 nps 317621
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove d7e5
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 1 depth 4 score cp 54 nodes 23504 time 74 nps 317621
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove d7e5
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 1 depth 4 score cp 55 nodes 19292 time 60 nps 321533
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove e8g8
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 1 depth 4 score cp 55 nodes 19292 time 60 nps 321533
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove e8g8
+[20:12:25] \u27a1\ufe0f UCI stdin ucinewgame
+[20:12:25] \U0001f50e brain=pico go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:12:25] \u27a1\ufe0f UCI stdin position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+[20:12:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 info ply 0 depth 4 score cp 228 nodes 8613 time 26 nps 331269
+[20:12:25] \U0001f4cb child [20:12:25] \U0001f9e0 bestmove e4f5
+[20:12:25] \u2b05\ufe0f UCI stdout info ply 0 depth 4 score cp 228 nodes 8613 time 26 nps 331269
+[20:12:25] \u2b05\ufe0f UCI stdout bestmove e4f5
+[20:12:25] \u27a1\ufe0f UCI stdin quit
+[20:12:25] \U0001f50c subprocess detenido pid=19056

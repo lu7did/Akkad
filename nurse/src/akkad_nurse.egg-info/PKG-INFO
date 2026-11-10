@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: akkad-nurse
+Version: 0.1.0
+Summary: Akkad Nurse - independent UCI orchestration and pluggable chess engines
+Requires-Python: >=3.9
+Requires-Dist: python-chess>=1.999

@@ -14,6 +14,7 @@
 #=================================================================================================================*
 from __future__ import annotations
 import argparse
+import json
 
 
 def _parse_elo(value: str):
@@ -75,7 +76,7 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
     )
     p.add_argument(
         opt("player"), dest=dest("player"), default="sargon",
-        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon", "picoalpha", "AlphaZero-X86", "alphazero-x86", "keras", "picokeras", "microchess", "bellman"],
+        choices=["random", "sargon", "sargon-plus", "cerebrum", "stockfish", "sunfish", "external", "alphazero", "lc0", "doc", "picosargon", "picoalpha", "AlphaZero-X86", "alphazero-x86", "keras", "picokeras", "microchess", "bellman", "uci", "UCI"],
     )
 
     p.add_argument(opt("alternate-evaluator"), dest=dest("alternate_evaluator"), default="grumpy", choices=["grumpy"], help="evaluador de respaldo para Bellman")
@@ -105,6 +106,17 @@ def add_engine_args(p: argparse.ArgumentParser, prefix: str = "") -> None:
         help="máscara adaptativa de 8 bits SARGON+; acepta decimal, 0xHEX o binario ...b",
     )
 
+    def parse_engine_args(raw):
+        try:
+            value=json.loads(raw)
+        except (ValueError, TypeError) as exc:
+            raise argparse.ArgumentTypeError('--args debe ser un array JSON de cadenas') from exc
+        if not isinstance(value,list) or not all(isinstance(x,str) for x in value):
+            raise argparse.ArgumentTypeError('--args debe ser un array JSON de cadenas')
+        return value
+
+    p.add_argument(opt("args"), dest=dest("args"), type=parse_engine_args, default=[],
+                   help='player=UCI: lista JSON de argumentos para el ejecutable; sin shell')
     p.add_argument(opt("engine-path"), dest=dest("engine_path"), default=None)
     p.add_argument(opt("url"), dest=dest("url"), default=None, help="player=external: servidor UCI TCP host:puerto")
     p.add_argument(opt("movetime"), dest=dest("movetime"), type=int, default=1000,

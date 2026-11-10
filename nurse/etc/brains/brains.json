@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "buddy": {
+      "type": "nurse",
+      "player": "sargon.py",
+      "evaluator": "classic.py",
+      "Depth": 2,
+      "QDepth": 0,
+      "timeout": 15000,
+      "ELO": 1000
+    },
+    "messy": {
+      "type": "nurse",
+      "player": "random.py",
+      "evaluator": "null",
+      "timeout": 1000,
+      "ELO": 400
+    },
+    "emma": {
+      "type": "uci",
+      "evaluator" : "null",
+      "player": {
+         "windows": "C:/Users/pedro/github/bobby/akkad/AlphaZero/X86/build/AlphaZero.exe",
+         "debian": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
+         "macOS": "/Users/pedrocolla/akkad/AlphaZero/macOS/build/AlphaZero"
+      },
+      "args": {
+         "windows": [
+           "--weights", "C:/Users/pedro/github/bobby/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+           "--backend", "onnx-dml",
+           "--backend-options", "gpu=0",
+           "--simulations", "1200",
+           "--cpuct", "1.5"
+         ],
+         "debian": [
+           "--weights", "{network}",
+           "--backend", "eigen",
+           "--backend-options", "",
+           "--simulations", "1200",
+           "--cpuct", "1.5"
+         ],
+         "macOS": [
+           "--weights", "{network}",
+           "--backend", "eigen",
+           "--backend-options", "",
+           "--simulations", "1200",
+           "--cpuct", "1.5"
+         ]
+     },
+     "uci_options": {
+         "UCI_LimitStrength": true,
+         "UCI_Elo": 1800,
+         "Threads": 1,
+         "Hash": 64
+     },
+     "tmax": 10000,
+     "timeout": 60000,
+     "ELO": 400
+  },
+  
+
+  "amelie": {
+      "type": "uci",
+      "evaluator" : "null",
+      "player": {
+         "windows": "C:/Users/pedro/github/bobby/akkad/AlphaZero/X86/build/AlphaZero.exe",
+         "debian": "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero",
+         "macOS": "/Users/pedrocolla/akkad/AlphaZero/macOS/build/AlphaZero"
+      },
+      "args": {
+         "windows": [
+           "--weights", "C:/Users/pedro/github/bobby/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+           "--backend", "onnx-dml",
+           "--backend-options", "gpu=0",
+           "--simulations", "1200",
+           "--cpuct", "1.5"
+         ],
+         "debian": [
+           "--weights", "/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+           "--backend", "eigen",
+           "--backend-options", "",
+           "--simulations", "1200",
+           "--cpuct", "1.5"
+         ],
+         "macOS": [
+           "--weights", "/Users/pedrocolla/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz",
+           "--backend", "eigen",
+           "--backend-options", "",
+           "--simulations", "1200",
+           "--cpuct", "1.5"
+         ]
+         },
+     "tmax": 15000,
+     "timeout": 60000,
+     "ELO": 1000
+    },
+  "penelope": {
+      "type": "uci",
+      "evaluator" : "null",
+      "player": {
+         "windows": "C:/Users/pedro/github/bobby/akkad/picoKeras/X86/build/Release/picoKeras.exe",
+         "debian": "/home/pi/chess/akkad/AlphaZero/debian/build/picoKeras",
+         "macOS": "/Users/pedrocolla/akkad/AlphaZero/macOS/build/picoKeras"
+      },
+      "args": {
+         "windows": [
+           "--weights", "C:/Users/pedro/github/bobby/akkad/picoKeras/assets/medium.tf"
+         ],
+         "debian": [
+           "--weights", "/home/pi/chess/akkad/picoKeras/assets/medium.tf"
+         ],
+         "macOS": [
+           "--weights", "/Users/pedrocolla/akkad/picoKeras/assets/medium.tf"
+         ]
+         },
+
+      "ELO": 1000
+    },
+  "pico": {
+      "type": "uci",
+      "evaluator" : "null",
+      "player": {
+         "windows": "C:/Users/pedro/github/bobby/akkad/picoSargon/x86/build/picoSargon.exe",
+         "debian": "/home/pi/chess/akkad/picoSargon/debian/build/picoSargon",
+         "macOS": "/home/pi/chess/akkad/picoSargon/macOS/build/picoSargon"
+      },
+      "args": {
+         "windows": [
+           "--weights", "C:/Users/pedro/github/bobby/akkad/picoSargon/assets/grumpy.bin"
+         ],
+         "debian": [
+           "--weights","/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin"
+         ],
+         "macOS": [
+           "--weights", "/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin"
+         ]
+         },
+
+      "ELO": 1000
+    },
+ "picoSargon": {
+      "type" : "external",
+      "player": "external",
+      "evaluator": "null",
+      "url": "picosargon.local:6110",
+      "rating_elo": 1000
+ },
+  
+"fishy": {
+      "type": "uci",
+      "player": {
+        "windows": "../../../stockfish/stockfish.exe",
+        "debian": "/usr/games/stockfish",
+        "macOS": "/usr/local/bin/stockfish"
+      },
+      "evaluator": "null",
+      "timeout": 30000,
+      "tmax" : 8000,
+      "ELO": 3000
+    }
+  }
+}

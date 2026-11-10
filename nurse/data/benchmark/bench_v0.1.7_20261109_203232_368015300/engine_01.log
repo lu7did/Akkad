@@ -1,0 +1,164 @@
+[20:32:32] \U0001f4bb sargon-nurse v0.1.8 brain=picoSargon type=external ELO=1200 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[20:32:32] \u2699\ufe0f TCP endpoint=127.0.0.1:6200 retry_seconds=5.0
+[20:32:32] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[20:32:32] \U0001f310 TCP conectado 127.0.0.1:6200
+[20:32:32] \u27a1\ufe0f UCI stdin uci
+[20:32:34] \u2b05\ufe0f UCI tcp id name emma
+[20:32:34] \u2b05\ufe0f UCI tcp id author Pedro E. Colla
+[20:32:34] \u2b05\ufe0f UCI tcp option name SargonResult type string default none
+[20:32:34] \u2b05\ufe0f UCI tcp uciok
+[20:32:34] \u27a1\ufe0f UCI stdin isready
+[20:32:34] \u2b05\ufe0f UCI tcp readyok
+[20:32:34] \u2705 handshake UCI completo
+[20:32:34] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:34] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:34] \u27a1\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[20:32:34] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:37] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 46 nodes 1201 time 2527 nps 475 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2527 best_visits=298 q=0.116066 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2517 stop=completed
+[20:32:37] \u2b05\ufe0f UCI tcp bestmove e2e4
+[20:32:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:37] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:37] \u27a1\ufe0f UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[20:32:37] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:38] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp -814 nodes 301 time 905 nps 332 string ALPHAZERO simulations=1200 tree_nodes=301 elapsed_ms=905 best_visits=883 q=0.96651 batch_size=8 cores=1 batches=40 evals=301 nn_ms=902 stop=completed
+[20:32:38] \u2b05\ufe0f UCI tcp bestmove d6d1
+[20:32:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:38] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:38] \u27a1\ufe0f UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[20:32:38] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:40] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 485 nodes 1201 time 2656 nps 452 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2656 best_visits=811 q=0.837925 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2647 stop=completed
+[20:32:40] \u2b05\ufe0f UCI tcp bestmove d4d5
+[20:32:40] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:40] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:40] \u27a1\ufe0f UCI stdin position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+[20:32:40] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:43] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp 157 nodes 1201 time 2947 nps 407 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2947 best_visits=725 q=-0.373754 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2938 stop=completed
+[20:32:43] \u2b05\ufe0f UCI tcp bestmove f8g8
+[20:32:43] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:43] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:43] \u27a1\ufe0f UCI stdin position fen rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq - 0 1
+[20:32:43] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:46] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 410 nodes 1156 time 3129 nps 369 string ALPHAZERO simulations=1200 tree_nodes=1156 elapsed_ms=3129 best_visits=1130 q=0.772369 batch_size=8 cores=1 batches=146 evals=1156 nn_ms=3117 stop=completed
+[20:32:46] \u2b05\ufe0f UCI tcp bestmove e5e6
+[20:32:46] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:46] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:46] \u27a1\ufe0f UCI stdin position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+[20:32:46] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:49] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 204 nodes 1201 time 2810 nps 427 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2810 best_visits=1017 q=0.470268 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2798 stop=completed
+[20:32:49] \u2b05\ufe0f UCI tcp bestmove c3d5
+[20:32:49] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:49] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:49] \u27a1\ufe0f UCI stdin position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+[20:32:49] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:52] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 516 nodes 1200 time 2853 nps 420 string ALPHAZERO simulations=1200 tree_nodes=1200 elapsed_ms=2853 best_visits=1126 q=0.859333 batch_size=8 cores=1 batches=151 evals=1200 nn_ms=2843 stop=completed
+[20:32:52] \u2b05\ufe0f UCI tcp bestmove g5g6
+[20:32:52] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:52] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:52] \u27a1\ufe0f UCI stdin position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+[20:32:52] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:55] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 201 nodes 1201 time 3438 nps 349 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=3438 best_visits=458 q=0.464764 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=3428 stop=completed
+[20:32:55] \u2b05\ufe0f UCI tcp bestmove a3b4
+[20:32:55] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:55] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:55] \u27a1\ufe0f UCI stdin position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+[20:32:55] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:32:58] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 249 nodes 1201 time 2684 nps 447 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2684 best_visits=1026 q=0.553915 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2675 stop=completed
+[20:32:58] \u2b05\ufe0f UCI tcp bestmove f4f5
+[20:32:58] \u27a1\ufe0f UCI stdin ucinewgame
+[20:32:58] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:32:58] \u27a1\ufe0f UCI stdin position fen 2kr1bnr/pbpq4/2n1pp2/3p3p/3P1P1B/2N2N1Q/PPP3PP/2KR1B1R w - - 0 1
+[20:32:58] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:01] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 588 nodes 1201 time 2612 nps 459 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2612 best_visits=412 q=0.900024 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2602 stop=completed
+[20:33:01] \u2b05\ufe0f UCI tcp bestmove d1e1
+[20:33:01] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:01] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:01] \u27a1\ufe0f UCI stdin position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+[20:33:01] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:03] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp -702 nodes 1134 time 2607 nps 434 string ALPHAZERO simulations=1200 tree_nodes=1134 elapsed_ms=2607 best_visits=1137 q=0.942196 batch_size=8 cores=1 batches=143 evals=1134 nn_ms=2594 stop=completed
+[20:33:03] \u2b05\ufe0f UCI tcp bestmove c6e5
+[20:33:03] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:03] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:03] \u27a1\ufe0f UCI stdin position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+[20:33:03] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:06] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 356 nodes 1201 time 2535 nps 473 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2535 best_visits=584 q=0.711918 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2485 stop=completed
+[20:33:06] \u2b05\ufe0f UCI tcp bestmove g3f5
+[20:33:06] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:06] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:06] \u27a1\ufe0f UCI stdin position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+[20:33:06] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:08] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp -16 nodes 1201 time 2311 nps 519 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2311 best_visits=1150 q=0.0415341 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2289 stop=completed
+[20:33:08] \u2b05\ufe0f UCI tcp bestmove d7f5
+[20:33:08] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:08] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:08] \u27a1\ufe0f UCI stdin position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+[20:33:08] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:11] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 139 nodes 1201 time 2779 nps 432 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2779 best_visits=1140 q=0.336175 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2768 stop=completed
+[20:33:11] \u2b05\ufe0f UCI tcp bestmove b2b4
+[20:33:11] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:11] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:11] \u27a1\ufe0f UCI stdin position fen rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1
+[20:33:11] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:14] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 1132 nodes 1201 time 2703 nps 444 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2703 best_visits=1165 q=0.993062 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2687 stop=completed
+[20:33:14] \u2b05\ufe0f UCI tcp bestmove d1d2
+[20:33:14] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:14] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:14] \u27a1\ufe0f UCI stdin position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+[20:33:14] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:16] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 302 nodes 1201 time 1836 nps 654 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=1836 best_visits=1000 q=0.639094 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=1825 stop=completed
+[20:33:16] \u2b05\ufe0f UCI tcp bestmove g4g7
+[20:33:16] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:16] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:16] \u27a1\ufe0f UCI stdin position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w kq - 0 1
+[20:33:16] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:17] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 436 nodes 1199 time 1475 nps 812 string ALPHAZERO simulations=1200 tree_nodes=1199 elapsed_ms=1475 best_visits=1133 q=0.797333 batch_size=8 cores=1 batches=151 evals=1199 nn_ms=1462 stop=completed
+[20:33:17] \u2b05\ufe0f UCI tcp bestmove d2e4
+[20:33:17] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:17] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:17] \u27a1\ufe0f UCI stdin position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+[20:33:17] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:19] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp 81 nodes 1201 time 1808 nps 664 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=1808 best_visits=327 q=-0.199922 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=1793 stop=completed
+[20:33:19] \u2b05\ufe0f UCI tcp bestmove c7c6
+[20:33:19] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:19] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:19] \u27a1\ufe0f UCI stdin position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+[20:33:19] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:21] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp 25 nodes 1201 time 1630 nps 736 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=1630 best_visits=983 q=-0.0634717 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=1617 stop=completed
+[20:33:21] \u2b05\ufe0f UCI tcp bestmove c5b3
+[20:33:21] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:21] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:21] \u27a1\ufe0f UCI stdin position fen 3rr3/2pq2pk/p2p1pnp/8/2QBPP2/1P6/P5PP/4RRK1 b - - 0 1
+[20:33:21] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:22] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp -364 nodes 1201 time 1701 nps 706 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=1701 best_visits=1016 q=0.721686 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=1686 stop=completed
+[20:33:22] \u2b05\ufe0f UCI tcp bestmove e8e4
+[20:33:22] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:22] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:22] \u27a1\ufe0f UCI stdin position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+[20:33:22] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:24] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 604 nodes 1201 time 1830 nps 656 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=1830 best_visits=912 q=0.907198 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=1817 stop=completed
+[20:33:24] \u2b05\ufe0f UCI tcp bestmove g3g4
+[20:33:24] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:24] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:24] \u27a1\ufe0f UCI stdin position fen 3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1
+[20:33:24] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:26] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 779 nodes 1145 time 1570 nps 729 string ALPHAZERO simulations=1200 tree_nodes=1145 elapsed_ms=1570 best_visits=1073 q=0.960133 batch_size=8 cores=1 batches=144 evals=1145 nn_ms=1559 stop=completed
+[20:33:26] \u2b05\ufe0f UCI tcp bestmove f5h6
+[20:33:26] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:26] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:26] \u27a1\ufe0f UCI stdin position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+[20:33:26] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:28] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp -33 nodes 1201 time 2162 nps 555 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2162 best_visits=831 q=0.0837497 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2148 stop=completed
+[20:33:28] \u2b05\ufe0f UCI tcp bestmove d7c5
+[20:33:28] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:28] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:28] \u27a1\ufe0f UCI stdin position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1
+[20:33:28] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:30] \u2b05\ufe0f UCI tcp info ply 1 depth 0 score cp -80 nodes 1201 time 2537 nps 473 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=2537 best_visits=1073 q=0.199337 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=2523 stop=completed
+[20:33:30] \u2b05\ufe0f UCI tcp bestmove c8f5
+[20:33:30] \u27a1\ufe0f UCI stdin ucinewgame
+[20:33:30] \U0001f50e brain=picoSargon go='go movetime 15000' tmax=15000ms timeout=30000ms
+[20:33:30] \u27a1\ufe0f UCI stdin position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+[20:33:30] \u27a1\ufe0f UCI stdin go movetime 15000
+[20:33:32] \u2b05\ufe0f UCI tcp info ply 0 depth 0 score cp 198 nodes 1201 time 1618 nps 742 string ALPHAZERO simulations=1200 tree_nodes=1201 elapsed_ms=1618 best_visits=1086 q=0.458908 batch_size=8 cores=1 batches=151 evals=1201 nn_ms=1607 stop=completed
+[20:33:32] \u2b05\ufe0f UCI tcp bestmove e4f5
+[20:33:32] \U0001f50c TCP cerrado
+[20:33:32] \U0001f504 TCP próxima reconexión en 5s

@@ -1,0 +1,73 @@
+{
+  "tool": "sargon_benchmark",
+  "version": "0.1.4",
+  "brain_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\nurse\\etc\\brains\\brains.json",
+  "brain_ids": [
+    "fishy",
+    "buddy"
+  ],
+  "brains": {
+    "fishy": {
+      "type": "uci",
+      "player": "stockfish",
+      "evaluator": "null",
+      "timeout": 30000,
+      "tmax": 8000,
+      "ELO": 3000,
+      "warmup_movetime": 8000,
+      "_args": [],
+      "_uci_options": []
+    },
+    "buddy": {
+      "type": "nurse",
+      "player": "sargon",
+      "evaluator": "classic",
+      "Depth": 2,
+      "QDepth": 0,
+      "timeout": 15000,
+      "ELO": 1000,
+      "tmax": 15000,
+      "warmup_movetime": 15000
+    }
+  },
+  "mode": "positions",
+  "suite": "bratko-kopec",
+  "bratko_kopec_full": false,
+  "bratko_kopec_scoring": null,
+  "bk_movetime_s": null,
+  "bratko_kopec_ids": [
+    22,
+    20,
+    23,
+    2,
+    1,
+    5,
+    15,
+    8,
+    11,
+    3
+  ],
+  "seed": null,
+  "reference_csv": [],
+  "chance_model": "uniform",
+  "positions": 10,
+  "plies": null,
+  "rounds": 1,
+  "warmup": 1,
+  "timeout_s": 90,
+  "python": "C:\\Users\\pedro\\ufasta\\scripts\\python.exe",
+  "fixed_fens": [
+    "2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1",
+    "r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1",
+    "r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b - - 0 1",
+    "3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1",
+    "1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1",
+    "r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1",
+    "2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1",
+    "4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1",
+    "2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1",
+    "2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1"
+  ],
+  "opening": [],
+  "fens": []
+}

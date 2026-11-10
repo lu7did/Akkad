@@ -1,0 +1,40 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "emma",
+      "T": 10,
+      "L": 6,
+      "S": 16,
+      "B": 3.0,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    },
+    {
+      "brain": "penelope",
+      "T": 0,
+      "L": 0,
+      "S": 0,
+      "B": null,
+      "errors": 24,
+      "interpretation": "INCOMPLETO",
+      "complete": false
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "emma",
+      "emma": 0.0,
+      "penelope": "N/D"
+    },
+    {
+      "brain": "penelope",
+      "emma": "N/D",
+      "penelope": "N/D"
+    }
+  ]
+}

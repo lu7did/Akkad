@@ -1,0 +1,841 @@
+#*================================================================================================================*
+#* Proyecto Nurse
+#* Chess player using different Neural Networks as the game evaluation engine
+#*
+#* A new mind for the old buddy
+#* Created as a learning experience
+#*
+#* By Dr. Pedro E. Colla 2026 (UADER Teoria de la Comunicación / UFASTA Gestión de Redes)
+#* License: CC AS BY 4.0
+#*================================================================================================================*
+#* nurse.benchmark
+#* NURSE BENCHMARK version 0.1.10 — medición de decisiones de brains reales vía UCI.
+#* v0.1.14
+#=================================================================================================================*
+"""NURSE BENCHMARK v0.1.14 — mide decisions de brains Nurse via UCI.
+
+Conserva informes, estadisticas, matrices y perfil Bratko-Kopec.
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import math
+import random
+import queue
+import re
+import statistics
+import sys
+import time
+import unicodedata
+from datetime import datetime
+from pathlib import Path
+
+import chess
+
+from .compat import get, read, to_argv
+from .display import benchmark_engine_heading, format_external_tcp_line
+from .config import brain_fingerprint, read_brains, parse_external_endpoint
+from .match import UCI
+from .benchmark_bratko_kopec import (BK_FORSYTH, choose_positions, compute_matrices, load_reference_csv, print_matrix)
+from .benchmark_bk_profile import canonical_suite, write_bk_report
+
+VERSION = "0.1.14"
+# Distintas aperturas, incluyendo posiciones con ambos bandos para mover.
+# La posición inicial se utiliza como calentamiento por defecto.
+DEFAULT_POSITIONS = (
+    "e2e4 e7e5 g1f3 b8c6",
+    "d2d4 d7d5 c2c4 e7e6",
+    "e2e4 c7c5 g1f3",
+    "d2d4 g8f6 c2c4 g7g6",
+    "c2c4 e7e5 b1c3",
+    "g1f3 d7d5 d2d4 g8f6",
+    "e2e4 e7e5 f1c4 g8f6",
+    "d2d4 d7d5 g1f3 g8f6 c2c4",
+)
+FILE_KEYS = ("network", "engine-path", "stockfish-path", "lc0-weights", "lc0-uci-path")
+MOVE_FIELDS = (
+    "brain", "player", "evaluator", "backend", "mode", "round", "index",
+    "fen", "turn", "move_uci", "wall_ms", "engine_ms", "nodes", "depth",
+    "status", "error", "decision_method", "bellman_visits", "bellman_w", "bellman_d", "bellman_l", "bellman_q", "bellman_s", "bellman_legal_examined", "bellman_hash_hits", "bellman_qualified",
+)
+SUMMARY_FIELDS = (
+    "brain", "player", "evaluator", "backend", "attempted", "ok", "failed",
+    "total_s", "mean_ms", "median_ms", "p95_ms", "min_ms", "max_ms",
+    "nodes_total", "nodes_samples", "engine_ms_total", "nodes_per_second",
+    "ms_per_node", "status", "bellman_table_decisions", "nnue_fallback_decisions",
+)
+
+
+def _get_info(line: str) -> dict[str, int]:
+    """Leer los datos UCI del motor, sin inferir métricas inexistentes."""
+    result: dict[str, int] = {}
+    if not line.startswith("info "):
+        return result
+    for key in ("depth", "nodes", "time"):
+        match = re.search(r"(?:^|\s)" + key + r"\s+(\d+)(?:\s|$)", line)
+        if match:
+            result[key] = int(match.group(1))
+    return result
+
+
+class BenchmarkUCI(UCI):
+    """UCI de MATCH, reteniendo solamente la última línea `info` por jugada."""
+
+    def __init__(self, *args, expected_backend=None, **kwargs):
+        self.last_info: dict[str, int] = {}
+        self.last_bellman: dict = {}
+        self.expected_backend = expected_backend
+        self.backend_identity = None
+        self.external_provenance = None
+        super().__init__(*args, **kwargs)
+
+    def until(self, expected, timeout):
+        if expected == "uciok" and self.expected_backend:
+            # The subprocess must attest which Nurse backend was actually
+            # selected; an old installation must fail closed, not generate
+            # results with the wrong player's label.
+            deadline = time.monotonic() + timeout
+            while True:
+                remaining = deadline-time.monotonic()
+                if remaining <= 0:
+                    raise TimeoutError(f'uciok o identidad backend ausente en {self.label}')
+                try:
+                    line=self.q.get(timeout=remaining)
+                except queue.Empty as exc:
+                    raise TimeoutError(f'uciok ausente en {self.label}') from exc
+                if line is None:
+                    raise RuntimeError(f'Nurse terminó antes de uciok; revisar {self.log.name}')
+                if line.startswith('info string nurse_external_provenance '):
+                    try:
+                        self.external_provenance=json.loads(line.split(' ',3)[3])
+                    except (ValueError, IndexError):
+                        raise RuntimeError('Nurse devolvió procedencia TCP inválida')
+                if line.startswith('id name Sargon Nurse '):
+                    self.backend_identity=line
+                if line == 'uciok':
+                    expected=f'backend={self.expected_backend}'
+                    if self.expected_backend=='external' and not self.external_provenance:
+                        raise RuntimeError('Nurse no informó dirección del socket TCP externo')
+                    if not self.backend_identity or expected not in self.backend_identity:
+                        raise RuntimeError(
+                            f'Identidad UCI no verificable: se esperaba {expected}, '
+                            f'se recibió {self.backend_identity!r}; revisar {self.log.name}. '
+                            'Reinstalar Nurse: el proceso no corresponde al backend solicitado.'
+                        )
+                    return line
+        if expected != "bestmove ":
+            return super().until(expected, timeout)
+        self.last_info = {}
+        self.last_bellman = {}
+        start = time.monotonic()
+        deadline = start + timeout
+        next_heartbeat = start + self.heartbeat if self.heartbeat is not None else deadline
+        while True:
+            now = time.monotonic()
+            remaining = deadline - now
+            if remaining <= 0:
+                raise TimeoutError(
+                    f"timeout de {expected} en {self.label} tras {timeout}s; "
+                    f"revisar {self.log.name}"
+                )
+            wait = min(remaining, max(0.05, next_heartbeat - now))
+            try:
+                line = self.q.get(timeout=wait)
+            except queue.Empty:
+                now = time.monotonic()
+                if self.heartbeat is not None and now >= next_heartbeat:
+                    print(
+                        f"⏳ {self.label}: esperando {expected.strip()} "
+                        f"{now-start:.1f}s / {timeout}s", flush=True
+                    )
+                    next_heartbeat = now + self.heartbeat
+                continue
+            if line is None:
+                raise RuntimeError(
+                    f"motor {self.label} cerró salida esperando {expected}; "
+                    f"revisar {self.log.name}"
+                )
+            if line.startswith("info string bellman "):
+                try:
+                    item = json.loads(line[len("info string bellman "):])
+                    if isinstance(item, dict) and item.get("method") in ("BELLMAN", "NNUE"):
+                        self.last_bellman = item
+                except (ValueError, TypeError):
+                    pass
+            if line.startswith("info "):
+                self.last_info.update(_get_info(line))
+            if line.startswith(expected):
+                return line
+
+
+    def move_bk(self, board: chess.Board, timeout: float, movetime_ms: int):
+        """Ejecutar una búsqueda Bratko-Kopec temporizada usando UCI go movetime.
+
+        Nota: motores que ignoran movetime y aplican su propio límite no
+        reproducen el protocolo histórico de dos minutos.
+        """
+        self.send('position fen ' + board.fen())
+        self.last_info = {}
+        self.last_bellman = {}
+        self.send(f'go movetime {movetime_ms}')
+        response = self.until('bestmove ', timeout)
+        parts = response.split()
+        if len(parts) < 2 or parts[1] in ('(none)', '0000'):
+            raise RuntimeError(f'bestmove vacío: {response}; revisar {self.log.name}')
+        move = chess.Move.from_uci(parts[1])
+        if move not in board.legal_moves:
+            raise RuntimeError(f'bestmove ilegal: {response}; revisar {self.log.name}')
+        return move
+
+
+def _project_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def resolve_paths(config: dict, project_root: Path, brain_file: Path) -> dict:
+    """Normalizar rutas locales sin alterar las definiciones en brains.json.
+
+    Prioridad: directorio de ejecución, raíz del proyecto, carpeta del JSON.
+    Una ruta inexistente no se reescribe: el listener mostrará su diagnóstico.
+    """
+    output = dict(config)
+    for key in FILE_KEYS:
+        raw = config.get(key)
+        if not isinstance(raw, str) or not raw.strip():
+            continue
+        path = Path(raw).expanduser()
+        if path.is_absolute():
+            continue
+        for base in (Path.cwd(), project_root, brain_file.parent):
+            candidate = (base / path).resolve()
+            if candidate.is_file():
+                output[key] = str(candidate)
+                break
+    return output
+
+
+def board_from_opening(moves: str) -> chess.Board:
+    board = chess.Board()
+    for uci in moves.split():
+        move = chess.Move.from_uci(uci)
+        if move not in board.legal_moves:
+            raise ValueError(f"apertura contiene jugada ilegal {uci!r}: {moves!r}")
+        board.push(move)
+    return board
+
+
+def position_suite(fens: list[str], openings: list[str], count: int) -> list[chess.Board]:
+    if fens and openings:
+        raise ValueError("--fen y --opening no pueden combinarse en modo positions")
+    if fens:
+        bases = [chess.Board(fen) for fen in fens]
+    else:
+        bases = [board_from_opening(x) for x in (openings or DEFAULT_POSITIONS)]
+    for b in bases:
+        if b.is_game_over(claim_draw=True):
+            raise ValueError(f"posición terminal no sirve para calcular jugada: {b.fen()}")
+    return [bases[i % len(bases)].copy(stack=True) for i in range(count)]
+
+
+def p95(values: list[float]) -> float:
+    """Percentil 95 nearest-rank: no interpola mediciones pequeñas."""
+    if not values:
+        return math.nan
+    ordered = sorted(values)
+    return ordered[math.ceil(0.95 * len(ordered)) - 1]
+
+
+def summarize(rows: list[dict], identity: str, config: dict) -> dict:
+    valid = [r for r in rows if r["status"] == "OK"]
+    values = [float(r["wall_ms"]) for r in valid]
+    measured_nodes = [int(r["nodes"]) for r in valid if r["nodes"] != ""]
+    # Medir tiempo POR nodo utilizando pares tiempo/nodos de las mismas
+    # decisiones exitosas. Una muestra sin nodos o con 0 no permite dividir.
+    # No mezclar las métricas de un subconjunto con tiempos de otras jugadas.
+    has_complete_positive_nodes = bool(valid) and all(
+        r["nodes"] != "" and int(r["nodes"]) > 0 for r in valid
+    )
+    wall_ms_per_node = (
+        sum(float(r["wall_ms"]) for r in valid) /
+        sum(int(r["nodes"]) for r in valid)
+        if has_complete_positive_nodes else None
+    )
+    measured_engine_ms = [float(r["engine_ms"]) for r in valid if r["engine_ms"] != ""]
+    # El NPS solo se reporta si todas las filas exitosas contienen ambas métricas.
+    # Evita dividir nodos de algunas jugadas entre tiempos de otras.
+    has_complete_info = bool(valid) and len(measured_nodes) == len(valid) == len(measured_engine_ms)
+    engine_ms_total = sum(measured_engine_ms) if has_complete_info else None
+    node_total = sum(measured_nodes) if measured_nodes else None
+    nps = ((1000.0 * node_total / engine_ms_total)
+           if has_complete_info and engine_ms_total and engine_ms_total > 0 else None)
+    def fmt(value, digits=3):
+        return "" if value is None else f"{value:.{digits}f}"
+    return {
+        "brain": identity,
+        "player": config["player"],
+        "evaluator": config["evaluator"],
+        "backend": config.get("lc0-backend") or "",
+        "attempted": len(rows),
+        "ok": len(valid),
+        "failed": len(rows) - len(valid),
+        "total_s": fmt(sum(values) / 1000),
+        "mean_ms": fmt(statistics.mean(values) if values else None),
+        "median_ms": fmt(statistics.median(values) if values else None),
+        "p95_ms": fmt(p95(values) if values else None),
+        "min_ms": fmt(min(values) if values else None),
+        "max_ms": fmt(max(values) if values else None),
+        "nodes_total": node_total if node_total is not None else "",
+        "nodes_samples": len(measured_nodes),
+        "engine_ms_total": fmt(engine_ms_total),
+        "nodes_per_second": fmt(nps, 1),
+        "ms_per_node": fmt(wall_ms_per_node, 6),
+        "bellman_table_decisions": sum(r.get('decision_method') == 'BELLMAN' for r in valid),
+        "nnue_fallback_decisions": sum(r.get('decision_method') == 'NNUE' for r in valid),
+        "status": "OK" if rows and len(valid) == len(rows) else "ERROR",
+    }
+
+
+
+def _metric_text(value: str) -> str:
+    """Un decimal normalmente; suficiente precisión para tiempos sub-ms."""
+    if value in ("", None):
+        return "N/D"
+    number = float(value)
+    if number == 0 or abs(number) >= 0.1:
+        return f"{number:.1f}"
+    if abs(number) >= 0.01:
+        return f"{number:.3f}"
+    if abs(number) >= 0.001:
+        return f"{number:.4f}"
+    return f"{number:.6f}"
+
+
+def _backend_text(row: dict) -> str:
+    """Identidad informativa cuando no existe backend LC0 en el brain."""
+    return row.get("backend") or (
+        row.get("evaluator") if row.get("evaluator") not in ("", "null", None)
+        else row.get("player") or "default"
+    )
+
+
+def _display_cells(text: str) -> int:
+    """Ancho visible de nombres Unicode para alinear columnas sin dependencias.
+
+    Las marcas combinantes y selectores de variante no ocupan celda; los
+    caracteres de ancho completo ocupan dos. Los emojis de las cabeceras
+    son constantes y por tanto no forman parte del relleno variable.
+    """
+    width = 0
+    for char in text:
+        if unicodedata.combining(char) or unicodedata.category(char) in ("Cf", "Mn", "Me"):
+            continue
+        width += 2 if unicodedata.east_asian_width(char) in ("W", "F") else 1
+    return width
+
+
+def _layout_for(summaries: list[dict]) -> dict[str, int]:
+    """Anchos de columna determinados por TODOS los brains y métricas."""
+    if not summaries:
+        return {key: 0 for key in ("brain", "backend", "count", "mean", "p95", "per_node")}
+    return {
+        "brain": max(_display_cells(str(row['brain'])) for row in summaries),
+        "backend": max(_display_cells(str(_backend_text(row))) for row in summaries),
+        "count": max(len(f"[{row['ok']}/{row['attempted']}]") for row in summaries),
+        "mean": max(len(_metric_text(row['mean_ms'])) for row in summaries),
+        "p95": max(len(_metric_text(row['p95_ms'])) for row in summaries),
+        "per_node": max(len(_metric_text(row['ms_per_node'])) for row in summaries),
+    }
+
+
+def _identity_text(row: dict, layout: dict[str, int] | None = None) -> str:
+    brain, backend = str(row['brain']), str(_backend_text(row))
+    if layout is None:
+        return f"🧠 ({brain}) ⚙️ ({backend})"
+    brain_spaces = ' ' * (layout['brain'] - _display_cells(brain))
+    backend_spaces = ' ' * (layout['backend'] - _display_cells(backend))
+    return f"🧠 ({brain}){brain_spaces} ⚙️ ({backend}){backend_spaces}"
+
+
+def _summary_line(row: dict, layout: dict[str, int] | None = None) -> str:
+    """El layout opcional alinea las columnas; el modo aislado es compatible."""
+    identity = _identity_text(row, layout)
+    count = f"[{row['ok']}/{row['attempted']}]"
+    mean = _metric_text(row['mean_ms'])
+    pct95 = _metric_text(row['p95_ms'])
+    per_node = _metric_text(row['ms_per_node'])
+    if layout is not None:
+        count = count.ljust(layout['count'])
+        mean = mean.rjust(layout['mean'])
+        pct95 = pct95.rjust(layout['p95'])
+        per_node = per_node.rjust(layout['per_node'])
+    return (
+        f"{identity} {count} "
+        f"📈[avg {mean} msec/P95 {pct95} msec] "
+        f"⏳({per_node} msec/nodo)"
+    )
+
+
+def report(summaries: list[dict], max_blocks: int = 24) -> None:
+    """Resumen y gráfico en el mismo orden ascendente por msec/nodo.
+
+    Sin métrica de nodos, el brain se ubica al final. El sort es estable y
+    preserva el orden original en empates, sin modificar los CSV ni la lista.
+    """
+    layout = _layout_for(summaries)
+    valid = sorted(
+        (row for row in summaries if row['ms_per_node'] not in ("", None)),
+        key=lambda row: float(row['ms_per_node'])
+    )
+    missing = [row for row in summaries if row['ms_per_node'] in ("", None)]
+
+    print("\n📊 Resumen:", flush=True)
+    for row in (*valid, *missing):
+        print(_summary_line(row, layout), flush=True)
+
+    print("\n📊 Tiempo por nodo (menor es mejor):", flush=True)
+    highest = max((float(row['ms_per_node']) for row in valid), default=0.0)
+    max_blocks = max(1, max_blocks)
+    for row in valid:
+        value = float(row['ms_per_node'])
+        length = max(1, math.ceil(max_blocks * value / highest)) if highest > 0 else 1
+        bar = ('█' * length).ljust(max_blocks)
+        value_text = _metric_text(row['ms_per_node']).rjust(layout['per_node'])
+        print(
+            f"{_identity_text(row, layout)} "
+            f"⏳ {bar} {value_text} msec/nodo",
+            flush=True
+        )
+    for row in missing:
+        print(
+            f"{_identity_text(row, layout)} "
+            f"⏳ {' ' * max_blocks} " +
+            "N/D (muestras de búsqueda incompletas o sin nodos)",
+            flush=True
+        )
+
+    # NPS procede de la telemetria del motor: nodos / tiempo reportado.
+    # No se deriva de ms_per_node, que utiliza tiempo de pared.
+    nps_valid = sorted(
+        (row for row in summaries
+         if row.get('nodes_per_second') not in ('', None)
+         and float(row['nodes_per_second']) > 0),
+        key=lambda row: -float(row['nodes_per_second'])
+    )
+    nps_missing = [row for row in summaries
+                   if row.get('nodes_per_second') in ('', None)
+                   or float(row['nodes_per_second']) <= 0]
+    nps_width = max(
+        (len(f"{float(row['nodes_per_second']):,.1f}") for row in nps_valid),
+        default=3
+    )
+    nps_width = max(nps_width, 3)
+    highest_nps = max((float(row['nodes_per_second']) for row in nps_valid), default=0.0)
+    print("\n📊 Nodos por segundo (mayor es mejor):", flush=True)
+    for row in nps_valid:
+        nps = float(row['nodes_per_second'])
+        length = max(1, math.ceil(max_blocks * nps / highest_nps))
+        bar = ('█' * length).ljust(max_blocks)
+        print(
+            f"{_identity_text(row, layout)} "
+            f"⏳ {bar} {f'{nps:,.1f}'.rjust(nps_width)} nps",
+            flush=True
+        )
+    for row in nps_missing:
+        print(
+            f"{_identity_text(row, layout)} "
+            f"⏳ {' ' * max_blocks} " +
+            "N/D nps (muestras de búsqueda incompletas)",
+            flush=True
+        )
+
+
+def request_move(engine: BenchmarkUCI, board: chess.Board, timeout: float,
+                 identity: str, config: dict, mode: str, round_no: int,
+                 index: int, bk_movetime_ms: int | None = None) -> tuple[dict, chess.Move | None]:
+    start = time.perf_counter()
+    move = None
+    status, error = "OK", ""
+    engine.last_info = {}
+    engine.last_bellman = {}
+    try:
+        move = (engine.move_bk(board, timeout, bk_movetime_ms) if bk_movetime_ms is not None
+                else engine.move(board, timeout))
+    except Exception as exc:
+        status, error = "ERROR", f"{type(exc).__name__}: {exc}"
+    wall_ms = (time.perf_counter() - start) * 1000.0
+    info = engine.last_info
+    decision = engine.last_bellman if hasattr(engine, 'last_bellman') else {}
+    row = {
+        "decision_method": decision.get('method', ''),
+        "bellman_visits": decision.get('visits', ''),
+        "bellman_w": decision.get('W', ''),
+        "bellman_d": decision.get('D', ''),
+        "bellman_l": decision.get('L', ''),
+        "bellman_q": decision.get('Q', ''),
+        "bellman_s": decision.get('S', ''),
+        "bellman_legal_examined": decision.get('legal_examined', ''),
+        "bellman_hash_hits": decision.get('hash_hits', ''),
+        "bellman_qualified": decision.get('qualified', ''),
+        "brain": identity,
+        "player": config["player"],
+        "evaluator": config["evaluator"],
+        "backend": config.get("lc0-backend") or "",
+        "mode": mode,
+        "round": round_no,
+        "index": index,
+        "fen": board.fen(),
+        "turn": "W" if board.turn == chess.WHITE else "B",
+        "move_uci": move.uci() if move else "",
+        "wall_ms": f"{wall_ms:.3f}",
+        "engine_ms": (f"{float(decision['elapsed_ms']):.6f}"
+                      if decision.get('method') == 'BELLMAN' and 'elapsed_ms' in decision
+                      else info.get("time", "")),
+        "nodes": info.get("nodes", ""),
+        "depth": info.get("depth", ""),
+        "status": status,
+        "error": error,
+    }
+    return row, move
+
+
+def _log_move(row: dict) -> None:
+    print(
+        f"   {row['index']:>2} {row['turn']} {row['move_uci'] or '—':<6} "
+        f"{float(row['wall_ms']):>10.2f} ms "
+        f"nodes={str(row['nodes']) if row['nodes'] != '' else 'N/D':>12} "
+        f"{row['status']}" + (
+            f" · BELLMAN legales={row['bellman_legal_examined']} hits={row['bellman_hash_hits']} N={row['bellman_visits']} W/D/L={row['bellman_w']}/{row['bellman_d']}/{row['bellman_l']} Q={row['bellman_q']} S={row['bellman_s']}"
+            if row.get('decision_method') == 'BELLMAN' else
+            f" · NNUE depth={row['depth']}" if row.get('decision_method') == 'NNUE' else ''
+        ), flush=True
+    )
+    if row["error"]:
+        print(f"      ERROR: {row['error']}", flush=True)
+
+
+def benchmark_one(identity: str, config: dict, args, log_file: Path,
+                  suite: list[chess.Board], heading_prefix: str | None = None) -> list[dict]:
+    # brain.tmax is the absolute search ceiling in EVERY mode.
+    # --bk-movetime may request less, but cannot silently raise that ceiling.
+    effective_tmax = int(config.get('tmax', 15000))
+    bk_budget_ms = min(effective_tmax, args.bk_movetime * 1000) if args.bratko_kopec else None
+    comm_timeout = int(config.get('timeout', 30000))
+    command = [args.python, "-u", "-m", "nurse.uci", "--brains", str(Path(args.brain).resolve()), "--id", identity]
+    # Fail closed if the process reads a different configuration entry.
+    command += ['--expect-brain-sha256', brain_fingerprint(args.brain, identity)]
+    if str(config.get('type','')).lower()=='external' or config.get('player')=='external':
+        if not config.get('ipaddress') or not config.get('port'):
+            raise ValueError(f'brain external {identity}: endpoint obligatorio')
+        requested=f"{config['ipaddress']}:{config['port']}"
+        command += ['--expect-endpoint', requested]
+    # Each individual go has a search budget; this timeout is the client
+    # watchdog spanning the whole move, not the communication timeout.
+    move_watchdog = max(args.timeout, (effective_tmax+comm_timeout)/1000+5)
+    rows: list[dict] = []
+    engine = None
+    try:
+        # Preserve exactly one compact console line per measured move.
+        # Detailed UCI traffic remains in engine_XX.log, not on stdout.
+        backend_type = str(config.get('type') or
+                           ('external' if config.get('player') == 'external' else
+                            'uci' if config.get('evaluator') == 'null' else 'nurse')).lower()
+        engine = BenchmarkUCI(command, str(log_file), identity, None,
+                              identity=f"({identity})", verbose=False,
+                              expected_backend=backend_type)
+        if backend_type=='external':
+            details=engine.external_provenance
+            if not details:
+                raise RuntimeError(f'brain {identity}: falta procedencia de socket TCP')
+            expected=f"{config['ipaddress']}:{config['port']}"
+            if details.get('requested','').casefold()!=expected.casefold():
+                raise RuntimeError(f'brain {identity}: endpoint TCP inesperado: '
+                                   f'configurado={expected}, conectado={details.get("requested")}; '
+                                   f'brains={Path(args.brain).resolve()}')
+            remote = details.get('uci_name') or '(no informado)'
+            # Only the real UCI name is shown for an external motor; it is
+            # never compared against the brain id and is not an auth check.
+            if heading_prefix is not None:
+                print(f"{heading_prefix}{benchmark_engine_heading(identity, config, remote)}", flush=True)
+            print(format_external_tcp_line(details), flush=True)
+        if args.warmup:
+            # Calentamiento no medido: usa brain.tmax, SIN heredar BK 120s.
+            # No imprime inicio/fin por búsqueda (contrato original de telemetría).
+            warmup_ms = effective_tmax
+            print(f"   Calentamiento: {args.warmup} jugada(s), no medidas", flush=True)
+            for wi in range(1, args.warmup + 1):
+                engine.send("ucinewgame")
+                engine.move_bk(chess.Board(), move_watchdog, warmup_ms)
+        for round_no in range(1, args.rounds + 1):
+            if args.mode == "positions":
+                for idx, board in enumerate(suite, start=1):
+                    engine.send("ucinewgame")
+                    budget = move_watchdog
+                    row, _ = request_move(engine, board, budget, identity,
+                                          config, args.mode, round_no, idx,
+                                          bk_budget_ms)
+                    rows.append(row)
+                    _log_move(row)
+                    if row["status"] != "OK":
+                        return rows
+            else:
+                board = (board_from_opening(args.opening[0]) if args.opening
+                         else chess.Board(args.fen[0]) if args.fen else chess.Board())
+                engine.send("ucinewgame")
+                for idx in range(1, args.plies + 1):
+                    if board.is_game_over(claim_draw=True):
+                        break
+                    row, move = request_move(engine, board, move_watchdog, identity,
+                                             config, args.mode, round_no, idx)
+                    rows.append(row)
+                    _log_move(row)
+                    if row["status"] != "OK":
+                        return rows
+                    assert move is not None  # UCI.move verifica legalidad.
+                    board.push(move)
+        return rows
+    finally:
+        if engine is not None:
+            engine.close()
+
+
+def _write_csv(path: Path, fields: tuple[str, ...], rows: list[dict]) -> None:
+    with path.open("w", newline="", encoding="utf-8-sig") as file:
+        writer = csv.DictWriter(file, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _arguments(argv=None):
+    ap = argparse.ArgumentParser(
+        description="Benchmark reproducible de brains Sargon mediante jugadores UCI reales"
+    )
+    ap.add_argument("--brain", required=True, help="ruta a brains.json")
+    ap.add_argument("--ids", nargs="+", help="IDs a comparar; por defecto, todos los del JSON")
+    ap.add_argument("--list", action="store_true", help="mostrar IDs disponibles y terminar")
+    ap.add_argument("--mode", choices=("positions", "play"), default="positions",
+                    help="positions: mismas posiciones; play: cada brain juega sus propios plies")
+    ap.add_argument("--positions", type=int, default=10, help="número de posiciones por ronda (default 10)")
+    ap.add_argument("--bk-movetime", type=int, default=120,
+                    help="segundos BK solicitados (máximo: tmax del brain; histórico 120)")
+    ap.add_argument("--bratko-kopec", action="store_true",
+                    help="evaluación completa BK: 24 posiciones, 12 tácticas y 12 levers; índice B")
+    ap.add_argument("--suite", choices=("bratko-kopec", "custom"), default="bratko-kopec",
+                    help="conjunto de posiciones (default: Bratko–Kopec, 24 diagramas)")
+    ap.add_argument("--seed", type=int, default=None,
+                    help="semilla para reproducir la selección aleatoria Bratko–Kopec")
+    ap.add_argument("--reference-csv", action="append", default=[],
+                    help="moves.csv de motores de referencia; solo usado con --chance-model reference")
+    ap.add_argument("--chance-model", choices=("uniform", "reference"), default="uniform",
+                    help="uniform: sin referencias, q=1/jugadas legales (default); reference: estimación poblacional")
+    ap.add_argument("--plies", type=int, default=8, help="plies por ronda en --mode play")
+    ap.add_argument("--rounds", type=int, default=1)
+    ap.add_argument("--warmup", type=int, default=1, help="evaluaciones iniciales no medidas")
+    ap.add_argument("--fen", action="append", help="FEN para probar; repetible")
+    ap.add_argument("--opening", action="append", help="jugadas UCI de apertura; repetible")
+    ap.add_argument("--timeout", type=float, default=90, help="límite por jugada (segundos)")
+    ap.add_argument("--heartbeat", type=float, default=5,
+                    help="reservado para diagnóstico; sin mensajes periódicos durante benchmark")
+    ap.add_argument("--python", default=sys.executable, help="Python operativo; default: actual")
+    ap.add_argument("--out", default="data/benchmark", help="directorio base de salida")
+    ap.add_argument("--verbose", action="store_true", help="telemetría de UCI")
+    ap.add_argument("--version", action="version", version=f"SARGON BENCHMARK v{VERSION}")
+    return ap, ap.parse_args(argv)
+
+
+def main(argv=None):
+    ap, args = _arguments(argv)
+    if args.positions < 1 or args.plies < 1 or args.rounds < 1 or args.warmup < 0:
+        ap.error("--positions, --plies y --rounds deben ser positivos; --warmup >= 0")
+    if args.bratko_kopec and (args.mode != "positions" or args.fen or args.opening or args.suite == "custom"):
+        ap.error("--bratko-kopec exige --mode positions y no admite --fen, --opening ni --suite custom")
+    if args.bratko_kopec and args.bk_movetime < 1:
+        ap.error("--bk-movetime requiere al menos 1 segundo")
+    if args.bratko_kopec and args.rounds != 1:
+        ap.error("--bratko-kopec requiere --rounds 1 para mantener la puntuación histórica de 24 posiciones")
+    if args.bratko_kopec:
+        args.positions = 24
+    if args.timeout <= 0 or args.heartbeat <= 0:
+        ap.error("--timeout y --heartbeat deben ser > 0")
+    brain_file = Path(args.brain).expanduser().resolve()
+    try:
+        available = list(read(brain_file)["brains"])
+    except (OSError, ValueError) as exc:
+        ap.error(f"no se pudo leer brains.json: {exc}")
+    if args.list:
+        print("IDs de brains:")
+        for identity in available:
+            print(" ", identity)
+        return 0
+    identities = args.ids if args.ids else available
+    if not identities:
+        ap.error("brains.json no contiene brains")
+    if len(set(identities)) != len(identities):
+        ap.error("IDs repetidos en --ids")
+    configs = {}
+    for identity in identities:
+        try:
+            config = get(brain_file, identity)
+        except (ValueError, OSError) as exc:
+            ap.error(f"brain {identity!r}: {exc}")
+        configs[identity] = resolve_paths(config, _project_root(), brain_file)
+        # Fail-fast provenance: el usuario debe poder identificar el archivo y
+        # la entrada exactos ANTES de cualquier calentamiento o búsqueda.
+        if str(config.get('type', '')).lower() == 'external':
+            raw_brain = read(brain_file)['brains'][identity]
+            declared = raw_brain.get('url') or (
+                f"{raw_brain.get('ipaddress')}:{raw_brain.get('port')}"
+                if raw_brain.get('ipaddress') is not None and raw_brain.get('port') is not None
+                else '(sin destino)'
+            )
+            normalized = f"{config['ipaddress']}:{config['port']}"
+            original_host, original_port = parse_external_endpoint(raw_brain)
+            if ((original_host.casefold(), original_port) !=
+                    (str(config['ipaddress']).casefold(), int(config['port']))):
+                raise ValueError(f"brain {identity}: endpoint alterado al normalizar "
+                                 f"configuración: declarado={declared}, efectivo={normalized}; "
+                                 f"archivo={brain_file}")
+            print(f"   🔎 CONFIG brain={identity} archivo={brain_file} "
+                  f"declarado={declared} efectivo={normalized}", flush=True)
+    bk_entries = None
+    try:
+        if args.bratko_kopec:
+            bk_entries=canonical_suite(chess,BK_FORSYTH)
+            suite=[entry["board"] for entry in bk_entries]
+            suite_ids=list(range(1,25))
+            suite_name="bratko-kopec-full"
+        elif args.mode == "positions":
+            if args.fen or args.opening or args.suite == "custom":
+                suite = position_suite(args.fen or [], args.opening or [], args.positions)
+                suite_ids = []
+                suite_name = "custom"
+            else:
+                selection = choose_positions(args.positions, args.seed)
+                suite_ids = [number for number, fen in selection]
+                suite = [chess.Board(fen) for number, fen in selection]
+                for board in suite:
+                    if board.is_game_over(claim_draw=True):
+                        raise ValueError(f"posición Bratko–Kopec terminal: {board.fen()}")
+                suite_name = "bratko-kopec"
+        else:
+            if len(args.opening or []) > 1 or len(args.fen or []) > 1 or (args.opening and args.fen):
+                raise ValueError("en --mode play se admite una sola --opening o una sola --fen")
+            suite = []
+            suite_ids, suite_name = [], "play"
+            # Validación previa de apertura/FEN, sin arrancar motores.
+            if args.opening:
+                board_from_opening(args.opening[0])
+            if args.fen:
+                candidate = chess.Board(args.fen[0])
+                if candidate.is_game_over(claim_draw=True):
+                    raise ValueError("--fen es una posición terminal")
+    except (ValueError, chess.InvalidMoveError) as exc:
+        ap.error(str(exc))
+
+    output_base = Path(args.out).expanduser()
+    if not output_base.is_absolute():
+        output_base = _project_root() / output_base
+    output_base = output_base.resolve()
+    output_base.mkdir(parents=True, exist_ok=True)
+    # Identificador único (sin sobrescribir ejecuciones previas).
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S") + f"_{time.time_ns() % 1000000000:09d}"
+    folder = output_base / f"bench_v{VERSION}_{stamp}"
+    folder.mkdir(exist_ok=False)
+
+    print(f"🧠 SARGON BENCHMARK v{VERSION} | mode={args.mode} "
+          f"rounds={args.rounds} positions={args.positions if args.mode=='positions' else args.plies} "
+          f"warmup={args.warmup}", flush=True)
+    print(f"📁 {folder}", flush=True)
+    if args.mode == 'positions':
+        print(f"♟️ Posiciones: {suite_name} | IDs={suite_ids if suite_ids else 'personalizadas'} "
+              f"| seed={args.seed if args.seed is not None else 'aleatoria (FEN en manifest)'}", flush=True)
+    manifest = {
+        "tool": "sargon_benchmark", "version": VERSION,
+        "brain_file": str(brain_file), "brain_ids": identities,
+        "brains": configs, "mode": args.mode,
+        "suite": suite_name, "bratko_kopec_full": bool(args.bratko_kopec),
+        "bratko_kopec_scoring": "final_bestmove_binary" if args.bratko_kopec else None,
+        "bk_movetime_s": args.bk_movetime if args.bratko_kopec else None,
+        "bk_effective_movetime_ms_by_brain": {name: min(int(cfg.get("tmax", 15000)),args.bk_movetime*1000)
+                                              for name,cfg in configs.items()} if args.bratko_kopec else None,
+        "bratko_kopec_ids": suite_ids,
+        "seed": args.seed, "reference_csv": args.reference_csv, "chance_model": args.chance_model,
+        "positions": args.positions if args.mode == "positions" else None,
+        "plies": args.plies if args.mode == "play" else None,
+        "rounds": args.rounds, "warmup": args.warmup,
+        "timeout_s": args.timeout, "python": args.python,
+        "fixed_fens": [board.fen() for board in suite] if args.mode == "positions" else [],
+        "opening": args.opening or [], "fens": args.fen or [],
+    }
+    (folder / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    all_rows: list[dict] = []
+    summaries: list[dict] = []
+    for index, identity in enumerate(identities, start=1):
+        config = configs[identity]
+        external = str(config.get('type', '')).lower() == 'external'
+        prefix = f"\n[{index}/{len(identities)}] "
+        if not external:
+            print(prefix + benchmark_engine_heading(identity, config), flush=True)
+        log_file = folder / f"engine_{index:02d}.log"
+        try:
+            rows = benchmark_one(identity, config, args, log_file, suite,
+                                 heading_prefix=prefix if external else None)
+        except Exception as exc:
+            if external:
+                print(prefix + identity + ' (external | null | default)', flush=True)
+            msg = f"{type(exc).__name__}: {exc}"
+            print(f"❌ No se pudo completar {identity}: {msg}", flush=True)
+            print(f"   Log del motor: {log_file}", flush=True)
+            rows = [{
+                "brain": identity, "player": config["player"],
+                "evaluator": config["evaluator"], "backend": config.get("lc0-backend") or "",
+                "mode": args.mode, "round": 0, "index": 0, "fen": "", "turn": "",
+                "move_uci": "", "wall_ms": "0.000", "engine_ms": "",
+                "nodes": "", "depth": "", "status": "ERROR", "error": msg,
+            }]
+        all_rows.extend(rows)
+        summary = summarize(rows, identity, config)
+        summaries.append(summary)
+    _write_csv(folder / "moves.csv", MOVE_FIELDS, all_rows)
+    _write_csv(folder / "summary.csv", SUMMARY_FIELDS, summaries)
+    report(summaries)
+    if args.bratko_kopec:
+        write_bk_report(folder,identities,all_rows,bk_entries)
+    if args.mode == "positions":
+        try:
+            refs = load_reference_csv(args.reference_csv) if args.chance_model == 'reference' else {}
+            legal_counts = {b.fen(): len(list(b.legal_moves)) for b in suite}
+            coincidences, probabilities, detail = compute_matrices(
+                identities, all_rows, suite, rounds=args.rounds,
+                references=refs, legal_counts=legal_counts, chance_model=args.chance_model)
+            matrix_fields = ("brain", *identities)
+            _write_csv(folder / "coincidences.csv", matrix_fields, coincidences)
+            _write_csv(folder / "chance_probabilities.csv", matrix_fields, probabilities)
+            (folder / "coincidence_statistics.json").write_text(
+                json.dumps({"method": ("poisson-binomial_uniform_legal_moves" if args.chance_model == 'uniform' else "poisson-binomial_leave_pair_out_smoothed"),
+                            "interpretation": "P(K>=k | H0); no es P(H0|datos) ni prueba razonamiento idéntico",
+                            "pairs": detail}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            print_matrix("📊 Coincidencias de bestmove (de " + str(args.positions*args.rounds) + "):", identities, coincidences)
+            label = ("H0 uniforme, sin referencias" if args.chance_model == 'uniform' else "H0 poblacional, exploratoria")
+            print_matrix(f"📊 P(K >= coincidencias | H0) — {label}:", identities, probabilities)
+            print("ℹ️ P(x) indica la probabilidad de obtener por azar al menos la cantidad observada de coincidencias, bajo el modelo H0 indicado.", flush=True)
+            if args.chance_model == 'uniform':
+                print("⚠️ H0 supone elección uniforme e independiente entre jugadas legales; NO modela preferencias reales de motores.", flush=True)
+            elif len(identities) < 4 and not args.reference_csv:
+                print("⚠️ N/D: se requieren motores de referencia para el modelo poblacional.", flush=True)
+            print("⚠️ El valor p NO es la probabilidad de que las coincidencias sean por azar, ni demuestra análisis idéntico.", flush=True)
+            print("✅ Matrices: coincidences.csv, chance_probabilities.csv; detalle: coincidence_statistics.json", flush=True)
+        except (ValueError, OSError) as exc:
+            print(f"❌ No se pudieron generar las matrices: {exc}", flush=True)
+            return 2
+    print("✅ CSV detalle: moves.csv", flush=True)
+    print("✅ CSV resumen: summary.csv", flush=True)
+    print("✅ Configuración: manifest.json", flush=True)
+    return 0 if all(row["status"] == "OK" for row in summaries) else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

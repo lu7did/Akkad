@@ -1,0 +1,6 @@
+[console_scripts]
+nurse-benchmark = nurse.benchmark:main
+nurse-listen = nurse.listen:main
+nurse-match = nurse.match:main
+nurse-rally = nurse.rally:main
+sargon-nurse = nurse.uci:main

@@ -1,0 +1,7 @@
+[17:52:07] \U0001f4bb sargon-nurse v0.1.1 brain=fishy type=uci ELO=3000 timeout_ms=30000
+[17:52:07] \u2699\ufe0f UCI engine=C:\Users\pedro\github\Bobby\stockfish\stockfish.exe args=[]
+[17:52:07] \U0001f680 subprocess pid=29948 cwd=C:\Users\pedro\github\Bobby\stockfish argv=['C:\\Users\\pedro\\github\\Bobby\\stockfish\\stockfish.exe']
+[17:52:07] \u2b05\ufe0f UCI init Stockfish 19 by the Stockfish developers (see AUTHORS file)
+[17:52:07] \u2b05\ufe0f UCI init 
+[17:52:07] \u2705 handshake UCI completo
+[17:55:55] \U0001f50c subprocess detenido pid=29948

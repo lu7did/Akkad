@@ -18,6 +18,7 @@ Dependencia: python-chess.
 """
 import argparse
 import csv
+import json
 import os
 import queue
 import subprocess
@@ -244,7 +245,7 @@ def show_bellman_counters(game_no, side, brain, stats):
 
 # Private protocol for RALLY: line-framed updates over a redirected stdout pipe.
 # Keeping real terminal updates separate avoids PowerShell/Python CR translation.
-VERSION='0.6.168'
+VERSION='0.6.208'
 import json
 import chess.pgn
 
@@ -252,7 +253,7 @@ def add_side(ap, side):
     p='--'+side+'-'
     ap.add_argument(p+'player', choices=PLAYER_CHOICES, default='sargon-plus')
     ap.add_argument(p+'evaluator', choices=EVALUATOR_CHOICES, default='classic')
-    for key in ['model','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','lc0-uci-path','lc0-uci-options','lc0-weights','lc0-backend','lc0-backend-options','lc0-history']:
+    for key in ['model','network','engine-path','args','url','stockfish-path','elo','cerebrum-a','cerebrum-b','lc0-uci-path','lc0-uci-options','lc0-weights','lc0-backend','lc0-backend-options','lc0-history']:
         ap.add_argument(p+key)
     for key,default in [('depth',2),('qdepth',2),('dmax',None),('tmax',15000),('movetime',1000),('timeout',30000),('nodes',None),('stockfish-threads',1),('stockfish-hash',256),('stockfish-timeout',5000),('stockfish-check-depth',1),('stockfish-cache',100000),('lc0-cache',10000),('az-simulations',128),('lc0-uci-threads',1),('lc0-uci-nncache',200000),('lc0-uci-depth',0),('lc0-uci-nodes',800),('lc0-uci-movetime',0),('lc0-uci-timeout',60000)]:
         ap.add_argument(p+key,type=int,default=default)
@@ -275,10 +276,10 @@ def add_side(ap, side):
 def cmd_side(a,side):
     import shlex
     base=[a.python,'-m','sargon_nnue.sargon_listen','--mode','STDIN']
-    keys=['player','evaluator','model','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','depth','qdepth','dmax','tmax','movetime','timeout','nodes','stockfish-threads','stockfish-hash','stockfish-timeout','stockfish-check-depth','stockfish-cache','lc0-uci-path','lc0-uci-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout','lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale','az-simulations','az-cpuct','z-policy','z-temperature','z-value-scale','z-uniform-mix','boost','turbo','alternate-evaluator','alternate-network','bellman-nmin','bellman-alpha','bellman-lambda','bellman-gamma']
+    keys=['player','evaluator','model','network','engine-path','args','url','stockfish-path','elo','cerebrum-a','cerebrum-b','depth','qdepth','dmax','tmax','movetime','timeout','nodes','stockfish-threads','stockfish-hash','stockfish-timeout','stockfish-check-depth','stockfish-cache','lc0-uci-path','lc0-uci-options','lc0-uci-threads','lc0-uci-nncache','lc0-uci-depth','lc0-uci-nodes','lc0-uci-movetime','lc0-uci-timeout','lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale','az-simulations','az-cpuct','z-policy','z-temperature','z-value-scale','z-uniform-mix','boost','turbo','alternate-evaluator','alternate-network','bellman-nmin','bellman-alpha','bellman-lambda','bellman-gamma']
     for key in keys:
         value=getattr(a,side+'_'+key.replace('-','_'))
-        if value is not None:base += ['--'+key,str(value)]
+        if value is not None:base += ['--'+key,json.dumps(value,ensure_ascii=False) if key=='args' and isinstance(value,list) else str(value)]
     if getattr(a,'boost_audit_dir',None):
         directory=Path(a.boost_audit_dir).expanduser().resolve()
         directory.mkdir(parents=True,exist_ok=True)
@@ -469,7 +470,7 @@ def main(argv=None):
             # rating_elo and other brain metadata must never become CLI flags.
             for key,value in cfg.items():
                 if key in ENGINE_KEYS and value is not None:
-                    injected.extend(['--'+side+'-'+key,str(value)])
+                    injected.extend(['--'+side+'-'+key,json.dumps(value,ensure_ascii=False) if key=='args' and isinstance(value,list) else str(value)])
         raw=injected+raw
     a=ap.parse_args(raw)
     if a.pairs<1:ap.error('--pairs debe ser >=1')
@@ -481,8 +482,8 @@ def main(argv=None):
     if not openings:ap.error('debe existir al menos una apertura')
     for side in ['a','b']:
         player=str(getattr(a,side+'_player')).strip().lower();ev=getattr(a,side+'_evaluator')
-        if player in ('stockfish','lc0','picosargon','external','picoalpha','alphazero-x86','picokeras') and ev not in ('null',None):ap.error(f'--{side}-player {player} requiere --{side}-evaluator null')
-        if ev=='null' and player not in ('stockfish','lc0','random','picosargon','external','picoalpha','alphazero-x86','picokeras'):ap.error(f'--{side}-evaluator null requiere un player compatible con evaluator null (incluido AlphaZero-X86)')
+        if player in ('stockfish','lc0','picosargon','external','picoalpha','alphazero-x86','picokeras','uci') and ev not in ('null',None):ap.error(f'--{side}-player {player} requiere --{side}-evaluator null')
+        if ev=='null' and player not in ('stockfish','lc0','random','picosargon','external','picoalpha','alphazero-x86','picokeras','uci'):ap.error(f'--{side}-evaluator null requiere un player compatible con evaluator null (incluido AlphaZero-X86)')
         if ev=='npz' and not getattr(a,side+'_network'):ap.error(f'--{side}-evaluator npz requiere --{side}-network')
         if ev=='npz' and not Path(getattr(a,side+'_network')).is_file():ap.error(f'--{side}-network no existe')
     if a.audit_classic and a.audit_stockfish_path:ap.error('Elegir auditoría CLASSIC o Stockfish')

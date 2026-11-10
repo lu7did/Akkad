@@ -1,0 +1,5 @@
+{
+  "method": "poisson-binomial_uniform_legal_moves",
+  "interpretation": "P(K>=k | H0); no es P(H0|datos) ni prueba razonamiento idéntico",
+  "pairs": []
+}
