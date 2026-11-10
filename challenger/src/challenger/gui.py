@@ -137,8 +137,10 @@ class ChallengerGUI:
             if self.args.brain == "sargon"
             else "Depth/QDepth: n/a"
         )
+        opponent = (f"UCI: {self.args.uci_engine}" if getattr(self.args, "uci_engine", None)
+                    else f"IP: {self.args.ip} | Puerto: {self.args.port}")
         if not state:
-            self.info.config(text=f"Brain: {self.args.brain} | {depth_info} | IP: {self.args.ip} | Puerto: {self.args.port} | Estado: conectando...")
+            self.info.config(text=f"Brain: {self.args.brain} | {depth_info} | {opponent} | Estado: conectando...")
             return
         now = time.monotonic()
         elapsed = now - state.started_at
@@ -151,7 +153,7 @@ class ChallengerGUI:
             else:
                 opponent_clock = max(0.0, opponent_clock - running)
         text = (
-            f"Brain: {self.args.brain}   {depth_info}   IP: {self.args.ip}   Puerto: {self.args.port}   Estado: {'conectado' if state.connected else 'desconectado'}\n"
+            f"Brain: {self.args.brain}   {depth_info}   {opponent}   Estado: {'conectado' if state.connected else 'desconectado'}\n"
             f"Challenger: {'blancas' if state.challenger_color else 'negras'}   Última propia: {state.last_challenger}   Última rival: {state.last_opponent}\n"
             f"Reloj propio: {_clock(challenger_clock)}   Reloj rival: {_clock(opponent_clock)}   Transcurrido: {_clock(elapsed)}"
         )

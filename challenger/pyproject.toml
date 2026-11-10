@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "challenger-chess"
-version = "0.2.2"
-description = "Standalone Sargon chess bot/controller using a TCP UCI opponent"
+version = "0.2.4"
+description = "Standalone Sargon chess bot/controller using a TCP or subprocess UCI opponent"
 requires-python = ">=3.10"
 dependencies = ["chess==1.11.2"]
 

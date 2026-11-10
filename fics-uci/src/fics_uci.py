@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""fics_uci.py v0.2.17 — puente FICS/Telnet ↔ UCI/TCP con historial verificado.
+"""fics_uci.py — puente FICS/Telnet ↔ UCI (TCP o proceso local).
 
-Requiere: pip install python-chess
-No utiliza motores externos por subprocess: --ip/--port apuntan a un servidor UCI TCP.
+Requiere: python-chess, PyYAML. FICS/Telnet no cambia de transporte.
 """
 import argparse
 import getpass
 import json
 import os
+import codecs
+import shlex
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 import yaml
@@ -24,7 +26,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.19"
+VERSION = "0.2.20"
 
 VERBOSE = False
 
@@ -45,7 +47,7 @@ def log(emoji, source, message, detail=False):
         emoji = "✅"
     else:
         emoji = "📊"
-    print(f"{time.strftime('%H:%M:%S')} {emoji} [{source}] {message}", flush=True)
+    print(f"{time.strftime('%H:%M:%S')} {emoji} [{source}] {message}", file=sys.stderr, flush=True)
 
 
 def format_clock(milliseconds):
@@ -90,10 +92,10 @@ class UCIMonitor:
             listener.settimeout(0.5)
             self.sock = listener
             threading.Thread(target=self.accept_loop, daemon=True, name="uci-monitor-accept").start()
-            print(f"{time.strftime('%H:%M:%S')} ⚙️ MONITOR TCP {self.host}:{self.port}", flush=True)
+            print(f"{time.strftime('%H:%M:%S')} ⚙️ MONITOR TCP {self.host}:{self.port}", file=sys.stderr, flush=True)
             return True
         except OSError as exc:
-            print(f"{time.strftime('%H:%M:%S')} ⚙️ MONITOR no disponible {self.host}:{self.port}: {exc}", flush=True)
+            print(f"{time.strftime('%H:%M:%S')} ⚙️ MONITOR no disponible {self.host}:{self.port}: {exc}", file=sys.stderr, flush=True)
             try:
                 listener.close()
             except (OSError, UnboundLocalError):
@@ -172,7 +174,7 @@ class UCIMonitor:
                     except OSError:
                         pass
         if count:
-            print(f"{time.strftime('%H:%M:%S')} 🔀 {frame}", flush=True)
+            print(f"{time.strftime('%H:%M:%S')} 🔀 {frame}", file=sys.stderr, flush=True)
 
     def close(self):
         self.stop_event.set()
@@ -290,6 +292,161 @@ class SocketLink:
         except OSError:
             pass
         self.sock.close()
+
+
+
+def parse_uci_args(value):
+    """Split one YAML argument string without shell execution.
+
+    On Windows use CommandLineToArgvW: shlex(posix=True) would destroy
+    backslashes from Windows paths. On POSIX use shell quoting rules.
+    """
+    if value is None or value == "":
+        return []
+    if not isinstance(value, str):
+        raise ValueError("config.yml: args debe ser un string")
+    if os.name != "nt":
+        return shlex.split(value, posix=True)
+    import ctypes
+    from ctypes import wintypes
+    shell32 = ctypes.windll.shell32
+    kernel32 = ctypes.windll.kernel32
+    shell32.CommandLineToArgvW.argtypes = [wintypes.LPCWSTR, ctypes.POINTER(ctypes.c_int)]
+    shell32.CommandLineToArgvW.restype = ctypes.POINTER(wintypes.LPWSTR)
+    kernel32.LocalFree.argtypes = [wintypes.HLOCAL]
+    kernel32.LocalFree.restype = wintypes.HLOCAL
+    count = ctypes.c_int()
+    # Prefix an artificial argv[0] to avoid Windows' special argv[0] parsing.
+    pointer = shell32.CommandLineToArgvW('nurse-argv0 ' + value, ctypes.byref(count))
+    if not pointer:
+        raise ValueError("No se pudo interpretar args de UCI")
+    try:
+        return [pointer[i] for i in range(1, count.value)]
+    finally:
+        kernel32.LocalFree(pointer)
+
+
+class ProcessUCILink:
+    """Same send/close/events contract as SocketLink; UCI over stdin/stdout.
+
+    Child stderr is strictly telemetry: it never enters the UCI parser.
+    """
+
+    def __init__(self, name, executable, argv, events):
+        self.name, self.events = name, events
+        self.lock = threading.Lock()
+        self.running = True
+        self.process = subprocess.Popen(
+            [executable, *argv],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            bufsize=0, shell=False,
+        )
+        self.stdout_thread = threading.Thread(target=self.read_stdout, daemon=True,
+                                              name="fics-uci-process-stdout")
+        self.stderr_thread = threading.Thread(target=self.read_stderr, daemon=True,
+                                              name="fics-uci-process-stderr")
+        self.stdout_thread.start()
+        self.stderr_thread.start()
+        log("🚀", "UCI", f"Proceso pid={self.process.pid} ejecutable={executable!r} argv={argv!r}")
+
+    def send(self, text, secret=False):
+        try:
+            with self.lock:
+                if not self.running or self.process.poll() is not None:
+                    raise BrokenPipeError("El motor UCI ya terminó")
+                self.process.stdin.write((text + "\n").encode("utf-8"))
+                self.process.stdin.flush()
+        except (OSError, ValueError) as exc:
+            if self.running:
+                self.events.put((self.name, self, f"__ERROR__ Pipe UCI roto al enviar {text.split(' ', 1)[0]}: {exc}"))
+            log("❌", "UCI", f"Pipe roto: {exc}")
+            return False
+        if UCI_MONITOR is not None and not secret:
+            UCI_MONITOR.publish(text)
+        if not secret:
+            detailed = text.startswith(("position ", "go "))
+            log("➡️", self.name, text, detail=detailed)
+        return True
+
+    def read_stdout(self):
+        decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
+        buffer = ""
+        try:
+            while self.running:
+                block = self.process.stdout.read(8192)
+                if not block:
+                    break
+                buffer += decoder.decode(block).replace("\r\n", "\n").replace("\r", "\n")
+                while "\n" in buffer:
+                    line, buffer = buffer.split("\n", 1)
+                    if UCI_MONITOR is not None:
+                        UCI_MONITOR.publish(line)
+                    self.events.put((self.name, self, line))
+            buffer += decoder.decode(b"", final=True)
+            if buffer.strip():
+                self.events.put((self.name, self, buffer.rstrip("\r\n")))
+        except (OSError, ValueError) as exc:
+            if self.running:
+                self.events.put((self.name, self, f"__ERROR__ Lectura stdout UCI: {exc}"))
+        finally:
+            if self.running:
+                returncode = self.process.poll()
+                self.events.put((self.name, self,
+                                 f"__DISCONNECT__ proceso terminado (exit={returncode})"))
+
+    def read_stderr(self):
+        decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
+        buffer = ""
+        try:
+            while self.running:
+                block = self.process.stderr.read(4096)
+                if not block:
+                    break
+                buffer += decoder.decode(block).replace("\r\n", "\n").replace("\r", "\n")
+                while "\n" in buffer:
+                    line, buffer = buffer.split("\n", 1)
+                    print(line, file=sys.stderr, flush=True)
+            buffer += decoder.decode(b"", final=True)
+            if buffer:
+                print(buffer, file=sys.stderr, flush=True)
+        except (OSError, ValueError) as exc:
+            if self.running:
+                log("❌", "UCI", f"Telemetría stderr del motor: {exc}")
+
+    def close(self):
+        if not self.running:
+            return
+        self.running = False
+        proc = self.process
+        if proc.poll() is None:
+            try:
+                with self.lock:
+                    proc.stdin.write(b"quit\n")
+                    proc.stdin.flush()
+            except (OSError, ValueError):
+                pass
+        try:
+            proc.stdin.close()
+        except (OSError, ValueError):
+            pass
+        try:
+            proc.wait(timeout=1.5)
+        except subprocess.TimeoutExpired:
+            proc.terminate()
+            try:
+                proc.wait(timeout=1.5)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                proc.wait(timeout=2)
+        # Avoid closing the pipes while their reader threads are still active.
+        for thread in (self.stdout_thread, self.stderr_thread):
+            if thread is not threading.current_thread():
+                thread.join(timeout=1.5)
+        for pipe in (proc.stdout, proc.stderr):
+            try:
+                pipe.close()
+            except (OSError, ValueError):
+                pass
 
 
 def style12(line):
@@ -474,7 +631,8 @@ class Bridge:
             return
         self.uci_retry_at = None
         if self.uci is None:
-            log("🔄", "UCI", f"Reconectando a {self.a.ip}:{self.a.port}")
+            log("🔄", "UCI", (f"Reiniciando ejecutable {self.a.exec}" if self.a.type == "uci"
+                          else f"Reconectando a {self.a.ip}:{self.a.port}"))
             self.ensure_uci()
 
     def recover_uci_stall(self, reason):
@@ -487,12 +645,16 @@ class Bridge:
             f"partida={self.game_key[0] if self.game_key else '-'}; "
             f"ply={len(self.history.moves)}; "
             f"buscando={self.search_fen is not None}; stop_pendiente={self.stopping}; "
-            f"reconectando TCP")
+            f"reiniciando transporte UCI")
         self.disconnect_uci(reason=f"Reinicio forzado: {reason}")
         self.schedule_uci_retry("Recuperación automática UCI", recover=True)
 
     def uci_connection_lost(self, reason):
         """Prevent stale bestmoves and resume only after a new UCI handshake."""
+        if not self.uci_ok:
+            log("❌", "UCI", "ERROR de apertura: el motor no devolvió uciok")
+        elif not self.uci_ready:
+            log("❌", "UCI", "ERROR de apertura: el motor no devolvió readyok")
         log("❌", "UCI", reason)
         self.disconnect_uci(reason="Conexión perdida")
         if self.a.retry is not None:
@@ -505,14 +667,18 @@ class Bridge:
         if self.uci is not None:
             return True
         try:
-            self.uci = SocketLink("UCI", self.a.ip, self.a.port, self.events)
+            if self.a.type == "uci":
+                self.uci = ProcessUCILink("UCI", self.a.exec, self.a.uci_argv, self.events)
+            else:
+                self.uci = SocketLink("UCI", self.a.ip, self.a.port, self.events)
             self.uci_retry_at = None
             self.uci_ok = self.uci_ready = False
             self.uci_deadline = time.monotonic() + self.a.connect_timeout
-            self.uci.send("uci")
+            if self.uci.send("uci") is False:
+                raise BrokenPipeError("El motor terminó antes de aceptar 'uci'")
             return True
-        except OSError as exc:
-            log("❌", "UCI", f"Sin conexión: {exc}")
+        except (OSError, ValueError) as exc:
+            log("❌", "UCI", f"Sin conexión o error al iniciar el ejecutable: {exc}")
             self.disconnect_uci(reason="Fallo durante conexión/handshake")
             self.schedule_uci_retry("Motor UCI inaccesible")
             return False
@@ -860,7 +1026,10 @@ class Bridge:
         self.game_key = self.position = None
         self.awaiting_confirmation = None
         self.history.reset()
-        self.disconnect_uci()
+        # Un ejecutable local permanece activo entre partidas; TCP conserva
+        # exactamente el ciclo de vida anterior (desconectar por partida).
+        if self.a.type != "uci":
+            self.disconnect_uci()
 
     def lock_history(self, reason):
         if self.history.locked:
@@ -997,7 +1166,7 @@ class Bridge:
                 line,
             ))
             log("🧠", "UCI", line,
-                detail=(line.startswith("info ") and not is_metrics) or not line)
+                detail=(self.a.type != "uci" and ((line.startswith("info ") and not is_metrics) or not line)))
         if line.startswith("id name "):
             self.engine_name = normalize_brain_name(line[8:])
         elif line.strip() == "uciok":
@@ -1121,10 +1290,13 @@ class Bridge:
                     # Descartar datos del socket anterior luego de reconectar.
                     if link is not (self.uci if source == "UCI" else self.fics):
                         continue
-                    if line == "__DISCONNECT__":
+                    if line.startswith("__DISCONNECT__"):
                         if source == "UCI":
                             if self.uci is not None:
-                                self.uci_connection_lost("Conexión TCP cerrada")
+                                suffix = line.partition(" ")[2]
+                                prefix = ("Proceso UCI cerrado" if self.a.type == "uci"
+                                          else "Conexión TCP cerrada")
+                                self.uci_connection_lost(f"{prefix}: {suffix}".rstrip(": "))
                             continue
                         raise ConnectionError(f"Conexión cerrada: {source}")
                     if line.startswith("__ERROR__"):
@@ -1147,7 +1319,8 @@ class Bridge:
                 self.maybe_search()
                 self.seek_tick()
                 if self.uci_deadline and time.monotonic() > self.uci_deadline:
-                    log("❌", "UCI", "Timeout de inicialización")
+                    log("❌", "UCI", ("ERROR: motor no devolvió uciok/readyok dentro del timeout de apertura"
+                                     f" (uciok={self.uci_ok}, readyok={self.uci_ready})"))
                     if self.pending_challenge:
                         self.fics.send(f"decline {self.pending_challenge}")
                         self.pending_challenge = None
@@ -1157,15 +1330,16 @@ class Bridge:
         finally:
             for conn in (self.uci, self.fics):
                 if conn:
-                    try:
-                        conn.send("quit")
-                    except OSError:
-                        pass
+                    if isinstance(conn, SocketLink):
+                        try:
+                            conn.send("quit")
+                        except OSError:
+                            pass
                     conn.close()
 
 
 def main():
-    p = argparse.ArgumentParser(description="FICS↔UCI TCP · configuración YAML")
+    p = argparse.ArgumentParser(description="FICS↔UCI TCP/STDIO · configuración YAML")
     p.add_argument("--config", default=None)
     p.add_argument("--json", default=None, help="Archivo JSON acumulativo de partidas terminadas")
     p.add_argument("--monitor", type=int, default=None, metavar="PUERTO",
@@ -1212,6 +1386,20 @@ def main():
         if key in ("accept", "rated", "unrated", "verbose"):
             value = boolean(value)
         setattr(a, key, value)
+    a.type = str(config.get("type", "tcp")).strip().lower()
+    if a.type not in ("tcp", "uci"):
+        p.error("config.yml: type debe ser tcp o uci")
+    a.exec = config.get("exec")
+    a.uci_argv = []
+    if a.type == "uci":
+        if not isinstance(a.exec, str) or not a.exec.strip():
+            p.error("config.yml: type=uci requiere exec con la ruta del ejecutable")
+        if not Path(a.exec).is_file():
+            p.error(f"config.yml: ejecutable UCI no encontrado: {a.exec}")
+        try:
+            a.uci_argv = parse_uci_args(config.get("args", ""))
+        except ValueError as exc:
+            p.error(f"config.yml: args inválidos: {exc}")
     if a.stop_timeout is None:
         a.stop_timeout = config.get("stop_timeout", 5.0)
     try:
@@ -1248,6 +1436,13 @@ def main():
         log("🔐", "FICS", "Se enviará contraseña vacía (configurada)")
     global VERBOSE
     VERBOSE = a.verbose
+    if hasattr(sys.stderr, "reconfigure"):
+        try:
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        except (ValueError, OSError):
+            pass
+    log("⚙️", "APP", (f"Motor UCI local: {a.exec} args={a.uci_argv!r}"
+                       if a.type == "uci" else f"Motor UCI TCP: {a.ip}:{a.port}"))
     log("⚙️", "APP", f"Verbose={'ON' if VERBOSE else 'OFF'}")
     global UCI_MONITOR
     UCI_MONITOR = UCIMonitor(a.monitor) if a.monitor is not None else None

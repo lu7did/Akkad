@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 import queue
+import subprocess
+import sys
+import os
+from pathlib import Path
 import socket
 import threading
 import time
@@ -43,6 +47,9 @@ class TCPUCIClient:
         self.file = self.sock.makefile("r", encoding="utf-8", errors="replace", newline="\n")
         self._reader_thread = threading.Thread(target=self._reader, daemon=True)
         self._reader_thread.start()
+        self._handshake()
+
+    def _handshake(self) -> None:
         self.send("uci")
         deadline = time.monotonic() + self.timeout_seconds
         while True:
@@ -62,7 +69,7 @@ class TCPUCIClient:
             for raw in self.file:
                 line = raw.strip()
                 if line:
-                    if self.verbose: print(f"[UCI <-] {line}")
+                    if self.verbose: print(f"[UCI <-] {line}", file=sys.stderr)
                     self._rx.put(line)
         except Exception:
             pass
@@ -71,7 +78,7 @@ class TCPUCIClient:
 
     def send(self, line: str) -> None:
         if not self.sock: raise UCIError("No conectado")
-        if self.verbose: print(f"[UCI ->] {line}")
+        if self.verbose: print(f"[UCI ->] {line}", file=sys.stderr)
         try:
             self.sock.sendall((line.rstrip() + "\n").encode("utf-8"))
         except OSError as exc:
@@ -142,3 +149,109 @@ class TCPUCIClient:
             try: self.sock.close()
             except OSError: pass
             self.sock = None
+
+
+class ProcessUCIClient(TCPUCIClient):
+    """UCI transport through a local child process (no shell, no TCP)."""
+
+    def __init__(self, executable: str, arguments: list[str] | None = None,
+                 timeout_ms: int = 120000, verbose: bool = False):
+        super().__init__(host="", port=0, timeout_ms=timeout_ms, verbose=verbose)
+        self.executable = str(executable)
+        self.arguments = list(arguments or [])
+        self.process: subprocess.Popen[str] | None = None
+        self._stderr_thread: threading.Thread | None = None
+
+    @property
+    def connected(self) -> bool:
+        return self.process is not None and self.process.poll() is None
+
+    def connect(self) -> None:
+        if self.connected:
+            raise UCIError("El proceso UCI ya está conectado")
+        # No shell: quote-aware argument parsing happens in the CLI, not here.
+        cmd = [self.executable, *self.arguments]
+        if self.verbose:
+            print(f"[UCI process] argv={cmd!r}", file=sys.stderr)
+        try:
+            self.process = subprocess.Popen(
+                cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,  # Decode UTF-8 and relay diagnostics to Challenger stderr.
+                text=True, encoding="utf-8", errors="replace", bufsize=1,
+            )
+            assert self.process.stdout is not None
+            self.file = self.process.stdout
+            self._rx = queue.Queue()
+            self.options.clear()
+            self.id_name = "unknown"
+            self._reader_thread = threading.Thread(target=self._reader, daemon=True)
+            self._reader_thread.start()
+            self._stderr_thread = threading.Thread(target=self._relay_stderr, daemon=True)
+            self._stderr_thread.start()
+            self._handshake()
+        except Exception:
+            self.close()
+            raise
+
+    def _relay_stderr(self) -> None:
+        """Relay UTF-8 child diagnostics verbatim as Unicode to stderr.
+
+        Popen's text streams decode UTF-8; this avoids a Windows legacy
+        console code page misinterpreting raw child UTF-8 bytes. Keep the
+        child's stderr separate from protocol stdout, even without --verbose.
+        """
+        proc = self.process
+        if proc is None or proc.stderr is None:
+            return
+        try:
+            for line in proc.stderr:
+                sys.stderr.write(line)
+                sys.stderr.flush()
+        except (OSError, ValueError):
+            # A closed pipe during shutdown is not a UCI failure.
+            pass
+
+    def send(self, line: str) -> None:
+        proc = self.process
+        if proc is None or proc.poll() is not None or proc.stdin is None:
+            raise UCIError("El proceso UCI no está activo")
+        if self.verbose:
+            print(f"[UCI ->] {line}", file=sys.stderr)
+        try:
+            proc.stdin.write(line.rstrip() + "\n")
+            proc.stdin.flush()
+        except (OSError, BrokenPipeError, ValueError) as exc:
+            raise UCIError(f"Fallo enviando UCI al proceso: {exc}") from exc
+
+    def close(self) -> None:
+        proc = self.process
+        if proc is None:
+            return
+        try:
+            if proc.poll() is None:
+                try: self.send("quit")
+                except Exception: pass
+            try:
+                proc.wait(timeout=2.0)
+            except subprocess.TimeoutExpired:
+                proc.terminate()
+                try: proc.wait(timeout=2.0)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                    proc.wait(timeout=2.0)
+        finally:
+            if proc.stdin is not None:
+                try: proc.stdin.close()
+                except OSError: pass
+            if self._stderr_thread is not None:
+                self._stderr_thread.join(timeout=2.0)
+                self._stderr_thread = None
+            if proc.stderr is not None:
+                try: proc.stderr.close()
+                except OSError: pass
+            if proc.stdout is not None:
+                try: proc.stdout.close()
+                except OSError: pass
+            self.process = None
+            self.file = None
+            self._rx.put(None)

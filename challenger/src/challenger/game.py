@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import sys
 import time
 from datetime import datetime
 from dataclasses import dataclass
@@ -12,7 +13,7 @@ from .brain import BrainTimeout, make_brain
 from . import __version__
 from .persistence import JsonHistory, Stats, format_stats, new_game_id
 from .pgnlog import append_game
-from .uci_client import TCPUCIClient, UCIError
+from .uci_client import TCPUCIClient, ProcessUCIClient, UCIError
 
 
 @dataclass(slots=True)
@@ -54,6 +55,13 @@ class ChallengerRunner:
         self.rng = random.Random(getattr(args, "seed", None))
 
     def _make_client(self) -> TCPUCIClient:
+        if getattr(self.args, "uci_engine", None):
+            return ProcessUCIClient(
+                self.args.uci_engine,
+                getattr(self.args, "uci_argv", []),
+                timeout_ms=self.args.timeout,
+                verbose=False,
+            )
         return TCPUCIClient(
             self.args.ip,
             self.args.port,
@@ -64,7 +72,7 @@ class ChallengerRunner:
     def _recover_uci_connection(self) -> None:
         # A timed-out UCI stream can still contain a late reply.  Reusing that
         # stream risks associating stale output with the next game, so recovery
-        # always starts from a fresh TCP/UCI session.
+        # always starts from a fresh TCP or subprocess UCI session.
         try:
             self.client.close()
         except Exception:
@@ -118,12 +126,14 @@ class ChallengerRunner:
         if not self.args.verbose: return
         try: san = board.san(move)
         except Exception: san = move.uci()
-        print(f"[{who}] {san} ({move.uci()}) | {elapsed:.3f}s")
+        print(f"[{who}] {san} ({move.uci()}) | {elapsed:.3f}s", file=sys.stderr)
 
     def connect(self) -> None:
         self.client.connect()
         if self.args.verbose:
-            print(f"Conectado a {self.client.id_name} en {self.args.ip}:{self.args.port}")
+            location = (f"ejecutable={self.args.uci_engine}" if getattr(self.args, "uci_engine", None)
+                        else f"{self.args.ip}:{self.args.port}")
+            print(f"Conectado a {self.client.id_name} en {location}", file=sys.stderr)
 
     def play_one(self) -> GameResult:
         color = self._pick_color()
@@ -133,7 +143,7 @@ class ChallengerRunner:
             raise ValueError(f"FEN inicial inválido: {initial_fen!r}")
         base_fen = board.fen() if initial_fen is not None else None
         if initial_fen is not None:
-            print(f"[PARTIDA] FEN inicial: {base_fen} | turno={'blancas' if board.turn else 'negras'}")
+            print(f"[PARTIDA] FEN inicial: {base_fen} | turno={'blancas' if board.turn else 'negras'}", file=sys.stderr)
         total_seconds = float(self.args.gametime) * 60.0
         challenger_clock = total_seconds
         opponent_clock = total_seconds
@@ -263,7 +273,7 @@ class ChallengerRunner:
                 getattr(self.args, "evento", "Trainning run"),
             )
             if self.args.verbose:
-                print(f"[PGN] Partida agregada a {self.args.pgn}")
+                print(f"[PGN] Partida agregada a {self.args.pgn}", file=sys.stderr)
 
         self.client.report_result_if_supported(final.token, final.reason)
         # Sincroniza el cierre antes de que --forever pueda comenzar otra partida.
@@ -292,9 +302,9 @@ class ChallengerRunner:
         )
         self.history = self.journal.global_stats
         self.session.add(final.outcome, brain=self.brain.name, token=final.token, reason=final.reason)
-        print(f"Resultado: {final.token} | Challenger={final.outcome} | color={final.challenger_color} | motivo={final.reason} | brain={self.brain.name} | id={game_id}")
-        print(format_stats("Histórico", self.history))
-        print(format_stats("Ejecución", self.session))
+        print(f"Resultado: {final.token} | Challenger={final.outcome} | color={final.challenger_color} | motivo={final.reason} | brain={self.brain.name} | id={game_id}", file=sys.stderr)
+        print(format_stats("Histórico", self.history), file=sys.stderr)
+        print(format_stats("Ejecución", self.session), file=sys.stderr)
         state.connected = self.client.connected
         self._emit(state)
         if self.result_callback:
@@ -317,11 +327,11 @@ class ChallengerRunner:
                         self.connect()
                         connected = True
                     except TimeoutError as exc:
-                        print(f"[UCI] {exc}")
+                        print(f"[UCI] {exc}", file=sys.stderr)
                         if not retry_mode:
                             return
                         mode = "--forever" if self.args.forever else f"--run {self.args.run}"
-                        print(f"[UCI] {mode} activo: reintento de conexión en 10 segundos.")
+                        print(f"[UCI] {mode} activo: reintento de conexión en 10 segundos.", file=sys.stderr)
                         try:
                             self.client.close()
                         except Exception:
@@ -335,18 +345,18 @@ class ChallengerRunner:
                 except TimeoutError as exc:
                     # Protocol failure: there is deliberately no PGN, no result
                     # notification and no statistics update for this attempt.
-                    print(f"[UCI] {exc}")
-                    print("[UCI] Partida descartada: no se contabiliza.")
+                    print(f"[UCI] {exc}", file=sys.stderr)
+                    print("[UCI] Partida descartada: no se contabiliza.", file=sys.stderr)
                     if not retry_mode:
                         return
                     mode = "--forever" if self.args.forever else f"--run {self.args.run}"
-                    print(f"[UCI] {mode} activo: nueva partida en 10 segundos; el intento descartado no consume el cupo.")
+                    print(f"[UCI] {mode} activo: nueva partida en 10 segundos; el intento descartado no consume el cupo.", file=sys.stderr)
                     self._retry_delay()
                     try:
                         self._recover_uci_connection()
                         connected = True
                     except (TimeoutError, UCIError, OSError) as reconnect_exc:
-                        print(f"[UCI] Reconexión fallida: {reconnect_exc}")
+                        print(f"[UCI] Reconexión fallida: {reconnect_exc}", file=sys.stderr)
                         try:
                             self.client.close()
                         except Exception:
@@ -357,7 +367,7 @@ class ChallengerRunner:
 
                 completed += 1
                 if self.args.verbose:
-                    print(f"[PARTIDA] finalizada: {result.token} | motivo={result.reason} | {completed}/{target if target is not None else '∞'}")
+                    print(f"[PARTIDA] finalizada: {result.token} | motivo={result.reason} | {completed}/{target if target is not None else '∞'}", file=sys.stderr)
                 if target is not None and completed >= target:
                     return
                 self._retry_delay()

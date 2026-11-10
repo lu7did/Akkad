@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import os
+import shlex
+import ctypes
+from ctypes import wintypes
 import sys
 
 import chess
@@ -13,9 +17,13 @@ from .persistence import stats_path
 
 
 def parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="challenger", description="Challenger: jugador de ajedrez con brains intercambiables contra un motor UCI TCP")
+    p = argparse.ArgumentParser(prog="challenger", description="Challenger: jugador con brains intercambiables contra un motor UCI TCP o stdio")
     p.add_argument("--ip", default="127.0.0.1", help="IP del motor UCI contrincante (default: 127.0.0.1)")
     p.add_argument("--port", type=int, default=6110, help="Puerto TCP UCI (default: 6110)")
+    p.add_argument("--uci-engine", metavar="EJECUTABLE", default=None,
+                   help="Motor local UCI por stdin/stdout; sustituye --ip/--port")
+    p.add_argument("--uci-args", metavar="CADENA", default=None,
+                   help="Cadena de argumentos del motor UCI local; respeta comillas y espacios")
     p.add_argument("--FEN", "--fen", dest="fen", metavar="FEN", default=None,
                    help="Posición inicial en notación FEN completa (se valida antes de conectar)")
     p.add_argument("--color", choices=["white","black","random"], default="random", help="Color de Challenger; random por defecto")
@@ -50,13 +58,54 @@ def _modal_result(text: str) -> None:
 
 
 def _print_arguments(args) -> None:
-    print("[CHALLENGER] Argumentos efectivos:")
+    print("[CHALLENGER] Argumentos efectivos:", file=sys.stderr)
     for key, value in sorted(vars(args).items()):
-        print(f"  --{key.replace('_', '-')}: {value}")
+        print(f"  --{key.replace('_', '-')}: {value}", file=sys.stderr)
+
+
+def split_uci_args(command_line: str) -> list[str]:
+    """Parse one argument string with native quoting (without invoking a shell).
+
+    On Windows CommandLineToArgvW matches ordinary Windows command-line quoting;
+    on POSIX shlex handles single/double quotes and backslash escaping.
+    """
+    if os.name != "nt":
+        return shlex.split(command_line, posix=True)
+    shell32 = ctypes.windll.shell32
+    kernel32 = ctypes.windll.kernel32
+    parse = shell32.CommandLineToArgvW
+    parse.argtypes = [wintypes.LPCWSTR, ctypes.POINTER(ctypes.c_int)]
+    parse.restype = ctypes.POINTER(wintypes.LPWSTR)
+    kernel32.LocalFree.argtypes = [ctypes.c_void_p]
+    kernel32.LocalFree.restype = ctypes.c_void_p
+    count = ctypes.c_int(0)
+    # Prefix a dummy program name so even a leading quoted argument is parsed
+    # as an argument, with no special treatment of argv[0].
+    ptr = parse('challenger.exe ' + command_line, ctypes.byref(count))
+    if not ptr:
+        raise ValueError("No fue posible interpretar --uci-args")
+    try:
+        return [ptr[i] for i in range(1, count.value)]
+    finally:
+        kernel32.LocalFree(ctypes.cast(ptr, ctypes.c_void_p))
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Ensure redirected stderr is UTF-8 too. Windows consoles use Python's
+    # Unicode console writer; child UTF-8 diagnostics are decoded in the relay.
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="backslashreplace")
     args = parser().parse_args(argv)
+    if args.uci_args is not None and args.uci_engine is None:
+        parser().error("--uci-args requiere --uci-engine")
+    if args.uci_engine is not None and not args.uci_engine.strip():
+        parser().error("--uci-engine no puede estar vacío")
+    try:
+        args.uci_argv = split_uci_args(args.uci_args or "")
+    except ValueError as exc:
+        parser().error(f"--uci-args: {exc}")
+    if args.monitor is not None and args.uci_engine is not None:
+        parser().error("--monitor y --uci-engine son mutuamente excluyentes")
     if args.monitor is not None:
         from .monitor import MonitorGUI, parse_endpoint
         try:
@@ -80,10 +129,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.run is not None and args.run < 1:
         parser().error("--run debe ser >= 1")
     if args.forever and args.run is not None:
-        print("[CHALLENGER] --forever tiene prioridad; se ignora --run.")
+        print("[CHALLENGER] --forever tiene prioridad; se ignora --run.", file=sys.stderr)
         args.run = None
     elif args.run is not None and args.run > 999:
-        print(f"[CHALLENGER] --run {args.run} excede 999; se ignora y se activa comportamiento --forever.")
+        print(f"[CHALLENGER] --run {args.run} excede 999; se ignora y se activa comportamiento --forever.", file=sys.stderr)
         args.run = None
         args.forever = True
     if args.json is None:

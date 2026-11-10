@@ -1,5 +1,11 @@
 
 # fics_uci.py v0.2.2 | prioridad: CLI > config.yml > defaults
+# Motor UCI: type tcp (default) o uci (subproceso local).
+# type: tcp
+# Si type: uci, comentar/desactivar ip y port (se ignoran):
+# type: uci
+# exec: "C:/ruta al motor/AlphaZero.exe"
+# args: '--weights "C:/ruta a la red/model.pb.gz" --cores 4'
 ip: 127.0.0.1
 port: 6110
 ip_fics: freechess.org
