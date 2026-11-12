@@ -1,6 +1,6 @@
 
 # fics_uci.py v0.2.2 | prioridad: CLI > config.yml > defaults
-ip: picopixie.local
+ip: 192.168.68.117
 port: 6210
 ip_fics: freechess.org
 port_fics: 5000
@@ -20,4 +20,6 @@ connect_timeout: 15
 engine_timeout: 90
 seek_timeout: 15
 seek_retry: 60
+# Milisegundos desde el fin de una partida hasta admitir otra; -1 desactiva la espera.
+throtle: 30000
 verbose: false

@@ -7,6 +7,7 @@ Requiere: python-chess, PyYAML. FICS/Telnet no cambia de transporte.
 import argparse
 import getpass
 import json
+import math
 import os
 import codecs
 import shlex
@@ -26,7 +27,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.21"
+VERSION = "0.2.23"
 
 VERBOSE = False
 
@@ -597,12 +598,30 @@ class Bridge:
         self.last_clock = None
         self.game_started = None
         self.game_started_utc = None
+        self.last_game_finished_at = None  # monotonic, local to this process
         self.ratings = {}
         self.ratings_pending = {}
         self.recorded_games = set()
         # Un único reintento por posición ante bestmove (none) no terminal.
         self.empty_bestmove_fen = None
         self.empty_bestmove_retries = 0
+
+    def throtle_remaining_ms(self):
+        """Remaining post-game pause; -1 disables the restriction entirely."""
+        if self.a.throtle == -1 or self.last_game_finished_at is None:
+            return 0
+        return max(0, int(math.ceil(
+            self.a.throtle - (time.monotonic() - self.last_game_finished_at) * 1000
+        )))
+
+    def throtle_active(self):
+        return self.throtle_remaining_ms() > 0
+
+    def throtle_decline(self, player):
+        remaining = self.throtle_remaining_ms()
+        log("⏳", "BRIDGE", f"Rechazando desafío de {player}: throtle "
+            f"({remaining} ms restantes de {self.a.throtle} ms posteriores a última partida)")
+        self.fics.send(f"decline {player}")
 
     def capture_ratings(self, line):
         # FICS messages: Creating: white (1234) black (++++) rated blitz 5 0
@@ -776,8 +795,12 @@ class Bridge:
                     log("❌", "JSON", f"No se pudo guardar partida #{game}: {exc}")
         if UCI_MONITOR is not None:
             UCI_MONITOR.publish(f"info string monitor gameover {result}")
+        self.last_game_finished_at = time.monotonic()
         self.reset_game()
         self.last_seek_refresh = 0
+        if self.a.throtle >= 0:
+            log("⏳", "BRIDGE", f"throtle iniciado tras partida #{game}: "
+                f"{self.a.throtle} ms sin aceptar ni solicitar partidas")
         return True
 
     def authenticated(self, name):
@@ -861,6 +884,9 @@ class Bridge:
         )
         log("📢", "SEEK", f"#{number} {m['user']} {m['minutes']}+{m['increment']} "
             f"{m['rating']} {m['kind']}")
+        if self.throtle_active():
+            log("⏳", "SEEK", f"No solicitar oferta #{number}: throtle "
+                f"({self.throtle_remaining_ms()} ms restantes)")
         self.choose_seek()
         return True
 
@@ -887,6 +913,9 @@ class Bridge:
         self.seeks[number] = offer
         label = "rated" if offer["rated"] else "unrated"
         log("📢", "SEEK", f"#{number} {offer['player']} {offer['minutes']}+{offer['increment']} {label} {offer['type']}")
+        if self.throtle_active():
+            log("⏳", "SEEK", f"No solicitar oferta #{number}: throtle "
+                f"({self.throtle_remaining_ms()} ms restantes)")
         self.choose_seek()
         return True
 
@@ -906,6 +935,8 @@ class Bridge:
                 or self.seek_pending is not None or self.seek_suspended
                 or self.challenge_name is not None):
             return
+        if self.throtle_active():
+            return  # No enviar play ni iniciar handshake UCI por una oferta seek.
         offers = [offer for offer in self.seeks.values() if self.eligible_seek(offer)]
         if not offers:
             return
@@ -920,7 +951,7 @@ class Bridge:
             self.release_seek("Servidor UCI inaccesible")
             return
         log("🎯", "SEEK", f"Intentando #{number}: {offer['player']} {offer['minutes']}+{offer['increment']}")
-        if self.uci_ready:
+        if self.uci_ready and not self.throtle_active():
             self.fics.send(f"play {number}")
         else:
             log("⏳", "UCI", "Esperando readyok antes de play")
@@ -929,7 +960,7 @@ class Bridge:
         number = self.seek_pending
         if number is None:
             return
-        log("ℹ️", "SEEK", f"#{number}: {reason}")
+        log("⏳" if reason.startswith("throtle activo:") else "ℹ️", "SEEK", f"#{number}: {reason}")
         if cooldown:
             self.seek_retry_after[number] = time.monotonic() + 120
         self.seek_pending = self.seek_pending_since = None
@@ -967,9 +998,18 @@ class Bridge:
         self.choose_seek()
 
     def challenge_line(self, line):
-        if not self.a.accept or not self.fics_ready or self.game_key is not None or self.seek_pending is not None:
+        if not self.fics_ready or self.game_key is not None:
             return
         m = re.search(r"\bChallenge:\s*([A-Za-z][\w-]*)", line, re.I)
+        # FICS may send a challenge description across several lines. Decline as
+        # soon as we know the challenger, even before parsing the time control.
+        if m and self.throtle_active():
+            self.challenge_name = None
+            self.challenge_buffer = ""
+            self.throtle_decline(m.group(1))
+            return
+        if not self.a.accept or self.seek_pending is not None:
+            return
         if m:
             self.challenge_name = m.group(1)
             self.challenge_buffer = line
@@ -1180,9 +1220,16 @@ class Bridge:
             if self.pending_challenge:
                 who = self.pending_challenge
                 self.pending_challenge = None
-                self.fics.send(f"accept {who}")
+                if self.throtle_active():
+                    self.throtle_decline(who)
+                else:
+                    self.fics.send(f"accept {who}")
             elif self.seek_pending is not None and self.game_key is None:
-                self.fics.send(f"play {self.seek_pending}")
+                if self.throtle_active():
+                    self.release_seek(f"throtle activo: {self.throtle_remaining_ms()} ms restantes",
+                                      cooldown=False)
+                else:
+                    self.fics.send(f"play {self.seek_pending}")
             self.maybe_search()
         elif line.startswith("bestmove "):
             match = re.match(r"bestmove\s+(\S+)", line)
@@ -1274,6 +1321,11 @@ class Bridge:
             return
         if re.search(r"\{Game\s+\d+.*\}\s+(?:1-0|0-1|1/2-1/2|\*)", line):
             log("✅", "PARTIDA", "Partida finalizada")
+            if self.game_key is not None:
+                self.last_game_finished_at = time.monotonic()
+                if self.a.throtle >= 0:
+                    log("⏳", "BRIDGE", f"throtle iniciado: {self.a.throtle} ms "
+                        "sin aceptar ni solicitar partidas")
             self.reset_game()
             self.last_seek_refresh = 0
 
@@ -1368,6 +1420,7 @@ def main():
     p.add_argument("--types", nargs="+", default=None,
                    help="FICS: standard blitz lightning bullet classical untimed")
     a = p.parse_args()
+    a.throtle = None  # Sólo YAML; -1 cuando está ausente.
     config_file = Path(a.config) if a.config else Path(__file__).resolve().parent / "config.yml"
     config_file = config_file.expanduser().resolve()
     config = {}
@@ -1383,6 +1436,7 @@ def main():
         if not isinstance(config, dict):
             p.error(f"Configuracion YAML invalida (se esperaba mapa): {config_file}")
     defaults = dict(ip="127.0.0.1", port=6110, ip_fics="freechess.org", port_fics=5000,
+                    throtle=-1,
                     user="guest", password="", accept=True, rated=True, unrated=True, verbose=False,
                     types=["standard", "blitz", "lightning", "bullet", "classical"],
                     movetime=0, engine_timeout=90.0, connect_timeout=15.0,
@@ -1394,6 +1448,9 @@ def main():
         if key in ("accept", "rated", "unrated", "verbose"):
             value = boolean(value)
         setattr(a, key, value)
+    # Deliberately spelled 'throtle' to match the YAML contract.
+    if isinstance(a.throtle, bool) or not isinstance(a.throtle, int) or a.throtle < -1:
+        p.error("config.yml: throtle debe ser un entero en milisegundos >= -1")
     a.type = str(config.get("type", "tcp")).strip().lower()
     if a.type not in ("tcp", "uci"):
         p.error("config.yml: type debe ser tcp o uci")
@@ -1453,6 +1510,9 @@ def main():
     log("⚙️", "APP", (f"Motor UCI local: {a.exec} args={a.uci_argv!r}"
                        if a.type == "uci" else f"Motor UCI TCP: {a.ip}:{a.port}"))
     log("⚙️", "APP", f"Verbose={'ON' if VERBOSE else 'OFF'}")
+    log("⏳", "APP", ("throtle=-1 (desactivado)" if a.throtle == -1
+                       else f"throtle={a.throtle} ms (espera después de última partida; "
+                            "bloquea desafíos entrantes y play saliente)"))
     global UCI_MONITOR
     UCI_MONITOR = UCIMonitor(a.monitor) if a.monitor is not None else None
     if UCI_MONITOR is not None and not UCI_MONITOR.start():
