@@ -11819,7 +11819,7 @@ No es un motor distribuido que sume nodos de búsqueda locales y remotos en un m
 ```mermaid
 sequenceDiagram
     participant R as Rival / cliente UCI
-    participant P as picoLichess (control)
+    participant P as picoPixie (control)
     participant A as API HTTPS
     participant N as picoSargon NNUE local
     R->>P: position ...
@@ -11878,11 +11878,11 @@ rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 | LAN | Según proveedor, `Ng1-f3` o `g1f3` | Notación larga; **verificar el formato real del proveedor**, no asumir que equivale siempre a UCI |
 | UCI | `g1f3`, `b7b8q` | Casillas origen/destino, más promoción opcional; formato requerido en `bestmove` |
 
-Chess-API muestra en su ejemplo `lan: "b7b8q"`, igual a `move: "b7b8q"`; por lo tanto, **su campo `lan` no tiene necesariamente la notación con letra de pieza y guion** de otros sistemas. picoLichess extrae **`move`**; `san` y `lan` no intervienen en la selección.
+Chess-API muestra en su ejemplo `lan: "b7b8q"`, igual a `move: "b7b8q"`; por lo tanto, **su campo `lan` no tiene necesariamente la notación con letra de pieza y guion** de otros sistemas. picoPixie extrae **`move`**; `san` y `lan` no intervienen en la selección.
 
 Una puntuación `cp` de +100 representa aproximadamente una ventaja de un peón, aunque los motores modernos no garantizan una equivalencia material literal. En las dos fuentes aquí consideradas las puntuaciones documentadas son desde la **perspectiva de las blancas**: positivo favorece blancas; negativo, negras. Esto debe diferenciarse de la perspectiva del bando al turno en algunos usos UCI.
 
-El campo `mate`, cuando el proveedor lo ofrece, expresa una secuencia forzada de mate y su signo. No debe transformarse en una puntuación centipeón arbitraria: UCI admite `score mate N`. picoLichess **interpreta** un campo `mate` en su estructura interna `CloudPV`, pero el camino de respuesta UCI inspeccionado transmite `score cp`, sin trasladar `mate`; constituye una limitación actual, no una evaluación de mate hecha por la Pico.
+El campo `mate`, cuando el proveedor lo ofrece, expresa una secuencia forzada de mate y su signo. No debe transformarse en una puntuación centipeón arbitraria: UCI admite `score mate N`. picoPixie **interpreta** un campo `mate` en su estructura interna `CloudPV`, pero el camino de respuesta UCI inspeccionado transmite `score cp`, sin trasladar `mate`; constituye una limitación actual, no una evaluación de mate hecha por la Pico.
 
 ## Servicio Lichess Cloud Evaluation
 
@@ -11899,7 +11899,7 @@ Connection: close
 
 URL base: `https://lichess.org/api/cloud-eval`.
 
-| Parámetro | Función | Uso en picoLichess |
+| Parámetro | Función | Uso en picoPixie |
 |---|---|---|
 | `fen` | Posición a consultar, percent-encoded en la URL | Generado desde el tablero local |
 | `multiPv` | Cantidad solicitada de líneas principales | Fijo en `5` |
@@ -11945,7 +11945,7 @@ El parser `parse_cloud_pvs()` toma hasta 32 elementos dentro del arreglo `pvs`, 
 
 ## Servicio Chess-API (Stockfish remoto)
 
-Chess-API proporciona acceso remoto al motor **Stockfish**: el servicio analiza la posición solicitada, en vez de limitarse a buscar una evaluación previamente almacenada. Su sitio anuncia Stockfish 18 y ofrece REST POST y WebSocket; picoLichess **elige exclusivamente REST**. El nivel de cómputo, el rendimiento máximo y las condiciones gratuitas son ofertas del proveedor, no garantías de latencia o disponibilidad para el dispositivo. [C1]
+Chess-API proporciona acceso remoto al motor **Stockfish**: el servicio analiza la posición solicitada, en vez de limitarse a buscar una evaluación previamente almacenada. Su sitio anuncia Stockfish 18 y ofrece REST POST y WebSocket; picoPixie **elige exclusivamente REST**. El nivel de cómputo, el rendimiento máximo y las condiciones gratuitas son ofertas del proveedor, no garantías de latencia o disponibilidad para el dispositivo. [C1]
 
 ```http
 POST /v1 HTTP/1.1
@@ -11977,13 +11977,13 @@ Destino completo: `https://chess-api.com/v1`. No utiliza GET para este modo. `Co
 
 Estos límites se muestran en la documentación pública del proveedor y pueden ser distintos para usuarios que lo apoyan. `maxThinkingTime=100` **no equivale** a un plazo de 100 ms para completar DNS + TLS + HTTP: la transacción total puede tardar mucho más. [C1]
 
-El proveedor también permite `wss://chess-api.com/v1`, que puede emitir mensajes de progreso. Su documentación distingue `type="move"` (hallazgo intermedio), `type="bestmove"` (propuesta final) y `type="info"` (información complementaria). En la integración de picoLichess se exige **`type="bestmove"`**, junto con un campo `move` de formato UCI válido. Las respuestas intermedias no gobiernan una jugada. [C1]
+El proveedor también permite `wss://chess-api.com/v1`, que puede emitir mensajes de progreso. Su documentación distingue `type="move"` (hallazgo intermedio), `type="bestmove"` (propuesta final) y `type="info"` (información complementaria). En la integración de picoPixie se exige **`type="bestmove"`**, junto con un campo `move` de formato UCI válido. Las respuestas intermedias no gobiernan una jugada. [C1]
 
 En los ejemplos documentados aparece también `type="move"`, y en la práctica se observó un cuerpo `type="error"` con HTTP 200. Es importante distinguir **éxito del transporte HTTP** de **éxito semántico del análisis**. En REST la aplicación interpreta el JSON devuelto y solo acepta el tipo final autorizado.
 
 La respuesta puede incluir, según la situación, los siguientes campos descritos o ejemplificados por Chess-API. **No todos son obligatorios ni necesariamente están presentes juntos**.
 
-| Campo | Significado | Uso actual en picoLichess |
+| Campo | Significado | Uso actual en picoPixie |
 |---|---|---|
 | `type` | Naturaleza del mensaje (`move`, `bestmove`, `info`; se observó `error`) | Debe ser `bestmove` para aceptar jugada |
 | `move` | Movimiento elegido, normalmente coordenadas UCI | **Fuente primaria de la jugada** |
@@ -12009,7 +12009,7 @@ La respuesta puede incluir, según la situación, los siguientes campos descrito
 | `time` | Tiempo informado por el servicio | Solo en JSON de telemetría |
 | `error` | Código de error semántico | Se extrae cuando `type=error` |
 
-Chess-API publica la transformación de centipeones en `winChance` mediante una función logística inspirada en Lichess; **no equivale** a una probabilidad de victoria calibrada para cualquier control de tiempo ni forma parte de la decisión actual de picoLichess. [C1]
+Chess-API publica la transformación de centipeones en `winChance` mediante una función logística inspirada en Lichess; **no equivale** a una probabilidad de victoria calibrada para cualquier control de tiempo ni forma parte de la decisión actual de picoPixie. [C1]
 
 Un posible ejemplo de respuesta recibida será: 
 
@@ -12028,7 +12028,7 @@ Un posible ejemplo de respuesta recibida será:
 }
 ```
 
-**Ejemplo sintético** para ilustrar tipos y flujo, no copia de una respuesta real. En particular, no se presume que `lan` conserve idéntico formato para todos los movimientos.
+**Ejemplo** para ilustrar tipos y flujo, no copia de una respuesta real. En particular, no se presume que `lan` conserve idéntico formato para todos los movimientos.
 
 En los registros aportados se observó:
 
@@ -12040,25 +12040,142 @@ En los registros aportados se observó:
 }
 ```
 
-El servidor había aceptado la petición HTTP pero **rechazó la posición**. En picoLichess v0.1.11 se añadió canonicalización de la casilla al paso para este proveedor y una línea diagnóstica `CHESS_API server-error`. El cuerpo `type=error` no produce una jugada ni se convierte en `bestmove`; si HTTP es 200 pero no hay PV válida, se activa fallback de la búsqueda actual. Ello **no implica** que el proveedor esté deshabilitado permanentemente para la próxima posición.
-
-**Cuidado con los cuerpos JSON observados que comienzan por `}{`:** un cuerpo que no sea un único documento JSON válido puede revelar problema de recepción, delimitación o contaminación del búfer. La canonicalización FEN **no demuestra** por sí sola que resuelva ese síntoma. Conviene verificar ambas causas por separado antes de sacar conclusiones.
+>El servidor *chess-API* tiende a rechazar posiciones FEN que involucren movidas *on pass* por lo que cuando se detectan se entrega la jugada al siguiente motor disponible.
 
 - **[L1]** Lichess API: https://lichess.org/api (operación `GET /api/cloud-eval`).
 - **[L2]** Lichess Open Database, esquema de evaluaciones: https://database.lichess.org/.
 - **[L3]** Lichess API Tips, solicitudes concurrentes y HTTP 429: https://lichess.org/page/api-tips.
 - **[C1]** Chess-API, documentación de REST, WebSocket, argumentos y campos de respuesta: https://chess-api.com/.
 
-**Fuentes internas exclusivas del proyecto:**
+## API Stockfish Online
 
-- `akkad(20261111-113740).zip`, suministrado por el titular del proyecto.
-- `akkad-patch-picoLichess-http-raw-telemetry-v0.1.9.zip`.
-- `akkad-patch-picoLichess-chess-api-v0.1.10.zip`.
-- `akkad-patch-picoLichess-fen-validation-v0.1.11.zip`.
-- `akkad-patch-picoLichess-throttle-v0.1.12.zip`.
+**Stockfish Online** es un servicio externo que permite obtener evaluaciones de posiciones de ajedrez mediante una API REST accesible por HTTPS, sin necesidad de ejecutar localmente el motor Stockfish.
 
-**Nota de control:** este documento es explicativo, **no un parche**. No añade, elimina ni modifica archivos del repositorio Akkad.
+Su utilización permite delegar el análisis computacional a un servidor externo, reduciendo las necesidades de procesamiento y memoria del microcontrolador Raspberry Pi Pico.
 
+El servicio utilizado es:
+
+**Servidor:** `stockfish.online`
+
+**Endpoint:**
+
+```text
+https://stockfish.online/api/s/v2.php
+```
+
+**Método HTTP:** `GET`
+
+**Protocolo:** HTTPS sobre TCP, puerto 443.
+
+La API recibe los parámetros de evaluación mediante la cadena de consulta de la URL.
+
+| Parámetro | Descripción |
+|---|---|
+| `fen` | Posición del tablero expresada en notación Forsyth–Edwards (FEN). |
+| `depth` | Profundidad máxima solicitada para el análisis. |
+| `key` | Clave de acceso configurada para el servicio. |
+
+Ejemplo:
+
+```http
+GET /api/s/v2.php?fen=<FEN_URL_ENCODED>&depth=15&key=<API_KEY> HTTP/1.1
+Host: stockfish.online
+Accept: application/json
+Connection: close
+```
+
+La profundidad máxima permitida por la configuración es 15, y ese es también el valor predeterminado.
+
+La clave, de existir, se incorpora como parámetro de consulta, utilizando codificación URL. La implementación actual la configura mediante una constante en el catálogo de motores.
+
+La transmisión utiliza TLS para proteger la comunicación.
+
+El servicio responde con un documento JSON que contiene el resultado de la evaluación.
+
+Ejemplo de evaluación convencional:
+
+```json
+{
+  "success": true,
+  "evaluation": 1.36,
+  "mate": null,
+  "bestmove": "bestmove b7b6 ponder f3e5",
+  "continuation": "b7b6 f3e5"
+}
+```
+
+Los principales campos interpretados por picoPixie son:
+
+| Campo | Significado |
+|---|---|
+| `success` | Indica si la solicitud fue procesada satisfactoriamente. |
+| `evaluation` | Evaluación numérica de la posición, expresada en peones. |
+| `mate` | Distancia de mate informada por el servicio, cuando corresponde. |
+| `bestmove` | Mejor jugada seleccionada, en formato UCI. |
+| `continuation` | Variante de continuación, cuando está disponible. |
+
+La evaluación se convierte a centipeones multiplicando su valor por 100.
+
+Por ejemplo, `evaluation = 1.36` produce `score cp 136`.
+
+Cuando se identifica un mate, la API puede devolver una evaluación nula y un valor de mate:
+
+```json
+{
+  "success": true,
+  "evaluation": null,
+  "mate": "2",
+  "bestmove": "bestmove g5f6 ponder e7f6"
+}
+```
+
+Por una cuestión de consistencia con otros motores se admiten tanto enteros como cadenas que representen enteros válidos.
+
+### Implementación
+
+El acceso al servicio está implementado directamente en C++, utilizando la infraestructura de conectividad del Raspberry Pi Pico.
+
+Los componentes principales son:
+
+| Archivo | Responsabilidad |
+|---|---|
+| `ARM/include/config.hpp` | Configuración de URL, profundidad, clave, temporización y prioridad. |
+| `ARM/src/cloud_https.cpp` | Comunicación HTTPS, construcción de solicitudes y recepción de respuestas. |
+| `ARM/include/cloud_pv.hpp` | Interpretación del JSON y extracción de evaluaciones y jugadas. |
+| `ARM/src/picolichess_adapter.cpp` | Integración con el tablero, selección de motores y validación de jugadas. |
+| `ARM/include/cloud_policy.hpp` | Control de solicitudes simultáneas del transporte. |
+| `ARM/include/slot_timing.hpp` | Control de frecuencia de acceso y períodos de inhibición. |
+
+La implementación utiliza las bibliotecas:
+
+- **lwIP:** pila TCP/IP, resolución DNS y conexiones de red.
+- **mbedTLS:** establecimiento de conexiones TLS.
+- **Pico SDK:** integración con la plataforma Raspberry Pi Pico.
+
+El procedimiento consiste en resolver el dominio, establecer una conexión TLS al puerto 443, construir la solicitud HTTP GET, transmitirla y recibir la respuesta.
+
+La comunicación es asíncrona mediante callbacks de lwIP. El procesamiento del resultado ocurre una vez completada la recepción.
+
+Las respuestas HTTP se reconstruyen antes de interpretar el documento JSON.
+
+La implementación limita a 12.288 bytes el tamaño máximo de la respuesta recibida.
+
+### Validación de resultados
+
+Antes de aceptar una jugada, se comprueba que:
+
+1. La respuesta HTTP sea satisfactoria (`200`).
+2. El cuerpo contenga un objeto JSON válido y completo.
+3. El campo `success` sea verdadero.
+4. Exista una jugada `bestmove` con sintaxis UCI válida.
+5. Exista una evaluación numérica válida o una indicación de mate.
+6. La jugada recibida pertenezca al conjunto de jugadas legales calculadas localmente.
+
+**La validación local de legalidad es fundamental:** una respuesta remota nunca se acepta automáticamente como una jugada ejecutable.
+
+El servicio Stockfish Online v2 no devuelve el FEN de la posición analizada. Por ello, picoPixie asocia la respuesta con la solicitud activa y valida la jugada contra una copia de las jugadas legales de esa posición.
+
+También se utilizan identificadores de generación para evitar que respuestas o callbacks tardíos afecten solicitudes posteriores.
 
 
 # CAP 13 La arquitectura Akkad
@@ -12619,9 +12736,9 @@ Los fragmentos siguientes son **ilustrativos de campos**, no reemplazan rutas re
 Los valores por defecto válidos son los de la **factory y el inyector CLI de la versión instalada**, no los constructores tomados aisladamente. El código no sustituye automáticamente los archivos ausentes por archivos conocidos.
 
 
-## Evaluación cooperativa (*picoLichess*)
+## Evaluación cooperativa (*picoPixie*)
 
-`picoLichess/ARM` es un firmware para **Raspberry Pi Pico 2 W** que expone un motor UCI sobre TCP y usa la conexión Wi-Fi para consultar una API HTTPS. La decisión central es **reutilizar el núcleo existente de picoSargon** y agregar un adaptador remoto específico.
+`picoPixie/ARM` es un firmware para **Raspberry Pi Pico 2 W** que expone un motor UCI sobre TCP y usa la conexión Wi-Fi para consultar una API HTTPS. La decisión central es **reutilizar el núcleo existente de picoSargon** y agregar un adaptador remoto específico.
 
 ```text
 Cliente UCI (red TCP, puerto 6210)
@@ -12632,12 +12749,12 @@ picoSargon/ARM/src/pico_main.cpp
   - hook PICOSARGON_CLOUD_HOOK
             |
             v
-picoLichess/ARM/src/picolichess_adapter.cpp
+picoPixie/ARM/src/picolichess_adapter.cpp
   - FEN, movimiento legal, selección, fallback
   - CloudPolicy: control global de cadencia
             |
             v
-picoLichess/ARM/src/cloud_https.cpp
+picoPixie/ARM/src/cloud_https.cpp
   - DNS / TLS / HTTPS / HTTP / JSON
        |                       |
        +--> Lichess GET         +--> Chess-API POST (predeterminado)
@@ -12663,15 +12780,15 @@ La Pico funciona como **servidor TCP/UCI** y como **cliente HTTPS saliente**. Lo
 | `ARM/CMakeLists.txt`, `ARM/build.ps1` | Construcción de firmware UF2, reutilización de fuentes y dependencias |
 | `ARM/certs/trust_roots.pem`, `ARM/include/cloud_roots.hpp` | Material y cabecera vinculados a raíces de confianza TLS |
 
-La ruta `ARM/src/pico_main.cpp` incluida en `picoLichess` es un archivo legado en la reconstrucción; el `CMakeLists.txt` inspeccionado compila **`picoSargon/ARM/src/pico_main.cpp`**, no ese archivo local. Este detalle importa al auditar cambios o telemetría.
+La ruta `ARM/src/pico_main.cpp` incluida en `picoPixie` es un archivo legado en la reconstrucción; el `CMakeLists.txt` inspeccionado compila **`picoSargon/ARM/src/pico_main.cpp`**, no ese archivo local. Este detalle importa al auditar cambios o telemetría.
 
 - Placa objetivo: `pico2_w`.
 - Wi-Fi: pila CYW43 con lwIP; bucle de servicio cooperativo mediante `cyw43_arch_poll()` y atención del watchdog.
 - TLS: mbedTLS a través de `altcp_tls`, validación de hostname con SNI y raíces de confianza incluidas en firmware.
 - Puerto de escucha UCI: **6210**; nombre mDNS **`picolichess.local`**, cuando está habilitado en la configuración compartida.
-- Compilación: C++17, CMake y Pico SDK; salida esperada `picoLichess/ARM/build/picoLichess.uf2`.
+- Compilación: C++17, CMake y Pico SDK; salida esperada `picoPixie/ARM/build/picoPixie.uf2`.
 - Respaldo NNUE: compilación con **STEROIDS=ON** y **TWINS=ON** obligatorios en esta configuración; motor de dos núcleos para la búsqueda local.
-- El archivo compartido `picoSargon/ARM/include/config.h` aporta Wi-Fi y parámetros del hardware; el `config.hpp` de picoLichess define sus opciones propias.
+- El archivo compartido `picoSargon/ARM/include/config.h` aporta Wi-Fi y parámetros del hardware; el `config.hpp` de picoPixie define sus opciones propias.
 
 No hay indicios, en este módulo, de autenticación OAuth de Lichess ni de clave API para Chess-API: la aplicación usa los endpoints públicos documentados.
 
@@ -12744,6 +12861,95 @@ La cadencia es global para la placa incluso si se desconecta y vuelve a conectar
 **Chess-API:** el cliente solo genera **una `CloudPV`** a partir del campo `move` de la respuesta final. Aunque pide `variants=5`, **no consume cinco alternativas para escoger entre ellas**: `variants` modifica el análisis remoto, pero la jugada usada es el `bestmove` que el servicio informa. El motor local comprueba legalidad y no recalcula el árbol remoto. `san` y `lan` son datos de contexto, no las fuentes de movimiento.
 
 La función `CloudOutcome` devuelve `move`, `cp` y `depth`. La ruta UCI vigente envía `score cp`, pero **no** `score mate`, aunque el parser puede detectar mate; tampoco propaga al rival todas las estadísticas del servidor. En el núcleo compartido inspeccionado la cadena `source=lichess-cloud` aparece **fija** incluso al utilizar Chess-API: esa etiqueta no refleja correctamente el proveedor predeterminado, y no debe usarse como evidencia independiente del modo ejecutado.
+
+### Configuración y selección de motores
+
+
+| Parámetro | Valor |
+|---|---|
+| Motor | `stockfish` |
+| URL | `https://stockfish.online/api/s/v2.php` |
+| Profundidad | 15 |
+| `throttle` | 3.000 ms |
+| `timeguard` | 60.000 ms |
+| `thinking_time` | 1.000 (valor del catálogo, no enviado a esta API) |
+| Variantes | 1 |
+| Telemetría detallada | Activada |
+
+El servicio participa en una cadena de selección priorizada:
+
+```text
+chess-api
+    |
+    v
+stockfish
+    |
+    v
+lichess
+    |
+    v
+native (NNUE local)
+```
+
+Cada motor constituye un *slot* independiente.
+
+Si un servicio devuelve una respuesta inválida, falla la comunicación o no proporciona una jugada legal, picoPixie continúa con el siguiente motor.
+
+El `throttle` establece el intervalo mínimo entre solicitudes a un mismo motor.
+
+El `timeguard` inhibe temporalmente un motor después de un intento fallido.
+
+Estos controles son independientes para cada slot, evitando que un fallo de Stockfish bloquee permanentemente el funcionamiento de los demás motores.
+
+### Tratamiento de errores y telemetría
+
+PicoPixie registra las solicitudes, respuestas y decisiones de selección de motores.
+
+Ejemplo representativo:
+
+```text
+REMOTE request slot=1 processor=stockfish method=GET ...
+REMOTE response slot=1 processor=stockfish http=200 depth=15 pvs=1 ...
+```
+
+Si la respuesta es satisfactoria, el adaptador convierte la información recibida a la representación interna del motor y emite la jugada mediante el protocolo UCI.
+
+El tiempo de búsqueda registrado corresponde al tiempo transcurrido en la transacción remota.
+
+En esta integración, Stockfish Online no suministra estadísticas de nodos explorados ni NPS mediante el formato de respuesta interpretado, por lo que picoPixie no debe inventar esos valores.
+
+Los errores de red, las respuestas JSON incorrectas y las jugadas ilegales se consideran fallos de evaluación y provocan el paso al siguiente motor configurado.
+
+### Ventajas y limitaciones
+
+- Permite utilizar evaluaciones de Stockfish sin ejecutar el motor en el microcontrolador.
+- Reduce la carga de cálculo y los requisitos locales de memoria.
+- Mantiene compatibilidad con la interfaz UCI de picoPixie.
+- Proporciona redundancia frente a fallos de otros servicios de evaluación.
+- Conserva la comprobación local de legalidad de las jugadas.
+
+Las limitaciones son:
+
+- Requiere conectividad a Internet.
+- Su latencia depende de la red y del servidor remoto.
+- La disponibilidad y las restricciones del servicio dependen del proveedor.
+- La profundidad de análisis está limitada por la configuración y las capacidades de la API.
+- La respuesta no contiene la telemetría detallada de búsqueda que proporcionaría un Stockfish ejecutado localmente.
+- La API no devuelve el FEN original, por lo que la asociación con la posición se realiza mediante el control de la transacción.
+
+### Conclusión
+
+La incorporación de Stockfish Online extiende la arquitectura híbrida de picoPixie, combinando servicios remotos de evaluación con un motor NNUE local de respaldo.
+
+La implementación utiliza HTTPS y JSON, administra las solicitudes de forma asíncrona, controla los tiempos de acceso por motor y valida localmente cada movimiento recibido.
+
+Desde el punto de vista arquitectónico, Stockfish Online funciona como un **evaluador remoto intercambiable**, integrado en una cadena de selección tolerante a fallos.
+
+Esta separación permite modificar la prioridad, configuración o disponibilidad de los servicios externos sin alterar el núcleo de búsqueda y evaluación compartido con picoSargon.
+
+---
+
+*Referencia técnica: código fuente de Akkad, línea de base del 12 de noviembre de 2026, con parches incrementales picoPixie v0.1.26 a v0.1.28. La descripción refleja la implementación local examinada; no constituye una verificación independiente de la documentación pública del proveedor.*
 
 ### Cuándo se usa el fallback NNUE
 
