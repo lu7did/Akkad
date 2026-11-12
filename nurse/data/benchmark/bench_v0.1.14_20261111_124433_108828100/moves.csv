@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error,decision_method,bellman_visits,bellman_w,bellman_d,bellman_l,bellman_q,bellman_s,bellman_legal_examined,bellman_hash_hits,bellman_qualified
+pixie,external,null,,positions,1,1,1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1,B,,5880.750,5874,0,12,ERROR,RuntimeError: bestmove ilegal: bestmove e2e4; revisar C:\Users\pedro\github\Bobby\Akkad\nurse\data\benchmark\bench_v0.1.14_20261111_124433_108828100\engine_01.log,,,,,,,,,,

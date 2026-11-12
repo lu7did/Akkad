@@ -1,0 +1,192 @@
+[16:36:24] \U0001f4bb sargon-nurse v0.1.15 brain=pixie type=external ELO=n/a tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[16:36:24] \u2699\ufe0f TCP endpoint=picolichess.local:6210 retry_seconds=5.0
+[16:36:24] \U0001f512 external configuración verificada brain=pixie brains=C:\Users\pedro\github\Bobby\Akkad\nurse\etc\brains\brains.json endpoint=picolichess.local:6210 sha256=2b9c4f86584045bc
+[16:36:24] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[16:36:26] \U0001f310 TCP DNS host='picolichess.local' port=6210 resolved=['192.168.68.117']
+[16:36:27] \u2705 TCP socket fd=492 requested=picolichess.local:6210 resolved=['192.168.68.117'] peer=('192.168.68.117', 6210) local=('192.168.68.105', 29127)
+[16:36:27] \u27a1\ufe0f UCI stdin uci
+[16:36:27] \u2b05\ufe0f UCI tcp id name picoLichess v0.1.23
+[16:36:27] \u2b05\ufe0f UCI tcp id author Dr. Pedro E. Colla
+[16:36:27] \u2b05\ufe0f UCI tcp info string TWINS compiled ON cores=2 alpha=cooperative core1_ready=1
+[16:36:27] \u2b05\ufe0f UCI tcp uciok
+[16:36:27] \u27a1\ufe0f UCI stdin isready
+[16:36:27] \u2b05\ufe0f UCI tcp readyok
+[16:36:27] \u2705 handshake UCI completo
+[16:36:27] \u2705 external brain=pixie UCI id name='picoLichess v0.1.23' provenance={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:27] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:27] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:27] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:27] \u27a1\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[16:36:27] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:30] \u2b05\ufe0f UCI tcp info ply 0 depth 12 score cp 29 nodes 2923635 time 2919 nps 29236350
+[16:36:30] \u2b05\ufe0f UCI tcp bestmove d2d4
+[16:36:30] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:30] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:30] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:30] \u27a1\ufe0f UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[16:36:30] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:32] \u2b05\ufe0f UCI tcp info ply 1 depth 14 score mate -3 nodes 3114940 time 2685 nps 31149400
+[16:36:32] \u2b05\ufe0f UCI tcp bestmove d6d1
+[16:36:32] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:32] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:32] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:32] \u27a1\ufe0f UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[16:36:32] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:35] \u2b05\ufe0f UCI tcp info ply 0 depth 12 score cp 209 nodes 3418593 time 2599 nps 34185930
+[16:36:35] \u2b05\ufe0f UCI tcp bestmove d4d5
+[16:36:35] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:35] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:35] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:35] \u27a1\ufe0f UCI stdin position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+[16:36:35] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:38] \u2b05\ufe0f UCI tcp info ply 1 depth 10 score cp 125 nodes 2519804 time 2550 nps 25198040
+[16:36:38] \u2b05\ufe0f UCI tcp bestmove e7d8
+[16:36:38] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:38] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:38] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:38] \u27a1\ufe0f UCI stdin position fen rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq - 0 1
+[16:36:38] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:41] \u2b05\ufe0f UCI tcp info ply 0 depth 14 score cp 199 nodes 3012858 time 2456 nps 30128580
+[16:36:41] \u2b05\ufe0f UCI tcp bestmove e5e6
+[16:36:41] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:41] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:41] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:41] \u27a1\ufe0f UCI stdin position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+[16:36:41] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:43] \u2b05\ufe0f UCI tcp info ply 0 depth 12 score cp 158 nodes 2922296 time 2391 nps 29222960
+[16:36:43] \u2b05\ufe0f UCI tcp bestmove c3d5
+[16:36:43] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:43] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:43] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:43] \u27a1\ufe0f UCI stdin position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+[16:36:43] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:46] \u2b05\ufe0f UCI tcp info ply 0 depth 13 score cp 229 nodes 3886976 time 2670 nps 38869760
+[16:36:46] \u2b05\ufe0f UCI tcp bestmove g5g6
+[16:36:46] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:46] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:46] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:46] \u27a1\ufe0f UCI stdin position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+[16:36:46] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:48] \u2b05\ufe0f UCI tcp info ply 0 depth 11 score cp 187 nodes 2893935 time 2449 nps 28939350
+[16:36:48] \u2b05\ufe0f UCI tcp bestmove a3b4
+[16:36:48] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:48] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:48] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:48] \u27a1\ufe0f UCI stdin position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+[16:36:48] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:51] \u2b05\ufe0f UCI tcp info ply 0 depth 12 score cp 108 nodes 4262497 time 2471 nps 42624970
+[16:36:51] \u2b05\ufe0f UCI tcp bestmove f4f5
+[16:36:51] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:51] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:51] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:51] \u27a1\ufe0f UCI stdin position fen 2kr1bnr/pbpq4/2n1pp2/3p3p/3P1P1B/2N2N1Q/PPP3PP/2KR1B1R w - - 0 1
+[16:36:51] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:54] \u2b05\ufe0f UCI tcp info ply 0 depth 13 score cp 254 nodes 2516814 time 2561 nps 25168140
+[16:36:54] \u2b05\ufe0f UCI tcp bestmove d1e1
+[16:36:54] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:54] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:54] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:54] \u27a1\ufe0f UCI stdin position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+[16:36:54] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:56] \u2b05\ufe0f UCI tcp info ply 1 depth 13 score cp -427 nodes 2711997 time 2449 nps 27119970
+[16:36:56] \u2b05\ufe0f UCI tcp bestmove c6e5
+[16:36:56] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:56] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:56] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:56] \u27a1\ufe0f UCI stdin position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+[16:36:56] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:36:59] \u2b05\ufe0f UCI tcp info ply 0 depth 13 score cp 185 nodes 2746516 time 2567 nps 27465160
+[16:36:59] \u2b05\ufe0f UCI tcp bestmove g3f5
+[16:36:59] \u27a1\ufe0f UCI stdin ucinewgame
+[16:36:59] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:36:59] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:36:59] \u27a1\ufe0f UCI stdin position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+[16:36:59] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:02] \u2b05\ufe0f UCI tcp info ply 1 depth 12 score cp -3 nodes 3088966 time 2532 nps 30889660
+[16:37:02] \u2b05\ufe0f UCI tcp bestmove d7f5
+[16:37:02] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:02] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:02] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:02] \u27a1\ufe0f UCI stdin position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+[16:37:02] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:04] \u2b05\ufe0f UCI tcp info ply 0 depth 11 score cp 59 nodes 3170448 time 2531 nps 31704480
+[16:37:04] \u2b05\ufe0f UCI tcp bestmove b2b4
+[16:37:04] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:04] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:04] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:04] \u27a1\ufe0f UCI stdin position fen rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1
+[16:37:04] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:07] \u2b05\ufe0f UCI tcp info ply 0 depth 13 score cp 520 nodes 3560101 time 2498 nps 35601010
+[16:37:07] \u2b05\ufe0f UCI tcp bestmove d1d2
+[16:37:07] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:07] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:07] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:07] \u27a1\ufe0f UCI stdin position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+[16:37:07] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:10] \u2b05\ufe0f UCI tcp info ply 0 depth 12 score cp 140 nodes 3293875 time 2550 nps 32938750
+[16:37:10] \u2b05\ufe0f UCI tcp bestmove g4g7
+[16:37:10] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:10] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:10] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:10] \u27a1\ufe0f UCI stdin position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w kq - 0 1
+[16:37:10] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:12] \u2b05\ufe0f UCI tcp info ply 0 depth 10 score cp 46 nodes 2792502 time 2465 nps 27925020
+[16:37:12] \u2b05\ufe0f UCI tcp bestmove g5f4
+[16:37:12] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:12] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:12] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:12] \u27a1\ufe0f UCI stdin position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+[16:37:12] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:15] \u2b05\ufe0f UCI tcp info ply 1 depth 12 score cp 73 nodes 2621944 time 2394 nps 26219440
+[16:37:15] \u2b05\ufe0f UCI tcp bestmove c7c6
+[16:37:15] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:15] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:15] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:15] \u27a1\ufe0f UCI stdin position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+[16:37:15] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:17] \u2b05\ufe0f UCI tcp info ply 1 depth 11 score cp 27 nodes 2862843 time 2440 nps 28628430
+[16:37:17] \u2b05\ufe0f UCI tcp bestmove f7f5
+[16:37:17] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:17] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:17] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:17] \u27a1\ufe0f UCI stdin position fen 3rr3/2pq2pk/p2p1pnp/8/2QBPP2/1P6/P5PP/4RRK1 b - - 0 1
+[16:37:17] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:20] \u2b05\ufe0f UCI tcp info ply 1 depth 11 score cp -10 nodes 2988986 time 2388 nps 29889860
+[16:37:20] \u2b05\ufe0f UCI tcp bestmove e8e7
+[16:37:20] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:20] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:20] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:20] \u27a1\ufe0f UCI stdin position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+[16:37:20] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:22] \u2b05\ufe0f UCI tcp info ply 0 depth 12 score cp 258 nodes 2719131 time 2505 nps 27191310
+[16:37:22] \u2b05\ufe0f UCI tcp bestmove g3g4
+[16:37:22] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:22] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:22] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:22] \u27a1\ufe0f UCI stdin position fen 3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1
+[16:37:22] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:25] \u2b05\ufe0f UCI tcp info ply 0 depth 11 score cp 306 nodes 2690773 time 2396 nps 26907730
+[16:37:25] \u2b05\ufe0f UCI tcp bestmove f5h6
+[16:37:25] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:25] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:25] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:25] \u27a1\ufe0f UCI stdin position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+[16:37:25] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:27] \u2b05\ufe0f UCI tcp info ply 1 depth 11 score cp -69 nodes 2853406 time 2437 nps 28534060
+[16:37:27] \u2b05\ufe0f UCI tcp bestmove b7e4
+[16:37:27] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:27] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:27] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:27] \u27a1\ufe0f UCI stdin position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1
+[16:37:27] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:30] \u2b05\ufe0f UCI tcp info ply 1 depth 11 score cp -27 nodes 3059432 time 2463 nps 30594320
+[16:37:30] \u2b05\ufe0f UCI tcp bestmove c8f5
+[16:37:30] \u27a1\ufe0f UCI stdin ucinewgame
+[16:37:30] \U0001f50e brain=pixie go='go movetime 15000' tmax=15000ms timeout=30000ms
+[16:37:30] \U0001f50e external brain=pixie search_socket={'requested': 'picolichess.local:6210', 'dns': ['192.168.68.117'], 'peer_ip': '192.168.68.117', 'peer_port': 6210, 'local_ip': '192.168.68.105', 'local_port': 29127, 'uci_name': 'picoLichess v0.1.23'}
+[16:37:30] \u27a1\ufe0f UCI stdin position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+[16:37:30] \u27a1\ufe0f UCI stdin go movetime 15000
+[16:37:33] \u2b05\ufe0f UCI tcp info ply 0 depth 10 score cp 143 nodes 2974660 time 2455 nps 29746600
+[16:37:33] \u2b05\ufe0f UCI tcp bestmove f2f4
+[16:37:33] \U0001f50c TCP cerrado
+[16:37:33] \U0001f504 TCP próxima reconexión en 5s

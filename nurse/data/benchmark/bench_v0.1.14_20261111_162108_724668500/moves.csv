@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,mode,round,index,fen,turn,move_uci,wall_ms,engine_ms,nodes,depth,status,error,decision_method,bellman_visits,bellman_w,bellman_d,bellman_l,bellman_q,bellman_s,bellman_legal_examined,bellman_hash_hits,bellman_qualified
+pixie,external,null,,positions,0,0,,,,0.000,,,,ERROR,TimeoutError: uciok ausente en pixie,,,,,,,,,,

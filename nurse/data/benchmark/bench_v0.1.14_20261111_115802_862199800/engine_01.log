@@ -1,0 +1,6 @@
+[11:58:02] \U0001f4bb sargon-nurse v0.1.15 brain=pixie type=external ELO=n/a tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[11:58:02] \u2699\ufe0f TCP endpoint=picolichess.local:6110 retry_seconds=5.0
+[11:58:02] \U0001f512 external configuración verificada brain=pixie brains=C:\Users\pedro\github\Bobby\Akkad\nurse\etc\brains\brains.json endpoint=picolichess.local:6110 sha256=721b5ace4a09d11e
+[11:58:02] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[11:58:05] \U0001f310 TCP DNS host='picolichess.local' port=6110 resolved=['192.168.68.117']
+[11:58:08] \u274c fatal: no se pudo conectar a picolichess.local:6110; DNS=['192.168.68.117']; último error=[WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión

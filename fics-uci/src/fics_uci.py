@@ -26,7 +26,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.20"
+VERSION = "0.2.21"
 
 VERBOSE = False
 
@@ -1369,11 +1369,19 @@ def main():
                    help="FICS: standard blitz lightning bullet classical untimed")
     a = p.parse_args()
     config_file = Path(a.config) if a.config else Path(__file__).resolve().parent / "config.yml"
+    config_file = config_file.expanduser().resolve()
     config = {}
-    if config_file.exists():
-        config = yaml.safe_load(config_file.read_text(encoding="utf-8")) or {}
+    # Un --config explicito es obligatorio: jamas retroceder silenciosamente
+    # a 127.0.0.1:6110 si el archivo no existe o no se puede leer.
+    if a.config is not None and not config_file.is_file():
+        p.error(f"No se encuentra el archivo --config: {config_file} (cwd={Path.cwd()})")
+    if config_file.is_file():
+        try:
+            config = yaml.safe_load(config_file.read_text(encoding="utf-8")) or {}
+        except (OSError, UnicodeError, yaml.YAMLError) as exc:
+            p.error(f"No se pudo cargar --config {config_file}: {exc}")
         if not isinstance(config, dict):
-            p.error("config.yml debe contener un mapa YAML")
+            p.error(f"Configuracion YAML invalida (se esperaba mapa): {config_file}")
     defaults = dict(ip="127.0.0.1", port=6110, ip_fics="freechess.org", port_fics=5000,
                     user="guest", password="", accept=True, rated=True, unrated=True, verbose=False,
                     types=["standard", "blitz", "lightning", "bullet", "classical"],
@@ -1441,6 +1449,7 @@ def main():
             sys.stderr.reconfigure(encoding="utf-8", errors="replace")
         except (ValueError, OSError):
             pass
+    log("⚙️", "APP", f"Configuracion: {config_file} ({'cargada' if config_file.is_file() else 'defaults'})")
     log("⚙️", "APP", (f"Motor UCI local: {a.exec} args={a.uci_argv!r}"
                        if a.type == "uci" else f"Motor UCI TCP: {a.ip}:{a.port}"))
     log("⚙️", "APP", f"Verbose={'ON' if VERBOSE else 'OFF'}")

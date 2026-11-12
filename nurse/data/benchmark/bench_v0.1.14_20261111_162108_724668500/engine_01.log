@@ -1,0 +1,15 @@
+[16:21:08] \U0001f4bb sargon-nurse v0.1.15 brain=pixie type=external ELO=n/a tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[16:21:08] \u2699\ufe0f TCP endpoint=picolichess.local:6210 retry_seconds=5.0
+[16:21:08] \U0001f512 external configuración verificada brain=pixie brains=C:\Users\pedro\github\Bobby\Akkad\nurse\etc\brains\brains.json endpoint=picolichess.local:6210 sha256=2b9c4f86584045bc
+[16:21:08] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[16:21:11] \U0001f310 TCP DNS host='picolichess.local' port=6210 resolved=['192.168.68.117']
+[16:21:11] \u2705 TCP socket fd=496 requested=picolichess.local:6210 resolved=['192.168.68.117'] peer=('192.168.68.117', 6210) local=('192.168.68.105', 35690)
+[16:21:11] \u27a1\ufe0f UCI stdin uci
+[16:21:11] \u2b05\ufe0f UCI tcp id name picoLichess v0.1.22
+[16:21:11] \u2b05\ufe0f UCI tcp id author Dr. Pedro E. Colla
+[16:21:11] \u2b05\ufe0f UCI tcp info string TWINS compiled ON cores=2 alpha=cooperative core1_ready=1
+[16:21:11] \u2b05\ufe0f UCI tcp info string SLOTS priority=[0:chess-api,1:stockfish,2:lichess,3:native]
+[16:21:11] \u2b05\ufe0f UCI tcp info string SLOT[0] processor=chess-api THROTTLE=2000ms TIMEGUARD=60000ms depth=18 thinking_ms=100 verbose=true key=none url=https://chess-api.com/v1
+[16:21:11] \u2b05\ufe0f UCI tcp info string SLOT[1] processor=stockfish THROTTLE=3000ms TIMEGUARD=60000ms depth=15 thinking_ms=1000 verbose=true key=none url=https://stockfish.online/api/s/v2.php
+[16:21:11] \u2b05\ufe0f UCI tcp info string SLOT[2] processor=lichess THROTTLE=2000ms TIMEGUARD=60000ms depth=-1 thinking_ms=-1 verbose=true key=none url=https://lichess.org/api/cloud-eval
+[16:21:11] \u2b05\ufe0f UCI tcp info string SLOT[3] processor=native THROTTLE=-1ms TIMEGUARD=-1ms depth=-1 thinking_ms=-1 verbose=false key=none url=

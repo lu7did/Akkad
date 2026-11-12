@@ -1,0 +1,2 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+pixie,external,null,,24,24,0,80.582,3357.600,2831.316,5720.363,2523.921,8780.373,73405774,24,77083.000,952295.2,0.001098,OK,0,0

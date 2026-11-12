@@ -11769,7 +11769,299 @@ Una interfaz separada por TCP o proceso conserva aislamiento, permite reiniciar 
 [32] Lin et al., **Tracing the Thought of a Grandmaster-level Chess-Playing Transformer** (2026): https://arxiv.org/abs/2604.10158
 
 
-# CAP 12 La arquitectura Akkad
+
+# CAP 12 Arquitecturas cooperativas
+
+Las arquitecturas anteriores expresan potencias variadas para la resolución del problema
+
+>¿Cual es la mejor jugada para una determinada situación?
+
+Para lograrlo apelan a la implementación de algoritmos que requieren distintas magnitudes de recursos de procesamiento, en particular velocidad de procesador y memoria.
+
+Por ejemplo, evaluar una red neural como la requerida por *Leela chess Zero (lc0)* requiere enormes cantidades de
+memoria para albergar la red misma y el cálculo de decenas o centenares de millones de operaciones matemáticas para
+resolver una posición dada.
+
+Cuando se intenta ejecutar en plataformas pequeñas podemos encontrar que hay límites para poder entregar una 
+posición de respuesta en tiempos razonables o incluso poder hacerlo.
+
+Por ejemplo, un algoritmo como el implementado por *AlphaZero* requerirá una red lo suficientemente grande como para que no entre con facilidad en una placa pequeña por la Raspberry Pi Pico (RP2350) con solo 4 MBytes de memoria 
+flash, 500K de memoria RAM y 220 MHz clock de procesador. Es posible intentar realizar reducciones en la 
+memoria necesaria, como por ejemplo realizar un proceso de *destilado cuantización* que pase los *pesos* o *coeficientes* de la red neural de formatos extensos como *fp32* o *flotantes de 16 bits* a formatos mas modestos como enteros de 8 bits (*INT8*) o incluso 4 bits (*INT4*). 
+Si bien matemáticamente posible al realizar las reducciones la red neuronal pierde precisión en su resultado y por lo tanto las jugadas elegidas mediante ellas pierde calidad ajedrecística. Pero adicionalmente los resultados tienen que presentarse dentro de ventanas de tiempo razonables. 
+Por ejemplo, una partida blitz tiene que resolverse en *3 minutos* de juego, si tomamos una duración de 100 plies resulta que el tiempo máximo para cada jugador será de unos 1800 msecs, para una partida *clasica* que puede durar 30 minutos tendrá un máximo de 18000 msecs. Algo menos en ambos casos si se agrega un margen por latencia de red y otros tipos de procesamiento. Digamos, conservadoramente, que el límite práctico será alrededor de 1500 y 15000 msecs respectivamente. Pasado ese tiempo por mas que el motor tenga caracteristicas ajedrecísticas virtuosas perderá por
+tiempo.
+
+Entonces eso establece una cota bastante severa y un techo específico al tipo de procesador que se puede utilizar para cada algoritmo. En general procesadores avanzados con arquitecturas X86 o ARM corriendo sobre múltiples núcleos (8 o mas), posiblmente con una GPU disponible, podrán ejecutar todos los algoritmos con eficiencia marcada, una laptop Wintel o Mac modernas entran en ésta categoría.
+
+En placas mas modestas, por ejemplo una Raspberry Pi 4 o 5, con 4 núcleos, podrá correr casi todos los algoritmos pero la profundidad del análisis tendrá que ser limitada.
+
+En placas mas pequeñás aún, como la mencionada Raspberry Pi Pico con un ARM 2350 podrá con mucha optimización correr algoritmos de búsqueda minimax con optimizaciones e incluso redes neurales NNUE pequeñás, pero físicamente no podrá implementar algoritmos tipo AlphaZero, Stockfish, Leela Chess Zero u otros sin un deterioro muy marcado.
+
+Surge entonces una duda, como lograr implementar motores potentes aún en esa gama extremadamente pequeña de procesadores.
+
+Y una interesante posibilidad es apelar al procesamiento distribuido.
+
+## Concepto de motor cooperativo
+
+Un motor cooperativo combina la **representación y control local de una partida** con una **fuente remota de análisis**. El dispositivo sigue siendo el motor UCI visible para su contrincante, pero delega parte de su decisión de juego a un servicio externo, normalmente mediante una API montada sobre protocolo HTTP. Dado que por múltiples razones el servicio puede no estar disponible o ser capaz de producir una jugada utilizable y la política lo permite, recurre al evaluador y buscador local.
+
+Los roles se separan:
+
+1. **Interlocutor UCI:** entrega posiciones, pide búsqueda (`go`) y recibe información de análisis y `bestmove`.
+2. **Controlador local:** interpreta los comandos, mantiene el tablero, genera un FEN y gestiona cancelaciones.
+3. **Evaluador remoto:** aporta una evaluación preexistente (Lichess) o ejecuta una búsqueda Stockfish (Chess-API).
+4. **Validador local:** comprueba que la jugada propuesta sea legal en *esa* posición.
+5. **Motor de respaldo:** calcula una jugada con la búsqueda local NNUE cuando se activa un fallback autorizado.
+
+No es un motor distribuido que sume nodos de búsqueda locales y remotos en un mismo árbol: son **estrategias alternativas de obtención de la jugada**, coordinadas por un único controlador UCI. Tampoco es una plataforma que juegue directamente en Lichess: utiliza el endpoint público de evaluación, no la API de partidas ni de bots de Lichess.
+
+```mermaid
+sequenceDiagram
+    participant R as Rival / cliente UCI
+    participant P as picoLichess (control)
+    participant A as API HTTPS
+    participant N as picoSargon NNUE local
+    R->>P: position ...
+    R->>P: go ...
+    P->>P: Construir tablero, legal moves y FEN
+    P->>P: Esperar hasta cumplir THROTTLE
+    P->>A: GET Lichess o POST Chess-API
+    A-->>P: HTTP + cuerpo JSON (o fallo)
+    alt Hay jugada final y legal
+      P-->>R: info ... / bestmove ...
+    else Condición de fallback reconocida
+      P->>N: Buscar sobre el tablero local
+      N-->>P: Mejor jugada local
+      P-->>R: info ... / bestmove ...
+    else Error recuperable de red
+      P->>P: Reintentar según política
+    end
+```
+
+El **estado de partida** debe proceder de UCI. No debe reutilizarse una jugada remota de una posición anterior: cada respuesta corresponde a su propio FEN y debe superar una nueva validación local. En cambio, el control de cadencia puede mantenerse globalmente entre sesiones para evitar ráfagas de peticiones al servicio.
+
+| Aspecto | Beneficio | Limitación o riesgo |
+|---|---|---|
+| Cómputo | Usa análisis remoto sin reservar la RAM o CPU equivalente en la Pico | Dependencia de conectividad, latencia y disponibilidad externa |
+| Calidad | Puede disponer de Stockfish profundo o evaluaciones históricas | La calidad depende de profundidad, tiempo y cobertura |
+| Continuidad | El buscador NNUE permite jugar cuando la API no ofrece resultado adecuado | Salto de fuerza y consumo local de tiempo de búsqueda |
+| Seguridad de la jugada | Validación local de legalidad | Una respuesta mal delimitada o un FEN incorrecto todavía deben diagnosticarse |
+| Cadencia | Control explícito de tasa de consultas | Esperar un mínimo no garantiza una respuesta en tiempo real |
+
+## Contratos comunes: FEN, UCI y puntuaciones
+
+Forsyth–Edwards Notation describe una posición mediante seis campos:
+
+```text
+<piezas> <turno> <enroques> <al-paso> <semimovidas> <número-de-jugada>
+```
+
+Ejemplo inicial:
+
+```text
+rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+```
+
+- **Piezas:** ocho filas de rango 8 a 1; mayúsculas blancas, minúsculas negras, dígitos para casillas vacías.
+- **Turno:** `w` o `b`.
+- **Enroques:** `KQkq` o sus subconjuntos; `-` si no quedan derechos.
+- **Al paso:** casilla objetivo o `-`.
+- **Semimovidas:** contador desde la última captura o avance de peón.
+- **Número de jugada:** comienza en 1 y aumenta tras la jugada de negras.
+
+**Punto de interoperabilidad:** el tablero local puede registrar una casilla al paso tras cualquier avance doble. El código vigente aplica una canonicalización específica de Chess-API, usando `board.position_key().ep` cuando corresponde, para evitar enviar una casilla que no sea capturable según la representación de claves del motor. El FEN destinado a Lichess sigue usando `board.ep`. No debe confundirse esta transformación con una garantía completa de que un tercero acepte cualquier posición.
+
+| Campo | Ejemplo | Uso |
+|---|---|---|
+| SAN | `Nf3` | Notación algebraica corta legible; admite desambiguación, captura, jaque y mate |
+| LAN | Según proveedor, `Ng1-f3` o `g1f3` | Notación larga; **verificar el formato real del proveedor**, no asumir que equivale siempre a UCI |
+| UCI | `g1f3`, `b7b8q` | Casillas origen/destino, más promoción opcional; formato requerido en `bestmove` |
+
+Chess-API muestra en su ejemplo `lan: "b7b8q"`, igual a `move: "b7b8q"`; por lo tanto, **su campo `lan` no tiene necesariamente la notación con letra de pieza y guion** de otros sistemas. picoLichess extrae **`move`**; `san` y `lan` no intervienen en la selección.
+
+Una puntuación `cp` de +100 representa aproximadamente una ventaja de un peón, aunque los motores modernos no garantizan una equivalencia material literal. En las dos fuentes aquí consideradas las puntuaciones documentadas son desde la **perspectiva de las blancas**: positivo favorece blancas; negativo, negras. Esto debe diferenciarse de la perspectiva del bando al turno en algunos usos UCI.
+
+El campo `mate`, cuando el proveedor lo ofrece, expresa una secuencia forzada de mate y su signo. No debe transformarse en una puntuación centipeón arbitraria: UCI admite `score mate N`. picoLichess **interpreta** un campo `mate` en su estructura interna `CloudPV`, pero el camino de respuesta UCI inspeccionado transmite `score cp`, sin trasladar `mate`; constituye una limitación actual, no una evaluación de mate hecha por la Pico.
+
+## Servicio Lichess Cloud Evaluation
+
+Lichess expone una **base de evaluaciones previamente calculadas**, no un servidor que necesariamente busque una posición nueva cuando llega cada consulta. La evaluación se obtiene de cálculos realizados anteriormente. Si el FEN no tiene una entrada disponible, el resultado normal puede ser HTTP **404**. Por ello una sucesión de 404 en posiciones poco frecuentes **no demuestra por sí misma una avería ni un estado retenido**.
+
+El catálogo de evaluaciones públicas de Lichess declara resultados a distintas profundidades y cantidades de variantes; su cobertura es extensa pero no exhaustiva. La documentación recomienda, cuando solo interesa una variante, preferir la evaluación de mayor profundidad y su primera PV. [L1][L2]
+
+```http
+GET /api/cloud-eval?fen=<FEN_codificado_para_URL>&multiPv=5 HTTP/1.1
+Host: lichess.org
+Accept: application/json
+Connection: close
+```
+
+URL base: `https://lichess.org/api/cloud-eval`.
+
+| Parámetro | Función | Uso en picoLichess |
+|---|---|---|
+| `fen` | Posición a consultar, percent-encoded en la URL | Generado desde el tablero local |
+| `multiPv` | Cantidad solicitada de líneas principales | Fijo en `5` |
+| `variant` | Variante de ajedrez cuando el servicio la admite | No se envía: el proyecto opera con ajedrez estándar |
+
+La petición del código es HTTPS GET sin cuerpo, con `User-Agent` y `Accept-Encoding: identity`. El cliente no depende de una sesión de usuario ni de que Lichess recuerde anteriores consultas.
+
+**Ejemplo ilustrativo, no transcripción de una consulta real:**
+
+```json
+{
+  "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+  "knodes": 1000,
+  "depth": 25,
+  "pvs": [
+    { "moves": "e2e4 e7e5 g1f3", "cp": 25 },
+    { "moves": "d2d4 d7d5", "cp": 20 },
+    { "moves": "g1f3 g8f6", "cp": 18 }
+  ]
+}
+```
+
+| Campo | Tipo conceptual | Interpretación |
+|---|---|---|
+| `fen` | cadena | Posición consultada |
+| `knodes` | entero | Miles de nodos procesados para la evaluación almacenada |
+| `depth` | entero | Profundidad alcanzada |
+| `pvs` | arreglo | Variantes principales disponibles |
+| `pvs[].moves` | cadena | Secuencia de jugadas UCI separadas por espacios; la **primera** es la candidata inmediata |
+| `pvs[].cp` | entero | Evaluación en centipeones; puede faltar si hay mate |
+| `pvs[].mate` | entero | Distancia de mate; alternativa a `cp` |
+
+Que se pida `multiPv=5` **no obliga** a que el servidor devuelva cinco variantes: puede devolver menos. El contenido puede incluir jugadas similares en puntuación. [L1][L2]
+
+- **200:** hay una respuesta HTTP satisfactoria; todavía debe comprobarse que existan PV válidas, legales y analizables.
+- **404:** evaluación no encontrada para esa posición; distinto de «FEN ilegal» salvo que el cuerpo señale lo contrario.
+- **429:** límite de frecuencia; Lichess recomienda esperar **al menos un minuto** y no realizar peticiones concurrentes. [L3]
+- **Otras respuestas o fallo TLS/DNS:** no constituyen una evaluación utilizable y requieren tratamiento explícito.
+
+El código del proyecto distingue 429/426 y aplica suspensión temporizada con retardo aleatorio y `Retry-After` si puede interpretarlo en segundos. El estatus **426** pertenece a la política interna implementada; no se documenta aquí como una obligación particular del endpoint Lichess.
+
+El parser `parse_cloud_pvs()` toma hasta 32 elementos dentro del arreglo `pvs`, extrae la primera jugada de cada `moves` y los campos `cp` o `mate`. El adaptador descarta las candidatas que no figuran entre las jugadas legales del tablero actual. Entre las restantes calcula la mejor puntuación **para el turno del bando que juega**; si hay igualdad exacta utiliza `get_rand_32()` para elegir una candidata empatada. Por tanto, la política no es «tomar a ciegas la primera PV». La notación UCI final sale de la jugada validada.
+
+## Servicio Chess-API (Stockfish remoto)
+
+Chess-API proporciona acceso remoto al motor **Stockfish**: el servicio analiza la posición solicitada, en vez de limitarse a buscar una evaluación previamente almacenada. Su sitio anuncia Stockfish 18 y ofrece REST POST y WebSocket; picoLichess **elige exclusivamente REST**. El nivel de cómputo, el rendimiento máximo y las condiciones gratuitas son ofertas del proveedor, no garantías de latencia o disponibilidad para el dispositivo. [C1]
+
+```http
+POST /v1 HTTP/1.1
+Host: chess-api.com
+Content-Type: application/json
+Accept: application/json
+Connection: close
+Content-Length: <cantidad de bytes del JSON>
+
+{
+  "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+  "variants": 5,
+  "depth": 18,
+  "maxThinkingTime": 100,
+  "searchmoves": ""
+}
+```
+
+Destino completo: `https://chess-api.com/v1`. No utiliza GET para este modo. `Content-Length` se calcula con el tamaño del payload realmente serializado.
+
+| Atributo de petición | Significado | Límite anunciado | Configuración vigente |
+|---|---|---|---|
+| `fen` | Posición a analizar | Debe describir una posición aceptada por el servicio | FEN dinámico canonicalizado |
+| `variants` | Número de alternativas de análisis | 1–5 (predeterminado 1) | **5** |
+| `depth` | Objetivo/límite de profundidad anunciado | Máximo público 18 (predeterminado 12) | **18** |
+| `maxThinkingTime` | Presupuesto de análisis solicitado al servidor en **ms** | Máximo público 100 (predeterminado 50) | **100** |
+| `searchmoves` | Restringe búsqueda a jugadas específicas separadas por espacios | Cadena vacía = sin restricción | **`""`** |
+| `input` | Alternativa a `fen`: texto o HTML con movimientos para intentar reconstruir posición | No utilizado en el firmware | No enviado |
+
+Estos límites se muestran en la documentación pública del proveedor y pueden ser distintos para usuarios que lo apoyan. `maxThinkingTime=100` **no equivale** a un plazo de 100 ms para completar DNS + TLS + HTTP: la transacción total puede tardar mucho más. [C1]
+
+El proveedor también permite `wss://chess-api.com/v1`, que puede emitir mensajes de progreso. Su documentación distingue `type="move"` (hallazgo intermedio), `type="bestmove"` (propuesta final) y `type="info"` (información complementaria). En la integración de picoLichess se exige **`type="bestmove"`**, junto con un campo `move` de formato UCI válido. Las respuestas intermedias no gobiernan una jugada. [C1]
+
+En los ejemplos documentados aparece también `type="move"`, y en la práctica se observó un cuerpo `type="error"` con HTTP 200. Es importante distinguir **éxito del transporte HTTP** de **éxito semántico del análisis**. En REST la aplicación interpreta el JSON devuelto y solo acepta el tipo final autorizado.
+
+La respuesta puede incluir, según la situación, los siguientes campos descritos o ejemplificados por Chess-API. **No todos son obligatorios ni necesariamente están presentes juntos**.
+
+| Campo | Significado | Uso actual en picoLichess |
+|---|---|---|
+| `type` | Naturaleza del mensaje (`move`, `bestmove`, `info`; se observó `error`) | Debe ser `bestmove` para aceptar jugada |
+| `move` | Movimiento elegido, normalmente coordenadas UCI | **Fuente primaria de la jugada** |
+| `fen` | Posición analizada | Visible en JSON; no se coteja explícitamente con la solicitud en el parser |
+| `depth` | Profundidad informada por el motor | Se almacena e informa |
+| `eval` | Evaluación expresada en peones (blancas positivas) | Respaldo para cálculo de `cp` si no existe `centipawns` |
+| `centipawns` | Evaluación en centipeones, número o cadena en ejemplos | Preferida para `cp` |
+| `mate` | Mate forzado, o `null` si no se declara | Se extrae si es entero o cadena convertible; **no se emite como `score mate` UCI** |
+| `text` | Descripción legible del análisis o del error | Se vuelca en VERBOSE y se extrae en caso de `type=error` |
+| `san` | Notación algebraica corta | Solo queda en JSON de telemetría |
+| `lan` | Notación larga usada por el proveedor; ejemplo `b7b8q` | Solo queda en JSON de telemetría |
+| `turn`, `color` | Indicadores del lado/turno | No gobiernan selección |
+| `piece` | Pieza que mueve | No utilizado |
+| `flags` | Indicadores de características de la jugada | No utilizado |
+| `isCapture` | Si hay captura | No utilizado |
+| `isCastling` | Si hay enroque | No utilizado |
+| `isPromotion` | Si hay promoción | No utilizado |
+| `from`, `to` | Casillas origen/destino | No utilizadas para reconstruir `move` |
+| `fromNumeric`, `toNumeric` | Representaciones numéricas de coordenadas | No utilizadas |
+| `continuationArr` | Secuencia sugerida de jugadas de continuación | Solo en JSON de telemetría |
+| `winChance` | Probabilidad/índice de ventaja expresada como porcentaje conforme a fórmula del sitio | No utilizada para escoger |
+| `taskId` | Identificador del trabajo remoto | Solo en JSON de telemetría |
+| `time` | Tiempo informado por el servicio | Solo en JSON de telemetría |
+| `error` | Código de error semántico | Se extrae cuando `type=error` |
+
+Chess-API publica la transformación de centipeones en `winChance` mediante una función logística inspirada en Lichess; **no equivale** a una probabilidad de victoria calibrada para cualquier control de tiempo ni forma parte de la decisión actual de picoLichess. [C1]
+
+Un posible ejemplo de respuesta recibida será: 
+
+```json
+{
+  "type": "bestmove",
+  "move": "g1f3",
+  "san": "Nf3",
+  "lan": "g1f3",
+  "depth": 18,
+  "eval": 0.23,
+  "centipawns": "23",
+  "mate": null,
+  "continuationArr": ["g1f3", "g8f6"],
+  "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+}
+```
+
+**Ejemplo sintético** para ilustrar tipos y flujo, no copia de una respuesta real. En particular, no se presume que `lan` conserve idéntico formato para todos los movimientos.
+
+En los registros aportados se observó:
+
+```json
+{
+  "type": "error",
+  "error": "INVALID_FEN_VALIDATION_ERROR",
+  "text": "Cannot evaluate given position - wrong FEN."
+}
+```
+
+El servidor había aceptado la petición HTTP pero **rechazó la posición**. En picoLichess v0.1.11 se añadió canonicalización de la casilla al paso para este proveedor y una línea diagnóstica `CHESS_API server-error`. El cuerpo `type=error` no produce una jugada ni se convierte en `bestmove`; si HTTP es 200 pero no hay PV válida, se activa fallback de la búsqueda actual. Ello **no implica** que el proveedor esté deshabilitado permanentemente para la próxima posición.
+
+**Cuidado con los cuerpos JSON observados que comienzan por `}{`:** un cuerpo que no sea un único documento JSON válido puede revelar problema de recepción, delimitación o contaminación del búfer. La canonicalización FEN **no demuestra** por sí sola que resuelva ese síntoma. Conviene verificar ambas causas por separado antes de sacar conclusiones.
+
+- **[L1]** Lichess API: https://lichess.org/api (operación `GET /api/cloud-eval`).
+- **[L2]** Lichess Open Database, esquema de evaluaciones: https://database.lichess.org/.
+- **[L3]** Lichess API Tips, solicitudes concurrentes y HTTP 429: https://lichess.org/page/api-tips.
+- **[C1]** Chess-API, documentación de REST, WebSocket, argumentos y campos de respuesta: https://chess-api.com/.
+
+**Fuentes internas exclusivas del proyecto:**
+
+- `akkad(20261111-113740).zip`, suministrado por el titular del proyecto.
+- `akkad-patch-picoLichess-http-raw-telemetry-v0.1.9.zip`.
+- `akkad-patch-picoLichess-chess-api-v0.1.10.zip`.
+- `akkad-patch-picoLichess-fen-validation-v0.1.11.zip`.
+- `akkad-patch-picoLichess-throttle-v0.1.12.zip`.
+
+**Nota de control:** este documento es explicativo, **no un parche**. No añade, elimina ni modifica archivos del repositorio Akkad.
+
+
+
+# CAP 13 La arquitectura Akkad
 
 [Arquitectura Akkad](images/sargon-nnue.png)
 
@@ -12326,7 +12618,198 @@ Los fragmentos siguientes son **ilustrativos de campos**, no reemplazan rutas re
 
 Los valores por defecto válidos son los de la **factory y el inyector CLI de la versión instalada**, no los constructores tomados aisladamente. El código no sustituye automáticamente los archivos ausentes por archivos conocidos.
 
-# CAP 13 Evaluación
+
+## Evaluación cooperativa (*picoLichess*)
+
+`picoLichess/ARM` es un firmware para **Raspberry Pi Pico 2 W** que expone un motor UCI sobre TCP y usa la conexión Wi-Fi para consultar una API HTTPS. La decisión central es **reutilizar el núcleo existente de picoSargon** y agregar un adaptador remoto específico.
+
+```text
+Cliente UCI (red TCP, puerto 6210)
+            |
+            v
+picoSargon/ARM/src/pico_main.cpp
+  - UCI, estado de sesión, tablero, Wi-Fi, mDNS
+  - hook PICOSARGON_CLOUD_HOOK
+            |
+            v
+picoLichess/ARM/src/picolichess_adapter.cpp
+  - FEN, movimiento legal, selección, fallback
+  - CloudPolicy: control global de cadencia
+            |
+            v
+picoLichess/ARM/src/cloud_https.cpp
+  - DNS / TLS / HTTPS / HTTP / JSON
+       |                       |
+       +--> Lichess GET         +--> Chess-API POST (predeterminado)
+
+Si hay fallback permitido:
+picoSargon/ARM/src/{board,engine,grumpy}.cpp
+  - NNUE local, búsqueda y TWINS en dos núcleos
+```
+
+La Pico funciona como **servidor TCP/UCI** y como **cliente HTTPS saliente**. Los dos enlaces son independientes. No hay conexión entrante desde Chess-API o Lichess al motor.
+
+
+| Archivo de la reconstrucción v0.1.12 | Responsabilidad |
+|---|---|
+| `ARM/include/config.hpp` | Configuración compilada: modo, cadencia, VERBOSE, API y búsqueda local |
+| `ARM/include/picolichess_config.hpp` | Compatibilidad con el include usado en el núcleo compartido |
+| `ARM/include/cloud_fen.hpp` | Serialización del tablero a FEN y variante para Chess-API |
+| `ARM/include/cloud_policy.hpp` | Una solicitud a la vez, cadencia global, suspensión y reintento tras rate limit |
+| `ARM/include/cloud_pv.hpp` | Interpretación de PV, validación sintáctica de UCI, comparación de puntuaciones y desempate |
+| `ARM/include/cloud_https.hpp`, `ARM/src/cloud_https.cpp` | HTTPS, transporte y transformación de HTTP/JSON a `CloudResult` |
+| `ARM/include/picolichess_adapter.hpp`, `ARM/src/picolichess_adapter.cpp` | Integración con el tablero, validación legal y elección entre remota y fallback |
+| `picoSargon/ARM/src/pico_main.cpp` | UCI/TCP, control de búsqueda, arranque y llamada al adaptador mediante hook de compilación |
+| `ARM/CMakeLists.txt`, `ARM/build.ps1` | Construcción de firmware UF2, reutilización de fuentes y dependencias |
+| `ARM/certs/trust_roots.pem`, `ARM/include/cloud_roots.hpp` | Material y cabecera vinculados a raíces de confianza TLS |
+
+La ruta `ARM/src/pico_main.cpp` incluida en `picoLichess` es un archivo legado en la reconstrucción; el `CMakeLists.txt` inspeccionado compila **`picoSargon/ARM/src/pico_main.cpp`**, no ese archivo local. Este detalle importa al auditar cambios o telemetría.
+
+- Placa objetivo: `pico2_w`.
+- Wi-Fi: pila CYW43 con lwIP; bucle de servicio cooperativo mediante `cyw43_arch_poll()` y atención del watchdog.
+- TLS: mbedTLS a través de `altcp_tls`, validación de hostname con SNI y raíces de confianza incluidas en firmware.
+- Puerto de escucha UCI: **6210**; nombre mDNS **`picolichess.local`**, cuando está habilitado en la configuración compartida.
+- Compilación: C++17, CMake y Pico SDK; salida esperada `picoLichess/ARM/build/picoLichess.uf2`.
+- Respaldo NNUE: compilación con **STEROIDS=ON** y **TWINS=ON** obligatorios en esta configuración; motor de dos núcleos para la búsqueda local.
+- El archivo compartido `picoSargon/ARM/include/config.h` aporta Wi-Fi y parámetros del hardware; el `config.hpp` de picoLichess define sus opciones propias.
+
+No hay indicios, en este módulo, de autenticación OAuth de Lichess ni de clave API para Chess-API: la aplicación usa los endpoints públicos documentados.
+
+```cpp
+enum class Mode { CHESS_API, LICHESS };
+inline constexpr Mode MODE = Mode::CHESS_API;
+inline constexpr unsigned THROTTLE = 2000; // ms
+inline constexpr bool VERBOSE = true;
+inline constexpr int CHESS_VARIANTS = 5;
+inline constexpr int CHESS_DEPTH = 18;
+inline constexpr int CHESS_MAX_THINKING_TIME = 100;
+inline constexpr const char* CHESS_SEARCHMOVES = "";
+inline constexpr unsigned TIMEOUT_MS = 15000; // fallback NNUE
+inline constexpr int DEPTH = 32;
+inline constexpr int QDEPTH = 2;
+```
+
+`MODE` se decide en compilación (`if constexpr`): **no** es un comando UCI que el rival cambie durante la partida. `THROTTLE` es compartido entre modos; `VERBOSE` determina si se vuelca el cuerpo completo de Chess-API. Los parámetros `TIMEOUT_MS`, `DEPTH` y `QDEPTH` son del buscador **local**, no del cálculo Stockfish remoto.
+
+
+### Flujo de consulta remota
+
+1. El cliente envía `position` y `go`; el núcleo UCI reconstruye el tablero (incluidas jugadas posteriores a `startpos`).
+2. El hook llama a `cloud_evaluate`, con acceso a la posición, una marca de tiempo, intervalo de cadencia y callbacks de servicio/cancelación.
+3. Una instancia **estática** de `CloudPolicy` y otra de `CloudHttps` sobreviven a reconexiones TCP/UCI. Su persistencia está destinada a la **tasa de consultas**; no es una caché de evaluaciones.
+4. La función espera si la política de cadencia no habilita consultar; durante la espera sigue atendiendo Wi-Fi y cancelaciones.
+5. Se construye una copia de tablero para obtener movimientos legales. Se genera el FEN; en Chess-API se normaliza la casilla al paso cuando el motor la considera no capturable.
+6. `CloudHttps::start` comprueba elegibilidad, libera la conexión anterior, **limpia `received_`**, reinicializa `result_`, arma GET o POST, crea el contexto TLS, resuelve DNS y conecta al puerto 443.
+7. Los datos recibidos se acumulan mediante callback lwIP. El cliente especifica `Connection: close` y termina la recepción cuando el extremo remoto cierra. Acepta hasta **12.288 bytes** de respuesta completa (encabezados incluidos).
+8. Se interpreta el código HTTP, se separan encabezados y cuerpo, y se descodifica `Transfer-Encoding: chunked` cuando existe.
+9. En Lichess se analizan PV; en Chess-API se acepta exclusivamente un JSON cuyo `type` sea `bestmove` y cuyo `move` tenga sintaxis UCI.
+10. El adaptador filtra la respuesta contra las jugadas legales y elige candidata; si se cumplen las condiciones de fallback, activa la búsqueda local.
+11. La respuesta final al rival llega por TCP/UCI como `info ...` y `bestmove ...`.
+
+**Detalle de robustez:** el parser JSON se implementa mediante búsquedas de campos en cadenas, no mediante un analizador JSON completo con validación de estructura y anidamientos. En consecuencia, el código **no acredita una validación integral** del documento JSON; un cuerpo malformado o varios objetos concatenados merecen diagnóstico específico. Tampoco se observa una comparación estricta del `fen` de respuesta con el FEN de solicitud cuando el proveedor lo incluye.
+
+Los motores de evaluación disponibles, con API pública, son particularmente vulnerables a los ataques informáticos del tipo [*Denial of Service (DoD)*](https://es.wikipedia.org/wiki/Ataque_de_denegaci%C3%B3n_de_servicio). Es natural que observen con atención frecuencias altas de uso provenientes de una misma locación. Se establece entonces un auto-control denominado *THROTTLE* que regula cual es el tiempo mínimo que debe transcurrir entre dos consultas sucesivas al motor.
+
+La regla funcional es que el temporizador que controla los límites de *THROTTLE* comienza **cuando termina la respuesta HTTP** tras lo cual continúa la partida envíando `bestmove`, esperando a continuación la acción del adversario y solo al disponer de otra posición considera emitir una nueva solicitud.
+
+Sean:
+
+- $\(r_i\)$: instante de finalización de la respuesta HTTP de la consulta \(i\).
+- $\(g_{i+1}\)$: instante en que el siguiente `go` deja preparada la nueva posición.
+- $\(T\)$: `THROTTLE`, en milisegundos.
+- $\(s_{i+1}\)$: instante de inicio de la consulta siguiente.
+
+Entonces, si no hay un bloqueo de tasa adicional:
+
+$s_{i+1}=\max\big(g_{i+1},\ r_i+T\big)$
+
+
+El requisito regulatorio es $\(s_{i+1}-r_i\ge T\)$, es decir garantizar que no se realizará un nuevo pedido al motor externo hasta que hubiera transcurrido el tiempo estipulado, si la cadencia de la interacción con el oponente (humano o bot) es tal que se consume ese tiempo ser hará la jugada inmediatamente, pero si la cadencia es tal que al finalizar el ciclo de interacción con el oponente no hubiera transcurrido el tiempo mínimo indicado por *THROTTLE* entonces se esperará hasta que transcurra.
+
+**Ejemplo T = 2000 ms:** una consulta inicia en 0 ms, finaliza a los 900 ms, el adversario responde a los 2400 ms y la posición queda lista entonces; la próxima consulta empieza a los **2900 ms**. Si el adversario respondiera a los 4100 ms, la consulta podría arrancar a los **4100 ms**.
+
+`CloudPolicy` reconstruido contiene `last_response_`, `has_response_`, `in_flight_` y `blocked_until_`. Su método `finish(status, now)` registra el instante de respuesta cuando `status > 0`; un fallo de DNS/TLS sin estado HTTP (`status=0`) **no reinicia** el temporizador. La política evita consultas simultáneas.
+
+En el caso del motor *lichess* existe una política expresa que si el motor contesta con response 429 o 426 debe evitarse realizar una nueva consulta hasta transcurrido al menos un minuto (60000 msecs) y aún así no se garantiza que entonces el motor responda, para honrar ésta política la implementación calcula un bloqueo adicional de entre 60 y 180 segundos (pseudoaleatorio), respetando un `Retry-After` numérico mayor cuando está disponible. Por tanto:
+
+
+$s_{i+1}\ge \max\big(g_{i+1},\ r_i+T,\ \texttt{blocked\_until}\big).$
+
+La cadencia es global para la placa incluso si se desconecta y vuelve a conectar un cliente UCI; no es un temporizador independiente por partida.
+
+### Selección de mejor jugada y evaluación
+
+**Lichess:** el cliente conserva varias PV legales, las compara por puntuación desde el punto de vista del jugador que debe mover y sortea empates de puntuación. Para mate, el comparador `score()` prioriza victoria forzada sobre evaluación centipeón, mate más corto sobre mate más largo ganado y retraso del mate perdido sobre una derrota más rápida.
+
+**Chess-API:** el cliente solo genera **una `CloudPV`** a partir del campo `move` de la respuesta final. Aunque pide `variants=5`, **no consume cinco alternativas para escoger entre ellas**: `variants` modifica el análisis remoto, pero la jugada usada es el `bestmove` que el servicio informa. El motor local comprueba legalidad y no recalcula el árbol remoto. `san` y `lan` son datos de contexto, no las fuentes de movimiento.
+
+La función `CloudOutcome` devuelve `move`, `cp` y `depth`. La ruta UCI vigente envía `score cp`, pero **no** `score mate`, aunque el parser puede detectar mate; tampoco propaga al rival todas las estadísticas del servidor. En el núcleo compartido inspeccionado la cadena `source=lichess-cloud` aparece **fija** incluso al utilizar Chess-API: esa etiqueta no refleja correctamente el proveedor predeterminado, y no debe usarse como evidencia independiente del modo ejecutado.
+
+### Cuándo se usa el fallback NNUE
+
+La finalidad del fallback no es acelerar el motor de nube ante cualquier latencia, sino obtener una jugada cuando la evaluación remota es inadecuada en una condición reconocida o no hay respuesta (por ejemplo por pérdida de conectividad).
+
+| Situación observada por el adaptador | Acción actual del código reconstruido |
+|---|---|
+| HTTP 200 + `bestmove`/PV legal | Emite jugada remota; no activa NNUE |
+| HTTP 200 + `type=error` o sin jugada final | `fallback` a NNUE para **esa posición** |
+| HTTP 200 + jugada sintácticamente válida pero ilegal | Registra rechazo y activa NNUE |
+| HTTP 404 | Fallback NNUE para esa búsqueda |
+| HTTP 429 o 426 | Bloquea temporalmente la API y activa NNUE |
+| HTTP 5xx u otro estado no tratado | Registra y **reintenta**, no siempre hace fallback inmediato |
+| Error DNS/TLS, sin respuesta HTTP | Reintento; no representa respuesta del servidor |
+| `stop`, `quit`, desconexión o pérdida de Wi-Fi | Cancelación de la consulta según callback; no se interpreta como evaluación remota |
+| Espera normal de `THROTTLE` | **Espera**, no autoriza fallback por sí misma |
+
+Una vez establecido `outcome.fallback=true`, `pico_main.cpp` entra en el motor local. El presupuesto configurado es `TIMEOUT_MS=15000` ms, profundidad máxima configurada 32 y `QDEPTH=2`, con TWINS en dos núcleos y su NNUE de picoSargon. Al cumplirse el plazo, puede devolver la mejor jugada procedente del último nivel terminado, tal como muestran las trazas de búsqueda.
+
+Este fallback **no deshabilita para siempre** las consultas de una partida: en un `go` posterior el adaptador puede consultar de nuevo, sujeto a THROTTLE y a la política global de suspensión. Esto es distinto del comportamiento observado de 404 consecutivos en Lichess, que puede reflejar ausencia de entradas en su base.
+
+Ejemplos de líneas generadas por el código, sin implicar que esta secuencia completa se haya observado en hardware:
+
+```text
+CHESS_API request method=POST url=https://chess-api.com/v1 fen=... variants=5 depth=18 maxThinkingTime=100 searchmoves=empty throttle_ms=2000
+CLOUD response http=200 depth=18 pvs=1 elapsed_ms=...
+CHESS_API response http=200 type=bestmove depth=18 bestmoves=1
+CHESS_API json begin bytes=...
+{ ... }
+CHESS_API json end
+UCI >> info ply ... depth 18 score cp ... string source=lichess-cloud
+UCI >> bestmove ...
+```
+
+- `VERBOSE=true` imprime el **cuerpo JSON completo** de Chess-API, no una línea individual estructurada para cada campo; `false` suprime ese volcado completo, pero mantiene los resúmenes.
+- Ante HTTP distinto de 200 se escribe `CLOUD raw-response begin ... / end`, con los bytes HTTP capturados, incluidos encabezados y cuerpo.
+- Cuando `type=error` se registra `CHESS_API server-error` con código, mensaje y FEN.
+- Se diagnostican esperas por intervalo, limitaciones de tasa, ausencia de jugada o jugada ilegal, y la actividad del NNUE local.
+- El tiempo `elapsed_ms` informa duración de la transacción según el punto de medición del adaptador; no debe confundirse con `maxThinkingTime` ni con `THROTTLE`.
+
+La telemetría física por USB y la información UCI enviada por TCP tienen canales y destinatarios distintos; la presencia del texto `UCI >>` en consola USB indica el rastro de un mensaje transmitido por TCP.
+
+
+## Comparación resumida de los modos
+
+| Criterio | `Mode::LICHESS` | `Mode::CHESS_API` |
+|---|---|---|
+| Fuente de la evaluación | Base histórica de evaluaciones | Cálculo Stockfish solicitado al proveedor |
+| Endpoint | `https://lichess.org/api/cloud-eval` | `https://chess-api.com/v1` | `https://https://stockfish.online/` |
+| Verbo HTTP | GET | POST | GET |
+| Entrada | FEN URL-encoded, `multiPv=5` | JSON FEN, variantes | FEN URL-encoded |
+| Candidatas | Hasta varias PV almacenadas | Un `bestmove` final  | Un `bestmove` final  |
+| Criterio local | Filtrar por legalidad y comparar puntuaciones | Filtrar por legalidad la jugada propuesta |
+| Falta de cobertura | 404 frecuente en posiciones no almacenadas | No depende de cobertura de base, pero puede haber errores FEN, servicio o análisis | No depende|
+| THROTTLE | Política global desde fin de respuesta | Misma política global |Misma política global |
+| Fallback | NNUE en casos definidos | Mismo NNUE en casos definidos |Mismo NNUE en casos definidos |
+
+
+El programa proveerá un array de *slot* con los procesadores correspondientes a *chess-api*, *lichess*, *stockfish*, *native* y *null*.
+
+En tiempo de compilación se indicarán las prioridades de ejecución siendo el [0] el de mas prioridad y [3] el de
+menos, si un slot no puede dar respuesta o no existe se pasa al siguiente y así hasta completar, si ninguno puede
+dar respuesta entonces la posición no puede ser evaluada.
+
+
+# CAP 14 Evaluación
 
 Está claro que la plataforma *Sargón-NNUE* provee la flexibilidad necesaria para
 explorar y experimentar en las distintas etapas de formación de un jugador automatizado
@@ -12667,7 +13150,7 @@ Dentro de esta comunicación, existen elementos técnicos clave a destacar:
 Ese protocolo es implementado por otro *adapter/proxy* denominado *fics-uci.py* quien configuración de la cuenta mediante establece la conexión *telnet* con el servidor e interactúa con una instancia accesible de un *brain* utilizando TCP/IP y protocolo UCI, hacia el servidor FICS se utiliza el protocolo *Style 12* que requiere.
 
 
-# CAP 14 Portabilidad
+# CAP 15 Portabilidad
 
 El ambiente *Sargon-NNUE* opera como una *nursery* donde se evalúan algoritmos, principalmente en forma relativa entre si.
 
@@ -14271,14 +14754,14 @@ Puesto a competir en la plataforma *lichess.org* alcanza una performance promedi
 ![lichess-picoSargon](images/lichess_picoSargon.png)
 
 
-# CAP 15 Entrenamiento
+# CAP 16 Entrenamiento
 
 
 - **AlphaZero-X86:** ejecutable C++ del proyecto Akkad que recibe red y backend. El nombre es histórico: la configuración también contiene rutas Debian. No se debe suponer compatibilidad binaria entre plataformas.
 - **picoAlpha, picoSargon, picoKeras:** wrappers hacia **ejecutables locales UCI**. Los nombres `pico` no prueban ejecución física en una placa: los perfiles actuales apuntan mayoritariamente a binarios de escritorio o Raspberry Pi.
 
 
-# CAP 16 Implementación
+# CAP 17 Implementación
 
 ## Entrenamiento
 

@@ -155,6 +155,14 @@
       "url": "picosargon.local:6110",
       "rating_elo": 1000
  },
+ "pixie": {
+      "type" : "external",
+      "player": "external",
+      "evaluator": "null",
+      "url": "picolichess.local:6210",
+      "rating_elo": 1000,
+      "comentario": "Motor corriendo en ARM RP2350 512K RAM 4M Flash @ 220 MHz (overclock) picoPixie"
+ },
   
 "fishy": {
       "type": "uci",

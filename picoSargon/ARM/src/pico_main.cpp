@@ -2,6 +2,15 @@
 #include "engine.hpp"
 #include "grumpy.hpp"
 #include "config.h"
+#ifdef PICOSARGON_CLOUD_HOOK
+#include "picolichess_config.hpp"
+namespace runtime_config = picoLichess::config;
+#else
+namespace runtime_config = picoSargon::config;
+#endif
+#ifdef PICOSARGON_CLOUD_HOOK
+#include "picolichess_adapter.hpp"
+#endif
 #include "generated_grumpy.hpp"
 #ifdef PICOSARGON_TWINS
 #include "twins_grumpy.hpp"
@@ -30,10 +39,14 @@
 #include <unistd.h>
 using namespace picoSargon;
 namespace {
-const char* VERSION="picoSargon v0.2.48";
+#ifdef PICOSARGON_CLOUD_HOOK
+const char* VERSION=runtime_config::UCI_NAME;
+#else
+const char* VERSION="picoSargon v0.2.49";
+#endif
 // Serial log calls are compiled out when DEBUG=false. Search statistics remain collected.
 template<class... Args> void debug_log(const char* fmt, Args... args) {
- if constexpr (config::DEBUG) std::printf(fmt, args...);
+ if constexpr (runtime_config::DEBUG) std::printf(fmt, args...);
 }
 
 tcp_pcb* listener=nullptr;
@@ -55,7 +68,7 @@ uint64_t twin_deadline=0;
 alignas(8) uint32_t twin_stack[4096]; // 16 KiB, separate core-1 stack
 void twin_worker(){
  static Engine e(twin_neural,[]{return uint64_t(to_ms_since_boot(get_absolute_time()));},
-                 []{return twin_stop.load(std::memory_order_relaxed);}, {},config::QDEPTH);
+                 []{return twin_stop.load(std::memory_order_relaxed);}, {},runtime_config::QDEPTH);
  twin_ready.store(true,std::memory_order_release);
  for(;;){
   if(twin_job.load(std::memory_order_acquire)!=1){tight_loop_contents();continue;}
@@ -96,7 +109,7 @@ void update_led(){
  if(elapsed>=interval){led_last=millis();set_led(!led_on);}
 }
 template<class... Args> void uci_trace(const char* fmt, Args... args){
- if constexpr(config::UCI){if(stdio_usb_connected())std::printf(fmt,args...);}
+ if constexpr(runtime_config::UCI){if(stdio_usb_connected())std::printf(fmt,args...);}
 }
 void wifi_tick();
 void service(){watchdog_update();cyw43_arch_poll();wifi_tick();update_led();}
@@ -117,13 +130,58 @@ void run_search(){
  if(!connected||!valid_position)return;
  status_led(LedState::Thinking);
  const uint32_t search_id=++search_sequence;
+#ifdef PICOSARGON_CLOUD_HOOK
+ // Only picoLichess compiles this optional hook. picoSargon's standalone
+ // firmware follows its original UCI/TCP/NNUE path unchanged.
+ const auto outcome = picoLichess::cloud_evaluate(
+     board, millis(), runtime_config::THROTTLE,
+     [](){return request_stop || request_quit || !connected || !wifi_up;},
+     [](){service();});
+ if(outcome.has_move){
+   if(connected && !request_quit){
+     const uint64_t ply = uint64_t(board.fullmove>0?board.fullmove-1:0)*2ULL
+                          + (board.turn == -1 ? 1ULL : 0ULL);
+     // Standard UCI fields: remote Stockfish nodes/nps when supplied by Chess-API.
+     const std::string score = outcome.is_mate
+         ? "mate " + std::to_string(outcome.mate)
+         : "cp " + std::to_string(outcome.cp);
+     send_line("info ply " + std::to_string(ply)
+       + " depth " + std::to_string(outcome.depth)
+       + " score " + score
+       + " nodes " + std::to_string(outcome.nodes)
+       + " time " + std::to_string(outcome.time_ms)
+       + " nps " + std::to_string(outcome.nps));
+     send_line("bestmove " + outcome.move);
+   }
+   status_led(LedState::Ready);
+   return;
+ }
+ if(request_stop){
+   std::vector<Move> legal; board.legal(legal);
+   if(connected && !request_quit)
+     send_line("bestmove " + (legal.empty()?std::string("0000"):Board::notation(legal.front())));
+   status_led(LedState::Ready);
+   return;
+ }
+ // Only an explicit CLOUD failure or rate-limit suspension permits NNUE.
+ if(!outcome.fallback){
+   status_led(LedState::Ready);
+   return;
+ }
+ debug_log("CLOUD fallback=NNUE budget_ms=%lu\n",(unsigned long)runtime_config::TIMEOUT_MS);
+#endif
  debug_log("SEARCH_ID=%lu phase=begin\n",(unsigned long)search_id);
  debug_log("SEARCH board rep=%d halfmove=%d draw=%d check=%d\n",board.repetitions(),board.halfmove,int(board.draw()),int(board.in_check()));
- debug_log("SEARCH begin max_depth=%d qdepth=%d timeout_ms=%u\n",config::DEPTH,config::QDEPTH,config::TIMEOUT_MS);
+#ifdef PICOSARGON_CLOUD_HOOK
+ constexpr int max_search_depth = runtime_config::DEPTH;
+#else
+ constexpr int max_search_depth = runtime_config::DEPTH;
+#endif
+ debug_log("SEARCH begin max_depth=%d qdepth=%d timeout_ms=%u\n",max_search_depth,runtime_config::QDEPTH,runtime_config::TIMEOUT_MS);
  try {
 #ifdef PICOSARGON_TWINS
  // One independent Engine per core; neither uses the other engine's mutable TT.
- static Engine e(neural,millis,[]{service();return request_stop||request_quit||!connected;},read_memory,config::QDEPTH);
+ static Engine e(neural,millis,[]{service();return request_stop||request_quit||!connected;},read_memory,runtime_config::QDEPTH);
  SearchResult r;
  if(!twin_ready.load(std::memory_order_acquire)){
   debug_log("TWINS FATAL core1_not_ready: refusing parallel search\n");
@@ -132,13 +190,13 @@ void run_search(){
   return;
  }
  const auto begin=millis();
- const uint64_t deadline=config::TIMEOUT_MS?begin+config::TIMEOUT_MS:0;
+ const uint64_t deadline=runtime_config::TIMEOUT_MS?begin+runtime_config::TIMEOUT_MS:0;
  std::vector<Move> all;board.legal(all);
  if(!all.empty()){
   r.has_move=true;r.best=all.front();
   std::vector<Move> left,right;
   for(size_t i=0;i<all.size();++i)(i&1?right:left).push_back(all[i]);
-  for(int depth=1;depth<=config::DEPTH;++depth){
+  for(int depth=1;depth<=max_search_depth;++depth){
    // Iterative-deepening ordering: principal move from the previous completed
    // depth must lead the whole root list BEFORE static partitioning.
    if(depth>1){auto principal=std::find(all.begin(),all.end(),r.best);
@@ -203,8 +261,8 @@ void run_search(){
  }
  r.elapsed_ms=millis()-begin;
 #else
- Engine e(neural,millis,[]{service();return request_stop||request_quit||!connected;},read_memory,config::QDEPTH);
- auto r=e.search(board,config::DEPTH,config::TIMEOUT_MS);
+ Engine e(neural,millis,[]{service();return request_stop||request_quit||!connected;},read_memory,runtime_config::QDEPTH);
+ auto r=e.search(board,max_search_depth,runtime_config::TIMEOUT_MS);
 #endif
 #ifndef PICOSARGON_TWINS
  for(const auto& l:r.levels)debug_log("LEVEL depth=%d status=%s elapsed_ms=%llu nodes=%llu qnodes=%llu heap_used=%ld heap_free=%ld stack_gap_approx=%ld\n",l.depth,l.complete?"complete":"aborted",(unsigned long long)l.ms,(unsigned long long)l.nodes,(unsigned long long)l.qnodes,(long)l.mem.heap_used,(long)l.mem.heap_free,(long)l.mem.stack_margin);
@@ -245,28 +303,28 @@ void close_tcp_after_wifi_loss(){
 bool open_tcp_listener(){
  tcp_pcb* pcb=tcp_new_ip_type(IPADDR_TYPE_ANY);
  if(!pcb){debug_log("TCP allocation failed\n");return false;}
- if(tcp_bind(pcb,IP_ANY_TYPE,static_cast<u16_t>(config::PORT))!=ERR_OK){
+ if(tcp_bind(pcb,IP_ANY_TYPE,static_cast<u16_t>(runtime_config::PORT))!=ERR_OK){
   tcp_close(pcb);debug_log("TCP bind failed\n");return false;
  }
  listener=tcp_listen_with_backlog(pcb,1);
  if(!listener){debug_log("TCP listen failed\n");return false;}
  tcp_accept(listener,accepted);
  status_led(LedState::Ready);
- debug_log("TCP/UCI server ready: listening on port %u\n", unsigned(config::PORT));
+ debug_log("TCP/UCI server ready: listening on port %u\n", unsigned(runtime_config::PORT));
  return true;
 }
 void init_mdns_once(){
 #if defined(PICOSARGON_MDNS_COMPILED) && PICOSARGON_MDNS_COMPILED
- if constexpr(config::MDNS_ENABLED){
+ if constexpr(runtime_config::MDNS_ENABLED){
   static bool registered=false;
   if(!registered){
    mdns_resp_init();
-   err_t r=mdns_resp_add_netif(netif_default,config::MDNS_HOSTNAME);
+   err_t r=mdns_resp_add_netif(netif_default,runtime_config::MDNS_HOSTNAME);
    if(r==ERR_OK){
-    auto id=mdns_resp_add_service(netif_default,config::MDNS_SERVICE_NAME,
-         "_uci",DNSSD_PROTO_TCP,static_cast<u16_t>(config::PORT),nullptr,nullptr);
+    auto id=mdns_resp_add_service(netif_default,runtime_config::MDNS_SERVICE_NAME,
+         "_uci",DNSSD_PROTO_TCP,static_cast<u16_t>(runtime_config::PORT),nullptr,nullptr);
     registered=(static_cast<int>(id)>=0);
-    debug_log("mDNS hostname=%s.local service=_uci._tcp port=%u id=%d\n",config::MDNS_HOSTNAME,config::PORT,int(id));
+    debug_log("mDNS hostname=%s.local service=_uci._tcp port=%u id=%d\n",runtime_config::MDNS_HOSTNAME,runtime_config::PORT,int(id));
    }else debug_log("mDNS failed err=%d\n",int(r));
   }
  }
@@ -283,18 +341,18 @@ void wifi_tick(){
    wifi_up=true;
    debug_log("WiFi connected: %s\n",ip4addr_ntoa(netif_ip4_addr(netif_default)));
    if(open_tcp_listener())init_mdns_once();
-   else next_wifi_attempt=millis()+config::WIFI_RETRY_MS;
+   else next_wifi_attempt=millis()+runtime_config::WIFI_RETRY_MS;
   }else if(!listener && millis()>=next_wifi_attempt){
-   if(!open_tcp_listener())next_wifi_attempt=millis()+config::WIFI_RETRY_MS;
+   if(!open_tcp_listener())next_wifi_attempt=millis()+runtime_config::WIFI_RETRY_MS;
    else init_mdns_once();
   }
   return;
  }
  if(wifi_up){
-  debug_log("WiFi disconnected; retry in %u ms\n",config::WIFI_RETRY_MS);
+  debug_log("WiFi disconnected; retry in %u ms\n",runtime_config::WIFI_RETRY_MS);
   wifi_up=false;wifi_attempt_active=false;
   close_tcp_after_wifi_loss();
-  next_wifi_attempt=millis()+config::WIFI_RETRY_MS;
+  next_wifi_attempt=millis()+runtime_config::WIFI_RETRY_MS;
  }
  // Allow DHCP up to 30 seconds per attempt; retry pause remains 10 seconds.
  // CYW43_LINK_JOIN (1) is an intermediate state, not a failed connection.
@@ -304,26 +362,26 @@ void wifi_tick(){
   debug_log("WiFi connection attempt timed out (status=%d)\n",link);
   // Reset the driver state before the following attempt.
   cyw43_wifi_leave(&cyw43_state,CYW43_ITF_STA);
-  next_wifi_attempt=millis()+config::WIFI_RETRY_MS;
+  next_wifi_attempt=millis()+runtime_config::WIFI_RETRY_MS;
   return;
  }
  if(millis()<next_wifi_attempt)return;
- int err=cyw43_arch_wifi_connect_async(config::SSID,config::PASSWORD,CYW43_AUTH_WPA2_AES_PSK);
+ int err=cyw43_arch_wifi_connect_async(runtime_config::SSID,runtime_config::PASSWORD,CYW43_AUTH_WPA2_AES_PSK);
  if(err!=0)debug_log("WiFi connect start failed: %d\n",err);
  if(err==0){wifi_attempt_active=true;wifi_attempt_deadline=millis()+WIFI_CONNECT_TIMEOUT_MS;}
- else next_wifi_attempt=millis()+config::WIFI_RETRY_MS;
+ else next_wifi_attempt=millis()+runtime_config::WIFI_RETRY_MS;
 }
 } // namespace anonimo: wifi_tick y service comparten el mismo ambito
 int main(){
  // Configurar el reloj antes de inicializar USB y WiFi.
  // No todas las frecuencias enteras dentro del rango son alcanzables exactamente.
  bool pll_applied = false;
- const unsigned pll_requested = config::PLL_SYS;
+ const unsigned pll_requested = runtime_config::PLL_SYS;
  if (pll_requested >= 120u && pll_requested <= 250u) {
   pll_applied = set_sys_clock_khz(pll_requested * 1000u, false);
  }
  stdio_init_all();
- if constexpr(config::DEBUG){
+ if constexpr(runtime_config::DEBUG){
   while(!stdio_usb_connected())sleep_ms(100);
   sleep_ms(100);
   debug_log("%s BOOT (USB debug connected)\n",VERSION);

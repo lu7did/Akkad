@@ -1,0 +1,24 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "pixie",
+      "T": 10,
+      "L": 9,
+      "S": 19,
+      "B": 0.631578947368421,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "pixie",
+      "pixie": 0.0
+    }
+  ]
+}
