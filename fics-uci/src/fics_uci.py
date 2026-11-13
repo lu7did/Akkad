@@ -27,7 +27,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.23"
+VERSION = "0.2.24"
 
 VERBOSE = False
 
@@ -40,7 +40,11 @@ def log(emoji, source, message, detail=False):
     if detail and not VERBOSE:
         return
     origin = str(source).upper()
-    if origin == "FICS":
+    if (emoji, origin) in (("❌", "BRIDGE"), ("🚫", "SEEK")) and (
+        message.startswith("User ") and (message.endswith(" request rejected") or message.endswith(" ignored"))
+    ):
+        pass  # Etiquetas explicitas para filtros de usuarios.
+    elif origin == "FICS":
         emoji = "➡️"
     elif origin == "UCI":
         emoji = "🧠"
@@ -559,6 +563,15 @@ def save_game_json(path, record):
     return True
 
 
+def parse_user_blocklist(value, name):
+    """YAML sequence of FICS usernames, normalized for case-insensitive equality."""
+    if value is None:
+        return frozenset()
+    if not isinstance(value, list) or any(not isinstance(x, str) or not x.strip() for x in value):
+        raise ValueError(f"config.yml: {name} debe ser una lista YAML de nombres no vacíos")
+    return frozenset(x.strip().casefold() for x in value)
+
+
 class Bridge:
     def __init__(self, args):
         self.a = args
@@ -578,6 +591,7 @@ class Bridge:
         self.challenge_buffer = ""
         self.challenge_at = 0
         self.seeks = {}
+        self.ignored_seek_numbers = set()
         self.seek_pending = None
         self.seek_pending_since = None
         self.seek_retry_after = {}
@@ -605,6 +619,21 @@ class Bridge:
         # Un único reintento por posición ante bestmove (none) no terminal.
         self.empty_bestmove_fen = None
         self.empty_bestmove_retries = 0
+
+    def blocked_accept(self, player):
+        return player.strip().casefold() in getattr(self.a, "no_accept", ())
+
+    def blocked_request(self, player):
+        return player.strip().casefold() in getattr(self.a, "no_request", ())
+
+    def decline_blocked_user(self, player):
+        log("❌", "BRIDGE", f"User {player} request rejected")
+        self.fics.send(f"decline {player}")
+
+    def ignore_seek_user(self, player, number):
+        if number not in self.ignored_seek_numbers:
+            log("🚫", "SEEK", f"User {player} ignored")
+            self.ignored_seek_numbers.add(number)
 
     def throtle_remaining_ms(self):
         """Remaining post-game pause; -1 disables the restriction entirely."""
@@ -850,6 +879,7 @@ class Bridge:
         if not re.match(r"^\s*<sc>\s*$", line):
             return False
         self.seeks.clear()
+        self.ignored_seek_numbers.clear()
         log("🔄", "SEEK", "Inventario reiniciado")
         return True
 
@@ -860,6 +890,7 @@ class Bridge:
         for item in match.group(1).split():
             number = int(item)
             self.seeks.pop(number, None)
+            self.ignored_seek_numbers.discard(number)
             log("🗑️", "SEEK", f"Retirada oferta #{number}")
         return True
 
@@ -877,6 +908,10 @@ class Bridge:
         number = int(m["number"])
         kind = m["kind"].lower()
         kind = {"bullet": "lightning", "classical": "standard"}.get(kind, kind)
+        if self.blocked_request(m["user"]):
+            self.seeks.pop(number, None)
+            self.ignore_seek_user(m["user"], number)
+            return True
         self.seeks[number] = dict(
             number=number, player=m["user"], minutes=int(m["minutes"]),
             increment=int(m["increment"]), rated=m["rating"].lower() == "rated",
@@ -910,6 +945,10 @@ class Bridge:
         except ValueError:
             log("⚠️", "SEEK", f"Campos inválidos en oferta #{number}")
             return True
+        if self.blocked_request(offer["player"]):
+            self.seeks.pop(number, None)
+            self.ignore_seek_user(offer["player"], number)
+            return True
         self.seeks[number] = offer
         label = "rated" if offer["rated"] else "unrated"
         log("📢", "SEEK", f"#{number} {offer['player']} {offer['minutes']}+{offer['increment']} {label} {offer['type']}")
@@ -927,6 +966,7 @@ class Bridge:
             and self.a.min_time <= offer["minutes"] <= self.a.max_time
             and 0 <= offer["increment"] <= self.a.max_increment
             and (not self.username or offer["player"].lower() != self.username.lower())
+            and not self.blocked_request(offer["player"])
             and time.monotonic() >= self.seek_retry_after.get(offer["number"], 0)
         )
 
@@ -952,7 +992,11 @@ class Bridge:
             return
         log("🎯", "SEEK", f"Intentando #{number}: {offer['player']} {offer['minutes']}+{offer['increment']}")
         if self.uci_ready and not self.throtle_active():
-            self.fics.send(f"play {number}")
+            if self.blocked_request(offer["player"]):
+                self.ignore_seek_user(offer["player"], number)
+                self.release_seek("no-request", cooldown=False)
+            else:
+                self.fics.send(f"play {number}")
         else:
             log("⏳", "UCI", "Esperando readyok antes de play")
 
@@ -1003,6 +1047,11 @@ class Bridge:
         m = re.search(r"\bChallenge:\s*([A-Za-z][\w-]*)", line, re.I)
         # FICS may send a challenge description across several lines. Decline as
         # soon as we know the challenger, even before parsing the time control.
+        if m and self.blocked_accept(m.group(1)):
+            self.challenge_name = None
+            self.challenge_buffer = ""
+            self.decline_blocked_user(m.group(1))
+            return
         if m and self.throtle_active():
             self.challenge_name = None
             self.challenge_buffer = ""
@@ -1220,7 +1269,9 @@ class Bridge:
             if self.pending_challenge:
                 who = self.pending_challenge
                 self.pending_challenge = None
-                if self.throtle_active():
+                if self.blocked_accept(who):
+                    self.decline_blocked_user(who)
+                elif self.throtle_active():
                     self.throtle_decline(who)
                 else:
                     self.fics.send(f"accept {who}")
@@ -1229,7 +1280,12 @@ class Bridge:
                     self.release_seek(f"throtle activo: {self.throtle_remaining_ms()} ms restantes",
                                       cooldown=False)
                 else:
-                    self.fics.send(f"play {self.seek_pending}")
+                    offer = self.seeks.get(self.seek_pending)
+                    if offer is not None and self.blocked_request(offer["player"]):
+                        self.ignore_seek_user(offer["player"], self.seek_pending)
+                        self.release_seek("no-request", cooldown=False)
+                    else:
+                        self.fics.send(f"play {self.seek_pending}")
             self.maybe_search()
         elif line.startswith("bestmove "):
             match = re.match(r"bestmove\s+(\S+)", line)
@@ -1421,6 +1477,8 @@ def main():
                    help="FICS: standard blitz lightning bullet classical untimed")
     a = p.parse_args()
     a.throtle = None  # Sólo YAML; -1 cuando está ausente.
+    a.no_accept = frozenset()
+    a.no_request = frozenset()
     config_file = Path(a.config) if a.config else Path(__file__).resolve().parent / "config.yml"
     config_file = config_file.expanduser().resolve()
     config = {}
@@ -1448,6 +1506,11 @@ def main():
         if key in ("accept", "rated", "unrated", "verbose"):
             value = boolean(value)
         setattr(a, key, value)
+    try:
+        a.no_accept = parse_user_blocklist(config.get("no-accept", []), "no-accept")
+        a.no_request = parse_user_blocklist(config.get("no-request", []), "no-request")
+    except ValueError as exc:
+        p.error(str(exc))
     # Deliberately spelled 'throtle' to match the YAML contract.
     if isinstance(a.throtle, bool) or not isinstance(a.throtle, int) or a.throtle < -1:
         p.error("config.yml: throtle debe ser un entero en milisegundos >= -1")
@@ -1510,6 +1573,7 @@ def main():
     log("⚙️", "APP", (f"Motor UCI local: {a.exec} args={a.uci_argv!r}"
                        if a.type == "uci" else f"Motor UCI TCP: {a.ip}:{a.port}"))
     log("⚙️", "APP", f"Verbose={'ON' if VERBOSE else 'OFF'}")
+    log("⚙️", "APP", f"no-accept={sorted(a.no_accept)} no-request={sorted(a.no_request)}")
     log("⏳", "APP", ("throtle=-1 (desactivado)" if a.throtle == -1
                        else f"throtle={a.throtle} ms (espera después de última partida; "
                             "bloquea desafíos entrantes y play saliente)"))

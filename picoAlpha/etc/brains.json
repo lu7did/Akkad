@@ -1,0 +1,18 @@
+{
+  "picoalpha_mcts": {
+    "type": "nurse",
+    "player": "MCTSP",
+    "evaluator": {
+      "evaluator": "MCTSE",
+      "network": "../../../picoAlpha/assets/checkpoints/best.pt"
+    },
+    "arguments": {
+      "sims": 200,
+      "depth": 12,
+      "cpuct": 1.4
+    },
+    "tmax": 15000,
+    "timeout": 30000,
+    "ELO": 900
+  }
+}

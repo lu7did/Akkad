@@ -7,6 +7,11 @@ class EvaluatorService:
     def __init__(self,name,config):
         from ._legacy.evaluators import create_evaluator
         self.name=name;self.config=config
+        if name=='mctse':
+            from .mcts_nnue import TinyEvaluator
+            self.evaluator=TinyEvaluator(config.get('_network'))
+            log(f"🧠 evaluator=MCTSE network={config.get('_network')}")
+            return
         args=config.get("arguments",{})
         kwargs={str(k).replace("-","_"):v for k,v in args.items()}
         with contextlib.redirect_stdout(sys.stderr):
@@ -20,6 +25,11 @@ class EvaluatorService:
             candidate=chess.Move.from_uci(move)
             if candidate not in board.legal_moves:raise ValueError("jugada ilegal")
             board.push(candidate)
+        if self.name=='mctse':
+            value,_=self.evaluator.evaluate(board)
+            import math
+            return {'cp':round(400*math.atanh(max(-.999,min(.999,value))))*(1 if board.turn else -1),
+                    'perspective':'white','value':value}
         with contextlib.redirect_stdout(sys.stderr):score=self.evaluator.evaluate(board)
         return {"cp":int(score),"perspective":"white"}
     def close(self):self.evaluator.close()

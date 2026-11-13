@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "akkad-nurse"
-version = "0.1.15"
+version = "0.1.17"
 description = "Akkad Nurse - independent UCI orchestration and pluggable chess engines"
 requires-python = ">=3.9"
 dependencies = ["python-chess>=1.999"]

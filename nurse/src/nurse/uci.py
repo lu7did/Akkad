@@ -132,6 +132,8 @@ class Nurse:
                 if not reply.get('ok'):raise TransportError(reply.get('error','worker error'))
                 cp=reply['score_cp'] if reply.get('turn_white') else -reply['score_cp']
                 info='info depth {depth} nodes {nodes} time {time} nps {nps} score cp '.format(**reply)+str(cp)
+                if 'simulations' in reply:
+                    self.emit('info string MCTSP simulations={simulations} nodes={nodes} time={time} value={value:.6f} visits={visits} stop={stop_reason}'.format(**reply))
                 self.emit(info);self.emit('bestmove '+reply['bestmove'])
             else:
                 if typ=='external':

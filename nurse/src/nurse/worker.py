@@ -9,6 +9,16 @@ class Worker:
         from ._legacy.factory import build_engine
         self.kind=kind
         self.config=config
+        if kind=="mctsp":
+            from .mcts_nnue import TinyEvaluator
+            self.evaluator=TinyEvaluator(config.get("_network"))
+            self.player=None
+            self.sims=int(config.get("arguments",{}).get("sims",200))
+            self.depth=int(config.get("arguments",{}).get("depth",config.get("Depth",12)))
+            self.cpuct=float(config.get("arguments",{}).get("cpuct",1.4))
+            if self.sims<1 or self.depth<1 or not (0<self.cpuct<100):raise ValueError("sims/depth/cpuct inválidos")
+            log(f"🧠 MCTSP/MCTSE sims={self.sims} depth={self.depth} cpuct={self.cpuct} network={config.get('_network')} timeout={config.get('timeout')} tmax={config.get('tmax')}")
+            return
         ev=str(config.get("_evaluator","null"))
         if kind in {"random"} and ev!="null":raise ValueError("random requiere evaluator=null")
         if kind=="bellman" and ev!="bellmanr":raise ValueError("bellman requiere evaluator=bellmanr")
@@ -34,6 +44,21 @@ class Worker:
         import chess
         board=chess.Board(request["fen"])
         started=time.monotonic()
+        if self.kind=="mctsp":
+            from .mcts_nnue import search
+            go_text=str(request.get('go',''));parts=go_text.split()
+            movetime=int(parts[parts.index('movetime')+1]) if 'movetime' in parts else int(self.config.get('tmax',15000))
+            depth=min(self.depth,int(parts[parts.index('depth')+1])) if 'depth' in parts else self.depth
+            result=search(board,self.evaluator,self.sims,int(self.config.get('timeout',30000)),
+                          min(movetime,int(self.config.get('tmax',15000))),depth,self.cpuct)
+            import math
+            cp=round(400*math.atanh(max(-.999,min(.999,result['value']))))
+            log(f"🧠 MCTSP simulations={result['simulations']} nodes={result['nodes']} elapsed_ms={result['elapsed_ms']} depth={result['depth']} bestmove={result['move'].uci() if result['move'] else '0000'} visits={result.get('visits',0)} value={result['value']:.5f} reason={result['reason']}")
+            return dict(bestmove=result['move'].uci() if result['move'] else '0000',
+                        score_cp=cp,depth=result['depth'],qdepth=0,nodes=result['nodes'],
+                        time=result['elapsed_ms'],nps=round(result['nodes']*1000/max(1,result['elapsed_ms'])),
+                        turn_white=board.turn,simulations=result['simulations'],value=result['value'],
+                        visits=result.get('visits',0),stop_reason=result['reason'])
         go=str(request.get('go',''))
         tokens=go.split()
         options={tokens[i]:tokens[i+1] for i in range(1,len(tokens)-1) if tokens[i] in ('depth','movetime','nodes')}
@@ -58,7 +83,7 @@ class Worker:
                     nodes=nodes,time=tm,nps=round(nodes*1000/max(1,tm)),turn_white=board.turn==chess.WHITE)
     def close(self):
         with contextlib.redirect_stdout(sys.stderr):
-            self.player.close();self.evaluator.close()
+            (self.player.close() if self.player is not None else None);self.evaluator.close()
 
 def main(kind=None):
     parser=argparse.ArgumentParser()

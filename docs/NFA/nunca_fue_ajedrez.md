@@ -6781,7 +6781,418 @@ Para desarrollar una red conviene definir primero la representación de los dato
 6. Keras, [Getting Started](https://keras.io/getting_started/).
 7. Vaswani et al. (2017), [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762).
 
-# CAP 6 Microchess (1976)
+# CAP 6 Algoritmos genéticos
+
+En ajedrez, una **posición** $s$ describe las piezas, el turno, el derecho a enrocar, la posibilidad de captura al paso y los relojes reglamentarios. Un motor debe tomar decisiones en un espacio de acciones legales $A(s)$. Para ordenar esas acciones necesita una medida de la conveniencia de las posiciones alcanzadas.
+
+Como en otros casos similares empezaremos por definir
+
+$V(s)\in R$
+
+la **función de evaluación estática**, expresada en **centipeones (cp)** desde el punto de vista de las blancas: $V(s)>0$ favorece a blancas; $V(s)<0$ favorece a negras. Por convención, 100 cp equivalen a un peón de referencia, pero **no representan una probabilidad de victoria del 100 % ni una ganancia garantizada**.
+
+Un posible enfoque es tratar de aproximar la evaluación que proporciona una fuente de juego confiable, por ejemplo
+la evaluación que realiza Stockfish, para un conjunto de posiciones $s_i$. La referencia se denomina $y_i$:
+
+$D=\{(s_i,y_i,a_i^*)\}_{i=1}^N,$
+
+con $a_i^*$ la jugada recomendada por el motor maestro cuando está disponible. Es importante separar dos aprendizajes:
+
+1. **Regresión de valor:** aproximar $V(s_i) \approx y_i$; busca reproducir la *puntuación* del maestro.
+2. **Imitación de decisiones:** para cada posición, comparar la acción escogida mediante búsqueda superficial con $a_i^*$; busca reproducir la *jugada* del maestro.
+
+Ambas señales están correlacionadas, pero no son equivalentes. Dos funciones pueden predecir valores similares y ordenar de manera distinta las jugadas; también pueden escoger la misma jugada aun cuando sus valores difieran notablemente.
+
+Es posible abordar la generación de un mecanismo de evaluación mediante dos estrategias:
+
+- **PST / heurístico:** una función lineal de características de ajedrez diseñadas explícitamente, con 34 coeficientes evolucionables y el valor del peón fijo en 100 cp.
+- **NNUE pequeña:** una red de 768 entradas binarias dispersas, 16 neuronas ocultas y una salida escalar, con 12.321 genes enteros que se optimizan por evolución genética.
+
+En ambos casos no se resuelve la búsqueda en si, solo la evaluación, por lo tanto la jugada en si y la búsqueda de la mejor solución pertenece al algoritmo jugador, cualquiera sea el que se elija, por lo tanto mejorar el error de evaluación no implica necesariamente mejorar la elección final de jugadas.
+
+## Fundamentos generales de los algoritmos genéticos
+
+Un algoritmo genético (AG, *genetic algorithm*) es un método de búsqueda poblacional inspirado en selección, variación y herencia. En lugar de actualizar un único conjunto de parámetros mediante derivadas, mantiene muchos candidatos:
+
+$P_t=\{g_1^{(t)},g_2^{(t)},\ldots,g_P^{(t)}\},$
+
+siendo $t$ la generación, $P$ la población y $g_j$ un **genotipo** o cromosoma. Una **decodificación** $\theta=D(g)$ permite obtener el **fenotipo**: los coeficientes de una heurística o los pesos de una red neuronal. Cada individuo se evalúa con una **aptitud** (*fitness*) $F(g)$ y recibe oportunidades de reproducción según esa aptitud.
+
+Los conceptos fundamentales son:
+
+| Concepto | Significado en optimización | Ejemplo en picoGenus |
+|---|---|---|
+| Individuo | Una solución candidata completa | Una heurística PST o una NNUE |
+| Gen | Una unidad modificable | Un bit PST o un peso INT8 |
+| Cromosoma | Representación completa de la solución | 224 bits PST; vector de 12.321 enteros NNUE |
+| Fenotipo | Comportamiento producido por el genotipo | Puntuaciones $V(s)$ y mejores jugadas |
+| Población | Conjunto de candidatos concurrentes | 100 por defecto |
+| Fitness | Regla para ordenar candidatos | Aciertos y RMSE PST; MSE NNUE |
+| Selección | Preferencia por reproductores mejor adaptados | Ruleta PST; conjunto de los mejores NNUE |
+| Cruzamiento | Recombinación de genotipos | Máscara aleatoria por bit o por peso |
+| Mutación | Variación aleatoria local | Cambio de bit o pequeña perturbación entera |
+| Elitismo | Preservación de individuos destacados | Uno en PST; hasta cuatro en NNUE |
+
+Como una generación puede considerarse la similitud a un ciclo evolutivo donde se realizan las siguientes operaciones:
+
+1. **Inicialización:** crear genomas aleatorios dentro de la representación permitida.
+2. **Decodificación y evaluación:** convertir cada genoma en evaluador, ejecutarlo sobre el conjunto de entrenamiento y obtener su fitness.
+3. **Selección:** elegir reproductores con probabilidades o reglas favorables a las mejores aptitudes.
+4. **Cruzamiento:** mezclar segmentos o genes de dos padres.
+5. **Mutación:** alterar genes con una cierta probabilidad.
+6. **Elitismo:** copiar sin cambios uno o varios individuos destacados.
+7. **Reemplazo:** formar la generación $t+1$ y repetir.
+
+En términos abstractos:
+
+$P_{t+1}=\operatorname{Elite}(P_t)\ \cup\ \operatorname{Mutar}(\operatorname{Cruzar}(\operatorname{Seleccionar}( P_t))).$$
+
+La igualdad se interpreta como construcción de una población nueva, no como una operación algebraica exacta sobre conjuntos.
+
+La selección incrementa la frecuencia de características asociadas con buena aptitud, pero puede causar **convergencia prematura**: individuos semejantes ocupan casi toda la población antes de encontrar una buena solución. La mutación introduce novedad; el cruzamiento recombina bloques de información ya presentes. El elitismo impide perder accidentalmente los mejores individuos, aunque demasiado elitismo reduce diversidad.
+
+A diferencia del descenso por gradiente, un AG no exige que $V(s;\theta)$ sea diferenciable respecto de $\theta$. Esto resulta útil cuando los parámetros son enteros, hay redondeos, cambios discretos de jugada, saturaciones o lógica de evaluación no suave. La contrapartida es **el costo computacional**: cada generación requiere evaluar una población completa.
+
+Los AG maximizan **lo que la función objetivo mide**, no lo que el diseñador desearía implícitamente. Si la aptitud se obtiene sobre posiciones de entrenamiento con valoración Stockfish, el resultado tenderá a reproducir esa valoración **en esa distribución de posiciones**. La fuerza en competición exige además robustez fuera de muestra, manejo de táctica, búsqueda y control del tiempo.
+
+Por ello conviene separar tres etapas: aprendizaje sobre un conjunto de entrenamiento, validación sobre posiciones ajenas a ese conjunto, y evaluación de juego mediante partidas independientes.
+
+## Derivación de heurística de valor (PST)
+
+Se recoge de la bibliografía un posible método para estudiar la evolución de los parámetros de evaluación de un programa de ajedrez, y posteriormente de mecanismos de búsqueda. Su primera fase evolutiva compara, mediante búsqueda de **un ply**, la jugada del organismo con la jugada de referencia de partidas de grandes maestros. Para ello se define un cromosoma binario de **224 bits**, un valor del peón fijo de 100 y parámetros de material y posición. El mismo se utiliza para determinar
+la **coevolución entre los mejores organismos**.
+
+La adaptación actual tiene tres diferencias que importan:
+
+- Se comienza con una base de aprendizaje formado por posiciones de tablero **etiquetadas por Stockfish**, la que se supone
+captura la imitación directa de maestros humanos.
+- La aptitud de PST intenta combinar el acierto en la jugada de Stockfish con una penalización continua por error de valoración; no se limita al cuadrado de los aciertos.
+
+Sea $\phi(s)\in\mathbb R^{34}$ un vector de características y $\theta\in\mathbb Z^{34}$ los coeficientes obtenidos del cromosoma. El evaluador es:
+
+$\boxed{V_{\mathrm{PST}}(s;\theta)=100\,[N_{P,w}(s)-N_{P,b}(s)]+\sum_{k=1}^{34}\theta_k\,\phi_k(s).}$
+
+Aquí $N_{P,w}$ y $N_{P,b}$ son las cantidades de peones blancos y negros. Cada característica se calcula como una contribución de blancas **menos** su equivalente de negras. Por ejemplo, si $\theta_{\mathrm{KNIGHT}}=320$ y las blancas tienen un caballo más, el término material contribuye $+320$ cp.
+
+La ecuación es **lineal en los coeficientes**, pero no necesariamente simple en el tablero: cada $\phi_k(s)$ puede depender de un conteo, una prueba lógica, la movilidad o relaciones geométricas entre piezas.
+
+Los primeros cuatro genes ocupan **11 bits** y representan valores de pieza, con rango entero $0\ldots2047$. Los treinta restantes ocupan **6 bits**, rango $0\ldots63$. Todos son no negativos; las penalizaciones se expresan mediante una característica negativa, no mediante un coeficiente negativo.
+
+| Nº | Parámetro | Qué multiplica en el código actual |
+|---:|---|---|
+| 1 | `KNIGHT_VALUE` | Diferencia de cantidad de caballos |
+| 2 | `BISHOP_VALUE` | Diferencia de cantidad de alfiles |
+| 3 | `ROOK_VALUE` | Diferencia de cantidad de torres |
+| 4 | `QUEEN_VALUE` | Diferencia de cantidad de damas |
+| 5 | `PAWN_ADVANCE_A` | Suma del avance relativo de los peones |
+| 6 | `PAWN_ADVANCE_B` | Suma de la mitad entera del avance relativo |
+| 7 | `PASSED_PAWN_MULT` | Avance de peones considerados pasados |
+| 8 | `DOUBLED_PAWN_PENALTY` | Penalización por peón doblado |
+| 9 | `ISOLATED_PAWN_PENALTY` | Penalización por peón aislado |
+| 10 | `BACKWARD_PAWN_PENALTY` | Penalización aproximada por peón retrasado vulnerable |
+| 11 | `WEAK_SQUARE_PENALTY` | Casillas centrales atacadas por el rival y no defendidas |
+| 12 | `PASSED_PAWN_ENEMY_KING_DIST` | Distancia de cada peón pasado al rey rival |
+| 13 | `KNIGHT_SQ_MULT` | Centralización geométrica de caballos |
+| 14 | `KNIGHT_OUTPOST_MULT` | Caballos avanzados no atacados por el rival |
+| 15 | `BISHOP_MOBILITY` | Cantidad de casillas atacadas por alfiles |
+| 16 | `BISHOP_PAIR` | Bonificación por disponer de al menos dos alfiles |
+| 17 | `ROOK_ATTACK_KING_FILE` | Torre en columna del rey enemigo |
+| 18 | `ROOK_ATTACK_KING_ADJ_FILE` | Torre en columna vecina al rey enemigo |
+| 19 | `ROOK_ATTACK_KING_ADJ_FILE_ABGH` | Variante del anterior en columnas exteriores a, b, g, h |
+| 20 | `ROOK_7TH_RANK` | Torres en séptima fila relativa |
+| 21 | `ROOK_CONNECTED` | Torres conectadas según ataque entre ellas |
+| 22 | `ROOK_MOBILITY` | Cantidad de casillas atacadas por torres |
+| 23 | `ROOK_BEHIND_PASSED_PAWN` | Aproximación: torre detrás de peón propio de su columna |
+| 24 | `ROOK_OPEN_FILE` | Torre en columna sin peones de ambos colores |
+| 25 | `ROOK_SEMI_OPEN_FILE` | Torre en columna sin peón propio |
+| 26 | `ROOK_ATCK_WEAK_PAWN_OPEN_COLUMN` | Torre en columna de peón enemigo atacado por el mismo bando |
+| 27 | `ROOK_COLUMN_MULT` | Torre en columnas centrales c–f |
+| 28 | `QUEEN_MOBILITY` | Cantidad de casillas atacadas por damas |
+| 29 | `KING_NO_FRIENDLY_PAWN` | Falta de peón de escudo frontal del rey |
+| 30 | `KING_NO_FRIENDLY_PAWN_ADJ` | Falta de peones de escudo en columnas laterales |
+| 31 | `KING_FRIENDLY_PAWN_ADVANCED1` | Peón de escudo propio relativamente adelantado |
+| 32 | `KING_NO_ENEMY_PAWN` | Ausencia de peón enemigo en columna frontal del rey |
+| 33 | `KING_NO_ENEMY_PAWN_ADJ` | Ausencia de peón enemigo en columnas laterales |
+| 34 | `KING_PRESSURE_MULT` | Casillas atacadas por propias alrededor del rey enemigo |
+
+Supongamos, con fines ilustrativos, que una posición tiene dos caballos blancos y uno negro; igual número de peones y de las demás piezas; y diferencias de características:
+
+$\phi_{\mathrm{KNIGHT}}=1,\quad\phi_{\mathrm{KNIGHT\_SQ}}=2.5,\quad\phi_{\mathrm{ISOLATED}}=-1,$
+
+siendo cero las demás. Si los genes decodificados fijan los coeficientes 320, 8 y 15, respectivamente:
+
+$V(s)=320\cdot1+8\cdot2.5+15\cdot(-1)=325\ \mathrm{cp}.$
+
+La ventaja estimada es de 3,25 peones para blancas. Sien ser una probabilidad representa la suma de contribuciones heurísticas en esas unidades.
+
+La longitud del cromosoma es:
+
+$L=4\times11+30\times6=224\ \text{bits}.$
+
+Cada parámetro ocupa un segmento de bits contiguos. EL algoritmo representa cada valor con **código Gray binario**, en el que valores consecutivos difieren en un solo bit. Si el entero convencional es $b$, su Gray correspondiente es:
+
+$g=b\oplus(b\gg1),$
+
+siendo $\oplus$ XOR y $\gg$ desplazamiento a la derecha. Para decodificar, si los bits Gray más significativo a menos significativo son $g_0,\ldots,g_{m-1}$:
+
+$b_0=g_0,\qquad b_i=b_{i-1}\oplus g_i,\qquad\theta=\sum_{i=0}^{m-1}b_i2^{m-1-i}.$
+
+Por ejemplo, el decimal 7 es $0111_2$ y su Gray es $0100$. La ventaja buscada es que cambios numéricos de una unidad no impliquen necesariamente cambiar varios bits de representación. **No garantiza**, sin embargo, que invertir un bit arbitrario produzca siempre una variación pequeña de la puntuación.
+
+A partir de todos los movimientos legales $a\in A(s)$ y se construye el estado sucesor $T(s,a)$, luego se selecciona:
+
+$$\widehat a_{\theta}(s)=\begin{cases}
+\displaystyle\arg\max_{a\in A(s)}V_{\mathrm{PST}}(T(s,a);\theta),&\text{si juegan blancas},\\[4pt]
+\displaystyle\arg\min_{a\in A(s)}V_{\mathrm{PST}}(T(s,a);\theta),&\text{si juegan negras}.
+\end{cases}$$
+
+La implementación contempla un valor terminal extraordinario para una jugada que da mate. Esta decisión de **un ply** se usa para entrenar la correspondencia de jugadas.
+
+Para $N$ posiciones y $P$ individuos se calculan dos métricas por individuo $j$:
+
+**a) Aciertos de jugada:**
+
+$$H_j=\sum_{i=1}^N\mathbf 1\big[\widehat a_j(s_i)=a_i^*\big],$$
+
+con $\mathbf 1[\cdot]$ igual a 1 cuando la condición es verdadera y 0 en caso contrario. Cada posición suma un acierto como máximo, aunque se puedan producir varias jugadas con evaluación idéntica (el desempate del programa depende del orden de las jugadas legales).
+
+**b) Error cuadrático medio de valoración, expresado como RMSE:**
+
+$$\operatorname{RMSE}_j=\sqrt{\frac{1}{N}\sum_{i=1}^N\big(V_{\mathrm{PST}}(s_i;\theta_j)-y_i\big)^2}.$$
+
+La aptitud maximizada realmente en v0.1.1 es:
+
+$$\boxed{F_j=\frac{(H_j+1)^2}{1+\operatorname{RMSE}_j/400}.}$$
+
+Cada parte tiene una función específica:
+
+- $H_j$ recompensa la reproducción exacta de la mejor jugada de Stockfish en búsqueda de un ply.
+- El exponente 2 eleva la presión hacia individuos con más coincidencias, inspirado en el criterio descrito por David et al.
+- El sumando $+1$ evita un numerador nulo cuando no hay aciertos.
+- La división por $1+\mathrm{RMSE}/400$ penaliza el desacuerdo en **valor**; 400 cp es una escala fija de cuatro peones en esta fórmula, **no** una cantidad ajustada automáticamente.
+
+Ejemplo de dos candidatos con igual $H=20$:
+
+- A, RMSE = 200 cp: $F_A=21^2/(1+0.5)=294$.
+- B, RMSE = 400 cp: $F_B=21^2/(1+1)=220.5$.
+
+A mayor error, menor aptitud. Pero una diferencia suficientemente grande de aciertos puede dominar la penalización de RMSE. Por eso el algoritmo no minimiza exclusivamente la distancia a la evaluación de Stockfish.
+
+Para una población de 100 cromosomas ("individuos") y 500 generaciones.
+
+1. **Inicio:** para cada individuo y cada bit se sortea 0 o 1, de forma independiente.
+2. **Fitness:** se decodifican todos los individuos y se calculan $H_j$, RMSE y $F_j$.
+3. **Elitismo:** el mejor cromosoma de la generación se copia íntegramente.
+4. **Selección proporcional (ruleta):** el individuo $j$ es elegido como progenitor con probabilidad
+
+   $p_j=\frac{F_j}{\sum_{k=1}^P F_k},$
+
+   usando selección uniforme como contingencia si la suma fuera cero.
+5. **Cruzamiento:** con probabilidad **0,75** se construye una máscara aleatoria bit a bit, escogiendo para cada posición un bit de uno u otro padre con probabilidad 0,5. En caso contrario se copia el primer progenitor.
+6. **Mutación:** cada bit del hijo se invierte independientemente con probabilidad **0,005**.
+7. **Reemplazo:** se repite hasta reconstruir la población y comienza la generación siguiente.
+
+El **número esperado** de bits mutados por hijo —sin contar el individuo élite— es $224\times0.005=1.12$; no significa que todo individuo tenga exactamente un cambio.
+
+El algoritmo onserva el mejor cromosoma global según $F_j$, no solamente el último mejor, los parámetros del mismo
+son guardados junto con los valores decodificados, su cadena de 224 bits, fitness, parámetros de ejecución y semilla.
+
+## NNUE pequeña: estructura, inferencia y valor
+
+NNUE (*Efficiently Updatable Neural Network*), como se vio,  designa una familia de evaluadores neuronales que aprovechan entradas dispersas y, en realizaciones más avanzadas, acumuladores actualizables cuando cambia una jugada.
+Es posible definir **una pequeña red inspirada en NNUE**, con sumas de características activas y pesos enteros. **No implementa aún un acumulador incremental de cambios de tablero**: para cada evaluación se reconstruye la lista de piezas.
+
+$\boxed{768\longrightarrow16\longrightarrow1.}$
+
+No tiene cabeza de política; produce exclusivamente una valoración estática. La selección de jugada exige evaluarla para cada sucesor, o bien integrarla en un jugador que realiza búsqueda.
+
+Para una pieza de tipo $p\in\{1,\ldots,6\}$ (peón, caballo, alfil, torre, dama, rey), color $c\in\{0,1\}$ (0 blancas, 1 negras) y casilla $q\in\{0,\ldots,63\}$ con a1=0, se define:
+
+$\text{idx}(c,p,q)=64(6c+p-1)+q.$
+
+El vector $x(s)\in\{0,1\}^{768}$ indica qué combinaciones pieza-color-casilla están presentes. Por ejemplo, un peón blanco en e2 ($q=12$) activa la entrada 12; un caballo negro en g8 ($q=62$) activa $64(6+2-1)+62=510$.
+
+Hay como máximo 32 entradas activas en una posición ordinaria. Para procesarlas eficientemente, el programa prepara una tabla de índices de tamaño $N\times32$ y una máscara de igual longitud, cuyos elementos distinguen las entradas reales del relleno.
+
+El cromosoma de la NNUE es un vector $g\in\mathbb Z^{12321}$, cuyos valores se almacenan como `numpy.int8`:
+
+$g=\operatorname{vec}(W_1)\ \Vert\ b_1\ \Vert\ w_2\ \Vert\ b_2,$
+
+con:
+
+$W_1\in\mathbb Z^{768\times16},\quad b_1\in\mathbb Z^{16},\quad w_2\in\mathbb Z^{16},\quad b_2\in\mathbb Z.$
+
+El total es:
+
+$$768\cdot16+16+16+1=12\,321\ \text{parámetros}.$$
+
+La representación del checkpoint es un **vector plano INT8**, no un modelo PyTorch ni una red de dos cabezas. El evaluador comparte la misma forma y orden de parámetros que los scripts de entrenamiento.
+
+Se agrega entonces un paso para adelante, **Capa de entrada dispersa.** Para cada neurona oculta $j\in\{1,\ldots,16\}$, la preactivación es:
+
+$z_j(s)=b_{1,j}+\sum_{i\in\mathcal I(s)}W_{1,i,j},$
+
+donde $I(s)$ es el conjunto de índices de las piezas presentes. Esta expresión es equivalente a $b_{1,j}+\sum_{i=1}^{768}x_i(s)W_{1,i,j}$, pero evita 768 multiplicaciones por valores casi siempre nulos.
+
+**Activación Clipped ReLU.** La neurona produce:
+
+$h_j(s)=\min\big(127,\max(0,z_j(s))\big).$
+
+La saturación evita que los valores ocultos crezcan sin límite y favorece una implementación eficiente con enteros. También hace que el modelo sea no lineal: un cambio pequeño de pesos puede alterar el patrón de neuronas activas.
+
+Para la **Cabeza de valor.** o resultado de la red se obtiene como:
+
+$\boxed{V_{\mathrm{NNUE}}(s;g)=\frac{b_2+\sum_{j=1}^{16}h_j(s)\,w_{2,j}}{256}.}$
+
+La constante **256** es una **escala fija de salida** definida por `OUTPUT_SCALE` en `gen_nnue_core.py`. Por construcción, el resultado se interpreta en centipeones desde la perspectiva de las blancas.
+
+Ejemplo, usando solo dos neuronas activas: si $h_1=20$, $h_2=40$, $w_{2,1}=10$, $w_{2,2}=-5$ y $b_2=0$, entonces:
+
+$V=\frac{20\cdot10+40\cdot(-5)}{256}=0\ \mathrm{cp}.$
+
+Las contribuciones se cancelan. Los ejemplos numéricos no representan una red ya entrenada.
+
+**Cálculo entero:** se convierten las matrices a `int32` para las sumas y productos, se satura entre 0 y 127, y se divide al final por 256. El archivo de pesos, en cambio, conserva el tipo `int8`. Es incorrecto describir esta arquitectura como una red FP32 entrenada mediante backpropagation.
+
+En PST, $V(s)$ es una combinación lineal de características prefijadas. En NNUE, las transformaciones $W_1$ y la activación introducen representaciones intermedias aprendidas. La red puede responder a combinaciones de piezas que no fueron explicitadas como una regla específica del evaluador PST.
+
+No obstante, la arquitectura es pequeña y sólo utiliza 16 neuronas ocultas. Eso reduce memoria y trabajo de inferencia, pero limita su capacidad para representar interacciones complejas. Asimismo, la entrada absoluta de piezas no incorpora simetrías explícitas ni actualización incremental, por lo que la red no aprovecha automáticamente todas las mejoras de evaluadores NNUE modernos.
+
+Para cada posición de entrenamiento $s_i$ existe una referencia $y_i$ derivada de Stockfish. La NNUE genera $\widehat y_i(g)=V_{\mathrm{NNUE}}(s_i;g)$. Su error es:
+
+$e_i(g)=\widehat y_i(g)-y_i.$
+
+La pérdida empleada es el **error cuadrático medio**:
+
+$\boxed{J(g)=\operatorname{MSE}(g)=\frac1N\sum_{i=1}^N\left(V_{\mathrm{NNUE}}(s_i;g)-y_i\right)^2.}$
+
+El objetivo es:
+
+$g^*=\arg\min_{g\in\mathcal G}J(g),$
+
+con $G$ el conjunto de genomas INT8 permitidos. Es una optimización combinatoria de 12.321 coordenadas, cada una con un rango discreto.
+
+Puede definirse de forma equivalente una aptitud $F(g)=-J(g)$ a **maximizar**. La implementación no calcula expresamente $-J$: calcula MSE y ordena de menor a mayor.
+
+La métrica interpretativa se obtiene por raíz cuadrada:
+
+$\operatorname{RMSE}(g)=\sqrt{J(g)}.$
+
+Al tener unidades de cp, RMSE se interpreta más fácilmente que MSE, cuyas unidades son cp². Ejemplo: errores de $+100$ y $-200$ cp producen $\operatorname{MSE}=(10\,000+40\,000)/2=25\,000\ \mathrm{cp}^2$ y RMSE aproximado de 158,1 cp.
+
+En entrenamiento convencional se ajustan parámetros reales mediante:
+
+$\theta_{t+1}=\theta_t-\eta\nabla_{\theta}J(\theta_t),$
+
+con tasa de aprendizaje $\eta$ y gradiente calculado mediante *backpropagation*.
+
+Este cálculo implica que **no se calculan derivadas**, no se utiliza optimizador Adam/AdamW ni existe una tasa de aprendizaje diferenciable. La siguiente generación se determina por selección, cruzamiento y mutación:
+
+$g_{t+1}=\operatorname{Mutar}(\operatorname{Cruzar}(g^{(a)}_t,g^{(b)}_t)).$
+
+Esta elección permite optimizar directamente genes cuantizados y componentes no diferenciables, pero sacrifica la información local que un gradiente podría proporcionar. En un espacio de 12.321 dimensiones, la carga computacional y la dificultad de convergencia pueden ser importantes.
+
+Cada uno de los 12.321 genes empieza de forma aleatoria, uniforme entre **−15 y +15 inclusive**:
+
+$g_k^{(0)}\sim\operatorname{UniformeDiscreta}\{-15,\ldots,15\}.$
+
+Esta escala inicial es mucho menor que el rango representable por INT8, lo que evita empezar con todos los pesos saturados. Los individuos se generan a partir de un generador aleatorio NumPy con semilla configurable (`--seed`, 42 por defecto).
+
+En la generación $t$ y para cada individuo $j$ se calcula:
+
+$J_j^{(t)}=\frac1N\sum_{i=1}^N\big(\widehat y_i(g_j^{(t)})-y_i\big)^2.$
+
+Se ordenan los individuos por MSE ascendente. Como se ejecuta una inferencia completa para cada combinación individuo-posición, el orden de trabajo dominante es proporcional a:
+
+$O(G\,P\,N\,C_{\mathrm{NNUE}}),$
+
+siendo $G$ generaciones, $P$ población, $N$ posiciones y $C_{\mathrm{NNUE}}$ el costo de una inferencia (aproximadamente la suma de los vectores de hasta 32 piezas, con 16 componentes cada uno, más la salida). Es una expresión orientativa de complejidad, no una estimación de tiempo de ejecución.
+
+Se preservan sin mutar los **mejores cuatro** individuos, o menos si la población es menor. El conjunto de reproductores se limita a los **mejores 20**, o a toda la población si tiene menos de 20 miembros (con al menos dos candidatos). Se eligen dos padres aleatoriamente dentro de ese conjunto.
+
+A diferencia de PST, **no se realiza ruleta proporcional al fitness** en NNUE: los reproductores se eligen entre el subconjunto superior según su MSE. Dentro del subconjunto, el sorteo es uniforme. Esto introduce una presión selectiva mediante el umbral de pertenencia, no mediante probabilidades distintas para cada valor de error.
+
+Para cada coordenada $k$, se sortea una variable Bernoulli $m_k\sim\operatorname{Bernoulli}(0.5)$. El gen heredado es:
+
+$c_k=\begin{cases}g^{(a)}_k,&m_k=1,\\g^{(b)}_k,&m_k=0.\end{cases}$
+
+El "*hijo*" combina pesos de ambos progenitores sin exigir que los pesos estén en posiciones contiguas. La probabilidad de elección de cada padre para cada gen es 0,5.
+
+Esta operación **puede romper combinaciones coordinadas de pesos**: por ejemplo, pesos de entrada y salida de una misma neurona que funcionaban correctamente juntos. Es una limitación típica del cruzamiento gen a gen en redes neuronales y puede afectar la eficiencia evolutiva.
+
+Cada gen muta independientemente con probabilidad **0,02**. Si muta, se suma un entero aleatorio entre −4 y +4 inclusive:
+
+$\widetilde c_k=c_k+M_k\Delta_k,\quad M_k\sim\operatorname{Bernoulli}(0.02),\quad\Delta_k\sim U\{-4,\ldots,4\}.$
+
+Finalmente se limita:
+
+$g^{\mathrm{hijo}}_k=\operatorname{clip}(\widetilde c_k,-127,127),$
+
+y se almacena como `int8`.
+
+Aunque se seleccionen genes para mutar, existe una probabilidad de $1/9$ de que el desplazamiento sea **cero**. Por eso «2 % de genes seleccionados para mutación» no significa «2 % de genes efectivamente modificados».
+
+El número esperado de coordenadas seleccionadas es:
+
+$12\,321\times0.02=246.42\ \text{por hijo}.$
+
+Con pasos de magnitud máxima 4, se explora una vecindad local del espacio de pesos. No existe una etapa de cuantización al final: **el entrenamiento ya opera sobre genes enteros**.
+
+El algoritmo registra el mejor MSE de todas las generaciones y una copia del vector que lo produjo. Al finalizar, guarda el mejor vector como `numpy.ndarray` de tipo `int8` en un `.npy` mediante `np.save(..., allow_pickle=False)`. La escritura se realiza primero en un archivo temporal y luego mediante reemplazo del destino.
+
+El archivo tiene 12.321 valores, a los que se añade el encabezado del formato `.npy`. No debe interpretarse como una red con política de movimientos ni como el archivo `.pt` INT8 de picoAlpha, cuya arquitectura y serialización son distintas.
+
+En cada punto del cálculo debe medirse, además de RMSE mínimo y medio, los siguientes parámetros:
+
+$C_{100}(g)=\sum_{i=1}^N\mathbf1\big[|\widehat y_i(g)-y_i|\le100\ \mathrm{cp}\big].$
+
+Esta cuenta indica cuántas posiciones están dentro de **±100 cp** respecto del valor maestro. El nombre `correct_100cp` **no mide coincidencia de la mejor jugada**. Tal diferencia es esencial al comparar la telemetría de PST con la de NNUE.
+
+## Limitaciones metodológicas
+
+La implementación v0.1.1 ajusta y comunica métricas sobre el mismo conjunto de ejemplos utilizado para calcular fitness. Esto permite vigilar el proceso evolutivo, pero **no estima capacidad de generalización**. Dos posiciones vecinas de una misma partida están fuertemente correlacionadas: una partición aleatoria por posición puede producir fuga de información entre entrenamiento y prueba.
+
+**Recomendación:** particionar por `game_id` o por partida de origen, manteniendo partidas completas en cada subconjunto. Conservar Bratko–Kopec exclusivamente como evaluación externa y no usarlo reiteradamente para optimizar hiperparámetros sin reservar otro test independiente.
+
+El modelo NNUE divide su acumulador entero por 256. Con sólo 16 neuronas saturadas a 127 y pesos de salida limitados a aproximadamente 127 en magnitud, la **magnitud máxima positiva aproximada** de salida es:
+
+$\frac{16\cdot127\cdot127+127}{256}\approx1008.4\ \mathrm{cp}.$
+
+En cambio, las etiquetas de maestro se limitan hasta **±2000 cp**. Por lo tanto existen objetivos que **la arquitectura actual no puede representar exactamente**, cualquiera que sea el resultado de la evolución. El truncamiento de mates a ±2000 puede agravar este problema.
+
+La red no podrá llevar el MSE a cero sobre un conjunto que contenga valores objetivo mayores que su rango efectivo. Esta limitación debe medirse antes de interpretar el estancamiento como un fracaso de la selección genética.
+
+Los cuatro valores materiales evolucionan libremente entre 0 y 2047, en lugar de conservar relaciones tradicionales entre piezas. Esto favorece la exploración, pero permite soluciones materialmente extrañas. Los otros 30 coeficientes son no negativos, lo que impide invertir el signo propio de una característica. Además, varias aproximaciones pueden estar correlacionadas; por ejemplo, las características de movilidad y centralidad pueden contribuir a decisiones similares.
+
+El hecho de que un coeficiente sea grande **no demuestra que represente por sí solo una idea ajedrecística importante**; su contribución depende de la distribución y de la escala de $\phi_k(s)$.
+
+Con $P=100$, $G=500$ y $N=10\,000$, se requieren del orden de **500 millones de inferencias de valor por modelo**, sin contar operaciones de preparación, búsqueda de un ply ni movimientos legales. En PST, el producto por sucesores legales puede incrementar aún más la carga. Aunque cada inferencia sea pequeña, el experimento puede resultar costoso en CPU y memoria.
+
+Es necesario realizar primero un ensayo piloto, medir posiciones/segundo y estimar el presupuesto de una corrida completa. La existencia de diez millones de registros en una base etiquetada no implica que tenga sentido utilizarlos todos en cada generación.
+
+Una red con 16 neuronas ocultas admite permutar esas neuronas y permutar coherentemente sus pesos de salida sin alterar la función calculada. Dos genomas pueden ser funcionalmente equivalentes, pero tener genes dispuestos de manera diferente. El cruzamiento uniforme de esos genomas puede generar hijos de baja calidad. Este fenómeno —simetría de permutación— es una limitación estructural de los algoritmos genéticos aplicados directamente a pesos neuronales.
+
+La aplicación actual no incluye alineación de neuronas antes del cruzamiento ni operadores especializados para preservar bloques de una neurona.
+
+En PST, acierto significa **igualdad de jugada** tras una búsqueda de un ply. En NNUE, `correct_100cp` significa **error de valoración inferior o igual a 100 cp**. Comparar ambos contadores como si fueran la misma métrica conduce a conclusiones incorrectas. La auditoría `genAudit.py` ofrece una medición de jugadas bajo un procedimiento común para ambos.
+
+Antes de afirmar que los modelos convergen hacia Stockfish o que uno supera al otro, faltan al menos estas comprobaciones: perspectiva exacta de `teacher_cp`; distribución de los objetivos en cp; porcentajes de posiciones descartadas; reproducibilidad completa por semilla; validación fuera de muestra; y resultados de partidas con tiempo, profundidad y aperturas controlados.
+
+1. **Control de etiquetas.** Tomar manualmente posiciones de ventaja blanca, negra y empate; verificar signos y conversión de Stockfish.
+2. **Muestra piloto.** Extraer 100–500 posiciones, correr 10–30 generaciones y comprobar que la aptitud y el RMSE cambian en la dirección esperada.
+3. **Muestras crecientes.** Repetir con 2.000 y 10.000 posiciones; medir tiempos, memoria y estabilidad. No usar todas las posiciones por defecto sin una estimación previa.
+4. **Validación independiente.** Separar partidas completas en entrenamiento y validación; registrar mejor RMSE de validación por generación y porcentaje de coincidencia de jugadas.
+5. **Análisis de límites.** Examinar la distribución de valores Stockfish fuera de ±1000 cp, la saturación de las neuronas ocultas y la frecuencia de genes próximos a ±127.
+6. **Auditoría táctica.** Ejecutar Bratko–Kopec con un EPD auténtico y las mismas condiciones para ambos evaluadores.
+7. **Encuentros Nurse.** Usar `SargonPlus` con idénticos parámetros de búsqueda, alternar colores y aperturas, y estimar intervalos de confianza del desempeño. Controlar diferencias de velocidad de evaluación que alteren la cantidad de nodos explorados.
+
+Se pueden entonces plantear estudiar dos formas complementarias de aproximar una función de valoración ajedrecística mediante algoritmos evolutivos. En la primera, evoluciona un cromosoma **compacto de 224 bits** que determina 34 coeficientes de una función heurística explícita. Su fitness combina la reproducción de decisiones del maestro con el error de puntuación. En la segunda, evoluciona directamente **12.321 pesos INT8** de una red pequeña de valor, minimizando MSE en centipeones. Ambas alternativas aprenden de posiciones reales ya evaluadas por Stockfish y pueden incorporarse en Nurse como evaluadores de un mismo jugador.
+
+
+- David, E. (O.), van den Herik, H. J., Koppel, M. y Netanyahu, N. S. *Genetic Algorithms for Evolving Computer Chess Programs*. IEEE Transactions on Evolutionary Computation, 18(5), 779–789, 2014. Copia adjunta `1711.08337v1.pdf` (arXiv:1711.08337, versión de 2017). Método de imitación de jugadas y parámetros de inspiración; **no debe atribuirse al artículo la combinación de fitness implementada por picoGenus**.
+
+
+# CAP 7 Microchess (1976)
 
 **Autor:** Peter Jennings  
 **Año:** 1976  
@@ -7224,7 +7635,7 @@ https://www.computerhistory.org/chess/early-microcomputer-chess/
 https://archive.computerhistory.org/projects/chess/related_materials/oral-history/jennings.oral_history.2005.102630656/jennings.oral_history_transcrit.2005.102630656.pdf
 
 
-# CAP 7 SARGON (1978) the **old buddy** 
+# CAP 8 SARGON (1978) the **old buddy** 
 
 **Autores:** Dan Spracklen y Kathe Spracklen  
 **Año de creación:** 1978  
@@ -8008,7 +8419,7 @@ https://github.com/billforsternz/retro-sargon
 
 https://en.chessbase.com/post/sargon-a-che-program-from-the-past/820
 
-# CAP 8 Belle *El poder de la fuerza bruta*
+# CAP 9 Belle *El poder de la fuerza bruta*
 
 El algoritmo de la computadora Belle se basó en un enfoque híbrido pionero de *"fuerza bruta"* que combinaba software y circuitos integrados diseñados a medida. Su núcleo lógico seguía la filosofía clásica del estilo de Chess 4.5 (el programa dominante de la época), pero trasladando las operaciones más lentas directamente a la arquitectura física (hardware) para ganar velocidad. 
 [1](https://www2.seas.gwu.edu/~simhaweb/champalg/chess/chess), [2](https://chessprogramming.org/Belle)
@@ -8086,7 +8497,7 @@ Belle tenía una ventaja masiva para realizar esto gracias a sus circuitos de ge
 En resumen, la búsqueda de quietud convertía el horizonte rígido de Belle en un horizonte elástico. Si la posición en la capa 8 estaba en medio de un intercambio masivo de piezas, Belle seguía buscando en la capa 9, 10 o la que hiciera falta, deteniéndose únicamente cuando el tablero quedaba en paz ("quieto"), garantizando que la evaluación final fuera matemáticamente sólida.
 
 
-# CAP 9 Monte Carlo Tree Search (MCTS) *the latest*
+# CAP 10 Monte Carlo Tree Search (MCTS) *the latest*
 
 **Antecedentes:** Monte Carlo Tree Search (MCTS), 2006; AlphaGo, 2015–2016; AlphaGo Zero y AlphaZero, 2017–2018.  
 **Autores de referencia:** Rémi Coulom; Levente Kocsis y Csaba Szepesvári; David Silver, Demis Hassabis y colaboradores de DeepMind.  
@@ -9880,7 +10291,7 @@ https://github.com/LeelaChessZero/lc0
 
 
 
-# CAP 10 Stockfish: the "*beast*"
+# CAP 11 Stockfish: the "*beast*"
 
 **Autores originales:** Tord Romstad, Marco Costalba y Joona Kiiski  
 **Año de creación:** 2008  
@@ -11299,7 +11710,7 @@ https://www.chessprogramming.org/
 https://stockfishchess.org/about/
 
 
-# CAP 11 Leela Chess Zero (LC0)
+# CAP 12 Leela Chess Zero (LC0)
 
 **Alcance:** historia del proyecto, modelo computacional y formulación matemática, familias de redes, catálogo público verificable, entrenamiento y experimentos externos, evolución de `lc0.exe` e integración de evaluación en otros programas.  
 **Criterio de evidencia:** se distinguen datos publicados, aproximaciones matemáticas generales e inferencias de ingeniería. El catálogo es un **inventario curado de familias y modelos nombrados**, no un volcado exhaustivo de todos los checkpoints: el proyecto declara cientos de miles de redes históricas.
@@ -11770,7 +12181,7 @@ Una interfaz separada por TCP o proceso conserva aislamiento, permite reiniciar 
 
 
 
-# CAP 12 Arquitecturas cooperativas
+# CAP 13 Arquitecturas cooperativas
 
 Las arquitecturas anteriores expresan potencias variadas para la resolución del problema
 
@@ -12178,7 +12589,7 @@ El servicio Stockfish Online v2 no devuelve el FEN de la posición analizada. Po
 También se utilizan identificadores de generación para evitar que respuestas o callbacks tardíos afecten solicitudes posteriores.
 
 
-# CAP 13 La arquitectura Akkad
+# CAP 14 La arquitectura Akkad
 
 [Arquitectura Akkad](images/sargon-nnue.png)
 
@@ -13014,8 +13425,149 @@ En tiempo de compilación se indicarán las prioridades de ejecución siendo el 
 menos, si un slot no puede dar respuesta o no existe se pasa al siguiente y así hasta completar, si ninguno puede
 dar respuesta entonces la posición no puede ser evaluada.
 
+## Implementación de algoritmo genético
 
-# CAP 14 Evaluación
+En esta cadena, `.pb` **no es un archivo de tensores protobuf**: es una base **SQLite** a la que se asignó esa extensión. Proviene de la secuencia de importación y etiquetado de picoAlpha.
+
+Las tablas principales son:
+
+- `games`: identificación de partida, archivo original, ordinal, cabeceras JSON, resultado, FEN inicial y momento de importación.
+- `positions`: identificación, partida de origen, ply, FEN, jugada de la partida `played_uci`, jugada del maestro `teacher_uci`, puntuación `teacher_cp`, indicador de mate `teacher_mate`, valor transformado `teacher_value`, profundidad y marca temporal de evaluación.
+
+La cadena de picoGenus **no consulta Stockfish durante la evolución**; lee los valores que ya fueron calculados. Esto separa el costo del etiquetado del costo de búsqueda de parámetros.
+
+### Conversión de valores al objetivo de entrenamiento
+
+El módulo `gen_common.py` construye un objetivo desde la perspectiva de las blancas. Para una fila con `(teacher_cp, teacher_mate, teacher_value)`:
+
+1. Si existe `teacher_mate`, sustituye el valor por **+2000 cp** para mate favorable a quien mueve o **−2000 cp** para mate desfavorable.
+2. Si no hay mate y existe `teacher_cp`, utiliza esa puntuación.
+3. Si no hay ninguno de los anteriores, pero existe `teacher_value`, aplica la inversa de una transformación hiperbólica:
+
+   $$cp=400\,\operatorname{atanh}(\operatorname{clip}(v,-0.99999,0.99999)).$$
+
+4. Si el turno es negro, invierte el signo para obtener la perspectiva blanca.
+5. Limita el resultado final al intervalo **[−2000, +2000] cp**.
+
+Formalmente, si $q_i$ es la referencia construida en perspectiva del jugador al turno y $\sigma_i=+1$ si juegan blancas y $-1$ si juegan negras:
+
+$$y_i=\operatorname{clip}(\sigma_i q_i,-2000,2000).$$
+
+**Supuesto de interfaz que debe validarse:** esta conversión presupone que las etiquetas originales `teacher_cp` y `teacher_mate` están expresadas desde la perspectiva del jugador que mueve. Si el productor de datos las guardara desde la perspectiva absoluta de blancas, la inversión para las negras sería incorrecta. El entrenamiento no detecta por sí solo este desajuste; conviene verificar varias posiciones con puntuaciones Stockfish conocidas.
+
+### Filtrado de posiciones defectuosas
+
+Los entrenadores verifican que un FEN pueda interpretarse y que el tablero sea válido. PST requiere adicionalmente `teacher_uci` presente, sintácticamente correcta y perteneciente a las jugadas legales de la posición. NNUE requiere una etiqueta numérica válida, pero no una jugada de maestro.
+
+Por lo tanto **los dos entrenadores pueden usar cantidades distintas de registros**, incluso cuando leen el mismo archivo. Las posiciones inválidas se **ignoran en la carga del entrenamiento**; este paso no debe confundirse con la eliminación persistente de filas que realice `teacher.py` en la cadena original de picoAlpha.
+
+### Fase A: `genSample.py`
+
+Recibe `--in` (SQLite `.pb`) y `--out` (nueva SQLite `.pb`). Selecciona **posiciones individuales etiquetadas**, al azar, no partidas completas. La cantidad se determina por:
+
+$$K=\begin{cases}\min(N,n),&\text{si se especifica `--sample n`},\\\operatorname{round}(N p/100),&\text{si se especifica `--pct p`}.\end{cases}$$
+
+Si ambos argumentos están presentes, gana `--sample`. El programa usa `ORDER BY RANDOM() LIMIT K` sobre posiciones etiquetadas y conserva los datos de sus partidas padre para mantener la integridad referencial del esquema.
+
+**Copia, no movimiento destructivo:** aunque la especificación original usó la palabra «mover», la implementación **no elimina** filas de la base de entrada. Crea una base de salida con esas posiciones. Esta semántica es la adecuada para preservar la base maestra de Stockfish.
+
+La barra de progreso informa porcentaje, filas copiadas y objetivo en **un solo renglón**, con espacios reservados para que los contadores no se desplacen al aumentar de dígitos. La entrada se abre en modo lectura y la salida se crea temporalmente y luego reemplaza el destino.
+
+### Fase B: `genPST.py`
+
+1. Abre la base en lectura y consulta posiciones con etiqueta Stockfish y `teacher_uci`.
+2. Opcionalmente realiza un muestreo de reservorio reproducible mediante `--max-positions`; el valor 0 significa **usar todas** las filas elegibles.
+3. Valida FEN, jugada objetivo y referencia numérica.
+4. Para cada tablero calcula el vector fijo y las 34 características $\phi(s)$.
+5. Para cada jugada legal prepara asimismo las características de la posición sucesora. Esta preparación permite reutilizar los mismos datos entre cromosomas.
+6. Genera la población aleatoria de 224 bits.
+7. Evalúa en cada generación el valor y el acierto de jugada de cada individuo; calcula fitness, selecciona, cruza y muta.
+8. Conserva el mejor cromosoma global y escribe el JSON especificado en `--out`.
+
+**Aspecto de rendimiento:** en PST, antes de comenzar la evolución se materializa una matriz de características para **todas las jugadas legales de todas las posiciones seleccionadas**. Con millones de posiciones puede consumir cantidades impracticables de memoria. Además, el costo de comparar elecciones por posición y cromosoma crece con el número total de sucesores. Una fase exploratoria con `--max-positions` es indispensable.
+
+### Fase C: `genNNUE.py`
+
+1. Lee posiciones que tengan valoración Stockfish.
+2. Valida FEN y convierte la referencia a centipeones desde blancas.
+3. Construye la matriz de índices activos `N×32` y sus máscaras.
+4. Inicializa $P$ genomas INT8 de 12.321 coordenadas.
+5. Para cada generación calcula la inferencia de cada genoma sobre todos los tableros y su MSE.
+6. Ordena por MSE, guarda la élite, elige padres del subconjunto superior, cruza cada gen al 50 % y muta al 2 % con desplazamientos enteros pequeños.
+7. Conserva el mejor genoma global, escribe el `.npy` e informa RMSE final.
+
+A diferencia de PST, la NNUE no utiliza las jugadas `teacher_uci` para su fitness: **sólo aproxima valores**. Tampoco existe optimización de probabilidad de jugadas ni aprendizaje por refuerzo en esta versión.
+
+### Fase D: `genAudit.py`
+
+Recibe los dos evaluadores:
+
+- `--pst ...json`: coeficientes PST.
+- `--nnue ...npy`: pesos NNUE.
+- `--bk ...epd`: conjunto Bratko–Kopec en formato EPD, con operaciones `bm` que indican la mejor jugada aceptada.
+- `--out ...json` (opcional): guarda informe y casos.
+
+Para cada problema se calcula **una predicción estática** $V(s)$ y **una selección de jugada a un ply**. Se mide el tiempo de evaluación y el tiempo de selección separadamente. Los indicadores son:
+
+$$\text{Accuracy}_{bm}=\frac{\#\{i:\widehat a_i\in BM_i\}}{N},$$
+
+$$\text{MAE}=\frac1M\sum_{i\in R}|\widehat y_i-y_i|,\qquad
+\text{RMSE}=\sqrt{\frac1M\sum_{i\in R}(\widehat y_i-y_i)^2},$$
+
+siendo $BM_i$ el conjunto de mejores jugadas aceptadas en el EPD y $R$ el subconjunto con referencias numéricas `ce`; $M=|R|$. Si el EPD no tiene `ce`, **no** se pueden obtener MAE ni RMSE respecto de una referencia conocida: el programa informa la precisión de jugadas y los tiempos.
+
+El paquete de v0.1.1 **no incluye el conjunto Bratko–Kopec**: hay que aportar un EPD válido. Tampoco basta una auditoría con un ply para extrapolar la fuerza de juego a búsqueda profunda.
+
+### Fase E: integración Nurse
+
+El parche Nurse v0.1.2 incorpora un evaluador `GENUS` configurable desde `brains.json`:
+
+```json
+{
+  "player": "sargon-plus",
+  "evaluator": {
+    "evaluator": "GENUS",
+    "tipo": "pst",
+    "coefficient": "../../../picoGenus/assets/genus_pst.json"
+  }
+}
+```
+
+O bien:
+
+```json
+{
+  "player": "sargon-plus",
+  "evaluator": {
+    "evaluator": "GENUS",
+    "tipo": "nnue",
+    "network": "../../../picoGenus/assets/genus_nnue.npy"
+  }
+}
+```
+
+El evaluador devuelve **centipeones con signo desde blancas** y se integra con la misma construcción de `Worker` que atiende `listen`, `match`, `rally` y `benchmark`. Esa integración permite comparar los dos predictores bajo el **mismo algoritmo de búsqueda** y separar mejor la contribución de los pesos de la contribución de la búsqueda. La compatibilidad funcional entre programas todavía requiere pruebas integrales con pesos reales y partidas completas.
+
+Desde `akkad/picoGenus/tools/train`:
+
+```powershell
+# 1. Extraer 2000 posiciones con etiqueta Stockfish.
+python genSample.py --in "C:\Data\sample_history.pb" --out "C:\Data\genus.pb" --sample 2000 --seed 42
+
+# 2. Evolucionar la heurística.
+python genPST.py --in "C:\Data\genus.pb" --out "..\..\assets\genus_pst.json" --poblacion 100 --generaciones 500 --seed 42
+
+# 3. Evolucionar la red pequeña.
+python genNNUE.py --in "C:\Data\genus.pb" --out "..\..\assets\genus_nnue.npy" --poblacion 100 --generaciones 500 --seed 42
+
+# 4. Auditoría independiente (archivo EPD aportado por el usuario).
+python genAudit.py --pst "..\..\assets\genus_pst.json" --nnue "..\..\assets\genus_nnue.npy" --bk "C:\Data\bratko_kopec.epd" --out "..\..\assets\audit.json"
+```
+
+Para experimentos rápidos, los dos entrenadores aceptan `--max-positions 100` o `--max-positions 500`, sin modificar la base original. Sus valores de `--poblacion` y `--generaciones` por defecto son 100 y 500, respectivamente.
+
+
+# CAP 15 Evaluación
 
 Está claro que la plataforma *Sargón-NNUE* provee la flexibilidad necesaria para
 explorar y experimentar en las distintas etapas de formación de un jugador automatizado
@@ -13356,7 +13908,7 @@ Dentro de esta comunicación, existen elementos técnicos clave a destacar:
 Ese protocolo es implementado por otro *adapter/proxy* denominado *fics-uci.py* quien configuración de la cuenta mediante establece la conexión *telnet* con el servidor e interactúa con una instancia accesible de un *brain* utilizando TCP/IP y protocolo UCI, hacia el servidor FICS se utiliza el protocolo *Style 12* que requiere.
 
 
-# CAP 15 Portabilidad
+# CAP 16 Portabilidad
 
 El ambiente *Sargon-NNUE* opera como una *nursery* donde se evalúan algoritmos, principalmente en forma relativa entre si.
 
@@ -14960,14 +15512,14 @@ Puesto a competir en la plataforma *lichess.org* alcanza una performance promedi
 ![lichess-picoSargon](images/lichess_picoSargon.png)
 
 
-# CAP 16 Entrenamiento
+# CAP 17 Entrenamiento
 
 
 - **AlphaZero-X86:** ejecutable C++ del proyecto Akkad que recibe red y backend. El nombre es histórico: la configuración también contiene rutas Debian. No se debe suponer compatibilidad binaria entre plataformas.
 - **picoAlpha, picoSargon, picoKeras:** wrappers hacia **ejecutables locales UCI**. Los nombres `pico` no prueban ejecución física en una placa: los perfiles actuales apuntan mayoritariamente a binarios de escritorio o Raspberry Pi.
 
 
-# CAP 17 Implementación
+# CAP 18 Implementación
 
 ## Entrenamiento
 

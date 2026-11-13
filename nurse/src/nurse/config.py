@@ -3,8 +3,8 @@ import json,os,sys,shutil,hashlib
 from urllib.parse import urlsplit
 from pathlib import Path
 
-NATIVE = {"sargon", "sargon-plus", "random", "doc", "microchess", "cerebrum", "keras", "alphazero", "bellman"}
-EVALUATORS = {"null","classic","npz","cerebrum","cerebrum-1.1","cerebrum-2","stockfish","lc0","tinygyal","znpz","zclassic","grumpy","keras","microchess","bellmanr"}
+NATIVE = {"sargon", "sargon-plus", "random", "doc", "microchess", "cerebrum", "keras", "alphazero", "bellman", "mctsp"}
+EVALUATORS = {"null","classic","npz","cerebrum","cerebrum-1.1","cerebrum-2","stockfish","lc0","tinygyal","znpz","zclassic","grumpy","keras","microchess","bellmanr", "mctse"}
 
 def platform_name():
     return "windows" if os.name=="nt" else "macOS" if sys.platform=="darwin" else "debian"
@@ -186,6 +186,12 @@ def read_brain(path,ident):
         if evname not in EVALUATORS:
             cfg["_evaluator_path"]=resolve_path(ev,path,executable=True)
             evname='external-evaluator'
+        if name=='mctsp' and evname!='mctse':
+            raise ValueError('MCTSP requiere evaluator=MCTSE')
+        if evname=='mctse' and name!='mctsp':
+            raise ValueError('MCTSE solo admite player=MCTSP')
+        if name=='mctsp' and network is None:
+            raise ValueError('MCTSP/MCTSE requieren evaluator.network')
         if evname=='null' and network is not None:
             raise ValueError("evaluator=null no admite network")
         cfg["_player"]=name;cfg["_evaluator"]=evname

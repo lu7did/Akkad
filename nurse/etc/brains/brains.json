@@ -1,6 +1,19 @@
 {
   "schema_version": 1,
   "brains": {
+    "picoalpha_mcts": {
+      "type": "nurse",
+      "player": "MCTSP",
+      "evaluator": {
+        "evaluator": "MCTSE",
+        "network": "../../../picoAlpha/assets/checkpoints/best_int8.pt"
+      },
+      "arguments": {"sims": 200, "depth": 12, "cpuct": 1.4},
+      "tmax": 15000,
+      "timeout": 30000,
+      "ELO": 900
+    },
+
     "buddy": {
       "type": "nurse",
       "player": "sargon.py",

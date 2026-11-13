@@ -20,6 +20,7 @@ board/game state, so the parent process must start a new bridge/session.
 """
 
 import argparse
+import os
 import socket
 import sys
 import threading
@@ -140,6 +141,11 @@ def run(args):
 
 def main(argv=None):
     args = parse_args(argv)
+    received_argv = list(sys.argv[1:] if argv is None else argv)
+    diagnostic("working_directory={}".format(os.getcwd()))
+    diagnostic("argv={!r}".format(received_argv))
+    diagnostic("arguments ip={!r} port={!r} connect_timeout={!r} attempts={!r} retry_delay={!r}".format(
+        args.ip, args.port, args.connect_timeout, args.attempts, args.retry_delay))
     try:
         return run(args)
     except KeyboardInterrupt:

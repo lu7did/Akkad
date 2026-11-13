@@ -29,3 +29,7 @@ seek_retry: 60
 # Milisegundos desde el fin de una partida hasta admitir otra; -1 desactiva la espera.
 throtle: -1
 verbose: false
+
+# Usuarios excluidos (comparacion insensible a mayusculas/minusculas).
+no-accept: []
+no-request: []
