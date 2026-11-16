@@ -1,8 +1,0 @@
-{
-  "version": "0.6.188",
-  "backend": "tensorflow_saved_model",
-  "quantization": "keras_int8",
-  "source_saved_model": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\keras\\small.tf",
-  "source_keras": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\Sargon-NNUE\\data\\runs\\keras\\small.keras",
-  "int8_weight_tensors": 32
-}

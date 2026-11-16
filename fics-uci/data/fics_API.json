@@ -21164,6 +21164,28 @@
       "modalidad": "blitz",
       "rated": false,
       "motor": "picoPixie v0.1.28"
+    },
+    {
+      "id": "2026-11-16T00:22:57.812632+00:00:9",
+      "fics_game": 9,
+      "fecha_inicio_utc": "2026-11-16T00:22:57.812632+00:00",
+      "fecha_fin_utc": "2026-11-16T00:25:20.509370+00:00",
+      "usuario_propio": "GuestWXVZ",
+      "elo_propio": "++++",
+      "color_propio": "blancas",
+      "usuario_contrincante": "xenophon",
+      "elo_contrincante": 1530,
+      "color_contrincante": "negras",
+      "resultado": 1.0,
+      "resultado_fics": "1-0",
+      "razon": "(GuestWXVZ vs. xenophon) xenophon resigns",
+      "cantidad_movidas": 16,
+      "cantidad_medias_jugadas": 31,
+      "tiempo_segundos": 142.697,
+      "control_tiempo": "5+2",
+      "modalidad": "blitz",
+      "rated": false,
+      "motor": "picoPixie v0.1.28"
     }
   ]
 }
