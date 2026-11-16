@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "picoalpha_cpp": {
+      "type": "uci",
+      "evaluator": "null",
+      "player": {
+        "windows": "C:/RUTA/akkad/picoAlpha/X86/build/picoAlpha.exe"
+      },
+      "args": {
+        "windows": [
+          "--network", "C:/RUTA/akkad/picoAlpha/assets/picoalpha_int8.bin",
+          "--depth", "12",
+          "--timeout", "15000",
+          "--sim", "200"
+        ]
+      },
+      "ELO": 1000,
+      "tmax": 15000,
+      "timeout": 30000
+    }
+  }
+}

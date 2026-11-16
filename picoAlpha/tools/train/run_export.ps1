@@ -9,6 +9,7 @@ $Defaults = @{
     "in" = "..\..\assets\checkpoints\best.pt"
     "out" = "..\..\assets\picoalpha_nnue_weights.hpp"
     "int8" = "..\..\assets\checkpoints\best_int8.pt"
+    "bin="..\..\assets\checkpoints\best_int8.bin"
     "namespace" = "picoalpha_nnue"
 }
 if ($Help -or ($Overrides -contains '--help') -or ($Overrides -contains '-help')) {

@@ -1,0 +1,20 @@
+[15:32:48] \U0001f4bb sargon-nurse v0.1.36 brain=dalia type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[15:32:48] \u2699\ufe0f player=mctsp evaluator=mctse network=C:\Users\pedro\github\Bobby\Akkad\picoAlpha\assets\dalia_20261115.pt depth=12 qdepth=0 arguments={'sims': 200, 'depth': 12, 'cpuct': 1.4}
+[15:32:48] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[15:32:48] \U0001f680 subprocess pid=19064 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.mctsp', '--serve', '--config', '{"type": "nurse", "player": "mctsp", "evaluator": {"evaluator": "mctse", "network": "../../picoAlpha/assets/dalia_20261115.pt"}, "arguments": {"sims": 200, "depth": 12, "cpuct": 1.4}, "Depth": 12, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player": "mctsp", "_evaluator": "mctse", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\picoAlpha\\\\assets\\\\dalia_20261115.pt", "_type": "nurse"}']
+[15:32:50] \U0001f4cb child Traceback (most recent call last):
+[15:32:50] \U0001f4cb child   File "<frozen runpy>", line 203, in _run_module_as_main
+[15:32:50] \U0001f4cb child   File "<frozen runpy>", line 88, in _run_code
+[15:32:50] \U0001f4cb child   File "C:\Users\pedro\github\Bobby\Akkad\nurse\src\nurse\players\mctsp.py", line 3, in <module>
+[15:32:50] \U0001f4cb child     if __name__=="__main__":raise SystemExit(main("mctsp"))
+[15:32:50] \U0001f4cb child                                              ~~~~^^^^^^^^^
+[15:32:50] \U0001f4cb child   File "C:\Users\pedro\github\Bobby\Akkad\nurse\src\nurse\worker.py", line 100, in main
+[15:32:50] \U0001f4cb child     worker=Worker(kind,json.loads(args.config or "{}"))
+[15:32:50] \U0001f4cb child   File "C:\Users\pedro\github\Bobby\Akkad\nurse\src\nurse\worker.py", line 13, in __init__
+[15:32:50] \U0001f4cb child     self.evaluator=TinyEvaluator(config.get("_network"))
+[15:32:50] \U0001f4cb child                    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+[15:32:50] \U0001f4cb child   File "C:\Users\pedro\github\Bobby\Akkad\nurse\src\nurse\mcts_nnue.py", line 47, in __init__
+[15:32:50] \U0001f4cb child     raise ValueError('MCTSE requiere checkpoint INT8 exportado por picoAlpha export.py --int8')
+[15:32:50] \U0001f4cb child ValueError: MCTSE requiere checkpoint INT8 exportado por picoAlpha export.py --int8
+[15:32:50] \U0001f50c subprocess detenido pid=19064
+[15:32:50] \u274c brain=dalia TransportError: EOF inesperado

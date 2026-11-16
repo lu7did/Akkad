@@ -28,8 +28,9 @@ VERSION='0.6.193'
 # `rating_elo` is metadata, never a listener CLI parameter.
 ENGINE_KEYS = ['player', 'evaluator', 'model', 'network', 'depth', 'dmax', 'qdepth', 'tmax', 'boost', 'turbo', 'engine-path', 'url', 'movetime', 'timeout', 'nodes', 'elo', 'stockfish-threads', 'stockfish-hash', 'cerebrum-a', 'cerebrum-b', 'stockfish-path', 'stockfish-timeout', 'stockfish-check-depth', 'stockfish-cache', 'lc0-weights', 'lc0-backend', 'lc0-backend-options', 'lc0-history', 'lc0-cache', 'lc0-cp-scale', 'az-simulations', 'az-cpuct', 'z-policy', 'z-temperature', 'z-value-scale', 'z-uniform-mix', 'lc0-uci-path', 'lc0-uci-threads', 'lc0-uci-nncache', 'lc0-uci-options', 'lc0-uci-depth', 'lc0-uci-nodes', 'lc0-uci-movetime', 'lc0-uci-timeout', 'alternate-network', 'alternate-evaluator', 'bellman-nmin', 'bellman-alpha', 'bellman-lambda', 'bellman-gamma']
 METADATA_KEYS = {'rating_elo'}
-PLAYER_CHOICES = ('random','sargon','sargon-plus','cerebrum','stockfish','sunfish','external','alphazero','lc0','doc','picosargon','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras','microchess','bellman')
-EVALUATOR_CHOICES = ('null','classic','npz','cerebrum','cerebrum-1.1','cerebrum-2','stockfish','lc0','tinygyal','znpz','zclassic','grumpy','keras','microchess','bellmanR')
+from ..engine_registry import choices, ensure_pair, entry
+PLAYER_CHOICES = choices('player')
+EVALUATOR_CHOICES = choices('evaluator')
 
 def engine_parser():
     p=argparse.ArgumentParser(add_help=False)
@@ -59,7 +60,7 @@ def defaults(player,evaluator):
     if evaluator=='bellmanR':allowed|={'network','alternate-network','alternate-evaluator','bellman-nmin','bellman-alpha','bellman-lambda','bellman-gamma'}
     if player=='alphazero':allowed|={'az-simulations','az-cpuct'}
     if evaluator in ('lc0','tinygyal'):allowed|={'lc0-weights','lc0-backend','lc0-backend-options','lc0-history','lc0-cache','lc0-cp-scale'}
-    if evaluator in ('npz','grumpy','tinygyal','keras'):allowed.add('network')
+    if evaluator in ('npz','grumpy','tinygyal','keras','genus-pst','genus-nnue','mctse'):allowed.add('network')
     if evaluator in ('znpz','zclassic'):allowed|={'z-policy','z-temperature','z-value-scale','z-uniform-mix'}
     if evaluator=='znpz':allowed.add('network')
     if evaluator=='stockfish':allowed|={'stockfish-path','stockfish-timeout','stockfish-check-depth','stockfish-cache','stockfish-threads'}
@@ -109,35 +110,38 @@ def validate(config, *, check_files=False):
     ev=config.get('evaluator')
     if player not in PLAYER_CHOICES:raise ValueError('player inválido: '+str(player_raw))
     if ev not in EVALUATOR_CHOICES:raise ValueError('evaluator inválido: '+str(ev))
+    ensure_pair(player,ev)
+
+    if ev=='mctse' and config.get('network') and not str(config['network']).lower().endswith('.pt'):raise ValueError('MCTSE requiere network .pt')
     if player=='bellman' and config.get('alternate-evaluator','grumpy')!='grumpy':raise ValueError('bellman: alternate-evaluator debe ser grumpy')
     if player=='bellman' and (ev!='bellmanR' or not config.get('network') or not config.get('alternate-network')):raise ValueError('bellman requiere evaluator=bellmanR, network JSON y alternate-network Grumpy BIN')
-    if player=='external' and ev!='null':raise ValueError('player external requiere evaluator null')
+
     if player=='external':
         from .players.tcp_external import parse_endpoint
         if not config.get('url'):raise ValueError('player external requiere url')
         parse_endpoint(config['url'])
         forbidden=set(config)-{'player','evaluator','url','rating_elo'}
         if forbidden:raise ValueError('player external solo admite url; no parámetros remotos: '+', '.join(sorted(forbidden)))
-    if player=='alphazero-x86' and ev!='null':raise ValueError('player AlphaZero-X86 requiere evaluator null')
+
     if player=='alphazero-x86' and not config.get('engine-path'):raise ValueError('player AlphaZero-X86 requiere engine-path')
     if player=='alphazero-x86' and not (config.get('lc0-weights') or config.get('network')):raise ValueError('player AlphaZero-X86 requiere lc0-weights')
-    if player=='picokeras' and ev!='null':raise ValueError('player picokeras requiere evaluator null')
+
     if player=='picokeras' and not config.get('engine-path'):raise ValueError('player picokeras requiere engine-path')
     if player=='picokeras' and not config.get('network'):raise ValueError('player picokeras requiere network SavedModel .tf')
     if player=='picokeras' and config.get('network') and not str(config['network']).lower().endswith('.tf'):raise ValueError('player picokeras Desktop requiere network .tf (directorio SavedModel)')
-    if player=='picoalpha' and ev!='null':raise ValueError('player picoalpha requiere evaluator null')
+
     if player=='picoalpha' and not config.get('engine-path'):raise ValueError('player picoalpha requiere engine-path')
     if player=='picoalpha' and not config.get('network'):raise ValueError('player picoalpha requiere network')
-    if player=='picosargon' and ev!='null':raise ValueError('player picosargon requiere evaluator null')
+
     if player=='picosargon' and not config.get('engine-path'):raise ValueError('player picosargon requiere engine-path')
-    if player=='lc0' and ev!='null':raise ValueError('player lc0 requiere evaluator null')
+
     if player=='lc0' and not (config.get('lc0-uci-path') or config.get('engine-path')):raise ValueError('player lc0 requiere lc0-uci-path o engine-path')
-    if player=='stockfish' and ev!='null':raise ValueError('player stockfish requiere evaluator null')
-    if player=='alphazero' and ev not in ('lc0','tinygyal','znpz','zclassic','grumpy','keras'):raise ValueError('player alphazero requiere evaluator lc0, tinygyal, znpz o zclassic')
+
+
     if ev=='tinygyal' and not (config.get('network') or config.get('lc0-weights')):raise ValueError('evaluator tinygyal requiere network o lc0-weights')
     if ev=='lc0' and not config.get('lc0-weights'):raise ValueError('evaluator lc0 requiere lc0-weights')
-    if player not in ('stockfish','random','lc0','picosargon','external','picoalpha','alphazero-x86','AlphaZero-X86','keras','picokeras') and ev=='null':raise ValueError('evaluator null solo válido para stockfish o random')
-    if ev in ('npz','znpz','grumpy','keras') and not config.get('network'):raise ValueError(f'evaluator {ev} requiere network')
+
+    if ev in ('npz','znpz','grumpy','keras','genus-pst','genus-nnue','mctse') and not config.get('network'):raise ValueError(f'evaluator {ev} requiere network')
     if player == 'sunfish' and not config.get('engine-path'):raise ValueError('player externo requiere engine-path')
     if ev=='stockfish' and not config.get('stockfish-path'):raise ValueError('evaluator stockfish requiere stockfish-path')
     if check_files:

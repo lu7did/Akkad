@@ -30,6 +30,46 @@
       "timeout": 1000,
       "ELO": 400
     },
+    "dalma": {
+      "type": "uci",
+      "evaluator" : "null",
+      "player": {
+         "windows": "C:/Users/pedro/github/bobby/akkad/picoAlpha/X86/build/picoAlpha.exe",
+         "debian": "",
+         "macOS": ""
+      },
+      "args": {
+        "windows": [
+           "--network", "C:/Users/pedro/github/bobby/akkad/picoAlpha/assets/dalia_20261115B_int8.bin",
+           "--depth", "12",
+           "--timeout", "15000",
+           "--sim", "10000"
+        ],
+         "debian": [
+           "--network", "{network}",
+           "--depth", "12",
+           "--timeout", "15000",
+           "--sim", "1200",
+           "--cpuct", "1.5"
+         ],
+         "macOS": [
+           "--network", "{network}",
+           "--depth", "12",
+           "--timeout", "15000",
+           "--sim", "1200",
+           "--cpuct", "1.5"
+         ]
+      },
+     "uci_options": {
+         "UCI_LimitStrength": true,
+         "UCI_Elo": 1800,
+         "Threads": 1,
+         "Hash": 64
+     },
+     "tmax": 10000,
+     "timeout": 60000,
+     "ELO": 400
+  },
     "emma": {
       "type": "uci",
       "evaluator" : "null",
@@ -71,8 +111,60 @@
      "timeout": 60000,
      "ELO": 400
   },
-  
+  "genus_classic": {
+    "type": "nurse",
+    "player": "sargon",
+    "evaluator": "classic",
+    "Depth": 3,
+    "QDepth": 2,
+    "tmax": 15000,
+    "timeout": 30000,
+    "ELO": 1000
+  },
+  "polly": {
+    "type": "nurse",
+    "player": "sargon-plus",
+    "evaluator": {
+      "evaluator": "genus-pst",
+      "network": "../../picoGen/assets/genus_pst.json"
+    },
+    "Depth": 3,
+    "QDepth": 2,
+    "tmax": 15000,
+    "timeout": 30000,
+    "ELO": 1000
+  },
+  "dolly": {
+    "type": "nurse",
+    "player": "sargon-plus",
+    "evaluator": {
+      "evaluator": "genus-nnue",
+      "network": "../../picoGen/assets/genus_nnue.npy"
+    },
+    "Depth": 3,
+    "QDepth": 2,
+    "tmax": 15000,
+    "timeout": 30000,
+    "ELO": 1000
+  },
 
+  "dalia": {
+    "type": "nurse",
+    "player": "mctsp",
+    "evaluator": {
+       "evaluator": "mctse",
+       "network": "../../picoAlpha/assets/dalia_20261115B_int8.pt"
+    },
+    "arguments": {
+       "sims": 2000,
+       "depth": 14,
+       "cpuct": 1.5
+    },
+    "Depth": 14,
+    "tmax": 15000,
+    "timeout": 30000,
+    "ELO": 1000
+   },
   "amelie": {
       "type": "uci",
       "evaluator" : "null",

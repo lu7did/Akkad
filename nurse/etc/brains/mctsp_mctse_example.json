@@ -1,0 +1,21 @@
+{
+  "brains": {
+    "mctsp_mctse": {
+      "type": "nurse",
+      "player": "mctsp",
+      "evaluator": {
+        "evaluator": "mctse",
+        "network": "../../../picoAlpha/assets/REEMPLAZAR_POR_CHECKPOINT_REAL.pt"
+      },
+      "arguments": {
+        "sims": 200,
+        "depth": 12,
+        "cpuct": 1.4
+      },
+      "Depth": 12,
+      "tmax": 15000,
+      "timeout": 30000,
+      "ELO": 1000
+    }
+  }
+}

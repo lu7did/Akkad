@@ -3,8 +3,13 @@ import json,os,sys,shutil,hashlib
 from urllib.parse import urlsplit
 from pathlib import Path
 
-NATIVE = {"sargon", "sargon-plus", "random", "doc", "microchess", "cerebrum", "keras", "alphazero", "bellman", "mctsp"}
-EVALUATORS = {"null","classic","npz","cerebrum","cerebrum-1.1","cerebrum-2","stockfish","lc0","tinygyal","znpz","zclassic","grumpy","keras","microchess","bellmanr", "mctse"}
+from .engine_registry import choices, entry, ensure_pair, source
+class _Choices:
+    def __init__(self,kind): self.kind=kind
+    def __contains__(self,x): return isinstance(x,str) and x.lower() in choices(self.kind)
+    def __iter__(self): return iter(choices(self.kind))
+NATIVE = _Choices('player')
+EVALUATORS = _Choices('evaluator')
 
 def platform_name():
     return "windows" if os.name=="nt" else "macOS" if sys.platform=="darwin" else "debian"
@@ -168,7 +173,7 @@ def read_brain(path,ident):
     if typ=="nurse":
         if "uci_options" in cfg:raise ValueError("uci_options solo aplica a motores UCI (uci/external)")
         name=str(cfg.get("player","")).replace(".py","").replace("_","-").lower()
-        if name not in NATIVE:raise ValueError(f"player no portado: {name}")
+        if name not in NATIVE:raise ValueError(f"player no registrado: {name}")
         evaluator_cfg=cfg.get("evaluator","null")
         if isinstance(evaluator_cfg,dict):
             if set(evaluator_cfg)-{"evaluator","network"}:
@@ -183,15 +188,31 @@ def read_brain(path,ident):
         if ev is None:ev="null"
         if not isinstance(ev,str):raise ValueError("evaluator.evaluator debe ser string o null")
         evname=ev.replace(".py","").lower()
-        if evname not in EVALUATORS:
-            cfg["_evaluator_path"]=resolve_path(ev,path,executable=True)
-            evname='external-evaluator'
-        if name=='mctsp' and evname!='mctse':
-            raise ValueError('MCTSP requiere evaluator=MCTSE')
-        if evname=='mctse' and name!='mctsp':
-            raise ValueError('MCTSE solo admite player=MCTSP')
-        if name=='mctsp' and network is None:
-            raise ValueError('MCTSP/MCTSE requieren evaluator.network')
+        # Registrations are authoritative. No silent external-executable fallback.
+        player_spec,evaluator_spec=ensure_pair(name,evname,nurse_only=True)
+        cfg['_player_python']=player_spec['python_full_path']
+        cfg['_evaluator_python']=evaluator_spec['python_full_path']
+        if evaluator_spec.get('requires_network') and (not isinstance(network,str) or not network.strip()):
+            raise ValueError(f'evaluator={evname} requiere network')
+        # MCTSP uses both policy and value heads from the same MCTSE model.
+        # It cannot consume an ordinary centipawn evaluator.
+        if name == 'mctsp':
+            if not isinstance(network, str) or not network.strip():
+                raise ValueError('MCTSP/MCTSE requiere evaluator.network con checkpoint .pt')
+            if Path(network).suffix.lower() != '.pt':
+                raise ValueError('MCTSE requiere checkpoint .pt (780x16, policy from_to, value tanh)')
+            mcts_args = cfg.get('arguments', {})
+            if not isinstance(mcts_args, dict):
+                raise ValueError('MCTSP arguments requiere objeto')
+            unknown = set(mcts_args) - {'sims', 'depth', 'cpuct'}
+            if unknown:
+                raise ValueError('MCTSP arguments desconocidos: ' + ', '.join(sorted(unknown)))
+            import math
+            for key in ('sims', 'depth'):
+                if key in mcts_args and (isinstance(mcts_args[key], bool) or not isinstance(mcts_args[key], int) or mcts_args[key] < 1):
+                    raise ValueError(f'MCTSP arguments.{key} debe ser entero positivo')
+            if 'cpuct' in mcts_args and (isinstance(mcts_args['cpuct'], bool) or not isinstance(mcts_args['cpuct'], (int, float)) or not math.isfinite(mcts_args['cpuct']) or not 0 < mcts_args['cpuct'] < 100):
+                raise ValueError('MCTSP arguments.cpuct debe estar entre 0 y 100')
         if evname=='null' and network is not None:
             raise ValueError("evaluator=null no admite network")
         cfg["_player"]=name;cfg["_evaluator"]=evname

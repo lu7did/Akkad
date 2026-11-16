@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "brains": {
+    "genus_classic": {
+      "type": "nurse",
+      "player": "sargon",
+      "evaluator": {
+        "evaluator": "classic"
+      },
+      "Depth": 3,
+      "QDepth": 2,
+      "tmax": 15000,
+      "timeout": 30000,
+      "ELO": 1000
+    },
+    "genus_pst": {
+      "type": "nurse",
+      "player": "sargon",
+      "evaluator": {
+        "evaluator": "genus-pst",
+        "network": "../../../picoGenus/assets/genus_pst.json"
+      },
+      "Depth": 3,
+      "QDepth": 2,
+      "tmax": 15000,
+      "timeout": 30000,
+      "ELO": 1000
+    },
+    "genus_nnue": {
+      "type": "nurse",
+      "player": "sargon",
+      "evaluator": {
+        "evaluator": "genus-nnue",
+        "network": "../../../picoGenus/assets/genus_nnue.npy"
+      },
+      "Depth": 3,
+      "QDepth": 2,
+      "tmax": 15000,
+      "timeout": 30000,
+      "ELO": 1000
+    }
+  }
+}

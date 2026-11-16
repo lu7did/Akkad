@@ -1,0 +1,304 @@
+{
+  "format": "nurse-engine-registry-v1",
+  "path_base": "nurse_root",
+  "engines": [
+    {
+      "id": "random",
+      "type": "player",
+      "python": "src/nurse/players/random.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "nurse"
+    },
+    {
+      "id": "sargon",
+      "type": "player",
+      "python": "src/nurse/players/sargon.py",
+      "evaluators": "*",
+      "transport": "nurse"
+    },
+    {
+      "id": "sargon-plus",
+      "type": "player",
+      "python": "src/nurse/players/sargon_plus.py",
+      "evaluators": "*",
+      "transport": "nurse"
+    },
+    {
+      "id": "cerebrum",
+      "type": "player",
+      "python": "src/nurse/players/cerebrum.py",
+      "evaluators": "*",
+      "transport": "nurse"
+    },
+    {
+      "id": "alphazero",
+      "type": "player",
+      "python": "src/nurse/players/alphazero.py",
+      "evaluators": [
+        "lc0",
+        "tinygyal",
+        "znpz",
+        "zclassic",
+        "grumpy",
+        "keras"
+      ],
+      "transport": "nurse"
+    },
+    {
+      "id": "doc",
+      "type": "player",
+      "python": "src/nurse/players/doc.py",
+      "evaluators": "*",
+      "transport": "nurse"
+    },
+    {
+      "id": "keras",
+      "type": "player",
+      "python": "src/nurse/players/keras.py",
+      "evaluators": "*",
+      "transport": "nurse"
+    },
+    {
+      "id": "microchess",
+      "type": "player",
+      "python": "src/nurse/players/microchess.py",
+      "evaluators": "*",
+      "transport": "nurse"
+    },
+    {
+      "id": "bellman",
+      "type": "player",
+      "python": "src/nurse/players/bellman.py",
+      "evaluators": [
+        "bellmanR"
+      ],
+      "transport": "nurse"
+    },
+    {
+      "id": "mctsp",
+      "type": "player",
+      "python": "src/nurse/players/mctsp.py",
+      "evaluators": [
+        "mctse"
+      ],
+      "transport": "nurse"
+    },
+    {
+      "id": "stockfish",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/uci_external.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "sunfish",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/uci_external.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "external",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/tcp_external.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "lc0",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/lc0_uci.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "picosargon",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/picosargon_uci.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "picoalpha",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/picoalpha_uci.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "alphazero-x86",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/alphazero_x86_uci.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "picokeras",
+      "type": "player",
+      "python": "src/nurse/_legacy/players/picokeras_uci.py",
+      "evaluators": [
+        "null"
+      ],
+      "transport": "legacy"
+    },
+    {
+      "id": "null",
+      "type": "evaluator",
+      "python": "src/nurse/_legacy/evaluators/null.py",
+      "players": [
+        "random",
+        "stockfish",
+        "sunfish",
+        "external",
+        "lc0",
+        "picosargon",
+        "picoalpha",
+        "alphazero-x86",
+        "picokeras",
+        "keras"
+      ],
+      "requires_network": false
+    },
+    {
+      "id": "classic",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/classic.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "npz",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/npz.py",
+      "players": "*",
+      "requires_network": true
+    },
+    {
+      "id": "cerebrum",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/cerebrum.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "cerebrum-1.1",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/cerebrum_1_1.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "cerebrum-2",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/cerebrum_2.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "stockfish",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/stockfish.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "lc0",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/lc0.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "tinygyal",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/tinygyal.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "znpz",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/znpz.py",
+      "players": "*",
+      "requires_network": true
+    },
+    {
+      "id": "zclassic",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/zclassic.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "grumpy",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/grumpy.py",
+      "players": "*",
+      "requires_network": true
+    },
+    {
+      "id": "keras",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/keras.py",
+      "players": "*",
+      "requires_network": true
+    },
+    {
+      "id": "microchess",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/microchess.py",
+      "players": "*",
+      "requires_network": false
+    },
+    {
+      "id": "bellmanR",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/bellmanr.py",
+      "players": [
+        "bellman"
+      ],
+      "requires_network": false
+    },
+    {
+      "id": "genus-pst",
+      "type": "evaluator",
+      "python": "src/nurse/genus_eval.py",
+      "players": "*",
+      "requires_network": true,
+      "factory": "nurse.genus_eval:make_pst"
+    },
+    {
+      "id": "genus-nnue",
+      "type": "evaluator",
+      "python": "src/nurse/genus_eval.py",
+      "players": "*",
+      "requires_network": true,
+      "factory": "nurse.genus_eval:make_nnue"
+    },
+    {
+      "id": "mctse",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/mctse.py",
+      "players": [
+        "mctsp"
+      ],
+      "requires_network": true
+    }
+  ]
+}

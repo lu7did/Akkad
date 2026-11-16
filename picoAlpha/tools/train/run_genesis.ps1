@@ -1,22 +1,24 @@
-﻿# Akkad / picoAlpha - Genesis training orchestrator v0.1.6
+# Akkad / picoAlpha - Genesis training orchestrator v0.1.11
 # Execute from any directory. Edit defaults in the CONFIGURATION block.
 [CmdletBinding()]
 param(
     [Alias('h')][switch]$Help,
     [Alias('-mon')][Nullable[int]]$Mon = $null,
+    [Alias('-resume')][switch]$Resume,
+    [ValidateRange(0,100)][int]$EngineRetries = 3,
     [string]$HistoryDir = 'C:\Users\pedro\github\Bobby\Chess_History_pb\picoAlpha',
     [string]$PgnPattern = 'C:\Users\pedro\github\Bobby\Chess_History_pb\pgn\*.pgn',
     [ValidateRange(0,100)][int]$Sample = 20,
     [int]$Seed = 42,
-    [string]$Engine = 'stockfish.exe',
+    [string]$Engine = 'C:\Users\pedro\github\Bobby\stockfish\stockfish.exe',
     [string]$EngineArgs = '',
     [ValidateRange(1,2147483647)][int]$Depth = 10,
     [Nullable[int]]$Nodes = $null,
     [ValidateRange(0,100)][int]$Validate = 20,
     [ValidateRange(1,2147483647)][int]$Epoch = 20,
     [ValidateSet('AdamW','Adam','SGD','RMSprop')][string]$Method = 'AdamW',
-    [double]$Lr = 0.005,
-    [double]$LrMin = 0.0001,
+    [double]$Lr = 0.0005,
+    [double]$LrMin = 0.00001,
     [ValidateRange(1,2147483647)][int]$Batch = 64,
     [ValidateSet('cpu','cuda','xpu')][string]$Device = 'cpu',
     [double]$ValueWeight = 2.0,
@@ -35,10 +37,12 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectDir = [System.IO.Path]::GetFullPath((Join-Path $ScriptDir '..\..'))
 
 if ($Help) {
-    Write-Host 'Genesis pipeline picoAlpha v0.1.6 - seis pasos secuenciales MON=0..5'
+    Write-Host 'Genesis pipeline picoAlpha v0.1.11 - seis pasos secuenciales MON=0..5'
     Write-Host 'Uso: .\run_genesis.ps1 -Mon 0..5 (o --mon 0..5) [-HistoryDir PATH] [-PgnPattern GLOB] ... [-Help]'
     Write-Host 'Todos los parametros pueden modificarse al invocar el script:'
     Write-Host '  -Mon N / --mon N   OBLIGATORIO: paso inicial 0..5; -Help no lo requiere'
+    Write-Host '  -Resume / --resume  Saltear evaluaciones existentes en MON=3'
+    Write-Host '  -EngineRetries N   Reinicios de Stockfish por posicion (default 3)'
     Write-Host '  -HistoryDir PATH    Base de datos history.pb y sample_history.pb (directorio)'
     Write-Host '  -PgnPattern GLOB    Archivos PGN para loader.py'
     Write-Host '  -Sample N           Porcentaje de partidas muestreadas (default 20)'
@@ -52,7 +56,7 @@ if ($Help) {
     Write-Host '  -Method NAME        AdamW|Adam|SGD|RMSprop (default AdamW)'
     Write-Host '  -Lr N               Learning rate inicial (default 0.005)'
     Write-Host '  -LrMin N            Learning rate minimo (default 0.0001)'
-    Write-Host '  -Batch N            Tamaño de lote (default 64)'
+    Write-Host '  -Batch N            Tamano de lote (default 64)'
     Write-Host '  -Device NAME        cpu|cuda|xpu (default cpu)'
     Write-Host '  -ValueWeight N      Peso del loss valor (default 2.0)'
     Write-Host '  -AssetsDir PATH     Carpeta de activos (default picoAlpha/assets)'
@@ -74,9 +78,18 @@ $CheckpointDir = Join-Path $AssetsDir 'checkpoints'
 $BestPt = Join-Path $CheckpointDir 'best.pt'
 $CppHeader = Join-Path $AssetsDir 'picoalpha_nnue_weights.hpp'
 $BestInt8 = Join-Path $CheckpointDir 'best_int8.pt'
+$BestInt8Bin = Join-Path $CheckpointDir 'best_int8.bin'
 
-# MON is the next step permitted to execute. Advance only after an exit code of zero.
+# ============================================================================
+# CONTROL EXPLICITO DE EJECUCION
+# Invocacion recomendada: .\run_genesis.ps1 -Mon 3 -Resume
+# MON comienza EXACTAMENTE en el valor pasado mediante -Mon (obligatorio).
+# RESUME_ENABLED toma el valor del switch -Resume / --resume.
+# No se recrean las bases en MON=3.
+# ============================================================================
 $MON = [int]$Mon
+$RESUME_ENABLED = [bool]$Resume
+# MON avanza unicamente despues de completar exitosamente un paso.
 
 function Assert-GenesisDb {
     param([string]$Path, [int]$MinGames = 0)
@@ -101,7 +114,7 @@ function Invoke-GenesisStep {
     if (-not (Test-Path -LiteralPath $programPath -PathType Leaf)) {
         throw "Falta el programa requerido: $programPath (MON=$script:MON)"
     }
-    Write-Host ("⚙️ Paso {0:D2} - {1}" -f $Number, $Purpose)
+    Write-Host ("{0} Paso {1:D2} - {2}" -f ([char]0x2699), $Number, $Purpose)
     Write-Host ("   Programa: {0}" -f $programPath)
     if ($Number -eq 0 -or $Number -eq 1 -or $Number -eq 2) {
         Write-Host ("   Base de entrada/historico: {0}" -f $HistoryDb)
@@ -126,7 +139,10 @@ function Invoke-GenesisStep {
 }
 
 New-Item -ItemType Directory -Force -Path $HistoryDir, $CheckpointDir | Out-Null
-Write-Host ("Genesis starting MON={0} (steps before this value will be skipped)" -f $MON)
+Write-Host ("Genesis starting MON={0} RESUME={1} (steps before MON will be skipped)" -f $MON, $RESUME_ENABLED)
+if ($MON -eq 3 -and -not $RESUME_ENABLED) {
+    Write-Warning 'MON=3 sin -Resume: teacher.py recalculara evaluaciones existentes. Recomendado: -Mon 3 -Resume'
+}
 Write-Host ("Genesis paths: CWD={0}" -f (Get-Location).Path)
 Write-Host ("Genesis paths: script={0}" -f $ScriptDir)
 Write-Host ("Genesis paths: PGN={0}" -f $PgnPattern)
@@ -138,7 +154,8 @@ Invoke-GenesisStep -Number 1 -Purpose 'Importar partidas PGN al historico' -Prog
 if ($MON -eq 2) { Assert-GenesisDb -Path $HistoryDb -MinGames 1 }
 Invoke-GenesisStep -Number 2 -Purpose 'Crear muestra sample_history.pb' -Program 'sampler.py' -Arguments @('--in', $HistoryDb, '--out', $SampleDb, '--sample', [string]$Sample, '--seed', [string]$Seed) -VerifyDb $SampleDb
 # Skip --args entirely when empty: empty-string elements cause PowerShell binding errors.
-$teacherArgs = @('--in', $SampleDb, '--engine', $Engine, '--depth', [string]$Depth)
+$teacherArgs = @('--in', $SampleDb, '--engine', $Engine, '--depth', [string]$Depth, '--engine-retries', [string]$EngineRetries)
+if ($RESUME_ENABLED) { $teacherArgs += '--resume' }
 if (-not [string]::IsNullOrWhiteSpace($EngineArgs)) { $teacherArgs += @('--args', $EngineArgs) }
 if ($null -ne $Nodes) { $teacherArgs += @('--nodes', [string]$Nodes) }
 if ($MON -eq 3) { Assert-GenesisDb -Path $SampleDb -MinGames 1 }
@@ -148,5 +165,5 @@ Invoke-GenesisStep -Number 4 -Purpose 'Entrenar NNUE y generar checkpoints PyTor
 if ($MON -eq 5 -and -not (Test-Path -LiteralPath $BestPt -PathType Leaf)) {
     throw "Paso 05 no puede comenzar: no existe el checkpoint $BestPt"
 }
-Invoke-GenesisStep -Number 5 -Purpose 'Exportar INT8 a C++ y checkpoint PyTorch' -Program 'export.py' -Arguments @('--in', $BestPt, '--out', $CppHeader, '--int8', $BestInt8, '--namespace', $Namespace)
+Invoke-GenesisStep -Number 5 -Purpose 'Exportar INT8 a C++ y checkpoint PyTorch' -Program 'export.py' -Arguments @('--in', $BestPt, '--out', $CppHeader, '--int8', $BestInt8, '--bin', $BestInt8Bin, '--namespace', $Namespace)
 if ($MON -eq 6) { Write-Host ("Genesis completado: MON={0}; best={1}; header={2}; int8={3}" -f $MON, $BestPt, $CppHeader, $BestInt8) }

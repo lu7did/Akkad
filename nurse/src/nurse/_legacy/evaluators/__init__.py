@@ -30,6 +30,24 @@ def create_evaluator(kind: str, network: str | None = None, *, allow_new_npz: bo
                      z_temperature=100.0, z_value_scale=800.0, z_uniform_mix=0.01,
                      z_policy='uniform', bellman_nmin=2, bellman_alpha=1.0, bellman_lambda=0.25, bellman_gamma=1.0, alternate_network=None, alternate_evaluator="grumpy"):
     key = kind.strip().lower()
+    from nurse.engine_registry import factory as resolve_factory
+    plugin=resolve_factory('evaluator',key)
+    if plugin is not None:
+        return plugin(network=network, allow_new_npz=allow_new_npz,
+                      cerebrum_a=cerebrum_a,cerebrum_b=cerebrum_b,
+                      stockfish_path=stockfish_path,stockfish_timeout_ms=stockfish_timeout_ms,
+                      lc0_weights=lc0_weights,lc0_backend=lc0_backend,
+                      lc0_backend_options=lc0_backend_options)
+    if key in ('genus-pst','genus-nnue'):
+        if not network:
+            raise EvaluatorError(f'evaluator={kind} requires evaluator.network')
+        from nurse.genus_eval import GenusEvaluator
+        if key == 'genus-pst':
+            evaluator = GenusEvaluator('pst', coefficient=network)
+        else:
+            evaluator = GenusEvaluator('nnue', network=network)
+        print(f'🧬 GENUS evaluator={key} model={evaluator.source}',file=__import__('sys').stderr,flush=True)
+        return evaluator
     if key == "bellmanr":
         from .bellman_r import BellmanREvaluator
         return BellmanREvaluator(network,nmin=bellman_nmin,alpha=bellman_alpha,lam=bellman_lambda,gamma=bellman_gamma,alternate_network=alternate_network, alternate_evaluator=alternate_evaluator)

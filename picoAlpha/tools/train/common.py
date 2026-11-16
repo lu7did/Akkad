@@ -69,18 +69,29 @@ class _ProgressLine:
         prefix = f'{label:<12} ['
         suffix = f'] {fraction*100:6.2f}% {counter}'
         tail = str(tail).strip()
-        # No rellenar el campo 'tail' si está ausente (como en teacher.py).
-        reserved = len(prefix) + len(suffix) + (1 if tail else 0)
-        bar_width = max(0, min(24, cap - reserved))
-        if bar_width:
-            filled = min(bar_width, round(bar_width*fraction))
-            line = prefix + '█'*filled + '░'*(bar_width-filled) + suffix
-        else:
-            line = f'{label} {fraction*100:.2f}% {counter}'
+        # Reserve the complete ETA before sizing the bar. Truncating its
+        # seconds would yield an incorrect, unstable HHHHHH:MM:SS display.
         if tail:
-            available = cap - len(line) - 1
-            if available > 0:
-                line += ' ' + tail[:available]
+            reserved = len(prefix) + len(suffix) + 1 + len(tail)
+            bar_width = min(24, max(0, cap - reserved))
+            if bar_width < 2:
+                # Narrow console: use a compact, still fixed-width label.
+                prefix = f'{label.strip()[:8]} ['
+                reserved = len(prefix) + len(suffix) + 1 + len(tail)
+                bar_width = max(0, min(24, cap - reserved))
+            if bar_width:
+                filled = min(bar_width, round(bar_width*fraction))
+                line = prefix + '█'*filled + '░'*(bar_width-filled) + suffix + ' ' + tail
+            else:
+                line = f'{label.strip()[:8]} {fraction*100:6.2f}% {counter} {tail}'
+        else:
+            reserved = len(prefix) + len(suffix)
+            bar_width = max(0, min(24, cap-reserved))
+            if bar_width:
+                filled = min(bar_width, round(bar_width*fraction))
+                line = prefix + '█'*filled + '░'*(bar_width-filled) + suffix
+            else:
+                line = f'{label} {fraction*100:.2f}% {counter}'
         return line[:cap]
 
     def update(self, label, current, total, tail=''):

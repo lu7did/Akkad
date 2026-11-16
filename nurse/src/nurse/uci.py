@@ -34,8 +34,10 @@ class Nurse:
         t.wire_uci=(typ in ('uci','external'))
         try:
             if typ=='nurse':
-                mod=self.cfg['_player'].replace('-','_')
-                t.process([sys.executable,'-u','-m','nurse.players.'+mod,'--serve','--config',json.dumps(self.cfg)])
+                # Full Python implementation path resolved from engines.json.
+                script=Path(self.cfg['_player_python']).resolve()
+                module='.'.join(script.relative_to(Path(__file__).resolve().parent.parent).with_suffix('').parts)
+                t.process([sys.executable,'-u','-m',module,'--serve','--config',json.dumps(self.cfg)])
                 t.send(json.dumps({'cmd':'ready'}))
                 reply=json.loads(t.recv(self.timeout))
                 if not reply.get('ready'):raise TransportError('worker no listo')
@@ -130,7 +132,8 @@ class Nurse:
                 # grace begins after the configured thinking budget has elapsed.
                 reply=json.loads(self.transport.recv(budget/1000+self.timeout))
                 if not reply.get('ok'):raise TransportError(reply.get('error','worker error'))
-                cp=reply['score_cp'] if reply.get('turn_white') else -reply['score_cp']
+                # UCI score is from side-to-move (engine) POV, as produced by Worker.
+                cp=reply['score_cp']
                 info='info depth {depth} nodes {nodes} time {time} nps {nps} score cp '.format(**reply)+str(cp)
                 if 'simulations' in reply:
                     self.emit('info string MCTSP simulations={simulations} nodes={nodes} time={time} value={value:.6f} visits={visits} stop={stop_reason}'.format(**reply))

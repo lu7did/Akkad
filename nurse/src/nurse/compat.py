@@ -19,6 +19,8 @@ def get(path,ident):
         evaluator='null' 
     else:player='external';evaluator='null'
     result.update(player=player,evaluator=evaluator)
+    if typ=='nurse' and cfg.get('_network'):
+        result['network']=cfg['_network']
     for key in ('_type','_player','_evaluator','_engine','_network'):
         result.pop(key,None)
     # Original MATCH injection relies on these fields, but the real player

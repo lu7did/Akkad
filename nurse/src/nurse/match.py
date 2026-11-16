@@ -26,7 +26,8 @@ import threading
 import time
 from pathlib import Path
 import chess
-from .compat import get, ENGINE_KEYS, PLAYER_CHOICES, EVALUATOR_CHOICES
+from .engine_registry import ensure_pair, choices
+from .config import read_brain
 
 OPENINGS = [
     'e2e4 e7e5 g1f3 b8c6',
@@ -250,8 +251,8 @@ import chess.pgn
 
 def add_side(ap, side):
     p='--'+side+'-'
-    ap.add_argument(p+'player', choices=PLAYER_CHOICES, default='sargon-plus')
-    ap.add_argument(p+'evaluator', choices=EVALUATOR_CHOICES, default='classic')
+    ap.add_argument(p+'player', choices=choices('player'), default='sargon-plus')
+    ap.add_argument(p+'evaluator', choices=choices('evaluator'), default='classic')
     for key in ['model','network','engine-path','url','stockfish-path','elo','cerebrum-a','cerebrum-b','lc0-uci-path','lc0-uci-options','lc0-weights','lc0-backend','lc0-backend-options','lc0-history']:
         ap.add_argument(p+key)
     for key,default in [('depth',2),('qdepth',2),('dmax',None),('tmax',15000),('movetime',1000),('timeout',30000),('nodes',None),('stockfish-threads',1),('stockfish-hash',256),('stockfish-timeout',5000),('stockfish-check-depth',1),('stockfish-cache',100000),('lc0-cache',10000),('az-simulations',128),('lc0-uci-threads',1),('lc0-uci-nncache',200000),('lc0-uci-depth',0),('lc0-uci-nodes',800),('lc0-uci-movetime',0),('lc0-uci-timeout',60000)]:
@@ -451,19 +452,21 @@ def main(argv=None):
     selection=argparse.ArgumentParser(add_help=False)
     selection.add_argument('--brain');selection.add_argument('--idA');selection.add_argument('--idB')
     selected,_=selection.parse_known_args(raw)
-    if any((selected.brain,selected.idA,selected.idB)):
-        if not all((selected.brain,selected.idA,selected.idB)):
+    brain_mode = bool(selected.brain or selected.idA or selected.idB)
+    if brain_mode:
+        if not all((selected.brain, selected.idA, selected.idB)):
             ap.error('--brain --idA --idB deben informarse juntos')
-        injected=[]
-        for side,identity in [('a',selected.idA),('b',selected.idB)]:
-            try: cfg=get(selected.brain,identity)
-            except ValueError as ex:ap.error(str(ex))
-            # Only executable engine options are forwarded to MATCH.
-            # rating_elo and other brain metadata must never become CLI flags.
-            for key,value in cfg.items():
-                if key in ENGINE_KEYS and value is not None:
-                    injected.extend(['--'+side+'-'+key,str(value)])
-        raw=injected+raw
+        # A brain is a complete transport-specific configuration.  Never inject
+        # `player` or `evaluator` as --a/--b CLI options: UCI `player` is an
+        # executable path/name, NOT a Nurse registry player identifier.
+        for opt in ('--a-player', '--b-player', '--a-evaluator', '--b-evaluator'):
+            if opt in raw or any(token.startswith(opt + '=') for token in raw):
+                ap.error(f'{opt} no puede combinarse con --brain --idA --idB')
+        for identity in (selected.idA, selected.idB):
+            try:
+                read_brain(selected.brain, identity)
+            except (ValueError, OSError) as exc:
+                ap.error(f'brain {identity!r}: {exc}')
     a=ap.parse_args(raw)
     if a.pairs<1:ap.error('--pairs debe ser >=1')
     if a.heartbeat<=0:ap.error('--heartbeat debe ser >0')
@@ -472,12 +475,16 @@ def main(argv=None):
     # Se permite cualquier número de parejas: las aperturas se reciclan cíclicamente.
     # --opening '' permite disputar partidas desde la posición inicial.
     if not openings:ap.error('debe existir al menos una apertura')
-    for side in ['a','b']:
-        player=str(getattr(a,side+'_player')).strip().lower();ev=getattr(a,side+'_evaluator')
-        if player in ('stockfish','lc0','picosargon','external','picoalpha','alphazero-x86','picokeras') and ev not in ('null',None):ap.error(f'--{side}-player {player} requiere --{side}-evaluator null')
-        if ev=='null' and player not in ('stockfish','lc0','random','picosargon','external','picoalpha','alphazero-x86','picokeras'):ap.error(f'--{side}-evaluator null requiere un player compatible con evaluator null (incluido AlphaZero-X86)')
-        if ev=='npz' and not getattr(a,side+'_network'):ap.error(f'--{side}-evaluator npz requiere --{side}-network')
-        if ev=='npz' and not Path(getattr(a,side+'_network')).is_file():ap.error(f'--{side}-network no existe')
+    if not brain_mode:
+        for side in ('a', 'b'):
+            player=str(getattr(a,side+'_player')).strip().lower()
+            ev=getattr(a,side+'_evaluator')
+            try:ensure_pair(player,ev)
+            except ValueError as exc:ap.error(str(exc))
+            if ev=='npz' and not getattr(a,side+'_network'):
+                ap.error(f'--{side}-evaluator npz requiere --{side}-network')
+            if ev=='npz' and not Path(getattr(a,side+'_network')).is_file():
+                ap.error(f'--{side}-network no existe')
     if a.audit_classic and a.audit_stockfish_path:ap.error('Elegir auditoría CLASSIC o Stockfish')
     if a.audit_classic:
         if not a.audit_csv:ap.error('--audit-csv obligatorio con --audit-classic')

@@ -1,4 +1,4 @@
-# picoAlpha training wrapper v0.1.1. Edit ONLY the defaults block below.
+# picoAlpha training wrapper v0.1.10. Edit ONLY the defaults block below.
 param(
     [switch]$Help,
     [Parameter(ValueFromRemainingArguments=$true)] [string[]]$Overrides
@@ -17,8 +17,11 @@ if ($Help -or ($Overrides -contains '--help') -or ($Overrides -contains '-help')
     Write-Host 'Editable defaults:'
     $Defaults.GetEnumerator() | Sort-Object Name | ForEach-Object { Write-Host "  --$($_.Key) $($_.Value)" }
     & python (Join-Path $ScriptDir 'teacher.py') --help
+    Write-Host "  --resume           Retomar solo evaluaciones pendientes (sin valor)"
     exit 0
 }
+$Resume = $Overrides -contains '--resume'
+$Overrides = @($Overrides | Where-Object { $_ -ne '--resume' })
 if ($Overrides.Count % 2 -ne 0) { throw 'Overrides must be --name value pairs' }
 for ($i=0; $i -lt $Overrides.Count; $i+=2) {
     $key=$Overrides[$i] -replace '^--',''
@@ -27,11 +30,12 @@ for ($i=0; $i -lt $Overrides.Count; $i+=2) {
 }
 $Arguments = @()
 foreach ($key in @("in","engine","args","depth","nodes")) {
-    if ($null -ne $Defaults[$key]) {
+    if ($null -ne $Defaults[$key] -and -not [string]::IsNullOrEmpty([string]$Defaults[$key])) {
         $value=[string]$Defaults[$key]
         if ($key -in @('in','out') -and -not [System.IO.Path]::IsPathRooted($value)) { $value=[System.IO.Path]::GetFullPath((Join-Path $ScriptDir $value)) }
         $Arguments += "--$key"; $Arguments += $value
     }
 }
+if ($Resume) { $Arguments += '--resume' }
 & python (Join-Path $ScriptDir 'teacher.py') @Arguments
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

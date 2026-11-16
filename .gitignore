@@ -1,3 +1,5 @@
+.\picoAlpha\assets
+.\picoGen\assets
 .\Sargon-NNUE\data\pb\*
 .\Sargon-NNUE/data/pb/zod_sample.pb
 .\Sargon-NNUE/data/runs/lczero/t1-512x15x8h-distilled-swa-3395000.pb.gz
@@ -48,3 +50,4 @@ C:\Users\pedro\github\bobby\akkad\AlphaZero\build\onnxruntime_providers_shared.d
 # picoKeras macOS - archivos de compilación
 /picoKeras/macOS/build/
 /picoKeras/macOS/third_party/psimd/
+/Pi-Star_RPi_V4.3.7_01-May-2026.zip

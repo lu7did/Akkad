@@ -1,0 +1,249 @@
+[20:39:36] \U0001f4bb sargon-nurse v0.1.36 brain=dalma type=uci ELO=400 tmax_ms=10000 timeout_ms=60000 warmup_movetime_ms=10000
+[20:39:36] \u2699\ufe0f UCI engine=C:\Users\pedro\github\bobby\akkad\picoAlpha\X86\build\picoAlpha.exe args=['--network', 'C:/Users/pedro/github/bobby/akkad/picoAlpha/assets/dalia_20261115B_int8.bin', '--depth', '12', '--timeout', '15000', '--sim', '10000'] options=[('UCI_LimitStrength', 'true'), ('UCI_Elo', '1800'), ('Threads', '1'), ('Hash', '64')]
+[20:39:36] \u2699\ufe0f timing efectivo tmax=10000ms timeout=60000ms warmup_movetime=10000ms
+[20:39:36] \U0001f680 subprocess pid=17920 cwd=C:\Users\pedro\github\bobby\akkad\picoAlpha\X86\build argv=['C:\\Users\\pedro\\github\\bobby\\akkad\\picoAlpha\\X86\\build\\picoAlpha.exe', '--network', 'C:/Users/pedro/github/bobby/akkad/picoAlpha/assets/dalia_20261115B_int8.bin', '--depth', '12', '--timeout', '15000', '--sim', '10000']
+[20:39:36] \u27a1\ufe0f UCI stdin uci
+[20:39:36] \U0001f4cb child [BOOT] picoAlpha MCTSP+MCTSE C++ v0.1.42 platform=x86/UCI
+[20:39:36] \U0001f4cb child [NNUE] INT8 780x16 from_to/tanh model=C:/Users/pedro/github/bobby/akkad/picoAlpha/assets/dalia_20261115B_int8.bin weights=14544 scales=4
+[20:39:36] \U0001f4cb child [SEARCH] PUCT depth=12 sims=10000 timeout_ms=15000
+[20:39:36] \u2b05\ufe0f UCI stdout id name picoAlpha MCTSP-MCTSE v0.1.42
+[20:39:36] \u2b05\ufe0f UCI stdout id author Akkad
+[20:39:36] \u2b05\ufe0f UCI stdout option name Depth type spin default 12 min 1 max 256
+[20:39:36] \u2b05\ufe0f UCI stdout option name Simulations type spin default 200 min 1 max 1000000000
+[20:39:36] \u2b05\ufe0f UCI stdout option name Timeout type spin default 15000 min 1 max 1000000000
+[20:39:36] \u2b05\ufe0f UCI stdout option name Cpuct type string default 1.4
+[20:39:36] \u2b05\ufe0f UCI stdout uciok
+[20:39:36] \u27a1\ufe0f UCI stdin setoption name UCI_LimitStrength value true
+[20:39:36] \u27a1\ufe0f UCI stdin setoption name UCI_Elo value 1800
+[20:39:36] \u27a1\ufe0f UCI stdin setoption name Threads value 1
+[20:39:36] \u27a1\ufe0f UCI stdin setoption name Hash value 64
+[20:39:36] \u27a1\ufe0f UCI stdin isready
+[20:39:36] \u2b05\ufe0f UCI stdout readyok
+[20:39:36] \u2705 handshake UCI completo
+[20:39:36] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:36] \U0001f4cb child [UCI] ucinewgame
+[20:39:36] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:36] \u27a1\ufe0f UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[20:39:36] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:36] \U0001f4cb child [UCI] position moves=0
+[20:39:36] \u2b05\ufe0f UCI stdout info depth 12 nodes 312348 time 71 nps 4399267 score cp 31
+[20:39:36] \u2b05\ufe0f UCI stdout bestmove e2e4
+[20:39:36] \U0001f4cb child [MCTS] sims=10000 visits=9236 nodes=312348 depth=12 nn_value_stm=0.237510 elapsed_ms=71 reason=sims
+[20:39:36] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:36] \U0001f4cb child [UCI] ucinewgame
+[20:39:36] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:36] \u27a1\ufe0f UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[20:39:36] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:36] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=1431 nodes=394882 depth=12 nn_value_stm=0.024182 elapsed_ms=70 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 394882 time 70 nps 5641171 score cp -102
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove d7c6
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=2765 nodes=281500 depth=8 nn_value_stm=0.171540 elapsed_ms=58 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 8 nodes 281500 time 58 nps 4853448 score cp 60
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove c3f3
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 328744 time 65 nps 5057600 score cp -30
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove d7g4
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=5756 nodes=328744 depth=12 nn_value_stm=-0.243949 elapsed_ms=65 reason=sims
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 11 nodes 347550 time 66 nps 5265909 score cp 98
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=3583 nodes=347550 depth=11 nn_value_stm=0.400567 elapsed_ms=66 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove d4b5
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 10 nodes 471544 time 79 nps 5968911 score cp 109
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=8727 nodes=471544 depth=10 nn_value_stm=0.238502 elapsed_ms=79 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove f1f5
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 175532 time 45 nps 3900711 score cp 79
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove g3g4
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=8879 nodes=175532 depth=12 nn_value_stm=0.221571 elapsed_ms=45 reason=sims
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=8671 nodes=345998 depth=12 nn_value_stm=0.161315 elapsed_ms=67 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 345998 time 67 nps 5164149 score cp 102
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove a3b4
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=2492 nodes=146869 depth=11 nn_value_stm=0.073480 elapsed_ms=44 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 11 nodes 146869 time 44 nps 3337931 score cp -1
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove e3f3
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 2kr1bnr/pbpq4/2n1pp2/3p3p/3P1P1B/2N2N1Q/PPP3PP/2KR1B1R w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 11 nodes 368771 time 64 nps 5762046 score cp 96
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=4593 nodes=368771 depth=11 nn_value_stm=0.302076 elapsed_ms=64 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove c3b5
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=7877 nodes=408364 depth=12 nn_value_stm=0.206268 elapsed_ms=75 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 408364 time 75 nps 5444853 score cp 1
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove b6c5
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 358747 time 61 nps 5881098 score cp 97
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove h2h4
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=5239 nodes=358747 depth=12 nn_value_stm=0.374204 elapsed_ms=61 reason=sims
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=8467 nodes=400216 depth=12 nn_value_stm=0.060656 elapsed_ms=69 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 400216 time 69 nps 5800231 score cp -28
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove d7f5
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=2074 nodes=368482 depth=7 nn_value_stm=0.215563 elapsed_ms=63 reason=sims
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 7 nodes 368482 time 63 nps 5848920 score cp 71
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove d2f4
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:37] \u2b05\ufe0f UCI stdout info depth 12 nodes 349391 time 67 nps 5214791 score cp 2
+[20:39:37] \u2b05\ufe0f UCI stdout bestmove d1c1
+[20:39:37] \U0001f4cb child [MCTS] sims=10000 visits=3269 nodes=349391 depth=12 nn_value_stm=0.241722 elapsed_ms=67 reason=sims
+[20:39:37] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:37] \U0001f4cb child [UCI] ucinewgame
+[20:39:37] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:37] \u27a1\ufe0f UCI stdin position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+[20:39:37] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:37] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=4280 nodes=369977 depth=9 nn_value_stm=0.103735 elapsed_ms=67 reason=sims
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 9 nodes 369977 time 67 nps 5522044 score cp -3
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove d2f3
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w kq - 0 1
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=7354 nodes=365833 depth=10 nn_value_stm=0.343516 elapsed_ms=67 reason=sims
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 10 nodes 365833 time 67 nps 5460194 score cp 116
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove g5f4
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 9 nodes 363399 time 62 nps 5861274 score cp -52
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=6011 nodes=363399 depth=9 nn_value_stm=-0.025759 elapsed_ms=62 reason=sims
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove a8c8
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 10 nodes 396972 time 73 nps 5437972 score cp -3
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove e7e5
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=1569 nodes=396972 depth=10 nn_value_stm=0.150285 elapsed_ms=73 reason=sims
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen 3rr3/2pq2pk/p2p1pnp/8/2QBPP2/1P6/P5PP/4RRK1 b - - 0 1
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 12 nodes 348744 time 62 nps 5624903 score cp -74
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove d7e6
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=6726 nodes=348744 depth=12 nn_value_stm=-0.093060 elapsed_ms=62 reason=sims
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 10 nodes 368577 time 64 nps 5759015 score cp 49
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove e2h5
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=3940 nodes=368577 depth=10 nn_value_stm=0.201985 elapsed_ms=64 reason=sims
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen 3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 10 nodes 410832 time 68 nps 6041647 score cp 150
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove h3f3
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=6822 nodes=410832 depth=10 nn_value_stm=0.455299 elapsed_ms=68 reason=sims
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=3228 nodes=383966 depth=8 nn_value_stm=-0.079491 elapsed_ms=67 reason=sims
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 8 nodes 383966 time 67 nps 5730835 score cp -59
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove c8e8
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=8136 nodes=390217 depth=10 nn_value_stm=-0.088889 elapsed_ms=68 reason=sims
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 10 nodes 390217 time 68 nps 5738485 score cp -74
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove e8g8
+[20:39:38] \u27a1\ufe0f UCI stdin ucinewgame
+[20:39:38] \U0001f4cb child [UCI] ucinewgame
+[20:39:38] \U0001f50e brain=dalma go='go movetime 10000' tmax=10000ms timeout=60000ms
+[20:39:38] \u27a1\ufe0f UCI stdin position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+[20:39:38] \u27a1\ufe0f UCI stdin go movetime 10000
+[20:39:38] \U0001f4cb child [UCI] position moves=0
+[20:39:38] \U0001f4cb child [MCTS] sims=10000 visits=3266 nodes=397640 depth=10 nn_value_stm=0.427360 elapsed_ms=67 reason=sims
+[20:39:38] \u2b05\ufe0f UCI stdout info depth 10 nodes 397640 time 67 nps 5934925 score cp 157
+[20:39:38] \u2b05\ufe0f UCI stdout bestmove c3b5
+[20:39:38] \u27a1\ufe0f UCI stdin quit
+[20:39:38] \U0001f50c subprocess detenido pid=17920

@@ -2,13 +2,14 @@
 import argparse,json,sys,time,contextlib,uuid,traceback
 from types import SimpleNamespace
 from .telemetry import log
-from .config import NATIVE
+from .engine_registry import ensure_pair,source
 
 class Worker:
     def __init__(self,kind,config):
-        from ._legacy.factory import build_engine
         self.kind=kind
         self.config=config
+        ensure_pair(kind,str(config.get('_evaluator','null')),nurse_only=True)
+        source('evaluator',str(config.get('_evaluator','null')))
         if kind=="mctsp":
             from .mcts_nnue import TinyEvaluator
             self.evaluator=TinyEvaluator(config.get("_network"))
@@ -19,6 +20,7 @@ class Worker:
             if self.sims<1 or self.depth<1 or not (0<self.cpuct<100):raise ValueError("sims/depth/cpuct inválidos")
             log(f"🧠 MCTSP/MCTSE sims={self.sims} depth={self.depth} cpuct={self.cpuct} network={config.get('_network')} timeout={config.get('timeout')} tmax={config.get('tmax')}")
             return
+        from ._legacy.factory import build_engine
         ev=str(config.get("_evaluator","null"))
         if kind in {"random"} and ev!="null":raise ValueError("random requiere evaluator=null")
         if kind=="bellman" and ev!="bellmanr":raise ValueError("bellman requiere evaluator=bellmanr")

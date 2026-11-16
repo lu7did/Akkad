@@ -6773,6 +6773,173 @@ La distinción fundamental es:
 
 Para desarrollar una red conviene definir primero la representación de los datos, el objetivo de aprendizaje y las restricciones de inferencia. Después se eligen arquitectura, framework, optimizador y estrategia de entrenamiento.
 
+## Formatos de almacenamiento
+
+Existen formatos capaces de almacenar **una red neuronal completa, incluyendo su arquitectura, las operaciones que realiza, sus parámetros y los pesos aprendidos**, de manera que un mismo programa pueda cargar y ejecutar redes de arquitecturas diferentes sin tener que programar explícitamente cada una.
+
+El formato que más extendido es **ONNX (Open Neural Network Exchange)**, un archivo de pesos no necesariamente describe una red neuronal**.
+
+Podemos distinguir tres niveles de información.
+
+| Nivel                | Contenido                                             | Ejemplos                                          |
+| -------------------- | ----------------------------------------------------- | ------------------------------------------------- |
+| 1. Pesos             | Tensores, coeficientes y sesgos                       | `.npz`, `.safetensors`, `state_dict` de PyTorch   |
+| 2. Arquitectura      | Capas, conexiones, activaciones, dimensiones          | Configuraciones de Keras, definiciones de modelos |
+| 3. Modelo ejecutable | Pesos, grafo de operaciones y semántica computacional | `.onnx`, TensorFlow SavedModel, `.tflite`, `.pt2` |
+
+La tercera categoría es la que resulta de mayor interés.
+
+Por ejemplo, un archivo ONNX puede especificar que una red tiene una entrada de 768 características, seguida de una capa lineal con 256 neuronas, una activación ReLU, otra capa de 32 neuronas y una salida escalar.
+
+También puede describir redes convolucionales, recurrentes, con mecanismos de atención, conexiones residuales y estructuras considerablemente más complejas.
+
+Todo ello mediante un grafo de operaciones, sin necesidad de que el programa consumidor conozca previamente el diseño concreto de la red.
+
+### ONNX: representación universal
+
+ONNX es un formato abierto pensado para intercambiar modelos entre frameworks y motores de inferencia.
+
+Un archivo `.onnx` incluye principalmente:
+
+- **Grafo computacional:** qué operaciones se ejecutan y cómo se conectan.
+- **Pesos y constantes:** matrices, vectores, sesgos y otros parámetros.
+- **Tipos y dimensiones:** entradas, salidas y tensores intermedios.
+- **Operadores:** convoluciones, multiplicaciones matriciales, normalizaciones, activaciones, atención y otras operaciones.
+- **Versionado de operadores (opsets):** define la semántica de las operaciones empleadas.
+
+La representación está estandarizada mediante una especificación formal.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://github.com\&sz=32)
+
+MODELO A — Red totalmente conectada
+
+Entrada (768)
+
+Gemm (768 → 256)
+
+ReLU
+
+Gemm (256 → 1)
+
+Evaluación escalar
+
+MODELO B — Red convolucional con dos cabezas
+
+Tablero (8 × 8 × C)
+
+Conv + ReLU
+
+Bloques residuales
+
+**Policy head**
+
+Probabilidades de jugadas
+
+**Value head**
+
+Valor de posición
+
+Ambos modelos pueden representarse mediante archivos ONNX y ejecutarse con el mismo runtime, siempre que soporte sus operadores.
+
+La diferencia de arquitectura está definida en los archivos, no en la lógica específica del programa que los carga.
+
+### Comparación de los formatos más importantes
+
+| Formato                    | Arquitectura y operaciones     | Pesos | Portabilidad                               |
+| -------------------------- | ------------------------------ | ----- | ------------------------------------------ |
+| **ONNX** `.onnx`           | Sí, grafo completo             | Sí    | Muy alta                                   |
+| TensorFlow SavedModel      | Sí                             | Sí    | Alta, ecosistema TensorFlow                |
+| LiteRT / TFLite `.tflite`  | Sí                             | Sí    | Alta en dispositivos embebidos compatibles |
+| PyTorch Export `.pt2`      | Sí                             | Sí    | Principalmente ecosistema PyTorch          |
+| Keras `.keras`             | Sí, para modelos serializables | Sí    | Principalmente Keras                       |
+| PyTorch `state_dict` `.pt` | No                             | Sí    | Requiere definir la arquitectura           |
+| SafeTensors                | No                             | Sí    | Alta para intercambio de tensores          |
+| NumPy `.npz`               | No, salvo convención propia    | Sí    | Alta para datos                            |
+
+El formato `.pt` merece especial atención: **la extensión no garantiza qué información contiene**. Un archivo PyTorch puede contener simplemente un `state_dict`, un checkpoint más elaborado o una representación exportada mediante otras herramientas.
+
+TensorFlow SavedModel y PyTorch Export también contienen una representación computacional del modelo, además de sus parámetros.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://www.tensorflow.org\&sz=32)
+
+### Secuencias, contadores y recurrencia
+
+ONNX no se limita a redes feedforward.
+
+Dispone de operadores de control de flujo como:
+
+- `If`: ejecución condicional.
+- `Loop`: iteraciones y actualización de variables entre iteraciones.
+- `Scan`: procesamiento secuencial, especialmente útil para modelos recurrentes.
+
+Esto permite representar, por ejemplo, redes RNN y LSTM y determinados mecanismos de memoria interna.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://onnx.ai\&sz=32)
+
+ONNX 1.24.0 documentation+1
+
+Sin embargo, hay una restricción importante: el grafo describe **la computación de la red**, no necesariamente la lógica completa del programa que la utiliza.
+
+En ajedrez, el archivo puede definir cómo transformar tensores de entrada en evaluaciones o probabilidades. Pero normalmente no define el generador de jugadas legales, Minimax, Alpha-Beta o MCTS.
+
+Y una red NNUE optimizada mediante acumuladores incrementales podría requerir lógica adicional, aunque su evaluación matemática pueda expresarse como un grafo.
+
+En un proyecto relacionado con ajedrez hay varios motores que utilizan modelos neuronales distintos: evaluadores NNUE, redes totalmente conectadas y redes convolucionales con salidas de política y valor.
+
+Una arquitectura común podría ser:
+
+**Motor de ajedrez**
+
+Minimax / Alpha-Beta / MCTS
+
+**Interfaz genérica de evaluación**
+
+Preparación de entradas y lectura de salidas
+
+**Runtime ONNX**
+
+CPU
+
+GPU
+
+Otros aceleradores
+
+**NNUE**
+
+Valor escalar
+
+.onnx
+
+**CNN**
+
+Política + valor
+
+.onnx
+
+**MLP**
+
+Evaluación
+
+.onnx
+
+ONNX Runtime permite ejecutar los modelos mediante una API común, seleccionando proveedores de ejecución para CPU, GPU y otros aceleradores.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://onnxruntime.ai\&sz=32)
+
+El problema más importante no sería la compatibilidad entre arquitecturas, sino la **compatibilidad semántica de sus entradas y salidas**.
+
+Por ejemplo, dos redes pueden recibir tensores con la misma dimensión y, sin embargo, representar las piezas, colores o casillas de manera distinta. Un runtime no puede deducir automáticamente esa semántica a partir de las dimensiones.
+
+Habría que definir un contrato adicional que especificara:
+
+- La codificación del tablero.
+- La perspectiva de evaluación y sus unidades.
+- La correspondencia entre índices de salida y movimientos.
+- La cuantización y escalado utilizados.
+- El tratamiento de acumuladores y estados persistentes.
+
+Ese contrato sería común a los motores, pero no sustituiría la descripción de la arquitectura neuronal.
+
 1. Google (2015), [Presentación de TensorFlow](https://blog.google/innovation-and-ai/products/tensorflow-smarter-machine-learning-for/).
 2. Abadi et al. (2016), [*TensorFlow: A System for Large-Scale Machine Learning*](https://research.google/pubs/tensorflow-a-system-for-large-scale-machine-learning/).
 3. TensorFlow, [Guía oficial de fundamentos](https://www.tensorflow.org/guide/basics).

@@ -7,6 +7,8 @@ Only weight storage is INT8; accumulators are INT32 and output scales FP32.
 import argparse
 import os
 import re
+import math
+import struct
 import torch
 
 SHAPES = {'W_INPUT': (780,16), 'W_VALUE': (1,16), 'W_FROM': (64,16), 'W_TO': (64,16)}
@@ -55,26 +57,57 @@ def write_header(path,namespace,network):
     with open(path,'w',encoding='ascii') as f:f.write('\n'.join(lines)+'\n')
 
 
+BIN_MAGIC = b'PANNI8\r\n'
+
+def write_binary(path, network):
+    """Exact v1 binary consumed by picoAlpha C++ Network::load.
+
+    Layout: magic[8], version/feature/hidden u32 LE, four f32 LE scales,
+    and signed INT8 matrices in W_INPUT/W_VALUE/W_FROM/W_TO order.
+    The binary comes from the same quantized object as .pt and .h.
+    """
+    data = bytearray(BIN_MAGIC + struct.pack('<III', 1, 780, 16))
+    for name in SHAPES:
+        scale = float(network['scales'][name])
+        if not math.isfinite(scale) or scale <= 0:
+            raise ValueError('Invalid INT8 scale: '+name)
+        data.extend(struct.pack('<f', scale))
+    for name, shape in SHAPES.items():
+        w = network['weights'][name]
+        if tuple(w.shape) != shape or w.dtype != torch.int8:
+            raise ValueError('Invalid INT8 weight matrix: '+name)
+        data.extend(w.detach().cpu().contiguous().numpy().tobytes())
+    if len(data) != 14580:
+        raise AssertionError(f'Unexpected binary size {len(data)}')
+    os.makedirs(os.path.dirname(os.path.abspath(path)),exist_ok=True)
+    with open(path,'wb') as out:
+        out.write(data)
+
+
 def main():
     p=argparse.ArgumentParser(description='Export identical INT8 weights as C++ header and PyTorch checkpoint')
     p.add_argument('--in',dest='source',required=True,help='FP32 training checkpoint .pt')
     p.add_argument('--out',required=True,help='C++ header .h/.hpp')
     p.add_argument('--int8',required=True,help='Mandatory quantized PyTorch .pt output')
+    p.add_argument('--bin',default=None,help='Portable INT8 .bin output (default: same stem as --int8)')
     p.add_argument('--namespace',default='picoalpha_nnue')
     a=p.parse_args()
     if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',a.namespace):p.error('Invalid C++ namespace')
     src=os.path.abspath(a.source);hdr=os.path.abspath(a.out);pt=os.path.abspath(a.int8)
-    if len({src,hdr,pt})!=3:p.error('Input, C++ header and INT8 checkpoint must be distinct files')
-    if not hdr.lower().endswith(('.h','.hpp')) or not pt.lower().endswith('.pt'):
-        p.error('Expected C++ .h/.hpp and quantized .pt destinations')
+    bn=os.path.abspath(a.bin if a.bin else os.path.splitext(pt)[0]+'.bin')
+    if len({os.path.normcase(path) for path in (src,hdr,pt,bn)})!=4:p.error('Input, C++ header, INT8 checkpoint and binary must be distinct files')
+    if not hdr.lower().endswith(('.h','.hpp')) or not pt.lower().endswith('.pt') or not bn.lower().endswith('.bin'):
+        p.error('Expected C++ .h/.hpp, quantized .pt and portable .bin destinations')
     ck=torch.load(src,map_location='cpu',weights_only=True)
     network=quantize(ck)
-    # Serialize .pt first, then header, both derived from exactly the same object.
+    # All three files use the exact same quantized object, with no re-quantization.
     os.makedirs(os.path.dirname(pt),exist_ok=True)
     torch.save(network,pt)
     write_header(hdr,a.namespace,network)
+    write_binary(bn,network)
     print(f'INT8 weights={sum(t.numel() for t in network["weights"].values())} bytes')
     print(f'C++ header: {hdr}')
     print(f'PyTorch INT8: {pt} (int8 tensors; int32 accumulators; float output scales)')
+    print(f'Portable INT8: {bn} (14,544 weights, 4 float32 scales; binary v1)')
 
 if __name__=='__main__':main()
