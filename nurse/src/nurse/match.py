@@ -422,6 +422,22 @@ class ClassicAudit:
 
     def close(self):self.handle.close()
 
+def match_side_identity(args, side):
+    """Human-readable participant identity; UCI brains are named by their brain ID.
+
+    The --a-player / --b-player defaults are not meaningful for type=uci
+    brains: they do not identify the real executable or evaluator.
+    """
+    side = side.upper()
+    if side not in ('A', 'B'):
+        raise ValueError(f'Invalid MATCH side: {side}')
+    brain_id = getattr(args, 'id' + side, None)
+    if brain_id:
+        return str(brain_id)
+    side = side.lower()
+    return f'{getattr(args, side + "_player")} | {getattr(args, side + "_evaluator")}'
+
+
 def main(argv=None):
     ap=argparse.ArgumentParser(description='Sargon Match: torneo UCI autónomo con dos jugadores configurables')
     ap.add_argument('--python',default=sys.executable)
@@ -506,11 +522,7 @@ def main(argv=None):
     elif (a.audit_csv or a.audit_network) and not a.audit_classic:ap.error('--audit-csv/--audit-network requieren --audit-classic o --audit-stockfish-path')
     # Preferir el ID del brain para distinguir perfiles con el mismo player/evaluator.
     # Sin brains.json, preservar la identificación tradicional.
-    player_labels = {
-        side: (f"({getattr(a, 'id'+side)})" if getattr(a, 'id'+side)
-               else f"({getattr(a, side.lower()+'_player')} | {getattr(a, side.lower()+'_evaluator')})")
-        for side in ('A', 'B')
-    }
+    player_labels = {side: f'({match_side_identity(a, side)})' for side in ('A', 'B')}
     label_width = max(len(label) for label in player_labels.values())
     print(f'🧠 SARGON MATCH v{VERSION}',flush=True)
     if a.verbose:
@@ -591,7 +603,7 @@ def main(argv=None):
         if a.audit_stockfish_path: audit=PositionAudit(a,a.audit_network)
         elif a.audit_classic: audit=ClassicAudit(a,a.audit_network)
         for side in ['a','b']:
-            engines[side.upper()]=UCI(cmd_side(a,side), str(Path(a.csv or a.pgn or 'sargon_match'))+f'.{side}.log',side.upper(),a.heartbeat if a.verbose else None, f'({getattr(a, side+"_player")} | {getattr(a, side+"_evaluator")})', verbose=a.verbose)
+            engines[side.upper()]=UCI(cmd_side(a,side), str(Path(a.csv or a.pgn or 'sargon_match'))+f'.{side}.log',side.upper(),a.heartbeat if a.verbose else None, player_labels[side.upper()], verbose=a.verbose)
         for pair in range(a.pairs):
             if interrupted: break
             for reverse in (False,True):
@@ -671,15 +683,15 @@ def main(argv=None):
                             detail = format_uci_telemetry(engines[side].last_info)
                             if detail:
                                 print(f'   🧠 Game({game_no}) ply({ply}) {piece} '
-                                      f'({player}|{evaluator}) {m.uci()} · {detail}', flush=True)
+                                      f'{player_labels[side]} {m.uci()} · {detail}', flush=True)
                             else:
                                 print(f'   🧠 Game({game_no}) ply({ply}) {piece} '
-                                      f'({player}|{evaluator}) {m.uci()} · sin info UCI', flush=True)
+                                      f'{player_labels[side]} {m.uci()} · sin info UCI', flush=True)
                         board.push(m);moves.append(m.uci())
                         if audit and not board.is_game_over(claim_draw=True):
                             audit.evaluate(board,game_no,pair+1,ply,m.uci(),white,black)
                         if a.verbose:
-                            print(f'✔ Game({game_no}) ply({ply}) {piece} ({player}|{evaluator}) {m.uci()} {elapsed_move:.2f}s',flush=True)
+                            print(f'✔ Game({game_no}) ply({ply}) {piece} {player_labels[side]} {m.uci()} {elapsed_move:.2f}s',flush=True)
                     if board.is_game_over(claim_draw=True):
                         outcome=board.outcome(claim_draw=True);result=outcome.result();reason=outcome.termination.name
                     else:reason='MAX_PLIES_INCOMPLETE'
@@ -704,7 +716,7 @@ def main(argv=None):
                     for key in ('A','B'):
                         side_key=key.lower()
                         try:
-                            engines[key]=UCI(cmd_side(a,side_key),str(Path(a.csv or a.pgn or 'sargon_match'))+f'.{side_key}.recovery.game{game_no}.log', key, a.heartbeat if a.verbose else None,f'({getattr(a,side_key+"_player")} | {getattr(a,side_key+"_evaluator")})', verbose=a.verbose)
+                            engines[key]=UCI(cmd_side(a,side_key),str(Path(a.csv or a.pgn or 'sargon_match'))+f'.{side_key}.recovery.game{game_no}.log', key, a.heartbeat if a.verbose else None,player_labels[key], verbose=a.verbose)
                             print(f'🔄 Recovery Game({game_no}) {key}: UCI ready',flush=True)
                         except Exception as recovery_exc:
                             print(f'❌ Recovery Game({game_no}) {key}: {recovery_exc}',flush=True)
@@ -732,7 +744,7 @@ def main(argv=None):
                 row=dict(game=game_no,pair=pair+1,white=white,black=black,white_player=getattr(a,white.lower()+'_player'),white_evaluator=getattr(a,white.lower()+'_evaluator'),black_player=getattr(a,black.lower()+'_player'),black_evaluator=getattr(a,black.lower()+'_evaluator'),result=result,termination=reason,plies=board.ply(),elapsed_sec=f'{elapsed:.3f}',moves_uci=' '.join(moves),opening_uci=openings[pair % len(openings)])
                 if writer:writer.writerow(row);csv_handle.flush()
                 if pgn_handle:
-                    game=chess.pgn.Game();game.headers['Event']='Sargon Match';game.headers['White']=f'{white}: {row["white_player"]} | {row["white_evaluator"]}';game.headers['Black']=f'{black}: {row["black_player"]} | {row["black_evaluator"]}';game.headers['Result']=result;game.headers['Termination']=reason
+                    game=chess.pgn.Game();game.headers['Event']='Sargon Match';game.headers['White']=f'{white}: {match_side_identity(a, white)}';game.headers['Black']=f'{black}: {match_side_identity(a, black)}' ;game.headers['Result']=result;game.headers['Termination']=reason
                     node=game
                     for u in moves:node=node.add_variation(chess.Move.from_uci(u))
                     print(game,file=pgn_handle,end='\n\n');pgn_handle.flush()

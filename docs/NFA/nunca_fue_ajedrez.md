@@ -6938,8 +6938,272 @@ Habría que definir un contrato adicional que especificara:
 - La cuantización y escalado utilizados.
 - El tratamiento de acumuladores y estados persistentes.
 
-Ese contrato sería común a los motores, pero no sustituiría la descripción de la arquitectura neuronal.
 
+## ReLU en redes neuronales
+
+ReLU (*Rectified Linear Unit*, unidad lineal rectificada) es una función de activación que convierte las entradas negativas en cero y conserva las positivas:
+
+
+$\text{ReLU}(z)=\max(0,z)=\begin{cases}0,&z\leq0\\z,&z>0.\end{cases}$
+
+![Gráfica de la función ReLU](images/01_relu.png)
+
+**Figura 1.** El semieje negativo se anula; el positivo se transmite con pendiente 1.
+
+| Entrada $z$ | ReLU($z$) |
+|---:|---:|
+| -5 | 0 |
+| -1 | 0 |
+| 0 | 0 |
+| 0,5 | 0,5 |
+| 3 | 3 |
+
+No es una regla para elegir pesos, ni una función de pérdida, ni un algoritmo de aprendizaje. Es la transformación que se aplica al valor previo a la activación de una neurona.
+
+Dadas las entradas $\mathbf{x}\in\mathbb R^n$, pesos $\mathbf w\in\mathbb R^n$ y sesgo $b$:
+
+$z=\mathbf w^T\mathbf x+b=\sum_{i=1}^n w_i x_i+b,\qquad a=\text{ReLU}(z).$
+
+En una capa de $m$ neuronas, $\mathbf a=\text{ReLU}(W\mathbf x+\mathbf b)$, aplicada componente a componente. En una red de $L$ capas se escribe $\mathbf a^{(\ell)}=f_\ell(W^{(\ell)}\mathbf a^{(\ell-1)}+\mathbf b^{(\ell)})$.
+
+Si $\mathbf x=(2,-1,3)$, $\mathbf w=(0,5,2,-1)$ y $b=0,5$, entonces
+
+$z=(0,5)(2)+(2)(-1)+(-1)(3)+0,5=-3,5,\quad a=0.$
+
+Con la misma entrada, otra neurona con $\mathbf w=(1,-1,0,5)$ y $b=-1$ obtiene $z=2+1+1,5-1=3,5$ y $a=3,5$. La activación depende del producto escalar y del sesgo: las entradas negativas no se anulan por sí solas, sino por el resultado **total** $z$.
+
+Para entender la importancia de introducir aspectos no-lineales en la red consideremos dos transformaciones afines consecutivas sin activación se pueden fusionar:
+
+$\mathbf h=W_1\mathbf x+\mathbf b_1,\qquad \mathbf y=W_2\mathbf h+\mathbf b_2$
+
+$\Rightarrow\quad \mathbf y=(W_2W_1)\mathbf x+(W_2\mathbf b_1+\mathbf b_2).$
+
+La composición sigue siendo afín, aunque existan muchas capas. Insertar ReLU rompe esa equivalencia global:
+
+$\mathbf y=W_2\operatorname{ReLU}(W_1\mathbf x+\mathbf b_1)+\mathbf b_2.$
+
+La nueva función es **lineal por tramos**: en regiones de entrada donde se mantiene el mismo patrón de neuronas encendidas/apagadas, se comporta como una transformación afín diferente. Las fronteras aparecen donde $w_i^T\mathbf x+b_i=0$.
+
+![Dos neuronas ReLU inducen regiones lineales por tramos](images/07_regiones.png)
+
+**Figura 2.** Combinación de dos activaciones $\max(0,x_1+x_2-1)+\max(0,x_1-x_2-0,5)$; las fronteras visibles delimitan regiones con diferentes pendientes.
+
+La universalidad aproximadora requiere condiciones sobre anchura, arquitectura, dominio y activaciones: no significa que cualquier red pequeña represente automáticamente cualquier función.
+
+Para $z\neq0$:
+$\text{ReLU}'(z)=\begin{cases}0,&z<0\\1,&z>0.\end{cases}$
+
+En $z=0$ la derivada clásica **no existe** porque las pendientes laterales difieren. En aprendizaje automático suele asignarse la subderivada 0, una convención de implementación; cualquier valor entre 0 y 1 es una subderivada admisible de la función convexa en el origen.
+
+![Derivada de ReLU](images/02_gradiente.png)
+
+**Figura 3.** Gradiente nulo para entradas negativas y unitario para entradas positivas. El valor puntual en cero responde a una convención.
+
+Sea $\mathcal L$ la pérdida de la red. Para $z=\mathbf w^T\mathbf x+b$ y $a=\operatorname{ReLU}(z)$, aplicamos la regla de la cadena:
+
+$\frac{\partial\mathcal L}{\partial w_i}=\frac{\partial\mathcal L}{\partial a}\,\text{ReLU}'(z)\,x_i,\qquad \frac{\partial\mathcal L}{\partial b}=\frac{\partial\mathcal L}{\partial a}\,\text{ReLU}'(z).$
+
+Cuando $z>0$, la derivada de la activación es 1 y el gradiente de esa neurona puede transmitirse. Cuando $z<0$, el gradiente local respecto de $\mathbf w$ y $b$ es cero para ese ejemplo. Esto no implica que **toda** la red deje de entrenar: las demás neuronas y caminos pueden seguir recibiendo gradientes.
+
+Supongamos una neurona con entrada $x=2$, peso $w=1$, $b=0$, objetivo $t=1$ y pérdida cuadrática $\mathcal L=\frac12(a-t)^2$.
+
+- $z=2$, $a=2$, $\mathcal L=0,5$.
+- $\frac{\partial\mathcal L}{\partial a}=a-t=1$.
+- $\frac{\partial\mathcal L}{\partial w}=1\cdot1\cdot2=2$.
+- Con tasa de aprendizaje $\eta=0,1$: $w_{nuevo}=1-0,1(2)=0,8$.
+
+Con $x=-2$, $w=1$, $b=0$ resulta $z=-2$, $a=0$ y la derivada respecto de $w$ es cero: esa muestra no corrige el peso a través de ReLU.
+
+**Ventajas principales:** cálculo barato (comparación con cero), derivada sencilla en casi todo punto, ausencia de saturación para $z>0$ y activaciones exactamente nulas que generan representaciones dispersas. El trabajo de Glorot, Bordes y Bengio (2011) mostró el interés de las neuronas rectificadas para el entrenamiento profundo y la dispersión de activaciones.
+
+**Limitaciones principales:**
+
+1. **Dying ReLU:** una neurona puede permanecer con $z\le0$ para todos los ejemplos accesibles, recibiendo gradiente local nulo y dejando de actualizarse por esa vía. Puede estar asociado con inicialización inadecuada, sesgos y tasas de aprendizaje excesivas. No debe confundirse con una neurona que se apaga solamente para algunas muestras.
+2. **Activaciones positivas no acotadas:** pueden adquirir magnitudes grandes, requiriendo atención a escalas, inicialización y normalización.
+3. **No diferenciabilidad puntual en cero:** suele ser inocua para el entrenamiento práctico, pero es un detalle matemático real.
+4. **Salida no centrada en cero:** su distribución puede exigir técnicas de inicialización y normalización apropiadas.
+
+Si los pesos son independientes, aproximadamente centrados y la entrada cumple hipótesis habituales de propagación de varianza, una inicialización adecuada para ReLU es
+
+$\text{Var}(w_{ij})\approx\frac{2}{n_{in}},\quad w_{ij}\sim\mathcal N(0,2/n_{in}),$
+
+con el fin de mitigar cambios pronunciados de varianza entre capas. No es un teorema universal aplicable a toda arquitectura, distribución de datos o variante. Fue desarrollado en el contexto de redes con rectificadores por He y colaboradores (2015).
+
+### Variantes de ReLU y funciones alternativas
+
+#### Leaky ReLU
+
+$f(x)=\begin{cases}x,&x\ge0\\\alpha x,&x<0,\end{cases}\qquad 0<\alpha<1.$
+
+Por ejemplo, con $\alpha=0,01$ una entrada $-2$ produce $-0,02$, mientras ReLU devuelve 0. Mantiene una vía de gradiente para entradas negativas; esto reduce algunas situaciones de neuronas bloqueadas, pero no asegura mejor precisión.
+
+#### PReLU (Parametric ReLU)
+
+$f(x)=\max(0,x)+a\min(0,x).$
+
+Se parece a Leaky ReLU, pero la pendiente $a$ del segmento negativo es un **parámetro entrenable**, que puede compartirse por capa o aprenderse por canal. El gradiente respecto de ese parámetro es $\partial f/\partial a=\min(0,x)$. La propuesta de He y colaboradores (2015) busca adaptar la activación a los datos.
+
+![ReLU, Leaky ReLU y PReLU](images/03_rectificadores.png)
+
+**Figura 4.** Leaky ReLU y PReLU mantienen pendiente distinta de cero en la mitad negativa. Se muestran pendientes ilustrativas $0,1$ y $0,3$.
+
+#### RReLU (Randomized Leaky ReLU)
+
+Durante el entrenamiento se emplea una pendiente negativa $a$ elegida aleatoriamente dentro de un intervalo prefijado. Durante la inferencia se usa normalmente una pendiente determinista, como su media. Introduce una forma de aleatorización que puede actuar como regularización, pero no siempre mejora el entrenamiento.
+
+#### ReLU6 y activaciones acotadas
+
+$\text{ReLU6}(x)=\min(6,\max(0,x)).$
+
+Es lineal entre 0 y 6 y saturada fuera de ese intervalo. Se utiliza en algunas redes eficientes, especialmente cuando la representación numérica y la cuantización son consideraciones centrales. El techo superior introduce gradiente cero para entradas mayores que 6.
+
+#### Thresholded ReLU
+
+Una versión con umbral $\theta$ puede definirse como $f(x)=x$ si $x>\theta$ y $0$ en otro caso. No debe confundirse con la **ReLU desplazada** $\max(0,x-\theta)$: en general son funciones diferentes, y la primera puede ser discontinua si $\theta\ne0$.
+
+![Variaciones de umbral y límite superior](images/04_umbral_recorte.png)
+
+**Figura 5.** Para visualizar la diferencia se muestra un recorte superior en 3 (variante ilustrativa de ReLU acotada) y una ReLU desplazada. La ReLU6 estándar tiene tope **6**, no 3.
+
+#### ELU (Exponential Linear Unit)
+
+$$\text{ELU}(x)=\begin{cases}x,&x>0\\\alpha(e^x-1),&x\le0.\end{cases}$$
+
+Su rama negativa es suave y está acotada inferiormente por $-\alpha$. Para $x$ muy negativo, su derivada tiende a cero. Tiene costo de evaluación mayor que ReLU por la exponencial.
+
+#### SELU (Scaled ELU)
+
+$\text{SELU}(x)=\lambda\begin{cases}x,&x>0\\\alpha(e^x-1),&x\le0,\end{cases}$
+
+con constantes convencionales aproximadas $\alpha=1,673263$ y $\lambda=1,050701$. Forma parte de las **redes auto-normalizantes**, bajo supuestos de arquitectura e inicialización específicos. No se obtienen automáticamente esas propiedades sustituyendo ReLU por SELU en cualquier red.
+
+![ELU y SELU](images/06_elu_selu.png)
+
+**Figura 6.** ELU y SELU permiten activaciones negativas y muestran saturación para valores suficientemente negativos.
+
+#### Softplus
+
+$\text{Softplus}(x)=\ln(1+e^x),\qquad \text{Softplus}'(x)=\sigma(x)=\frac{1}{1+e^{-x}}.$
+
+Es una aproximación diferenciable de la ReLU: no introduce el quiebre agudo en cero. Softplus es estrictamente positiva, nunca exactamente cero para valores finitos.
+
+#### SiLU / Swish
+
+$\text{SiLU}(x)=x\sigma(x)=\frac{x}{1+e^{-x}}.$
+
+La formulación Swish incluye $f(x)=x\sigma(\beta x)$, con $\beta$ fijo o ajustable según el modelo; con $\beta=1$ coincide con SiLU. Es suave y puede producir valores negativos pequeños. Ha funcionado bien en arquitecturas profundas, aunque resulta más costosa que ReLU.
+
+#### GELU (Gaussian Error Linear Unit)
+
+$\text{GELU}(x)=x\Phi(x),$
+
+donde $\Phi$ es la función de distribución acumulada de una normal estándar. A diferencia de la compuerta dura basada en el signo, GELU pondera continuamente cada entrada. Se utiliza en numerosas arquitecturas Transformer. Su cálculo directo es más complejo que ReLU, aunque existen aproximaciones.
+
+#### Mish
+
+$\text{Mish}(x)=x\tanh(\operatorname{Softplus}(x)).$
+
+Es suave, permite valores ligeramente negativos y añade costo computacional. Puede ser competitiva en algunas arquitecturas, pero no es una sustitución universalmente superior.
+
+![Comparación de funciones suaves](images/05_suaves.png)
+
+**Figura 7.** ReLU es lineal por tramos; SiLU, GELU y Softplus cambian la activación de manera gradual. Softplus permanece positiva.
+
+#### Comparación entre modelos
+
+| Función | Rama negativa | Derivada en cero | Parámetros entrenables | Rasgo destacado |
+|---|---|---|---|---|
+| ReLU | Cero | No existe; subgradiente convencional | No | Simple y dispersa |
+| Leaky ReLU | Pendiente fija $\alpha$ | Salto de derivada si $\alpha\ne1$ | No | Reduce bloqueos |
+| PReLU | Pendiente aprendida $a$ | Igual limitación salvo $a=1$ | Sí | Flexibilidad por canal |
+| ReLU6 | Cero | Quiebres en 0 y 6 | No | Acotada, útil en algunos entornos cuantizados |
+| ELU | Exponencial saturante | Suave en cero si $\alpha=1$ | No, en uso habitual | Salidas negativas |
+| SELU | Exponencial saturante escalada | Suave con parámetros convencionales | No, en uso habitual | Auto-normalización condicionada |
+| Softplus | Suave y positiva | Sí | No | Aproximación suave |
+| SiLU | Suave, parcialmente negativa | Sí | No, para $\beta=1$ | Compuerta sigmoidal |
+| GELU | Suave, parcialmente negativa | Sí | No | Ponderación probabilística continua |
+| Mish | Suave, parcialmente negativa | Sí | No | Suavidad y no monotonía |
+
+### ReLU en redes NNUE y modelos de ajedrez
+
+Una NNUE toma una representación del tablero $\phi(s)$ y calcula transformaciones densas pequeñas, con actualización incremental de la primera capa en arquitecturas que lo permiten:
+
+$\mathbf h_1=\text{ReLU}(W_1\phi(s)+\mathbf b_1),\qquad \mathbf h_2=\text{ReLU}(W_2\mathbf h_1+\mathbf b_2).$
+
+La salida de evaluación puede expresarse, simplificando, como $v(s)=W_3\mathbf h_2+b_3$. Algunas implementaciones NNUE usan **Clipped ReLU** o rectificadores cuantizados, no necesariamente la ReLU ilimitada. Por eso no conviene suponer que todas las NNUE comparten el mismo rango de activación.
+
+Una versión acotada habitual conceptualmente es
+
+$\text{CReLU}(x)=\min(C,\max(0,x)),$
+
+con límite $C$ dependiente del formato interno y las escalas de cuantización. En aritmética entera, el cálculo puede implementarse como saturación/clamp. El costo computacional bajo y la posibilidad de usar enteros son argumentos importantes al diseñar evaluadores para CPU o microcontroladores.
+
+En el contexto de redes neuronales, la sigla CReLU también se utiliza en otros trabajos para *Concatenated ReLU*, $[\text{ReLU}(x),\text{ReLU}(-x)]$. Conviene especificar siempre el significado y la ecuación de la variante usada.
+
+Si un acumulador interno entero entrega $z=185$ y la activación se limita al intervalo $[0,127]$, la salida es $127$. Si entrega $z=-42$, la salida es 0. En ambos casos la saturación es barata. Sin embargo, para reproducir una red real hay que conocer las escalas, el orden de operaciones, los anchos de palabra y los posibles desplazamientos de bits: una función de activación no determina por sí sola la equivalencia entre una versión flotante y otra INT8.
+
+#### Implementación con PyTorch
+
+```python
+import torch
+import torch.nn as nn
+
+x = torch.tensor([-3.0, -0.5, 0.0, 0.5, 3.0])
+
+funciones = {
+    "ReLU": nn.ReLU(),
+    "Leaky ReLU": nn.LeakyReLU(negative_slope=0.01),
+    "PReLU": nn.PReLU(num_parameters=1, init=0.25),
+    "ReLU6": nn.ReLU6(),
+    "ELU": nn.ELU(alpha=1.0),
+    "SELU": nn.SELU(),
+    "Softplus": nn.Softplus(),
+    "SiLU": nn.SiLU(),
+    "GELU": nn.GELU(),
+    "Mish": nn.Mish(),
+}
+
+for nombre, f in funciones.items():
+    print(nombre, f(x).detach().tolist())
+
+modelo = nn.Sequential(
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Linear(64, 32),
+    nn.ReLU(),
+    nn.Linear(32, 1),  # sin ReLU final: salida de regresión con signo
+)
+```
+
+**Elección de activación de salida:** en regresión, la salida puede ser lineal; en clasificación binaria se suelen usar logits con `BCEWithLogitsLoss` y en clasificación multiclase logits con `CrossEntropyLoss`. Aplicar ReLU al resultado final puede impedir valores negativos necesarios para una evaluación de ajedrez en centipeones.
+
+#### Cómo elegir una activación: criterio experimental
+
+No existe una activación óptima independiente del problema. Para comparar funciones deben mantenerse fijas arquitectura, datos, semilla (o un conjunto de semillas), presupuesto de entrenamiento, optimizador, escalas de inicialización, hardware y métrica final. Es fundamental comparar también latencia de inferencia y uso de memoria, no solamente error de validación.
+
+| Escenario | Punto de partida razonable | Qué verificar |
+|---|---|---|
+| MLP pequeña en CPU | ReLU | Gradientes y neuronas inactivas |
+| Activaciones negativas necesarias | Leaky ReLU o PReLU | Ganancia real frente a costo |
+| Red profunda tipo Transformer | GELU o SiLU según arquitectura | Fidelidad al diseño original |
+| Modelo eficiente y cuantizado | ReLU / ReLU6 / Clipped ReLU | Saturación, escalas, equivalencia numérica |
+| NNUE en hardware restringido | Activación original del modelo | Compatibilidad exacta y costo entero |
+
+En particular, **no conviene modificar una NNUE preentrenada cambiando solamente ReLU por GELU, PReLU o SiLU**: se altera la función implementada por los pesos. En general se requiere volver a entrenar o realizar un ajuste experimental que valide la nueva red.
+
+ReLU es una función sencilla, pero constituye una de las decisiones arquitectónicas más importantes de las redes profundas. Permite construir transformaciones no lineales como composición de bloques afines y rectificadores; facilita la propagación del gradiente en la región positiva, tiene un costo muy reducido y produce activaciones dispersas. Su principal riesgo es que las activaciones negativas detienen el gradiente local. Las variantes modifican esa condición, introducen regiones suaves, pendientes entrenables o límites de saturación.
+
+**Recomendación práctica:** empezar por ReLU como referencia; si la red muestra un problema medible de neuronas bloqueadas, probar Leaky ReLU o PReLU; si el objetivo es una NNUE INT8 para motores de ajedrez, priorizar la activación exacta requerida por la arquitectura y su implementación entera antes de explorar alternativas más sofisticadas.
+
+## Referencias bibliográficas
+
+1. Glorot X, Bordes A, Bengio Y. *Deep Sparse Rectifier Neural Networks*. AISTATS, 2011. https://proceedings.mlr.press/v15/glorot11a.html
+2. He K, Zhang X, Ren S, Sun J. *Delving Deep into Rectifiers*. ICCV, 2015. https://openaccess.thecvf.com/content_iccv_2015/html/He_Delving_Deep_into_ICCV_2015_paper.html
+3. Clevert D-A, Unterthiner T, Hochreiter S. *Fast and Accurate Deep Network Learning by Exponential Linear Units (ELUs)*. arXiv, 2015. https://arxiv.org/abs/1511.07289
+4. Klambauer G, Unterthiner T, Mayr A, Hochreiter S. *Self-Normalizing Neural Networks*. NeurIPS, 2017. https://proceedings.neurips.cc/paper/2017/hash/5d44ee6f2c3f71b73125876103c8f6c4-Abstract.html
+5. Ramachandran P, Zoph B, Le QV. *Searching for Activation Functions*. ICLR, 2018. https://research.google/pubs/searching-for-activation-functions/
+6. Hendrycks D, Gimpel K. *Gaussian Error Linear Units (GELUs)*. arXiv:1606.08415. https://arxiv.org/abs/1606.08415
+7. Misra D. *Mish: A Self Regularized Non-Monotonic Activation Function*. arXiv, 2019. https://arxiv.org/abs/1908.08681
 1. Google (2015), [Presentación de TensorFlow](https://blog.google/innovation-and-ai/products/tensorflow-smarter-machine-learning-for/).
 2. Abadi et al. (2016), [*TensorFlow: A System for Large-Scale Machine Learning*](https://research.google/pubs/tensorflow-a-system-for-large-scale-machine-learning/).
 3. TensorFlow, [Guía oficial de fundamentos](https://www.tensorflow.org/guide/basics).
@@ -7183,7 +7447,7 @@ Hay como máximo 32 entradas activas en una posición ordinaria. Para procesarla
 
 El cromosoma de la NNUE es un vector $g\in\mathbb Z^{12321}$, cuyos valores se almacenan como `numpy.int8`:
 
-$g=\operatorname{vec}(W_1)\ \Vert\ b_1\ \Vert\ w_2\ \Vert\ b_2,$
+$g=\text{vec}(W_1)\ \Vert\ b_1\ \Vert\ w_2\ \Vert\ b_2,$
 
 con:
 
@@ -15684,6 +15948,546 @@ Puesto a competir en la plataforma *lichess.org* alcanza una performance promedi
 
 - **AlphaZero-X86:** ejecutable C++ del proyecto Akkad que recibe red y backend. El nombre es histórico: la configuración también contiene rutas Debian. No se debe suponer compatibilidad binaria entre plataformas.
 - **picoAlpha, picoSargon, picoKeras:** wrappers hacia **ejecutables locales UCI**. Los nombres `pico` no prueban ejecución física en una placa: los perfiles actuales apuntan mayoritariamente a binarios de escritorio o Raspberry Pi.
+
+
+## picoAlpha — Entrenamiento
+
+El objetivo es explorar la capacidad para producir una red pequeña y compactade política y valor para ajedrez que pueda ser utilizada con el algoritmo MCTS, a partir de posiciones procedentes de partidas PGN, supervisadas por Stockfish, entrenadas con PyTorch y exportadas a una representación INT8 compartida por C++ y Nurse.
+
+![Cadena de entrenamiento](images/01_cadena_genesis.png)
+
+### Paso 0. Crear la base
+
+El orquestador llama `create.py --out history.pb` y valida la base resultante mediante `verify_database.py`. Pese a la extensión **`.pb`**, el formato utilizado en esta cadena es una **base SQLite**, no un archivo de serialización Protobuf. La documentación de la implementación identifica tablas **`games`** y **`positions`**. El histórico permite mantener asociadas las posiciones y las partidas de origen. La creación inicial **sobrescribe** `history.pb`.
+
+Conceptualmente, cada posición puede describirse por un estado ajedrecístico `s`, una representación FEN y su ubicación dentro de una partida (`ply`). Se pretende aprender a partir de ejemplos de la forma:
+
+$D=\{(s_i,\pi_i^*,v_i^*)\}_{i=1}^{N},$
+
+donde `π*` y `v*` todavía no están disponibles en la creación: serán etiquetas generadas posteriormente. La definición exacta de las columnas y claves de SQLite debe comprobarse en `create.py` antes de usar esta descripción como esquema formal.
+
+### Paso 1. Importar partidas
+
+La invocación es `loader.py --in <patrón *.pgn> --out history.pb`. El módulo lee las partidas PGN e incorpora al histórico sus posiciones sucesivas. Un PGN contiene movimientos y metadatos; cada posición se obtiene aplicando legalmente las jugadas desde el tablero de partida:
+
+$s_{t+1}=T(s_t,a_t),\qquad a_t\in A(s_t),$
+
+donde `T` es la transición determinista del ajedrez y `A(s)` es el conjunto de jugadas legales. El diseño requiere **rechazar una secuencia defectuosa**, en lugar de atribuir posiciones imposibles a la partida. El verificador de SQLite comprueba la existencia de una base con al menos una partida importada.
+
+### Paso 2. Extraer muestra
+
+El orquestador ejecuta `sampler.py --in history.pb --out sample_history.pb --sample 20 --seed 42` con los valores predeterminados del script analizado. El parámetro `--sample` representa un **porcentaje de partidas**, no necesariamente de posiciones. La semilla sirve para reproducir la selección. Este paso sobrescribe `sample_history.pb`, preservando el histórico original.
+
+Si `G` es el número de partidas y `p` el porcentaje elegido, el tamaño objetivo de la muestra de partidas es aproximadamente:
+
+$G_{muestra}\approx G\frac{p}{100}.$
+
+La cantidad de posiciones resultante depende de la longitud de las partidas. Conviene conservar la identidad de la partida en la separación entre entrenamiento y validación para evitar fuga de información entre posiciones cercanas; no se afirma aquí que la implementación actual efectúe necesariamente esa separación por partida.
+
+### Paso 3. Etiquetar posiciones con Stockfish
+
+El `teacher.py` verificado recorre `positions` por identificador, construye el tablero desde `fen` y consulta Stockfish mediante UCI con límites configurables de **profundidad** (`--depth`, predeterminado 10) y, opcionalmente, **nodos** (`--nodes`). Guarda las columnas `teacher_uci`, `teacher_cp`, `teacher_mate`, `teacher_value`, `teacher_depth` y `teacher_at`.
+
+Stockfish devuelve la primera jugada de la variante principal como etiqueta de política, cuando está disponible. La puntuación se convierte a la perspectiva del **bando que mueve** y se normaliza para el valor:
+
+$v_i^*=\tanh\left(\frac{cp_i}{400}\right),\quad cp_i\text{ en centipeones}.$
+
+Un mate evaluado positivamente se transforma en `+1`, negativamente en `−1`. Una posición terminal de tablas recibe 0. El etiquetado, por tanto, produce **valor continuo y una jugada preferida**, no una probabilidad completa para cada movimiento legal.
+
+![Normalización de puntuaciones](images/03_tanh_stockfish.png)
+
+La implementación comprueba FEN y material imposible, descarta etiquetas defectuosas, admite `--resume`, registra cada éxito inmediatamente en SQLite y mantiene una tabla `teacher_quarantine` para posiciones que provocan fallos reiterados del motor. Un control sobre el tablero inicial distingue problemas sistemáticos de Stockfish de fallos de posiciones particulares.
+
+### Paso 4. Aprender la red con PyTorch
+
+El script `run_genesis.ps1` invoca `train.py` sobre `sample_history.pb` y guarda checkpoints en `picoAlpha/assets/checkpoints/`. Admite fracción de validación, épocas, tamaño de lote, semilla, dispositivo (`cpu`, `cuda`, `xpu`) y optimizador (`AdamW`, `Adam`, `SGD`, `RMSprop`). Sus valores predeterminados verificados incluyen **20 % de validación**, **20 épocas**, **lotes de 64**, **AdamW** y tasa de aprendizaje inicial **0,005** (mínima 0,0001).
+
+La arquitectura que el exportador exige del checkpoint consiste en **780 características**, **16 unidades ocultas**, una cabeza de valor de 1 salida y dos cabezas de política de 64 salidas cada una (`FROM`, `TO`). Las características se documentan como 768 para piezas/casillas, cuatro derechos de enroque y ocho posibilidades de captura al paso. La salida oculta utiliza ReLU, y la cabeza de valor emplea tanh.
+
+![Arquitectura de política y valor](images/02_arquitectura_nnue.png)
+
+Una representación matemática consistente con el contrato de inferencia es:
+
+
+$h=\operatorname{ReLU}\left(\sum_{j\in F(s)} W_{in}[j,:]\right),\qquad
+\hat v=\tanh(W_vh),$
+
+
+
+$\ell(a)=W_{from}[\mathrm{origen}(a),:]h+W_{to}[\mathrm{destino}(a),:]h,
+\qquad
+\hat\pi(a\mid s)=\frac{e^{\ell(a)}}{\sum_{b\in A(s)}e^{\ell(b)}}.$
+
+Para comprender el aprendizaje, una función objetivo combinada *posible* es
+
+$\mathcal L=\mathcal L_{política}+\lambda\mathcal L_{valor},$
+
+con `--value_weight 2.0` como peso predeterminado. **La definición exacta de las pérdidas, la codificación de etiquetas y el criterio de selección de `best.pt` no se verificaron en `train.py`**; no se debe interpretar esta fórmula genérica como transcripción del código. La salida utilizada por el paso siguiente es `best.pt` en precisión FP32.
+
+### Paso 5. Exportar la cuantización
+
+La invocación verificada utiliza las tres rutas obligatorias:
+
+```powershell
+python export.py --in best.pt --out picoalpha_nnue_weights.hpp --int8 best_int8.pt
+```
+
+El exportador cuantiza por **matriz**, simétricamente, cada peso FP32:
+
+$s_W=\max\left(\frac{\max|W|}{127},10^{-12}\right),\qquad
+Q_W=\text{clip}\left(\text{round}(W/s_W),-127,127\right).$
+
+| Matriz | Dimensiones INT8 | Bytes de pesos |
+|---|---:|---:|
+| `W_INPUT` | 780 × 16 | 12.480 |
+| `W_VALUE` | 1 × 16 | 16 |
+| `W_FROM` | 64 × 16 | 1.024 |
+| `W_TO` | 64 × 16 | 1.024 |
+| **Total** | | **14.544** |
+
+Se generan **el mismo conjunto de matrices INT8** en un header C++ (`.hpp` o `.h`) y en `best_int8.pt` (contenedor PyTorch con `format`, `config`, `weights` y `scales`). El archivo FP32 `best.pt` no se modifica. La suma de características y los productos matriciales usan acumuladores **INT32**; después se recuperan las escalas flotantes y se aplican `tanh` y `softmax` cuando corresponda. Esto permite comparar la inferencia C++ y Nurse con pesos idénticos.
+
+### Paso 6. Auditoría
+
+La auditoría comprende cuatro niveles:
+
+1. **Datos:** `verify_database.py` debe verificar SQLite y conteos mínimos; se comprueban partidas, posiciones y legalidad de estados. En el etiquetado se separan FEN inválidos, respuestas UCI defectuosas y fallos del proceso Stockfish.
+2. **Reproducibilidad:** registrar archivo origen, porcentaje y semilla de muestreo, profundidad/nodos Stockfish, configuración de entrenamiento, épocas y checkpoint elegido. `run_genesis.ps1` ejecuta cada paso con `MON` y solo incrementa el contador cuando termina sin errores.
+3. **Aprendizaje:** comparar pérdidas y métricas de entrenamiento frente a validación y evaluar el conjunto no visto. No basta observar que disminuye la pérdida de entrenamiento; se requiere verificar generalización.
+4. **Exportación e inferencia:** las pruebas `test_export_int8.py` comprueban **igualdad byte a byte** de las matrices entre `.pt` y `.hpp`, escalas, obligatoriedad de parámetros e inferencia desde Nurse. La documentación de v0.1.9 deja pendientes las comparaciones cuantitativas contra FP32 con redes reales y la validación en ARM.
+
+Una métrica recomendable para la auditoría de cuantización es:
+
+$\mathrm{MAE}_v=\frac{1}{N}\sum_{i=1}^N|\hat v_{FP32}(s_i)-\hat v_{INT8}(s_i)|,$
+
+complementada con la **coincidencia de mejor jugada** y pruebas UCI de partidas completas. Esta métrica es una propuesta de evaluación, no un resultado medido.
+
+### Conclusión
+
+La cadena separa responsabilidades: 
+
+* **PGN aporta estados** 
+* **Stockfish aporta supervisión**
+* **PyTorch ajusta parámetros**
+* **el exportador produce una representación compacta de inferencia**.
+  
+La consistencia se sostiene mediante controles de base, reanudación del etiquetado y verificación cruzada de pesos INT8. El riesgo principal pendiente no es la serialización de pesos: es demostrar con un conjunto de validación independiente que la red realmente aprende y que la aproximación `FROM + TO` y la cuantización preservan decisiones ajedrecísticas útiles.
+
+
+## picoGenus — Cadena de entrenamiento
+
+`picoGenus` aborda **optimización evolutiva de evaluadores ajedrecísticos** a partir de posiciones etiquetadas por Stockfish. Entrena dos familias distintas:
+
+- **PST / heurística:** evoluciona parámetros de una función de evaluación de posiciones.
+- **NNUE genética:** evoluciona directamente los pesos enteros de una red pequeña **sin backpropagation ni optimizador Adam**.
+
+La medida principal no es el porcentaje de movidas coincidentes, sino la **aproximación numérica en centipeones (cp)** al evaluador maestro.
+
+![Cadena picoGenus](images/01_cadena_picogenus.png)
+
+**Figura 1.** Secuencia del orquestador inspeccionado. *Precisión:* el paso `genSample.py` produce una muestra, pero en el script v0.1.30 las llamadas activas de `genPST.py` y `genNNUE.py` reciben `Bk.pb` (Bratko–Kopec); las llamadas que utilizarían `SampleDb` están comentadas.
+
+### Insumos, base de datos y etiquetas
+
+`picoGenus` reutiliza bases SQLite con extensión **`.pb`** elaboradas en la cadena de `picoAlpha`. La extensión no debe confundirse con un archivo binario Protocol Buffers: en los scripts inspeccionados el acceso es mediante `sqlite3`.
+
+La tabla `positions` contiene —entre otros campos consultados— `id`, `game_id`, `fen`, `teacher_cp`, `teacher_uci`, `teacher_mate`, `teacher_at` y referencias a jugadas. La tabla `games` registra procedencia, orden y metadatos. **Esta enumeración corresponde a los campos observados en las consultas SQL; no pretende ser el esquema DDL completo.**
+
+El archivo `history.pb` original puede provenir de partidas PGN; `genSample.py` extrae posiciones hacia la base de muestra. En paralelo, `genBP.py` importa el banco de pruebas **Bratko–Kopec** desde un archivo `.epd`, aplica la jugada `bm` indicada y solicita a Stockfish una evaluación de la posición **posterior** a esa jugada; el resultado se almacena en `Bk.pb`. La auditoría verifica que el FEN y la jugada almacenados correspondan al EPD de origen. No utiliza el campo `ce` del EPD como etiqueta docente.
+
+Para los entrenadores se admiten posiciones con `teacher_cp` no nulo, `teacher_mate IS NULL` y `teacher_at` no nulo. Se convierten las valoraciones de la perspectiva del bando al turno a la **perspectiva blanca**:
+
+
+$y_i=\text{clip}(s_i\,cp_i,-2000,2000),\qquad s_i=\begin{cases}+1,&\text{juegan blancas}\\-1,&\text{juegan negras}\end{cases}.$
+
+La variable `teacher_uci` puede conservar la jugada aconsejada, aunque **el fitness vigente de PST y NNUE es numérico, no una coincidencia de movidas**.
+
+### Separación entrenamiento / validación
+
+Desde el mecanismo compartido ambos entrenadores utilizan `gen_dataset_split.py`: semilla predeterminada `42`, hasta todas las posiciones (`--max-positions 0`) y objetivo de validación del `20%`. La separación se realiza por `game_id` **sin repartir posiciones de una misma partida** entre entrenamiento y validación. Se emite un identificador SHA-256 `split_id` que incorpora registros, etiquetas y pertenencia a cada subconjunto.
+
+**Control crítico:** PST y NNUE deben reportar el **mismo `split_id`** para que su comparación experimental sea defendible. La validación no participa en la selección genética de progenitores ni élites.
+
+### Muestreo y elaboración del banco EPD
+
+El orquestador ejecuta `genSample.py` (`--in`, `--out`, `--sample`) y también `genBP.py` para construir una base etiquetada desde `bratko_kopec.epd` con Stockfish (en el script revisado, profundidad 10). Sus artefactos pueden ser:
+
+| Artefacto | Formato | Propósito |
+|---|---|---|
+| `sample_history.pb` / `genus.pb` | SQLite | Muestra de posiciones de la historia PGN |
+| `bratko_kopec.epd` | Texto EPD | Posiciones de prueba y jugadas `bm` |
+| `Bk.pb` | SQLite | Posiciones posteriores a `bm` y evaluaciones de Stockfish |
+
+No debe suponerse que una posición PGN y una posición EPD son intercambiables: el corpus determina el alcance de lo que aprenderán los modelos.
+
+### Entrenamiento genético PST
+
+La rama PST genera un archivo JSON como `assets/genus_pst.json`. El algoritmo inspeccionado representa sus parámetros como un cromosoma binario codificado en **Gray**; el diseño de 35 términos descrito en v0.1.15 mantiene un peón fijado en 100 cp, **34 coeficientes evolucionables** y **224 bits** de representación.
+
+![Cromosoma PST](images/02_cromosoma_pst.png)
+
+**Figura 2.** Representación conceptual de los coeficientes; los rectángulos **no** representan una distribución exacta de bits por grupo.
+
+Un evaluador heurístico puede describirse en general mediante:
+
+$\hat y_{\mathrm{PST}}(s;\boldsymbol\theta)=\sum_{j=1}^{m}\theta_j\,\phi_j(s),$
+
+
+siendo `φ_j(s)` características (material, posición, seguridad del rey, peones, actividad de torres, etc.) y `θ_j` sus pesos. Esta expresión **es una abstracción matemática**: algunas características de la implementación incluyen condiciones y multiplicadores, por lo que no debe interpretarse como garantía de linealidad global.
+
+La función objetivo utilizada en el parche numérico v0.1.32 es:
+
+
+$\mathrm{MSE}_{train}(\theta)=\frac1N\sum_{i=1}^{N}\bigl(\hat y_{\mathrm{PST}}(s_i;\theta)-y_i\bigr)^2,
+\quad \mathrm{RMSE}=\sqrt{\mathrm{MSE}}.$
+
+La aptitud para selección por ruleta es:
+
+$F(\theta)=\frac{1}{\left(1+\mathrm{RMSE}_{train}(\theta)\right)^2},\qquad
+p_k=\frac{F_k}{\sum_j F_j}.$
+
+Los operadores documentados son 
+
+* **elitismo** (se conserva un mejor individuo), 
+* **cruzamiento uniforme** con probabilidad `0,75`  
+* **mutación de bits** con probabilidad `0,005` por bit. 
+
+Los estados de generación se almacenan en JSON; el formato de checkpoint PST reciente se identifica como `picogenus-sargon3-pst-v3`.
+
+### Entrenamiento genético NNUE
+
+El archivo `genNNUE.py` evoluciona una red pequeña con arquitectura **768 → 16 → 1**. La representación de la posición consta de `12 × 64 = 768` indicadores binarios de presencia de pieza/color/casilla. No incluye explícitamente turno, derechos de enroque ni captura al paso.
+
+![Arquitectura NNUE](images/03_red_nnue_genetica.png)
+
+**Figura 3.** NNUE con activaciones acotadas y salida en centipeones; los pesos aprendidos son enteros `int16`.
+
+Para una posición con índices activos `I(s)`:
+
+
+$h_j(s)=\operatorname{clip}\!\left(b_j+\sum_{k\in I(s)}W_{kj},\,0,\,127\right),\qquad j=1,\ldots,16,$
+
+
+$\boxed{\hat y_{\mathrm{NNUE}}(s)=b_o+\sum_{j=1}^{16}v_j h_j(s)}.$
+
+Número de parámetros:
+
+
+$768\cdot16+16+16+1=\boxed{12\,321}.$
+
+Cada individuo es un vector de **12.321 genes `int16`**. La población inicial usa valores enteros uniformes entre −15 y +15. La función de aptitud reproduce el contrato de `train.py`:
+
+$F(g)=-\frac1N\sum_{i=1}^{N}(\hat y_g(s_i)-y_i)^2=-\mathrm{MSE}_{train}(g).$
+
+**Reproducción genética:** cinco élites, padres elegidos uniformemente entre los 20 mejores, cruzamiento de **un punto** y mutación independiente de cada peso con probabilidad `0,03`, sumando un entero entre −6 y +6 y limitando el resultado a `[−127,127]` (almacenado como `int16`). No se calculan derivadas ni se utiliza PyTorch como entrenador de estos pesos.
+
+La red nueva produce directamente **centipeones, sin dividir por 256**. Los modelos `int8` anteriores se leen excepcionalmente con la escala histórica `/256` para compatibilidad de inferencia. Reinterpretar pesos `int16` nuevos como `int8` generaría resultados incorrectos.
+
+### Archivos de salida
+
+| Archivo | Contenido | Uso |
+|---|---|---|
+| `genus_pst.json` | Coeficientes PST, metadatos, RMSE y cromosoma | Evaluador heurístico |
+| `genus_nnue.npy` | Vector NumPy de 12.321 pesos `int16` | Evaluador NNUE |
+| `*.genNNNNN.json` | Población, métricas, generación, RNG y procedencia (según rama y versión) | Checkpoint / reanudación |
+| `*.active.json` | Referencia a la red activa y su representación | Carga segura del modelo |
+| `audit.json` | Errores por método, métricas y casos | Auditoría |
+
+En los parches inspeccionados, los **checkpoints son versionados** y pueden no ser reanudables entre esquemas previos. El esquema NNUE tras la partición compartida es `picogenus-nnue-generation-v5`; los archivos del formato v4 no deben asumirse equivalentes. La serialización `.npy` guarda un arreglo NumPy, **no** un `state_dict` de PyTorch.
+
+La telemetría relevante es: error inicial, mejor y promedio RMSE, validación RMSE/MAE, saturación de neuronas en 0 y 127, diversidad genética, mutaciones efectivas, semilla, `split_id` y checkpoints. Evitar medir únicamente la mejor puntuación de entrenamiento: ésta puede mejorar mientras empeora la validación.
+
+### Auditoría
+
+El proceso `genAudit.py` recibe PST, NNUE, archivo Bratko–Kopec EPD, la correspondiente base `Bk.pb` y la ruta del reporte. Para cada entrada `bm`, **aplica la jugada del EPD primero** y verifica que el registro SQLite etiquetado corresponda exactamente a esa posición resultante. A continuación obtiene evaluaciones numéricas comparables desde perspectiva blanca de:
+
+1. `PST` entrenada;
+2. `NNUE` genética;
+3. `CLASSIC`, el evaluador canónico portado de Akkad, **no** la supuesta heurística histórica exacta de Sargon III.
+
+![Auditoría](images/04_auditoria.png)
+
+**Figura 4.** Los tres evaluadores se comparan contra **las mismas etiquetas de Stockfish**; además se mide el alejamiento respecto de CLASSIC.
+
+Con diferencias `e_i = pred_i − Stockfish_i`, las métricas incluyen:
+
+
+$\mathrm{MAE}=\frac1N\sum_i|e_i|,\qquad
+\mathrm{RMSE}=\sqrt{\frac1N\sum_i e_i^2},\qquad
+\mathrm{Bias}=\frac1N\sum_i e_i.$
+
+El reporte v0.1.33 usa formato `picogenus-post-bm-numeric-audit-v3` e incorpora también correlación, tiempo por posición, errores máximos y comparación `versus_classic`. Es importante separar:
+
+- **Cercanía a Stockfish**: calidad de la aproximación numérica en ese conjunto.
+- **Distancia a CLASSIC**: cuánto difieren entre sí los evaluadores.
+- **Fortaleza Elo**: rendimiento competitivo en partidas, **no inferible directamente** del RMSE.
+
+Desde `picoGenus/tools/train`, con rutas configuradas y dependencias disponibles:
+
+```powershell
+.\run_genesis.ps1 --mon 1 --sample 5000 --population 100 --generations 100
+```
+
+En el script examinado, los valores `--mon` válidos son `1..4`; al completar correctamente una etapa incrementa MON hasta 5. Se puede reanudar manualmente en la etapa siguiente. **El ejemplo reproduce los parámetros y el flujo visibles en la versión examinada; no se afirma que corresponda sin cambios a cualquier edición posterior del script.**
+
+### Controles
+
+1. **Identidad del corpus.** El script v0.1.30 usa `Bk.pb` en las etapas activas de entrenamiento, aunque construye `SampleDb`; confirmar intencionalidad antes de atribuir resultados a partidas PGN.
+2. **Separación por partida.** Exigir el mismo SHA-256 de partición para PST y NNUE; de lo contrario la comparación entre ramas no es homogénea.
+3. **Coherencia de perspectiva y escala.** Comprobar `teacher_cp` desde blancas, recorte ±2000 y salida NNUE `int16` sin `/256`.
+4. **Fitness vs. métrica secundaria.** El entrenamiento optimiza error numérico; las coincidencias de jugadas y las partidas completas son evaluaciones distintas.
+5. **Generalización.** Una baja RMSE en posiciones EPD o en entrenamiento no garantiza desempeño en posiciones de partidas reales.
+6. **Versiones de PST.** No mezclar David-35, Sargon III experimental y CLASSIC como si fueran la misma heurística.
+
+### Conclusión
+
+`picoGenus` construye **dos evaluadores por evolución genética**, uno interpretable mediante parámetros heurísticos y otro basado en una NNUE de pesos enteros. Ambos procuran aproximar los centipeones de Stockfish usando datos comparables; el control de validación y la auditoría posterior permiten distinguir mejora de entrenamiento, generalización y divergencia frente a CLASSIC. **Próximo paso recomendado:** fijar corpus, `split_id`, versión de cada evaluador y checkpoint; luego efectuar auditoría numérica y partidas Elo independientes antes de publicar un modelo como superior.
+
+
+## picoSargon: NNUE compacta
+
+El desarrollo de la red compacta NNUE utilizada por picoSargon requiere una cadena de creación y entrenamiento. El objetivo no es fabricar una NNUE genérica y comprimirla después, sino **optimizar una función que puede ser evaluada con la aritmética y el formato binario originales de picoSargon**. El circuito se divide en aprendizaje continuo con parámetros FP32, ajuste consciente de cuantización (QAT), selección del mejor modelo **cuantizado real** y auditoría contra las etiquetas de Stockfish de un SQLite.
+
+El mecanismo general de entrenamiento es partir de un dominio de partidas cuyos movimientos han sido evaluadas por un
+*teacher* adecuado, tomando como tal el programa *stockfish*.
+
+Los resultados de la ejecución analizada, 
+
+![Arquitectura de la red](images/arquitectura_grmp0001.png)
+
+
+La red tiene por propósito  reemplazar la función heurística de evaluación del motor picoSargon. Recibe una posición ajedrecística —piezas, color y casillas ocupadas, cantidad de piezas y jugador al turno— y devuelve **una evaluación escalar de la posición en centipeones desde la perspectiva de las blancas**. No es una red de política: no predice probabilidades de movimientos. La elección de jugadas corresponde al buscador de picoSargon y no al evaluador.
+
+Se conserva el término de material **fijo**, que se suma a la contribución neuronal. Esto significa que la red aprende principalmente una corrección posicional condicionada por las características y por la ocupación, en vez de aprender libremente todos los valores materiales.
+
+La denominación *NNUE* describe la familia conceptual de redes ligeras para evaluación ajedrecística, pero **esta implementación no debe confundirse con las arquitecturas HalfKP/Stockfish ni presuponer que dispone de actualización incremental de acumuladores**. La función inspeccionada en `picoSargon/x86/src/grumpy.cpp` construye los acumuladores al evaluar una posición; cualquier afirmación sobre actualización incremental necesita comprobar otra ruta de ejecución.
+
+### Arquitectura exacta
+
+Cada pieza aporta una característica codificada por: **color de la pieza, tipo de pieza y casilla**. Hay 2 colores × 6 tipos × 64 casillas = **768 características posibles**. Para cada característica se utilizan **dos pequeñas tablas aditivas**:
+
+- un conjunto dependiente de la fila (*rank*);
+- otro dependiente de la columna (*file*).
+
+Cada tabla aporta **8 componentes**. Se construyen dos acumuladores de 8 componentes, uno por perspectiva de color, con inversión geométrica de filas para la perspectiva opuesta. En la salida, el acumulador del jugador al turno ocupa los primeros ocho canales y el del adversario los ocho siguientes. No se ingresa un vector denso de 768 números a una matriz tradicional: se realizan **búsquedas y sumas de coeficientes** para las piezas efectivamente presentes.
+
+Si `f` es el índice de característica, `c ∈ {0,…,7}` el canal y `square = f mod 64`, la descomposición en el archivo se corresponde con:
+
+```text
+bloque = floor(f / 64) * 128
+índice_fila(f,c)    = bloque + floor(square / 8) * 8 + c
+índice_columna(f,c) = bloque + 64 + (square mod 8) * 8 + c
+```
+
+En cada acumulador se suman las dos contribuciones. El diseño **separable fila/columna** ahorra coeficientes, pero restringe su capacidad expresiva respecto de una tabla independiente por cada combinación de casilla y canal.
+
+La distribución de los coeficientes será en éste formato:
+
+| Índices | Cantidad | Función |
+|---|---:|---|
+| 0–1535 | 1.536 | Tablas de características (12 bloques tipo/color × 128 pesos de fila/columna) |
+| 1536–1543 | 8 | Sesgo compartido de los acumuladores |
+| 1544–1671 | 128 | Ocho cabezas de salida, 16 coeficientes por cabeza |
+| 1672–1679 | 8 | Sesgo escalar de cada cabeza o *bucket* |
+| **Total** | **1.680** | **Parámetros cuantizados** |
+
+Los acumuladores resultan en **16 activaciones** que se limitan por saturación (*clipped ReLU*):
+
+
+$h_i = \min(32,\max(0,a_i)),\quad i=0,\ldots,15.$
+
+
+Hay **8 buckets**, seleccionados por el número total de piezas presentes:
+
+
+$b=\left\lfloor\frac{N_{\mathrm{piezas}}-2}{4}\right\rfloor,\qquad 0\le b\le 7.$
+
+Por ejemplo, de 2 a 5 piezas se utiliza el bucket 0; de 30 a 32, el bucket 7. Para cada bucket se calcula la suma ponderada de las 16 activaciones y un sesgo multiplicado por 8:
+
+
+$T=\sum_{i=0}^{15}h_i w_{b,i}+8\beta_b.$
+
+En la implementación entera, la contribución neuronal se escala aproximadamente como \(400T/1024\), **truncando hacia cero**. Se añade después el material fijo, con los ajustes de signo necesarios para devolver el resultado desde blancas. La escala y la saturación forman parte del contrato del evaluador; cambiar cualquiera de ellas modificaría la función que se pretende aprender.
+
+La red se almacena en un binario de **1.304 bytes**. Las operaciones principales durante la inferencia son accesos a tablas y sumas enteras por pieza/canal, una activación limitada y un producto escalar de 16 términos; no se necesita PyTorch en producción. El archivo `.h` incorpora los mismos bytes como un arreglo C++ `constexpr` y permite ubicar el modelo en memoria de programa/flash si el compilador y el enlazador de la plataforma lo soportan. **La ubicación efectiva en flash y la RAM empleada deben medirse por plataforma; no las garantiza por sí sola la palabra `constexpr`.**
+
+El archivo tiene una estructura fija:
+
+| Desplazamiento | Longitud | Contenido |
+|---|---:|---|
+| 0 | 8 bytes | Firma ASCII `GRMP0001` |
+| 8 | 4 bytes | Entero little-endian: 105 bloques |
+| 12 | 32 bytes | SHA-256 del *payload* |
+| 44 | 1.260 bytes | 105 bloques × 12 bytes |
+| **Total** | **1.304 bytes** | |
+
+Cada bloque de 12 bytes contiene **16 códigos de 6 bits** (16 × 6 = 96 bits), empaquetados en orden little-endian. La decodificación es:
+
+$w = (\mathrm{code6}\;\&\;63)-31.$
+
+Por tanto, el rango formal exacto es **−31 a +32**. No debe confundirse con `int8`; los pesos no son bytes independientes ni existe una escala `int8` aprendida. En la exportación observada de Dopey, los valores efectivamente utilizados estuvieron entre **−3 y +3**, con 324 coeficientes negativos, 736 cero y ninguna saturación reportada.
+
+`export.py` valida tamaño, firma, SHA-256 y equivalencia de los coeficientes releídos tras escribir el archivo. `grumpy.bin` se mantiene como modelo de referencia en solo lectura: el exportador produce otro nombre de red, por ejemplo `dopey.bin` y `dopey.h`.
+
+### Datos de entrenamiento y convención de perspectiva
+
+La fuente es una base **SQLite con tabla `positions`**, originada en el pipeline de picoAlpha y etiquetada con Stockfish. Los campos necesarios son `id`, `game_id`, `fen`, `teacher_cp`, `teacher_value` y `teacher_mate`. Para entrenar se incluyen únicamente posiciones con un centipeón numérico y sin etiqueta de mate.
+
+La convención de picoAlpha es:
+
+$v_{\mathrm{STM}}=\tanh\left(\frac{cp_{\mathrm{STM}}}{400}\right),$
+
+con `STM = side-to-move` (jugador que mueve). En cambio, el evaluador GRMP devuelve centipeones **desde blancas**. El pipeline convierte cada etiqueta mediante:
+
+
+$cp_{\mathrm{white}}=\begin{cases}
+cp_{\mathrm{STM}},&\text{juegan blancas},\\
+-cp_{\mathrm{STM}},&\text{juegan negras}.
+\end{cases}$
+
+
+Ddurante la preparación y la auditoría se verifica que `teacher_value ≈ tanh(teacher_cp/400)` con tolerancia `1e−5`; no se toma una columna con perspectiva blanca sin demostrarlo. Una auditoría anterior del SQLite completo informó 10.088.531 registros coherentes y **cero discrepancias internas** entre las dos columnas. Esa coherencia **no certifica la procedencia externa**: si ambas etiquetas hubieran sido generadas bajo un criterio equivocado, podrían coincidir entre sí. La última prueba de procedencia sería reevaluar una muestra de FEN con Stockfish y la misma configuración original.
+
+Stockfish **no se ejecuta en cada epoch**: su evaluación para la posición ya están almacenados en SQLite.
+
+Con los parámetros de la corrida documentada:
+
+```text
+Universo SQLite etiquetado: 10.088.531 posiciones
+Muestra sin reposición:       10.000 posiciones
+Semilla:                       2026
+TRAIN / VERIFY:               8.000 posiciones (7.699 partidas representadas)
+VALID:                        2.000 posiciones (1.984 partidas representadas)
+```
+
+Para evitar que `ORDER BY RANDOM()` sobre millones de filas deje la consola sin actividad, `train.py` recorre los IDs elegibles y utiliza **reservoir sampling** con semilla fija; muestra una barra de avance `SAMPLE` durante el recorrido. Después carga las filas seleccionadas (`LOAD`), verifica FEN y etiquetas (`VERIFY` de datos) y guarda un manifiesto con los IDs separados. Esos IDs son la identidad real de la selección; `Audit.py` no vuelve a sortear las posiciones.
+
+La barra `VERIFY` de la preparación significa verificar integridad de datos. El `VERIFY` por epoch significa reevaluar los **8.000 ejemplos de entrenamiento con los pesos ya congelados**. Son operaciones distintas y deben documentarse como tales.
+
+Los grupos se separan por **posición, no por partida**. Aunque no se reutiliza un mismo ID entre entrenamiento y validación, pueden existir posiciones muy correlacionadas procedentes de una misma partida en los dos conjuntos. Para una estimación de generalización más fiable debería prepararse una separación por `game_id`, conservando un conjunto TEST independiente.
+
+### Función de pérdida
+
+Se definió como métrica primaria el **MSE sobre el valor normalizado**, no MSE en centipeones cuadrados:
+
+
+$\mathcal{L}_{\mathrm{value}}=\frac1N\sum_{i=1}^{N}
+ \left[\tanh(\widehat{cp}_i/400)-\tanh(cp_i/400)\right]^2.$
+
+Por ser `tanh` impar, transformar consistentemente predicción y etiqueta de STM a blancas conserva el cuadrado del error normalizado. La selección del *best* emplea `MSE(value)` de la red cuantizada en VALID; si `--validation 0`, utiliza el conjunto VERIFY e informa que no hubo validación independiente.
+
+Se mide además el error interpretable en centipeones:
+
+
+$\mathrm{MSE}_{cp^2}=\frac1N\sum_i(\widehat{cp}_i-cp_i)^2,
+ \qquad \mathrm{RMSE}_{cp}=\sqrt{\mathrm{MSE}_{cp^2}}.$
+
+`MSE(value)` es adimensional y comprime errores extremos por la saturación de `tanh`; RMSE está en cp y pondera fuertemente desaciertos grandes. Por eso no es correcto interpretar valores como `0,006` o `0,12` como centipeones: son pérdidas normalizadas cuya magnitud depende también de los datos y la capacidad de la red.
+
+### Secuencia del entrenamiento
+
+`train.py` crea exactamente **1.680 parámetros maestros FP32**, con la topología fijada por GRMP0001. En la versión documentada se inicializan de manera **independiente y reproducible** mediante una normal de media 0 y desviación típica 0,35, con semilla configurada. **No inicializa desde `grumpy.bin`**: por decisión del proyecto, ese archivo se utiliza solo en AUDIT.
+
+Los parámetros se optimizan con **AdamW** y decaimiento de pesos `0.0` (es decir, sin penalización de peso), lote predeterminado 512, barajado reproducible de posiciones y schedule lineal de learning rate. Para la ejecución documentada:
+
+```text
+FP32 epochs = 10
+lr inicial  = 0,010
+lr mínimo   = 0,001
+batch       = 512
+```
+
+El forward FP32 conserva la suma de características, los acumuladores, las activaciones limitadas, los buckets, la escala y el material, pero **no redondea pesos ni el resultado neuronal a enteros durante esta fase**. Eso permite gradientes continuos y evita que los pequeños cambios queden invisibles al cuantizador.
+
+En cada epoch se realizan tres operaciones lógicamente separadas:
+
+1. **TRAIN (8.000 posiciones):** actualización de los parámetros tras cada lote. Su MSE es un promedio *online*, calculado mientras los pesos cambian, **no** es una evaluación de un modelo único congelado.
+2. **VERIFY (8.000 posiciones):** con los pesos finales del epoch ya fijos, se mide la misma muestra tanto con forward FP32 como con **evaluación entera INT6 exacta**.
+3. **VALID (2.000 posiciones):** se utiliza exclusivamente la muestra reservada; se miden FP32 e INT6 de nuevo. No se calculan gradientes con estas posiciones.
+
+El mejor `FP32` se guarda en `dopey_best_fp32.pt` según el `MSE(value)` de selección. En paralelo se evalúa la **cuantización directa** del FP32 y se conserva `dopey_best_quant.pt` cuando mejora el criterio de validación de la evaluación entera. El historial completo se guarda en `picoSargon/data/dopey_history.json`.
+
+Es necesario adaptar el forward a 6 bits, para ello tras FP32 se recupera el **mejor checkpoint continuo**, no necesariamente el último. Comienza entonces el ajuste consciente de cuantización (*Quantization-Aware Training*):
+
+```text
+QAT epochs  = 5
+lr inicial  = 0,050
+lr mínimo   = 0,005
+```
+
+Los parámetros maestros **siguen siendo FP32**. En el forward se aplica *fake quantization* mediante redondeo y saturación al rango −31…+32, y se simula el truncamiento entero de la salida. En el backward, el método **Straight-Through Estimator (STE)** deja pasar una aproximación del gradiente a través de esos operadores no diferenciables. Esta es una heurística práctica, no el gradiente exacto de una función entera discontinua.
+
+El QAT persigue que las actualizaciones FP32 se traduzcan en **una mejor evaluación del binario realmente exportable**. La medición de `VERIFY INT6` y `VALID INT6` se realiza con el evaluador entero (`eval_encoded`) y no depende de confiar en que el forward aproximado de PyTorch sea idéntico.
+
+Se escribe un archivo `.pt` por epoch , además del correspondiente al mejor checkpoint al momento. Los checkpoints contienen coeficientes maestros, epoch/fase, manifiesto y métricas.
+
+El archivo que debe exportarse es el que corresponde a los coeficientes cuantizados, elegido por `VALID INT6` (*MSE(value)*) y no por el mejor resultado continuo FP32. El entrenamiento falla si no consigue una red cuantizada diferente de su inicialización; esto evita declarar éxito cuando se entrenaron valores flotantes pero el binario seguiría siendo el mismo. 
+
+### Evolución FP32 frente a INT6
+
+Los siguientes son ejemplos de entrenamiento, validación y posterior verificación.
+
+![Evolución de la validación FP32 e INT6](images/evolucion_validacion_fp32_int6.png)
+
+![Verificación y validación](images/verificacion_validacion.png)
+
+Los 15 epochs de la corrida adjunta presentan una mejora sostenida. Selección de puntos de control, todos en **MSE(value)**:
+
+| Epoch | VALID FP32 | VALID INT6 | Interpretación |
+|---|---:|---:|---|
+| FP32 1 | 0,13072 | 0,13099 | Primer epoch de la inicialización independiente |
+| FP32 5 | 0,12771 | 0,12803 | Disminuyen ambos errores |
+| FP32 10 | 0,12714 | 0,12742 | Fin del entrenamiento continuo |
+| QAT 1 | 0,12519 | 0,12540 | Ajuste con forward cuantizado |
+| QAT 3 | 0,12077 | 0,12044 | INT6 supera ligeramente a la medición FP32 |
+| QAT 5 | 0,11873 | **0,11897** | Mejor modelo exportable de esta ejecución |
+
+Es posible que `VALID INT6` resulte mejor que `VALID FP32` en algún epoch: son dos forwards distintos con los mismos parámetros maestros; el entrenamiento QAT optimiza el comportamiento cuantizado, por lo que no hay una desigualdad matemática que obligue a FP32 a ganar.
+
+### Exportación y forma de reutilización
+
+El paso `MON=2` ejecuta `export.py` sobre `dopey_best_quant.pt`. Se recuperan los parámetros maestros, se hace `clip + round`, se empaquetan 16 códigos de seis bits en cada bloque de 12 bytes, se calcula SHA-256 sobre el payload y se generan:
+
+- `picoSargon/assets/dopey.bin` — `GRMP0001`, **1.304 bytes**;
+- `picoSargon/assets/dopey.h` — arreglo `constexpr` con el mismo contenido para inclusión C++.
+
+El exportador comprueba por lectura inversa que todos los coeficientes coinciden con los del checkpoint ya cuantizados. Esta prueba verifica el *codec*, no de manera automática la fuerza de la red ni su comportamiento en todas las posiciones posibles.
+
+Se debe usar **un nombre de red distinto** de `grumpy` para no pisar la referencia histórica. En el uso normal de picoSargon, se elige el binario externo mediante `--weights` cuando la variante del ejecutable admite esa opción.
+
+### Auditoría
+
+El paso `MON=3` ejecuta `Audit.py` con la red nueva , el manifiesto  y opcionalmente una red anterior utilizada como la referencia. Recorre **exactamente los IDs de validación persistidos**, reconsulta sus etiquetas en SQLite, confirma su coherencia, evalúa ambos binarios con el mismo `eval_encoded` y escribe `picoSargon/data/dopey_audit.json`, incluyendo **FEN, evaluación de Stockfish, salida y error de cada red**.
+
+Los errores de red entrenada y referencia se miden **contra Stockfish**, no uno directamente contra el otro. Una diferencia positiva  significa que la nueva red tiende a aproximarse mejor al objetivo etiquetado.
+
+![Resultado de auditoría (ejemplo)](images/audit_dopey_vs_grumpy.png)
+
+## 11. Dificultades detectadas y soluciones implementadas
+
+| Dificultad | Intervención | Comprobación / límite |
+|---|---|---|
+| Muestreo SQLite aparentemente congelado | Sustituir `ORDER BY RANDOM()` por reservoir sampling con barra `SAMPLE` | Recorrido visible sobre 10,09 millones de elegibles; coste lineal de lectura |
+| Etiquetas Stockfish expresadas en STM | Convertir a blancas según `fen.split()[1]`, verificar relación `teacher_value`/`teacher_cp` | Auditoría interna de 10.088.531 filas sin discrepancias; procedencia externa aún por verificar |
+| Intento de optimizar directamente pesos de 6 bits con LR muy pequeño | Pesos maestros FP32 y dos fases FP32→QAT | La corrida previa con valores discretos había dejado MSE idéntico en todos los epochs |
+| FP32 mejor pero cuantización degradada | Evaluación INT6 en cada epoch, QAT con STE y selección por error cuantizado real | La mejora de la red exportable se observa explícitamente en VALID INT6 |
+| Confusión MSE(value) vs MSE(cp²) | Usar la pérdida normalizada de picoAlpha como criterio primario e informar RMSE/MAE(cp) | Métricas dimensionalmente distintas, no se igualan numéricamente |
+| Telemetría sin actualización en consola y emojis corruptos | Barra Unicode `█░`, retorno de carro y scripts `.ps1` UTF-8 con BOM | Windows/PowerShell informado como funcional en la ejecución adjunta |
+| Mezcla de TRAIN, VERIFY y VALID | Mostrar cada etapa y columnas FP32/INT6, pesos congelados en VERIFY y VALID | El MSE de TRAIN es *online*, diferente del post-epoch |
+| Confusión entre referencia y conjunto de validación | Grumpy retirado de entrenamiento e inicialización, utilizado **solo** en AUDIT | Cambia la curva de aprendizaje respecto de corridas que comenzaban desde Grumpy |
+| Riesgo de exportar un FP32 no representable | `best_fp32.pt` separado de `best_quant.pt`; exportación desde el segundo | Verificación del formato exacto y relectura de coeficientes |
+| Diferencias potenciales Python/C++ por truncamiento y signo | Implementar evaluador entero de referencia y validar contra el C++ de picoSargon | Se informó concordancia exacta en 7 posiciones; se requieren tests adicionales y propiedades exhaustivas |
+
+### Conclusión
+
+La decisión técnica más importante fue **separar el aprendizaje de una función continua de la evaluación final de un entero de 6 bits**, y no dar por buena una red hasta medir exactamente el binario que ejecutará picoSargon. La cadena FP32→QAT resuelve el bloqueo por cuantización que había producido epochs sin variación efectiva y obtiene una reducción considerable del error de evaluación en los datos reservados. El paso pendiente con mayor impacto no es aumentar los epochs ni ajustar todavía más el learning rate: es **realizar una prueba ciega, separada por partidas, y medir luego el efecto sobre la fuerza de juego**.
+
+- [`arquitectura_grmp0001.png`](images/arquitectura_grmp0001.png) — esquema de entradas, acumuladores, buckets, material y salida.
+- [`evolucion_validacion_fp32_int6.png`](images/evolucion_validacion_fp32_int6.png) — 15 epochs, validación FP32 frente a INT6.
+- [`verificacion_validacion.png`](images/verificacion_validacion.png) — error en el grupo de entrenamiento congelado frente al reservado.
+- [`audit_dopey_vs_grumpy.png`](images/audit_dopey_vs_grumpy.png) — evaluación comparativa contra etiquetas de Stockfish.
+
+También se incluyen versiones vectoriales `.svg` de las cuatro figuras y `picoSargon_grumpy_evolucion_mse.json` con los puntos de la curva extraídos de la telemetría aportada.
 
 
 # CAP 18 Implementación

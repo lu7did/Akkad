@@ -1,0 +1,3 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+dopey,picoSargon,null,,24,24,0,3.143,130.947,120.496,331.806,6.346,448.429,541523,24,3098.000,174797.6,0.005803,OK,0,0
+pico,picoSargon,null,,24,24,0,2.183,90.978,79.274,215.431,5.275,247.332,398508,24,2141.000,186131.7,0.005479,OK,0,0

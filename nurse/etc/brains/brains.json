@@ -43,7 +43,7 @@
            "--network", "C:/Users/pedro/github/bobby/akkad/picoAlpha/assets/dalia_20261115B_int8.bin",
            "--depth", "12",
            "--timeout", "15000",
-           "--sim", "10000"
+           "--sim", "8000"
         ],
          "debian": [
            "--network", "{network}",
@@ -250,8 +250,91 @@
            "--weights", "/home/pi/chess/akkad/picoSargon/debian/assets/grumpy.bin"
          ]
          },
-
+         "Depth": 4,
+         "QDepth": 4,
+         "tmax": 15000,
+         "timeout": 30000,
+         "uci_options": {
+             "Depth": 4,
+             "QDepth": 4
+        },   
       "ELO": 1000
+    },
+  "dopey": {
+      "type": "uci",
+      "evaluator" : "null",
+      "player": {
+         "windows": "C:/Users/pedro/github/bobby/akkad/picoSargon/x86/build/picoSargon.exe",
+         "debian": "/home/pi/chess/akkad/picoSargon/debian/build/picoSargon",
+         "macOS": "/home/pi/chess/akkad/picoSargon/macOS/build/picoSargon"
+      },
+      "args": {
+         "windows": [
+           "--weights", "C:/Users/pedro/github/bobby/akkad/picoSargon/assets/dopey.bin",
+           "--depth"   ,  "4",
+           "--qdepth"  ,  "4",
+           "--timeout" , "15000"
+         ],
+         "debian": [
+           "--weights","/home/pi/chess/akkad/picoSargon/debian/assets/dopey.bin",
+           "--depth"   ,  "4",
+           "--qdepth"  ,  "4",
+           "--timeout" , "15000"
+         ],
+         "macOS": [
+           "--weights", "/home/pi/chess/akkad/picoSargon/debian/assets/dopey.bin",
+           "--depth"   ,  "4",
+           "--qdepth"  ,  "4",
+           "--timeout" , "15000"
+         ]
+         },
+         "Depth": 4,
+         "QDepth": 4,
+         "tmax": 15000,
+         "timeout": 30000,
+         "uci_options": {
+             "Depth": 4,
+             "QDepth": 4
+        },   
+        "ELO": 1000
+    },
+  "sneezy": {
+      "type": "uci",
+      "evaluator" : "null",
+      "player": {
+         "windows": "C:/Users/pedro/github/bobby/akkad/picoSargon/x86/build/picoSargon.exe",
+         "debian": "/home/pi/chess/akkad/picoSargon/debian/build/picoSargon",
+         "macOS": "/home/pi/chess/akkad/picoSargon/macOS/build/picoSargon"
+      },
+      "args": {
+         "windows": [
+           "--weights", "C:/Users/pedro/github/bobby/akkad/picoSargon/assets/sneezy.bin",
+           "--depth"   ,  "4",
+           "--qdepth"  ,  "4",
+           "--timeout" , "15000"
+         ],
+         "debian": [
+           "--weights","/home/pi/chess/akkad/picoSargon/debian/assets/sneezy.bin",
+           "--depth"   ,  "4",
+           "--qdepth"  ,  "4",
+           "--timeout" , "15000"
+         ],
+         "macOS": [
+           "--weights", "/home/pi/chess/akkad/picoSargon/debian/assets/sneezy.bin",
+           "--depth"   ,  "4",
+           "--qdepth"  ,  "4",
+           "--timeout" , "15000"
+         ]
+         },
+         "Depth": 4,
+         "QDepth": 4,
+         "tmax": 15000,
+         "timeout": 30000,
+         "uci_options": {
+             "Depth": 4,
+             "QDepth": 4
+        },   
+        "ELO": 1000
     },
  "picoSargon": {
       "type" : "external",

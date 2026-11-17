@@ -1,0 +1,214 @@
+[18:28:23] 💻 sargon-nurse v0.1.36 brain=dopey type=uci ELO=1000 tmax_ms=15000 timeout_ms=15000 warmup_movetime_ms=15000
+[18:28:23] ⚙️ UCI engine=C:\Users\pedro\github\bobby\akkad\picoSargon\x86\build\picoSargon.exe args=['--weights', 'C:/Users/pedro/github/bobby/akkad/picoSargon/assets/dopey.bin'] options=[]
+[18:28:23] ⚙️ timing efectivo tmax=15000ms timeout=15000ms warmup_movetime=15000ms
+[18:28:23] 🚀 subprocess pid=36692 cwd=C:\Users\pedro\github\bobby\akkad\picoSargon\x86\build argv=['C:\\Users\\pedro\\github\\bobby\\akkad\\picoSargon\\x86\\build\\picoSargon.exe', '--weights', 'C:/Users/pedro/github/bobby/akkad/picoSargon/assets/dopey.bin']
+[18:28:23] ➡️ UCI stdin uci
+[18:28:23] ⬅️ UCI stdout id name picoSargon C++ v0.2.58 (Windows)
+[18:28:23] ⬅️ UCI stdout id author Dr. Pedro E. Colla
+[18:28:23] ⬅️ UCI stdout option name QDepth type spin default 2 min 0 max 32
+[18:28:23] ⬅️ UCI stdout uciok
+[18:28:23] ➡️ UCI stdin isready
+[18:28:23] ⬅️ UCI stdout readyok
+[18:28:23] ✅ handshake UCI completo
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 2 nodes 2214 time 5 nps 442800
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove b1c3
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 2 nodes 2214 time 5 nps 442800
+[18:28:23] ⬅️ UCI stdout bestmove b1c3
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 1 depth 4 score cp -29995 nodes 7680 time 23 nps 333913
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove d6d1
+[18:28:23] ⬅️ UCI stdout info ply 1 depth 4 score cp -29995 nodes 7680 time 23 nps 333913
+[18:28:23] ⬅️ UCI stdout bestmove d6d1
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 64 nodes 14955 time 39 nps 383461
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove e4e5
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 64 nodes 14955 time 39 nps 383461
+[18:28:23] ⬅️ UCI stdout bestmove e4e5
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 1 depth 4 score cp 21 nodes 12864 time 38 nps 338526
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove a6a5
+[18:28:23] ⬅️ UCI stdout info ply 1 depth 4 score cp 21 nodes 12864 time 38 nps 338526
+[18:28:23] ⬅️ UCI stdout bestmove a6a5
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 0 nodes 8368 time 23 nps 363826
+[18:28:23] ⬅️ UCI stdout bestmove d4b5
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 0 nodes 8368 time 23 nps 363826
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove d4b5
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 82 nodes 51266 time 176 nps 291284
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove a2a4
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 82 nodes 51266 time 176 nps 291284
+[18:28:23] ⬅️ UCI stdout bestmove a2a4
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 40 nodes 4127 time 8 nps 515875
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove b3b4
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 40 nodes 4127 time 8 nps 515875
+[18:28:23] ⬅️ UCI stdout bestmove b3b4
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 1nk1r1r1/pp2n1pp/4p3/q2pPp1N/b1pP1P2/B1P2R2/2P1B1PP/R2Q2K1 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp -61 nodes 19051 time 60 nps 317516
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove a3b4
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp -61 nodes 19051 time 60 nps 317516
+[18:28:23] ⬅️ UCI stdout bestmove a3b4
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 4b3/p3kp2/6p1/3pP2p/2pP1P2/4K1P1/P3N2P/8 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 13 nodes 1448 time 3 nps 482666
+[18:28:23] ⬅️ UCI stdout bestmove e2c3
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 13 nodes 1448 time 3 nps 482666
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove e2c3
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 2kr1bnr/pbpq4/2n1pp2/3p3p/3P1P1B/2N2N1Q/PPP3PP/2KR1B1R w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 159 nodes 20893 time 63 nps 331634
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove f1d3
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 159 nodes 20893 time 63 nps 331634
+[18:28:23] ⬅️ UCI stdout bestmove f1d3
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 3rr1k1/pp3pp1/1qn2np1/8/3p4/PP1R1P2/2P1NQPP/R1B3K1 b - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 1 depth 4 score cp 17 nodes 19338 time 58 nps 333413
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove b6a5
+[18:28:23] ⬅️ UCI stdout info ply 1 depth 4 score cp 17 nodes 19338 time 58 nps 333413
+[18:28:23] ⬅️ UCI stdout bestmove b6a5
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp -34 nodes 18214 time 55 nps 331163
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove f2f4
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp -34 nodes 18214 time 55 nps 331163
+[18:28:23] ⬅️ UCI stdout bestmove f2f4
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen r3r1k1/ppqb1ppp/8/4p1NQ/8/2P5/PP3PPP/R3R1K1 b - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 1 depth 4 score cp -46 nodes 9772 time 29 nps 336965
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove d7f5
+[18:28:23] ⬅️ UCI stdout info ply 1 depth 4 score cp -46 nodes 9772 time 29 nps 336965
+[18:28:23] ⬅️ UCI stdout bestmove d7f5
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen r2q1rk1/4bppp/p2p4/2pP4/3pP3/3Q4/PP1B1PPP/R3R1K1 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 65 nodes 21535 time 58 nps 371293
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove d2f4
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 65 nodes 21535 time 58 nps 371293
+[18:28:23] ⬅️ UCI stdout bestmove d2f4
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen rnb2r1k/pp2p2p/2pp2p1/q2P1p2/8/1Pb2NP1/PB2PPBP/R2Q1RK1 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 181 nodes 8152 time 28 nps 291142
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove d1d2
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 181 nodes 8152 time 28 nps 291142
+[18:28:23] ⬅️ UCI stdout bestmove d1d2
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen 2r3k1/1p2q1pp/2b1pr2/p1pp4/6Q1/1P1PP1R1/P1PN2PP/5RK1 w - - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:23] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 38 nodes 7366 time 23 nps 320260
+[18:28:23] 📋 child [18:28:23] 🧠 bestmove g4g7
+[18:28:23] ⬅️ UCI stdout info ply 0 depth 4 score cp 38 nodes 7366 time 23 nps 320260
+[18:28:23] ⬅️ UCI stdout bestmove g4g7
+[18:28:23] ➡️ UCI stdin ucinewgame
+[18:28:23] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:23] ➡️ UCI stdin position fen r1bqkb1r/4npp1/p1p4p/1p1pP1B1/8/1B6/PPPN1PPP/R2Q1RK1 w kq - 0 1
+[18:28:23] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:23] 🧠 info ply 0 depth 4 score cp 81 nodes 7549 time 22 nps 343136
+[18:28:24] ⬅️ UCI stdout info ply 0 depth 4 score cp 81 nodes 7549 time 22 nps 343136
+[18:28:24] ⬅️ UCI stdout bestmove d1h5
+[18:28:24] 📋 child [18:28:23] 🧠 bestmove d1h5
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 1 depth 4 score cp 35 nodes 22281 time 69 nps 322913
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove h7h5
+[18:28:24] ⬅️ UCI stdout info ply 1 depth 4 score cp 35 nodes 22281 time 69 nps 322913
+[18:28:24] ⬅️ UCI stdout bestmove h7h5
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 1 depth 4 score cp -20 nodes 18183 time 62 nps 293274
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove d6d5
+[18:28:24] ⬅️ UCI stdout info ply 1 depth 4 score cp -20 nodes 18183 time 62 nps 293274
+[18:28:24] ⬅️ UCI stdout bestmove d6d5
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen 3rr3/2pq2pk/p2p1pnp/8/2QBPP2/1P6/P5PP/4RRK1 b - - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 1 depth 4 score cp 75 nodes 21635 time 69 nps 313550
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove g6h4
+[18:28:24] ⬅️ UCI stdout info ply 1 depth 4 score cp 75 nodes 21635 time 69 nps 313550
+[18:28:24] ⬅️ UCI stdout bestmove g6h4
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen r4k2/pb2bp1r/1p1qp2p/3pNp2/3P1P2/2N3P1/PPP1Q2P/2KRR3 w - - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 0 depth 4 score cp 66 nodes 19336 time 61 nps 316983
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove c3b5
+[18:28:24] ⬅️ UCI stdout info ply 0 depth 4 score cp 66 nodes 19336 time 61 nps 316983
+[18:28:24] ⬅️ UCI stdout bestmove c3b5
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen 3rn2k/ppb2rpp/2ppqp2/5N2/2P1P3/1P5Q/PB3PPP/3RR1K1 w - - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] ⬅️ UCI stdout info ply 0 depth 4 score cp 101 nodes 25511 time 81 nps 314950
+[18:28:24] ⬅️ UCI stdout bestmove f5h6
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 0 depth 4 score cp 101 nodes 25511 time 81 nps 314950
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove f5h6
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen 2r2rk1/1bqnbpp1/1p1ppn1p/pP6/N1P1P3/P2B1N1P/1B2QPP1/R2R2K1 b - - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 1 depth 4 score cp 9 nodes 19089 time 60 nps 318150
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove d7e5
+[18:28:24] ⬅️ UCI stdout info ply 1 depth 4 score cp 9 nodes 19089 time 60 nps 318150
+[18:28:24] ⬅️ UCI stdout bestmove d7e5
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 1 depth 4 score cp 22 nodes 21010 time 70 nps 300142
+[18:28:24] ⬅️ UCI stdout info ply 1 depth 4 score cp 22 nodes 21010 time 70 nps 300142
+[18:28:24] ⬅️ UCI stdout bestmove e8g8
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove e8g8
+[18:28:24] ➡️ UCI stdin ucinewgame
+[18:28:24] 🔎 brain=dopey go='go movetime 15000' tmax=15000ms timeout=15000ms
+[18:28:24] ➡️ UCI stdin position fen r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1
+[18:28:24] ➡️ UCI stdin go movetime 15000
+[18:28:24] 📋 child [18:28:24] 🧠 info ply 0 depth 4 score cp 85 nodes 18242 time 59 nps 309186
+[18:28:24] 📋 child [18:28:24] 🧠 bestmove e4f5
+[18:28:24] ⬅️ UCI stdout info ply 0 depth 4 score cp 85 nodes 18242 time 59 nps 309186
+[18:28:24] ⬅️ UCI stdout bestmove e4f5
+[18:28:24] ➡️ UCI stdin quit
+[18:28:24] 🔌 subprocess detenido pid=36692

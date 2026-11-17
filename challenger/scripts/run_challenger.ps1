@@ -114,7 +114,7 @@ if ($null -eq $pythonCommand) {
 }
 
 $cliArgs = @('-m', 'challenger.cli', '--brain', $engine, '--ip', $ip, '--port', [string]$port,
-             '--forever', '--gui', '--event', 'Challenger', '--timeout', '60000', '--plies', '4')
+             '--forever', '--gui', '--event', 'Challenger', '--timeout', '60000', '--plies', '3')
 if ($values.ContainsKey('json')) {
     # Resolve relative JSON paths against the directory where the user invoked this script.
     $jsonName = [string]$values['json']

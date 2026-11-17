@@ -1,0 +1,4 @@
+﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
+sneezy,picoSargon,null,,24,24,0,16.200,675.018,640.400,1590.087,22.543,2107.122,4705546,24,16171.000,290986.7,0.003443,OK,0,0
+dopey,picoSargon,null,,24,24,0,30.765,1281.858,1166.943,2884.388,40.256,5069.958,7183680,24,30726.000,233798.1,0.004283,OK,0,0
+pico,picoSargon,null,,24,24,0,2.430,101.269,72.380,242.608,3.269,408.103,624069,24,2392.000,260898.4,0.003895,OK,0,0

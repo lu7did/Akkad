@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.16)
+set(PICOSARGON_ARM "${CMAKE_CURRENT_LIST_DIR}/../../picoSargon/ARM")
+if(NOT EXISTS "${PICOSARGON_ARM}/pico_sdk_import.cmake")
+  message(FATAL_ERROR "Expected picoSargon/ARM/pico_sdk_import.cmake next to picoAlpha/ARM")
+endif()
+include("${PICOSARGON_ARM}/pico_sdk_import.cmake")
+project(picoAlphaARM VERSION 0.1.46 LANGUAGES C CXX ASM)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(PICO_CXX_ENABLE_EXCEPTIONS 1)
+pico_sdk_init()
+if(NOT PICO_BOARD STREQUAL "pico2_w")
+ message(FATAL_ERROR "picoAlpha ARM only supports -DPICO_BOARD=pico2_w")
+endif()
+add_executable(picoAlphaARM
+ src/board.cpp src/nnue_int8.cpp src/mcts_arm.cpp
+ src/search_coordinator.cpp src/pico_main.cpp)
+# Reuse the canonical lwIP NO_SYS configuration from picoSargon.
+# The Pico SDK requires lwipopts.h on the consuming target's include path.
+set(PICOSARGON_LWIP_CONFIG "${PICOSARGON_ARM}/config")
+if(NOT EXISTS "${PICOSARGON_LWIP_CONFIG}/lwipopts.h")
+ message(FATAL_ERROR "Missing shared picoSargon/ARM/config/lwipopts.h")
+endif()
+target_include_directories(picoAlphaARM PRIVATE include assets "${PICOSARGON_LWIP_CONFIG}")
+target_compile_options(picoAlphaARM PRIVATE -O3 -Wall -Wextra -Wno-psabi)
+target_link_libraries(picoAlphaARM PRIVATE pico_stdlib pico_multicore
+ pico_cyw43_arch_lwip_poll)
+target_compile_definitions(picoAlphaARM PRIVATE PICO_CYW43_ARCH_POLL=1)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/config.h")
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/include/config.h" _mdns
+ REGEX "^[ \t]*inline[ \t]+constexpr[ \t]+bool[ \t]+MDNS_ENABLED[ \t]*=")
+if(_mdns MATCHES "MDNS_ENABLED[ \t]*=[ \t]*true")
+ target_link_libraries(picoAlphaARM PRIVATE pico_lwip_mdns)
+ # Shared lwipopts.h enables mDNS under PICOSARGON_MDNS_COMPILED.
+ target_compile_definitions(picoAlphaARM PRIVATE PICOALPHA_MDNS_COMPILED=1 PICOSARGON_MDNS_COMPILED=1)
+else()
+ target_compile_definitions(picoAlphaARM PRIVATE PICOALPHA_MDNS_COMPILED=0 PICOSARGON_MDNS_COMPILED=0)
+endif()
+pico_enable_stdio_usb(picoAlphaARM 1)
+pico_enable_stdio_uart(picoAlphaARM 0)
+pico_add_extra_outputs(picoAlphaARM)
+message(STATUS "picoAlpha-ARM v0.1.46 board=${PICO_BOARD} dual-core=ON INT8-Flash=ON")
