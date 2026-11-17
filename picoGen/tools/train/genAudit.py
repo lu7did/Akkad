@@ -17,6 +17,7 @@ from gen_pst_core import NAMES, evaluate
 from gen_sargon_core import DEFAULTS as SARGON_DEFAULTS, evaluate as evaluate_sargon
 from genBP import epd_after_best_move
 from gen_classic_core import evaluate_classic
+from gen_dataset_split import load_split, SPLIT_SCHEMA
 
 
 def load_suite(epd_path, db_path):
@@ -78,6 +79,48 @@ def load_suite(epd_path, db_path):
     return suite, skipped
 
 
+
+def load_validation_suite(source, seed=42, max_positions=0, validation_sample=20.0):
+    """Use the *identical* game-disjoint split as both training programs.
+
+    Labels are already in the SQLite; no Stockfish process or EPD is involved.
+    ID-based matching is stable even when two positions have the same FEN.
+    """
+    train, validation, digest = load_split(source, seed, max_positions, validation_sample)
+    suite = [(row[5], float(row[3]), str(row[0])) for row in validation]
+    game_ids = {str(row[0]): int(row[1]) for row in validation}
+    if len(game_ids) != len(validation):
+        raise ValueError('Duplicate validation position IDs')
+    return suite, game_ids, digest, len(train)
+
+
+def summarize_validation(result, game_ids):
+    """Independent Stockfish errors for each of the three evaluators.
+
+    Do not compare predictors with each other on a per-position basis.
+    The only reference for all errors is the stored Stockfish teacher_cp.
+    """
+    for case in result['cases']:
+        case['position_id'] = int(case['id'])
+        case['game_id'] = int(game_ids[case['id']])
+    result['rankings'] = {
+        metric: sorted(result['methods'],
+                       key=lambda name: result['methods'][name][metric])
+        for metric in ('mae_cp', 'rmse_cp')
+    }
+    result['best_by_mae'] = result['rankings']['mae_cp'][0]
+    result['best_by_rmse'] = result['rankings']['rmse_cp'][0]
+    print('📊 VALIDATION — errores independientes contra Stockfish (menor es mejor)',flush=True)
+    for rank, name in enumerate(result['rankings']['mae_cp'], 1):
+        m = result['methods'][name]
+        print(f'  {rank}. {name:<7} MAE={m["mae_cp"]:.2f}cp '
+              f'RMSE={m["rmse_cp"]:.2f}cp bias={m["bias_cp"]:+.2f}cp '
+              f'n={m["total"]}',flush=True)
+    if result['best_by_mae'] != result['best_by_rmse']:
+        print('⚠️ El mejor por MAE difiere del mejor por RMSE; no hay un ganador único.',flush=True)
+    return result
+
+
 def audit(suite, pst, nnue, *, sargon=False):
     methods = {
         'PST': lambda board: float(evaluate_sargon(board, pst) if sargon else evaluate(board, pst)),
@@ -127,56 +170,12 @@ def audit(suite, pst, nnue, *, sargon=False):
         print(f'🔎 {name:<5} n={len(suite)} RMSE={metrics["rmse_cp"]:.2f}cp '
               f'MAE={metrics["mae_cp"]:.2f}cp bias={metrics["bias_cp"]:+.2f}cp '
               f'eval_mean={metrics["eval_mean_ms"]:.3f}ms', flush=True)
-    # Pairwise comparison on identical post-bm positions, same white POV.
-    by_method = {name: {row['id']: row for row in result['cases']
-                         if row['predictor'] == name} for name in methods}
     result['classic_reference'] = {
         'name': 'SARGON_CLASSIC',
         'implementation': 'Sargon-NNUE/src/sargon_nnue/evaluators/classic.py v0.6.153',
         'origin': 'Canonical Challenger SargonEngine static evaluation, not experimental Sargon III PST',
         'units': 'centipawns', 'perspective': 'white',
     }
-    result['versus_classic'] = {}
-    baseline = by_method['CLASSIC']
-    for name in ('PST', 'NNUE'):
-        ids = [ident for _board, _target, ident in suite]
-        diffs = np.asarray([by_method[name][ident]['value_cp_white'] -
-                            baseline[ident]['value_cp_white'] for ident in ids], dtype=np.float64)
-        errors = np.asarray([by_method[name][ident]['absolute_error_cp'] for ident in ids])
-        base_errors = np.asarray([baseline[ident]['absolute_error_cp'] for ident in ids])
-        wins = int(np.sum(errors < base_errors))
-        losses = int(np.sum(errors > base_errors))
-        ties = int(np.sum(errors == base_errors))
-        comparison = {
-            'n': len(ids),
-            'rmse_to_classic_cp': float(np.sqrt(np.mean(diffs**2))),
-            'mae_to_classic_cp': float(np.mean(np.abs(diffs))),
-            'bias_to_classic_cp': float(np.mean(diffs)),
-            'stockfish_rmse_cp': result['methods'][name]['rmse_cp'],
-            'classic_stockfish_rmse_cp': result['methods']['CLASSIC']['rmse_cp'],
-            'stockfish_rmse_improvement_cp': result['methods']['CLASSIC']['rmse_cp'] - result['methods'][name]['rmse_cp'],
-            'stockfish_rmse_improvement_pct': float(100.0 * (1 - result['methods'][name]['rmse_cp'] / result['methods']['CLASSIC']['rmse_cp'])) if result['methods']['CLASSIC']['rmse_cp'] else None,
-            'stockfish_mae_improvement_cp': result['methods']['CLASSIC']['mae_cp'] - result['methods'][name]['mae_cp'],
-            'positions_better_than_classic': wins,
-            'positions_worse_than_classic': losses,
-            'positions_equal_to_classic': ties,
-        }
-        result['versus_classic'][name] = comparison
-        pct = comparison['stockfish_rmse_improvement_pct']
-        pct_text = f'{pct:+.2f}%' if pct is not None else 'n/a'
-        print(f'⚖️ {name:<5} vs CLASSIC: Stockfish RMSE {comparison["stockfish_rmse_cp"]:.2f} '
-              f'vs {comparison["classic_stockfish_rmse_cp"]:.2f}cp '
-              f'delta={comparison["stockfish_rmse_improvement_cp"]:+.2f}cp '
-              f'({pct_text}) '
-              f'better={wins} worse={losses} tie={ties} '
-              f'distance_to_classic={comparison["rmse_to_classic_cp"]:.2f}cp', flush=True)
-    for row in result['cases']:
-        if row['predictor'] == 'CLASSIC':
-            continue
-        classic_value = baseline[row['id']]['value_cp_white']
-        row['classic_value_cp_white'] = classic_value
-        row['difference_to_classic_cp'] = row['value_cp_white'] - classic_value
-        row['beats_classic_vs_stockfish'] = row['absolute_error_cp'] < baseline[row['id']]['absolute_error_cp']
     return result
 
 
@@ -223,11 +222,18 @@ def load_pst_parameters(path):
 
 
 def main():
-    p = argparse.ArgumentParser(description='CLASSIC, PST and NNUE numeric audit of post-bm EPD positions')
+    p = argparse.ArgumentParser(description='CLASSIC, PST and NNUE numeric audit against Stockfish labels')
     p.add_argument('--pst', required=True)
     p.add_argument('--nnue', required=True)
-    p.add_argument('--bk', required=True, help='Original EPD file')
-    p.add_argument('--db', required=True, help='SQLite .pb generated by corrected genBP.py')
+    p.add_argument('--mode', choices=('validation', 'bk'), default='validation',
+                   help='validation: sample DB with the exact training split; bk: legacy post-bm suite')
+    p.add_argument('--bk', help='Original EPD file (only --mode bk)')
+    p.add_argument('--database', '--db', dest='database', required=True, metavar='SQLITE',
+                   help='Base SQLite etiquetada con Stockfish (teacher_cp/teacher_at); validation: misma base de TRAIN/VALIDATION; bk: base genBP')
+    p.add_argument('--seed', type=int, default=42, help='Same split seed as training')
+    p.add_argument('--max-positions', type=int, default=0, help='Same --max-positions as training (0=all)')
+    p.add_argument('--validation-sample', type=float, default=20.0, help='Same percentage as training')
+    p.add_argument('--expected-split', help='Optional expected SHA256, fail fast on mismatch')
     p.add_argument('--out', default=None)
     a = p.parse_args()
     try:
@@ -237,16 +243,41 @@ def main():
         nnue = np.load(resolve_active(a.nnue), allow_pickle=False)
         if nnue.shape != (PARAMS,) or nnue.dtype not in (np.dtype('int8'), np.dtype('int16')):
             raise ValueError('NNUE must have 12321 INT8 or INT16 genes')
-        for path in (a.bk, a.db):
-            if not Path(path).is_file():
-                raise FileNotFoundError(path)
-        suite, skipped = load_suite(a.bk, a.db)
+        if not Path(a.database).is_file():
+            raise FileNotFoundError(a.database)
+        skipped = []
+        if a.mode == 'validation':
+            suite, game_ids, digest, train_count = load_validation_suite(
+                a.database, a.seed, a.max_positions, a.validation_sample)
+            if a.expected_split and digest.lower() != a.expected_split.lower():
+                raise ValueError(f'Split incorrecto: actual={digest} esperado={a.expected_split}')
+            print(f'🔎 VALIDATION train={train_count} validation={len(suite)} '
+                  f'games={len(set(game_ids.values()))} split_sha256={digest}', flush=True)
+        else:
+            if not a.bk or not Path(a.bk).is_file():
+                raise ValueError('--mode bk exige --bk EPD existente')
+            suite, skipped = load_suite(a.bk, a.database)
         if skipped:
             print(f'⚠️ Audit excluded={len(skipped)} sample={skipped[:3]}', flush=True)
         result = audit(suite, pst, nnue, sargon=sargon)
+        if a.mode == 'validation':
+            result['format'] = 'picogenus-validation-stockfish-audit-v2'
+            result['dataset'] = {'kind': 'validation', 'schema': SPLIT_SCHEMA,
+                                 'split_sha256': digest, 'seed': a.seed,
+                                 'max_positions': a.max_positions,
+                                 'validation_sample': a.validation_sample,
+                                 'train_n': train_count, 'validation_n': len(suite),
+                                 'game_disjoint': True,
+                                 'note': 'The same game-disjoint validation used to select checkpoints; not independent final TEST.'}
+            summarize_validation(result, game_ids)
+        if a.mode == 'bk':
+            result['rankings'] = {metric: sorted(result['methods'], key=lambda name: result['methods'][name][metric]) for metric in ('mae_cp','rmse_cp')}
+            result['best_by_mae'] = result['rankings']['mae_cp'][0]
+            result['best_by_rmse'] = result['rankings']['rmse_cp'][0]
         result['skipped'] = skipped
-        result['reference_db'] = os.path.abspath(a.db)
-        result['source_epd'] = os.path.abspath(a.bk)
+        result['reference_db'] = os.path.abspath(a.database)
+        if a.mode == 'bk':
+            result['source_epd'] = os.path.abspath(a.bk)
         if a.out:
             dst, tmp = atomic_path(a.out, '.json')
             try:

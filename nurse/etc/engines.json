@@ -299,6 +299,14 @@
         "mctsp"
       ],
       "requires_network": true
+    },
+    {
+      "id": "bnn",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/bnn.py",
+      "players": "*",
+      "requires_network": true,
+      "factory": "nurse.bnn_eval:make_bnn"
     }
   ]
 }

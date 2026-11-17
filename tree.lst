@@ -1,0 +1,268 @@
+﻿📁 C:\Users\pedro\github\bobby\akkad
+├── 📁 .vscode
+├── 📁 AlphaZero
+│   ├── 📁 assets
+│   ├── 📁 debian
+│   │   └── 📁 build
+│   ├── 📁 macOS
+│   │   └── 📁 build
+│   ├── 📁 src
+│   ├── 📁 tests
+│   ├── 📁 tools
+│   │   ├── 📁 bash
+│   │   ├── 📁 macOS
+│   │   └── 📁 ps
+│   └── 📁 X86
+│       └── 📁 build
+├── 📁 challenger
+│   ├── 📁 .pytest_cache
+│   │   └── 📁 v
+│   │       └── 📁 cache
+│   ├── 📁 data
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   ├── 📁 scripts
+│   ├── 📁 src
+│   │   ├── 📁 __pycache__
+│   │   ├── 📁 challenger
+│   │   │   └── 📁 __pycache__
+│   │   └── 📁 challenger_chess.egg-info
+│   └── 📁 tests
+│       └── 📁 __pycache__
+├── 📁 docs
+│   └── 📁 NFA
+│       └── 📁 images
+├── 📁 fics-uci
+│   ├── 📁 __pycache__
+│   ├── 📁 data
+│   ├── 📁 etc
+│   ├── 📁 src
+│   ├── 📁 tests
+│   └── 📁 tools
+│       ├── 📁 bash
+│       ├── 📁 macOS
+│       └── 📁 ps
+├── 📁 nurse
+│   ├── 📁 assets
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   │   ├── 📁 bellman
+│   │   ├── 📁 brains
+│   │   └── 📁 examples
+│   ├── 📁 scripts
+│   ├── 📁 src
+│   │   ├── 📁 akkad_nurse.egg-info
+│   │   └── 📁 nurse
+│   │       ├── 📁 __pycache__
+│   │       ├── 📁 _genus_core
+│   │       │   └── 📁 __pycache__
+│   │       ├── 📁 _legacy
+│   │       │   ├── 📁 __pycache__
+│   │       │   ├── 📁 evaluators
+│   │       │   │   └── 📁 __pycache__
+│   │       │   └── 📁 players
+│   │       │       └── 📁 __pycache__
+│   │       ├── 📁 evaluators
+│   │       └── 📁 players
+│   │           └── 📁 __pycache__
+│   ├── 📁 tests
+│   └── 📁 train
+│       ├── 📁 __pycache__
+│       ├── 📁 docs
+│       └── 📁 tests
+├── 📁 picoAlpha
+│   ├── 📁 assets
+│   │   ├── 📁 checkpoints
+│   │   └── 📁 chkpt-20261114-10M-2M
+│   │   └── 📁 x86
+│   │       ├── 📁 build
+│   │       │   ├── 📁 CMakeFiles
+│   │       │   │   ├── 📁 4.5.0-rc1
+│   │       │   │   │   ├── 📁 CompilerIdCXX
+│   │       │   │   │   │   └── 📁 Debug
+│   │       │   │   │   │       └── 📁 CompilerIdCXX.tlog
+│   │       │   │   │   └── 📁 VCTargetsPath
+│   │       │   │   │       └── 📁 x64
+│   │       │   │   │           └── 📁 Debug
+│   │       │   │   │               └── 📁 VCTargetsPath.tlog
+│   │       │   │   └── 📁 f9f946179161e0db16794efecb6d14e2
+│   │       │   ├── 📁 picoAlpha.dir
+│   │       │   │   └── 📁 Release
+│   │       │   │       └── 📁 picoAlpha.tlog
+│   │       │   ├── 📁 picoAlpha32.dir
+│   │       │   │   └── 📁 Release
+│   │       │   │       └── 📁 picoAlpha32.tlog
+│   │       │   └── 📁 x64
+│   │       │       └── 📁 Release
+│   │       │           ├── 📁 ALL_BUILD
+│   │       │           │   └── 📁 ALL_BUILD.tlog
+│   │       │           └── 📁 ZERO_CHECK
+│   │       │               └── 📁 ZERO_CHECK.tlog
+│   │       ├── 📁 build_windows
+│   │       │   ├── 📁 CMakeFiles
+│   │       │   │   ├── 📁 4.5.0-rc1
+│   │       │   │   │   ├── 📁 CompilerIdCXX
+│   │       │   │   │   │   └── 📁 Debug
+│   │       │   │   │   │       └── 📁 CompilerIdCXX.tlog
+│   │       │   │   │   └── 📁 VCTargetsPath
+│   │       │   │   │       └── 📁 x64
+│   │       │   │   │           └── 📁 Debug
+│   │       │   │   │               └── 📁 VCTargetsPath.tlog
+│   │       │   │   └── 📁 4f341d314de94c2fe07f369467c6d4eb
+│   │       │   ├── 📁 picoAlpha.dir
+│   │       │   │   └── 📁 Release
+│   │       │   │       └── 📁 picoAlpha.tlog
+│   │       │   ├── 📁 picoAlpha32.dir
+│   │       │   │   └── 📁 Release
+│   │       │   │       └── 📁 picoAlpha32.tlog
+│   │       │   ├── 📁 picoAlphaInt8.dir
+│   │       │   │   └── 📁 Release
+│   │       │   │       └── 📁 picoAlphaInt8.tlog
+│   │       │   ├── 📁 Release
+│   │       │   └── 📁 x64
+│   │       │       └── 📁 Release
+│   │       │           ├── 📁 ALL_BUILD
+│   │       │           │   └── 📁 ALL_BUILD.tlog
+│   │       │           └── 📁 ZERO_CHECK
+│   │       │               └── 📁 ZERO_CHECK.tlog
+│   │       ├── 📁 include
+│   │       ├── 📁 src
+│   │       ├── 📁 tests
+│   │       └── 📁 tools
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   ├── 📁 src
+│   ├── 📁 tests
+│   └── 📁 X86
+├── 📁 picoBit
+│   ├── 📁 ARM
+│   ├── 📁 assets
+│   ├── 📁 data
+│   ├── 📁 etc
+│   ├── 📁 src
+│   ├── 📁 tools
+│   │   ├── 📁 ps
+│   │   └── 📁 train
+│   └── 📁 X86
+├── 📁 picoGen
+│   ├── 📁 assets
+│   │   └── 📁 chkpt_G100-M100-D5000
+│   ├── 📁 data
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   └── 📁 tools
+│       └── 📁 train
+│           ├── 📁 __pycache__
+│           └── 📁 tests
+├── 📁 picoGenus
+│   └── 📁 tools
+│       └── 📁 train
+├── 📁 picoKeras
+│   ├── 📁 ARM
+│   │   ├── 📁 assets
+│   │   ├── 📁 cmake
+│   │   ├── 📁 config
+│   │   ├── 📁 include
+│   │   ├── 📁 src
+│   │   └── 📁 tools
+│   ├── 📁 assets
+│   │   ├── 📁 medium.tf
+│   │   │   ├── 📁 assets.extra
+│   │   │   └── 📁 variables
+│   │   ├── 📁 small.INT8.tf
+│   │   │   ├── 📁 assets.extra
+│   │   │   └── 📁 variables
+│   │   └── 📁 small.tf
+│   │       ├── 📁 assets.extra
+│   │       └── 📁 variables
+│   ├── 📁 debian
+│   │   └── 📁 third_party
+│   │       └── 📁 tensorflow
+│   ├── 📁 docs
+│   ├── 📁 macOS
+│   │   └── 📁 third_party
+│   │       └── 📁 psimd
+│   ├── 📁 src
+│   ├── 📁 tests
+│   ├── 📁 tools
+│   │   ├── 📁 bash
+│   │   ├── 📁 macOS
+│   │   ├── 📁 ps
+│   │   └── 📁 scripts
+│   └── 📁 x86
+│       ├── 📁 include
+│       └── 📁 src
+├── 📁 picoPixie
+│   └── 📁 ARM
+│       ├── 📁 certs
+│       ├── 📁 config
+│       ├── 📁 include
+│       ├── 📁 src
+│       └── 📁 tests
+├── 📁 picoSargon
+│   ├── 📁 ARM
+│   │   ├── 📁 assets
+│   │   ├── 📁 config
+│   │   ├── 📁 include
+│   │   ├── 📁 reference
+│   │   ├── 📁 scripts
+│   │   ├── 📁 src
+│   │   └── 📁 tests
+│   ├── 📁 assets
+│   │   ├── 📁 checkpoint_dopey_10000m-20e
+│   │   └── 📁 checkpoint_sneezy_100000m-20e
+│   ├── 📁 data
+│   ├── 📁 debian
+│   ├── 📁 macOS
+│   ├── 📁 tools
+│   │   ├── 📁 ARM
+│   │   ├── 📁 bash
+│   │   ├── 📁 macos
+│   │   ├── 📁 ps
+│   │   ├── 📁 tests
+│   │   └── 📁 train
+│   │       └── 📁 __pycache__
+│   └── 📁 x86
+│       ├── 📁 build
+│       │   ├── 📁 CMakeFiles
+│       │   │   ├── 📁 4.5.0-rc1
+│       │   │   │   ├── 📁 CompilerIdCXX
+│       │   │   │   │   └── 📁 Debug
+│       │   │   │   │       └── 📁 CompilerIdCXX.tlog
+│       │   │   │   └── 📁 VCTargetsPath
+│       │   │   │       └── 📁 x64
+│       │   │   │           └── 📁 Debug
+│       │   │   │               └── 📁 VCTargetsPath.tlog
+│       │   │   └── 📁 a239b85f9e8fd3edcf94de89314f14c1
+│       │   ├── 📁 picoSargon.dir
+│       │   │   └── 📁 Release
+│       │   │       └── 📁 picoSargon.tlog
+│       │   └── 📁 x64
+│       │       └── 📁 Release
+│       │           ├── 📁 ALL_BUILD
+│       │           │   └── 📁 ALL_BUILD.tlog
+│       │           └── 📁 ZERO_CHECK
+│       │               └── 📁 ZERO_CHECK.tlog
+│       ├── 📁 host_build_source
+│       ├── 📁 include
+│       └── 📁 src
+├── 📁 Sargon-NNUE
+│   ├── 📁 etc
+│   │   ├── 📁 bellman
+│   │   └── 📁 brains
+│   ├── 📁 scripts
+│   │   └── 📁 __pycache__
+│   ├── 📁 src
+│   │   ├── 📁 __pycache__
+│   │   ├── 📁 sargon_nnue
+│   │   │   ├── 📁 __pycache__
+│   │   │   ├── 📁 evaluators
+│   │   │   │   └── 📁 __pycache__
+│   │   │   └── 📁 players
+│   │   │       └── 📁 __pycache__
+│   │   └── 📁 sargon_nnue.egg-info
+│   ├── 📁 tests
+│   │   └── 📁 __pycache__
+│   └── 📁 tools
+│       └── 📁 powershell
+└── 📁 tools

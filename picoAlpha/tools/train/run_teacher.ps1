@@ -6,8 +6,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Defaults = @{
-    "in" = "..\..\data\train.pb"
-    "engine" = "stockfish.exe"
+    "in" = "C:\Users\pedro\github\Bobby\Chess_History_pb\picoAlpha\mixed_history.pb"
+    "engine" = "C:\Users\pedro\github\Bobby\stockfish\stockfish.exe"
     "args" = ""
     "depth" = 10
     "nodes" = $null

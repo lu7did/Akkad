@@ -1,0 +1,465 @@
+Considerando tu sólida trayectoria en algoritmos clásicos (Minimax, NNUE), aprendizaje por refuerzo profundo (MCTS con redes de dos cabezas, Transformers en Keras) y computación evolutiva, el siguiente nivel en una Raspberry Pi Pico (RP2040 o RP2350) consiste en explotar las restricciones extremas del hardware mediante arquitecturas de ultra-baja precisión, modelos alternativos de secuencia y optimizaciones a nivel de silicio.
+
+1. Redes Neuronales Binarias o Ternarias (BNN / TNN)
+
+En lugar de usar cuantización estándar de 8 bits (int8) como en NNUE tradicional, puedes llevar la compresión al límite usando pesos de 1 bit (+1, -1) o 1.58 bits (+1, 0, -1, estilo BitNet).
+• Ventaja en RP2040/RP2350: La multiplicación de matrices se reemplaza por operaciones bit a bit (XNOR y POPCNT), eliminando la necesidad de multiplicadores de hardware o unidades de punto flotante (FPU).
+• Impacto en memoria: Una red densa que normalmente ocuparía megabytes puede caber íntegramente en los 264 KB (o 520 KB en Pico 2) de SRAM, evitando la latencia de lectura desde la memoria Flash externa (QSPI).
+
+2. Modelos de Espacio de Estados (SSM / Mamba) o RWKV
+
+Ya probaste Transformers en Keras, los cuales sufren de complejidad cuadrática O(N²) en la atención y un alto consumo de memoria. Una alternativa fascinante es entrenar un modelo lineal tipo RWKV o Mamba que procese el tablero o la secuencia de jugadas como un flujo continuo.
+• Inferencia recurrente: Durante el juego, estos modelos funcionan como una red neuronal recurrente (RNN) con estado oculto fijo, logrando una complejidad O(1) por jugada.
+• Bajo consumo de RAM: No necesitas almacenar cachés KV gigantescos, lo que permite correr arquitecturas modernas de secuencias dentro de la RAM limitada de un microcontrolador.
+
+3. Búsqueda Monte Carlo con Redes de Grafos (GNN)
+
+El tablero de ajedrez no es solo una cuadrícula; es un grafo dinámico donde las conexiones cambian según los ataques, defensas y rayos X de las piezas.
+• Arquitectura: Implementar una Graph Neural Network (GNN) pequeña donde los nodos son las casillas o piezas y las aristas son los movimientos legales o líneas de visión.
+• Eficiencia: Al ser un grafo disperso (máximo 32 piezas), el paso de mensajes (message passing) requiere muchas menos operaciones que una convolución tradicional sobre las 64 casillas.
+
+4. Computación Hiperdimensional (HDC / VSA)
+
+Es un paradigma de IA radicalmente distinto a las redes neuronales tradicionales, ideal para microcontroladores sin FPU.
+• Funcionamiento: Representa conceptos (pieza, color, casilla, amenazas) mediante hipervectores binarios muy largos (ej. 4,096 o 10,000 bits).
+• Operaciones: Todo el razonamiento y la evaluación de patrones tácticos se realiza mediante operaciones ultrarrápidas de XOR, desplazamientos cíclicos y suma de bits (bundling), ocupando muy poca energía y ciclos de reloj.
+
+5. Optimización Extrema de Hardware (Bare-Metal)
+
+Si quieres exprimir el silicio de la Pico más allá del algoritmo en sí, puedes rediseñar la ejecución a bajo nivel:
+• Generación de movimientos en PIO: Utilizar las máquinas de estado PIO (Programmable I/O) de la Pico como coprocesadores personalizados para acelerar operaciones de Bitboards (como desplazamientos mágicos o cálculos de ataques deslizantes) en paralelo a los núcleos ARM.
+• Tablas de finales comprimidas en Flash (XIP): Implementar descompresión al vuelo de bases de datos de finales de 3 o 4 piezas (estilo Syzygy minimalista) usando algoritmos de codificación aritmética o Huffman guardados en los 2 MB de Flash.
+• Motor sin árbol (Policy-only / System 1): Entrenar un modelo destilado que juegue sin ningún tipo de búsqueda (ni Minimax ni MCTS), evaluando qué tan fuerte puede jugar la Pico en menos de 1 milisegundo por movimiento mediante puro reconocimiento de patrones.
+Para afinar alguna de estas propuestas, cuéntame:
+• ¿Estás trabajando con la Pico original (RP2040) o con la Pico 2 (RP2350)?
+• ¿El entrenamiento lo realizas en PC para luego exportar los pesos a C/C++ en la placa?
+Con eso podemos diseñar la estructura de datos exacta o el flujo de cuantización para el modelo que más te llame la atención.
+
+Para implementar una Red Neuronal Binaria (BNN) en una Raspberry Pi Pico, el objetivo es eliminar por completo las multiplicaciones de punto flotante o enteros pesados y reemplazarlas por lógica booleana pura a nivel de bits.
+
+1. Arquitectura y Representación del Tablero
+
+Para que la primera capa sea ultrarrápida, representamos el tablero usando Bitboards (enteros de 64 bits sin signo, uint64_t), algo que ya conoces bien.
+• Capa de Entrada (768 bits): Usamos 12 bitboards de 64 bits (6 tipos de piezas × 2 colores). Esto forma un vector binario de 12 × 64 = 768 bits, que ocupa exactamente 96 bytes (doce enteros uint64_t).
+• Capa Oculta (256 neuronas binarias): Cada neurona tiene 768 pesos binarios (+1 representado como bit 1, y -1 representado como bit 0). Los pesos de las 256 neuronas ocupan solo 256 × 96 bytes = 24.5 KB, cabiendo cómodamente en la SRAM de la Pico.
+• Capa de Salida (Evaluación escalar): Una capa final que suma las activaciones binarias para dar una puntuación en centipeones.
+
+2. La Matemática Detrás del Truco (XNOR + Popcount)
+
+En una BNN, tanto las entradas (\(x\)) como los pesos (\(w\)) pertenecen a \(\{-1, +1\}\). Si codificamos -1 como el bit 0 y +1 como el bit 1, la multiplicación \(x \cdot w\) equivale exactamente a la compuerta lógica XNOR (~(a ^ b)).
+• Si ambos son +1 (1 XNOR 1 = 1), el producto es +1.
+• Si ambos son -1 (0 XNOR 0 = 1), el producto es +1.
+• Si son distintos (1 XNOR 0 = 0), el producto es -1.
+Para calcular el producto punto de 64 entradas a la vez en un solo bloque de uint64_t, contamos cuántos bits quedaron en 1 (popcount) y ajustamos la escala:
+\(\text{Producto\ Punto}=2\times \text{popcount}(\sim (x\oplus w))-64\)
+
+3. Implementación en C/C++ para la Raspberry Pi Pico
+
+Así es como se vería el núcleo de inferencia optimizado para el procesador ARM Cortex-M0+ (RP2040) o Cortex-M33 (RP2350):
+c
+#include <stdint.h>
+
+#define NUM_BITBOARDS 12
+#define HIDDEN_NEURONS 256
+
+// Entrada: 12 bitboards (768 bits en total)
+typedef struct {
+    uint64_t boards[NUM_BITBOARDS];
+} BoardInput;
+
+// Pesos de la capa oculta empaquetados en bloques de 64 bits
+// Ocupa solo 24,576 bytes en SRAM
+const uint64_t hidden_weights[HIDDEN_NEURONS][NUM_BITBOARDS] = { /* Pesos entrenados */ };
+const int16_t hidden_biases[HIDDEN_NEURONS] = { /* Sesgos enteros */ };
+const int8_t output_weights[HIDDEN_NEURONS] = { /* Pesos finales (+1 o -1) */ };
+
+int32_t evaluate_bnn(const BoardInput *input) {
+    int32_t final_score = 0;
+
+    for (int n = 0; n < HIDDEN_NEURONS; n++) {
+        int32_t accumulator = 0;
+
+        // Procesamos 64 entradas por iteración (12 iteraciones = 768 conexiones)
+        for (int b = 0; b < NUM_BITBOARDS; b++) {
+            uint64_t xnor_res = ~(input->boards[b] ^ hidden_weights[n][b]);
+            
+            // __builtin_popcountll cuenta los bits en '1'
+            int ones = __builtin_popcountll(xnor_res);
+            accumulator += (2 * ones) - 64;
+        }
+
+        // Función de activación Signo (Binarización para la siguiente capa)
+        // Si supera el umbral (bias), la neurona se activa (+1), si no (-1)
+        int32_t activation = (accumulator + hidden_biases[n] >= 0) ? 1 : -1;
+
+        // Acumulamos directamente hacia la salida
+        final_score += activation * output_weights[n];
+    }
+
+    return final_score;
+}
+Usa el código con precaución.
+
+4. Claves para Entrenarla en PC (PyTorch / Keras)
+
+No puedes entrenar esta red con descenso de gradiente estándar porque la función Signo tiene derivada cero en casi todas partes. Para entrenarla en PC antes de exportar los arrays a C:
+• Straight-Through Estimator (STE): Durante el forward pass binarizas los pesos y activaciones (torch.sign()), pero durante el backward pass dejas pasar el gradiente como si fuera una función identidad o HardTanh entre -1 y +1.
+• Bibliotecas útiles: Puedes usar Larq (si vienes de Keras/TensorFlow) o Brevitas (en PyTorch) para entrenar la red con cuantización consciente del entrenamiento (QAT) y luego escribir un pequeño script en Python que empaquete los pesos resultantes en enteros uint64_t listos para copiar y pegar en tu código de la Pico.
+• Actualización Incremental (Estilo NNUE): Al igual que en NNUE, cuando mueves una pieza en el tablero solo cambian 2 o 3 bits de los 768. Puedes guardar el accumulator de cada neurona y solo hacer XOR sobre los bitboards que cambiaron, reduciendo el cálculo de 12 iteraciones a solo 1 o 2 por jugada.
+Si te interesa probar esto en tu placa, podemos avanzar con alguno de estos pasos:
+Escribir el script en Python para empaquetar pesos entrenados en arreglos uint64_t de C.Implementar la actualización incremental de los acumuladores al hacer y deshacer jugadas (make_move / unmake_move).
+¿Por cuál te gustaría empezar?
+
+La Computación Hiperdimensional (HDC), también llamada Vector Symbolic Architectures (VSA), reemplaza los pesos entrenados por descenso de gradiente con álgebra de vectores aleatorios muy largos (por ejemplo, de D = 4,096 o 10,000 bits).
+En este paradigma, el aprendizaje no requiere retropropagación (backpropagation): consiste simplemente en sumar y promediar ejemplos en un solo paso, lo cual es ideal para generar prototipos en Python y luego portarlos a operaciones XOR y desplazamientos de bits en la Raspberry Pi Pico.
+
+1. Las 3 Operaciones Fundamentales en HDC
+
+Para representar un tablero de ajedrez como un único hipervector binario de D bits, usamos tres operaciones básicas:
+• Binding (XOR): Asocia dos conceptos distintos (por ejemplo, "Caballo Blanco" + "Casilla e4"). El resultado es un vector totalmente distinto (ortogonal) a los originales, pero reversible.
+• Bundling (Suma mayoritaria / Majority Vote): Combina múltiples elementos en un conjunto (todas las piezas presentes en el tablero actual) manteniendo la similitud con cada uno de ellos.
+• Similitud de Hamming: Mide qué tan parecidos son dos hipervectores contando cuántos bits tienen en común (usando XNOR y popcount).
+
+2. Ejemplo Práctico en Python (Prototipo de Evaluación)
+
+Este código muestra cómo codificar posiciones de ajedrez, entrenar dos prototipos de memoria ("Ventaja Blancas" vs. "Ventaja Negras") sin usar redes neuronales ni gradientes, y evaluar una posición nueva.
+python
+import numpy as np
+
+# Dimensión del hiperespacio (4096 bits = 512 bytes por vector)
+D = 4096
+rng = np.random.default_rng(42)
+
+def random_hv():
+    """Genera un hipervector binario aleatorio (0s y 1s)."""
+    return rng.integers(0, 2, size=D, dtype=np.uint8)
+
+# 1. MEMORIA DE ÍTEMS (Item Memory)
+# Asignamos un hipervector base aleatorio a cada tipo de pieza (12) y cada casilla (64)
+pieces = ['P', 'N', 'B', 'R', 'Q', 'K', 'p', 'n', 'b', 'r', 'q', 'k']
+piece_hvs = {p: random_hv() for p in pieces}
+square_hvs = [random_hv() for _ in range(64)]
+
+def encode_board(board_dict):
+    """
+    Codifica un tablero {casilla_0_a_63: 'pieza'} en un único hipervector binario.
+    """
+    if not board_dict:
+        return random_hv()
+    
+    bound_vectors = []
+    for sq, piece in board_dict.items():
+        # BINDING: Asociamos pieza con casilla usando XOR
+        pair_hv = np.bitwise_xor(piece_hvs[piece], square_hvs[sq])
+        bound_vectors.append(pair_hv)
+    
+    # BUNDLING: Suma bit a bit y binarización por mayoría
+    sum_hv = np.sum(bound_vectors, axis=0)
+    threshold = len(bound_vectors) / 2.0
+    
+    # Si hay empate, desempatamos con un vector aleatorio fijo
+    board_hv = (sum_hv > threshold).astype(np.uint8)
+    return board_hv
+
+def hamming_similarity(hv1, hv2):
+    """Devuelve similitud entre 0.0 (opuestos) y 1.0 (idénticos)."""
+    matches = np.sum(hv1 == hv2)
+    return matches / D
+
+# 3. ENTRENAMIENTO EN UN SOLO PASO (One-Shot / Incremental Learning)
+# Supongamos un dataset de posiciones etiquetadas: (tablero, ventaja_blancas_bool)
+pos_blancas_1 = {0: 'R', 4: 'K', 12: 'P', 28: 'N', 60: 'k'} # Blancas tienen torre y caballo de más
+pos_blancas_2 = {3: 'Q', 6: 'K', 13: 'P', 52: 'p', 62: 'k'} # Blancas tienen dama de más
+
+pos_negras_1  = {4: 'K', 56: 'r', 59: 'q', 60: 'k', 51: 'p'} # Negras tienen dama y torre de más
+pos_negras_2  = {2: 'K', 57: 'n', 58: 'b', 60: 'k', 48: 'p'} # Negras tienen piezas menores de más
+
+# Acumulamos los hipervectores de cada clase
+white_win_accumulator = np.zeros(D, dtype=np.int32)
+black_win_accumulator = np.zeros(D, dtype=np.int32)
+
+for pos in [pos_blancas_1, pos_blancas_2]:
+    white_win_accumulator += encode_board(pos)
+
+for pos in [pos_negras_1, pos_negras_2]:
+    black_win_accumulator += encode_board(pos)
+
+# Binarizamos los prototipos finales (Memoria Asociativa)
+white_prototype = (white_win_accumulator >= 1).astype(np.uint8)
+black_prototype = (black_win_accumulator >= 1).astype(np.uint8)
+
+# 4. INFERENCIA / EVALUACIÓN DE UNA POSICIÓN NUEVA
+test_board = {0: 'R', 3: 'Q', 4: 'K', 60: 'k'} # Posición favorable a blancas
+test_hv = encode_board(test_board)
+
+sim_white = hamming_similarity(test_hv, white_prototype)
+sim_black = hamming_similarity(test_hv, black_prototype)
+
+# Puntuación relativa para el motor de búsqueda
+eval_score = (sim_white - sim_black) * 1000
+print(f"Similitud Blancas: {sim_white:.4f} | Similitud Negras: {sim_black:.4f}")
+print(f"Evaluación estimada: {eval_score:+.2f}")
+Usa el código con precaución.
+
+3. Cómo Llevar Esto al Siguiente Nivel (Patrones Tácticos y Pico)
+
+• Codificación de Relaciones (Ataques y Defensas): En lugar de codificar solo pieza XOR casilla, puedes codificar relaciones espaciales o tácticas. Por ejemplo, si una pieza A en sq1 ataca a una pieza B en sq2, creas el hipervector piece[A] XOR sq[sq1] XOR permute(piece[B] XOR sq[sq2]), donde permute es simplemente rotar los bits del vector (np.roll). Esto captura clavadas, ataques dobles y estructuras de peones.
+• Regresión Continua (Centipeones): En vez de solo dos prototipos (Blancas/Negras), puedes crear múltiples cubetas (buckets) de evaluación (ej. -500, -200, 0, +200, +500 centipeones) e interpolar la evaluación según la similitud de Hamming con cada cubeta.
+• Velocidad en Raspberry Pi Pico: Un hipervector de 4,096 bits se almacena en un arreglo de 64 enteros uint64_t (solo 512 bytes). Toda la memoria de piezas (12 × 512 B) y casillas (64 × 512 B) ocupa apenas 38 KB de SRAM. La similitud se calcula con un bucle de 64 instrucciones XNOR y __builtin_popcountll, ejecutándose en pocos microsegundos.
+Si quieres llevar este prototipo hacia un motor funcional, podemos explorar:
+Cómo entrenar los prototipos sobre miles de partidas PGN/FEN evitando que la suma mayoritaria se sature (usando técnicas como online retraining o pesos enteros).Cómo empaquetar estos hipervectores de Python a código C para correr la inferencia en tu Pico.
+¿Cuál de estas dos partes te gustaría desarrollar primero?
+
+
+Para llevar un motor de ajedrez al límite del silicio en una Raspberry Pi Pico (RP2040 o RP2350), la optimización Bare-Metal consiste en usar los periféricos de hardware como coprocesadores matemáticos y de memoria en paralelo a la CPU.
+Un ejemplo potente y directo es usar las máquinas de estado PIO (Programmable I/O) junto con DMA (Direct Memory Access) para crear un acelerador hardware de evaluación o búsqueda sin gastar ciclos del procesador principal.
+
+Ejemplo: Coprocesador PIO para Similitud de Hamming / Dot-Product en BNN o HDC
+
+En el RP2040, el núcleo ARM Cortex-M0+ no tiene instrucción de hardware POPCNT (contar bits en 1), por lo que __builtin_popcountll se ejecuta mediante una rutina de software de varias instrucciones. Sin embargo, puedes programar una máquina de estado PIO para que reciba palabras de 32 bits directamente desde la RAM (vía DMA), haga el XOR y cuente los bits en paralelo mientras la CPU sigue generando movimientos.
+
+1. Código Ensamblador PIO (popcount_accel.pio)
+
+Las máquinas PIO ejecutan una instrucción por ciclo de reloj (133 MHz+ en Pico, o con overclock estable a 250 MHz). Este programa lee un bloque de bits de entrada y un bloque de pesos desde el FIFO, y cuenta las coincidencias:
+pioasm
+.program bit_matcher
+
+; X = Contador acumulado de bits coincidentes
+; Y = Contador de bits restantes en la palabra de 32 bits
+; OSR = Shift Register de salida (recibe datos del DMA)
+
+.wrap_target
+    set x, 0                ; Reiniciar acumulador para el nuevo bloque
+    pull block              ; Leer 32 bits del tablero (TX FIFO)
+    mov isr, osr            ; Guardar tablero en ISR temporalmente
+    pull block              ; Leer 32 bits de pesos (TX FIFO)
+    
+    set y, 31               ; Configurar bucle para 32 bits (0 a 31)
+bit_loop:
+    out pins, 1             ; Extraer 1 bit de los pesos (simulado o vía shift)
+    ; En PIO real se comparan ambos registros desplazando bit a bit:
+    jmp x-- next_bit        ; Lógica de conteo determinista en 1 ciclo
+next_bit:
+    jmp y-- bit_loop        ; Repetir 32 veces
+    
+    in x, 32                ; Enviar resultado al RX FIFO
+    push block
+.wrap
+Usa el código con precaución.
+(Nota: Para evitar que la CPU alimente el FIFO, configuramos dos canales DMA encadenados que envían los bitboards y los pesos directamente desde la SRAM hacia el PIO a velocidad de bus).
+
+2. Otros Trucos Bare-Metal Específicos del Silicio de la Pico
+
+• Ejecución Crítica en SRAM (__not_in_flash_func):
+Por defecto, la Pico ejecuta código desde la memoria Flash externa mediante Execute-In-Place (XIP), lo que introduce latencias graves cada vez que hay un cache miss en la caché XIP de 16 KB. Colocar el generador de movimientos, el bucle Alpha-Beta y la función de evaluación directamente en la SRAM interna elimina esos bloqueos:c
+// Fuerza al compilador a ubicar esta función en la RAM ultrarrápida
+int __not_in_flash_func(alpha_beta)(Board *b, int depth, int alpha, int beta) {
+    // Código crítico sin latencia de Flash QSPI
+}
+Usa el código con precaución.
+• Uso de Scratch X y Scratch Y (Bancos de RAM dedicados):
+La arquitectura de memoria del RP2040 divide la SRAM en bancos independientes para evitar colisiones de bus. Puedes asignar la pila (stack) de cada uno de los dos núcleos ARM a los bancos dedicados Scratch X (4 KB) y Scratch Y (4 KB) (cada uno de 4 KB) para que el Core 0 y el Core 1 busquen en el árbol de juego simultáneamente sin bloquearse al acceder a memoria.
+• Interpolador de Hardware (SIO Interpolator) para Tablas Hash / Zobrist:
+El bloque SIO (Single-cycle IO) del RP2040 incluye dos interpoladores por núcleo diseñados originalmente para gráficos y audio. Puedes configurarlos para realizar desplazamientos, enmascaramientos y sumas de direcciones de memoria en 1 solo ciclo de reloj, acelerando el cálculo de índices en la Transposition Table (TT) o el acceso a tablas de Magic Bitboards.
+• Overclocking Seguro y Ajuste de Voltaje (vreg_set_voltage):
+El RP2040 viene a 125/133 MHz por defecto, pero su silicio soporta de forma muy estable 250 MHz a 270 MHz subiendo ligeramente el regulador interno de voltaje (de 1.10V a 1.15V o 1.20V) y ajustando el divisor de reloj de la Flash (PICO_FLASH_SPI_CLKDIV=4), duplicando literalmente los nodos por segundo (NPS) de tu motor sin hardware adicional.
+Si quieres aplicar estas optimizaciones a tu código actual, puedo ayudarte con:
+Configurar el bucle multicore (Core 0 + Core 1) usando los bancos Scratch X/Y y colas FIFO inter-núcleo para búsqueda paralela (Lazy SMP).Armar el código C completo para overclocking seguro y mapeo de funciones críticas en SRAM.
+¿Qué enfoque te gustaría probar primero?
+
+Implementar MCTS (Monte Carlo Tree Search) con una Red Neuronal de Grafos (GNN) cambia la forma en que la IA "ve" el ajedrez. En lugar de procesar una imagen fija de 8x8 (como en una CNN), tratamos el tablero como un grafo dinámico donde cada pieza (o casilla ocupada) es un nodo y las interacciones tácticas (ataques, defensas, rayos X) son las aristas.
+Este enfoque es muy eficiente para luego portar a microcontroladores como la Raspberry Pi Pico porque en una partida real hay como máximo 32 nodos (y en el medio juego o final, muchos menos), evitando gastar cómputo en casillas vacías.
+
+1. Representación del Tablero como Grafo
+
+Para construir el grafo de una posición usando python-chess, definimos:
+• Nodos (X): Cada pieza sobre el tablero. Su vector de características (ej. 16 features) incluye tipo de pieza (one-hot), color, fila (rank), columna (file) y movilidad.
+• Aristas (Edge Index y Edge Features): Conexiones dirigidas entre piezas. Por ejemplo:
+	• Tipo 1: La pieza A ataca a la pieza B (enemiga).
+	• Tipo 2: La pieza A defiende a la pieza B (aliada).
+	• Tipo 3: Rayos X o clavada potencial (alineación en fila, columna o diagonal).
+
+2. Ejemplo Completo en Python (PyTorch + python-chess)
+
+Aquí tienes una implementación autocontenida (sin necesidad de librerías pesadas como PyTorch Geometric, usando multiplicación dispersa pura que luego es trivial traducir a C):
+python
+import math
+import chess
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# ==========================================
+# 1. CONVERSIÓN DE TABLERO A GRAFO
+# ==========================================
+PIECE_TO_IDX = {
+    chess.PAWN: 0, chess.KNIGHT: 1, chess.BISHOP: 2,
+    chess.ROOK: 3, chess.QUEEN: 4, chess.KING: 5
+}
+
+def board_to_graph(board: chess.Board):
+    """Extrae nodos (piezas) y matriz de adyacencia de ataques/defensas."""
+    squares = list(board.piece_map().keys())
+    num_nodes = len(squares)
+    sq_to_node = {sq: i for i, sq in enumerate(squares)}
+
+    # Características de nodo: [6 tipos pieza, 1 color, 1 fila_norm, 1 col_norm] = 9 features
+    node_feats = torch.zeros((num_nodes, 9), dtype=torch.float32)
+    
+    # Matrices de adyacencia (Ataques y Defensas)
+    adj_attack = torch.zeros((num_nodes, num_nodes), dtype=torch.float32)
+    adj_defend = torch.zeros((num_nodes, num_nodes), dtype=torch.float32)
+
+    for i, sq in enumerate(squares):
+        piece = board.piece_at(sq)
+        node_feats[i, PIECE_TO_IDX[piece.piece_type]] = 1.0
+        node_feats[i, 6] = 1.0 if piece.color == board.turn else -1.0
+        node_feats[i, 7] = chess.square_rank(sq) / 7.0
+        node_feats[i, 8] = chess.square_file(sq) / 7.0
+
+        # Buscar a qué otras piezas ataca o defiende esta pieza
+        for target_sq in board.attacks(sq):
+            if target_sq in sq_to_node:
+                j = sq_to_node[target_sq]
+                target_piece = board.piece_at(target_sq)
+                if target_piece.color != piece.color:
+                    adj_attack[i, j] = 1.0
+                else:
+                    adj_defend[i, j] = 1.0
+
+    # Añadir auto-conexiones (self-loops)
+    eye = torch.eye(num_nodes)
+    return node_feats, adj_attack + eye, adj_defend + eye, sq_to_node
+
+# ==========================================
+# 3. RED NEURONAL DE GRAFOS (DOS CABEZAS)
+# ==========================================
+class ChessGNN(nn.Module):
+    def __init__(self, in_features=9, hidden_dim=32):
+        super().__init__()
+        # Capa de paso de mensajes (Message Passing)
+        self.W_self = nn.Linear(in_features, hidden_dim)
+        self.W_attack = nn.Linear(in_features, hidden_dim, bias=False)
+        self.W_defend = nn.Linear(in_features, hidden_dim, bias=False)
+
+        # Segunda capa de propagación
+        self.W2_self = nn.Linear(hidden_dim, hidden_dim)
+        self.W2_attack = nn.Linear(hidden_dim, hidden_dim, bias=False)
+
+        # Cabeza de Valor (Evaluación global del grafo -> [-1, 1])
+        self.value_head = nn.Sequential(
+            nn.Linear(hidden_dim, 16),
+            nn.ReLU(),
+            nn.Linear(16, 1),
+            nn.Tanh()
+        )
+
+        # Cabeza de Política (Puntúa pares origen -> destino)
+        self.policy_head = nn.Linear(hidden_dim * 2, 1)
+
+    def forward(self, x, adj_att, adj_def, legal_moves, sq_to_node):
+        # Paso de mensajes 1: cada pieza agrega info de quien la ataca y defiende
+        h = F.relu(
+            self.W_self(x) + 
+            torch.matmul(adj_att, self.W_attack(x)) + 
+            torch.matmul(adj_def, self.W_defend(x))
+        )
+        # Paso de mensajes 2: propagación a 2 saltos (ej. clavadas o ataques descubiertos)
+        h = F.relu(self.W2_self(h) + torch.matmul(adj_att, self.W2_attack(h)))
+
+        # --- CABEZA DE VALOR (Global Mean Pooling) ---
+        graph_embedding = h.mean(dim=0)
+        value = self.value_head(graph_embedding)
+
+        # --- CABEZA DE POLÍTICA (Por movimiento legal) ---
+        move_logits = []
+        for move in legal_moves:
+            from_idx = sq_to_node[move.from_square]
+            from_emb = h[from_idx]
+            # Si es captura, usamos el embedding de la pieza capturada; si no, vector cero
+            to_emb = h[sq_to_node[move.to_square]] if move.to_square in sq_to_node else torch.zeros_like(from_emb)
+            pair_emb = torch.cat([from_emb, to_emb], dim=0)
+            move_logits.append(self.policy_head(pair_emb))
+
+        policy_probs = F.softmax(torch.stack(move_logits).squeeze(-1), dim=0)
+        return policy_probs, value.item()
+
+# ==========================================
+# 4. INTEGRACIÓN CON MCTS (PUCT)
+# ==========================================
+class MCTSNode:
+    def __init__(self, prior=0.0):
+        self.prior = prior
+        self.visits = 0
+        self.value_sum = 0.0
+        self.children = {}  # {chess.Move: MCTSNode}
+
+    def q_value(self):
+        return self.value_sum / self.visits if self.visits > 0 else 0.0
+
+def mcts_search(root_board: chess.Board, model: ChessGNN, simulations=50, c_puct=1.4):
+    root = MCTSNode()
+
+    for _ in range(simulations):
+        node = root
+        board = root_board.copy()
+        search_path = [node]
+
+        # 1. SELECCIÓN (PUCT)
+        while node.children:
+            best_score = -float('inf')
+            best_move, best_child = None, None
+            sqrt_total = math.sqrt(node.visits)
+
+            for move, child in node.children.items():
+                u = c_puct * child.prior * sqrt_total / (1 + child.visits)
+                # Invertimos Q porque el hijo representa el turno del oponente
+                score = -child.q_value() + u
+                if score > best_score:
+                    best_score, best_move, best_child = score, move, child
+
+            board.push(best_move)
+            node = best_child
+            search_path.append(node)
+
+        # 2. EXPANSIÓN Y EVALUACIÓN CON GNN
+        if not board.is_game_over():
+            legal_moves = list(board.legal_moves)
+            x, adj_att, adj_def, sq_to_node = board_to_graph(board)
+            with torch.no_grad():
+                probs, value = model(x, adj_att, adj_def, legal_moves, sq_to_node)
+
+            for move, prob in zip(legal_moves, probs):
+                node.children[move] = MCTSNode(prior=prob.item())
+        else:
+            res = board.result()
+            value = 1.0 if res == "1-0" else (-1.0 if res == "0-1" else 0.0)
+            if board.turn == chess.BLACK:
+                value = -value
+
+        # 3. RETROPROPAGACIÓN (Backpropagation)
+        for n in reversed(search_path):
+            n.visits += 1
+            n.value_sum += value
+            value = -value
+
+    # Elegir la jugada más visitada
+    best_move = max(root.children.items(), key=lambda item: item[1].visits)[0]
+    return best_move
+
+# --- PRUEBA RÁPIDA ---
+board = chess.Board()
+gnn_model = ChessGNN(in_features=9, hidden_dim=32)
+jugada = mcts_search(board, gnn_model, simulations=30)
+print(f"Mejor jugada sugerida por MCTS + GNN: {jugada}")
+Usa el código con precaución.
+
+3. Por Qué Este Diseño Es Ideal para Portar a la Pico
+
+• Matrices Pequeñas y Dispersas: A diferencia de una red convolucional o un Transformer sobre 64 casillas, aquí la matriz de adyacencia es de tamaño N × N donde N <= 32 (y suele rondar los 16–24 nodos).
+• Reutilización del Generador de Movimientos: El grafo de ataques/defensas (adj_attack y adj_defend) se construye gratis mientras tu motor en C ya calcula los Bitboards de ataques de cada pieza.
+• Cálculo Entero Simple: Las operaciones torch.matmul(adj_att, W_attack(x)) en C son simplemente sumas de vectores (h_i += msg_j) para los bits activos en el bitboard de ataques de cada pieza, sin necesidad de multiplicar matrices densas.
+Si quieres llevar esta arquitectura de GNN hacia un motor real, podemos explorar:
+Cómo enriquecer el grafo añadiendo nodos virtuales para casillas clave o de destino (mejorando la precisión de la cabeza de política para movimientos sin captura).Cómo cuantizar esta GNN a enteros int8 y traducir el paso de mensajes a C usando tus bitboards existentes en la Pico.
+¿Cuál de estos dos pasos te gustaría ver?
+
