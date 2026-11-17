@@ -17,7 +17,7 @@ import chess
 import numpy as np
 import tensorflow as tf
 
-VERSION = '0.1.2'
+VERSION = '0.1.5'
 
 @tf.keras.utils.register_keras_serializable(package='picoBit')
 class BinaryConv2D(tf.keras.layers.Layer):
@@ -133,7 +133,7 @@ def load_bnn(path):
         raise ValueError('BNN incompatible: entrada/salida inesperada')
     return model
 
-def read_positions(database, ids=None):
+def read_positions(database, ids=None, report=False):
     """Pide teacher_cp (POV al turno) o teacher_mate; convierte a CP blancas.
     Posiciones etiquetadas sin CP ni mate (p.ej. tablas terminales) usan 0.
     """
@@ -144,9 +144,15 @@ def read_positions(database, ids=None):
         if not {'id','fen','teacher_cp','teacher_mate','teacher_at'}<=fields:
             raise ValueError('Esquema .pb incompatible con teacher de picoAlpha')
         rows=conn.execute('SELECT id,fen,teacher_cp,teacher_mate,teacher_at FROM positions WHERE teacher_at IS NOT NULL ORDER BY id')
+        total=conn.execute('SELECT COUNT(*) FROM positions WHERE teacher_at IS NOT NULL').fetchone()[0] if report else 0
+        progress=Progress('Load DB',total) if report and total else None
+        scanned=0
         allowed=set(map(int,ids)) if ids is not None else None
         result=[]
         for pid,fen,cp,mate,at in rows:
+            scanned+=1
+            if progress and (scanned==1 or scanned%500==0 or scanned==total):
+                progress.update(scanned,0.,0.)
             if allowed is not None and pid not in allowed: continue
             if cp is None and mate is None:
                 # teacher marca un valor sólo para posiciones terminales.
@@ -166,30 +172,54 @@ def read_positions(database, ids=None):
     finally: conn.close()
 
 class Progress:
-    """Una línea por fase en TTY; resumen único si salida redirigida."""
+    """Una sola línea dinámica por fase, con columnas estables y bloques Unicode.
+
+    Se usa CR incluso si stdout no es un TTY (por ejemplo, al invocar Python
+    desde Windows PowerShell); sólo se emite LF al terminar la fase.
+    """
     def __init__(self,label,total):
-        import sys,shutil
-        self.sys=sys; self.label=label;self.total=total;self.start=time.monotonic()
-        self.tty=sys.stdout.isatty();self.width=max(40,shutil.get_terminal_size((100,24)).columns-1)
-        self.last=''
+        import sys, shutil
+        self.stream=sys.stdout
+        self.label=str(label)
+        self.total=int(total)
+        self.start=time.monotonic()
+        self.width=max(1,shutil.get_terminal_size((110,24)).columns-1)
+        self.last_len=0
         self.last_bucket=-1
+        self.done=False
+        self.update(0,0.,0.)
+
     def update(self,n,sse,minimum):
-        bucket=int(100*n/max(1,self.total))
-        if n<self.total and (not self.tty or bucket==self.last_bucket): return
+        if self.done:return
+        n=min(self.total,max(0,int(n)))
+        bucket=(100*n//max(1,self.total))
+        if n not in (0,self.total) and bucket==self.last_bucket:return
         self.last_bucket=bucket
-        avg=sse/max(n,1); frac=n/max(self.total,1)
-        eta=(time.monotonic()-self.start)*(self.total-n)/max(1,n)
-        eta_s=f'{int(eta//3600):03d}:{int(eta%3600//60):02d}:{int(eta%60):02d}'
-        tail=f' {n:>{len(str(self.total))}}/{self.total} MSEmin={minimum:9.6f} MSEavg={avg:9.6f} ETA={eta_s}'
-        prefix=f'{self.label:<13} {frac*100:6.2f}% ['
-        available=max(0,min(20,self.width-len(prefix)-len(tail)-1))
-        filled=round(frac*available)
-        line=prefix+'#'*filled+'-'*(available-filled)+']'+tail
-        if len(line)>self.width: line=f'{self.label[:7]:<7} {frac*100:5.1f}%'+tail
-        if self.tty: self.sys.stdout.write('\r'+line.ljust(min(self.width,len(self.last))))
-        else: self.sys.stdout.write(line+'\n')
-        self.sys.stdout.flush();self.last=line
-        if n==self.total and self.tty: self.sys.stdout.write('\n');self.sys.stdout.flush()
+        fraction=n/max(1,self.total)
+        avg=sse/max(1,n)
+        elapsed=time.monotonic()-self.start
+        remaining=elapsed*(self.total-n)/n if n else None
+        eta='------:--:--' if remaining is None else f'{min(999999,int(remaining)//3600):06d}:{int(remaining)%3600//60:02d}:{int(remaining)%60:02d}'
+        counter_width=len(str(self.total))
+        count=f'{n:>{counter_width}d}/{self.total}'
+        tail=f' {count} MSEmin={minimum:9.6f} MSEavg={avg:9.6f} ETA={eta}'
+        # Calcular la barra después de reservar todas las columnas numéricas.
+        prefix=f'{self.label:<13} {fraction*100:6.2f}% ['
+        available=min(20,max(0,self.width-len(prefix)-len(tail)-1))
+        if available>=2:
+            filled=round(fraction*available)
+            line=prefix+'█'*filled+'░'*(available-filled)+']'+tail
+        else:
+            # Consolas muy estrechas: mantener contadores/MSE/ETA antes que barra.
+            prefix=f'{self.label[:9]:<9} {fraction*100:5.1f}% '
+            line=prefix+tail.lstrip()
+        # Recortar sólo si la terminal es más estrecha que las métricas.
+        line=line[:self.width]
+        self.stream.write('\r'+line+' '*max(0,self.last_len-len(line)))
+        self.stream.flush()
+        self.last_len=len(line)
+        if n>=self.total:
+            self.stream.write('\n');self.stream.flush();self.done=True
 
 def batches(n, size):
     for start in range(0,n,size): yield slice(start,min(start+size,n))
