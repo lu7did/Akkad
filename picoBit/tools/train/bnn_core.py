@@ -17,7 +17,7 @@ import chess
 import numpy as np
 import tensorflow as tf
 
-VERSION = '0.1.5'
+VERSION = '0.1.7'
 
 @tf.keras.utils.register_keras_serializable(package='picoBit')
 class BinaryConv2D(tf.keras.layers.Layer):

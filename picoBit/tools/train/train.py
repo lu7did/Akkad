@@ -8,6 +8,7 @@ import shutil
 import math
 import numpy as np
 import tensorflow as tf
+from sampling import select
 from bnn_core import (VERSION,Progress,assess,batches,clamp_weights,cp_to_prob,
                       create_model,fen_tensor,read_positions,save_bnn)
 
@@ -49,19 +50,23 @@ def main():
     print(f'⚙️ picoBit entrenamiento: leyendo base {a.source}',flush=True)
     records=read_positions(a.source)
     print(f'✅ Base leída: {len(records)} posiciones utilizables',flush=True)
-    if a.sample>len(records): p.error(f'--sample {a.sample} excede {len(records)} registros etiquetados utilizables')
-    rng=random.Random(a.seed)
-    sampled=rng.sample(records,a.sample)
-    n_val=round(a.sample*a.validation/100)
-    if not 1<=n_val<a.sample:
-        p.error('La muestra y porcentaje deben reservar al menos 1 posición para entrenamiento y 1 para validación')
-    val=sampled[:n_val]; train=sampled[n_val:]
+    try:
+        train,val,selection=select(records,a.sample,a.validation,a.seed)
+    except ValueError as exc:
+        p.error(str(exc))
+    del records
+    print(f'✅ Seleccion: unicos={selection["unique_states"]} '
+          f'duplicados_excluidos={selection["discarded_duplicate_states"]} '
+          f'train={len(train)} valid={len(val)}',flush=True)
+    print(f'⚙️ Estratos train={selection["training_strata"]} '
+          f'valid_natural={selection["validation_strata"]}',flush=True)
     # Identificación persistente: Audit no debe re-muestrear.
     run.mkdir(parents=True)
-    manifest={'format':'picoBit-validation-v1','database':str(Path(a.source).resolve()),
+    manifest={'format':'picoBit-validation-v2','database':str(Path(a.source).resolve()),
               'sample':a.sample,'validation_percent':a.validation,'seed':a.seed,
               'train_ids':[r['id'] for r in train], 'validation_ids':[r['id'] for r in val],
-              'created_at':datetime.now().isoformat(),'model_version':VERSION}
+              'created_at':datetime.now().isoformat(),'model_version':VERSION,
+              'selection':selection}
     for destination in (run/'validation_manifest.json',assets/'validation_manifest.json'):
         destination.write_text(json.dumps(manifest,indent=2),encoding='utf-8')
     def prepare(rs):
@@ -93,6 +98,22 @@ def main():
     # BN diagnóstico, sobre lote fijo. Restaurar moving_mean/variance después
     # de llamar training=True para no contaminar el entrenamiento ni checkpoints.
     diagnostic_x=tf.convert_to_tensor(xtr[:min(len(xtr),a.batch)])
+    def bn_snapshot():
+        return [(layer.moving_mean.numpy().copy(),layer.moving_variance.numpy().copy())
+                for layer in model.layers if isinstance(layer,tf.keras.layers.BatchNormalization)]
+
+    def bn_changes(before,after):
+        result=[]
+        for i,((mean0,var0),(mean1,var1)) in enumerate(zip(before,after)):
+            if not (np.all(np.isfinite(mean1)) and np.all(np.isfinite(var1)) and np.all(var1>=0)):
+                raise RuntimeError(f'BatchNormalization {i}: estadisticas no finitas o varianza negativa')
+            result.append({'layer':i,'moving_mean_mad':float(np.mean(np.abs(mean1-mean0))),
+                           'moving_variance_mad':float(np.mean(np.abs(var1-var0))),
+                           'moving_variance_min':float(np.min(var1))})
+        if len(result)!=3:
+            raise RuntimeError(f'Arquitectura BNN inesperada: {len(result)} capas BN')
+        return result
+
     def bn_diagnostic():
         bn_layers=[layer for layer in model.layers
                    if isinstance(layer,tf.keras.layers.BatchNormalization)]
@@ -105,6 +126,11 @@ def main():
             for layer,(mean,var) in zip(bn_layers,saved):
                 layer.moving_mean.assign(mean)
                 layer.moving_variance.assign(var)
+        # Prueba explícita: la medición no puede modificar las estadísticas BN.
+        restored=bn_snapshot()
+        if any(not np.array_equal(a,b) or not np.array_equal(c,d)
+               for (a,c),(b,d) in zip(saved,restored)):
+            raise RuntimeError('El diagnostico altero las estadisticas BatchNormalization')
         delta=batch_mode-infer
         return {'prediction_mean_abs_diff':float(np.mean(np.abs(delta))),
                 'prediction_max_abs_diff':float(np.max(np.abs(delta)))}
@@ -119,7 +145,7 @@ def main():
         callback.set_model(model)
         callback.on_train_begin()
     model.stop_training=False
-    print(f'BNN v{VERSION} datos={len(records)} muestra={a.sample} train={len(train)} valid={len(val)}',flush=True)
+    print(f'BNN v{VERSION} datos_unicos={selection["unique_states"]} muestra={a.sample} train={len(train)} valid={len(val)}',flush=True)
     print(f'CHECKPOINTS {run} BEST {assets/"best.bnn"} objetivo=BCE validación, MSE=diagnóstico',flush=True)
     print(f'OPT AdamW wd={a.weight_decay} ReduceLROnPlateau factor={a.lr_factor} patience={a.plateau_patience} '
           f'early={a.early_patience} hard_stop={a.stop_patience} min_delta={a.min_delta}',flush=True)
@@ -127,6 +153,7 @@ def main():
     for epoch in range(1,a.epoch+1):
         lr=float(tf.keras.backend.get_value(opt.learning_rate))
         signs_before=binary_weights()
+        bn_before=bn_snapshot()
         order=np.random.default_rng(a.seed+epoch).permutation(len(ytr))
         xx=xtr[order];yy=ytr[order]
         prog=Progress(f'E{epoch:03d} Train',len(yy));sse=0.;minerr=float('inf')
@@ -150,6 +177,7 @@ def main():
         tr={'count':len(yy),'mse_min':minerr,'mse_mean':sse/len(yy)}
         ver=evaluate(xtr,ytr,f'E{epoch:03d} Verify')
         valid=evaluate(xval,yval,f'E{epoch:03d} Valid')
+        bn_after=bn_snapshot()
         signs_after=binary_weights()
         total_signs=sum(a.size for a in signs_before)
         flips=sum(int(np.count_nonzero(before!=after))
@@ -158,7 +186,8 @@ def main():
                      'sign_flip_fraction':flips/max(1,total_signs),
                      'gradient_global_norm_mean':gradient_norm_sum/max(1,gradient_batches),
                      'gradient_global_norm_max':gradient_norm_max,
-                     'batchnorm':bn_diagnostic()}
+                     'batchnorm':bn_diagnostic(),
+                     'batchnorm_layers':bn_changes(bn_before,bn_after)}
         checkpoint=run/f'epoch_{epoch:04d}.bnn';save_bnn(model,checkpoint)
         # Best real: menor BCE validación, independiente de min_delta del callback.
         score=valid['bce_mean']
@@ -186,6 +215,11 @@ def main():
               f'grad_norm_max={gradient_norm_max:.6g} '
               f'BN_train_infer_MAD={diagnostics["batchnorm"]["prediction_mean_abs_diff"]:.6g} '
               f'BN_train_infer_MAX={diagnostics["batchnorm"]["prediction_max_abs_diff"]:.6g}',flush=True)
+        print('  BN   '+ ' '.join(
+            f'L{layer["layer"]+1}:meanMAD={layer["moving_mean_mad"]:.5g},'
+            f'varMAD={layer["moving_variance_mad"]:.5g},'
+            f'varMIN={layer["moving_variance_min"]:.5g}'
+            for layer in diagnostics['batchnorm_layers']),flush=True)
         logs={'val_bce':score}
         for callback in (plateau,early): callback.on_epoch_end(epoch-1,logs)
         if model.stop_training or no_improve>=a.stop_patience:

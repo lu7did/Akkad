@@ -6,6 +6,7 @@ import numpy as np
 import chess
 from bnn_core import (VERSION,Progress,batches,fen_tensor,load_bnn,prob_to_cp,read_positions)
 from classic import evaluate as classic_evaluate
+from sampling import position_key
 
 def stats(rows,label):
     sq=np.array([r['error_cp_squared'][label] for r in rows],dtype=np.float64)
@@ -26,12 +27,24 @@ def main():
     source=Path(a.source).resolve()
     manifest=Path(a.manifest).resolve() if a.manifest else Path(a.weights).resolve().parent/'validation_manifest.json'
     data=json.loads(manifest.read_text(encoding='utf-8'))
-    if data.get('format')!='picoBit-validation-v1':p.error('Manifiesto de validación incompatible')
+    if data.get('format') not in ('picoBit-validation-v1','picoBit-validation-v2'):p.error('Manifiesto de validación incompatible')
     if source!=Path(data['database']).resolve():p.error('El database no es el utilizado para este split (ruta distinta)')
     ids=data['validation_ids']; train=set(data['train_ids'])
     if not ids or train.intersection(ids) or len(ids)!=len(set(ids)):p.error('Split inválido: IDs repetidos/compartidos')
     records=read_positions(source,ids)
     byid={r['id']:r for r in records};records=[byid[int(i)] for i in ids]
+    if data['format']=='picoBit-validation-v2':
+        valid_keys=[position_key(r['fen']) for r in records]
+        if len(valid_keys)!=len(set(valid_keys)):
+            p.error('Manifest v2 invalido: estados de validacion duplicados')
+        train_records=read_positions(source,data['train_ids'])
+        train_keys={position_key(r['fen']) for r in train_records}
+        if train_keys.intersection(valid_keys):
+            p.error('Fuga de datos: estados equivalentes en train y validacion')
+        print(f'✅ Split auditado: {len(train_keys)} estados train, '
+              f'{len(valid_keys)} validacion, sin cruces',flush=True)
+        del train_records,train_keys
+
     model=load_bnn(a.weights)
     previous=load_bnn(a.previous) if a.previous else None
     total=len(records);progress=Progress('Audit',total)

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.7",
   "database": "C:\\Users\\pedro\\github\\Bobby\\Chess_History_pb\\picoAlpha\\sample_history.pb",
   "weights": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\assets\\best.bnn",
   "previous": null,
@@ -9,21 +9,21 @@
   "summary": {
     "bnn": {
       "count": 20000,
-      "mse_cp2": 48617.02263336356,
-      "mse_min_cp2": 9.389770316511715e-06,
-      "rmse_cp": 220.49268158685803,
-      "mae_cp": 129.51849090388868
+      "mse_cp2": 59850.68958622031,
+      "mse_min_cp2": 0.00013375170659819105,
+      "rmse_cp": 244.6440058252405,
+      "mae_cp": 165.07334520942274
     },
     "classic": {
       "count": 20000,
-      "mse_cp2": 49695.66245,
+      "mse_cp2": 62365.57805,
       "mse_min_cp2": 0.0,
-      "rmse_cp": 222.92523959839093,
-      "mae_cp": 132.02035
+      "rmse_cp": 249.73101139025565,
+      "mae_cp": 158.31935
     }
   },
   "comparisons": {
-    "bnn_better_than_classic": 9492,
-    "classic_better_than_bnn": 10508
+    "bnn_better_than_classic": 8576,
+    "classic_better_than_bnn": 11424
   }
 }
