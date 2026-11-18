@@ -17,7 +17,9 @@ import chess
 import numpy as np
 import tensorflow as tf
 
-VERSION = '0.1.7'
+VERSION = '0.1.15'
+CP_SCALE = 400.0
+CP_CLIP = 1500.0
 
 @tf.keras.utils.register_keras_serializable(package='picoBit')
 class BinaryConv2D(tf.keras.layers.Layer):
@@ -80,8 +82,72 @@ def create_model():
     x = tf.keras.layers.Flatten()(x)
     x = BinaryDense(256)(x)
     x = tf.keras.layers.BatchNormalization(momentum=0.9)(x)
-    out = tf.keras.layers.Dense(1,activation='sigmoid')(x)
+    out = tf.keras.layers.Dense(1,activation='linear')(x)
     return tf.keras.Model(inp,out,name='picoBit_BNN')
+
+def recalibrate_batchnorm(model, calibration_x, batch_size):
+    """Recalcular momentos de inferencia BN con pesos finales del epoch.
+
+    Se procesa cada BN en orden de red, usando training=False en la subred
+    anterior. Así los momentos reflejan la distribución que recibirá la capa
+    durante inferencia. No se alteran pesos, gamma/beta, ni capas binarias.
+    Se utiliza exclusivamente una muestra fija del conjunto de ENTRENAMIENTO.
+    """
+    bn_layers = [layer for layer in model.layers
+                 if isinstance(layer, tf.keras.layers.BatchNormalization)]
+    if len(bn_layers) != 3:
+        raise RuntimeError(f'Se esperaban 3 capas BatchNormalization, hay {len(bn_layers)}')
+    n = len(calibration_x)
+    if n < 2:
+        return {'positions': n, 'skipped': True, 'layers': []}
+    if batch_size < 1:
+        raise ValueError('batch_size debe ser positivo')
+
+    diagnostics = []
+    for index, layer in enumerate(bn_layers, start=1):
+        # Obtiene la ACTIVACION DE ENTRADA a esta BN, antes de normalizarla.
+        # Las BN anteriores ya fueron calibradas, siempre en modo inferencia.
+        upstream = tf.keras.Model(inputs=model.inputs, outputs=layer.input)
+        total = 0
+        avg = None
+        m2 = None
+        for sl in batches(n, batch_size):
+            value = np.asarray(upstream(calibration_x[sl], training=False),
+                               dtype=np.float64)
+            if not np.all(np.isfinite(value)):
+                raise RuntimeError(f'BN L{index}: activaciones no finitas')
+            # Conv: sumar también sobre las dimensiones espaciales; Dense:
+            # sólo sobre el eje de muestras. El último eje es el canal.
+            flattened = value.reshape(-1, value.shape[-1])
+            count = flattened.shape[0]
+            mean_batch = np.mean(flattened, axis=0)
+            m2_batch = np.sum((flattened - mean_batch) ** 2, axis=0)
+            if total == 0:
+                avg = mean_batch
+                m2 = m2_batch
+                total = count
+            else:
+                delta = mean_batch - avg
+                merged = total + count
+                avg = avg + delta * (count / merged)
+                m2 = m2 + m2_batch + delta**2 * total * count / merged
+                total = merged
+        variance = np.maximum(m2 / total, 0.0)
+        if not np.all(np.isfinite(avg)) or not np.all(np.isfinite(variance)):
+            raise RuntimeError(f'BN L{index}: momentos de calibración inválidos')
+        old_mean = layer.moving_mean.numpy().copy()
+        old_var = layer.moving_variance.numpy().copy()
+        layer.moving_mean.assign(avg.astype(old_mean.dtype))
+        layer.moving_variance.assign(variance.astype(old_var.dtype))
+        diagnostics.append({
+            'layer': index,
+            'mean_adjustment_mad': float(np.mean(np.abs(avg - old_mean))),
+            'variance_adjustment_mad': float(np.mean(np.abs(variance - old_var))),
+            'variance_min': float(np.min(variance)),
+            'moments_count': int(total),
+        })
+    return {'positions': n, 'skipped': False, 'layers': diagnostics}
+
 
 def clamp_weights(model):
     for layer in model.layers:
@@ -102,6 +168,22 @@ def fen_tensor(fen):
 def cp_to_prob(cp):
     cp=np.clip(np.asarray(cp,dtype=np.float64),-1500,1500)
     return (1.0/(1.0+np.power(10.0,-cp/400.0))).astype(np.float32)
+
+def cp_to_scaled(cp):
+    """Targets lineales en unidades de 400cp, con limites del teacher original."""
+    return (np.clip(np.asarray(cp,dtype=np.float32), -CP_CLIP, CP_CLIP) / CP_SCALE).astype(np.float32)
+
+
+def output_to_cp(model, prediction):
+    """Compatibilidad explícita: salida lineal nueva o sigmoid histórica."""
+    activation = tf.keras.activations.serialize(model.layers[-1].activation)
+    name = activation if isinstance(activation, str) else activation.get('config', activation)
+    if name == 'linear':
+        return np.asarray(prediction, dtype=np.float64) * CP_SCALE
+    if name == 'sigmoid':
+        return prob_to_cp(prediction)
+    raise ValueError(f'BNN: activación de salida no reconocida: {name}')
+
 
 def prob_to_cp(p):
     p=np.clip(np.asarray(p,dtype=np.float64),0.0001,0.9999)

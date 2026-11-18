@@ -13,7 +13,6 @@
       "timeout": 30000,
       "ELO": 900
     },
-
     "buddy": {
       "type": "nurse",
       "player": "sargon.py",
@@ -30,6 +29,19 @@
       "timeout": 1000,
       "ELO": 400
     },
+    "bitty": {
+      "type": "nurse",
+      "player": "sargon-plus",
+      "evaluator": {
+        "evaluator": "bnn",
+        "network": "C:/Users/pedro/github/Bobby/Akkad/picoBit/assets/best.keras"
+      },
+   "Depth": 4,
+   "QDepth": 2,
+   "tmax": 15000,
+   "timeout": 30000,
+   "ELO": 1000
+   },
     "dalma": {
       "type": "uci",
       "evaluator" : "null",

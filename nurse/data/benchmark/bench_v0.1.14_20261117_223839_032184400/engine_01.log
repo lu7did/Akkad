@@ -1,0 +1,57 @@
+[22:38:39] \U0001f4bb sargon-nurse v0.1.36 brain=bitty type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[22:38:39] \u2699\ufe0f player=sargon-plus evaluator=bnn network=C:\Users\pedro\github\Bobby\Akkad\picoBit\assets\best.keras depth=4 qdepth=2 arguments={}
+[22:38:39] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[22:38:39] \U0001f680 subprocess pid=35964 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.sargon_plus', '--serve', '--config', '{"type": "nurse", "player": "sargon-plus", "evaluator": {"evaluator": "bnn", "network": "C:/Users/pedro/github/Bobby/Akkad/picoBit/assets/best.keras"}, "Depth": 4, "QDepth": 2, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\sargon_plus.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\evaluators\\\\bnn.py", "_player": "sargon-plus", "_evaluator": "bnn", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\picoBit\\\\assets\\\\best.keras", "_type": "nurse", "arguments": {}}']
+[22:38:39] \U0001f4cb child \u2699\ufe0f EXEC player=sargon-plus | evaluator=bnn | depth=4 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x00/0 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+[22:38:39] \U0001f4cb child \u26a1 TURBO mask=0x00 baseline=ON adaptive-actuators=OFF
+[22:38:39] \U0001f4cb child [22:38:39] \U0001f9e0 worker player=sargon-plus evaluator=bnn depth=4 qdepth=2 tmax=15000 timeout=30000 warmup_movetime=15000 network=C:\Users\pedro\github\Bobby\Akkad\picoBit\assets\best.keras arguments={}
+[22:38:39] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:38:54] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=11/20 root_pct=55.0% nodes=33559 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[22:38:54] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:39:09] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=38/40 root_pct=95.0% nodes=23792 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[22:39:09] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:39:24] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=6/33 root_pct=18.2% nodes=26027 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[22:39:24] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:39:39] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/27 root_pct=3.7% nodes=23382 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[22:39:39] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:39:54] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=34/38 root_pct=89.5% nodes=23478 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[22:39:54] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:40:09] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=39/51 root_pct=76.5% nodes=21076 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[22:40:09] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:40:24] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=13/24 root_pct=54.2% nodes=32539 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[22:40:24] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:40:39] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=2/34 root_pct=5.9% nodes=22083 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[22:40:39] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:40:46] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:41:01] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/38 root_pct=2.6% nodes=21012 elapsed_ms=15000.9 tmax_ms=15000 fallback=last-complete-level
+[22:41:01] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:41:16] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=20/37 root_pct=54.1% nodes=17752 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[22:41:16] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:41:31] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/36 root_pct=0.0% nodes=22929 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+[22:41:31] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:41:46] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/38 root_pct=2.6% nodes=23700 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[22:41:46] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:42:01] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=34/45 root_pct=75.6% nodes=26963 elapsed_ms=15000.0 tmax_ms=15000 fallback=last-complete-level
+[22:42:01] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:42:16] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=4/31 root_pct=12.9% nodes=22539 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[22:42:16] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:42:31] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=15/43 root_pct=34.9% nodes=24268 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[22:42:31] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:42:46] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/35 root_pct=2.9% nodes=21938 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[22:42:46] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:43:01] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=2/26 root_pct=7.7% nodes=22431 elapsed_ms=15001.0 tmax_ms=15000 fallback=last-complete-level
+[22:43:01] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:43:16] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=31/43 root_pct=72.1% nodes=21369 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[22:43:16] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:43:31] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=27/33 root_pct=81.8% nodes=21167 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[22:43:31] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:43:46] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/40 root_pct=0.0% nodes=23683 elapsed_ms=15000.8 tmax_ms=15000 fallback=last-complete-level
+[22:43:46] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:44:01] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=2/47 root_pct=4.3% nodes=23227 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[22:44:01] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:44:16] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=32/33 root_pct=97.0% nodes=20680 elapsed_ms=15000.0 tmax_ms=15000 fallback=last-complete-level
+[22:44:16] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:44:31] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/35 root_pct=0.0% nodes=19390 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[22:44:31] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[22:44:46] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=24/40 root_pct=60.0% nodes=22164 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[22:44:46] \U0001f4cb child [22:44:46] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

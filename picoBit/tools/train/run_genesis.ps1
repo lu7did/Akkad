@@ -1,4 +1,4 @@
-﻿# picoBit - cadena BNN de entrenamiento. Version 0.1.6.
+﻿# picoBit - cadena BNN de entrenamiento. Version 0.1.15.
 # Ejecutar desde cualquier directorio: powershell -File run_genesis.ps1 --mon 1 [opciones]
 # MON=1: train -> export -> audit; MON=2: export -> audit; MON=3: audit.
 Set-StrictMode -Version Latest
@@ -37,7 +37,7 @@ Opciones (default):
   --lr-factor R           Factor de reduccion LR (0.5)
   --early-patience N      Paciencia EarlyStopping (8)
   --stop-patience N       Limite adicional sin mejorar (10)
-  --min-delta R           Mejora minima BCE para callbacks (0.00001)
+  --min-delta R           Mejora minima Huber para callbacks (0.00001)
   --checkpoints DIR       Directorio de checkpoints de train
                           (akkad/picoBit/assets/checkpoint)
   --export-checkpoints DIR Directorio de cabeceras .h de export
@@ -69,24 +69,14 @@ if ($args.Count -eq 0 -or @('--help', '-help', '-h', '/?') -contains $args[0]) {
 
 $defaults = @{
     'in'='C:\Users\pedro\github\Bobby\Chess_History_pb\picoAlpha\sample_history.pb';
-    'sample'='100000';
-    'validation'='20'
-    'epoch'='50';
-    'lr'='0.0001';
-    'lrmin'='0.000001';
-    'batch'='128'
-    'seed'='42';
-    'checkpoints'='C:\Users\pedro\github\Bobby\Akkad\picoBit\assets\checkpoint'
-    'weight-decay'='0.0001';
-    'plateau-patience'='5';
-    'lr-factor'='0.5'
-    'early-patience'='8';
-    'stop-patience'='10';
-    'min-delta'='0.00001'
-    'weights'='C:\Users\pedro\github\Bobby\Akkad\picoBit\assets\best.bnn';
-    'out'='C:\Users\pedro\github\Bobby\Akkad\picoBit\data\audit'
-    'manifest'='C:\Users\pedro\github\Bobby\Akkad\picoBit\assets\validation_manifest.json';
-    'python'='python'
+    'sample'='10000'; 'validation'='20'
+    'epoch'='50'; 'lr'='0.0001'; 'lrmin'='0.000001'; 'batch'='128'
+    'seed'='42'; 'checkpoints'='..\..\assets\checkpoint'
+    'weight-decay'='0.0001'; 'plateau-patience'='5'; 'lr-factor'='0.5'
+    'early-patience'='8'; 'stop-patience'='10'; 'min-delta'='0.00001'
+    'weights'='..\..\assets\best.bnn';
+    'out'='..\..\data\audit'
+    'manifest'='..\..\data\validation_manifest.json'; 'python'='python'
 }
 $allowed = @('mon', 'in', 'sample', 'validation', 'epoch', 'lr', 'lrmin',
              'batch', 'seed', 'weight-decay', 'plateau-patience', 'lr-factor',
@@ -189,7 +179,7 @@ function Run-Step([int]$number, [string]$name, [string[]]$command) {
 $train = Join-Path $PSScriptRoot 'train.py'
 $export = Join-Path $PSScriptRoot 'export.py'
 $audit = Join-Path $PSScriptRoot 'Audit.py'
-Write-Host "⚙️ picoBit run_genesis v0.1.6 | MON=$mon | repositorio=$repo"
+Write-Host "⚙️ picoBit run_genesis v0.1.15 | MON=$mon | repositorio=$repo"
 Write-Host "⚙️ database=$($seen['in']) | sample=$($seen['sample']) | validation=$($seen['validation'])% | epoch=$($seen['epoch'])"
 Write-Host "⚙️ lr=$($seen['lr']) lrmin=$($seen['lrmin']) batch=$($seen['batch']) seed=$($seen['seed'])"
 

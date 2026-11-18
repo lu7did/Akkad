@@ -1,0 +1,12 @@
+.\run_genesis.ps1 --mon 1 `
+    --sample 100000 `
+    --validation 20 `
+    --epoch 50 `
+    --batch 256 `
+    --lr 0.00005 `
+    --lrmin 0.000001 `
+    --weight-decay 0.0001 `
+    --plateau-patience 4 `
+    --lr-factor 0.5 `
+    --early-patience 12 `
+    --stop-patience 14

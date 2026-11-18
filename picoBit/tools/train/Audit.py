@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import numpy as np
 import chess
-from bnn_core import (VERSION,Progress,batches,fen_tensor,load_bnn,prob_to_cp,read_positions)
+from bnn_core import (VERSION,Progress,batches,fen_tensor,load_bnn,output_to_cp,read_positions)
 from classic import evaluate as classic_evaluate
 from sampling import position_key
 
@@ -52,8 +52,8 @@ def main():
     for sl in batches(total,a.batch):
         sub=records[sl]
         x=np.stack([fen_tensor(r['fen']) for r in sub])
-        cp_new=prob_to_cp(np.asarray(model(x,training=False)).reshape(-1))
-        cp_old=prob_to_cp(np.asarray(previous(x,training=False)).reshape(-1)) if previous else None
+        cp_new=output_to_cp(model,np.asarray(model(x,training=False)).reshape(-1))
+        cp_old=output_to_cp(previous,np.asarray(previous(x,training=False)).reshape(-1)) if previous else None
         for j,r in enumerate(sub):
             stock=float(r['cp']);bnn=float(cp_new[j]);classic=float(classic_evaluate(chess.Board(r['fen'])))
             scores={'bnn':bnn,'classic':classic}
