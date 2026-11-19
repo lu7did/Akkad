@@ -198,9 +198,9 @@ def read_brain(path,ident):
         # It cannot consume an ordinary centipawn evaluator.
         if name == 'mctsp':
             if not isinstance(network, str) or not network.strip():
-                raise ValueError('MCTSP/MCTSE requiere evaluator.network con checkpoint .pt')
-            if Path(network).suffix.lower() != '.pt':
-                raise ValueError('MCTSE requiere checkpoint .pt (780x16, policy from_to, value tanh)')
+                raise ValueError('MCTSP/MCTSE requiere evaluator.network con modelo .bin PANNI8 o .pt INT8')
+            if Path(network).suffix.lower() not in ('.bin', '.pt'):
+                raise ValueError('MCTSE requiere .bin PANNI8 o .pt INT8 (780x16, policy from_to, value tanh)')
             mcts_args = cfg.get('arguments', {})
             if not isinstance(mcts_args, dict):
                 raise ValueError('MCTSP arguments requiere objeto')

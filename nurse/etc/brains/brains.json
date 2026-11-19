@@ -178,7 +178,7 @@
     "player": "mctsp",
     "evaluator": {
        "evaluator": "mctse",
-       "network": "../../picoAlpha/assets/dalia_20261115B_int8.pt"
+       "network": "C:/Users/pedro/github/Bobby/Akkad/picoAlpha/assets/best_int8.bin"
     },
     "arguments": {
        "sims": 2000,
