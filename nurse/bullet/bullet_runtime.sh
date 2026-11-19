@@ -68,24 +68,15 @@ PY
 # RUNS_ROOT is intentionally NOT overridable: changing it would break the
 # recorded identity of a run. The only external location is the compiler.
 bullet_resolve_run_dir() {
-  local base="$1" id="$2" dest legacy
+  local base="$1" id="$2" dest
   [[ "$id" =~ ^[A-Za-z][A-Za-z0-9_-]*$ ]] || { echo 'RUN_ID inválido' >&2; return 2; }
   dest="$base/runs/$id"
-  legacy="$BULLET_DIR/runs/$id"
+  # The external Bullet installation is intentionally NEVER inspected for
+  # historical runs. Akkad is the sole owner of persistent run state.
+  # An old run under BULLET_DIR/runs is irrelevant by design.
   if [[ -L "$base/runs" || -L "$dest" ]]; then
     echo 'ERROR: symlink en destino de checkpoints; se exige directorio real dentro de Akkad.' >&2
     return 2
-  fi
-  # Do not silently restart a completed/partial old run. A fresh destination
-  # with no checkpoints/state cannot be assumed to be the same experiment.
-  if [[ -d "$legacy" && ! -e "$dest/MON.state" && ! -e "$dest/config.lock" ]]; then
-    if [[ -e "$legacy/MON.state" || -e "$legacy/config.lock" || -d "$legacy/checkpoints" ]]; then
-      echo "ERROR: corrida $id existente en Bullet externo pero no migrada a Akkad:" >&2
-      echo "  Origen: $legacy" >&2
-      echo "  Destino: $dest" >&2
-      echo "  Ejecutar: bash '$base/migrate_bullet_runs.sh' --run '$id'" >&2
-      return 2
-    fi
   fi
   printf '%s\n' "$dest"
 }

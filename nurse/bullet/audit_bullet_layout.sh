@@ -19,12 +19,8 @@ for s in grumpy_genesis/grumpy_train.rs grumpy_genesis/grumpy_validate.rs \
 if ! bullet_resolve_runtime "$BASE";then exit 2;fi
 echo "Instalación Bullet: $BULLET_DIR"
 echo "Resultados Akkad: $BASE/runs"
-for id in grumpy-bullet-001 bnn-bullet-001 mcts-bullet-rust-001 picobit-nnue-003;do
-  if [[ -e "$BULLET_DIR/runs/$id/MON.state" && ! -e "$BASE/runs/$id/MON.state" ]];then
-    echo "⚠️ Corrida histórica pendiente de migrar: $id"
-    echo "    bash migrate_bullet_runs.sh --run $id"
-  fi
-done
+# Legacy external Bullet/runs is outside Akkad's ownership and is ignored.
+# Do not inspect it or require migration; users may archive it separately.
 for x in cargo python3 git;do
  if command -v "$x" >/dev/null;then echo "✅ $x: $(command -v "$x")";else echo "❌ FALTA ejecutable: $x";fail=1;fi
 done
