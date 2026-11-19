@@ -1,0 +1,21 @@
+{
+  "source_checkpoint": "/Users/pedrocolla/akkad/nurse/bullet/runs/mcts-bullet-rust-001/checkpoints/mcts-bullet-rust-001-70/raw.bin",
+  "best_superbatch": 70,
+  "selection": "min val objective after INT8 quantization",
+  "validation": {
+    "model": "70",
+    "positions": "200000",
+    "value_mse": "0.252116565979",
+    "policy_ce": "6.118021223835",
+    "from_acc": "0.402220000000",
+    "to_acc": "0.102635000000",
+    "objective": "0.124209353733"
+  },
+  "format": "PANNI8",
+  "bytes": 14580,
+  "sha256": "4eae64e7f417a80f2f9d624d269c0300e9c3e7ae4b6106e69d7c6acc9fca9be8",
+  "input": 780,
+  "hidden": 16,
+  "weights": 14544,
+  "warning": "Not a Nurse .pt checkpoint: Nurse MCTSE currently loads .pt; use binary C++/ARM or adapt Nurse."
+}

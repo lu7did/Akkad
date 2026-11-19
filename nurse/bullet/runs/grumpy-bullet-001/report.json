@@ -1,0 +1,21 @@
+{
+  "format": "grumpy-bullet-genesis-v1",
+  "run_id": "grumpy-bullet-001",
+  "best_checkpoint": 50,
+  "selection": "minimum T77 INT6 sigmoid-value MSE",
+  "validation_positions": 2000000,
+  "mse_int6": 0.0319744786,
+  "mse_fp32": 0.0311520961,
+  "weights_fp32": "/Users/pedrocolla/akkad/nurse/bullet/runs/grumpy-bullet-001/checkpoints/grumpy-bullet-001-50/raw.bin",
+  "weights_fp32_sha256": "1b12823c0216e7d150b5ea44d56df12a2f6dbd2966bfd30eac5ae4c266456458",
+  "grmp_file": "/Users/pedrocolla/akkad/nurse/bullet/runs/grumpy-bullet-001/grumpy_new.bin",
+  "grmp_sha256": "fb3c8787314e284caf691e5015aad7d058c4d19c0889132d050906e1d95f8e9c",
+  "grmp_bytes": 1304,
+  "reference_grumpy": null,
+  "reference_mse_int6": null,
+  "quantized_coefficients": 1680,
+  "saturated_count": 70,
+  "WARNING": "Checkpoint selected using T77; evaluate chess strength independently in Nurse. Direct rounding is not QAT.",
+  "mse_final_verification": 0.0319406806,
+  "final_validation_file": "/Users/pedrocolla/akkad/nurse/bullet/runs/grumpy-bullet-001/final_validation.csv"
+}

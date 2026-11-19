@@ -1,0 +1,27 @@
+{
+  "format": "PANNI8",
+  "file": "/Users/pedrocolla/akkad/nurse/bullet/runs/mcts-bullet-rust-001/export/best_int8.bin",
+  "bytes": 14580,
+  "sha256": "4eae64e7f417a80f2f9d624d269c0300e9c3e7ae4b6106e69d7c6acc9fca9be8",
+  "matrices": {
+    "W_INPUT": [
+      780,
+      16
+    ],
+    "W_VALUE": [
+      1,
+      16
+    ],
+    "W_FROM": [
+      64,
+      16
+    ],
+    "W_TO": [
+      64,
+      16
+    ]
+  },
+  "test_cases": 256,
+  "max_prediction_difference": 0.0,
+  "note": "Host parity of the binary and quantized checkpoint; C++/ARM parity remains to be tested on target."
+}

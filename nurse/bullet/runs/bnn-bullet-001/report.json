@@ -1,0 +1,18 @@
+{
+  "run_id": "bnn-bullet-001",
+  "format": "BULBNN01",
+  "architecture": "Chess768 -> 32 x 2 -> 1",
+  "weight_precision": "binary first layer; FP32 biases/output",
+  "weight_scale": 16.0,
+  "best_checkpoint": 60,
+  "selection": "min T77 BNN MSE",
+  "validation_positions": 2000000,
+  "mse_bnn": 0.0379292328,
+  "file": "/Users/pedrocolla/akkad/nurse/bullet/runs/bnn-bullet-001/bnn-bullet-001.bnn",
+  "bytes": 3524,
+  "sha256": "eec2817fc4092c92ea6b4dcb659e5af5a527aad1e23522dbe9696beef88bd500",
+  "raw_weights_sha256": "b4ae80565ae33eab1e7e6c0f1a56ef17aeb44b70b3ff570a69823afaafe8f9e8",
+  "warning": "BNN1 is NOT GRMP0001: Nurse/picoSargon need a dedicated evaluator.",
+  "mse_final_verified": 0.0379085939,
+  "final_validation_csv": "/Users/pedrocolla/akkad/nurse/bullet/runs/bnn-bullet-001/final_validation.csv"
+}
