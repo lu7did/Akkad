@@ -1,0 +1,15 @@
+{
+  "run06": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_06\\20261118-215138",
+  "database": "C:\\Users\\pedro\\github\\Bobby\\Chess_History_pb\\picoAlpha\\sample_history.pb",
+  "seed": 42,
+  "candidate_limit": 100000,
+  "observed": 2000,
+  "selection": {
+    "rows_scanned": 100000,
+    "same_input_duplicate": 10752,
+    "total_unique_inputs": 89248,
+    "total_selected": 12532,
+    "groups_seen": 42253
+  },
+  "note": "Validación reconstruida; comparación por índices únicamente si seed y candidate-limit coinciden."
+}

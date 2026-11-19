@@ -1,0 +1,92 @@
+{
+  "model": "BNN",
+  "phase": "03_generalizacion",
+  "train_count": 8000,
+  "validation_count": 2000,
+  "updates_budget": 3150,
+  "updates_executed": 3150,
+  "best_update": 2898,
+  "best_epoch": 46,
+  "epochs_executed": 50,
+  "train": {
+    "count": 8000,
+    "mae_cp": 87.39682357350277,
+    "rmse_cp": 150.15326771905094,
+    "max_abs_error_cp": 1716.9658017158508,
+    "bias_cp": 3.787933043615485,
+    "sign_tested": 3041,
+    "sign_errors": 407,
+    "sign_agreement": 0.8661624465636304
+  },
+  "validation": {
+    "count": 2000,
+    "mae_cp": 100.49410325297387,
+    "rmse_cp": 166.83238470795388,
+    "max_abs_error_cp": 1629.7856271266937,
+    "bias_cp": 0.09215520794037729,
+    "sign_tested": 774,
+    "sign_errors": 189,
+    "sign_agreement": 0.7558139534883721
+  },
+  "baseline_zero_mae_cp": 89.74500274658203,
+  "material_train": {
+    "white_100_299": 1180,
+    "black_100_299": 1095,
+    "balanced_under100": 4959,
+    "black_300plus": 398,
+    "white_300plus": 368
+  },
+  "material_validation": {
+    "balanced_under100": 1226,
+    "black_300plus": 90,
+    "black_100_299": 267,
+    "white_100_299": 330,
+    "white_300plus": 87
+  },
+  "counterfactuals": {
+    "queen": {
+      "count": 48,
+      "expected_abs_cp": 900,
+      "delta_mae_cp": 890.6587884426117,
+      "delta_bias_cp": 43.61151031653086,
+      "delta_sign_agreement": 0.6875,
+      "pass": false
+    },
+    "rook": {
+      "count": 48,
+      "expected_abs_cp": 500,
+      "delta_mae_cp": 468.3205089767774,
+      "delta_bias_cp": -16.596178193887074,
+      "delta_sign_agreement": 0.8958333333333334,
+      "pass": false
+    },
+    "bishop": {
+      "count": 48,
+      "expected_abs_cp": 330,
+      "delta_mae_cp": 317.1398260792096,
+      "delta_bias_cp": 2.7438972194989524,
+      "delta_sign_agreement": 0.6458333333333334,
+      "pass": false
+    },
+    "knight": {
+      "count": 48,
+      "expected_abs_cp": 320,
+      "delta_mae_cp": 309.2904418905576,
+      "delta_bias_cp": -32.36335724592209,
+      "delta_sign_agreement": 0.625,
+      "pass": false
+    }
+  },
+  "quality_gate": "FAIL",
+  "reasons": [
+    "MAE=100.49cp >= 15.0cp",
+    "Acierto signo 75.58% <= 99.00%",
+    "Contrafactual queen falló",
+    "Contrafactual rook falló",
+    "Contrafactual bishop falló",
+    "Contrafactual knight falló"
+  ],
+  "best_huber_scaled": 0.05900555053152318,
+  "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\03_generalizacion\\bnn\\best.bnn",
+  "elapsed_seconds": 374.363
+}

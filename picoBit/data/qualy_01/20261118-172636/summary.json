@@ -1,0 +1,92 @@
+{
+  "schema": "AKKAD-qualy-01-v1",
+  "status": "COMPLETED",
+  "quality_gate": "FAIL",
+  "phases": [
+    {
+      "name": "01_memorizacion",
+      "gate": "FAIL",
+      "best_epoch": 50,
+      "train": {
+        "count": 32,
+        "mae_cp": 43.981402799487114,
+        "rmse_cp": 51.973047033001336,
+        "max_abs_error_cp": 108.87876892089844,
+        "bias_cp": -34.884446397423744,
+        "sign_tested": 24,
+        "sign_errors": 0,
+        "sign_agreement": 1.0
+      },
+      "validation": null,
+      "reasons": [
+        "MAE=43.98cp >= 15.00cp"
+      ]
+    },
+    {
+      "name": "02_elemental",
+      "gate": "FAIL",
+      "best_epoch": 23,
+      "train": {
+        "count": 2000,
+        "mae_cp": 82.17983383672684,
+        "rmse_cp": 133.4494727630121,
+        "max_abs_error_cp": 1620.3599853515625,
+        "bias_cp": 2.1155425996705888,
+        "sign_tested": 777,
+        "sign_errors": 77,
+        "sign_agreement": 0.9009009009009009
+      },
+      "validation": {
+        "count": 500,
+        "mae_cp": 126.89155533540249,
+        "rmse_cp": 190.74508718511356,
+        "max_abs_error_cp": 1280.6718444824219,
+        "bias_cp": -9.64447245746851,
+        "sign_tested": 189,
+        "sign_errors": 78,
+        "sign_agreement": 0.5873015873015873
+      },
+      "reasons": [
+        "MAE=126.89cp >= 15.00cp",
+        "signo=58.73% <= 99.00%",
+        "contrafactual queen: delta-MAE/signo/cobertura insuficiente",
+        "contrafactual rook: delta-MAE/signo/cobertura insuficiente",
+        "contrafactual bishop: delta-MAE/signo/cobertura insuficiente",
+        "contrafactual knight: delta-MAE/signo/cobertura insuficiente"
+      ]
+    },
+    {
+      "name": "03_generalizacion",
+      "gate": "FAIL",
+      "best_epoch": 17,
+      "train": {
+        "count": 8000,
+        "mae_cp": 90.77154460154445,
+        "rmse_cp": 157.52934559664325,
+        "max_abs_error_cp": 1826.9647483825684,
+        "bias_cp": 4.4833298327947855,
+        "sign_tested": 3041,
+        "sign_errors": 474,
+        "sign_agreement": 0.8441302203222625
+      },
+      "validation": {
+        "count": 2000,
+        "mae_cp": 104.30106066409591,
+        "rmse_cp": 172.547870523351,
+        "max_abs_error_cp": 1650.365837097168,
+        "bias_cp": -0.369619540325366,
+        "sign_tested": 774,
+        "sign_errors": 240,
+        "sign_agreement": 0.689922480620155
+      },
+      "reasons": [
+        "MAE=104.30cp >= 15.00cp",
+        "signo=68.99% <= 99.00%",
+        "contrafactual queen: delta-MAE/signo/cobertura insuficiente",
+        "contrafactual rook: delta-MAE/signo/cobertura insuficiente",
+        "contrafactual bishop: delta-MAE/signo/cobertura insuficiente",
+        "contrafactual knight: delta-MAE/signo/cobertura insuficiente"
+      ]
+    }
+  ]
+}

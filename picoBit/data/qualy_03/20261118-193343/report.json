@@ -1,0 +1,471 @@
+{
+  "version": "0.1.20",
+  "source": "C:\\Users\\pedro\\github\\Bobby\\Chess_History_pb\\picoAlpha\\sample_history.pb",
+  "read_only_source": true,
+  "max_rows": 0,
+  "complete_source_scan": true,
+  "counts": {
+    "source_rows": 10120981,
+    "mate_rows_not_comparable_in_cp": 30730,
+    "cp_outside_training_clip": 2388,
+    "cp_missing_or_terminal": 1720,
+    "cp_rows": 10088531,
+    "depth_field_present": true
+  },
+  "identical_fen_state": {
+    "rows": 10088531,
+    "unique_keys": 7736578,
+    "duplicated_key_groups": 506407,
+    "rows_in_duplicated_groups": 2858360,
+    "conflicting_groups": 473100,
+    "rows_in_conflicting_groups": 2789120,
+    "different_state_groups": 0,
+    "rows_in_different_state_groups": 0,
+    "empirical_oracle_rmse_cp": 6.359864463760957,
+    "empirical_oracle_mae_cp": 1.978442946748144,
+    "empirical_oracle_rmse_clipped_cp": 6.350888146431481,
+    "empirical_oracle_mae_clipped_cp": 1.978009880724954,
+    "groups_with_cp_outside_clip": 2376,
+    "groups_with_multiple_known_depths": 0,
+    "groups_with_mean_score_differing_between_depths": 0,
+    "groups_with_conflicting_cp_at_same_known_depth": 473100,
+    "depth_mean_range_cp": null,
+    "duplicate_cp_range": {
+      "count": 473100,
+      "min": 1.0,
+      "median": 15.0,
+      "max": 1402.0,
+      "mean": 22.27956246036779
+    },
+    "available_depth_counts": {
+      "10": 10088531
+    },
+    "example_conflicts": [
+      {
+        "key": "1B1R4/pp5p/7q/1kpn4/4R3/1P5P/6PK/8 b - -",
+        "rows": 2,
+        "cp_min": -68.0,
+        "cp_max": -44.0,
+        "range_cp": 24.0,
+        "sample_ids": [
+          7946385,
+          2016165
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1R4/pp5p/8/1kpn2q1/4R3/1P5P/6PK/8 w - -",
+        "rows": 2,
+        "cp_min": -70.0,
+        "cp_max": -67.0,
+        "range_cp": 3.0,
+        "sample_ids": [
+          2016166,
+          7946386
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/1pp5/2N5/2P5/1P3PPP/5BK1 w - -",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 9.0,
+        "range_cp": 3.0,
+        "sample_ids": [
+          9884209,
+          9192116
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/1pp5/8/N1P5/1P3PPP/5BK1 b - -",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 11.0,
+        "range_cp": 5.0,
+        "sample_ids": [
+          9192117,
+          9884210
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/1p6/N1P5/1P3PPP/5BK1 w - -",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 8.0,
+        "range_cp": 2.0,
+        "sample_ids": [
+          9192118,
+          9884211
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/1pN5/2P5/1P3PPP/5BK1 b - -",
+        "rows": 2,
+        "cp_min": 2.0,
+        "cp_max": 11.0,
+        "range_cp": 9.0,
+        "sample_ids": [
+          9884212,
+          9192119
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/2N5/2P5/5PPP/5BK1 b - -",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 8.0,
+        "range_cp": 2.0,
+        "sample_ids": [
+          9192121,
+          9884214
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/2N5/2p5/1P3PPP/5BK1 w - -",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 10.0,
+        "range_cp": 4.0,
+        "sample_ids": [
+          9884213,
+          9192120
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/p7/1Pp5/2N5/2P5/1P3PPP/5BK1 b - -",
+        "rows": 2,
+        "cp_min": 8.0,
+        "cp_max": 11.0,
+        "range_cp": 3.0,
+        "sample_ids": [
+          9884208,
+          9192115
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/p7/1pp5/P1N5/2P5/1P3PPP/5BK1 w - -",
+        "rows": 2,
+        "cp_min": 13.0,
+        "cp_max": 14.0,
+        "range_cp": 1.0,
+        "sample_ids": [
+          9192114,
+          9884207
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/pp6/2p5/2N5/2P5/PP3PPP/5BK1 w - -",
+        "rows": 2,
+        "cp_min": 25.0,
+        "cp_max": 30.0,
+        "range_cp": 5.0,
+        "sample_ids": [
+          9884205,
+          9192112
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/pp6/2p5/P1N5/2P5/1P3PPP/5BK1 b - a3",
+        "rows": 2,
+        "cp_min": 3.0,
+        "cp_max": 24.0,
+        "range_cp": 21.0,
+        "sample_ids": [
+          9884206,
+          9192113
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      }
+    ]
+  },
+  "identical_network_tensor": {
+    "rows": 10088531,
+    "unique_keys": 7727883,
+    "duplicated_key_groups": 505857,
+    "rows_in_duplicated_groups": 2866505,
+    "conflicting_groups": 472477,
+    "rows_in_conflicting_groups": 2797087,
+    "different_state_groups": 8434,
+    "rows_in_different_state_groups": 397424,
+    "empirical_oracle_rmse_cp": 6.368829425204588,
+    "empirical_oracle_mae_cp": 1.9851012005613107,
+    "empirical_oracle_rmse_clipped_cp": 6.3598657610382165,
+    "empirical_oracle_mae_clipped_cp": 1.9846681345381205,
+    "groups_with_cp_outside_clip": 2376,
+    "groups_with_multiple_known_depths": 0,
+    "groups_with_mean_score_differing_between_depths": 0,
+    "groups_with_conflicting_cp_at_same_known_depth": 472477,
+    "depth_mean_range_cp": null,
+    "duplicate_cp_range": {
+      "count": 472477,
+      "min": 1.0,
+      "median": 15.0,
+      "max": 1402.0,
+      "mean": 22.311708294795302
+    },
+    "available_depth_counts": {
+      "10": 10088531
+    },
+    "example_conflicts": [
+      {
+        "key": "1B1R4/pp5p/7q/1kpn4/4R3/1P5P/6PK/8 b",
+        "rows": 2,
+        "cp_min": -68.0,
+        "cp_max": -44.0,
+        "range_cp": 24.0,
+        "sample_ids": [
+          7946385,
+          2016165
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1R4/pp5p/8/1kpn2q1/4R3/1P5P/6PK/8 w",
+        "rows": 2,
+        "cp_min": -70.0,
+        "cp_max": -67.0,
+        "range_cp": 3.0,
+        "sample_ids": [
+          2016166,
+          7946386
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/1pp5/2N5/2P5/1P3PPP/5BK1 w",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 9.0,
+        "range_cp": 3.0,
+        "sample_ids": [
+          9884209,
+          9192116
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/1pp5/8/N1P5/1P3PPP/5BK1 b",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 11.0,
+        "range_cp": 5.0,
+        "sample_ids": [
+          9192117,
+          9884210
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/1p6/N1P5/1P3PPP/5BK1 w",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 8.0,
+        "range_cp": 2.0,
+        "sample_ids": [
+          9192118,
+          9884211
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/1pN5/2P5/1P3PPP/5BK1 b",
+        "rows": 2,
+        "cp_min": 2.0,
+        "cp_max": 11.0,
+        "range_cp": 9.0,
+        "sample_ids": [
+          9884212,
+          9192119
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/2N5/2P5/5PPP/5BK1 b",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 8.0,
+        "range_cp": 2.0,
+        "sample_ids": [
+          9192121,
+          9884214
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/8/2p5/2N5/2p5/1P3PPP/5BK1 w",
+        "rows": 2,
+        "cp_min": 6.0,
+        "cp_max": 10.0,
+        "range_cp": 4.0,
+        "sample_ids": [
+          9884213,
+          9192120
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/p7/1Pp5/2N5/2P5/1P3PPP/5BK1 b",
+        "rows": 2,
+        "cp_min": 8.0,
+        "cp_max": 11.0,
+        "range_cp": 3.0,
+        "sample_ids": [
+          9884208,
+          9192115
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/p7/1pp5/P1N5/2P5/1P3PPP/5BK1 w",
+        "rows": 2,
+        "cp_min": 13.0,
+        "cp_max": 14.0,
+        "range_cp": 1.0,
+        "sample_ids": [
+          9192114,
+          9884207
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/pp6/2p5/2N5/2P5/PP3PPP/5BK1 w",
+        "rows": 2,
+        "cp_min": 25.0,
+        "cp_max": 30.0,
+        "range_cp": 5.0,
+        "sample_ids": [
+          9884205,
+          9192112
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      },
+      {
+        "key": "1B1bn1k1/1b3ppp/pp6/2p5/P1N5/2P5/1P3PPP/5BK1 b",
+        "rows": 2,
+        "cp_min": 3.0,
+        "cp_max": 24.0,
+        "range_cp": 21.0,
+        "sample_ids": [
+          9884206,
+          9192113
+        ],
+        "depth_values": [
+          10
+        ],
+        "different_states": 1
+      }
+    ]
+  },
+  "depth_overview": [
+    {
+      "depth": 10,
+      "count": 10088531,
+      "avg_cp_white": 29.14228483809982,
+      "rms_cp_white": 234.77740613514428,
+      "mae_stockfish_vs_material_cp": 134.55411694725427
+    }
+  ],
+  "binary_probe_file": "binary_probe.json",
+  "verdict": {
+    "data_quality": "WARN",
+    "causal_mechanism_identified": false,
+    "root_cause_resolved": false,
+    "issues": [
+      "Hay 473100 estados FEN idénticos con etiquetas CP distintas",
+      "472477 entradas de red idénticas tienen etiquetas CP distintas",
+      "En el control QUALY_02, BNN sigue siendo peor que FP32 en posiciones de validacion"
+    ],
+    "observations": [
+      "8434 grupos comparten tensor pese a diferir en derechos de estado FEN",
+      "No hay repeticiones de estado a diferentes profundidades con las que estimar el efecto del depth"
+    ],
+    "next_decision": "No cambiar el modelo. Si las cotas empiricas son bajas, investigar mecanismos binarios mediante ablaciones de un solo factor en QUALY_04; si son altas, priorizar consistencia teacher y representacion."
+  },
+  "elapsed_seconds": 410.019,
+  "limitations": [
+    "Cotas oracle empiricas calculadas con etiquetas existentes; no son estimadores independientes de generalizacion.",
+    "El teacher puede usar distintas condiciones de busqueda ademas de depth; no se inferira su causa a partir de CP solamente.",
+    "No se reevalua Stockfish ni se recalculan pesos: todos los resultados proceden de etiquetas guardadas y checkpoints existentes.",
+    "Los casos de mate no se incluyen en errores en CP; se contabilizan por separado.",
+    "Un tensor 8x8x13 omite enroques, en passant y relojes: distintas posiciones pueden producir una misma entrada.",
+    "Se auditan estados cuyo formato FEN basico es valido; no se recalcula legalidad de todos los registros."
+  ]
+}

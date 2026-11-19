@@ -1,0 +1,66 @@
+{
+  "model": "HYBRID",
+  "phase": "01_memorizacion",
+  "train_count": 32,
+  "validation_count": 0,
+  "updates_budget": 1200,
+  "updates_executed": 1200,
+  "best_update": 480,
+  "best_epoch": 480,
+  "epochs_executed": 1200,
+  "train": {
+    "count": 32,
+    "mae_cp": 0.5067385639995337,
+    "rmse_cp": 0.6868444546283463,
+    "max_abs_error_cp": 1.7105865478515625,
+    "bias_cp": -4.030764102935791e-05,
+    "sign_tested": 24,
+    "sign_errors": 0,
+    "sign_agreement": 1.0
+  },
+  "validation": null,
+  "baseline_zero_mae_cp": 206.875,
+  "material_train": {
+    "balanced_under100": 8,
+    "black_300plus": 3,
+    "black_100_299": 9,
+    "white_300plus": 4,
+    "white_100_299": 8
+  },
+  "material_validation": {},
+  "counterfactuals": null,
+  "quality_gate": "PASS",
+  "reasons": [],
+  "best_huber_scaled": 1.4742366632739456e-06,
+  "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-205210\\01_memorizacion\\hybrid\\best_weights.npz",
+  "history_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-205210\\01_memorizacion\\hybrid\\history.json",
+  "history_jsonl": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-205210\\01_memorizacion\\hybrid\\history.jsonl",
+  "elapsed_seconds": 141.517,
+  "hybrid_quantization": {
+    "ternary_conv2d": {
+      "count": 7488,
+      "negative_fraction": 0.3466880341880342,
+      "zero_fraction": 0.2918002136752137,
+      "positive_fraction": 0.36151175213675213,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.1084909588098526
+    },
+    "ternary_conv2d_1": {
+      "count": 36864,
+      "negative_fraction": 0.3541395399305556,
+      "zero_fraction": 0.2951117621527778,
+      "positive_fraction": 0.3507486979166667,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.04836857318878174
+    },
+    "ternary_dense": {
+      "count": 1048576,
+      "negative_fraction": 0.35214710235595703,
+      "zero_fraction": 0.29556846618652344,
+      "positive_fraction": 0.35228443145751953,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.018154971301555634
+    }
+  },
+  "lr_layer_gains": null
+}

@@ -1,0 +1,132 @@
+{
+  "model": "HYBRID_PLUS",
+  "phase": "03_generalizacion",
+  "train_count": 8000,
+  "validation_count": 2000,
+  "updates_budget": 3150,
+  "updates_executed": 3150,
+  "best_update": 3024,
+  "best_epoch": 48,
+  "epochs_executed": 50,
+  "train": {
+    "count": 8000,
+    "mae_cp": 28.255245786203304,
+    "rmse_cp": 41.43075275572087,
+    "max_abs_error_cp": 403.9012908935547,
+    "bias_cp": 1.8047481727271224,
+    "sign_tested": 3041,
+    "sign_errors": 14,
+    "sign_agreement": 0.995396251233147
+  },
+  "validation": {
+    "count": 2000,
+    "mae_cp": 32.598725237905164,
+    "rmse_cp": 50.554854987532615,
+    "max_abs_error_cp": 503.5511016845703,
+    "bias_cp": 1.6607423363131237,
+    "sign_tested": 774,
+    "sign_errors": 9,
+    "sign_agreement": 0.9883720930232558
+  },
+  "baseline_zero_mae_cp": 89.74500274658203,
+  "material_train": {
+    "white_100_299": 1180,
+    "black_100_299": 1095,
+    "balanced_under100": 4959,
+    "black_300plus": 398,
+    "white_300plus": 368
+  },
+  "material_validation": {
+    "balanced_under100": 1226,
+    "black_300plus": 90,
+    "black_100_299": 267,
+    "white_100_299": 330,
+    "white_300plus": 87
+  },
+  "counterfactuals": {
+    "queen": {
+      "count": 48,
+      "expected_abs_cp": 900,
+      "delta_mae_cp": 196.97377268473306,
+      "delta_bias_cp": 7.097605387369792,
+      "delta_sign_agreement": 1.0,
+      "pass": false
+    },
+    "rook": {
+      "count": 48,
+      "expected_abs_cp": 500,
+      "delta_mae_cp": 54.736501693725586,
+      "delta_bias_cp": -0.9369055430094401,
+      "delta_sign_agreement": 1.0,
+      "pass": false
+    },
+    "bishop": {
+      "count": 48,
+      "expected_abs_cp": 330,
+      "delta_mae_cp": 34.34392547607422,
+      "delta_bias_cp": 4.906618754069011,
+      "delta_sign_agreement": 1.0,
+      "pass": true
+    },
+    "knight": {
+      "count": 48,
+      "expected_abs_cp": 320,
+      "delta_mae_cp": 38.996628761291504,
+      "delta_bias_cp": -2.4641860326131186,
+      "delta_sign_agreement": 1.0,
+      "pass": true
+    }
+  },
+  "quality_gate": "FAIL",
+  "reasons": [
+    "MAE=32.60cp >= 15.0cp",
+    "Acierto signo 98.84% <= 99.00%",
+    "Contrafactual queen falló",
+    "Contrafactual rook falló"
+  ],
+  "best_huber_scaled": 0.007592918611348382,
+  "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-210206\\03_generalizacion\\hybrid_plus\\best_weights.npz",
+  "history_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-210206\\03_generalizacion\\hybrid_plus\\history.json",
+  "history_jsonl": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-210206\\03_generalizacion\\hybrid_plus\\history.jsonl",
+  "elapsed_seconds": 461.697,
+  "hybrid_quantization": {
+    "ternary_conv2d_2": {
+      "count": 7488,
+      "negative_fraction": 0.3543002136752137,
+      "zero_fraction": 0.2881944444444444,
+      "positive_fraction": 0.3575053418803419,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.10570332407951355
+    },
+    "ternary_conv2d_3": {
+      "count": 36864,
+      "negative_fraction": 0.3544650607638889,
+      "zero_fraction": 0.2923719618055556,
+      "positive_fraction": 0.3531629774305556,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.047954101115465164
+    },
+    "ternary_dense_1": {
+      "count": 1048576,
+      "negative_fraction": 0.35451221466064453,
+      "zero_fraction": 0.2904348373413086,
+      "positive_fraction": 0.3550529479980469,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.017857618629932404
+    }
+  },
+  "lr_layer_gains": {
+    "ternary_conv2d_2": {
+      "gain": 2.0,
+      "fan_in": 117
+    },
+    "ternary_conv2d_3": {
+      "gain": 1.0,
+      "fan_in": 576
+    },
+    "ternary_dense_1": {
+      "gain": 0.5,
+      "fan_in": 4096
+    }
+  }
+}

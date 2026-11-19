@@ -1,0 +1,1826 @@
+[
+  {
+    "epoch": 1,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 191.6355524386611,
+      "rmse_cp": 255.91329276394646,
+      "max_abs_error_cp": 1887.8890380859375,
+      "bias_cp": 2.264976872854284,
+      "sign_tested": 3041,
+      "sign_errors": 1370,
+      "sign_agreement": 0.5494902992436699
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 197.06645646227895,
+      "rmse_cp": 262.8243798038705,
+      "max_abs_error_cp": 1706.7857131958008,
+      "bias_cp": 0.0024034004956483843,
+      "sign_tested": 774,
+      "sign_errors": 362,
+      "sign_agreement": 0.5322997416020672
+    },
+    "selection_huber_scaled": 0.14902245998382568,
+    "best_epoch": 1,
+    "best_huber_scaled": 0.14902245998382568,
+    "sign_flips": 10345,
+    "gradient_global_norm_mean": 4.670292506142268,
+    "gradient_global_norm_max": 19.268125534057617,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0009740467375727312,
+          "variance_adjustment_mad": 0.0009443308179701419,
+          "variance_min": 0.036093768181728145,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.047159239320901936,
+          "variance_adjustment_mad": 0.0379927795657697,
+          "variance_min": 0.46866909667519463,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03433647299550735,
+          "variance_adjustment_mad": 0.25488174900386884,
+          "variance_min": 0.6060708179235099,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 2,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 137.4090907117743,
+      "rmse_cp": 201.30860598430206,
+      "max_abs_error_cp": 1886.6543579101562,
+      "bias_cp": -1.2036043152641505,
+      "sign_tested": 3041,
+      "sign_errors": 1211,
+      "sign_agreement": 0.6017757316672148
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 144.49568039757014,
+      "rmse_cp": 209.48395864104688,
+      "max_abs_error_cp": 1614.7340660095215,
+      "bias_cp": -6.795093269973993,
+      "sign_tested": 774,
+      "sign_errors": 362,
+      "sign_agreement": 0.5322997416020672
+    },
+    "selection_huber_scaled": 0.09541812539100647,
+    "best_epoch": 2,
+    "best_huber_scaled": 0.09541812539100647,
+    "sign_flips": 6725,
+    "gradient_global_norm_mean": 1.6603145788586329,
+    "gradient_global_norm_max": 3.3705873489379883,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0008048288669826316,
+          "variance_adjustment_mad": 0.00289964091683219,
+          "variance_min": 0.03608672327436102,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04615318720651573,
+          "variance_adjustment_mad": 0.024362919728968466,
+          "variance_min": 0.4687012770119613,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.031028226829404204,
+          "variance_adjustment_mad": 0.25558869790194205,
+          "variance_min": 0.6019986482278007,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 3,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 117.17041268777055,
+      "rmse_cp": 181.96389256615208,
+      "max_abs_error_cp": 1836.2253723144531,
+      "bias_cp": 4.646236486818176,
+      "sign_tested": 3041,
+      "sign_errors": 1007,
+      "sign_agreement": 0.6688589279842156
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 124.09558601834439,
+      "rmse_cp": 188.18492616026674,
+      "max_abs_error_cp": 1602.692300081253,
+      "bias_cp": -1.2090257289055735,
+      "sign_tested": 774,
+      "sign_errors": 301,
+      "sign_agreement": 0.6111111111111112
+    },
+    "selection_huber_scaled": 0.07662084698677063,
+    "best_epoch": 3,
+    "best_huber_scaled": 0.07662084698677063,
+    "sign_flips": 4813,
+    "gradient_global_norm_mean": 1.0454535872217208,
+    "gradient_global_norm_max": 2.075037956237793,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0037055872307565334,
+          "variance_adjustment_mad": 0.0032990419127603885,
+          "variance_min": 0.03607002352703009,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04514068894689971,
+          "variance_adjustment_mad": 0.022408394155205923,
+          "variance_min": 0.4857106739787339,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03448935607115722,
+          "variance_adjustment_mad": 0.2478236965322236,
+          "variance_min": 0.5802392399244979,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 4,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 109.15051737376744,
+      "rmse_cp": 173.77668279151513,
+      "max_abs_error_cp": 1806.5151691436768,
+      "bias_cp": 2.6599143347230276,
+      "sign_tested": 3041,
+      "sign_errors": 870,
+      "sign_agreement": 0.7139098980598487
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 117.36204427935184,
+      "rmse_cp": 181.84381465501707,
+      "max_abs_error_cp": 1587.688512802124,
+      "bias_cp": -2.9762369825392962,
+      "sign_tested": 774,
+      "sign_errors": 286,
+      "sign_agreement": 0.6304909560723514
+    },
+    "selection_huber_scaled": 0.07120655477046967,
+    "best_epoch": 4,
+    "best_huber_scaled": 0.07120655477046967,
+    "sign_flips": 4000,
+    "gradient_global_norm_mean": 0.9688098468477764,
+    "gradient_global_norm_max": 1.8906629085540771,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.002220207901929339,
+          "variance_adjustment_mad": 0.0028709099776925862,
+          "variance_min": 0.036048253094071864,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.054496654276893874,
+          "variance_adjustment_mad": 0.022898255967604857,
+          "variance_min": 0.4783181940586518,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03357891848815164,
+          "variance_adjustment_mad": 0.2503481750775984,
+          "variance_min": 0.5750868508755786,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 5,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 105.14013370538689,
+      "rmse_cp": 170.60780732778784,
+      "max_abs_error_cp": 1811.6271696090698,
+      "bias_cp": 5.455720779024064,
+      "sign_tested": 3041,
+      "sign_errors": 804,
+      "sign_agreement": 0.7356132851035844
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 114.85355697438865,
+      "rmse_cp": 180.36637679130985,
+      "max_abs_error_cp": 1593.3056106567383,
+      "bias_cp": -0.9128758964315057,
+      "sign_tested": 774,
+      "sign_errors": 309,
+      "sign_agreement": 0.6007751937984496
+    },
+    "selection_huber_scaled": 0.06914643943309784,
+    "best_epoch": 5,
+    "best_huber_scaled": 0.06914643943309784,
+    "sign_flips": 3583,
+    "gradient_global_norm_mean": 0.7524534681486705,
+    "gradient_global_norm_max": 1.380217432975769,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.013040554605859178,
+          "variance_adjustment_mad": 0.0047272002428424215,
+          "variance_min": 0.03603296267226155,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.045497518672137804,
+          "variance_adjustment_mad": 0.035880230073285994,
+          "variance_min": 0.4750872886734561,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.0631377662110193,
+          "variance_adjustment_mad": 0.3160941519014546,
+          "variance_min": 0.5604975190381322,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 6,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 103.37217793436744,
+      "rmse_cp": 168.00129366787849,
+      "max_abs_error_cp": 1739.6359634399414,
+      "bias_cp": 3.1664446537459736,
+      "sign_tested": 3041,
+      "sign_errors": 754,
+      "sign_agreement": 0.7520552449852023
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 111.94371575511992,
+      "rmse_cp": 176.38504631702864,
+      "max_abs_error_cp": 1556.5464935302734,
+      "bias_cp": -1.090847253292799,
+      "sign_tested": 774,
+      "sign_errors": 270,
+      "sign_agreement": 0.6511627906976745
+    },
+    "selection_huber_scaled": 0.06656182557344437,
+    "best_epoch": 6,
+    "best_huber_scaled": 0.06656182557344437,
+    "sign_flips": 3344,
+    "gradient_global_norm_mean": 0.7528439343921722,
+    "gradient_global_norm_max": 1.2170491218566895,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0010061962862897293,
+          "variance_adjustment_mad": 0.0014330651487297304,
+          "variance_min": 0.03601504376331787,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04445033890244465,
+          "variance_adjustment_mad": 0.023573753813396,
+          "variance_min": 0.4775131754982248,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.02958380543909734,
+          "variance_adjustment_mad": 0.2472824559079477,
+          "variance_min": 0.599210336311778,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 7,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 98.55170633350359,
+      "rmse_cp": 166.50067339304422,
+      "max_abs_error_cp": 1713.7658767700195,
+      "bias_cp": 2.4609834255133753,
+      "sign_tested": 3041,
+      "sign_errors": 728,
+      "sign_agreement": 0.7606050641236435
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 108.95427290510759,
+      "rmse_cp": 176.65274690055406,
+      "max_abs_error_cp": 1600.513153910637,
+      "bias_cp": -1.159817192133516,
+      "sign_tested": 774,
+      "sign_errors": 293,
+      "sign_agreement": 0.6214470284237725
+    },
+    "selection_huber_scaled": 0.06552707403898239,
+    "best_epoch": 7,
+    "best_huber_scaled": 0.06552707403898239,
+    "sign_flips": 3246,
+    "gradient_global_norm_mean": 0.7108670813696725,
+    "gradient_global_norm_max": 1.3829467296600342,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0071122466672659534,
+          "variance_adjustment_mad": 0.0022998661726801846,
+          "variance_min": 0.036004844774441144,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.059309770637490766,
+          "variance_adjustment_mad": 0.025867090618503813,
+          "variance_min": 0.4765927393020584,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.049085736677618286,
+          "variance_adjustment_mad": 0.2700581325256233,
+          "variance_min": 0.5459930333423119,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 8,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 96.3366592717718,
+      "rmse_cp": 164.6461865019077,
+      "max_abs_error_cp": 1825.4508843421936,
+      "bias_cp": 2.6272804038662,
+      "sign_tested": 3041,
+      "sign_errors": 664,
+      "sign_agreement": 0.7816507727721145
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 107.37966033828259,
+      "rmse_cp": 175.30873529067753,
+      "max_abs_error_cp": 1686.6259841918945,
+      "bias_cp": -2.6068385673612355,
+      "sign_tested": 774,
+      "sign_errors": 267,
+      "sign_agreement": 0.6550387596899225
+    },
+    "selection_huber_scaled": 0.06438881158828735,
+    "best_epoch": 8,
+    "best_huber_scaled": 0.06438881158828735,
+    "sign_flips": 3212,
+    "gradient_global_norm_mean": 0.6751785197901348,
+    "gradient_global_norm_max": 1.1574186086654663,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.006590425540935918,
+          "variance_adjustment_mad": 0.0010575912865943317,
+          "variance_min": 0.035979043487433665,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04656923791569212,
+          "variance_adjustment_mad": 0.018710526115200958,
+          "variance_min": 0.4937139391705117,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.04693568360379529,
+          "variance_adjustment_mad": 0.23528963367650918,
+          "variance_min": 0.5311043789056151,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 9,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 96.11268037380557,
+      "rmse_cp": 163.45460977769136,
+      "max_abs_error_cp": 1759.0737838745117,
+      "bias_cp": 5.670975654824637,
+      "sign_tested": 3041,
+      "sign_errors": 624,
+      "sign_agreement": 0.7948043406774088
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.5563480741775,
+      "rmse_cp": 173.34751157875618,
+      "max_abs_error_cp": 1689.612075805664,
+      "bias_cp": 0.15112575629563071,
+      "sign_tested": 774,
+      "sign_errors": 246,
+      "sign_agreement": 0.6821705426356589
+    },
+    "selection_huber_scaled": 0.06280644237995148,
+    "best_epoch": 9,
+    "best_huber_scaled": 0.06280644237995148,
+    "sign_flips": 3203,
+    "gradient_global_norm_mean": 0.6417366545351725,
+    "gradient_global_norm_max": 1.4646925926208496,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.005805984453367775,
+          "variance_adjustment_mad": 0.001584772277986006,
+          "variance_min": 0.035961859349792985,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04732208974439267,
+          "variance_adjustment_mad": 0.027424662382976445,
+          "variance_min": 0.503881152823765,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.04260994032444998,
+          "variance_adjustment_mad": 0.29637505750111093,
+          "variance_min": 0.6964903920562764,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 10,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 93.43057245752286,
+      "rmse_cp": 162.45758178242147,
+      "max_abs_error_cp": 1791.841630935669,
+      "bias_cp": 2.411870814285707,
+      "sign_tested": 3041,
+      "sign_errors": 585,
+      "sign_agreement": 0.8076290693850707
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.03770916688256,
+      "rmse_cp": 173.91030251370177,
+      "max_abs_error_cp": 1681.7876663208008,
+      "bias_cp": -3.453753059996292,
+      "sign_tested": 774,
+      "sign_errors": 257,
+      "sign_agreement": 0.6679586563307494
+    },
+    "selection_huber_scaled": 0.06283848732709885,
+    "best_epoch": 9,
+    "best_huber_scaled": 0.06280644237995148,
+    "sign_flips": 3111,
+    "gradient_global_norm_mean": 0.639344031375552,
+    "gradient_global_norm_max": 1.1685731410980225,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0032175216939069884,
+          "variance_adjustment_mad": 0.0010546278872065396,
+          "variance_min": 0.03595182368463538,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04816292986126092,
+          "variance_adjustment_mad": 0.019988531669903067,
+          "variance_min": 0.5048617153264557,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03820224136472028,
+          "variance_adjustment_mad": 0.26367378968431254,
+          "variance_min": 0.5316266205454453,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 11,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 94.52411290181988,
+      "rmse_cp": 160.65737175911025,
+      "max_abs_error_cp": 1829.612392425537,
+      "bias_cp": 3.5366408572550863,
+      "sign_tested": 3041,
+      "sign_errors": 601,
+      "sign_agreement": 0.802367642222953
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 107.43476602549106,
+      "rmse_cp": 174.37137917835034,
+      "max_abs_error_cp": 1638.3797416687012,
+      "bias_cp": -1.5222289041504264,
+      "sign_tested": 774,
+      "sign_errors": 266,
+      "sign_agreement": 0.6563307493540051
+    },
+    "selection_huber_scaled": 0.0640694722533226,
+    "best_epoch": 9,
+    "best_huber_scaled": 0.06280644237995148,
+    "sign_flips": 3259,
+    "gradient_global_norm_mean": 0.6461699188701691,
+    "gradient_global_norm_max": 1.1788954734802246,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0006976599143131404,
+          "variance_adjustment_mad": 0.0017280696635401163,
+          "variance_min": 0.03594057517563725,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04791022292195257,
+          "variance_adjustment_mad": 0.03147512467064326,
+          "variance_min": 0.47132867773218684,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.030325331361485297,
+          "variance_adjustment_mad": 0.2763295186277537,
+          "variance_min": 0.5281844156713608,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 12,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 94.6515555944154,
+      "rmse_cp": 161.05425186866825,
+      "max_abs_error_cp": 1801.0975360870361,
+      "bias_cp": 3.17089227367891,
+      "sign_tested": 3041,
+      "sign_errors": 593,
+      "sign_agreement": 0.8049983558040118
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 107.51772969299554,
+      "rmse_cp": 175.66352732019536,
+      "max_abs_error_cp": 1649.8758964538574,
+      "bias_cp": -2.6878456355929377,
+      "sign_tested": 774,
+      "sign_errors": 256,
+      "sign_agreement": 0.669250645994832
+    },
+    "selection_huber_scaled": 0.06420867890119553,
+    "best_epoch": 9,
+    "best_huber_scaled": 0.06280644237995148,
+    "sign_flips": 3093,
+    "gradient_global_norm_mean": 0.6151379223853822,
+    "gradient_global_norm_max": 1.3571258783340454,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.015275970259614358,
+          "variance_adjustment_mad": 0.0016861724940059725,
+          "variance_min": 0.03593396285562568,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.06627158919558918,
+          "variance_adjustment_mad": 0.02975215326431615,
+          "variance_min": 0.4650146445383308,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.10557566361857695,
+          "variance_adjustment_mad": 0.3063317559235409,
+          "variance_min": 0.5236393318891114,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 13,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 93.47112904492676,
+      "rmse_cp": 160.11671538199488,
+      "max_abs_error_cp": 1753.8399276733398,
+      "bias_cp": 3.3005535749541886,
+      "sign_tested": 3041,
+      "sign_errors": 565,
+      "sign_agreement": 0.8142058533377179
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.49448661661148,
+      "rmse_cp": 173.52608289976868,
+      "max_abs_error_cp": 1678.3566589355469,
+      "bias_cp": -0.011406836450099945,
+      "sign_tested": 774,
+      "sign_errors": 246,
+      "sign_agreement": 0.6821705426356589
+    },
+    "selection_huber_scaled": 0.06280584633350372,
+    "best_epoch": 9,
+    "best_huber_scaled": 0.06280644237995148,
+    "sign_flips": 3284,
+    "gradient_global_norm_mean": 0.652157212533648,
+    "gradient_global_norm_max": 1.1297959089279175,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0010784393859100128,
+          "variance_adjustment_mad": 0.00105704154981308,
+          "variance_min": 0.03592299046679969,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04621609099403701,
+          "variance_adjustment_mad": 0.02679545398987873,
+          "variance_min": 0.4681568830173056,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03041332458100854,
+          "variance_adjustment_mad": 0.25391704181655605,
+          "variance_min": 0.5193510764026621,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 14,
+    "lr": 0.0001,
+    "train": {
+      "count": 8000,
+      "mae_cp": 92.91888163053851,
+      "rmse_cp": 158.59234373489062,
+      "max_abs_error_cp": 1851.3049964904785,
+      "bias_cp": 1.8089113778672035,
+      "sign_tested": 3041,
+      "sign_errors": 524,
+      "sign_agreement": 0.8276882604406446
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 106.16460525106453,
+      "rmse_cp": 173.44116648333036,
+      "max_abs_error_cp": 1631.4217147827148,
+      "bias_cp": -4.124510571828112,
+      "sign_tested": 774,
+      "sign_errors": 246,
+      "sign_agreement": 0.6821705426356589
+    },
+    "selection_huber_scaled": 0.06313490867614746,
+    "best_epoch": 9,
+    "best_huber_scaled": 0.06280644237995148,
+    "sign_flips": 3298,
+    "gradient_global_norm_mean": 0.627504143923048,
+    "gradient_global_norm_max": 1.6266746520996094,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.001125616070301927,
+          "variance_adjustment_mad": 0.0008776939084980437,
+          "variance_min": 0.03590656771838943,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.05111099110206285,
+          "variance_adjustment_mad": 0.02281585421682539,
+          "variance_min": 0.47008819814282254,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03005741853358579,
+          "variance_adjustment_mad": 0.31305027034573163,
+          "variance_min": 0.5083350943976411,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 15,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 92.52027422982542,
+      "rmse_cp": 160.4620496982511,
+      "max_abs_error_cp": 1712.9814224243164,
+      "bias_cp": 3.4454219584948733,
+      "sign_tested": 3041,
+      "sign_errors": 576,
+      "sign_agreement": 0.8105886221637619
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 106.32428518501669,
+      "rmse_cp": 176.13300735831717,
+      "max_abs_error_cp": 1688.5509185791016,
+      "bias_cp": -1.9126121611446143,
+      "sign_tested": 774,
+      "sign_errors": 271,
+      "sign_agreement": 0.6498708010335917
+    },
+    "selection_huber_scaled": 0.0643143281340599,
+    "best_epoch": 9,
+    "best_huber_scaled": 0.06280644237995148,
+    "sign_flips": 3287,
+    "gradient_global_norm_mean": 0.6019065190875341,
+    "gradient_global_norm_max": 1.071820855140686,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.00068090593552661,
+          "variance_adjustment_mad": 0.0012171659194818803,
+          "variance_min": 0.035901605561879255,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04088071995183684,
+          "variance_adjustment_mad": 0.030978269492204696,
+          "variance_min": 0.46486540804082455,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.031075937146454177,
+          "variance_adjustment_mad": 0.29892470038679364,
+          "variance_min": 0.5862809536703865,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 16,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 90.37396359815169,
+      "rmse_cp": 157.89161576500385,
+      "max_abs_error_cp": 1801.7735214233398,
+      "bias_cp": 4.016861463311129,
+      "sign_tested": 3041,
+      "sign_errors": 487,
+      "sign_agreement": 0.8398553107530418
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.27307037168741,
+      "rmse_cp": 173.5162513750346,
+      "max_abs_error_cp": 1672.5214462280273,
+      "bias_cp": -0.7033928228020668,
+      "sign_tested": 774,
+      "sign_errors": 243,
+      "sign_agreement": 0.686046511627907
+    },
+    "selection_huber_scaled": 0.062457211315631866,
+    "best_epoch": 16,
+    "best_huber_scaled": 0.062457211315631866,
+    "sign_flips": 1836,
+    "gradient_global_norm_mean": 0.5953636954701136,
+    "gradient_global_norm_max": 1.1586627960205078,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.006695363858770788,
+          "variance_adjustment_mad": 0.0017689513001391795,
+          "variance_min": 0.03590369401220488,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04010170077542541,
+          "variance_adjustment_mad": 0.023376954412238256,
+          "variance_min": 0.46826965981216206,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.051046752174435994,
+          "variance_adjustment_mad": 0.24397381512964633,
+          "variance_min": 0.6499944303189366,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 17,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 90.77154460154445,
+      "rmse_cp": 157.52934559664325,
+      "max_abs_error_cp": 1826.9647483825684,
+      "bias_cp": 4.4833298327947855,
+      "sign_tested": 3041,
+      "sign_errors": 474,
+      "sign_agreement": 0.8441302203222625
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.30106066409591,
+      "rmse_cp": 172.547870523351,
+      "max_abs_error_cp": 1650.365837097168,
+      "bias_cp": -0.369619540325366,
+      "sign_tested": 774,
+      "sign_errors": 240,
+      "sign_agreement": 0.689922480620155
+    },
+    "selection_huber_scaled": 0.061855439096689224,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1796,
+    "gradient_global_norm_mean": 0.5445565912458632,
+    "gradient_global_norm_max": 1.111308217048645,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.009406875999222297,
+          "variance_adjustment_mad": 0.001154642415771469,
+          "variance_min": 0.03590779329126664,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.05325502926698711,
+          "variance_adjustment_mad": 0.019238040022226302,
+          "variance_min": 0.482247954204608,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.06753995027098014,
+          "variance_adjustment_mad": 0.21423827247339414,
+          "variance_min": 0.620852380628912,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 18,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 89.93195918204489,
+      "rmse_cp": 156.82954527000692,
+      "max_abs_error_cp": 1754.6323852539062,
+      "bias_cp": 1.975733504166179,
+      "sign_tested": 3041,
+      "sign_errors": 482,
+      "sign_agreement": 0.8414995067412036
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 103.98921900917404,
+      "rmse_cp": 172.24309083815805,
+      "max_abs_error_cp": 1687.6412963867188,
+      "bias_cp": -3.631145441958681,
+      "sign_tested": 774,
+      "sign_errors": 256,
+      "sign_agreement": 0.669250645994832
+    },
+    "selection_huber_scaled": 0.061849821358919144,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1866,
+    "gradient_global_norm_mean": 0.5368816450474754,
+    "gradient_global_norm_max": 0.9580357670783997,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.01008406440287013,
+          "variance_adjustment_mad": 0.0036555544602761792,
+          "variance_min": 0.035774855442332824,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.05547725690941396,
+          "variance_adjustment_mad": 0.02613454614743836,
+          "variance_min": 0.4603299185910749,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.07713998956692336,
+          "variance_adjustment_mad": 0.3014452856187397,
+          "variance_min": 0.5273737254561264,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 19,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 89.37606879721241,
+      "rmse_cp": 156.16606537181042,
+      "max_abs_error_cp": 1751.3242645263672,
+      "bias_cp": 2.729040978387318,
+      "sign_tested": 3041,
+      "sign_errors": 479,
+      "sign_agreement": 0.8424860243341006
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.40113312161458,
+      "rmse_cp": 172.6210410143817,
+      "max_abs_error_cp": 1664.2937469482422,
+      "bias_cp": -1.5986307605921757,
+      "sign_tested": 774,
+      "sign_errors": 241,
+      "sign_agreement": 0.6886304909560723
+    },
+    "selection_huber_scaled": 0.062198713421821594,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 2000,
+    "gradient_global_norm_mean": 0.5376930544300685,
+    "gradient_global_norm_max": 1.004318356513977,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0064678918959431,
+          "variance_adjustment_mad": 0.0008634801546222248,
+          "variance_min": 0.035768892479090715,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.049525141370885484,
+          "variance_adjustment_mad": 0.022169028166881707,
+          "variance_min": 0.46074467351309706,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.04839324159262404,
+          "variance_adjustment_mad": 0.2375230435518193,
+          "variance_min": 0.6247054883994771,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 20,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 90.9611807722021,
+      "rmse_cp": 156.12282612743627,
+      "max_abs_error_cp": 1827.1511325836182,
+      "bias_cp": 2.6689038661373923,
+      "sign_tested": 3041,
+      "sign_errors": 504,
+      "sign_agreement": 0.8342650443932917
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 106.46353309087641,
+      "rmse_cp": 173.25012227388532,
+      "max_abs_error_cp": 1636.1983947753906,
+      "bias_cp": -2.511825372574851,
+      "sign_tested": 774,
+      "sign_errors": 268,
+      "sign_agreement": 0.6537467700258398
+    },
+    "selection_huber_scaled": 0.0633407011628151,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1969,
+    "gradient_global_norm_mean": 0.5537501956735339,
+    "gradient_global_norm_max": 1.2854835987091064,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0031578851886613353,
+          "variance_adjustment_mad": 0.0009486098788681792,
+          "variance_min": 0.03576786882258407,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.0521108638889074,
+          "variance_adjustment_mad": 0.029591385123130868,
+          "variance_min": 0.46086039266200535,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03802651177208461,
+          "variance_adjustment_mad": 0.2560921773279565,
+          "variance_min": 0.5827891132631334,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 21,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 89.27611740682158,
+      "rmse_cp": 155.7439537834333,
+      "max_abs_error_cp": 1796.0255317687988,
+      "bias_cp": 3.0438685274540913,
+      "sign_tested": 3041,
+      "sign_errors": 460,
+      "sign_agreement": 0.8487339690891154
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.73253347801418,
+      "rmse_cp": 173.47744631958332,
+      "max_abs_error_cp": 1683.5798034667969,
+      "bias_cp": -1.7925025806352497,
+      "sign_tested": 774,
+      "sign_errors": 258,
+      "sign_agreement": 0.6666666666666667
+    },
+    "selection_huber_scaled": 0.06280437111854553,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1993,
+    "gradient_global_norm_mean": 0.5751532916984861,
+    "gradient_global_norm_max": 1.2816470861434937,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0009296175292674556,
+          "variance_adjustment_mad": 0.000767854743749472,
+          "variance_min": 0.03576651963911061,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.05163644960146985,
+          "variance_adjustment_mad": 0.027496795745941698,
+          "variance_min": 0.4593054683419611,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.030548239531487553,
+          "variance_adjustment_mad": 0.2678919446434169,
+          "variance_min": 0.6767023370187715,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 22,
+    "lr": 5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 89.30880396070913,
+      "rmse_cp": 155.4408422274856,
+      "max_abs_error_cp": 1799.2625732421875,
+      "bias_cp": 1.5964561578163412,
+      "sign_tested": 3041,
+      "sign_errors": 475,
+      "sign_agreement": 0.8438013811246301
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.7181420166567,
+      "rmse_cp": 171.5857010312228,
+      "max_abs_error_cp": 1668.3356018066406,
+      "bias_cp": -2.6252372000068425,
+      "sign_tested": 774,
+      "sign_errors": 242,
+      "sign_agreement": 0.6873385012919897
+    },
+    "selection_huber_scaled": 0.062163855880498886,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 2161,
+    "gradient_global_norm_mean": 0.5732097824414571,
+    "gradient_global_norm_max": 1.7661669254302979,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.01154976457097412,
+          "variance_adjustment_mad": 0.0007722571360859254,
+          "variance_min": 0.035770794328821055,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.052854949807377594,
+          "variance_adjustment_mad": 0.022042222979093654,
+          "variance_min": 0.4617183226674227,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.08168609294822815,
+          "variance_adjustment_mad": 0.22199612849576078,
+          "variance_min": 0.6621755800712288,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 23,
+    "lr": 2.5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 88.84433011127823,
+      "rmse_cp": 154.73168597628464,
+      "max_abs_error_cp": 1765.5680541992188,
+      "bias_cp": 1.739822526657954,
+      "sign_tested": 3041,
+      "sign_errors": 464,
+      "sign_agreement": 0.8474186122985861
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 106.67571378128976,
+      "rmse_cp": 173.75741394693003,
+      "max_abs_error_cp": 1679.9238510131836,
+      "bias_cp": -2.610112487785518,
+      "sign_tested": 774,
+      "sign_errors": 259,
+      "sign_agreement": 0.6653746770025839
+    },
+    "selection_huber_scaled": 0.06367181241512299,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 2120,
+    "gradient_global_norm_mean": 0.564901617311296,
+    "gradient_global_norm_max": 1.0446666479110718,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.007622783419375612,
+          "variance_adjustment_mad": 0.00048279828813121376,
+          "variance_min": 0.03577580222936578,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.046666602048961225,
+          "variance_adjustment_mad": 0.02207820463191868,
+          "variance_min": 0.4856220744553742,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.059440988036350006,
+          "variance_adjustment_mad": 0.20610999565275134,
+          "variance_min": 0.6003563555982455,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 24,
+    "lr": 2.5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 87.85533171212029,
+      "rmse_cp": 155.21117429133886,
+      "max_abs_error_cp": 1791.1084518432617,
+      "bias_cp": 2.648840212287454,
+      "sign_tested": 3041,
+      "sign_errors": 459,
+      "sign_agreement": 0.8490628082867477
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.16796433473378,
+      "rmse_cp": 174.0518436926248,
+      "max_abs_error_cp": 1708.3673095703125,
+      "bias_cp": -1.9158649538084864,
+      "sign_tested": 774,
+      "sign_errors": 254,
+      "sign_agreement": 0.6718346253229974
+    },
+    "selection_huber_scaled": 0.0629391148686409,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1227,
+    "gradient_global_norm_mean": 0.5098475932128845,
+    "gradient_global_norm_max": 0.9360117316246033,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.004125144905402056,
+          "variance_adjustment_mad": 0.0011905081166131127,
+          "variance_min": 0.03577643787275408,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.05997486597452717,
+          "variance_adjustment_mad": 0.023285434921256343,
+          "variance_min": 0.4834750039290373,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.042879388245200545,
+          "variance_adjustment_mad": 0.2520347774873578,
+          "variance_min": 0.6474048176111986,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 25,
+    "lr": 2.5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 87.82833654871799,
+      "rmse_cp": 154.00272141082158,
+      "max_abs_error_cp": 1777.0227966308594,
+      "bias_cp": 3.2684289362558046,
+      "sign_tested": 3041,
+      "sign_errors": 422,
+      "sign_agreement": 0.861229858599145
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.02314082997665,
+      "rmse_cp": 172.84113119013327,
+      "max_abs_error_cp": 1681.0089492797852,
+      "bias_cp": -1.9464806411974132,
+      "sign_tested": 774,
+      "sign_errors": 247,
+      "sign_agreement": 0.6808785529715762
+    },
+    "selection_huber_scaled": 0.06259278953075409,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1146,
+    "gradient_global_norm_mean": 0.5839052001635233,
+    "gradient_global_norm_max": 1.1380623579025269,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0033974916596783977,
+          "variance_adjustment_mad": 0.0013796578197389445,
+          "variance_min": 0.03577927107232344,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.04942530430218883,
+          "variance_adjustment_mad": 0.021723983250157192,
+          "variance_min": 0.4628996221093728,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03521663794350616,
+          "variance_adjustment_mad": 0.224632003621398,
+          "variance_min": 0.6448408041210599,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 26,
+    "lr": 2.5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 88.50593975961395,
+      "rmse_cp": 154.11566169124617,
+      "max_abs_error_cp": 1799.1321449279785,
+      "bias_cp": 2.6660780005138367,
+      "sign_tested": 3041,
+      "sign_errors": 451,
+      "sign_agreement": 0.8516935218678067
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.80758035652339,
+      "rmse_cp": 171.81759767525094,
+      "max_abs_error_cp": 1654.611473083496,
+      "bias_cp": -1.4654861507713794,
+      "sign_tested": 774,
+      "sign_errors": 242,
+      "sign_agreement": 0.6873385012919897
+    },
+    "selection_huber_scaled": 0.06223490834236145,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1238,
+    "gradient_global_norm_mean": 0.5797429761243245,
+    "gradient_global_norm_max": 1.2108334302902222,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0018253259558753674,
+          "variance_adjustment_mad": 0.0005545154121126646,
+          "variance_min": 0.035779398604846226,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.05005678060837937,
+          "variance_adjustment_mad": 0.018769639604745637,
+          "variance_min": 0.46386168969657937,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.031479845026517246,
+          "variance_adjustment_mad": 0.1962116637320794,
+          "variance_min": 0.6453864099304161,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 27,
+    "lr": 2.5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 87.7744567041872,
+      "rmse_cp": 154.2740262021645,
+      "max_abs_error_cp": 1867.4598007202148,
+      "bias_cp": 2.805437150745653,
+      "sign_tested": 3041,
+      "sign_errors": 430,
+      "sign_agreement": 0.8585991450180861
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.22534790357761,
+      "rmse_cp": 173.4536700876029,
+      "max_abs_error_cp": 1672.4828186035156,
+      "bias_cp": -1.2262061076741666,
+      "sign_tested": 774,
+      "sign_errors": 259,
+      "sign_agreement": 0.6653746770025839
+    },
+    "selection_huber_scaled": 0.0626431480050087,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1337,
+    "gradient_global_norm_mean": 0.5605985744604989,
+    "gradient_global_norm_max": 0.993836522102356,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.003612398915859404,
+          "variance_adjustment_mad": 0.0013563474483268027,
+          "variance_min": 0.03577585436053386,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.06206019632758153,
+          "variance_adjustment_mad": 0.028431553095188918,
+          "variance_min": 0.45867862601890974,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.042834025721500524,
+          "variance_adjustment_mad": 0.2713104433816055,
+          "variance_min": 0.6470237679525582,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 28,
+    "lr": 2.5e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 88.33581889895163,
+      "rmse_cp": 154.28639381099208,
+      "max_abs_error_cp": 1826.792414188385,
+      "bias_cp": 2.2669621075084434,
+      "sign_tested": 3041,
+      "sign_errors": 443,
+      "sign_agreement": 0.8543242354488655
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.62161702076345,
+      "rmse_cp": 172.83901985092135,
+      "max_abs_error_cp": 1668.6914596557617,
+      "bias_cp": -0.9916421959027648,
+      "sign_tested": 774,
+      "sign_errors": 243,
+      "sign_agreement": 0.686046511627907
+    },
+    "selection_huber_scaled": 0.06289675831794739,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1304,
+    "gradient_global_norm_mean": 0.5722775572822207,
+    "gradient_global_norm_max": 1.2925738096237183,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0009536033553980683,
+          "variance_adjustment_mad": 0.0009758154383820406,
+          "variance_min": 0.035783754179928635,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.0454850367898072,
+          "variance_adjustment_mad": 0.01620952332475752,
+          "variance_min": 0.473560847640529,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03400381431851507,
+          "variance_adjustment_mad": 0.1915703694355791,
+          "variance_min": 0.6116831227198346,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 29,
+    "lr": 1.25e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 87.31205818188563,
+      "rmse_cp": 153.7622156779836,
+      "max_abs_error_cp": 1805.3891983032227,
+      "bias_cp": 2.7869491682639347,
+      "sign_tested": 3041,
+      "sign_errors": 437,
+      "sign_agreement": 0.8562972706346597
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 105.37220662821271,
+      "rmse_cp": 173.2732149402892,
+      "max_abs_error_cp": 1656.4175491333008,
+      "bias_cp": -1.017730242261663,
+      "sign_tested": 774,
+      "sign_errors": 242,
+      "sign_agreement": 0.6873385012919897
+    },
+    "selection_huber_scaled": 0.06274285167455673,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 1402,
+    "gradient_global_norm_mean": 0.5905652803087992,
+    "gradient_global_norm_max": 1.230722188949585,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0014886072158524215,
+          "variance_adjustment_mad": 0.0007781488202565734,
+          "variance_min": 0.035788680104143794,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.045647608523742944,
+          "variance_adjustment_mad": 0.019012127279002675,
+          "variance_min": 0.46013464115644226,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03403412014542795,
+          "variance_adjustment_mad": 0.20882416410290022,
+          "variance_min": 0.6634684530556745,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 30,
+    "lr": 1.25e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 87.80370918128925,
+      "rmse_cp": 154.27802971963237,
+      "max_abs_error_cp": 1735.8429641723633,
+      "bias_cp": 2.3392096843728214,
+      "sign_tested": 3041,
+      "sign_errors": 436,
+      "sign_agreement": 0.856626109832292
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.75121447022259,
+      "rmse_cp": 172.30895923448733,
+      "max_abs_error_cp": 1643.7427978515625,
+      "bias_cp": -2.217561920002103,
+      "sign_tested": 774,
+      "sign_errors": 236,
+      "sign_agreement": 0.6950904392764858
+    },
+    "selection_huber_scaled": 0.06218498572707176,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 790,
+    "gradient_global_norm_mean": 0.5657770747230166,
+    "gradient_global_norm_max": 1.3500230312347412,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0017696300282992186,
+          "variance_adjustment_mad": 0.0008483466202552558,
+          "variance_min": 0.035788581870603194,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.050126212559735484,
+          "variance_adjustment_mad": 0.0198748193770383,
+          "variance_min": 0.4667015550540286,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.03126110310606123,
+          "variance_adjustment_mad": 0.24468190255580546,
+          "variance_min": 0.6445590176464173,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 31,
+    "lr": 1.25e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 86.86589108599036,
+      "rmse_cp": 153.77618196771274,
+      "max_abs_error_cp": 1716.266342163086,
+      "bias_cp": 3.0514104876822095,
+      "sign_tested": 3041,
+      "sign_errors": 412,
+      "sign_agreement": 0.8645182505754686
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.15940486811009,
+      "rmse_cp": 172.57363012090133,
+      "max_abs_error_cp": 1663.0020866394043,
+      "bias_cp": -0.5247160682519898,
+      "sign_tested": 774,
+      "sign_errors": 248,
+      "sign_agreement": 0.6795865633074936
+    },
+    "selection_huber_scaled": 0.06207357719540596,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 837,
+    "gradient_global_norm_mean": 0.5804934709791153,
+    "gradient_global_norm_max": 1.3946319818496704,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.0032437813368479938,
+          "variance_adjustment_mad": 0.0004383426743934857,
+          "variance_min": 0.035791179360762426,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.03509505374883237,
+          "variance_adjustment_mad": 0.014098553366260248,
+          "variance_min": 0.46341008611503187,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.035145528638253154,
+          "variance_adjustment_mad": 0.15937319086413987,
+          "variance_min": 0.6849077349568679,
+          "moments_count": 4096
+        }
+      ]
+    }
+  },
+  {
+    "epoch": 32,
+    "lr": 1.25e-05,
+    "train": {
+      "count": 8000,
+      "mae_cp": 87.47456311701168,
+      "rmse_cp": 153.1679788050471,
+      "max_abs_error_cp": 1720.7514038085938,
+      "bias_cp": 2.6143140635534654,
+      "sign_tested": 3041,
+      "sign_errors": 432,
+      "sign_agreement": 0.8579414666228214
+    },
+    "validation": {
+      "count": 2000,
+      "mae_cp": 104.73903634306043,
+      "rmse_cp": 172.16941790242586,
+      "max_abs_error_cp": 1641.0578918457031,
+      "bias_cp": -2.9932042949423194,
+      "sign_tested": 774,
+      "sign_errors": 245,
+      "sign_agreement": 0.6834625322997416
+    },
+    "selection_huber_scaled": 0.062098123133182526,
+    "best_epoch": 17,
+    "best_huber_scaled": 0.061855439096689224,
+    "sign_flips": 855,
+    "gradient_global_norm_mean": 0.5156315735408238,
+    "gradient_global_norm_max": 1.1533396244049072,
+    "bn_recalibration": {
+      "positions": 4096,
+      "skipped": false,
+      "layers": [
+        {
+          "layer": 1,
+          "mean_adjustment_mad": 0.003741411678977348,
+          "variance_adjustment_mad": 0.0005549013042018569,
+          "variance_min": 0.0357936295581659,
+          "moments_count": 262144
+        },
+        {
+          "layer": 2,
+          "mean_adjustment_mad": 0.050856890296811175,
+          "variance_adjustment_mad": 0.016005209134385058,
+          "variance_min": 0.4766447896746536,
+          "moments_count": 262144
+        },
+        {
+          "layer": 3,
+          "mean_adjustment_mad": 0.036033938444763436,
+          "variance_adjustment_mad": 0.18446036171538627,
+          "variance_min": 0.6148528623643746,
+          "moments_count": 4096
+        }
+      ]
+    }
+  }
+]

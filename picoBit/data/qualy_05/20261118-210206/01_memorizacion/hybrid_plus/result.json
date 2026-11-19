@@ -1,0 +1,79 @@
+{
+  "model": "HYBRID_PLUS",
+  "phase": "01_memorizacion",
+  "train_count": 32,
+  "validation_count": 0,
+  "updates_budget": 1200,
+  "updates_executed": 1200,
+  "best_update": 563,
+  "best_epoch": 563,
+  "epochs_executed": 1200,
+  "train": {
+    "count": 32,
+    "mae_cp": 1.3116401713341475,
+    "rmse_cp": 1.577791635070722,
+    "max_abs_error_cp": 3.7093400955200195,
+    "bias_cp": -0.00025756191462278366,
+    "sign_tested": 24,
+    "sign_errors": 0,
+    "sign_agreement": 1.0
+  },
+  "validation": null,
+  "baseline_zero_mae_cp": 206.875,
+  "material_train": {
+    "balanced_under100": 8,
+    "black_300plus": 3,
+    "black_100_299": 9,
+    "white_300plus": 4,
+    "white_100_299": 8
+  },
+  "material_validation": {},
+  "counterfactuals": null,
+  "quality_gate": "PASS",
+  "reasons": [],
+  "best_huber_scaled": 7.779450648532862e-06,
+  "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-210206\\01_memorizacion\\hybrid_plus\\best_weights.npz",
+  "history_file": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-210206\\01_memorizacion\\hybrid_plus\\history.json",
+  "history_jsonl": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_05\\20261118-210206\\01_memorizacion\\hybrid_plus\\history.jsonl",
+  "elapsed_seconds": 143.28,
+  "hybrid_quantization": {
+    "ternary_conv2d_2": {
+      "count": 7488,
+      "negative_fraction": 0.34642094017094016,
+      "zero_fraction": 0.2919337606837607,
+      "positive_fraction": 0.36164529914529914,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.10854160040616989
+    },
+    "ternary_conv2d_3": {
+      "count": 36864,
+      "negative_fraction": 0.3540852864583333,
+      "zero_fraction": 0.2948133680555556,
+      "positive_fraction": 0.3511013454861111,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.04839600622653961
+    },
+    "ternary_dense_1": {
+      "count": 1048576,
+      "negative_fraction": 0.35184669494628906,
+      "zero_fraction": 0.2961311340332031,
+      "positive_fraction": 0.3520221710205078,
+      "saturated_latent_fraction": 0.0,
+      "gamma_mean": 0.018195807933807373
+    }
+  },
+  "lr_layer_gains": {
+    "ternary_conv2d_2": {
+      "gain": 2.0,
+      "fan_in": 117
+    },
+    "ternary_conv2d_3": {
+      "gain": 1.0,
+      "fan_in": 576
+    },
+    "ternary_dense_1": {
+      "gain": 0.5,
+      "fan_in": 4096
+    }
+  }
+}

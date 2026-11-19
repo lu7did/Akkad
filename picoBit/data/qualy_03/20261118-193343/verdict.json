@@ -1,0 +1,15 @@
+{
+  "data_quality": "WARN",
+  "causal_mechanism_identified": false,
+  "root_cause_resolved": false,
+  "issues": [
+    "Hay 473100 estados FEN idénticos con etiquetas CP distintas",
+    "472477 entradas de red idénticas tienen etiquetas CP distintas",
+    "En el control QUALY_02, BNN sigue siendo peor que FP32 en posiciones de validacion"
+  ],
+  "observations": [
+    "8434 grupos comparten tensor pese a diferir en derechos de estado FEN",
+    "No hay repeticiones de estado a diferentes profundidades con las que estimar el efecto del depth"
+  ],
+  "next_decision": "No cambiar el modelo. Si las cotas empiricas son bajas, investigar mecanismos binarios mediante ablaciones de un solo factor en QUALY_04; si son altas, priorizar consistencia teacher y representacion."
+}

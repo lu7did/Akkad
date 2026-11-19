@@ -1,0 +1,85 @@
+{
+  "model": "FP32",
+  "phase": "03_generalizacion",
+  "train_count": 8000,
+  "validation_count": 2000,
+  "updates_budget": 3150,
+  "updates_executed": 3150,
+  "best_update": 2961,
+  "best_epoch": 47,
+  "epochs_executed": 50,
+  "train": {
+    "count": 8000,
+    "mae_cp": 9.728860053073731,
+    "rmse_cp": 12.406502441740157,
+    "max_abs_error_cp": 135.4220151901245,
+    "bias_cp": 2.200241144996253,
+    "sign_tested": 3041,
+    "sign_errors": 0,
+    "sign_agreement": 1.0
+  },
+  "validation": {
+    "count": 2000,
+    "mae_cp": 10.082234171889722,
+    "rmse_cp": 14.2623062422803,
+    "max_abs_error_cp": 189.7318136692047,
+    "bias_cp": 2.409981566425413,
+    "sign_tested": 774,
+    "sign_errors": 1,
+    "sign_agreement": 0.9987080103359173
+  },
+  "baseline_zero_mae_cp": 89.74500274658203,
+  "material_train": {
+    "white_100_299": 1180,
+    "black_100_299": 1095,
+    "balanced_under100": 4959,
+    "black_300plus": 398,
+    "white_300plus": 368
+  },
+  "material_validation": {
+    "balanced_under100": 1226,
+    "black_300plus": 90,
+    "black_100_299": 267,
+    "white_100_299": 330,
+    "white_300plus": 87
+  },
+  "counterfactuals": {
+    "queen": {
+      "count": 48,
+      "expected_abs_cp": 900,
+      "delta_mae_cp": 15.383797963460287,
+      "delta_bias_cp": 0.6760546366373698,
+      "delta_sign_agreement": 1.0,
+      "pass": true
+    },
+    "rook": {
+      "count": 48,
+      "expected_abs_cp": 500,
+      "delta_mae_cp": 5.177412033081055,
+      "delta_bias_cp": 1.1841233571370442,
+      "delta_sign_agreement": 1.0,
+      "pass": true
+    },
+    "bishop": {
+      "count": 48,
+      "expected_abs_cp": 330,
+      "delta_mae_cp": 4.814702987670898,
+      "delta_bias_cp": 0.26525433858235675,
+      "delta_sign_agreement": 1.0,
+      "pass": true
+    },
+    "knight": {
+      "count": 48,
+      "expected_abs_cp": 320,
+      "delta_mae_cp": 6.341341018676758,
+      "delta_bias_cp": -2.7410449981689453,
+      "delta_sign_agreement": 1.0,
+      "pass": true
+    }
+  },
+  "quality_gate": "PASS",
+  "reasons": [],
+  "best_huber_scaled": 0.0006356668192090393,
+  "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\03_generalizacion\\fp32\\best_weights.npz",
+  "elapsed_seconds": 289.063
+}

@@ -69,14 +69,22 @@ if ($args.Count -eq 0 -or @('--help', '-help', '-h', '/?') -contains $args[0]) {
 
 $defaults = @{
     'in'='C:\Users\pedro\github\Bobby\Chess_History_pb\picoAlpha\sample_history.pb';
-    'sample'='10000'; 'validation'='20'
-    'epoch'='50'; 'lr'='0.0001'; 'lrmin'='0.000001'; 'batch'='128'
-    'seed'='42'; 'checkpoints'='..\..\assets\checkpoint'
-    'weight-decay'='0.0001'; 'plateau-patience'='5'; 'lr-factor'='0.5'
-    'early-patience'='8'; 'stop-patience'='10'; 'min-delta'='0.00001'
+    'sample'='100000';
+    'validation'='20'
+    'epoch'='50';
+    'lr'='0.0001';
+    'lrmin'='0.000001';
+    'batch'='128'
+    'seed'='42';
+    'checkpoints'='..\..\assets\checkpoint'
+    'weight-decay'='0.0001';
+    'plateau-patience'='5'; 'lr-factor'='0.5'
+    'early-patience'='8';
+    'stop-patience'='10'; 'min-delta'='0.00001'
     'weights'='..\..\assets\best.bnn';
     'out'='..\..\data\audit'
-    'manifest'='..\..\data\validation_manifest.json'; 'python'='python'
+    'manifest'='..\..\assets\validation_manifest.json';
+    'python'='python'
 }
 $allowed = @('mon', 'in', 'sample', 'validation', 'epoch', 'lr', 'lrmin',
              'batch', 'seed', 'weight-decay', 'plateau-patience', 'lr-factor',
@@ -106,6 +114,10 @@ for ($i = 0; $i -lt $args.Count; $i++) {
 if (-not $seen.ContainsKey('mon')) {
     throw 'Es obligatorio indicar --mon {1|2|3}. Use --help.'
 }
+# Los argumentos explicitos usan rutas relativas a la raiz akkad.
+# Los defaults de GitHub (../../assets, ../../data) son relativos a tools/train.
+$provided = @{}
+foreach ($key in $seen.Keys) { $provided[$key] = $true }
 foreach ($key in $defaults.Keys) {
     if (-not $seen.ContainsKey($key)) { $seen[$key] = $defaults[$key] }
 }
@@ -157,7 +169,13 @@ function Resolve-RepoPath([string]$value) {
     return [System.IO.Path]::GetFullPath((Join-Path $repo $value))
 }
 foreach ($key in @('in', 'checkpoints', 'weights', 'out', 'manifest')) {
-    $seen[$key] = Resolve-RepoPath $seen[$key]
+    $value = [string]$seen[$key]
+    if (-not $provided.ContainsKey($key) -and -not [System.IO.Path]::IsPathRooted($value)) {
+        # Los defaults son rutas relativas al directorio del script en GitHub.
+        $seen[$key] = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot $value))
+    } else {
+        $seen[$key] = Resolve-RepoPath $value
+    }
 }
 if ($seen.ContainsKey('bin')) { $seen['bin'] = Resolve-RepoPath $seen['bin'] }
 if ($seen.ContainsKey('export-checkpoints')) {

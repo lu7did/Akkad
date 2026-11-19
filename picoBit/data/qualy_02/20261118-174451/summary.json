@@ -1,0 +1,462 @@
+{
+  "schema": "AKKAD-qualy-02-v1",
+  "status": "COMPLETED",
+  "phases": [
+    {
+      "phase": "01_memorizacion",
+      "initial_weights_identical": true,
+      "update_budget_identical": 1200,
+      "bnn": {
+        "model": "BNN",
+        "phase": "01_memorizacion",
+        "train_count": 32,
+        "validation_count": 0,
+        "updates_budget": 1200,
+        "updates_executed": 1200,
+        "best_update": 933,
+        "best_epoch": 933,
+        "epochs_executed": 1200,
+        "train": {
+          "count": 32,
+          "mae_cp": 1.3392296992242336,
+          "rmse_cp": 1.535651204994398,
+          "max_abs_error_cp": 2.9127517342567444,
+          "bias_cp": -6.142538040876389e-05,
+          "sign_tested": 24,
+          "sign_errors": 0,
+          "sign_agreement": 1.0
+        },
+        "validation": null,
+        "baseline_zero_mae_cp": 206.875,
+        "material_train": {
+          "balanced_under100": 8,
+          "black_300plus": 3,
+          "black_100_299": 9,
+          "white_300plus": 4,
+          "white_100_299": 8
+        },
+        "material_validation": {},
+        "counterfactuals": null,
+        "quality_gate": "PASS",
+        "reasons": [],
+        "best_huber_scaled": 7.3694656023154815e-06,
+        "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\01_memorizacion\\bnn\\best.bnn",
+        "elapsed_seconds": 128.99
+      },
+      "fp32": {
+        "model": "FP32",
+        "phase": "01_memorizacion",
+        "train_count": 32,
+        "validation_count": 0,
+        "updates_budget": 1200,
+        "updates_executed": 1200,
+        "best_update": 347,
+        "best_epoch": 347,
+        "epochs_executed": 1200,
+        "train": {
+          "count": 32,
+          "mae_cp": 7.307156920433044e-05,
+          "rmse_cp": 9.72243388170963e-05,
+          "max_abs_error_cp": 0.0002288818359375,
+          "bias_cp": 1.6130506992340088e-05,
+          "sign_tested": 24,
+          "sign_errors": 0,
+          "sign_agreement": 1.0
+        },
+        "validation": null,
+        "baseline_zero_mae_cp": 206.875,
+        "material_train": {
+          "balanced_under100": 8,
+          "black_300plus": 3,
+          "black_100_299": 9,
+          "white_300plus": 4,
+          "white_100_299": 8
+        },
+        "material_validation": {},
+        "counterfactuals": null,
+        "quality_gate": "PASS",
+        "reasons": [],
+        "best_huber_scaled": 2.750458281269852e-14,
+        "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\01_memorizacion\\fp32\\best_weights.npz",
+        "elapsed_seconds": 125.794
+      },
+      "difference_fp32_minus_bnn_mae_cp": -1.3391566276550293,
+      "interpretation": "Ambas arquitecturas superan el gate; binarizacion no bloquea material"
+    },
+    {
+      "phase": "02_elemental",
+      "initial_weights_identical": true,
+      "update_budget_identical": 960,
+      "bnn": {
+        "model": "BNN",
+        "phase": "02_elemental",
+        "train_count": 2000,
+        "validation_count": 500,
+        "updates_budget": 960,
+        "updates_executed": 960,
+        "best_update": 624,
+        "best_epoch": 39,
+        "epochs_executed": 60,
+        "train": {
+          "count": 2000,
+          "mae_cp": 74.57701880665496,
+          "rmse_cp": 121.74616567928148,
+          "max_abs_error_cp": 1767.547755241394,
+          "bias_cp": 0.6041481852345169,
+          "sign_tested": 777,
+          "sign_errors": 56,
+          "sign_agreement": 0.9279279279279279
+        },
+        "validation": {
+          "count": 500,
+          "mae_cp": 126.68583135321737,
+          "rmse_cp": 184.3689237213877,
+          "max_abs_error_cp": 1263.4650826454163,
+          "bias_cp": -4.489476091116667,
+          "sign_tested": 189,
+          "sign_errors": 63,
+          "sign_agreement": 0.6666666666666667
+        },
+        "baseline_zero_mae_cp": 92.04000091552734,
+        "material_train": {
+          "white_100_299": 308,
+          "balanced_under100": 1223,
+          "black_100_299": 295,
+          "black_300plus": 88,
+          "white_300plus": 86
+        },
+        "material_validation": {
+          "balanced_under100": 311,
+          "black_300plus": 26,
+          "white_300plus": 22,
+          "white_100_299": 80,
+          "black_100_299": 61
+        },
+        "counterfactuals": {
+          "queen": {
+            "count": 48,
+            "expected_abs_cp": 900,
+            "delta_mae_cp": 899.5803729991118,
+            "delta_bias_cp": 11.204426397879919,
+            "delta_sign_agreement": 0.5416666666666666,
+            "pass": false
+          },
+          "rook": {
+            "count": 48,
+            "expected_abs_cp": 500,
+            "delta_mae_cp": 498.86738844712573,
+            "delta_bias_cp": -12.025847713152567,
+            "delta_sign_agreement": 0.5833333333333334,
+            "pass": false
+          },
+          "bishop": {
+            "count": 48,
+            "expected_abs_cp": 330,
+            "delta_mae_cp": 342.61295739809674,
+            "delta_bias_cp": -2.992440938949585,
+            "delta_sign_agreement": 0.375,
+            "pass": false
+          },
+          "knight": {
+            "count": 48,
+            "expected_abs_cp": 320,
+            "delta_mae_cp": 333.72644877433777,
+            "delta_bias_cp": 11.773757378260294,
+            "delta_sign_agreement": 0.375,
+            "pass": false
+          }
+        },
+        "quality_gate": "FAIL",
+        "reasons": [
+          "MAE=126.69cp >= 15.0cp",
+          "Acierto signo 66.67% <= 99.00%",
+          "Contrafactual queen falló",
+          "Contrafactual rook falló",
+          "Contrafactual bishop falló",
+          "Contrafactual knight falló"
+        ],
+        "best_huber_scaled": 0.07774294556379402,
+        "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\02_elemental\\bnn\\best.bnn",
+        "elapsed_seconds": 130.119
+      },
+      "fp32": {
+        "model": "FP32",
+        "phase": "02_elemental",
+        "train_count": 2000,
+        "validation_count": 500,
+        "updates_budget": 960,
+        "updates_executed": 960,
+        "best_update": 960,
+        "best_epoch": 60,
+        "epochs_executed": 60,
+        "train": {
+          "count": 2000,
+          "mae_cp": 58.22966379178455,
+          "rmse_cp": 91.4558181267914,
+          "max_abs_error_cp": 1103.0283737182617,
+          "bias_cp": -0.5126118606259115,
+          "sign_tested": 777,
+          "sign_errors": 25,
+          "sign_agreement": 0.9678249678249679
+        },
+        "validation": {
+          "count": 500,
+          "mae_cp": 87.6626967259124,
+          "rmse_cp": 132.35095411065024,
+          "max_abs_error_cp": 851.9927501678467,
+          "bias_cp": -2.6038947186246513,
+          "sign_tested": 189,
+          "sign_errors": 22,
+          "sign_agreement": 0.8835978835978836
+        },
+        "baseline_zero_mae_cp": 92.04000091552734,
+        "material_train": {
+          "white_100_299": 308,
+          "balanced_under100": 1223,
+          "black_100_299": 295,
+          "black_300plus": 88,
+          "white_300plus": 86
+        },
+        "material_validation": {
+          "balanced_under100": 311,
+          "black_300plus": 26,
+          "white_300plus": 22,
+          "white_100_299": 80,
+          "black_100_299": 61
+        },
+        "counterfactuals": {
+          "queen": {
+            "count": 48,
+            "expected_abs_cp": 900,
+            "delta_mae_cp": 641.1882289250692,
+            "delta_bias_cp": -6.140233675638835,
+            "delta_sign_agreement": 1.0,
+            "pass": false
+          },
+          "rook": {
+            "count": 48,
+            "expected_abs_cp": 500,
+            "delta_mae_cp": 307.3362862269084,
+            "delta_bias_cp": -4.122088432312012,
+            "delta_sign_agreement": 1.0,
+            "pass": false
+          },
+          "bishop": {
+            "count": 48,
+            "expected_abs_cp": 330,
+            "delta_mae_cp": 159.99585835138956,
+            "delta_bias_cp": -3.0744996070861816,
+            "delta_sign_agreement": 1.0,
+            "pass": false
+          },
+          "knight": {
+            "count": 48,
+            "expected_abs_cp": 320,
+            "delta_mae_cp": 160.48243761062622,
+            "delta_bias_cp": 5.156004428863525,
+            "delta_sign_agreement": 1.0,
+            "pass": false
+          }
+        },
+        "quality_gate": "FAIL",
+        "reasons": [
+          "MAE=87.66cp >= 15.0cp",
+          "Acierto signo 88.36% <= 99.00%",
+          "Contrafactual queen falló",
+          "Contrafactual rook falló",
+          "Contrafactual bishop falló",
+          "Contrafactual knight falló"
+        ],
+        "best_huber_scaled": 0.0450250309957095,
+        "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\02_elemental\\fp32\\best_weights.npz",
+        "elapsed_seconds": 103.215
+      },
+      "difference_fp32_minus_bnn_mae_cp": -39.02313462730497,
+      "interpretation": "Ambas fallan; no se puede atribuir la causa solo a binarizacion"
+    },
+    {
+      "phase": "03_generalizacion",
+      "initial_weights_identical": true,
+      "update_budget_identical": 3150,
+      "bnn": {
+        "model": "BNN",
+        "phase": "03_generalizacion",
+        "train_count": 8000,
+        "validation_count": 2000,
+        "updates_budget": 3150,
+        "updates_executed": 3150,
+        "best_update": 2898,
+        "best_epoch": 46,
+        "epochs_executed": 50,
+        "train": {
+          "count": 8000,
+          "mae_cp": 87.39682357350277,
+          "rmse_cp": 150.15326771905094,
+          "max_abs_error_cp": 1716.9658017158508,
+          "bias_cp": 3.787933043615485,
+          "sign_tested": 3041,
+          "sign_errors": 407,
+          "sign_agreement": 0.8661624465636304
+        },
+        "validation": {
+          "count": 2000,
+          "mae_cp": 100.49410325297387,
+          "rmse_cp": 166.83238470795388,
+          "max_abs_error_cp": 1629.7856271266937,
+          "bias_cp": 0.09215520794037729,
+          "sign_tested": 774,
+          "sign_errors": 189,
+          "sign_agreement": 0.7558139534883721
+        },
+        "baseline_zero_mae_cp": 89.74500274658203,
+        "material_train": {
+          "white_100_299": 1180,
+          "black_100_299": 1095,
+          "balanced_under100": 4959,
+          "black_300plus": 398,
+          "white_300plus": 368
+        },
+        "material_validation": {
+          "balanced_under100": 1226,
+          "black_300plus": 90,
+          "black_100_299": 267,
+          "white_100_299": 330,
+          "white_300plus": 87
+        },
+        "counterfactuals": {
+          "queen": {
+            "count": 48,
+            "expected_abs_cp": 900,
+            "delta_mae_cp": 890.6587884426117,
+            "delta_bias_cp": 43.61151031653086,
+            "delta_sign_agreement": 0.6875,
+            "pass": false
+          },
+          "rook": {
+            "count": 48,
+            "expected_abs_cp": 500,
+            "delta_mae_cp": 468.3205089767774,
+            "delta_bias_cp": -16.596178193887074,
+            "delta_sign_agreement": 0.8958333333333334,
+            "pass": false
+          },
+          "bishop": {
+            "count": 48,
+            "expected_abs_cp": 330,
+            "delta_mae_cp": 317.1398260792096,
+            "delta_bias_cp": 2.7438972194989524,
+            "delta_sign_agreement": 0.6458333333333334,
+            "pass": false
+          },
+          "knight": {
+            "count": 48,
+            "expected_abs_cp": 320,
+            "delta_mae_cp": 309.2904418905576,
+            "delta_bias_cp": -32.36335724592209,
+            "delta_sign_agreement": 0.625,
+            "pass": false
+          }
+        },
+        "quality_gate": "FAIL",
+        "reasons": [
+          "MAE=100.49cp >= 15.0cp",
+          "Acierto signo 75.58% <= 99.00%",
+          "Contrafactual queen falló",
+          "Contrafactual rook falló",
+          "Contrafactual bishop falló",
+          "Contrafactual knight falló"
+        ],
+        "best_huber_scaled": 0.05900555053152318,
+        "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\03_generalizacion\\bnn\\best.bnn",
+        "elapsed_seconds": 374.363
+      },
+      "fp32": {
+        "model": "FP32",
+        "phase": "03_generalizacion",
+        "train_count": 8000,
+        "validation_count": 2000,
+        "updates_budget": 3150,
+        "updates_executed": 3150,
+        "best_update": 2961,
+        "best_epoch": 47,
+        "epochs_executed": 50,
+        "train": {
+          "count": 8000,
+          "mae_cp": 9.728860053073731,
+          "rmse_cp": 12.406502441740157,
+          "max_abs_error_cp": 135.4220151901245,
+          "bias_cp": 2.200241144996253,
+          "sign_tested": 3041,
+          "sign_errors": 0,
+          "sign_agreement": 1.0
+        },
+        "validation": {
+          "count": 2000,
+          "mae_cp": 10.082234171889722,
+          "rmse_cp": 14.2623062422803,
+          "max_abs_error_cp": 189.7318136692047,
+          "bias_cp": 2.409981566425413,
+          "sign_tested": 774,
+          "sign_errors": 1,
+          "sign_agreement": 0.9987080103359173
+        },
+        "baseline_zero_mae_cp": 89.74500274658203,
+        "material_train": {
+          "white_100_299": 1180,
+          "black_100_299": 1095,
+          "balanced_under100": 4959,
+          "black_300plus": 398,
+          "white_300plus": 368
+        },
+        "material_validation": {
+          "balanced_under100": 1226,
+          "black_300plus": 90,
+          "black_100_299": 267,
+          "white_100_299": 330,
+          "white_300plus": 87
+        },
+        "counterfactuals": {
+          "queen": {
+            "count": 48,
+            "expected_abs_cp": 900,
+            "delta_mae_cp": 15.383797963460287,
+            "delta_bias_cp": 0.6760546366373698,
+            "delta_sign_agreement": 1.0,
+            "pass": true
+          },
+          "rook": {
+            "count": 48,
+            "expected_abs_cp": 500,
+            "delta_mae_cp": 5.177412033081055,
+            "delta_bias_cp": 1.1841233571370442,
+            "delta_sign_agreement": 1.0,
+            "pass": true
+          },
+          "bishop": {
+            "count": 48,
+            "expected_abs_cp": 330,
+            "delta_mae_cp": 4.814702987670898,
+            "delta_bias_cp": 0.26525433858235675,
+            "delta_sign_agreement": 1.0,
+            "pass": true
+          },
+          "knight": {
+            "count": 48,
+            "expected_abs_cp": 320,
+            "delta_mae_cp": 6.341341018676758,
+            "delta_bias_cp": -2.7410449981689453,
+            "delta_sign_agreement": 1.0,
+            "pass": true
+          }
+        },
+        "quality_gate": "PASS",
+        "reasons": [],
+        "best_huber_scaled": 0.0006356668192090393,
+        "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_02\\20261118-174451\\03_generalizacion\\fp32\\best_weights.npz",
+        "elapsed_seconds": 289.063
+      },
+      "difference_fp32_minus_bnn_mae_cp": -90.41186908108415,
+      "interpretation": "Compatible con que binarizacion/STE/clamp impiden superar el gate"
+    }
+  ]
+}

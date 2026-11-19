@@ -1,0 +1,41 @@
+{
+  "phase": "01_memorizacion",
+  "train_count": 32,
+  "validation_count": 0,
+  "material_train": {
+    "balanced_under100": 8,
+    "black_300plus": 3,
+    "black_100_299": 9,
+    "white_300plus": 4,
+    "white_100_299": 8
+  },
+  "material_validation": {},
+  "train": {
+    "count": 32,
+    "mae_cp": 43.981402799487114,
+    "rmse_cp": 51.973047033001336,
+    "max_abs_error_cp": 108.87876892089844,
+    "bias_cp": -34.884446397423744,
+    "sign_tested": 24,
+    "sign_errors": 0,
+    "sign_agreement": 1.0
+  },
+  "validation": null,
+  "sign_threshold_abs_material_cp": 100,
+  "acceptance": {
+    "mae_limit_cp": 15.0,
+    "sign_agreement_strictly_above": 0.99,
+    "counterfactual_delta_mae_max_cp": 50,
+    "counterfactual_delta_sign_min": 0.95
+  },
+  "counterfactuals": null,
+  "best_epoch": 50,
+  "best_huber_scaled": 0.008441243320703506,
+  "epochs_executed": 65,
+  "elapsed_seconds": 10.084,
+  "quality_gate": "FAIL",
+  "reasons": [
+    "MAE=43.98cp >= 15.00cp"
+  ],
+  "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_01\\20261118-172636\\01_memorizacion\\best.bnn"
+}

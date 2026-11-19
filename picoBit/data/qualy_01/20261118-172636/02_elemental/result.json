@@ -1,0 +1,94 @@
+{
+  "phase": "02_elemental",
+  "train_count": 2000,
+  "validation_count": 500,
+  "material_train": {
+    "white_100_299": 308,
+    "balanced_under100": 1223,
+    "black_100_299": 295,
+    "black_300plus": 88,
+    "white_300plus": 86
+  },
+  "material_validation": {
+    "balanced_under100": 311,
+    "black_300plus": 26,
+    "white_300plus": 22,
+    "white_100_299": 80,
+    "black_100_299": 61
+  },
+  "train": {
+    "count": 2000,
+    "mae_cp": 82.17983383672684,
+    "rmse_cp": 133.4494727630121,
+    "max_abs_error_cp": 1620.3599853515625,
+    "bias_cp": 2.1155425996705888,
+    "sign_tested": 777,
+    "sign_errors": 77,
+    "sign_agreement": 0.9009009009009009
+  },
+  "validation": {
+    "count": 500,
+    "mae_cp": 126.89155533540249,
+    "rmse_cp": 190.74508718511356,
+    "max_abs_error_cp": 1280.6718444824219,
+    "bias_cp": -9.64447245746851,
+    "sign_tested": 189,
+    "sign_errors": 78,
+    "sign_agreement": 0.5873015873015873
+  },
+  "sign_threshold_abs_material_cp": 100,
+  "acceptance": {
+    "mae_limit_cp": 15.0,
+    "sign_agreement_strictly_above": 0.99,
+    "counterfactual_delta_mae_max_cp": 50,
+    "counterfactual_delta_sign_min": 0.95
+  },
+  "counterfactuals": {
+    "queen": {
+      "count": 48,
+      "expected_abs_cp": 900,
+      "delta_mae_cp": 913.6986424326897,
+      "delta_bias_cp": -7.764718631903331,
+      "delta_sign_agreement": 0.4583333333333333,
+      "pass": false
+    },
+    "rook": {
+      "count": 48,
+      "expected_abs_cp": 500,
+      "delta_mae_cp": 499.7650790611903,
+      "delta_bias_cp": -12.285687883694967,
+      "delta_sign_agreement": 0.5416666666666666,
+      "pass": false
+    },
+    "bishop": {
+      "count": 48,
+      "expected_abs_cp": 330,
+      "delta_mae_cp": 339.544880092144,
+      "delta_bias_cp": -6.7924086054166155,
+      "delta_sign_agreement": 0.5,
+      "pass": false
+    },
+    "knight": {
+      "count": 48,
+      "expected_abs_cp": 320,
+      "delta_mae_cp": 328.74972172578174,
+      "delta_bias_cp": 5.596875230471293,
+      "delta_sign_agreement": 0.4791666666666667,
+      "pass": false
+    }
+  },
+  "best_epoch": 23,
+  "best_huber_scaled": 0.07953879982233047,
+  "epochs_executed": 38,
+  "elapsed_seconds": 87.551,
+  "quality_gate": "FAIL",
+  "reasons": [
+    "MAE=126.89cp >= 15.00cp",
+    "signo=58.73% <= 99.00%",
+    "contrafactual queen: delta-MAE/signo/cobertura insuficiente",
+    "contrafactual rook: delta-MAE/signo/cobertura insuficiente",
+    "contrafactual bishop: delta-MAE/signo/cobertura insuficiente",
+    "contrafactual knight: delta-MAE/signo/cobertura insuficiente"
+  ],
+  "checkpoint": "C:\\Users\\pedro\\github\\Bobby\\Akkad\\picoBit\\data\\qualy_01\\20261118-172636\\02_elemental\\best.bnn"
+}
