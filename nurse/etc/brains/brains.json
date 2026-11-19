@@ -29,14 +29,27 @@
       "timeout": 1000,
       "ELO": 400
     },
+    "bullet": {
+      "type": "nurse",
+      "player": "sargon-plus",
+      "evaluator": {
+         "evaluator": "bullet",
+         "network": "C:/Users/pedro/github/Bobby/Akkad/picoBit/assets/raw.bin"
+      },
+      "Depth": 2,
+      "QDepth": 2,
+      "tmax": 15000,
+      "timeout": 30000,
+      "ELO": 1000
+},
     "bitty": {
       "type": "nurse",
       "player": "sargon-plus",
       "evaluator": {
         "evaluator": "bnn",
-        "network": "C:/Users/pedro/github/Bobby/Akkad/picoBit/assets/best.keras"
+        "network": "C:/Users/pedro/github/Bobby/Akkad/picoBit/assets/bnn-bullet-001.bnn"
       },
-   "Depth": 4,
+   "Depth": 2,
    "QDepth": 2,
    "tmax": 15000,
    "timeout": 30000,
@@ -272,7 +285,7 @@
         },   
       "ELO": 1000
     },
-  "dopey": {
+  "bashful": {
       "type": "uci",
       "evaluator" : "null",
       "player": {
@@ -282,7 +295,7 @@
       },
       "args": {
          "windows": [
-           "--weights", "C:/Users/pedro/github/bobby/akkad/picoSargon/assets/dopey.bin",
+           "--weights", "C:/Users/pedro/github/bobby/akkad/picoSargon/assets/bashful.bin",
            "--depth"   ,  "4",
            "--qdepth"  ,  "4",
            "--timeout" , "15000"

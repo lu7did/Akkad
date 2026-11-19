@@ -130,7 +130,7 @@ def append_counterfactuals(model, device, base_rows, alpha, beta, clip, batch=25
     for lab,v0,v1 in zip(labels,old,new):
         delta=float(v1-v0)
         grouped[lab['removed'].upper()].append(delta)
-    return {'count':len(labels),'explanation':'Cambio de BNN residual al retirar pieza; sin teacher SF contrafactual y sin legalidad garantizada',
+    return {'count':len(labels),'explanation':'Cambio de NNUE FP32 residual al retirar pieza; sin teacher SF contrafactual y sin legalidad garantizada',
             'by_piece':{key:{'n':len(values),'mean_residual_delta_cp':float(np.mean(values)),
                               'mean_abs_residual_delta_cp':float(np.mean(np.abs(values))),
                               'std_residual_delta_cp':float(np.std(values))}
@@ -138,7 +138,7 @@ def append_counterfactuals(model, device, base_rows, alpha, beta, clip, batch=25
 
 
 def main(argv=None):
-    ap=argparse.ArgumentParser(description='picoBit auditoría de validación Sargon vs Sargon+BNN')
+    ap=argparse.ArgumentParser(description='picoBit auditoría de validación Sargon vs Sargon+NNUE')
     ap.add_argument('--run',required=True,help='Carpeta de entrenamiento con manifest.json y best.pt')
     ap.add_argument('--in',dest='database',default=None,help='Opcional: comprobar DB del manifiesto')
     ap.add_argument('--out',default=None,help='Directorio para resultados, default <run>/audit')
@@ -150,7 +150,7 @@ def main(argv=None):
         ap.error('batch positivo y counterfactual-boards no negativo')
     run=Path(args.run).resolve()
     manifest=json.loads((run/'manifest.json').read_text(encoding='utf-8'))
-    if manifest.get('format')!='picobit-residual-manifest-v1':
+    if manifest.get('format')!='picobit-residual-nnue-fp32-manifest-v1':
         raise ValueError('Manifiesto incompatible; audit.py no usa manifests de QUALY')
     db=args.database or manifest['database']
     current_sargon_sha = hashlib.sha256((Path(__file__).with_name('sargon.py')).read_bytes()).hexdigest()
@@ -179,7 +179,7 @@ def main(argv=None):
         records.append({'id':item['id'],'fen':item['fen'],
                         'sargon_raw_points':int(evaluate_sargon(b)),
                         'stockfish_cp':sf,
-                        'sargon_cal_cp':scal,'residual_bnn_cp':float(pred),'combined_cp':combined,
+                        'sargon_cal_cp':scal,'residual_nnue_cp':float(pred),'combined_cp':combined,
                         'error_sargon':scal-sf,'error_combined':combined-sf,
                         'material_cp':mat,'material_band':band(mat),'stockfish_band':band(sf),
                         'material_advantage':('white' if mat>0 else 'black' if mat<0 else 'equal'),
@@ -211,7 +211,7 @@ def main(argv=None):
     (out/'summary.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     a=result['all']
     print(f'✅ AUDIT n={a["n"]} | Sargon MAE={a["mae_sargon_cp"]:.2f}cp '
-          f'| Sargon+BNN MAE={a["mae_combined_cp"]:.2f}cp')
+          f'| Sargon+NNUE MAE={a["mae_combined_cp"]:.2f}cp')
     print(f'   Inversiones (|Stockfish|>=100 cp): Sargon={a["sign_errors_sargon"]} '
           f'Combinado={a["sign_errors_combined"]}; detalles={out}')
 

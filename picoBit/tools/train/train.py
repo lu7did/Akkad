@@ -1,4 +1,4 @@
-"""picoBit v0.1.27: entrenamiento BNN residual Sargon + Stockfish.
+"""picoBit v0.1.39: entrenamiento NNUE FP32 residual Sargon + Stockfish.
 
 Requisitos: Python 3.10+, torch, numpy, python-chess. Base .pb = SQLite de picoAlpha.
 No utiliza TensorFlow ni altera modelos productivos.
@@ -25,7 +25,7 @@ from torch import nn
 from torch.nn import functional as F
 from sargon import evaluate_sargon
 
-VERSION = '0.1.36'
+VERSION = '0.1.39'
 INPUT_DIM = 781
 FIRST = 64
 SECOND = 64
@@ -107,7 +107,7 @@ class ProgressBar:
 class EpochProgress:
     """Una única línea física. Reduce la barra y compacta números para no envolver.
 
-    S, S+B, SF: medias firmadas cp; MAE: media absoluta cp; Sig: BCE.
+    S, S+B, SF: medias firmadas cp; MAE: media absoluta cp; Sig: BCE diagnostica.
     """
     _displayed_len = 0
 
@@ -177,7 +177,7 @@ class EpochProgress:
 
 
 def sigmoid_elements_np(pred_cp, target_cp, temperature):
-    """BCEWithLogits por ejemplo, estable; no modifica la loss de entrenamiento."""
+    """BCEWithLogits por ejemplo como metrica historica; NO es objetivo de entrenamiento."""
     logit = np.asarray(pred_cp, dtype=np.float64) / temperature
     prob = 1/(1+np.exp(-np.clip(np.asarray(target_cp,dtype=np.float64)/temperature,-80,80)))
     return np.maximum(logit, 0) - logit*prob + np.log1p(np.exp(-np.abs(logit)))
@@ -210,41 +210,18 @@ def epoch_inference(model, matrix, target, rows, alpha, beta, clip, device, batc
 
 
 
-class SignSTE(torch.autograd.Function):
-    @staticmethod
-    def forward(ctx, x):
-        ctx.save_for_backward(x)
-        return torch.where(x >= 0, torch.ones_like(x), -torch.ones_like(x))
+class ResidualNNUE(nn.Module):
+    """Red FP32 residual: 781 -> 64 -> 64 -> 1.
 
-    @staticmethod
-    def backward(ctx, gradient):
-        (x,) = ctx.saved_tensors
-        return gradient * (x.abs() <= 1).to(gradient.dtype)
-
-
-def sign_ste(x):
-    return SignSTE.apply(x)
-
-
-def fake_int8_rowwise(weights):
-    """QAT INT8 simétrica por neurona: pesos maestros FP32, STE de redondeo.
-
-    La escala de cada fila se calcula sobre los pesos latentes y no recibe
-    gradiente. La inferencia exportada reproduce exactamente la discretización.
+    Arquitectura, BN y activacion ClippedReLU [0,1] de v0.1.37.
+    Unico cambio en forward: se retira la cuantizacion INT8 simulada
+    de pesos y activaciones. Todos los parametros y operaciones son FP32.
     """
-    scale = weights.detach().abs().amax(dim=1, keepdim=True).clamp(min=1e-8) / 127.0
-    q = torch.clamp(torch.round(weights / scale), -127, 127)
-    dequant = q * scale
-    return weights + (dequant - weights).detach()
-
-
-class ResidualBNN(nn.Module):
     def __init__(self, input_dim=INPUT_DIM, hidden=FIRST):
         super().__init__()
-        if hidden != 64:
-            raise ValueError('Arquitectura aprobada: ocultas de 64 bits para XNOR uint64')
-        self.input_dim = input_dim
-        self.hidden = hidden
+        if input_dim != INPUT_DIM or hidden != 64:
+            raise ValueError('Arquitectura requerida: 781 -> 64 -> 64 -> 1')
+        self.input_dim, self.hidden = input_dim, hidden
         self.fc1 = nn.Linear(input_dim, 64, bias=False)
         self.bn1 = nn.BatchNorm1d(64)
         self.fc2 = nn.Linear(64, 64, bias=False)
@@ -254,12 +231,8 @@ class ResidualBNN(nn.Module):
         nn.init.kaiming_normal_(self.fc2.weight, nonlinearity='linear')
 
     def forward(self, x):
-        h1 = F.linear(x, fake_int8_rowwise(self.fc1.weight))
-        a1 = sign_ste(self.bn1(h1))
-        w2 = self.fc2.weight
-        alpha = w2.detach().abs().mean(dim=1, keepdim=True).clamp(min=1e-8)
-        h2 = F.linear(a1, sign_ste(w2) * alpha)
-        a2 = sign_ste(self.bn2(h2))
+        a1 = torch.clamp(self.bn1(self.fc1(x)), 0.0, 1.0)
+        a2 = torch.clamp(self.bn2(self.fc2(a1)), 0.0, 1.0)
         return self.fc_out(a2).squeeze(-1)
 
 
@@ -440,7 +413,8 @@ def targets(rows, alpha, beta, clip):
     s = np.asarray([r['sargon'] for r in rows], np.float32)
     sf = np.clip(np.asarray([r['sf_cp'] for r in rows], np.float32), -clip, clip)
     sc = np.clip(alpha * s + beta, -clip, clip)
-    residual = np.clip(sf - sc, -clip, clip)
+    # Exactamente el residuo requerido por la evaluacion y MAE: sin recorte adicional.
+    residual = sf - sc
     return residual.astype(np.float32)
 
 
@@ -453,9 +427,18 @@ def feature_matrix(rows, label='4/5 vectores'):
     return np.stack(values).astype(np.float32)
 
 
+def cp_mae_loss(pred_cp, target_cp):
+    """Objetivo de optimizacion: MAE del residuo en centipeones.
+
+    Para cada posicion, |pred_residual - target_residual| es identico
+    a |(S_cal + pred_residual) - SF_clipped|.
+    """
+    return F.l1_loss(pred_cp, target_cp)
+
+
 def sigmoid_loss(pred_cp, target_cp, temperature):
-    # Regresión probabilística: etiqueta continua sigmoid(residual_cp / T),
-    # predicción sigmoid(logit_cp/T). BCE con soft labels, NO clasificación.
+    # Metrica diagnostica historica (NO optimiza pesos ni selecciona best.pt):
+    # etiqueta continua sigmoid(residual_cp / T), prediccion sigmoid(logit_cp / T).
     probabilities = torch.sigmoid(target_cp / temperature)
     return F.binary_cross_entropy_with_logits(pred_cp / temperature, probabilities)
 
@@ -485,7 +468,7 @@ def measures(rows, predictions, alpha, beta, clip):
                 'bias_cp': float(np.mean(diff)),
                 'sign_accuracy_nonzero_100cp': None if signs is None else float(signs),
                 'sign_tested': int(tested.sum())}
-    return {'sargon_cal': calc(sc), 'sargon_plus_bnn': calc(combined)}
+    return {'sargon_cal': calc(sc), 'sargon_plus_nnue': calc(combined)}
 
 
 def checkpoint_read(path, device='cpu'):
@@ -493,19 +476,19 @@ def checkpoint_read(path, device='cpu'):
         ck = torch.load(path, map_location=device, weights_only=True)
     except TypeError:
         raise RuntimeError('Se requiere PyTorch con soporte torch.load(weights_only=True)')
-    if ck.get('format') != 'picobit-residual-bnn-v1':
+    if ck.get('format') != 'picobit-residual-nnue-fp32-v1':
         raise ValueError('Checkpoint incompatible con el modelo residual')
     conf = ck['config']
     if conf['input_dim'] != INPUT_DIM or conf['hidden'] != 64:
         raise ValueError('Arquitectura incompatible')
-    model = ResidualBNN(INPUT_DIM, 64).to(device)
+    model = ResidualNNUE(INPUT_DIM, 64).to(device)
     model.load_state_dict(ck['state_dict'], strict=True)
     model.eval()
     return model, ck
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description=f'picoBit train.py v{VERSION} — Sargon + BNN residual')
+    ap = argparse.ArgumentParser(description=f'picoBit train.py v{VERSION} — Sargon + NNUE FP32 residual')
     ap.add_argument('--in', dest='database', default=None, help='SQLite .pb de picoAlpha, teacher Stockfish')
     ap.add_argument('--sample', type=int, default=10000, help='Objetivo de posiciones elegibles únicas (default 10000); 0=barrido exhaustivo')
     ap.add_argument('--validation', type=float, default=20.0, help='Porcentaje validación, default 20')
@@ -517,7 +500,8 @@ def main(argv=None):
                     help='Learning rate mínimo para CosineAnnealingLR (default 0.0)')
     ap.add_argument('--seed', type=int, default=42)
     ap.add_argument('--clip', type=float, default=DEFAULT_CLIP)
-    ap.add_argument('--sigmoid-temperature', type=float, default=400.0)
+    ap.add_argument('--sigmoid-temperature', type=float, default=400.0,
+                    help='Escala para Sig diagnostica; no interviene en optimizacion ni seleccion')
     ap.add_argument('--scan-limit', type=int, default=0, help='Limita el universo inicial a los primeros N IDs etiquetados; 0=todos')
     ap.add_argument('--weight-decay', type=float, default=1e-4)
     ap.add_argument('--all-positions', action='store_true', help='Desactivar filtro quiet, decisión explícita')
@@ -529,9 +513,9 @@ def main(argv=None):
         args.scan_limit < 0 or args.sample < 0 or args.weight_decay < 0):
         ap.error('Parámetros inválidos: revisar porcentajes, tamaños, LR y clipping')
     if args.self_test:
-        model = ResidualBNN().train()
+        model = ResidualNNUE().train()
         pred = model(torch.zeros((4, INPUT_DIM)))
-        sigmoid_loss(pred, torch.zeros_like(pred), args.sigmoid_temperature).backward()
+        cp_mae_loss(pred, torch.ones_like(pred)).backward()
         assert pred.shape == (4,) and all(v.grad is not None for v in model.parameters())
         print('✅ SELF-TEST: forward, backward, gradientes y dimensiones correctos')
         return 0
@@ -545,10 +529,10 @@ def main(argv=None):
     else:
         device = args.device
     root = Path(__file__).resolve().parents[2]
-    out = Path(args.out).resolve() if args.out else root / 'data' / 'residual_bnn' / datetime.now().strftime('%Y%m%d-%H%M%S-%f')
+    out = Path(args.out).resolve() if args.out else root / 'data' / 'residual_nnue_fp32' / datetime.now().strftime('%Y%m%d-%H%M%S-%f')
     if out.exists():
         raise FileExistsError(f'La corrida ya existe: {out}')
-    print(f'⚙️ picoBit BNN residual v{VERSION} | device={device} | fuente={args.database}', flush=True)
+    print(f'⚙️ picoBit NNUE FP32 residual v{VERSION} | device={device} | fuente={args.database}', flush=True)
     print('⚙️ Etapa 1/5: muestreo temprano de IDs y filtrado SÓLO de candidatos...', flush=True)
     rows, selection = load_rows(args.database, args.scan_limit, not args.all_positions, args.sample, args.seed)
     print(f'📊 Elegibles={len(rows)} descartes={selection}', flush=True)
@@ -578,7 +562,7 @@ def main(argv=None):
     ytr, yva = targets(train_rows, alpha, beta, args.clip), targets(val_rows, alpha, beta, args.clip)
     print(f'✅ Tensores preparados: train={xtr.shape}, valid={xva.shape}', flush=True)
     print('⚙️ Etapa 5/5: inicialización de red y entrenamiento...', flush=True)
-    model = ResidualBNN().to(device)
+    model = ResidualNNUE().to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     schedule = torch.optim.lr_scheduler.CosineAnnealingLR(
         opt, T_max=args.epoch, eta_min=args.lrmin)
@@ -588,7 +572,7 @@ def main(argv=None):
     dbpath = Path(args.database).resolve()
     sargon_sha256 = hashlib.sha256((Path(__file__).with_name('sargon.py')).read_bytes()).hexdigest()
     manifest = {
-        'format': 'picobit-residual-manifest-v1', 'version': VERSION,
+        'format': 'picobit-residual-nnue-fp32-manifest-v1', 'version': VERSION,
         'database': str(dbpath), 'database_bytes': dbpath.stat().st_size,
         'teacher_cp_pov': 'side-to-move', 'model_pov': 'white',
         'sargon_scale': 'original_user_points', 'sargon_function': 'evaluate_sargon',
@@ -601,7 +585,10 @@ def main(argv=None):
         'selection': selection, 'filter': 'quiet no-check no-immediate-legal-capture/promotion' if not args.all_positions else 'all-valid-nonterminal',
         'alpha': alpha, 'beta': beta, 'clip_cp': args.clip,
         'sigmoid_temperature_cp': args.sigmoid_temperature,
-        'input_dim': INPUT_DIM, 'hidden': 64,
+        'training_objective': 'MAE_cp',
+        'checkpoint_selection': 'min_validation_combined_mae_cp',
+        'residual_target': 'clip(SF,-C,C)-clip(alpha*S+beta,-C,C); no further clipping',
+        'input_dim': INPUT_DIM, 'hidden': 64, 'model_type': 'NNUE-FP32',
         'hyperparameters': {'epoch':args.epoch, 'batch':args.batch, 'lr':args.lr,
                             'lrmin':args.lrmin,
                             'weight_decay':args.weight_decay, 'validation_pct':args.validation},
@@ -611,9 +598,13 @@ def main(argv=None):
               'sigmoid_temperature_cp':args.sigmoid_temperature,
               'alpha':alpha, 'beta':beta, 'sargon_sha256':sargon_sha256,
               'encoding':'piece-square 768; turn 1; castling 4; enpassant 8',
-              'fc1':'int8-per-output-QAT', 'fc2':'binary-XNOR-meanabs-per-output',
-              'bn':'BatchNorm before sign', 'out':'fp32 cp residual',
-              'loss':'BCEWithLogits(estimated_residual_cp/T, sigmoid(target_residual_cp/T))'}
+              'fc1':'fp32', 'fc2':'fp32',
+              'activation':'clipped-ReLU-0..1-fp32',
+              'bn':'BatchNorm before clipped-ReLU; affine folding on export',
+              'out':'fp32 cp residual; fp32 export',
+              'loss':'MAE_cp(predicted_residual_cp, target_residual_cp)',
+              'checkpoint_selection':'min_validation_combined_mae_cp',
+              'sigmoid_metric':'BCEWithLogits diagnostic only, not optimized'}
     best = float('inf')
     gen = torch.Generator().manual_seed(args.seed)
     xtr_cpu = torch.from_numpy(xtr)
@@ -651,7 +642,7 @@ def main(argv=None):
             xb, yb = xtr_cpu[ids].to(device), ytr_cpu[ids].to(device)
             opt.zero_grad(set_to_none=True)
             preds = model(xb)
-            loss = sigmoid_loss(preds, yb, args.sigmoid_temperature)
+            loss = cp_mae_loss(preds, yb)
             if not torch.isfinite(loss):
                 raise FloatingPointError(f'Loss no finita epoch {epoch}')
             # Telemetria del lote, calculada con la misma prediccion de forward.
@@ -667,8 +658,6 @@ def main(argv=None):
             acc_sig+=float(sigmoid_elements_np(pred_np,ytr[loc],args.sigmoid_temperature).sum())
             loss.backward()
             opt.step()
-            with torch.no_grad():
-                model.fc2.weight.clamp_(-1, 1)
             total_loss += loss.item() * len(ids)
             processed_train += len(ids)
             optimizer_steps += 1
@@ -691,23 +680,25 @@ def main(argv=None):
         pred_valid = epoch_inference(model, xva, yva, val_rows, alpha, beta,
                                      args.clip, device, args.batch, epoch,
                                      args.epoch, 'Valid', args.sigmoid_temperature)
-        val_loss = float(sigmoid_loss(torch.from_numpy(pred_valid),
-                                      torch.from_numpy(yva),
-                                      args.sigmoid_temperature).item())
+        val_sigmoid = float(sigmoid_loss(torch.from_numpy(pred_valid),
+                                         torch.from_numpy(yva),
+                                         args.sigmoid_temperature).item())
         valid_metrics = measures(val_rows, pred_valid, alpha, beta, args.clip)
         rec = {
             'epoch': epoch, 'train_samples_processed': processed_train,
             'train_samples_total': len(xtr_cpu),
             'train_optimizer_steps': optimizer_steps,
             'train_batch_loss': total_loss / processed_train,
+            'train_batch_mae_cp': total_loss / processed_train,
             'train_verified_count': len(pred_train),
             'train_verified_sigmoid_loss': train_sigmoid,
             'train_sargon_mae_cp': train_metrics['sargon_cal']['mae_cp'],
-            'train_combined_mae_cp': train_metrics['sargon_plus_bnn']['mae_cp'],
+            'train_combined_mae_cp': train_metrics['sargon_plus_nnue']['mae_cp'],
             'validation_count': len(pred_valid),
-            'validation_sigmoid_loss': val_loss,
+            'validation_sigmoid_loss': val_sigmoid,
+            'validation_selection_mae_cp': valid_metrics['sargon_plus_nnue']['mae_cp'],
             'validation_sargon_mae_cp': valid_metrics['sargon_cal']['mae_cp'],
-            'validation_combined_mae_cp': valid_metrics['sargon_plus_bnn']['mae_cp'],
+            'validation_combined_mae_cp': valid_metrics['sargon_plus_nnue']['mae_cp'],
             'lr': opt.param_groups[0]['lr'],
         }
         rec['train_loss'] = rec['train_batch_loss']
@@ -715,14 +706,17 @@ def main(argv=None):
         rec['mae_combined_cp'] = rec['validation_combined_mae_cp']
         with history.open('a', encoding='utf-8') as fh:
             fh.write(json.dumps(rec, ensure_ascii=False)+'\n')
-        improved = val_loss < best
+        val_mae = valid_metrics['sargon_plus_nnue']['mae_cp']
+        improved = val_mae < best
         if improved:
-            best = val_loss
+            best = val_mae
             best_epoch = epoch
-            torch.save({'format': 'picobit-residual-bnn-v1', 'version': VERSION,
+            torch.save({'format': 'picobit-residual-nnue-fp32-v1', 'version': VERSION,
                         'config': config,
                         'state_dict': {k:v.detach().cpu() for k,v in model.state_dict().items()},
-                        'epoch': epoch, 'validation_sigmoid_loss': val_loss}, out/'best.pt')
+                        'epoch': epoch, 'validation_sigmoid_loss': val_sigmoid,
+                        'validation_combined_mae_cp': val_mae,
+                        'selection_criterion': 'min_validation_combined_mae_cp'}, out/'best.pt')
             (out/'best_metrics.json').write_text(
                 json.dumps({'train':train_metrics,'validation':valid_metrics},indent=2),
                 encoding='utf-8')
@@ -732,10 +726,10 @@ def main(argv=None):
         print(f'Epoch best={best_epoch} E{epoch}/{args.epoch} '
               f'updates={optimizer_steps} '
               f'TRAIN_S_MAE={train_metrics["sargon_cal"]["mae_cp"]:.3f}cp '
-              f'TRAIN_S+B_MAE={train_metrics["sargon_plus_bnn"]["mae_cp"]:.3f}cp '
+              f'TRAIN_S+B_MAE={train_metrics["sargon_plus_nnue"]["mae_cp"]:.3f}cp '
               f'VALID_S_MAE={valid_metrics["sargon_cal"]["mae_cp"]:.3f}cp '
-              f'VALID_S+B_MAE={valid_metrics["sargon_plus_bnn"]["mae_cp"]:.3f}cp '
-              f'VALID_Sig={val_loss:.6f} bestSig={best:.6f} '
+              f'VALID_S+B_MAE={valid_metrics["sargon_plus_nnue"]["mae_cp"]:.3f}cp '
+              f'VALID_Sig={val_sigmoid:.6f} bestMAE={best:.3f}cp '
               f'lr={opt.param_groups[0]["lr"]:.6g}'
               + (' *' if improved else ''), flush=True)
     print(f'✅ Entrenamiento finalizado | checkpoint={out/"best.pt"}',flush=True)

@@ -307,6 +307,14 @@
       "players": "*",
       "requires_network": true,
       "factory": "nurse.bnn_eval:make_bnn"
+    },
+    {
+      "id": "bullet",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/bullet.py",
+      "players": "*",
+      "requires_network": true,
+      "factory": "nurse.bullet_eval:make_bullet"
     }
   ]
 }

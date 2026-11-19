@@ -1,0 +1,33 @@
+[17:26:41] \U0001f4bb sargon-nurse v0.1.37 brain=bitty type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[17:26:41] \u2699\ufe0f player=sargon-plus evaluator=bnn network=C:\Users\pedro\github\Bobby\Akkad\picoBit\assets\bnn-bullet-001.bnn depth=2 qdepth=2 arguments={}
+[17:26:41] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[17:26:41] \U0001f680 subprocess pid=41452 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.sargon_plus', '--serve', '--config', '{"type": "nurse", "player": "sargon-plus", "evaluator": {"evaluator": "bnn", "network": "C:/Users/pedro/github/Bobby/Akkad/picoBit/assets/bnn-bullet-001.bnn"}, "Depth": 2, "QDepth": 2, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\sargon_plus.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\evaluators\\\\bnn.py", "_player": "sargon-plus", "_evaluator": "bnn", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\picoBit\\\\assets\\\\bnn-bullet-001.bnn", "_type": "nurse", "arguments": {}}']
+[17:26:41] \U0001f4cb child \u2699\ufe0f EXEC player=sargon-plus | evaluator=bnn | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x00/0 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+[17:26:41] \U0001f4cb child \u26a1 TURBO mask=0x00 baseline=ON adaptive-actuators=OFF
+[17:26:41] \U0001f4cb child [17:26:41] \U0001f9e0 worker player=sargon-plus evaluator=bnn depth=2 qdepth=2 tmax=15000 timeout=30000 warmup_movetime=15000 network=C:\Users\pedro\github\Bobby\Akkad\picoBit\assets\bnn-bullet-001.bnn arguments={}
+[17:26:41] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:42] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:44] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:45] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:46] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:47] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:51] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:51] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:53] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:53] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:55] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:57] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:26:59] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:00] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:02] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:03] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:06] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:07] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:09] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:11] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:13] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:15] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:18] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:20] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:23] \U0001f50e brain=bitty go='go movetime 15000' tmax=15000ms timeout=30000ms
+[17:27:24] \U0001f4cb child [17:27:24] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

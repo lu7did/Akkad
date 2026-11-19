@@ -1,0 +1,34 @@
+{
+  "train": {
+    "sargon_cal": {
+      "mae_cp": 140.15523772121824,
+      "rmse_cp": 202.04927055576286,
+      "bias_cp": -0.012103380487923096,
+      "sign_accuracy_nonzero_100cp": 0.878351164254248,
+      "sign_tested": 15890
+    },
+    "sargon_plus_nnue": {
+      "mae_cp": 114.01820740209499,
+      "rmse_cp": 172.7158279345815,
+      "bias_cp": -4.987500968515937,
+      "sign_accuracy_nonzero_100cp": 0.9357457520453115,
+      "sign_tested": 15890
+    }
+  },
+  "validation": {
+    "sargon_cal": {
+      "mae_cp": 140.09834892980578,
+      "rmse_cp": 202.19479920624846,
+      "bias_cp": 5.29971177157857,
+      "sign_accuracy_nonzero_100cp": 0.8753455642121136,
+      "sign_tested": 3979
+    },
+    "sargon_plus_nnue": {
+      "mae_cp": 132.9724056975722,
+      "rmse_cp": 192.74158754889152,
+      "bias_cp": -0.592095622808257,
+      "sign_accuracy_nonzero_100cp": 0.8881628549886906,
+      "sign_tested": 3979
+    }
+  }
+}
