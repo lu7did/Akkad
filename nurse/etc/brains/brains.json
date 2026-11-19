@@ -181,11 +181,11 @@
        "network": "C:/Users/pedro/github/Bobby/Akkad/picoAlpha/assets/best_int8.bin"
     },
     "arguments": {
-       "sims": 2000,
-       "depth": 14,
+       "sims": 10000,
+       "depth": 20,
        "cpuct": 1.5
     },
-    "Depth": 14,
+    "Depth": 20,
     "tmax": 15000,
     "timeout": 30000,
     "ELO": 1000

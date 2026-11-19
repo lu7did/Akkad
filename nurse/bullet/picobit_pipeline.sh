@@ -5,7 +5,29 @@
 set -Eeuo pipefail
 
 # ====================== CONFIGURACION CENTRAL ======================
-BULLET_DIR="${HOME}/github/Bobby/bullet"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/bullet_runtime.sh"
+bullet_resolve_runtime "$SCRIPT_DIR" || exit 2
+# Templates are immutable source inputs: prefer Akkad's imported snapshot.
+TEMPLATE_DIR="$SCRIPT_DIR/picobit_genesis"
+picobit_require_templates() {
+  local missing=0 f
+  for f in pico_bit_train.rs pico_bit_validate.rs pico_bit_parity.rs; do
+    [[ -s "$TEMPLATE_DIR/$f" ]] || missing=1
+  done
+  if ((missing)); then
+    echo '⚙️ Importando las plantillas Rust históricas desde Bullet externo' >&2
+    bash "$SCRIPT_DIR/import_picobit_templates.sh" || return 2
+  fi
+  for f in pico_bit_train.rs pico_bit_validate.rs pico_bit_parity.rs; do
+    [[ -s "$TEMPLATE_DIR/$f" ]] || {
+      echo "ERROR: no existe $TEMPLATE_DIR/$f. Plantilla original ausente tanto de Akkad como de Bullet." >&2
+      return 2
+    }
+  done
+}
+
+
 RUN_ID="picobit-nnue-003"              # nombre UNICO por corrida/red
 TRAIN_DATA="${HOME}/stockfish/test79-may2022-16tb7p-filter-v6-dd.min-mar2023.unmin.high-simple-eval-1k.min-v2.binpack"
 VALID_DATA="${HOME}/stockfish/test77-jan2022-2tb7p.high-simple-eval-1k.min-v2.binpack"
@@ -35,6 +57,9 @@ Uso: bash picobit_pipeline.sh [--mon N] [--status]
   Sin --mon, recupera MON del estado de RUN_ID. Valores 1..7.
   Cambiar RUN_ID para entrenar una red nueva sin pisar checkpoints.
   NO modifica ejemplos originales ni código interno de Bullet.
+  Las plantillas pertenecen a akkad/nurse/bullet/picobit_genesis/.
+  Si todavía no están allí: bash import_picobit_templates.sh
+  BULLET_DIR permite elegir instalación externa de Bullet.
 HELP
 }
 CLI_MON=""; STATUS=0
@@ -53,7 +78,7 @@ for v in BATCH_SIZE BATCHES_PER_SB END_SB SAVE_EVERY LOADER_THREADS READ_BUFFER_
 done
 [[ "$VALID_POSITIONS" =~ ^[0-9]+$ ]] || { echo "VALID_POSITIONS inválido" >&2; exit 2; }
 (( END_SB % SAVE_EVERY == 0 )) || { echo "END_SB debe ser divisible por SAVE_EVERY" >&2; exit 2; }
-RUN_DIR="$BULLET_DIR/runs/$RUN_ID"
+RUN_DIR="$(bullet_resolve_run_dir "$SCRIPT_DIR" "$RUN_ID")"
 CKPT_DIR="$RUN_DIR/checkpoints"
 STATE_FILE="$RUN_DIR/MON.state"
 CONFIG_FILE="$RUN_DIR/config.lock"
@@ -93,6 +118,7 @@ if [[ -f "$CONFIG_FILE" ]]; then
   fi
 fi
 if ((STATUS)); then
+  echo "RESULTADOS_AKKAD=$RUN_DIR"
   echo "RUN_ID=$RUN_ID MON=$MON"; echo "Estado: $STATE_FILE"
   find "$CKPT_DIR" -maxdepth 1 -type d -name "${RUN_ID}-*" -print 2>/dev/null | sort -V || true
   exit 0
@@ -113,9 +139,8 @@ if (( MON == 1 )); then
   echo '⚙️ MON=1 — verificar herramientas, datasets y plantilla'
   command -v cargo >/dev/null; command -v python3 >/dev/null
   [[ -s "$TRAIN_DATA" && -s "$VALID_DATA" ]]
-  for f in examples/pico_bit_train.rs examples/pico_bit_validate.rs examples/pico_bit_parity.rs crates/bullet_lib/Cargo.toml; do
-    [[ -s "$f" ]] || { echo "Falta plantilla: $f" >&2; exit 1; }
-  done
+  picobit_require_templates || exit 2
+  [[ -s crates/bullet_lib/Cargo.toml ]] || { echo 'Falta Cargo.toml de Bullet' >&2;exit 2; }
   [[ -d crates/bullet_lib/src ]]
   config_text > "$CONFIG_FILE"
   git rev-parse HEAD > "$RUN_DIR/bullet_commit.txt"
@@ -126,6 +151,8 @@ fi
 
 if (( MON == 2 )); then
   echo '⚙️ MON=2 — generar fuentes Rust aisladas de la corrida'
+  picobit_require_templates || exit 2
+  export PB_TEMPLATE_DIR="$TEMPLATE_DIR"
   export PB_RUN_ID="$RUN_ID" PB_RUN_DIR="$RUN_DIR" PB_CKPT_DIR="$CKPT_DIR" PB_TRAIN_EX="$TRAIN_EX" PB_PARITY_EX="$PARITY_EX" PB_VALID_EX="$VALID_EX"
   export PB_TRAIN_DATA="$TRAIN_DATA" PB_VALID_DATA="$VALID_DATA" PB_BATCH_SIZE="$BATCH_SIZE" PB_BATCHES_PER_SB="$BATCHES_PER_SB" PB_END_SB="$END_SB" PB_SAVE_EVERY="$SAVE_EVERY" PB_LR="$LEARNING_RATE" PB_FINAL_LR="$FINAL_LEARNING_RATE" PB_WDL="$WDL" PB_EVAL_SCALE="$EVAL_SCALE" PB_THREADS="$LOADER_THREADS" PB_READ_BUF="$READ_BUFFER_MB" PB_QUEUE="$QUEUE_SIZE" PB_VALID_N="$VALID_POSITIONS" PB_TOL="$PARITY_TOL"
   python3 - <<'PY'
@@ -133,13 +160,14 @@ import os, re, json
 from pathlib import Path
 O=os.environ
 p=Path('examples')
+templates=Path(O['PB_TEMPLATE_DIR'])
 def replace_one(s,pattern,repl,flags=0):
     s,n=re.subn(pattern,lambda m: repl,s,count=1,flags=flags)
     if n!=1: raise RuntimeError(f'No se encontró patrón exacto en plantilla: {pattern}')
     return s
 def lit(s): return json.dumps(str(s),ensure_ascii=False)
 run=O['PB_RUN_ID']; path=O['PB_CKPT_DIR']; ids=list(range(int(O['PB_SAVE_EVERY']),int(O['PB_END_SB'])+1,int(O['PB_SAVE_EVERY'])))
-train=(p/'pico_bit_train.rs').read_text()
+train=(templates/'pico_bit_train.rs').read_text()
 train=replace_one(train,r'const TRAIN: &str = concat!\(.*?\);',f'const TRAIN: &str = {lit(O["PB_TRAIN_DATA"])};',re.S)
 train=replace_one(train,r'net_id: "[^"]+"\.to_string\(\)',f'net_id: {lit(run)}.to_string()')
 train=replace_one(train,r'output_directory: "[^"]+"',f'output_directory: {lit(path)}')
@@ -160,7 +188,7 @@ train=replace_one(train,r'    let schedule = TrainingSchedule', '''    let start
 train=re.sub(r'    println!\("⚙️ Batches:.*?;\n','',train)
 train=re.sub(r'    println!\("⚙️ Checkpoints:.*?;\n','',train)
 train_path=p/(O['PB_TRAIN_EX']+'.rs'); train_path.write_text(train)
-val=(p/'pico_bit_validate.rs').read_text()
+val=(templates/'pico_bit_validate.rs').read_text()
 val=replace_one(val,r'const TEST: &str = concat!\(.*?\);',f'const TEST: &str = {lit(O["PB_VALID_DATA"])};',re.S)
 val=replace_one(val,r'const N: usize = [^;]+;',f'const N: usize = {O["PB_VALID_N"] if O["PB_VALID_N"]!="0" else "usize::MAX"};')
 val=replace_one(val,r'const WDL: f32 = [^;]+;',f'const WDL: f32 = {O["PB_WDL"]};')
@@ -170,7 +198,7 @@ val=replace_one(val,r'let path = format!\(\s*"checkpoints/picobit-train-v1-\{id\
 val=replace_one(val,r'File::create\("picobit_validation.csv"\)',f'File::create({lit(O["PB_RUN_DIR"]+"/validation.csv")})')
 val=val.replace('✅ CSV: picobit_validation.csv', '✅ CSV: '+O['PB_RUN_DIR']+'/validation.csv')
 val_path=p/(O['PB_VALID_EX']+'.rs'); val_path.write_text(val)
-par=(p/'pico_bit_parity.rs').read_text()
+par=(templates/'pico_bit_parity.rs').read_text()
 par=replace_one(par,r'let path = format!\("checkpoints/picobit-train-v1-\{id\}"\);',f'let path = format!({lit(path+"/"+run+"-{id}")});')
 par=replace_one(par,r'for id in \[5, 10, 15, 20\]',f'for id in {ids!r}')
 par=replace_one(par,r'let path = format!\(\s*"checkpoints/picobit-train-v1-\{id\}/raw.bin"\s*\);',f'let path = format!({lit(path+"/"+run+"-{id}/raw.bin")});')

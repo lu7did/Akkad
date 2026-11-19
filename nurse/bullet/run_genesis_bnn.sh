@@ -2,7 +2,8 @@
 # Independent Bullet BNN genesis (Metal); never touches GRMP or Bashful.
 set -Eeuo pipefail
 BASE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-BULLET_DIR="${BULLET_DIR:-$HOME/github/Bobby/bullet}"
+source "${BASE}/bullet_runtime.sh"
+bullet_resolve_runtime "${BASE}" || exit 2
 RUN_ID="${RUN_ID:-bnn-bullet-001}"
 TRAIN_DATA="${TRAIN_DATA:-$HOME/stockfish/test79-may2022-16tb7p-filter-v6-dd.min-mar2023.unmin.high-simple-eval-1k.min-v2.binpack}"
 VALID_DATA="${VALID_DATA:-$HOME/stockfish/test77-jan2022-2tb7p.high-simple-eval-1k.min-v2.binpack}"
@@ -13,7 +14,7 @@ BATCHES_PER_SB="${BATCHES_PER_SB:-256}"
 LR_START="${LR_START:-0.001}"
 LR_FINAL="${LR_FINAL:-0.0001}"
 VALID_COUNT="${VALID_COUNT:-2000000}"
-RUN_DIR="$BULLET_DIR/runs/$RUN_ID"
+RUN_DIR="$(bullet_resolve_run_dir "$BASE" "$RUN_ID")"
 CHECKPOINTS="$RUN_DIR/checkpoints"
 STATE="$RUN_DIR/MON.state"
 LOCK="$RUN_DIR/config.lock"
@@ -79,6 +80,7 @@ if [[ -f "$LOCK" ]] && ! config | cmp -s - "$LOCK";then
  echo "❌ Parámetros diferentes de $LOCK; usar RUN_ID nuevo o recuperar configuración original" >&2; exit 2
 fi
 if ((STATUS));then
+ echo "RESULTADOS_AKKAD=$RUN_DIR"
  echo "RUN_ID=$RUN_ID MON=$MON"
  echo "CHECKPOINTS=$CHECKPOINTS"
  find "$CHECKPOINTS" -maxdepth 1 -type d -name "$RUN_ID-*" -print 2>/dev/null|sort -V || true
@@ -113,17 +115,8 @@ if ((MON<=2));then
  echo '⚙️ MON=2 — ejemplos Rust y compilación Metal'
  check
  # Only BNN-prefixed files, no replacement of prior Rust examples.
- cp "$BASE/bnn_genesis/bnn_train.rs" "examples/$TRAIN_EX.rs"
- cp "$BASE/bnn_genesis/bnn_validate.rs" "examples/$VALID_EX.rs"
- python3 - "$TRAIN_EX" "$VALID_EX" <<'PY'
-from pathlib import Path
-import sys
-p=Path('crates/bullet_lib/Cargo.toml');s=p.read_text()
-for name in sys.argv[1:]:
-    if f'name = "{name}"' not in s:
-        s+=f'\n[[example]]\nname = "{name}"\npath = "../../examples/{name}.rs"\n'
-p.write_text(s)
-PY
+ bullet_install_example "$TRAIN_EX" "$BASE/bnn_genesis/bnn_train.rs"
+ bullet_install_example "$VALID_EX" "$BASE/bnn_genesis/bnn_validate.rs"
  cargo build --release --locked -p bullet_lib --example "$TRAIN_EX" --features metal
  cargo build --release --locked -p bullet_lib --example "$VALID_EX" --features metal
  next

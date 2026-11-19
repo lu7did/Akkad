@@ -2,7 +2,8 @@
 # Bullet-native, dual-head picoAlpha MCTS NNUE trainer. No SQLite or PyTorch.
 set -Eeuo pipefail
 BASE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-BULLET_DIR="${BULLET_DIR:-$HOME/github/Bobby/bullet}"
+source "${BASE}/bullet_runtime.sh"
+bullet_resolve_runtime "${BASE}" || exit 2
 RUN_ID="${RUN_ID:-mcts-bullet-rust-001}"
 TRAIN_DATA="${TRAIN_DATA:-$HOME/stockfish/test79-may2022-16tb7p-filter-v6-dd.min-mar2023.unmin.high-simple-eval-1k.min-v2.binpack}"
 VALID_DATA="${VALID_DATA:-$HOME/stockfish/test77-jan2022-2tb7p.high-simple-eval-1k.min-v2.binpack}"
@@ -11,13 +12,13 @@ BATCH_SIZE="${BATCH_SIZE:-4096}";BATCHES_PER_SB="${BATCHES_PER_SB:-128}"
 LR_START="${LR_START:-0.001}";LR_FINAL="${LR_FINAL:-0.0001}"
 POLICY_WEIGHT="${POLICY_WEIGHT:-0.01}";CP_BLEND="${CP_BLEND:-1.0}"
 VALID_COUNT="${VALID_COUNT:-200000}"
-RUN_DIR="$BULLET_DIR/runs/$RUN_ID"; CHECKPOINTS="$RUN_DIR/checkpoints"
+RUN_DIR="$(bullet_resolve_run_dir "$BASE" "$RUN_ID")"; CHECKPOINTS="$RUN_DIR/checkpoints"
 STATE="$RUN_DIR/MON.state";LOCK="$RUN_DIR/config.lock"
 TRAIN_EX=mcts_picoalpha_bullet_train;VALID_EX=mcts_picoalpha_bullet_validate
 MON_FLAG='';STATUS=0
 usage(){ cat <<'EOF'
 Uso: ./run_genesis_mcts.sh [--mon 1..6] [--status] [--help]
-Se instala en la raíz de Bullet. Requiere Rust/Cargo con Metal, Python3 y
+Se ejecuta desde akkad/nurse/bullet; Bullet/Cargo/Metal siguen instalados fuera de Akkad. Requiere Rust/Cargo con Metal, Python3 y
 T79/T77 binpack. No usa PyTorch, SQLite ni el código de entrenamiento picoAlpha.
 
 MON=1 verifica dataset, dependencias y congela configuración
@@ -30,8 +31,8 @@ MON=7 terminado; el estado se conserva automáticamente.
 
 Variables: BULLET_DIR RUN_ID TRAIN_DATA VALID_DATA SUPERBATCHES SAVE_EVERY
 BATCH_SIZE BATCHES_PER_SB LR_START LR_FINAL POLICY_WEIGHT CP_BLEND VALID_COUNT
-Los pesos se exportan a runs/$RUN_ID/export/best_int8.bin y
-runs/$RUN_ID/export/picoalpha_nnue_weights.hpp.
+Los pesos se exportan a akkad/nurse/bullet/runs/$RUN_ID/export/best_int8.bin y
+akkad/nurse/bullet/runs/$RUN_ID/export/picoalpha_nnue_weights.hpp.
 POLICY_WEIGHT regula CE(from)+CE(to); CP_BLEND=1 solo puntuación cp;
 CP_BLEND=0 solo resultado final. Las etiquetas de política vienen del `mv`
 registrado en el binpack (NO son visitas MCTS ni MultiPV Stockfish).
@@ -77,6 +78,7 @@ if [[ -s "$LOCK" ]] && ! config | cmp -s - "$LOCK";then
  echo "Configuración incompatible con $LOCK; usar otro RUN_ID" >&2;exit 2
 fi
 if ((STATUS));then
+ echo "RESULTADOS_AKKAD=$RUN_DIR"
  echo "RUN_ID=$RUN_ID MON=$MON";echo "CHECKPOINTS=$CHECKPOINTS"
  find "$CHECKPOINTS" -maxdepth 1 -type d -name "$RUN_ID-*" -print 2>/dev/null|sort -V||true
  echo "OUTPUT=$RUN_DIR/export/best_int8.bin";exit 0
@@ -111,18 +113,9 @@ if ((MON<=2));then
  echo '⚙️ MON=2 — instalar ejemplos Rust y compilar con Metal'
  check
  mkdir -p examples/mcts_picoalpha_bullet
- cp "$BASE/mcts_genesis/mcts_data.rs" examples/mcts_picoalpha_bullet/mcts_data.rs
- cp "$BASE/mcts_genesis/mcts_train.rs" "examples/$TRAIN_EX.rs"
- cp "$BASE/mcts_genesis/mcts_validate.rs" "examples/$VALID_EX.rs"
- python3 - "$TRAIN_EX" "$VALID_EX" <<'PY'
-from pathlib import Path
-import sys
-p=Path('crates/bullet_lib/Cargo.toml');s=p.read_text()
-for name in sys.argv[1:]:
-    if f'name = "{name}"' not in s:
-        s+=f'\n[[example]]\nname = "{name}"\npath = "../../examples/{name}.rs"\n'
-p.write_text(s)
-PY
+ cp -- "$BASE/mcts_genesis/mcts_data.rs" "examples/mcts_picoalpha_bullet/mcts_data.rs"
+ bullet_install_example "$TRAIN_EX" "$BASE/mcts_genesis/mcts_train.rs"
+ bullet_install_example "$VALID_EX" "$BASE/mcts_genesis/mcts_validate.rs"
  cargo build --release --locked -p bullet_lib --example "$TRAIN_EX" --features metal
  cargo build --release --locked -p bullet_lib --example "$VALID_EX" --features metal
  # Rust unit tests are attached to the module; run them in both examples.

@@ -4,7 +4,8 @@
 # Does NOT change picoSargon or Nurse source.
 set -Eeuo pipefail
 BASE_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-BULLET_DIR="${BULLET_DIR:-$HOME/github/Bobby/bullet}"
+source "${BASE_DIR}/bullet_runtime.sh"
+bullet_resolve_runtime "${BASE_DIR}" || exit 2
 RUN_ID="${RUN_ID:-grumpy-bullet-001}"
 TRAIN_DATA="${TRAIN_DATA:-$HOME/stockfish/test79-may2022-16tb7p-filter-v6-dd.min-mar2023.unmin.high-simple-eval-1k.min-v2.binpack}"
 VALID_DATA="${VALID_DATA:-$HOME/stockfish/test77-jan2022-2tb7p.high-simple-eval-1k.min-v2.binpack}"
@@ -16,7 +17,7 @@ LR_START="${LR_START:-0.001}"
 LR_FINAL="${LR_FINAL:-0.0001}"
 VALID_COUNT="${VALID_COUNT:-2000000}"
 REFERENCE="${REFERENCE:-}"  # Optional path to real picoSargon/assets/grumpy.bin
-RUN_DIR="$BULLET_DIR/runs/$RUN_ID"
+RUN_DIR="$(bullet_resolve_run_dir "$BASE_DIR" "$RUN_ID")"
 CKPTS="$RUN_DIR/checkpoints"
 OUTPUT="$RUN_DIR/grumpy_new.bin"
 REPORT="$RUN_DIR/report.json"
@@ -84,6 +85,7 @@ if [[ -f "$LOCK" ]] && ! config | cmp -s - "$LOCK";then
  echo "❌ La configuración difiere de $LOCK; restaure valores o use otro RUN_ID" >&2;exit 2
 fi
 if ((STATUS));then
+ echo "RESULTADOS_AKKAD=$RUN_DIR"
   echo "RUN_ID=$RUN_ID MON=$MON"
   echo "CHECKPOINTS=$CKPTS"
   find "$CKPTS" -maxdepth 1 -type d -name "$RUN_ID-*" -print 2>/dev/null|sort -V || true
@@ -115,18 +117,8 @@ fi
 if ((MON<=2));then
  echo '⚙️ MON=2 — instalación de ejemplos y compilación Metal'
  verify_sources
- cp "$BASE_DIR/grumpy_genesis/grumpy_train.rs" "examples/$TRAIN_EX.rs"
- cp "$BASE_DIR/grumpy_genesis/grumpy_validate.rs" "examples/$VALID_EX.rs"
- python3 - "$TRAIN_EX" "$VALID_EX" <<'PY'
-import pathlib,sys
-p=pathlib.Path('crates/bullet_lib/Cargo.toml')
-s=p.read_text()
-for name in sys.argv[1:]:
-    block=f'[[example]]\nname = "{name}"\npath = "../../examples/{name}.rs"\n'
-    if f'name = "{name}"' not in s:
-        s+='\n'+block
-p.write_text(s)
-PY
+ bullet_install_example "$TRAIN_EX" "$BASE_DIR/grumpy_genesis/grumpy_train.rs"
+ bullet_install_example "$VALID_EX" "$BASE_DIR/grumpy_genesis/grumpy_validate.rs"
  cargo build --release --locked -p bullet_lib --example "$TRAIN_EX" --features metal
  cargo build --release --locked -p bullet_lib --example "$VALID_EX" --features metal
  next
