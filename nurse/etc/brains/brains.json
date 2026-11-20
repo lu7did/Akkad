@@ -165,7 +165,7 @@
     "evaluator": {
       "evaluator": "genus-nnue",
       "network": "C:/Users/pedro/github/bobby/akkad/picoGen/assets/binpack-fp32-001/nnue/best.npy"
-    },
+  },
     "Depth": 2,
     "QDepth": 2,
     "tmax": 15000,

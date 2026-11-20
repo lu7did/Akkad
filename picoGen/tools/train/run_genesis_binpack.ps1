@@ -1,4 +1,4 @@
-# picoGen binpack genetic genesis v0.1.39. Windows PowerShell 5.1 compatible.
+# picoGen binpack genetic genesis v0.1.43. Windows PowerShell 5.1 compatible.
 # All artifacts are under picoGen/assets. Never reads/writes a SQLite database.
 $ErrorActionPreference = 'Stop'
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -26,23 +26,26 @@ Usage: .\run_genesis_binpack.ps1 [--mon 1..8] [--status] [options]
   --valid-scan N          default 1000000 eligible T77 records to sample
   --fitness-sample N      default 10000 fixed T79 subset for every individual
   --validation-sample N   default 1000 fixed T77 subset
-  --population N          default 30, same archived genetic operators
-  --generations N         default 20
+  --population N          default 50, same archived genetic operators
+  --generations N         default 100
   --seed N                default 42
-  --mutation-sigma N      Gaussian standard deviation, default 3 (both models)
+  --mutation-sigma N      Gaussian standard deviation, default 5 (both models)
   --reuse-csv-run ID      read previous T79/T77 CSV under picoGen/assets/ID
   --python COMMAND        default python
   --install-rust          explicitly install rustup with winget when absent
   --help
 An explicit --mon N executes step N again even if it was completed before.
 Without --mon the script resumes at MON.state and reuses existing checkpoints.
+On explicit --mon 6 or 7, population/generations/sigma may change for the same run ID.
+Old outputs are archived in assets/RUN_ID/history before starting a new generation 1.
+The stored dataset, sampling and seed configuration remain locked.
 MON 1: prerequisites and reproducible run lock
 MON 2: compile and test Rust binpack extractor (CPU only)
 MON 3: T79 -> train.csv
 MON 4: T77 -> validation.csv
 MON 5: audit CSV, FEN, target perspective and independent splits
 MON 6: PST FP32 Gaussian genetic training (archived evaluation factors)
-MON 7: NNUE FP32 768x16 Gaussian genetic training
+MON 7: NNUE FP32 evolution (adaptive sigma, neuron crossover, diversity reset, analytic output bias)
 MON 8: independent T77 audit + metrics
 MON 9: complete
 No Bullet, MacOS, Metal, PyTorch, or SQLite training.
@@ -65,15 +68,21 @@ for ($i=0;$i -lt $args.Count;$i++) {
   $Cfg[$Mapping[$key]]=[string]$args[++$i]
   $Supplied[$Mapping[$key]] = $true
 }
-# An existing run locks ALL configuration. On resume, omitted options must
-# inherit that lock rather than reverting to defaults or selecting new datasets.
+# Dataset identity remains locked; training hyperparameters are reconfigurable
+# only on explicit --mon 6 / 7. An ordinary resume inherits the last run values.
+$TrainingKeys = @('Population','Generations','MutationSigma')
+$ExplicitTraining = $Supplied.ContainsKey('Mon') -and @('6','7').Contains([string]$Cfg.Mon)
 $ExistingRun = Join-Path $ProjectDir ('assets\' + $Cfg.RunId)
 $ExistingLock = Join-Path $ExistingRun 'config.lock.json'
 if (Test-Path -LiteralPath $ExistingLock) {
  $Saved = Get-Content -LiteralPath $ExistingLock -Raw | ConvertFrom-Json
  foreach($Prop in $Saved.PSObject.Properties) {
   if (-not $Supplied.ContainsKey($Prop.Name) -and $Cfg.ContainsKey($Prop.Name)) {
-   $Cfg[$Prop.Name] = [string]$Prop.Value
+   # Explicit training replay uses the current script defaults for the three
+   # hyperparameters, not the previously locked values.
+   if (-not ($ExplicitTraining -and ($TrainingKeys -contains $Prop.Name))) {
+    $Cfg[$Prop.Name] = [string]$Prop.Value
+   }
   }
  }
 }
@@ -118,15 +127,58 @@ foreach($key in @('RunId','TrainBinpack','ValidBinpack','TrainCount','ValidCount
  $identity[$key]=$Cfg[$key]
 }
 $identityText=ConvertTo-Json -InputObject $identity -Depth 3
+$TrainingChange = $false
 if (Test-Path -LiteralPath $Lock) {
  $previous=Get-Content -LiteralPath $Lock -Raw | ConvertFrom-Json
- foreach($key in $identity.Keys) {if ([string]$previous.$key -cne [string]$identity[$key]) {throw "Configuration lock conflict: $key. Use a different --run-id or original parameters."}}
+ foreach($key in $identity.Keys) {
+  if ([string]$previous.$key -cne [string]$identity[$key]) {
+   if ($ExplicitTraining -and ($TrainingKeys -contains $key)) {
+    Write-Host "Training parameter updated: $key $($previous.$key) -> $($identity[$key])"
+    $TrainingChange = $true
+   } else {
+    throw "Configuration lock conflict: $key. Dataset identity remains locked; use a new --run-id for dataset or seed changes."
+   }
+  }
+ }
 }
 if ($Cfg.Status -eq 'true') {Write-Host "RUN_ID=$($Cfg.RunId) MON=$Mon RUN_DIR=$RunDir";Write-Host "TRAIN=$TrainCsv VALID=$ValidCsv";exit 0}
 function ExecChecked([string]$command, [string[]]$arguments) {
  Write-Host "EXEC $command $($arguments -join ' ')"
  & $command @arguments
  if ($LASTEXITCODE -ne 0) { throw "Command failed ($LASTEXITCODE): $command" }
+}
+function SaveTrainingLock {
+ if ($TrainingChange) {
+  # Atomic replacement; previous lock is saved in the archived stage directory.
+  $temp = $Lock + '.partial'
+  [IO.File]::WriteAllText($temp, $identityText, (New-Object Text.UTF8Encoding($false)))
+  Move-Item -LiteralPath $temp -Destination $Lock -Force
+  Write-Host "Training configuration updated: population=$($Cfg.Population) generations=$($Cfg.Generations) mutation_sigma=$($Cfg.MutationSigma)"
+ }
+}
+function ArchiveTrainingStep([string]$stage) {
+ # A new explicitly requested run starts at generation 1. Never mix its
+ # checkpoints with earlier generations (including generations > new limit).
+ $stageDir = Join-Path $RunDir $stage
+ $archiveRoot = Join-Path $RunDir 'history'
+ $stamp = (Get-Date).ToUniversalTime().ToString('yyyyMMdd-HHmmss-fff')
+ $unique = [guid]::NewGuid().ToString('N').Substring(0,8)
+ $archive = Join-Path $archiveRoot ($stage + '-' + $stamp + '-' + $unique)
+ New-Item -ItemType Directory -Path $archive -Force | Out-Null
+ if (Test-Path -LiteralPath $Lock -PathType Leaf) {
+  Copy-Item -LiteralPath $Lock -Destination (Join-Path $archive 'config.lock.previous.json')
+ }
+ if (Test-Path -LiteralPath $stageDir -PathType Container) {
+  Move-Item -LiteralPath $stageDir -Destination (Join-Path $archive $stage)
+ }
+ if (Test-Path -LiteralPath $Audit -PathType Leaf) {
+  Move-Item -LiteralPath $Audit -Destination (Join-Path $archive 'audit.previous.json')
+ }
+ Write-Host "Archived previous $stage outputs at $archive"
+ # Persist the stage to ensure that a failed attempt is resumed correctly when
+ # --mon is omitted on the next invocation.
+ [IO.File]::WriteAllText($State, [string]$Mon + [Environment]::NewLine)
+ SaveTrainingLock
 }
 function Advance {
  $script:Mon=$script:Mon+1
@@ -201,7 +253,8 @@ if ($Mon -le 6) {
  $PstArgs = @((Join-Path $ScriptDir 'genPST.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--out',$Pst,'--population',$Cfg.Population,'--generations',$Cfg.Generations,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--mutation-sigma',$Cfg.MutationSigma)
  $PreviousPst = Get-ChildItem -LiteralPath (Split-Path -Parent $Pst) -Filter 'best.gen*.json' -File -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
  if ($ReplayMon -and $Mon -eq 6) {
-  Write-Host 'MON 6 explicit replay: restart PST at generation 1; existing checkpoints remain available.'
+  Write-Host 'MON 6 explicit replay: restart PST at generation 1; archive previous checkpoints.'
+  ArchiveTrainingStep 'pst'
   ExecChecked $Cfg.Python $PstArgs
  } elseif ($PreviousPst) {
   $completed = [int]([regex]::Match($PreviousPst.Name,'gen(\d{5})\.json$').Groups[1].Value)
@@ -215,13 +268,13 @@ if ($Mon -le 6) {
  Advance
 }
 if ($Mon -le 7) {
- Write-Host 'MON 7: NNUE FP32 768x16, gaussian mutation 3 percent'
+ Write-Host 'MON 7: NNUE FP32 evolution v0.1.43 (adaptive sigma, neuron crossover, diversity recovery, analytic output bias)'
  $NnueArgs = @((Join-Path $ScriptDir 'genNNUE.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--out',$Nnue,'--population',$Cfg.Population,'--generations',$Cfg.Generations,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--mutation-sigma',$Cfg.MutationSigma)
  # Avoid a nested Sort-Object property hashtable: its previous syntax was invalid in PS 5.1.
  # Compare generations numerically; run UUIDs are not an ordering criterion.
  $PreviousNnue = $null
  $HighestGeneration = -1
- foreach ($Candidate in @(Get-ChildItem -LiteralPath (Split-Path -Parent $Nnue) -Filter 'best.run-fp32.gen*.json' -File -ErrorAction SilentlyContinue)) {
+ foreach ($Candidate in @(Get-ChildItem -LiteralPath (Split-Path -Parent $Nnue) -Filter 'best.evo-v3.gen*.json' -File -ErrorAction SilentlyContinue)) {
    $Match = [regex]::Match($Candidate.Name, 'gen(\d{5})\.json$')
    if (-not $Match.Success) { continue }
    $Generation = [int]$Match.Groups[1].Value
@@ -230,8 +283,9 @@ if ($Mon -le 7) {
      $PreviousNnue = $Candidate
    }
  }
- if ($ReplayMon -and $Mon -eq 7) {
-  Write-Host 'MON 7 explicit replay: restart NNUE at generation 1; existing checkpoints remain available.'
+ if (($ReplayMon -and $Mon -eq 7) -or ($ReplayMon -and [int]$Cfg.Mon -eq 6 -and $TrainingChange)) {
+  Write-Host 'MON 7 fresh training: restart NNUE at generation 1; archive incompatible previous checkpoints.'
+  ArchiveTrainingStep 'nnue'
   ExecChecked $Cfg.Python $NnueArgs
  } elseif ($PreviousNnue) {
   $completed = [int]([regex]::Match($PreviousNnue.Name,'gen(\d{5})\.json$').Groups[1].Value)
