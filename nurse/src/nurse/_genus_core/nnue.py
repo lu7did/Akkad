@@ -28,7 +28,7 @@ def padded_features(boards):
     return x, mask
 
 
-def hidden_activations(genes, x, mask):
+def hidden_activations(genes, x, mask, clip_max=127):
     genes = np.asarray(genes)
     if genes.shape != (PARAMS,):
         raise ValueError('Vector NNUE de dimensión incorrecta')
@@ -36,7 +36,7 @@ def hidden_activations(genes, x, mask):
         w = genes[:INPUTS * HIDDEN].reshape(INPUTS, HIDDEN)
         bias = genes[INPUTS * HIDDEN:INPUTS * HIDDEN + HIDDEN]
         raw = (w[x] * mask[..., None]).sum(axis=1, dtype=np.float32) + bias
-        return np.clip(raw, 0.0, 127.0)
+        return np.clip(raw, 0.0, float(clip_max))
     if genes.dtype not in (np.dtype('int16'), np.dtype('int8')):
         raise ValueError(f'NNUE dtype incompatible: {genes.dtype}; expected float32, int16 or int8')
     w = genes[:INPUTS * HIDDEN].reshape(INPUTS, HIDDEN).astype(np.int64)
@@ -45,9 +45,9 @@ def hidden_activations(genes, x, mask):
     return np.clip(raw, 0, 127)
 
 
-def forward(genes, x, mask):
+def forward(genes, x, mask, clip_max=127):
     genes = np.asarray(genes)
-    hidden = hidden_activations(genes, x, mask)
+    hidden = hidden_activations(genes, x, mask, clip_max=clip_max)
     if genes.dtype == np.dtype('float32'):
         # No integer conversion: same operations/order and float32 accumulation as picoGen.
         value = hidden @ genes[INPUTS * HIDDEN + HIDDEN:-1] + genes[-1]

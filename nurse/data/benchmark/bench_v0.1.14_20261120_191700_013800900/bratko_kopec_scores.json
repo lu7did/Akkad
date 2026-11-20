@@ -1,0 +1,40 @@
+{
+  "scoring": "final_bestmove_binary",
+  "historical_fractional_30_60_90_120": false,
+  "formula": "B=12*(T-L)/S",
+  "items": 24,
+  "summary": [
+    {
+      "brain": "buddy",
+      "T": 0,
+      "L": 0,
+      "S": 0,
+      "B": null,
+      "errors": 0,
+      "interpretation": "INDETERMINADO (S=0)",
+      "complete": true
+    },
+    {
+      "brain": "polly",
+      "T": 3,
+      "L": 0,
+      "S": 3,
+      "B": 12.0,
+      "errors": 0,
+      "interpretation": "Predominio táctico",
+      "complete": true
+    }
+  ],
+  "B_difference_matrix": [
+    {
+      "brain": "buddy",
+      "buddy": "N/D",
+      "polly": "N/D"
+    },
+    {
+      "brain": "polly",
+      "buddy": "N/D",
+      "polly": 0.0
+    }
+  ]
+}

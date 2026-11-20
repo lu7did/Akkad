@@ -1,54 +1,65 @@
-# picoGen binpack genetic genesis v0.1.43. Windows PowerShell 5.1 compatible.
+# picoGen binpack genetic genesis v0.1.58. Windows PowerShell 5.1 compatible.
 # All artifacts are under picoGen/assets. Never reads/writes a SQLite database.
 $ErrorActionPreference = 'Stop'
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectDir = [IO.Path]::GetFullPath((Join-Path $ScriptDir '..\..'))
 $DefaultSource = Join-Path $env:USERPROFILE 'github\Bobby\Chess_History_pb\stockfish'
 $Cfg = @{
-  Mon = '0'; RunId = 'binpack-fp32-001';
+  Mon = '0'; ResumeNnue = 'false'; PstOnly = 'false'; RunId = 'binpack-grumpy-pgpe-fp32-001';
   TrainBinpack = (Join-Path $DefaultSource 'test79-may2022-16tb7p-filter-v6-dd.min-mar2023.unmin.high-simple-eval-1k.min-v2.binpack');
   ValidBinpack = (Join-Path $DefaultSource 'test77-jan2022-2tb7p.high-simple-eval-1k.min-v2.binpack');
-  TrainCount = '1000000'; ValidCount = '100000';
-  TrainScan = '10000000'; ValidScan = '1000000';
-  FitnessSample = '10000'; ValidationSample = '1000';
+  TrainCount = '1500000'; ValidCount = '150000';
+  TrainScan = '15000000'; ValidScan = '1500000';
+  FitnessSample = '10000'; ValidationSample = '150000';
   Population = '50'; Generations = '100'; Seed = '42'; MutationSigma = '5';
-  Python = 'python'; InstallRust = 'false'; Status = 'false'; ReuseCsvRun = ''
+  Python = 'python'; InstallRust = 'true'; Status = 'false'; ReuseCsvRun = 'binpack-pgpe-nonzero-001';
+  PGPEPool = '800000'; PGPEBatch = '40000'; PGPEDevice = 'auto'; PGPEStdev = '0.1'
 }
 function Usage {
 @'
-Usage: .\run_genesis_binpack.ps1 [--mon 1..8] [--status] [options]
-  --run-id ID             default binpack-fp32-001 (separate from old int16 run)
+Usage: .\run_genesis_binpack.ps1 --mon 1   (no other arguments required)
+       .\run_genesis_binpack.ps1 [--mon 1..8] [--status] [options]
+  --run-id ID             default binpack-grumpy-pgpe-fp32-001 (new model)
   --train-binpack PATH    T79 (.binpack) from Stockfish
   --valid-binpack PATH    T77 (.binpack), held-out validation
-  --train-count N         default 1000000 CSV rows
-  --valid-count N         default 100000 CSV rows
-  --train-scan N          default 10000000 eligible T79 records to sample
-  --valid-scan N          default 1000000 eligible T77 records to sample
-  --fitness-sample N      default 10000 fixed T79 subset for every individual
-  --validation-sample N   default 1000 fixed T77 subset
+  --train-count N         default 1500000 CSV rows
+  --valid-count N         default 150000 CSV rows
+  --train-scan N          default 15000000 eligible T79 records to sample
+  --valid-scan N          default 1500000 eligible T77 records to sample
+  --fitness-sample N      default 10000 fixed T79 subset for PST (MON 6)
+  --validation-sample N   default 150000 T77 rows (all eligible nonzero labels)
+  --pgpe-pool N           default 800000 filtered T79 positions in RAM (MON 7)
+  --pgpe-batch N          default 40000 new positions per generation (MON 7)
+  --pgpe-device NAME      auto (XPU then CUDA then CPU), or cpu/xpu/cuda
+  --pgpe-stdev FLOAT      initial PGPE stdev, default 0.1
   --population N          default 50, same archived genetic operators
-  --generations N         default 100
+  --generations N         total target (e.g. 300), not additional generations
+  --pst-only              run MON 6 PST PGPE alone; leave NNUE and MON 7 untouched
+  --resume-nnue           continue MON 7 from existing full PGPE checkpoint (G100 -> target)
   --seed N                default 42
-  --mutation-sigma N      Gaussian standard deviation, default 5 (both models)
-  --reuse-csv-run ID      read previous T79/T77 CSV under picoGen/assets/ID
+  --mutation-sigma N      Gaussian standard deviation for legacy PST only
+  --reuse-csv-run ID      default binpack-pgpe-nonzero-001 (reuse T79/T77)
   --python COMMAND        default python
-  --install-rust          explicitly install rustup with winget when absent
+  --install-rust          install rustup with winget when absent (default enabled)
   --help
+All defaults are declared in $Cfg above. --mon 1 runs the complete MON 1..8 pipeline.
+Rust, Python libraries and EvoTorch are checked/installed by MON 1.
 An explicit --mon N executes step N again even if it was completed before.
 Without --mon the script resumes at MON.state and reuses existing checkpoints.
-On explicit --mon 6 or 7, population/generations/sigma may change for the same run ID.
-Old outputs are archived in assets/RUN_ID/history before starting a new generation 1.
+Without --resume-nnue, explicit --mon 7 restarts at G1 and archives old outputs.
+With --resume-nnue --mon 7, only increasing --generations is allowed; preserves the checkpoint and history.
+The complete best.grumpy-pgpe-v3.latest.pt is required; best.npy alone cannot restore PGPE/Adam.
 The stored dataset, sampling and seed configuration remain locked.
 MON 1: prerequisites and reproducible run lock
 MON 2: compile and test Rust binpack extractor (CPU only)
 MON 3: T79 -> train.csv
 MON 4: T77 -> validation.csv
 MON 5: audit CSV, FEN, target perspective and independent splits
-MON 6: PST FP32 Gaussian genetic training (archived evaluation factors)
-MON 7: NNUE FP32 evolution (adaptive sigma, neuron crossover, diversity reset, analytic output bias)
+MON 6: PST FP32 PGPE; free pawn/material values; fixed calibration scale
+MON 7: EvoTorch PGPE Grumpy 1680 FP32, CP-only objective, select T77 RMSE
 MON 8: independent T77 audit + metrics
 MON 9: complete
-No Bullet, MacOS, Metal, PyTorch, or SQLite training.
+No Bullet, MacOS, Metal, or SQLite training. Uses PyTorch + EvoTorch on XPU/CUDA/CPU.
 '@ | Write-Host
 }
 $Supplied = @{}
@@ -56,12 +67,16 @@ $Mapping = @{'mon'='Mon';'run-id'='RunId';'train-binpack'='TrainBinpack';'valid-
  'train-count'='TrainCount';'valid-count'='ValidCount';'train-scan'='TrainScan';'valid-scan'='ValidScan';
  'fitness-sample'='FitnessSample';'validation-sample'='ValidationSample';
  'population'='Population';'generations'='Generations';'seed'='Seed';'python'='Python';
- 'mutation-sigma'='MutationSigma';'reuse-csv-run'='ReuseCsvRun'}
+ 'mutation-sigma'='MutationSigma';'reuse-csv-run'='ReuseCsvRun';
+ 'pgpe-pool'='PGPEPool';'pgpe-batch'='PGPEBatch';
+ 'pgpe-device'='PGPEDevice';'pgpe-stdev'='PGPEStdev'}
 for ($i=0;$i -lt $args.Count;$i++) {
   $token=[string]$args[$i];$key=$token.TrimStart('-').ToLowerInvariant()
   if ($token -notmatch '^--?[A-Za-z]') { throw "Unexpected argument: $token" }
   if ($key -eq 'help' -or $key -eq 'h') { Usage;exit 0 }
   if ($key -eq 'status') { $Cfg.Status='true';continue }
+  if ($key -eq 'resume-nnue') { $Cfg.ResumeNnue='true';continue }
+  if ($key -eq 'pst-only') { $Cfg.PstOnly='true';continue }
   if ($key -eq 'install-rust') { $Cfg.InstallRust='true';continue }
   if (-not $Mapping.ContainsKey($key)) { throw "Unknown argument: $token (see --help)" }
   if ($i+1 -ge $args.Count) { throw "Missing value for $token" }
@@ -70,8 +85,14 @@ for ($i=0;$i -lt $args.Count;$i++) {
 }
 # Dataset identity remains locked; training hyperparameters are reconfigurable
 # only on explicit --mon 6 / 7. An ordinary resume inherits the last run values.
-$TrainingKeys = @('Population','Generations','MutationSigma')
+$TrainingKeys = @('ValidationSample','Population','Generations','MutationSigma','PGPEPool','PGPEBatch','PGPEDevice','PGPEStdev')
 $ExplicitTraining = $Supplied.ContainsKey('Mon') -and @('6','7').Contains([string]$Cfg.Mon)
+$ResumeNnue = $Cfg.ResumeNnue -eq 'true'
+$PstOnly = $Cfg.PstOnly -eq 'true'
+if ($PstOnly -and (-not $Supplied.ContainsKey('Mon') -or $Cfg.Mon -ne '6')) {throw '--pst-only requires --mon 6'}
+if ($PstOnly -and $ResumeNnue) {throw '--pst-only and --resume-nnue cannot be combined'}
+if ($ResumeNnue -and (-not $Supplied.ContainsKey('Mon') -or $Cfg.Mon -ne '7')) {throw '--resume-nnue requires --mon 7'}
+if ($ResumeNnue -and -not $Supplied.ContainsKey('Generations')) {throw '--resume-nnue requires an explicit --generations TOTAL'}
 $ExistingRun = Join-Path $ProjectDir ('assets\' + $Cfg.RunId)
 $ExistingLock = Join-Path $ExistingRun 'config.lock.json'
 if (Test-Path -LiteralPath $ExistingLock) {
@@ -88,16 +109,20 @@ if (Test-Path -LiteralPath $ExistingLock) {
 }
 if ($Cfg.RunId -notmatch '^[a-zA-Z][a-zA-Z0-9_-]*$') {throw 'Invalid run ID'}
 if ($Cfg.ReuseCsvRun -ne '' -and $Cfg.ReuseCsvRun -notmatch '^[a-zA-Z][a-zA-Z0-9_-]*$') {throw 'Invalid reuse CSV run ID'}
+if ($Cfg.PGPEDevice -notin @('auto','cpu','cuda','xpu')) {throw 'pgpe-device must be auto, cpu, cuda or xpu'}
+$stdevFloat = 0.0
+if (-not [double]::TryParse($Cfg.PGPEStdev,[Globalization.NumberStyles]::Float,[Globalization.CultureInfo]::InvariantCulture,[ref]$stdevFloat) -or $stdevFloat -le 0) {throw '--pgpe-stdev must be positive'}
 $sigmaFloat = 0.0
 if (-not [double]::TryParse($Cfg.MutationSigma,[Globalization.NumberStyles]::Float,[Globalization.CultureInfo]::InvariantCulture,[ref]$sigmaFloat) -or $sigmaFloat -le 0 -or $sigmaFloat -ge 10000) { throw '--mutation-sigma must be positive invariant-culture number' }
-foreach($name in @('Mon','TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations','Seed')) {
+foreach($name in @('Mon','TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations','Seed','PGPEPool','PGPEBatch')) {
   if ($Cfg[$name] -notmatch '^\d+$') {throw "Expected integer: $name"}
 }
 if ([int]$Cfg.Mon -gt 8) {throw '--mon must be 1..8'}
 foreach($name in @('TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations')) {
  if ([int]$Cfg[$name] -lt 1) {throw "Expected positive value: $name"}
 }
-if ([int]$Cfg.Population -lt 5) {throw 'population must be >=5 (archived NNUE contract)'}
+if ([int]$Cfg.Population -lt 2 -or [int]$Cfg.Population % 2 -ne 0) {throw 'PGPE population must be even and >=2 (PST also runs with this population)'}
+if ([int]$Cfg.PGPEPool -lt 1 -or [int]$Cfg.PGPEBatch -lt 1 -or [int]$Cfg.PGPEBatch -gt [int]$Cfg.PGPEPool) {throw 'pgpe-pool must be >= pgpe-batch >= 1'}
 if ([int]$Cfg.TrainScan -lt [int]$Cfg.TrainCount -or [int]$Cfg.ValidScan -lt [int]$Cfg.ValidCount) {throw 'Scan limits cannot be less than sample counts'}
 $RunDir = Join-Path $ProjectDir ('assets\' + $Cfg.RunId)
 $State = Join-Path $RunDir 'MON.state'
@@ -112,6 +137,11 @@ if ($Cfg.ReuseCsvRun -ne '') {
 $ExtractorManifest = Join-Path $ScriptDir 'binpack\Cargo.toml'
 $Exe = Join-Path $ScriptDir 'binpack\target\release\picogen-binpack.exe'
 $Pst = Join-Path $RunDir 'pst\best.json'
+$AuditPst = $Pst
+if ($Cfg.ReuseCsvRun -ne '' -and -not (Test-Path -LiteralPath $Pst -PathType Leaf)) {
+ $ReusablePst = Join-Path (Join-Path $ProjectDir ('assets\' + $Cfg.ReuseCsvRun)) 'pst\best.json'
+ if (Test-Path -LiteralPath $ReusablePst -PathType Leaf) { $AuditPst = $ReusablePst }
+}
 $Nnue = Join-Path $RunDir 'nnue\best.npy'
 $Audit = Join-Path $RunDir 'audit.json'
 $SourceCheck = Join-Path $ScriptDir 'archive\genNNUE.py'
@@ -123,7 +153,7 @@ if ($Mon -lt 1 -or $Mon -gt 9) {throw 'MON.state invalid'}
 # Explicit MON is a user-requested replay, not an instruction to skip completed work.
 $ReplayMon = $Supplied.ContainsKey('Mon') -and ([int]$Cfg.Mon -ge 1)
 $identity=[ordered]@{ ModelFormat='picogen-binpack-genetic-fp32-v1' }
-foreach($key in @('RunId','TrainBinpack','ValidBinpack','TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations','Seed','MutationSigma','ReuseCsvRun')) {
+foreach($key in @('RunId','TrainBinpack','ValidBinpack','TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations','Seed','MutationSigma','ReuseCsvRun','PGPEPool','PGPEBatch','PGPEDevice','PGPEStdev')) {
  $identity[$key]=$Cfg[$key]
 }
 $identityText=ConvertTo-Json -InputObject $identity -Depth 3
@@ -132,7 +162,12 @@ if (Test-Path -LiteralPath $Lock) {
  $previous=Get-Content -LiteralPath $Lock -Raw | ConvertFrom-Json
  foreach($key in $identity.Keys) {
   if ([string]$previous.$key -cne [string]$identity[$key]) {
-   if ($ExplicitTraining -and ($TrainingKeys -contains $key)) {
+   if ($ResumeNnue -and $key -eq 'Generations' -and [int]$identity[$key] -gt [int]$previous.$key) {
+    Write-Host "NNUE resume target extended: $($previous.$key) -> $($identity[$key])"
+    $TrainingChange = $true
+   } elseif ($ResumeNnue) {
+    throw "NNUE resume cannot change $key; only an increase in --generations is allowed."
+   } elseif ($ExplicitTraining -and ($TrainingKeys -contains $key)) {
     Write-Host "Training parameter updated: $key $($previous.$key) -> $($identity[$key])"
     $TrainingChange = $true
    } else {
@@ -153,7 +188,7 @@ function SaveTrainingLock {
   $temp = $Lock + '.partial'
   [IO.File]::WriteAllText($temp, $identityText, (New-Object Text.UTF8Encoding($false)))
   Move-Item -LiteralPath $temp -Destination $Lock -Force
-  Write-Host "Training configuration updated: population=$($Cfg.Population) generations=$($Cfg.Generations) mutation_sigma=$($Cfg.MutationSigma)"
+  Write-Host "Training configuration updated: population=$($Cfg.Population) generations=$($Cfg.Generations) pgpe_pool=$($Cfg.PGPEPool) pgpe_batch=$($Cfg.PGPEBatch) device=$($Cfg.PGPEDevice) stdev=$($Cfg.PGPEStdev)"
  }
 }
 function ArchiveTrainingStep([string]$stage) {
@@ -205,13 +240,13 @@ function CheckRust {
 }
 if ($Mon -eq 9) { Write-Host "Genesis completed $RunDir";exit 0 }
 if ($Mon -le 1) {
- Write-Host 'MON 1: verify Rust, Python, archived genetic kernels and binpacks'
+ Write-Host 'MON 1: verify/install Rust, Python, PyTorch, EvoTorch, chess and binpack sources'
  CheckRust
  ExecChecked $Cfg.Python @('--version')
  # Keep Python -c source free of embedded string quotes: Windows PowerShell 5.1
  # native argument passing can strip those quotes before Python parses them.
- ExecChecked $Cfg.Python @('-c','import numpy; import chess')
- Write-Host 'NumPy and python-chess OK'
+ ExecChecked $Cfg.Python @((Join-Path $ScriptDir 'gen_pgpe_deps.py'),'--install')
+ ExecChecked $Cfg.Python @((Join-Path $ScriptDir 'genGrumpyPGPE.py'),'--help')
  foreach($file in @($Cfg.TrainBinpack,$Cfg.ValidBinpack,$SourceCheck,$ExtractorManifest,(Join-Path $ScriptDir 'archive\genPST.py'))) {
   if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {throw "Missing prerequisite: $file"}
  }
@@ -249,32 +284,42 @@ if ($Mon -le 5) {
  Advance
 }
 if ($Mon -le 6) {
- Write-Host 'MON 6: PST FP32 genes, gaussian mutation 3 percent'
- $PstArgs = @((Join-Path $ScriptDir 'genPST.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--out',$Pst,'--population',$Cfg.Population,'--generations',$Cfg.Generations,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--mutation-sigma',$Cfg.MutationSigma)
- $PreviousPst = Get-ChildItem -LiteralPath (Split-Path -Parent $Pst) -Filter 'best.gen*.json' -File -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
+ Write-Host 'MON 6: PST EvoTorch PGPE FP32; all material values evolvable, calibration fixed 100'
+ $PstStateSaved = $null
+ if ($PstOnly -and (Test-Path -LiteralPath $State -PathType Leaf)) { $PstStateSaved = [IO.File]::ReadAllText($State) }
+ $PstArgs = @((Join-Path $ScriptDir 'genPSTPGPE.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--out',$Pst,'--population',$Cfg.Population,'--generations',$Cfg.Generations,'--fitness-sample',$Cfg.PGPEPool,'--validation-sample',$Cfg.ValidationSample,'--batch-size',$Cfg.PGPEBatch,'--seed',$Cfg.Seed,'--exclude-zero')
+ $PstLatest = Join-Path (Split-Path -Parent $Pst) 'best.pst-pgpe-v1.latest.pt'
  if ($ReplayMon -and $Mon -eq 6) {
-  Write-Host 'MON 6 explicit replay: restart PST at generation 1; archive previous checkpoints.'
-  ArchiveTrainingStep 'pst'
+  Write-Host 'MON 6 explicit replay: restart PST PGPE at generation 1; archive only PST outputs.'
+  if ($PstOnly) {
+   $PstDir = Split-Path -Parent $Pst
+   if (Test-Path -LiteralPath $PstDir -PathType Container) {
+    $PstHistory = Join-Path $RunDir ('history\pst-' + (Get-Date).ToUniversalTime().ToString('yyyyMMdd-HHmmss-fff') + '-' + [guid]::NewGuid().ToString('N').Substring(0,8))
+    New-Item -ItemType Directory -Path $PstHistory -Force | Out-Null
+    Move-Item -LiteralPath $PstDir -Destination (Join-Path $PstHistory 'pst')
+    Write-Host "Archived previous PST outputs only: $PstHistory"
+   }
+  } else { ArchiveTrainingStep 'pst' }
   ExecChecked $Cfg.Python $PstArgs
- } elseif ($PreviousPst) {
-  $completed = [int]([regex]::Match($PreviousPst.Name,'gen(\d{5})\.json$').Groups[1].Value)
-  if ($completed -ge [int]$Cfg.Generations -and (Test-Path -LiteralPath $Pst)) {
-   Write-Host "PST already complete: $($PreviousPst.Name)"
-  } else {
-   $PstArgs += @('--resume',$PreviousPst.FullName)
-   ExecChecked $Cfg.Python $PstArgs
-  }
+ } elseif (Test-Path -LiteralPath $PstLatest -PathType Leaf) {
+  $PstArgs += @('--resume',$PstLatest)
+  ExecChecked $Cfg.Python $PstArgs
  } else {ExecChecked $Cfg.Python $PstArgs}
+ if ($PstOnly) {
+  if ($null -ne $PstStateSaved) { [IO.File]::WriteAllText($State,$PstStateSaved) }
+  Write-Host 'PST-only complete. NNUE weights, checkpoints, MON.state and MON 7 are unchanged. MON 8 audit not run.'
+  exit 0
+ }
  Advance
 }
 if ($Mon -le 7) {
- Write-Host 'MON 7: NNUE FP32 evolution v0.1.43 (adaptive sigma, neuron crossover, diversity recovery, analytic output bias)'
- $NnueArgs = @((Join-Path $ScriptDir 'genNNUE.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--out',$Nnue,'--population',$Cfg.Population,'--generations',$Cfg.Generations,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--mutation-sigma',$Cfg.MutationSigma)
+ Write-Host 'MON 7: Grumpy FP32 PGPE + Adam; CP-only objective; best T77 RMSE checkpoint'
+ $NnueArgs = @((Join-Path $ScriptDir 'genGrumpyPGPE.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--out',$Nnue,'--population',$Cfg.Population,'--generations',$Cfg.Generations,'--fitness-sample',$Cfg.PGPEPool,'--validation-sample',$Cfg.ValidationSample,'--batch-size',$Cfg.PGPEBatch,'--seed',$Cfg.Seed,'--device',$Cfg.PGPEDevice,'--pgpe-stdev',$Cfg.PGPEStdev,'--exclude-zero')
  # Avoid a nested Sort-Object property hashtable: its previous syntax was invalid in PS 5.1.
  # Compare generations numerically; run UUIDs are not an ordering criterion.
  $PreviousNnue = $null
  $HighestGeneration = -1
- foreach ($Candidate in @(Get-ChildItem -LiteralPath (Split-Path -Parent $Nnue) -Filter 'best.evo-v3.gen*.json' -File -ErrorAction SilentlyContinue)) {
+ foreach ($Candidate in @(Get-ChildItem -LiteralPath (Split-Path -Parent $Nnue) -Filter 'best.grumpy-pgpe-v3.gen*.json' -File -ErrorAction SilentlyContinue)) {
    $Match = [regex]::Match($Candidate.Name, 'gen(\d{5})\.json$')
    if (-not $Match.Success) { continue }
    $Generation = [int]$Match.Groups[1].Value
@@ -283,7 +328,24 @@ if ($Mon -le 7) {
      $PreviousNnue = $Candidate
    }
  }
- if (($ReplayMon -and $Mon -eq 7) -or ($ReplayMon -and [int]$Cfg.Mon -eq 6 -and $TrainingChange)) {
+ if ($ResumeNnue) {
+  $Checkpoint = Join-Path (Split-Path -Parent $Nnue) 'best.grumpy-pgpe-v3.latest.pt'
+  if (-not (Test-Path -LiteralPath $Checkpoint -PathType Leaf)) {
+   throw "Cannot resume NNUE: complete checkpoint not found: $Checkpoint. best.npy is insufficient."
+  }
+  if (-not $PreviousNnue) {
+   throw 'Cannot resume NNUE: missing generation summary; no existing checkpoint may be overwritten.'
+  }
+  $completed = $HighestGeneration
+  if ($completed -ge [int]$Cfg.Generations) {
+   throw "NNUE already reached G$completed; --generations must be greater to continue."
+  }
+  Write-Host "MON 7 RESUME: G$completed -> G$($Cfg.Generations); preserving PGPE distribution, Adam and best model."
+  $NnueArgs += @('--resume',$Checkpoint)
+  # Do not touch existing best.npy or the full checkpoint before Python validates its identity.
+  ExecChecked $Cfg.Python $NnueArgs
+  SaveTrainingLock
+ } elseif (($ReplayMon -and $Mon -eq 7) -or ($ReplayMon -and [int]$Cfg.Mon -eq 6 -and $TrainingChange)) {
   Write-Host 'MON 7 fresh training: restart NNUE at generation 1; archive incompatible previous checkpoints.'
   ArchiveTrainingStep 'nnue'
   ExecChecked $Cfg.Python $NnueArgs
@@ -292,15 +354,20 @@ if ($Mon -le 7) {
   if ($completed -ge [int]$Cfg.Generations -and (Test-Path -LiteralPath ($Nnue -replace '\.npy$','.active.json'))) {
    Write-Host "NNUE already complete: $($PreviousNnue.Name)"
   } else {
-   $NnueArgs += @('--resume',$PreviousNnue.FullName)
+   $NnueArgs += @('--resume',(Join-Path (Split-Path -Parent $Nnue) 'best.grumpy-pgpe-v3.latest.pt'))
    ExecChecked $Cfg.Python $NnueArgs
   }
- } else {ExecChecked $Cfg.Python $NnueArgs}
+ } else {
+   if ((Test-Path -LiteralPath $Nnue) -or (Test-Path -LiteralPath ($Nnue -replace '\.npy$','.active.json'))) {
+    throw 'Existing NNUE artifacts but no PGPE checkpoint. Run explicitly --mon 7 to archive and start PGPE.'
+   }
+   ExecChecked $Cfg.Python $NnueArgs
+ }
  Advance
 }
 if ($Mon -le 8) {
- Write-Host 'MON 8: compare both models on the same T77 samples and naive baselines'
- ExecChecked $Cfg.Python @((Join-Path $ScriptDir 'genAudit.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--pst',$Pst,'--nnue',$Nnue,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--out',$Audit)
+ Write-Host 'MON 8: audit Grumpy FP32, PST and baselines on full nonzero-CP T77 sample'
+ ExecChecked $Cfg.Python @((Join-Path $ScriptDir 'genAudit.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--pst',$AuditPst,'--nnue',$Nnue,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--out',$Audit,'--exclude-zero')
  Advance
 }
 Write-Host "Genesis complete. Outputs: $RunDir"

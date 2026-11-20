@@ -11,9 +11,12 @@ import numpy as np
 
 from ._genus_core import nnue as nnue_core
 from ._genus_core import pst as pst_core
+from . import grumpy_fp32
 
 PST_FP32_FORMAT = 'picogen-binpack-genetic-fp32-v1'
 NNUE_FP32_MANIFEST = 'picogen-nnue-active-fp32-v1'
+NNUE_PGPE_MANIFEST = 'picogen-nnue-pgpe-active-fp32-v1'
+NNUE_GRUMPY_FP32_MANIFEST = grumpy_fp32.FORMAT
 
 
 def resolve_active(path):
@@ -26,11 +29,18 @@ def resolve_active(path):
     if not isinstance(item, dict):
         raise ValueError(f'NNUE active manifest must be an object: {manifest_file}')
     fmt = item.get('format')
-    if fmt not in ('picogenus-nnue-active-v1', NNUE_FP32_MANIFEST):
+    if fmt not in ('picogenus-nnue-active-v1', NNUE_FP32_MANIFEST, NNUE_PGPE_MANIFEST, NNUE_GRUMPY_FP32_MANIFEST):
         raise ValueError(f'NNUE active manifest incompatible: {manifest_file}')
-    if fmt == NNUE_FP32_MANIFEST:
+    if fmt in (NNUE_FP32_MANIFEST, NNUE_PGPE_MANIFEST):
         if item.get('dtype') != 'float32' or item.get('genes') != nnue_core.PARAMS or item.get('output_scale') != 1:
             raise ValueError(f'NNUE FP32 active manifest metadata incompatible: {manifest_file}')
+    if fmt == NNUE_PGPE_MANIFEST:
+        if (item.get('input_features') != 768 or item.get('hidden') != 16 or
+                item.get('hidden_clip') != 1 or
+                item.get('feature_schema') != 'piece-square-768-white-perspective-v1'):
+            raise ValueError('Incompatible PGPE NNUE architecture or activation')
+    if fmt == NNUE_GRUMPY_FP32_MANIFEST:
+        grumpy_fp32.validate_manifest(item)
     basename = item.get('file')
     if (not isinstance(basename, str) or not basename or
             Path(basename).name != basename or
@@ -54,6 +64,8 @@ class GenusEvaluator:
             raise ValueError('GENUS tipo requires pst or nnue')
         self.coefficients = None
         self.network_weights = None
+        self.nnue_clip_max = 127
+        self.nnue_is_grumpy = False
         self.source = None
         if self.tipo == 'pst':
             if not coefficient or network is not None:
@@ -84,8 +96,13 @@ class GenusEvaluator:
                     if type(value) is not int or not lo <= value <= hi:
                         raise ValueError(f'GENUS-PST invalid coefficient {key}')
             pawn = params['PAWN_VALUE']
-            if (type(pawn) not in ((int, float) if fp32 else (int,)) or pawn != 100):
-                raise ValueError('GENUS-PST PAWN_VALUE must equal 100')
+            if fp32:
+                if type(pawn) not in (int, float) or not math.isfinite(pawn) or not 1 <= pawn <= 2047:
+                    raise ValueError('GENUS-PST FP32 PAWN_VALUE must be finite and in [1,2047]')
+                if raw.get('material_evolvable') and (params.get('CALIBRATION_SCALE') != 100 or raw.get('calibration_scale_fixed') != 100):
+                    raise ValueError('GENUS-PST PGPE requires CALIBRATION_SCALE=100')
+            elif type(pawn) is not int or pawn != 100:
+                raise ValueError('Legacy GENUS-PST PAWN_VALUE must equal 100')
             self.coefficients = dict(params)
             self.source = str(source)
         else:
@@ -95,8 +112,19 @@ class GenusEvaluator:
             if filename.suffix.lower() != '.npy':
                 raise ValueError('GENUS-NNUE expects an .npy path')
             source = resolve_active(filename)
+            manifest_path = filename.with_name(filename.stem + '.active.json')
+            if manifest_path.is_file():
+                meta = json.loads(manifest_path.read_text(encoding='utf-8-sig'))
+                if meta.get('format') == NNUE_PGPE_MANIFEST:
+                    self.nnue_clip_max = 1
+                elif meta.get('format') == NNUE_GRUMPY_FP32_MANIFEST:
+                    grumpy_fp32.validate_manifest(meta)
+                    self.nnue_is_grumpy = True
             weights = np.load(source, allow_pickle=False)
-            if weights.shape != (nnue_core.PARAMS,) or weights.dtype not in (np.dtype('float32'), np.dtype('int16'), np.dtype('int8')):
+            if self.nnue_is_grumpy:
+                if weights.shape != (grumpy_fp32.GENES,) or weights.dtype != np.dtype('float32'):
+                    raise ValueError('GENUS-NNUE Grumpy FP32 requires float32[1680]')
+            elif weights.shape != (nnue_core.PARAMS,) or weights.dtype not in (np.dtype('float32'), np.dtype('int16'), np.dtype('int8')):
                 raise ValueError(f'GENUS-NNUE incompatible model {weights.dtype} {weights.shape}; '
                                  f'expected float32[{nnue_core.PARAMS}] (or legacy int16/int8)')
             if not np.isfinite(weights).all():
@@ -109,8 +137,11 @@ class GenusEvaluator:
         if self.tipo == 'pst':
             score = pst_core.evaluate(board, self.coefficients)
         else:
-            x, mask = nnue_core.padded_features([board])
-            score = nnue_core.forward(self.network_weights, x, mask)[0]
+            if self.nnue_is_grumpy:
+                score = grumpy_fp32.evaluate_board(self.network_weights, board)
+            else:
+                x, mask = nnue_core.padded_features([board])
+                score = nnue_core.forward(self.network_weights, x, mask, clip_max=self.nnue_clip_max)[0]
         if not np.isfinite(score):
             raise ValueError('GENUS produced non-finite score')
         return int(round(float(score)))

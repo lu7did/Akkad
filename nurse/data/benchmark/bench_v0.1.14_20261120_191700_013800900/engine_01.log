@@ -1,0 +1,32 @@
+[19:17:00] \U0001f4bb sargon-nurse v0.1.38 brain=buddy type=nurse ELO=1000 tmax_ms=15000 timeout_ms=15000 warmup_movetime_ms=15000
+[19:17:00] \u2699\ufe0f player=sargon evaluator=classic network=None depth=2 qdepth=0 arguments={}
+[19:17:00] \u2699\ufe0f timing efectivo tmax=15000ms timeout=15000ms warmup_movetime=15000ms
+[19:17:00] \U0001f680 subprocess pid=32816 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.sargon', '--serve', '--config', '{"type": "nurse", "player": "sargon.py", "evaluator": "classic.py", "Depth": 2, "QDepth": 0, "timeout": 15000, "ELO": 1000, "tmax": 15000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\sargon.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\evaluators\\\\classic.py", "_player": "sargon", "_evaluator": "classic", "_type": "nurse", "arguments": {}}']
+[19:17:00] \U0001f4cb child \u2699\ufe0f EXEC player=sargon | evaluator=classic | depth=2 [default=2] | qdepth=0 [default=2] | tmax_ms=15000 [default=15000] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+[19:17:00] \U0001f4cb child [19:17:00] \U0001f9e0 worker player=sargon evaluator=classic depth=2 qdepth=0 tmax=15000 timeout=15000 warmup_movetime=15000 network=None arguments={}
+[19:17:00] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:00] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:01] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:01] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:01] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:02] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:03] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:03] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:03] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:04] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:04] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:05] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:05] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:06] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:06] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:07] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:08] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:08] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:08] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:09] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:10] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:10] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:11] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:12] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:12] \U0001f50e brain=buddy go='go movetime 15000' tmax=15000ms timeout=15000ms
+[19:17:13] \U0001f4cb child [19:17:13] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

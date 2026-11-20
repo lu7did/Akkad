@@ -1,2 +1,2 @@
- python -m nurse.benchmark --brain ../etc/brains/brains.json --bratko-kopec --ids buddy dolly
+ python -m nurse.benchmark --brain ../etc/brains/brains.json --bratko-kopec --ids buddy polly
 

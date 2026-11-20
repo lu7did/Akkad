@@ -1,6 +1,6 @@
 """Shared Stockfish T79/T77 CSV contract for archived picoGen genetic algorithms.
 
-The binpack field is *score from side to move*, NOT teacher_cp from SQLite.
+The binpack field is score from side to move, NOT teacher_cp from SQLite.
 No SQLite or Stockfish engine is consulted. Validation is from a distinct file.
 """
 import argparse
@@ -21,7 +21,7 @@ def sha256(path):
     return h.hexdigest()
 
 
-def sample_rows(path, count, seed, *, validate=True):
+def sample_rows(path, count, seed, *, validate=True, exclude_zero=False):
     """Fixed seeded reservoir. Position group is a source CHUNK, not a game ID.
 
     Returns rows compatible with archived genPST/genNNUE:
@@ -29,7 +29,7 @@ def sample_rows(path, count, seed, *, validate=True):
     """
     import chess
     rng=random.Random(seed)
-    sample=[];seen=0;bad=0
+    sample=[];seen=0;bad=0;zeros=0
     with open(path, newline='',encoding='utf-8') as f:
         reader=csv.DictReader(f)
         if reader.fieldnames is None or any(c not in reader.fieldnames for c in REQUIRED):
@@ -47,6 +47,9 @@ def sample_rows(path, count, seed, *, validate=True):
                 if result not in (-1,0,1) or result_white != (result if b.turn else -result):
                     raise RuntimeError(f'result perspective mismatch on record {r["record_id"]}')
                 cp=float(white)
+                if exclude_zero and white == 0:
+                    zeros += 1
+                    continue
                 row=(int(r['record_id']),int(r['source_chunk']),r['fen'],cp,r['played_uci'],b)
             except (ValueError,KeyError) as ex:
                 bad+=1
@@ -59,14 +62,13 @@ def sample_rows(path, count, seed, *, validate=True):
                 if j<count:sample[j]=row
     if seen<1 or not sample:raise ValueError(f'No valid rows in {path}')
     sample.sort(key=lambda r:r[0])
-    print(f'CSV {Path(path).name}: valid={seen} selected={len(sample)} invalid={bad} seed={seed}',flush=True)
-    return sample,dict(valid=seen,selected=len(sample),invalid=bad)
+    print(f'CSV {Path(path).name}: valid={seen} selected={len(sample)} invalid={bad} excluded_zero={zeros} seed={seed}',flush=True)
+    return sample,dict(valid=seen,selected=len(sample),invalid=bad,excluded_zero=zeros)
 
 
-def load_pair(train,validation,train_count,valid_count,seed):
-    t,tc=sample_rows(train,train_count,seed)
-    v,vc=sample_rows(validation,valid_count,seed+1)
-    # T79 and T77 are intentionally two different sources, not game-splits.
+def load_pair(train,validation,train_count,valid_count,seed, *, exclude_zero=False):
+    t,tc=sample_rows(train,train_count,seed,exclude_zero=exclude_zero)
+    v,vc=sample_rows(validation,valid_count,seed+1,exclude_zero=exclude_zero)
     tpos={r[5].board_fen()+' '+('w' if r[5].turn else 'b')+' '+r[5].castling_xfen() for r in t}
     vpos={r[5].board_fen()+' '+('w' if r[5].turn else 'b')+' '+r[5].castling_xfen() for r in v}
     overlap=len(tpos.intersection(vpos))
@@ -75,7 +77,7 @@ def load_pair(train,validation,train_count,valid_count,seed):
         if not v:raise ValueError('Validation entirely overlaps with T79 selected sample')
         print(f'Excluded {overlap} overlapping board states from T77 validation',flush=True)
     signature=hashlib.sha256(json.dumps({
-        'schema':'picogen-binpack-csv-v1','train_sha256':sha256(train),
+        'schema':'picogen-binpack-csv-v1','exclude_zero':exclude_zero,'train_sha256':sha256(train),
         'valid_sha256':sha256(validation),'train_n':len(t),'valid_n':len(v),
         'seed':seed,'train_ids':[r[0] for r in t],'valid_ids':[r[0] for r in v]
     },sort_keys=True,separators=(',',':')).encode()).hexdigest()
