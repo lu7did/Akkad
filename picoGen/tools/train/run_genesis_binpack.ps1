@@ -1,4 +1,4 @@
-# picoGen binpack genetic genesis v0.1.38. Windows PowerShell 5.1 compatible.
+# picoGen binpack genetic genesis v0.1.39. Windows PowerShell 5.1 compatible.
 # All artifacts are under picoGen/assets. Never reads/writes a SQLite database.
 $ErrorActionPreference = 'Stop'
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -11,7 +11,7 @@ $Cfg = @{
   TrainCount = '1000000'; ValidCount = '100000';
   TrainScan = '10000000'; ValidScan = '1000000';
   FitnessSample = '10000'; ValidationSample = '1000';
-  Population = '30'; Generations = '20'; Seed = '42'; MutationSigma = '3';
+  Population = '50'; Generations = '100'; Seed = '42'; MutationSigma = '5';
   Python = 'python'; InstallRust = 'false'; Status = 'false'; ReuseCsvRun = ''
 }
 function Usage {
@@ -34,6 +34,8 @@ Usage: .\run_genesis_binpack.ps1 [--mon 1..8] [--status] [options]
   --python COMMAND        default python
   --install-rust          explicitly install rustup with winget when absent
   --help
+An explicit --mon N executes step N again even if it was completed before.
+Without --mon the script resumes at MON.state and reuses existing checkpoints.
 MON 1: prerequisites and reproducible run lock
 MON 2: compile and test Rust binpack extractor (CPU only)
 MON 3: T79 -> train.csv
@@ -109,6 +111,8 @@ if ($Cfg.Mon -ne '0') { $Mon=[int]$Cfg.Mon }
 elseif (Test-Path -LiteralPath $State) {$Mon=[int](Get-Content -LiteralPath $State -Raw).Trim()}
 else {$Mon=1}
 if ($Mon -lt 1 -or $Mon -gt 9) {throw 'MON.state invalid'}
+# Explicit MON is a user-requested replay, not an instruction to skip completed work.
+$ReplayMon = $Supplied.ContainsKey('Mon') -and ([int]$Cfg.Mon -ge 1)
 $identity=[ordered]@{ ModelFormat='picogen-binpack-genetic-fp32-v1' }
 foreach($key in @('RunId','TrainBinpack','ValidBinpack','TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations','Seed','MutationSigma','ReuseCsvRun')) {
  $identity[$key]=$Cfg[$key]
@@ -196,7 +200,10 @@ if ($Mon -le 6) {
  Write-Host 'MON 6: PST FP32 genes, gaussian mutation 3 percent'
  $PstArgs = @((Join-Path $ScriptDir 'genPST.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--out',$Pst,'--population',$Cfg.Population,'--generations',$Cfg.Generations,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--mutation-sigma',$Cfg.MutationSigma)
  $PreviousPst = Get-ChildItem -LiteralPath (Split-Path -Parent $Pst) -Filter 'best.gen*.json' -File -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
- if ($PreviousPst) {
+ if ($ReplayMon -and $Mon -eq 6) {
+  Write-Host 'MON 6 explicit replay: restart PST at generation 1; existing checkpoints remain available.'
+  ExecChecked $Cfg.Python $PstArgs
+ } elseif ($PreviousPst) {
   $completed = [int]([regex]::Match($PreviousPst.Name,'gen(\d{5})\.json$').Groups[1].Value)
   if ($completed -ge [int]$Cfg.Generations -and (Test-Path -LiteralPath $Pst)) {
    Write-Host "PST already complete: $($PreviousPst.Name)"
@@ -223,7 +230,10 @@ if ($Mon -le 7) {
      $PreviousNnue = $Candidate
    }
  }
- if ($PreviousNnue) {
+ if ($ReplayMon -and $Mon -eq 7) {
+  Write-Host 'MON 7 explicit replay: restart NNUE at generation 1; existing checkpoints remain available.'
+  ExecChecked $Cfg.Python $NnueArgs
+ } elseif ($PreviousNnue) {
   $completed = [int]([regex]::Match($PreviousNnue.Name,'gen(\d{5})\.json$').Groups[1].Value)
   if ($completed -ge [int]$Cfg.Generations -and (Test-Path -LiteralPath ($Nnue -replace '\.npy$','.active.json'))) {
    Write-Host "NNUE already complete: $($PreviousNnue.Name)"

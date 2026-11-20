@@ -164,7 +164,7 @@
     "player": "sargon-plus",
     "evaluator": {
       "evaluator": "genus-nnue",
-      "network": "C:/Users/pedro/github/Bobby/Akkad/picoGen/assets/binpack-genesis-001/nnue/best.npy"
+      "network": "C:/Users/pedro/github/bobby/akkad/picoGen/assets/binpack-fp32-001/nnue/best.npy"
     },
     "Depth": 2,
     "QDepth": 2,
