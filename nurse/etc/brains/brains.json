@@ -151,9 +151,9 @@
     "player": "sargon-plus",
     "evaluator": {
       "evaluator": "genus-pst",
-      "network": "../../picoGen/assets/genus_pst.json"
+      "network": "C:/Users/pedro/github/Bobby/Akkad/picoGen/assets/binpack-genesis-001/pst/PST_best.json"
     },
-    "Depth": 3,
+    "Depth": 2,
     "QDepth": 2,
     "tmax": 15000,
     "timeout": 30000,
@@ -164,9 +164,9 @@
     "player": "sargon-plus",
     "evaluator": {
       "evaluator": "genus-nnue",
-      "network": "../../picoGen/assets/genus_nnue.npy"
+      "network": "C:/Users/pedro/github/Bobby/Akkad/picoGen/assets/binpack-genesis-001/nnue/best.npy"
     },
-    "Depth": 3,
+    "Depth": 2,
     "QDepth": 2,
     "tmax": 15000,
     "timeout": 30000,

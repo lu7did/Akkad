@@ -1,422 +1,105 @@
-[19:49:13] \U0001f4bb sargon-nurse v0.1.38 brain=dalia type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
-[19:49:13] \u2699\ufe0f player=mctsp evaluator=mctse network=C:\Users\pedro\github\Bobby\Akkad\picoAlpha\assets\best_int8.bin depth=20 qdepth=0 arguments={'sims': 10000, 'depth': 20, 'cpuct': 1.5}
-[19:49:13] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
-[19:49:13] \U0001f680 subprocess pid=23800 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.mctsp', '--serve', '--config', '{"type": "nurse", "player": "mctsp", "evaluator": {"evaluator": "mctse", "network": "C:/Users/pedro/github/Bobby/Akkad/picoAlpha/assets/best_int8.bin"}, "arguments": {"sims": 10000, "depth": 20, "cpuct": 1.5}, "Depth": 20, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\mctsp.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\evaluators\\\\mctse.py", "_player": "mctsp", "_evaluator": "mctse", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\picoAlpha\\\\assets\\\\best_int8.bin", "_type": "nurse"}']
-[19:49:15] \U0001f4cb child [19:49:15] \U0001f9e0 MCTSP/MCTSE sims=10000 depth=20 cpuct=1.5 network=C:\Users\pedro\github\Bobby\Akkad\picoAlpha\assets\best_int8.bin timeout=30000 tmax=15000
-[19:49:15] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:49:20] \U0001f4cb child [19:49:20] \U0001f9e0 MCTSP simulations=10000 nodes=294240 elapsed_ms=4695 depth=13 bestmove=g8f6 visits=8560 value=-0.05818 reason=sims
-[19:49:20] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:49:24] \U0001f4cb child [19:49:24] \U0001f9e0 MCTSP simulations=10000 nodes=306091 elapsed_ms=4367 depth=11 bestmove=b8c6 visits=7322 value=-0.04948 reason=sims
-[19:49:25] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:49:31] \U0001f4cb child [19:49:31] \U0001f9e0 MCTSP simulations=10000 nodes=346889 elapsed_ms=6859 depth=9 bestmove=d7d5 visits=8486 value=-0.01266 reason=sims
-[19:49:32] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:49:41] \U0001f4cb child [19:49:41] \U0001f9e0 MCTSP simulations=10000 nodes=376341 elapsed_ms=8981 depth=10 bestmove=d8d6 visits=6372 value=0.04262 reason=sims
-[19:49:43] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:49:52] \U0001f4cb child [19:49:52] \U0001f9e0 MCTSP simulations=10000 nodes=398118 elapsed_ms=9012 depth=10 bestmove=d6b4 visits=4530 value=0.15440 reason=sims
-[19:49:53] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:50:02] \U0001f4cb child [19:50:02] \U0001f9e0 MCTSP simulations=10000 nodes=398752 elapsed_ms=8756 depth=10 bestmove=b4g4 visits=4091 value=0.15804 reason=sims
-[19:50:03] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:50:13] \U0001f4cb child [19:50:13] \U0001f9e0 MCTSP simulations=10000 nodes=361581 elapsed_ms=9345 depth=12 bestmove=f6h7 visits=8087 value=0.40472 reason=sims
-[19:50:14] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:50:22] \U0001f4cb child [19:50:22] \U0001f9e0 MCTSP simulations=10000 nodes=368894 elapsed_ms=8520 depth=12 bestmove=g4g2 visits=7726 value=0.62168 reason=sims
-[19:50:23] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:50:31] \U0001f4cb child [19:50:31] \U0001f9e0 MCTSP simulations=10000 nodes=359223 elapsed_ms=7985 depth=10 bestmove=g2f3 visits=9469 value=0.86696 reason=sims
-[19:50:32] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:50:40] \U0001f4cb child [19:50:40] \U0001f9e0 MCTSP simulations=10000 nodes=362812 elapsed_ms=7850 depth=8 bestmove=f3f6 visits=3091 value=0.88885 reason=sims
-[19:50:40] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:50:49] \U0001f4cb child [19:50:49] \U0001f9e0 MCTSP simulations=10000 nodes=357021 elapsed_ms=8136 depth=10 bestmove=f6h4 visits=3201 value=0.89240 reason=sims
-[19:50:49] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:50:58] \U0001f4cb child [19:50:58] \U0001f9e0 MCTSP simulations=10000 nodes=365332 elapsed_ms=8181 depth=10 bestmove=h4h6 visits=8734 value=0.86701 reason=sims
-[19:50:59] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:51:07] \U0001f4cb child [19:51:07] \U0001f9e0 MCTSP simulations=10000 nodes=363535 elapsed_ms=8558 depth=9 bestmove=g7g6 visits=4847 value=0.89160 reason=sims
-[19:51:09] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:51:17] \U0001f4cb child [19:51:17] \U0001f9e0 MCTSP simulations=10000 nodes=354108 elapsed_ms=8556 depth=10 bestmove=h6h5 visits=3021 value=0.86791 reason=sims
-[19:51:18] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:51:27] \U0001f4cb child [19:51:27] \U0001f9e0 MCTSP simulations=10000 nodes=361902 elapsed_ms=8692 depth=10 bestmove=h5f5 visits=6081 value=0.87821 reason=sims
-[19:51:29] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:51:37] \U0001f4cb child [19:51:37] \U0001f9e0 MCTSP simulations=10000 nodes=313373 elapsed_ms=8441 depth=10 bestmove=c8f5 visits=6732 value=0.85571 reason=sims
-[19:51:38] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:51:46] \U0001f4cb child [19:51:46] \U0001f9e0 MCTSP simulations=10000 nodes=324045 elapsed_ms=7395 depth=9 bestmove=e8c8 visits=4770 value=0.87780 reason=sims
-[19:51:46] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:51:54] \U0001f4cb child [19:51:54] \U0001f9e0 MCTSP simulations=10000 nodes=331402 elapsed_ms=7987 depth=8 bestmove=c8b8 visits=4241 value=0.89821 reason=sims
-[19:51:56] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:52:03] \U0001f4cb child [19:52:03] \U0001f9e0 MCTSP simulations=10000 nodes=324230 elapsed_ms=7820 depth=8 bestmove=f5e4 visits=4047 value=0.91549 reason=sims
-[19:52:04] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:52:13] \U0001f4cb child [19:52:13] \U0001f9e0 MCTSP simulations=10000 nodes=375708 elapsed_ms=8747 depth=8 bestmove=c6d4 visits=2655 value=0.94221 reason=sims
-[19:52:14] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:52:23] \U0001f4cb child [19:52:23] \U0001f9e0 MCTSP simulations=10000 nodes=409282 elapsed_ms=9021 depth=8 bestmove=h7f6 visits=1019 value=0.93947 reason=sims
-[19:52:25] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:52:35] \U0001f4cb child [19:52:35] \U0001f9e0 MCTSP simulations=10000 nodes=462540 elapsed_ms=9669 depth=10 bestmove=d4f5 visits=2008 value=0.94105 reason=sims
-[19:52:36] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:52:45] \U0001f4cb child [19:52:45] \U0001f9e0 MCTSP simulations=10000 nodes=466520 elapsed_ms=8969 depth=10 bestmove=e7e5 visits=2184 value=0.95012 reason=sims
-[19:52:47] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:52:56] \U0001f4cb child [19:52:56] \U0001f9e0 MCTSP simulations=10000 nodes=452773 elapsed_ms=9114 depth=9 bestmove=f8g7 visits=3088 value=0.86897 reason=sims
-[19:52:57] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:05] \U0001f4cb child [19:53:05] \U0001f9e0 MCTSP simulations=10000 nodes=425499 elapsed_ms=7812 depth=12 bestmove=g7f6 visits=7078 value=0.67441 reason=sims
-[19:53:05] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:10] \U0001f4cb child [19:53:10] \U0001f9e0 MCTSP simulations=10000 nodes=443777 elapsed_ms=4699 depth=10 bestmove=f5e3 visits=4370 value=0.87303 reason=sims
-[19:53:10] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:15] \U0001f4cb child [19:53:15] \U0001f9e0 MCTSP simulations=10000 nodes=441285 elapsed_ms=4984 depth=8 bestmove=e4c2 visits=778 value=0.85262 reason=sims
-[19:53:16] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:21] \U0001f4cb child [19:53:21] \U0001f9e0 MCTSP simulations=10000 nodes=405508 elapsed_ms=5320 depth=10 bestmove=h8e8 visits=3194 value=0.78833 reason=sims
-[19:53:22] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:27] \U0001f4cb child [19:53:27] \U0001f9e0 MCTSP simulations=10000 nodes=409141 elapsed_ms=5044 depth=10 bestmove=e8e5 visits=836 value=0.72135 reason=sims
-[19:53:27] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:36] \U0001f4cb child [19:53:36] \U0001f9e0 MCTSP simulations=10000 nodes=416437 elapsed_ms=8110 depth=8 bestmove=e5g5 visits=2711 value=0.77115 reason=sims
-[19:53:36] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:43] \U0001f4cb child [19:53:43] \U0001f9e0 MCTSP simulations=10000 nodes=385870 elapsed_ms=7625 depth=9 bestmove=g5g1 visits=3634 value=0.71372 reason=sims
-[19:53:44] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:53:52] \U0001f4cb child [19:53:52] \U0001f9e0 MCTSP simulations=10000 nodes=331626 elapsed_ms=7898 depth=11 bestmove=d8g8 visits=1048 value=0.68727 reason=sims
-[19:53:53] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:00] \U0001f4cb child [19:54:00] \U0001f9e0 MCTSP simulations=10000 nodes=323830 elapsed_ms=7411 depth=8 bestmove=g6g5 visits=2681 value=0.79586 reason=sims
-[19:54:01] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:08] \U0001f4cb child [19:54:08] \U0001f9e0 MCTSP simulations=10000 nodes=313686 elapsed_ms=7352 depth=8 bestmove=f6e5 visits=1657 value=0.76990 reason=sims
-[19:54:09] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:17] \U0001f4cb child [19:54:17] \U0001f9e0 MCTSP simulations=10000 nodes=338435 elapsed_ms=7642 depth=8 bestmove=g8d8 visits=1196 value=0.78302 reason=sims
-[19:54:17] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:25] \U0001f4cb child [19:54:25] \U0001f9e0 MCTSP simulations=10000 nodes=350942 elapsed_ms=7635 depth=10 bestmove=c2g6 visits=5851 value=0.79215 reason=sims
-[19:54:26] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:33] \U0001f4cb child [19:54:33] \U0001f9e0 MCTSP simulations=10000 nodes=343669 elapsed_ms=7714 depth=8 bestmove=d8c8 visits=1337 value=0.80071 reason=sims
-[19:54:34] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:41] \U0001f4cb child [19:54:41] \U0001f9e0 MCTSP simulations=10000 nodes=249016 elapsed_ms=6851 depth=12 bestmove=g6b1 visits=5235 value=0.38760 reason=sims
-[19:54:42] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:48] \U0001f4cb child [19:54:48] \U0001f9e0 MCTSP simulations=10000 nodes=216873 elapsed_ms=6113 depth=12 bestmove=b1a2 visits=9187 value=0.36290 reason=sims
-[19:54:48] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:54:55] \U0001f4cb child [19:54:55] \U0001f9e0 MCTSP simulations=10000 nodes=221339 elapsed_ms=6621 depth=9 bestmove=a2b3 visits=4205 value=0.40710 reason=sims
-[19:54:55] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:01] \U0001f4cb child [19:55:01] \U0001f9e0 MCTSP simulations=10000 nodes=228458 elapsed_ms=6234 depth=9 bestmove=b8a8 visits=2515 value=0.45728 reason=sims
-[19:55:02] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:08] \U0001f4cb child [19:55:08] \U0001f9e0 MCTSP simulations=10000 nodes=230655 elapsed_ms=6514 depth=9 bestmove=a8b8 visits=3929 value=0.42127 reason=sims
-[19:55:09] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:15] \U0001f4cb child [19:55:15] \U0001f9e0 MCTSP simulations=10000 nodes=227454 elapsed_ms=6268 depth=9 bestmove=c8d8 visits=2281 value=0.43600 reason=sims
-[19:55:16] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:22] \U0001f4cb child [19:55:22] \U0001f9e0 MCTSP simulations=10000 nodes=234853 elapsed_ms=6446 depth=8 bestmove=d8e8 visits=2261 value=0.48699 reason=sims
-[19:55:22] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:29] \U0001f4cb child [19:55:29] \U0001f9e0 MCTSP simulations=10000 nodes=236891 elapsed_ms=6410 depth=8 bestmove=b8a8 visits=1916 value=0.44507 reason=sims
-[19:55:29] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:36] \U0001f4cb child [19:55:36] \U0001f9e0 MCTSP simulations=10000 nodes=232618 elapsed_ms=6700 depth=10 bestmove=b3c4 visits=5281 value=0.44777 reason=sims
-[19:55:37] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:43] \U0001f4cb child [19:55:43] \U0001f9e0 MCTSP simulations=10000 nodes=230545 elapsed_ms=6572 depth=8 bestmove=b7b6 visits=1886 value=0.43896 reason=sims
-[19:55:44] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:50] \U0001f4cb child [19:55:50] \U0001f9e0 MCTSP simulations=10000 nodes=213664 elapsed_ms=6172 depth=9 bestmove=a8b8 visits=2558 value=0.39102 reason=sims
-[19:55:50] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:55:56] \U0001f4cb child [19:55:56] \U0001f9e0 MCTSP simulations=10000 nodes=214192 elapsed_ms=6170 depth=9 bestmove=b8a8 visits=3109 value=0.38076 reason=sims
-[19:55:57] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:03] \U0001f4cb child [19:56:03] \U0001f9e0 MCTSP simulations=10000 nodes=211138 elapsed_ms=6388 depth=10 bestmove=e8c8 visits=1825 value=0.39892 reason=sims
-[19:56:03] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:09] \U0001f4cb child [19:56:09] \U0001f9e0 MCTSP simulations=10000 nodes=194277 elapsed_ms=5826 depth=11 bestmove=c8d8 visits=5099 value=0.40952 reason=sims
-[19:56:10] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:15] \U0001f4cb child [19:56:15] \U0001f9e0 MCTSP simulations=10000 nodes=194643 elapsed_ms=5700 depth=10 bestmove=d8c8 visits=3496 value=0.33764 reason=sims
-[19:56:16] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:22] \U0001f4cb child [19:56:22] \U0001f9e0 MCTSP simulations=10000 nodes=194277 elapsed_ms=5901 depth=11 bestmove=c8d8 visits=5099 value=0.40952 reason=sims
-[19:56:22] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:27] \U0001f4cb child [19:56:27] \U0001f9e0 MCTSP simulations=10000 nodes=194643 elapsed_ms=5621 depth=10 bestmove=d8c8 visits=3496 value=0.33764 reason=sims
-[19:56:27] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:35] \U0001f4cb child [19:56:35] \U0001f9e0 MCTSP simulations=10000 nodes=281372 elapsed_ms=7486 depth=11 bestmove=b1c3 visits=5717 value=0.08394 reason=sims
-[19:56:35] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:43] \U0001f4cb child [19:56:43] \U0001f9e0 MCTSP simulations=10000 nodes=302965 elapsed_ms=7655 depth=9 bestmove=e2e4 visits=4114 value=0.07288 reason=sims
-[19:56:44] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:56:52] \U0001f4cb child [19:56:52] \U0001f9e0 MCTSP simulations=10000 nodes=327539 elapsed_ms=8044 depth=10 bestmove=d1f3 visits=5171 value=0.05270 reason=sims
-[19:56:52] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:57:01] \U0001f4cb child [19:57:01] \U0001f9e0 MCTSP simulations=10000 nodes=352088 elapsed_ms=8397 depth=12 bestmove=f1d3 visits=3213 value=0.16356 reason=sims
-[19:57:01] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:57:10] \U0001f4cb child [19:57:10] \U0001f9e0 MCTSP simulations=10000 nodes=353805 elapsed_ms=8337 depth=10 bestmove=g1e2 visits=3495 value=0.32626 reason=sims
-[19:57:10] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:57:20] \U0001f4cb child [19:57:20] \U0001f9e0 MCTSP simulations=10000 nodes=397934 elapsed_ms=9485 depth=10 bestmove=e4d5 visits=3065 value=0.41630 reason=sims
-[19:57:21] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:57:30] \U0001f4cb child [19:57:30] \U0001f9e0 MCTSP simulations=10000 nodes=392206 elapsed_ms=9327 depth=12 bestmove=f3e4 visits=8324 value=0.33745 reason=sims
-[19:57:31] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:57:41] \U0001f4cb child [19:57:41] \U0001f9e0 MCTSP simulations=10000 nodes=380462 elapsed_ms=9164 depth=11 bestmove=e4d3 visits=9997 value=0.29858 reason=sims
-[19:57:42] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:57:51] \U0001f4cb child [19:57:51] \U0001f9e0 MCTSP simulations=10000 nodes=370102 elapsed_ms=9244 depth=14 bestmove=d3g6 visits=7366 value=0.50476 reason=sims
-[19:57:51] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:58:00] \U0001f4cb child [19:58:00] \U0001f9e0 MCTSP simulations=10000 nodes=368398 elapsed_ms=9199 depth=12 bestmove=e2f4 visits=5574 value=0.53519 reason=sims
-[19:58:01] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:58:10] \U0001f4cb child [19:58:10] \U0001f9e0 MCTSP simulations=10000 nodes=382485 elapsed_ms=9704 depth=11 bestmove=g6d3 visits=7432 value=0.53320 reason=sims
-[19:58:11] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:58:20] \U0001f4cb child [19:58:20] \U0001f9e0 MCTSP simulations=10000 nodes=372898 elapsed_ms=9068 depth=10 bestmove=d3c4 visits=1294 value=0.58138 reason=sims
-[19:58:21] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:58:30] \U0001f4cb child [19:58:30] \U0001f9e0 MCTSP simulations=10000 nodes=375666 elapsed_ms=9354 depth=9 bestmove=c4d3 visits=3393 value=0.57452 reason=sims
-[19:58:31] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:58:40] \U0001f4cb child [19:58:40] \U0001f9e0 MCTSP simulations=10000 nodes=370310 elapsed_ms=8796 depth=14 bestmove=d3g6 visits=5110 value=0.79877 reason=sims
-[19:58:40] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:58:50] \U0001f4cb child [19:58:50] \U0001f9e0 MCTSP simulations=10000 nodes=371452 elapsed_ms=9404 depth=12 bestmove=g6g4 visits=9731 value=0.81647 reason=sims
-[19:58:50] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:58:57] \U0001f4cb child [19:58:57] \U0001f9e0 MCTSP simulations=10000 nodes=373110 elapsed_ms=7665 depth=10 bestmove=g4f3 visits=6194 value=0.82093 reason=sims
-[19:58:58] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:59:07] \U0001f4cb child [19:59:07] \U0001f9e0 MCTSP simulations=10000 nodes=379699 elapsed_ms=9076 depth=8 bestmove=f3e4 visits=3461 value=0.81454 reason=sims
-[19:59:08] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:59:17] \U0001f4cb child [19:59:17] \U0001f9e0 MCTSP simulations=10000 nodes=359069 elapsed_ms=8829 depth=12 bestmove=e4d4 visits=4785 value=0.71534 reason=sims
-[19:59:18] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:59:27] \U0001f4cb child [19:59:27] \U0001f9e0 MCTSP simulations=10000 nodes=354804 elapsed_ms=8970 depth=11 bestmove=d4a4 visits=7078 value=0.70405 reason=sims
-[19:59:27] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:59:36] \U0001f4cb child [19:59:36] \U0001f9e0 MCTSP simulations=10000 nodes=359458 elapsed_ms=8414 depth=10 bestmove=e1g1 visits=4015 value=0.73902 reason=sims
-[19:59:37] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:59:46] \U0001f4cb child [19:59:46] \U0001f9e0 MCTSP simulations=10000 nodes=356393 elapsed_ms=8689 depth=9 bestmove=a1b1 visits=4052 value=0.73353 reason=sims
-[19:59:47] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:59:55] \U0001f4cb child [19:59:55] \U0001f9e0 MCTSP simulations=10000 nodes=353203 elapsed_ms=7855 depth=9 bestmove=g2g4 visits=2158 value=0.73583 reason=sims
-[19:59:56] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:00:04] \U0001f4cb child [20:00:04] \U0001f9e0 MCTSP simulations=10000 nodes=346595 elapsed_ms=8046 depth=11 bestmove=b2b4 visits=2336 value=0.56074 reason=sims
-[20:00:05] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:00:13] \U0001f4cb child [20:00:13] \U0001f9e0 MCTSP simulations=10000 nodes=343362 elapsed_ms=8438 depth=14 bestmove=g1h1 visits=9553 value=0.31901 reason=sims
-[20:00:15] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:00:23] \U0001f4cb child [20:00:23] \U0001f9e0 MCTSP simulations=10000 nodes=334678 elapsed_ms=8034 depth=13 bestmove=f4d3 visits=5592 value=0.26934 reason=sims
-[20:00:24] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:00:31] \U0001f4cb child [20:00:31] \U0001f9e0 MCTSP simulations=10000 nodes=345584 elapsed_ms=7611 depth=10 bestmove=f1e1 visits=8197 value=0.29801 reason=sims
-[20:00:33] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:00:41] \U0001f4cb child [20:00:41] \U0001f9e0 MCTSP simulations=10000 nodes=350337 elapsed_ms=8005 depth=12 bestmove=b1b3 visits=5176 value=0.23175 reason=sims
-[20:00:42] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:00:50] \U0001f4cb child [20:00:50] \U0001f9e0 MCTSP simulations=10000 nodes=347532 elapsed_ms=7808 depth=11 bestmove=d3b2 visits=4403 value=0.36695 reason=sims
-[20:00:52] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:01:01] \U0001f4cb child [20:01:01] \U0001f9e0 MCTSP simulations=10000 nodes=320994 elapsed_ms=9005 depth=12 bestmove=e1f1 visits=3517 value=0.16564 reason=sims
-[20:01:02] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:01:11] \U0001f4cb child [20:01:11] \U0001f9e0 MCTSP simulations=10000 nodes=330933 elapsed_ms=9337 depth=10 bestmove=b4b5 visits=3409 value=0.29494 reason=sims
-[20:01:12] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:01:20] \U0001f4cb child [20:01:20] \U0001f9e0 MCTSP simulations=10000 nodes=281998 elapsed_ms=7384 depth=14 bestmove=b2a4 visits=5381 value=0.40502 reason=sims
-[20:01:20] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:01:27] \U0001f4cb child [20:01:27] \U0001f9e0 MCTSP simulations=10000 nodes=266571 elapsed_ms=6887 depth=10 bestmove=f1d1 visits=6235 value=0.41419 reason=sims
-[20:01:28] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:01:36] \U0001f4cb child [20:01:36] \U0001f9e0 MCTSP simulations=10000 nodes=283497 elapsed_ms=7725 depth=10 bestmove=d2d4 visits=3869 value=0.49752 reason=sims
-[20:01:37] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:01:46] \U0001f4cb child [20:01:46] \U0001f9e0 MCTSP simulations=10000 nodes=331671 elapsed_ms=8361 depth=10 bestmove=c3e2 visits=8261 value=0.32714 reason=sims
-[20:01:47] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:01:56] \U0001f4cb child [20:01:56] \U0001f9e0 MCTSP simulations=10000 nodes=345978 elapsed_ms=9420 depth=10 bestmove=e2c3 visits=3297 value=0.13633 reason=sims
-[20:01:58] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:02:04] \U0001f4cb child [20:02:04] \U0001f9e0 MCTSP simulations=10000 nodes=337421 elapsed_ms=6550 depth=9 bestmove=d1e1 visits=3306 value=0.10046 reason=sims
-[20:02:06] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:02:14] \U0001f4cb child [20:02:14] \U0001f9e0 MCTSP simulations=10000 nodes=343796 elapsed_ms=8322 depth=10 bestmove=c1b2 visits=6236 value=0.07546 reason=sims
-[20:02:16] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:02:24] \U0001f4cb child [20:02:24] \U0001f9e0 MCTSP simulations=10000 nodes=308448 elapsed_ms=7444 depth=9 bestmove=b2c1 visits=5501 value=0.26465 reason=sims
-[20:02:25] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:02:32] \U0001f4cb child [20:02:32] \U0001f9e0 MCTSP simulations=10000 nodes=312243 elapsed_ms=7247 depth=9 bestmove=c1b2 visits=4723 value=0.28896 reason=sims
-[20:02:33] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:02:41] \U0001f4cb child [20:02:41] \U0001f9e0 MCTSP simulations=10000 nodes=339148 elapsed_ms=7900 depth=11 bestmove=a4b6 visits=9261 value=0.43512 reason=sims
-[20:02:43] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:02:50] \U0001f4cb child [20:02:50] \U0001f9e0 MCTSP simulations=10000 nodes=335878 elapsed_ms=7791 depth=12 bestmove=b6c8 visits=7054 value=0.61672 reason=sims
-[20:02:52] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:02:59] \U0001f4cb child [20:02:59] \U0001f9e0 MCTSP simulations=10000 nodes=311986 elapsed_ms=7536 depth=13 bestmove=f2g3 visits=9826 value=0.72160 reason=sims
-[20:03:00] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:03:08] \U0001f4cb child [20:03:08] \U0001f9e0 MCTSP simulations=10000 nodes=344683 elapsed_ms=7901 depth=12 bestmove=c8d6 visits=9086 value=0.87172 reason=sims
-[20:03:09] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:03:17] \U0001f4cb child [20:03:17] \U0001f9e0 MCTSP simulations=10000 nodes=351046 elapsed_ms=7994 depth=8 bestmove=h1h2 visits=4104 value=0.89706 reason=sims
-[20:03:18] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:03:26] \U0001f4cb child [20:03:26] \U0001f9e0 MCTSP simulations=10000 nodes=342630 elapsed_ms=8031 depth=10 bestmove=d6b5 visits=3577 value=0.92210 reason=sims
-[20:03:27] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:03:34] \U0001f4cb child [20:03:34] \U0001f9e0 MCTSP simulations=10000 nodes=332642 elapsed_ms=7724 depth=8 bestmove=h2h1 visits=2059 value=0.92017 reason=sims
-[20:03:35] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:03:42] \U0001f4cb child [20:03:42] \U0001f9e0 MCTSP simulations=10000 nodes=293563 elapsed_ms=7139 depth=10 bestmove=e1c1 visits=5466 value=0.88001 reason=sims
-[20:03:42] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:03:50] \U0001f4cb child [20:03:50] \U0001f9e0 MCTSP simulations=10000 nodes=275377 elapsed_ms=7258 depth=10 bestmove=h1g1 visits=9676 value=0.89049 reason=sims
-[20:03:50] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:03:57] \U0001f4cb child [20:03:57] \U0001f9e0 MCTSP simulations=10000 nodes=272374 elapsed_ms=6988 depth=10 bestmove=g1h1 visits=3555 value=0.88477 reason=sims
-[20:03:57] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:04] \U0001f4cb child [20:04:04] \U0001f9e0 MCTSP simulations=10000 nodes=275377 elapsed_ms=6820 depth=10 bestmove=h1g1 visits=9676 value=0.89049 reason=sims
-[20:04:05] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:13] \U0001f4cb child [20:04:13] \U0001f9e0 MCTSP simulations=10000 nodes=294240 elapsed_ms=7923 depth=13 bestmove=g8f6 visits=8560 value=-0.05818 reason=sims
-[20:04:13] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:21] \U0001f4cb child [20:04:21] \U0001f9e0 MCTSP simulations=10000 nodes=306091 elapsed_ms=7728 depth=11 bestmove=b8c6 visits=7322 value=-0.04948 reason=sims
-[20:04:21] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:30] \U0001f4cb child [20:04:30] \U0001f9e0 MCTSP simulations=10000 nodes=346889 elapsed_ms=8479 depth=9 bestmove=d7d5 visits=8486 value=-0.01266 reason=sims
-[20:04:31] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:36] \U0001f4cb child [20:04:36] \U0001f9e0 MCTSP simulations=10000 nodes=376341 elapsed_ms=4727 depth=10 bestmove=d8d6 visits=6372 value=0.04262 reason=sims
-[20:04:36] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:41] \U0001f4cb child [20:04:41] \U0001f9e0 MCTSP simulations=10000 nodes=398118 elapsed_ms=4665 depth=10 bestmove=d6b4 visits=4530 value=0.15440 reason=sims
-[20:04:42] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:47] \U0001f4cb child [20:04:47] \U0001f9e0 MCTSP simulations=10000 nodes=398752 elapsed_ms=5181 depth=10 bestmove=b4g4 visits=4091 value=0.15804 reason=sims
-[20:04:48] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:53] \U0001f4cb child [20:04:53] \U0001f9e0 MCTSP simulations=10000 nodes=361581 elapsed_ms=5140 depth=12 bestmove=f6h7 visits=8087 value=0.40472 reason=sims
-[20:04:54] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:04:59] \U0001f4cb child [20:04:59] \U0001f9e0 MCTSP simulations=10000 nodes=368894 elapsed_ms=5138 depth=12 bestmove=g4g2 visits=7726 value=0.62168 reason=sims
-[20:05:00] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:05] \U0001f4cb child [20:05:05] \U0001f9e0 MCTSP simulations=10000 nodes=359223 elapsed_ms=5295 depth=10 bestmove=g2f3 visits=9469 value=0.86696 reason=sims
-[20:05:06] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:11] \U0001f4cb child [20:05:11] \U0001f9e0 MCTSP simulations=10000 nodes=362812 elapsed_ms=5396 depth=8 bestmove=f3f6 visits=3091 value=0.88885 reason=sims
-[20:05:12] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:17] \U0001f4cb child [20:05:17] \U0001f9e0 MCTSP simulations=10000 nodes=357021 elapsed_ms=5091 depth=10 bestmove=f6h4 visits=3201 value=0.89240 reason=sims
-[20:05:17] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:23] \U0001f4cb child [20:05:23] \U0001f9e0 MCTSP simulations=10000 nodes=365332 elapsed_ms=5401 depth=10 bestmove=h4h6 visits=8734 value=0.86701 reason=sims
-[20:05:23] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:29] \U0001f4cb child [20:05:29] \U0001f9e0 MCTSP simulations=10000 nodes=363535 elapsed_ms=5108 depth=9 bestmove=g7g6 visits=4847 value=0.89160 reason=sims
-[20:05:30] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:35] \U0001f4cb child [20:05:35] \U0001f9e0 MCTSP simulations=10000 nodes=354108 elapsed_ms=5206 depth=10 bestmove=h6h5 visits=3021 value=0.86791 reason=sims
-[20:05:36] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:41] \U0001f4cb child [20:05:41] \U0001f9e0 MCTSP simulations=10000 nodes=361902 elapsed_ms=5367 depth=10 bestmove=h5f5 visits=6081 value=0.87821 reason=sims
-[20:05:42] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:47] \U0001f4cb child [20:05:47] \U0001f9e0 MCTSP simulations=10000 nodes=313373 elapsed_ms=5025 depth=10 bestmove=c8f5 visits=6732 value=0.85571 reason=sims
-[20:05:48] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:53] \U0001f4cb child [20:05:53] \U0001f9e0 MCTSP simulations=10000 nodes=324045 elapsed_ms=4830 depth=9 bestmove=e8c8 visits=4770 value=0.87780 reason=sims
-[20:05:53] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:05:59] \U0001f4cb child [20:05:59] \U0001f9e0 MCTSP simulations=10000 nodes=331402 elapsed_ms=5603 depth=8 bestmove=c8b8 visits=4241 value=0.89821 reason=sims
-[20:06:00] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:06:08] \U0001f4cb child [20:06:08] \U0001f9e0 MCTSP simulations=10000 nodes=324230 elapsed_ms=7673 depth=8 bestmove=f5e4 visits=4047 value=0.91549 reason=sims
-[20:06:09] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:06:17] \U0001f4cb child [20:06:17] \U0001f9e0 MCTSP simulations=10000 nodes=375708 elapsed_ms=7778 depth=8 bestmove=c6d4 visits=2655 value=0.94221 reason=sims
-[20:06:18] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:06:26] \U0001f4cb child [20:06:26] \U0001f9e0 MCTSP simulations=10000 nodes=409282 elapsed_ms=7763 depth=8 bestmove=h7f6 visits=1019 value=0.93947 reason=sims
-[20:06:27] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:06:37] \U0001f4cb child [20:06:37] \U0001f9e0 MCTSP simulations=10000 nodes=462540 elapsed_ms=9866 depth=10 bestmove=d4f5 visits=2008 value=0.94105 reason=sims
-[20:06:38] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:06:46] \U0001f4cb child [20:06:46] \U0001f9e0 MCTSP simulations=10000 nodes=466520 elapsed_ms=7175 depth=10 bestmove=e7e5 visits=2184 value=0.95012 reason=sims
-[20:06:47] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:06:54] \U0001f4cb child [20:06:54] \U0001f9e0 MCTSP simulations=10000 nodes=452773 elapsed_ms=7653 depth=9 bestmove=f8g7 visits=3088 value=0.86897 reason=sims
-[20:06:55] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:01] \U0001f4cb child [20:07:01] \U0001f9e0 MCTSP simulations=10000 nodes=425499 elapsed_ms=5792 depth=12 bestmove=g7f6 visits=7078 value=0.67441 reason=sims
-[20:07:02] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:09] \U0001f4cb child [20:07:09] \U0001f9e0 MCTSP simulations=10000 nodes=443777 elapsed_ms=6906 depth=10 bestmove=f5e3 visits=4370 value=0.87303 reason=sims
-[20:07:09] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:15] \U0001f4cb child [20:07:15] \U0001f9e0 MCTSP simulations=10000 nodes=441285 elapsed_ms=6088 depth=8 bestmove=e4c2 visits=778 value=0.85262 reason=sims
-[20:07:16] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:21] \U0001f4cb child [20:07:21] \U0001f9e0 MCTSP simulations=10000 nodes=405508 elapsed_ms=5158 depth=10 bestmove=h8e8 visits=3194 value=0.78833 reason=sims
-[20:07:21] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:27] \U0001f4cb child [20:07:27] \U0001f9e0 MCTSP simulations=10000 nodes=409141 elapsed_ms=5254 depth=10 bestmove=e8e5 visits=836 value=0.72135 reason=sims
-[20:07:28] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:32] \U0001f4cb child [20:07:32] \U0001f9e0 MCTSP simulations=10000 nodes=416437 elapsed_ms=4923 depth=8 bestmove=e5g5 visits=2711 value=0.77115 reason=sims
-[20:07:33] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:38] \U0001f4cb child [20:07:38] \U0001f9e0 MCTSP simulations=10000 nodes=385870 elapsed_ms=5090 depth=9 bestmove=g5g1 visits=3634 value=0.71372 reason=sims
-[20:07:38] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:43] \U0001f4cb child [20:07:43] \U0001f9e0 MCTSP simulations=10000 nodes=331626 elapsed_ms=4569 depth=11 bestmove=d8g8 visits=1048 value=0.68727 reason=sims
-[20:07:43] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:48] \U0001f4cb child [20:07:48] \U0001f9e0 MCTSP simulations=10000 nodes=323830 elapsed_ms=4325 depth=8 bestmove=g6g5 visits=2681 value=0.79586 reason=sims
-[20:07:48] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:52] \U0001f4cb child [20:07:52] \U0001f9e0 MCTSP simulations=10000 nodes=313686 elapsed_ms=4287 depth=8 bestmove=f6e5 visits=1657 value=0.76990 reason=sims
-[20:07:53] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:07:57] \U0001f4cb child [20:07:57] \U0001f9e0 MCTSP simulations=10000 nodes=338435 elapsed_ms=4427 depth=8 bestmove=g8d8 visits=1196 value=0.78302 reason=sims
-[20:07:58] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:02] \U0001f4cb child [20:08:02] \U0001f9e0 MCTSP simulations=10000 nodes=350942 elapsed_ms=4476 depth=10 bestmove=c2g6 visits=5851 value=0.79215 reason=sims
-[20:08:03] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:07] \U0001f4cb child [20:08:07] \U0001f9e0 MCTSP simulations=10000 nodes=343669 elapsed_ms=4322 depth=8 bestmove=d8c8 visits=1337 value=0.80071 reason=sims
-[20:08:08] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:11] \U0001f4cb child [20:08:11] \U0001f9e0 MCTSP simulations=10000 nodes=249016 elapsed_ms=3793 depth=12 bestmove=g6b1 visits=5235 value=0.38760 reason=sims
-[20:08:12] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:15] \U0001f4cb child [20:08:15] \U0001f9e0 MCTSP simulations=10000 nodes=216873 elapsed_ms=3580 depth=12 bestmove=b1a2 visits=9187 value=0.36290 reason=sims
-[20:08:16] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:19] \U0001f4cb child [20:08:19] \U0001f9e0 MCTSP simulations=10000 nodes=221339 elapsed_ms=3526 depth=9 bestmove=a2b3 visits=4205 value=0.40710 reason=sims
-[20:08:19] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:23] \U0001f4cb child [20:08:23] \U0001f9e0 MCTSP simulations=10000 nodes=228458 elapsed_ms=3727 depth=9 bestmove=b8a8 visits=2515 value=0.45728 reason=sims
-[20:08:23] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:27] \U0001f4cb child [20:08:27] \U0001f9e0 MCTSP simulations=10000 nodes=230655 elapsed_ms=4072 depth=9 bestmove=a8b8 visits=3929 value=0.42127 reason=sims
-[20:08:28] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:33] \U0001f4cb child [20:08:33] \U0001f9e0 MCTSP simulations=10000 nodes=227454 elapsed_ms=4962 depth=9 bestmove=c8d8 visits=2281 value=0.43600 reason=sims
-[20:08:33] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:40] \U0001f4cb child [20:08:40] \U0001f9e0 MCTSP simulations=10000 nodes=234853 elapsed_ms=6527 depth=8 bestmove=d8e8 visits=2261 value=0.48699 reason=sims
-[20:08:40] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:47] \U0001f4cb child [20:08:47] \U0001f9e0 MCTSP simulations=10000 nodes=236891 elapsed_ms=6236 depth=8 bestmove=b8a8 visits=1916 value=0.44507 reason=sims
-[20:08:47] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:08:53] \U0001f4cb child [20:08:53] \U0001f9e0 MCTSP simulations=10000 nodes=232618 elapsed_ms=5710 depth=10 bestmove=b3c4 visits=5281 value=0.44777 reason=sims
-[20:08:53] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:00] \U0001f4cb child [20:09:00] \U0001f9e0 MCTSP simulations=10000 nodes=230545 elapsed_ms=6175 depth=8 bestmove=b7b6 visits=1886 value=0.43896 reason=sims
-[20:09:00] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:06] \U0001f4cb child [20:09:06] \U0001f9e0 MCTSP simulations=10000 nodes=213664 elapsed_ms=5898 depth=9 bestmove=a8b8 visits=2558 value=0.39102 reason=sims
-[20:09:06] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:12] \U0001f4cb child [20:09:12] \U0001f9e0 MCTSP simulations=10000 nodes=214192 elapsed_ms=5964 depth=9 bestmove=b8a8 visits=3109 value=0.38076 reason=sims
-[20:09:12] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:18] \U0001f4cb child [20:09:18] \U0001f9e0 MCTSP simulations=10000 nodes=211138 elapsed_ms=5886 depth=10 bestmove=e8c8 visits=1825 value=0.39892 reason=sims
-[20:09:19] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:22] \U0001f4cb child [20:09:22] \U0001f9e0 MCTSP simulations=10000 nodes=194277 elapsed_ms=3040 depth=11 bestmove=c8d8 visits=5099 value=0.40952 reason=sims
-[20:09:22] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:26] \U0001f4cb child [20:09:26] \U0001f9e0 MCTSP simulations=10000 nodes=194643 elapsed_ms=3863 depth=10 bestmove=d8c8 visits=3496 value=0.33764 reason=sims
-[20:09:26] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:31] \U0001f4cb child [20:09:31] \U0001f9e0 MCTSP simulations=10000 nodes=194277 elapsed_ms=5284 depth=11 bestmove=c8d8 visits=5099 value=0.40952 reason=sims
-[20:09:32] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:37] \U0001f4cb child [20:09:37] \U0001f9e0 MCTSP simulations=10000 nodes=194643 elapsed_ms=5508 depth=10 bestmove=d8c8 visits=3496 value=0.33764 reason=sims
-[20:09:37] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:44] \U0001f4cb child [20:09:44] \U0001f9e0 MCTSP simulations=10000 nodes=281372 elapsed_ms=6865 depth=11 bestmove=b1c3 visits=5717 value=0.08394 reason=sims
-[20:09:44] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:09:52] \U0001f4cb child [20:09:52] \U0001f9e0 MCTSP simulations=10000 nodes=302965 elapsed_ms=7253 depth=9 bestmove=e2e4 visits=4114 value=0.07288 reason=sims
-[20:09:52] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:10:00] \U0001f4cb child [20:10:00] \U0001f9e0 MCTSP simulations=10000 nodes=327539 elapsed_ms=7809 depth=10 bestmove=d1f3 visits=5171 value=0.05270 reason=sims
-[20:10:01] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:10:09] \U0001f4cb child [20:10:09] \U0001f9e0 MCTSP simulations=10000 nodes=352088 elapsed_ms=8748 depth=12 bestmove=f1d3 visits=3213 value=0.16356 reason=sims
-[20:10:10] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:10:20] \U0001f4cb child [20:10:20] \U0001f9e0 MCTSP simulations=10000 nodes=353805 elapsed_ms=9301 depth=10 bestmove=g1e2 visits=3495 value=0.32626 reason=sims
-[20:10:20] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:10:30] \U0001f4cb child [20:10:30] \U0001f9e0 MCTSP simulations=10000 nodes=397934 elapsed_ms=10163 depth=10 bestmove=e4d5 visits=3065 value=0.41630 reason=sims
-[20:10:31] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:10:42] \U0001f4cb child [20:10:42] \U0001f9e0 MCTSP simulations=10000 nodes=392206 elapsed_ms=10587 depth=12 bestmove=f3e4 visits=8324 value=0.33745 reason=sims
-[20:10:43] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:10:53] \U0001f4cb child [20:10:53] \U0001f9e0 MCTSP simulations=10000 nodes=380462 elapsed_ms=9554 depth=11 bestmove=e4d3 visits=9997 value=0.29858 reason=sims
-[20:10:54] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:11:02] \U0001f4cb child [20:11:02] \U0001f9e0 MCTSP simulations=10000 nodes=370102 elapsed_ms=8741 depth=14 bestmove=d3g6 visits=7366 value=0.50476 reason=sims
-[20:11:02] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:11:11] \U0001f4cb child [20:11:11] \U0001f9e0 MCTSP simulations=10000 nodes=368398 elapsed_ms=8897 depth=12 bestmove=e2f4 visits=5574 value=0.53519 reason=sims
-[20:11:12] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:11:21] \U0001f4cb child [20:11:21] \U0001f9e0 MCTSP simulations=10000 nodes=382485 elapsed_ms=9268 depth=11 bestmove=g6d3 visits=7432 value=0.53320 reason=sims
-[20:11:22] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:11:31] \U0001f4cb child [20:11:31] \U0001f9e0 MCTSP simulations=10000 nodes=372898 elapsed_ms=8740 depth=10 bestmove=d3c4 visits=1294 value=0.58138 reason=sims
-[20:11:31] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:11:40] \U0001f4cb child [20:11:40] \U0001f9e0 MCTSP simulations=10000 nodes=375666 elapsed_ms=8829 depth=9 bestmove=c4d3 visits=3393 value=0.57452 reason=sims
-[20:11:41] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:11:50] \U0001f4cb child [20:11:50] \U0001f9e0 MCTSP simulations=10000 nodes=370310 elapsed_ms=8653 depth=14 bestmove=d3g6 visits=5110 value=0.79877 reason=sims
-[20:11:50] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:11:59] \U0001f4cb child [20:11:59] \U0001f9e0 MCTSP simulations=10000 nodes=371452 elapsed_ms=9346 depth=12 bestmove=g6g4 visits=9731 value=0.81647 reason=sims
-[20:11:59] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:12:08] \U0001f4cb child [20:12:08] \U0001f9e0 MCTSP simulations=10000 nodes=373110 elapsed_ms=8799 depth=10 bestmove=g4f3 visits=6194 value=0.82093 reason=sims
-[20:12:09] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:12:19] \U0001f4cb child [20:12:19] \U0001f9e0 MCTSP simulations=10000 nodes=379699 elapsed_ms=9910 depth=8 bestmove=f3e4 visits=3461 value=0.81454 reason=sims
-[20:12:20] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:12:29] \U0001f4cb child [20:12:29] \U0001f9e0 MCTSP simulations=10000 nodes=359069 elapsed_ms=8723 depth=12 bestmove=e4d4 visits=4785 value=0.71534 reason=sims
-[20:12:30] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:12:38] \U0001f4cb child [20:12:38] \U0001f9e0 MCTSP simulations=10000 nodes=354804 elapsed_ms=8591 depth=11 bestmove=d4a4 visits=7078 value=0.70405 reason=sims
-[20:12:39] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:12:47] \U0001f4cb child [20:12:47] \U0001f9e0 MCTSP simulations=10000 nodes=359458 elapsed_ms=8715 depth=10 bestmove=e1g1 visits=4015 value=0.73902 reason=sims
-[20:12:48] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:12:56] \U0001f4cb child [20:12:56] \U0001f9e0 MCTSP simulations=10000 nodes=356393 elapsed_ms=7918 depth=9 bestmove=a1b1 visits=4052 value=0.73353 reason=sims
-[20:12:57] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:06] \U0001f4cb child [20:13:06] \U0001f9e0 MCTSP simulations=10000 nodes=353203 elapsed_ms=8526 depth=9 bestmove=g2g4 visits=2158 value=0.73583 reason=sims
-[20:13:07] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:15] \U0001f4cb child [20:13:15] \U0001f9e0 MCTSP simulations=10000 nodes=346595 elapsed_ms=7731 depth=11 bestmove=b2b4 visits=2336 value=0.56074 reason=sims
-[20:13:16] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:24] \U0001f4cb child [20:13:24] \U0001f9e0 MCTSP simulations=10000 nodes=343362 elapsed_ms=8391 depth=14 bestmove=g1h1 visits=9553 value=0.31901 reason=sims
-[20:13:25] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:31] \U0001f4cb child [20:13:31] \U0001f9e0 MCTSP simulations=10000 nodes=334678 elapsed_ms=5413 depth=13 bestmove=f4d3 visits=5592 value=0.26934 reason=sims
-[20:13:32] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:37] \U0001f4cb child [20:13:37] \U0001f9e0 MCTSP simulations=10000 nodes=345584 elapsed_ms=5706 depth=10 bestmove=f1e1 visits=8197 value=0.29801 reason=sims
-[20:13:38] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:44] \U0001f4cb child [20:13:44] \U0001f9e0 MCTSP simulations=10000 nodes=350337 elapsed_ms=5787 depth=12 bestmove=b1b3 visits=5176 value=0.23175 reason=sims
-[20:13:45] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:51] \U0001f4cb child [20:13:51] \U0001f9e0 MCTSP simulations=10000 nodes=347532 elapsed_ms=5154 depth=11 bestmove=d3b2 visits=4403 value=0.36695 reason=sims
-[20:13:51] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:13:56] \U0001f4cb child [20:13:56] \U0001f9e0 MCTSP simulations=10000 nodes=320994 elapsed_ms=4907 depth=12 bestmove=e1f1 visits=3517 value=0.16564 reason=sims
-[20:13:57] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:02] \U0001f4cb child [20:14:02] \U0001f9e0 MCTSP simulations=10000 nodes=330933 elapsed_ms=4974 depth=10 bestmove=b4b5 visits=3409 value=0.29494 reason=sims
-[20:14:03] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:08] \U0001f4cb child [20:14:08] \U0001f9e0 MCTSP simulations=10000 nodes=281998 elapsed_ms=4573 depth=14 bestmove=b2a4 visits=5381 value=0.40502 reason=sims
-[20:14:08] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:12] \U0001f4cb child [20:14:12] \U0001f9e0 MCTSP simulations=10000 nodes=266571 elapsed_ms=4361 depth=10 bestmove=f1d1 visits=6235 value=0.41419 reason=sims
-[20:14:13] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:17] \U0001f4cb child [20:14:17] \U0001f9e0 MCTSP simulations=10000 nodes=283497 elapsed_ms=4395 depth=10 bestmove=d2d4 visits=3869 value=0.49752 reason=sims
-[20:14:18] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:23] \U0001f4cb child [20:14:23] \U0001f9e0 MCTSP simulations=10000 nodes=331671 elapsed_ms=5145 depth=10 bestmove=c3e2 visits=8261 value=0.32714 reason=sims
-[20:14:24] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:30] \U0001f4cb child [20:14:30] \U0001f9e0 MCTSP simulations=10000 nodes=345978 elapsed_ms=5084 depth=10 bestmove=e2c3 visits=3297 value=0.13633 reason=sims
-[20:14:31] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:36] \U0001f4cb child [20:14:36] \U0001f9e0 MCTSP simulations=10000 nodes=337421 elapsed_ms=5086 depth=9 bestmove=d1e1 visits=3306 value=0.10046 reason=sims
-[20:14:37] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:42] \U0001f4cb child [20:14:42] \U0001f9e0 MCTSP simulations=10000 nodes=343796 elapsed_ms=5096 depth=10 bestmove=c1b2 visits=6236 value=0.07546 reason=sims
-[20:14:43] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:48] \U0001f4cb child [20:14:48] \U0001f9e0 MCTSP simulations=10000 nodes=308448 elapsed_ms=4878 depth=9 bestmove=b2c1 visits=5501 value=0.26465 reason=sims
-[20:14:48] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:53] \U0001f4cb child [20:14:53] \U0001f9e0 MCTSP simulations=10000 nodes=312243 elapsed_ms=4712 depth=9 bestmove=c1b2 visits=4723 value=0.28896 reason=sims
-[20:14:54] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:14:59] \U0001f4cb child [20:14:59] \U0001f9e0 MCTSP simulations=10000 nodes=339148 elapsed_ms=5068 depth=11 bestmove=a4b6 visits=9261 value=0.43512 reason=sims
-[20:15:00] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:05] \U0001f4cb child [20:15:05] \U0001f9e0 MCTSP simulations=10000 nodes=335878 elapsed_ms=4988 depth=12 bestmove=b6c8 visits=7054 value=0.61672 reason=sims
-[20:15:06] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:11] \U0001f4cb child [20:15:11] \U0001f9e0 MCTSP simulations=10000 nodes=311986 elapsed_ms=4675 depth=13 bestmove=f2g3 visits=9826 value=0.72160 reason=sims
-[20:15:12] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:17] \U0001f4cb child [20:15:17] \U0001f9e0 MCTSP simulations=10000 nodes=344683 elapsed_ms=5056 depth=12 bestmove=c8d6 visits=9086 value=0.87172 reason=sims
-[20:15:17] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:22] \U0001f4cb child [20:15:22] \U0001f9e0 MCTSP simulations=10000 nodes=351046 elapsed_ms=4928 depth=8 bestmove=h1h2 visits=4104 value=0.89706 reason=sims
-[20:15:23] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:28] \U0001f4cb child [20:15:28] \U0001f9e0 MCTSP simulations=10000 nodes=342630 elapsed_ms=4799 depth=10 bestmove=d6b5 visits=3577 value=0.92210 reason=sims
-[20:15:28] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:33] \U0001f4cb child [20:15:33] \U0001f9e0 MCTSP simulations=10000 nodes=332642 elapsed_ms=4704 depth=8 bestmove=h2h1 visits=2059 value=0.92017 reason=sims
-[20:15:33] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:38] \U0001f4cb child [20:15:38] \U0001f9e0 MCTSP simulations=10000 nodes=293563 elapsed_ms=4350 depth=10 bestmove=e1c1 visits=5466 value=0.88001 reason=sims
-[20:15:38] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:42] \U0001f4cb child [20:15:42] \U0001f9e0 MCTSP simulations=10000 nodes=275377 elapsed_ms=4334 depth=10 bestmove=h1g1 visits=9676 value=0.89049 reason=sims
-[20:15:42] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:47] \U0001f4cb child [20:15:47] \U0001f9e0 MCTSP simulations=10000 nodes=272374 elapsed_ms=4320 depth=10 bestmove=g1h1 visits=3555 value=0.88477 reason=sims
-[20:15:47] \U0001f50e brain=dalia go='go movetime 15000' tmax=15000ms timeout=30000ms
-[20:15:52] \U0001f4cb child [20:15:52] \U0001f9e0 MCTSP simulations=10000 nodes=275377 elapsed_ms=4426 depth=10 bestmove=h1g1 visits=9676 value=0.89049 reason=sims
-[20:15:53] \U0001f4cb child [20:15:53] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[10:21:28] \U0001f4bb sargon-nurse v0.1.38 brain=dolly type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[10:21:28] \u2699\ufe0f player=sargon-plus evaluator=genus-nnue network=C:\Users\pedro\github\Bobby\Akkad\picoGen\assets\binpack-genesis-001\nnue\best.npy depth=2 qdepth=2 arguments={}
+[10:21:28] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[10:21:28] \U0001f680 subprocess pid=20224 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.sargon_plus', '--serve', '--config', '{"type": "nurse", "player": "sargon-plus", "evaluator": {"evaluator": "genus-nnue", "network": "C:/Users/pedro/github/Bobby/Akkad/picoGen/assets/binpack-genesis-001/nnue/best.npy"}, "Depth": 2, "QDepth": 2, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\sargon_plus.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\genus_eval.py", "_player": "sargon-plus", "_evaluator": "genus-nnue", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\picoGen\\\\assets\\\\binpack-genesis-001\\\\nnue\\\\best.npy", "_type": "nurse", "arguments": {}}']
+[10:21:28] \U0001f4cb child \u2699\ufe0f EXEC player=sargon-plus | evaluator=genus-nnue | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x00/0 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+[10:21:28] \U0001f4cb child \u26a1 TURBO mask=0x00 baseline=ON adaptive-actuators=OFF
+[10:21:28] \U0001f4cb child [10:21:28] \U0001f9e0 worker player=sargon-plus evaluator=genus-nnue depth=2 qdepth=2 tmax=15000 timeout=30000 warmup_movetime=15000 network=C:\Users\pedro\github\Bobby\Akkad\picoGen\assets\binpack-genesis-001\nnue\best.npy arguments={}
+[10:21:28] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:29] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:29] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:30] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:31] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:31] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:32] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:33] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:34] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:35] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:36] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:37] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:38] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:39] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:39] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:40] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:40] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:41] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:42] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:42] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:43] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:43] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:44] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:44] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:45] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:45] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:45] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:46] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:46] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:47] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:47] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:48] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:50] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:51] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:53] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:54] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:56] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:57] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:21:58] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:00] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:02] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:04] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:06] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:07] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:08] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:08] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:09] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:09] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:10] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:11] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:11] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:12] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:12] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:12] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:12] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:13] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:13] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:14] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:16] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:16] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:17] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:18] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:19] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:19] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:20] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:21] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:21] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:22] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:22] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:22] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:23] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:23] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:24] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:25] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:26] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:27] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:29] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:30] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:32] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:33] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:34] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:36] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:37] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:39] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:41] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:43] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:44] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:45] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:45] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:46] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:46] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:47] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:48] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:48] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:49] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:49] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:49] \U0001f50e brain=dolly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[10:22:50] \U0001f4cb child [10:22:50] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

@@ -1,0 +1,33 @@
+[09:56:11] \U0001f4bb sargon-nurse v0.1.38 brain=polly type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[09:56:11] \u2699\ufe0f player=sargon-plus evaluator=genus-pst network=C:\Users\pedro\github\Bobby\Akkad\picoGen\assets\binpack-genesis-001\pst\PST_best.json depth=2 qdepth=2 arguments={}
+[09:56:11] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[09:56:11] \U0001f680 subprocess pid=8716 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.sargon_plus', '--serve', '--config', '{"type": "nurse", "player": "sargon-plus", "evaluator": {"evaluator": "genus-pst", "network": "C:/Users/pedro/github/Bobby/Akkad/picoGen/assets/binpack-genesis-001/pst/PST_best.json"}, "Depth": 2, "QDepth": 2, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\sargon_plus.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\genus_eval.py", "_player": "sargon-plus", "_evaluator": "genus-pst", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\picoGen\\\\assets\\\\binpack-genesis-001\\\\pst\\\\PST_best.json", "_type": "nurse", "arguments": {}}']
+[09:56:11] \U0001f4cb child \u2699\ufe0f EXEC player=sargon-plus | evaluator=genus-pst | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x00/0 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+[09:56:11] \U0001f4cb child \u26a1 TURBO mask=0x00 baseline=ON adaptive-actuators=OFF
+[09:56:11] \U0001f4cb child [09:56:11] \U0001f9e0 worker player=sargon-plus evaluator=genus-pst depth=2 qdepth=2 tmax=15000 timeout=30000 warmup_movetime=15000 network=C:\Users\pedro\github\Bobby\Akkad\picoGen\assets\binpack-genesis-001\pst\PST_best.json arguments={}
+[09:56:11] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:11] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:13] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:14] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:15] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:16] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:19] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:19] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:20] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:21] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:22] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:24] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:25] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:26] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:28] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:29] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:31] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:32] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:33] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:35] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:37] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:39] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:41] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:43] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:45] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
+[09:56:47] \U0001f4cb child [09:56:47] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
