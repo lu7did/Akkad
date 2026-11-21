@@ -37026,6 +37026,28 @@
       "modalidad": "blitz",
       "rated": false,
       "motor": "picoPixie v0.1.28"
+    },
+    {
+      "id": "2026-11-20T21:31:39.596994+00:00:5",
+      "fics_game": 5,
+      "fecha_inicio_utc": "2026-11-20T21:31:39.596994+00:00",
+      "fecha_fin_utc": "2026-11-20T22:31:39.179307+00:00",
+      "usuario_propio": "GuestRDJC",
+      "elo_propio": "++++",
+      "color_propio": "negras",
+      "usuario_contrincante": "NemMahre",
+      "elo_contrincante": "++++",
+      "color_contrincante": "blancas",
+      "resultado": 0.0,
+      "resultado_fics": "1-0",
+      "razon": "(NemMahre vs. GuestRDJC) GuestRDJC forfeits by disconnection",
+      "cantidad_movidas": 0,
+      "cantidad_medias_jugadas": 0,
+      "tiempo_segundos": 3599.582,
+      "control_tiempo": "7+0",
+      "modalidad": "blitz",
+      "rated": false,
+      "motor": "picoPixie v0.1.28"
     }
   ]
 }

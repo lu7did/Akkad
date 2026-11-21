@@ -1,4 +1,4 @@
-# picoGen binpack genetic genesis v0.1.58. Windows PowerShell 5.1 compatible.
+# picoGen binpack genetic genesis v0.1.59. Windows PowerShell 5.1 compatible.
 # All artifacts are under picoGen/assets. Never reads/writes a SQLite database.
 $ErrorActionPreference = 'Stop'
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -42,7 +42,7 @@ Usage: .\run_genesis_binpack.ps1 --mon 1   (no other arguments required)
   --python COMMAND        default python
   --install-rust          install rustup with winget when absent (default enabled)
   --help
-All defaults are declared in $Cfg above. --mon 1 runs the complete MON 1..8 pipeline.
+All defaults are declared in $Cfg above. --mon 1 runs the complete MON 1..9 pipeline.
 Rust, Python libraries and EvoTorch are checked/installed by MON 1.
 An explicit --mon N executes step N again even if it was completed before.
 Without --mon the script resumes at MON.state and reuses existing checkpoints.
@@ -58,7 +58,8 @@ MON 5: audit CSV, FEN, target perspective and independent splits
 MON 6: PST FP32 PGPE; free pawn/material values; fixed calibration scale
 MON 7: EvoTorch PGPE Grumpy 1680 FP32, CP-only objective, select T77 RMSE
 MON 8: independent T77 audit + metrics
-MON 9: complete
+MON 9: quantize best Grumpy FP32 NNUE to INT8 .bin and .hpp, audit degradation
+MON 10: complete
 No Bullet, MacOS, Metal, or SQLite training. Uses PyTorch + EvoTorch on XPU/CUDA/CPU.
 '@ | Write-Host
 }
@@ -117,7 +118,7 @@ if (-not [double]::TryParse($Cfg.MutationSigma,[Globalization.NumberStyles]::Flo
 foreach($name in @('Mon','TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations','Seed','PGPEPool','PGPEBatch')) {
   if ($Cfg[$name] -notmatch '^\d+$') {throw "Expected integer: $name"}
 }
-if ([int]$Cfg.Mon -gt 8) {throw '--mon must be 1..8'}
+if ([int]$Cfg.Mon -gt 9) {throw '--mon must be 1..9'}
 foreach($name in @('TrainCount','ValidCount','TrainScan','ValidScan','FitnessSample','ValidationSample','Population','Generations')) {
  if ([int]$Cfg[$name] -lt 1) {throw "Expected positive value: $name"}
 }
@@ -149,7 +150,7 @@ New-Item -Force -ItemType Directory -Path $RunDir | Out-Null
 if ($Cfg.Mon -ne '0') { $Mon=[int]$Cfg.Mon }
 elseif (Test-Path -LiteralPath $State) {$Mon=[int](Get-Content -LiteralPath $State -Raw).Trim()}
 else {$Mon=1}
-if ($Mon -lt 1 -or $Mon -gt 9) {throw 'MON.state invalid'}
+if ($Mon -lt 1 -or $Mon -gt 10) {throw 'MON.state invalid'}
 # Explicit MON is a user-requested replay, not an instruction to skip completed work.
 $ReplayMon = $Supplied.ContainsKey('Mon') -and ([int]$Cfg.Mon -ge 1)
 $identity=[ordered]@{ ModelFormat='picogen-binpack-genetic-fp32-v1' }
@@ -238,7 +239,7 @@ function CheckRust {
  }
  ExecChecked 'rustc' @('--version'); ExecChecked 'cargo' @('--version')
 }
-if ($Mon -eq 9) { Write-Host "Genesis completed $RunDir";exit 0 }
+if ($Mon -eq 10) { Write-Host "Genesis completed $RunDir";exit 0 }
 if ($Mon -le 1) {
  Write-Host 'MON 1: verify/install Rust, Python, PyTorch, EvoTorch, chess and binpack sources'
  CheckRust
@@ -368,6 +369,18 @@ if ($Mon -le 7) {
 if ($Mon -le 8) {
  Write-Host 'MON 8: audit Grumpy FP32, PST and baselines on full nonzero-CP T77 sample'
  ExecChecked $Cfg.Python @((Join-Path $ScriptDir 'genAudit.py'),'--train',$TrainCsv,'--validation',$ValidCsv,'--pst',$AuditPst,'--nnue',$Nnue,'--fitness-sample',$Cfg.FitnessSample,'--validation-sample',$Cfg.ValidationSample,'--seed',$Cfg.Seed,'--out',$Audit,'--exclude-zero')
+ Advance
+}
+if ($Mon -le 9) {
+ Write-Host 'MON 9: export Grumpy NNUE INT8 binary and C++ header, audit quantization vs FP32'
+ $ExportArgs = @((Join-Path $ScriptDir 'exportGrumpyInt8.py'),
+     '--in',$Nnue,
+     '--bin',(Join-Path (Split-Path -Parent $Nnue) 'best.int8.bin'),
+     '--hpp',(Join-Path (Split-Path -Parent $Nnue) 'best.int8.hpp'),
+     '--report',(Join-Path (Split-Path -Parent $Nnue) 'best.int8.json'),
+     '--validation',$ValidCsv,
+     '--validation-sample','5000')
+ ExecChecked $Cfg.Python $ExportArgs
  Advance
 }
 Write-Host "Genesis complete. Outputs: $RunDir"
