@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "partidas": [
+    {
+      "id": "2026-11-21T14:14:07.346870+00:00:19",
+      "fics_game": 19,
+      "fecha_inicio_utc": "2026-11-21T14:14:07.346870+00:00",
+      "fecha_fin_utc": "2026-11-21T14:25:17.799810+00:00",
+      "usuario_propio": "picoPixie",
+      "elo_propio": null,
+      "color_propio": "negras",
+      "usuario_contrincante": "Horsian",
+      "elo_contrincante": 3116,
+      "color_contrincante": "blancas",
+      "resultado": 0.0,
+      "resultado_fics": "1-0",
+      "razon": "(Horsian vs. picoPixie) picoPixie checkmated",
+      "cantidad_movidas": 78,
+      "cantidad_medias_jugadas": 155,
+      "tiempo_segundos": 670.453,
+      "control_tiempo": "5+3",
+      "modalidad": "blitz",
+      "rated": true,
+      "motor": "picoPixie v0.1.28"
+    }
+  ]
+}

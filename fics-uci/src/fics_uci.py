@@ -27,7 +27,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.24"
+VERSION = "0.2.26"
 
 VERBOSE = False
 
@@ -596,7 +596,10 @@ class Bridge:
         self.seek_pending_since = None
         self.seek_retry_after = {}
         self.last_seek_refresh = 0
-        self.seek_suspended = False
+        self.seek_suspended = False  # restriction for old play N only
+        self.match_suspended = False
+        self.seek_match_sent = False
+        self.seek_match_retry_after = {}  # per player to prevent flooding
         self.uci_connecting = False
         self.uci_deadline = None
         self.uci_retry_at = None
@@ -967,16 +970,48 @@ class Bridge:
             and 0 <= offer["increment"] <= self.a.max_increment
             and (not self.username or offer["player"].lower() != self.username.lower())
             and not self.blocked_request(offer["player"])
+            and offer["type"] in ("lightning", "blitz", "standard")
             and time.monotonic() >= self.seek_retry_after.get(offer["number"], 0)
+            and time.monotonic() >= self.seek_match_retry_after.get(offer["player"].casefold(), 0)
         )
+
+
+    def send_seek_match(self):
+        # Send a direct FICS challenge; never use forbidden play N.
+        number = self.seek_pending
+        if number is None:
+            return
+        offer = self.seeks.get(number)
+        if (self.game_key is not None or not self.fics_ready or
+                self.match_suspended or self.throtle_active() or
+                self.challenge_name is not None or self.pending_challenge is not None or
+                offer is None or not self.eligible_seek(offer)):
+            self.release_seek("Oferta retirada, bloqueada o throtle activo", cooldown=False)
+            return
+        if not self.uci_ready:
+            log("⏳", "UCI", "Esperando readyok antes de match")
+            return
+        if self.seek_match_sent:
+            return
+        player = offer["player"]
+        if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]*", player):
+            self.release_seek("Nombre del rival inválido", cooldown=False)
+            return
+        # Standard chess category is determined by the exact FICS time control.
+        # No colour or nonstandard board is silently inferred from a seek.
+        rated = "rated" if offer["rated"] else "unrated"
+        command = f'match {player} {rated} {offer["minutes"]} {offer["increment"]}'
+        self.seek_match_sent = True
+        self.fics.send(command)
+        log("🤝", "SEEK", f"Desafío directo por oferta #{number}: {command}")
 
     def choose_seek(self):
         if (not self.a.accept or not self.fics_ready or self.game_key is not None
-                or self.seek_pending is not None or self.seek_suspended
-                or self.challenge_name is not None):
+                or self.seek_pending is not None or self.match_suspended
+                or self.challenge_name is not None or self.pending_challenge is not None):
             return
         if self.throtle_active():
-            return  # No enviar play ni iniciar handshake UCI por una oferta seek.
+            return  # No challenges of any format during the post-game pause.
         offers = [offer for offer in self.seeks.values() if self.eligible_seek(offer)]
         if not offers:
             return
@@ -986,46 +1021,52 @@ class Bridge:
         self.offer_type_pending = offer["type"]
         self.offer_rated_pending = offer["rated"]
         self.seek_pending = number
+        self.seek_match_sent = False
         self.seek_pending_since = time.monotonic()
         if not self.ensure_uci():
             self.release_seek("Servidor UCI inaccesible")
             return
-        log("🎯", "SEEK", f"Intentando #{number}: {offer['player']} {offer['minutes']}+{offer['increment']}")
-        if self.uci_ready and not self.throtle_active():
-            if self.blocked_request(offer["player"]):
-                self.ignore_seek_user(offer["player"], number)
-                self.release_seek("no-request", cooldown=False)
-            else:
-                self.fics.send(f"play {number}")
-        else:
-            log("⏳", "UCI", "Esperando readyok antes de play")
+        log("🎯", "SEEK", f"Ofertante #{number}: {offer['player']} "
+            f"{offer['minutes']}+{offer['increment']} "
+            f"{'rated' if offer['rated'] else 'unrated'} {offer['type']}")
+        self.send_seek_match()
 
     def release_seek(self, reason, cooldown=True):
         number = self.seek_pending
         if number is None:
             return
+        offer = self.seeks.get(number)
         log("⏳" if reason.startswith("throtle activo:") else "ℹ️", "SEEK", f"#{number}: {reason}")
         if cooldown:
-            self.seek_retry_after[number] = time.monotonic() + 120
+            until = time.monotonic() + 120
+            self.seek_retry_after[number] = until
+            if offer is not None:
+                self.seek_match_retry_after[offer["player"].casefold()] = until
         self.seek_pending = self.seek_pending_since = None
+        self.seek_match_sent = False
 
     def seek_response(self, line):
         if self.seek_pending is None:
             return False
-        low = line.lower()
+        low = line.casefold()
         errors = (
             "bad index", "no such ad", "no longer available",
             "cannot accept seeks", "can't accept seeks",
+            "computers may not use this command",
             "not eligible", "does not fit", "not accepting",
             "you are already playing", "not available",
+            "declined", "no such player", "not logged in", "cannot challenge",
+            "can't challenge", "cannot match", "can't match",
         )
         if not any(item in low for item in errors):
             return False
-        restricted = "cannot accept seeks" in low or "can't accept seeks" in low
-        self.release_seek(f"FICS rechazó play: {line}")
+        restricted = ("computers may not use this command" in low or
+                      "cannot challenge" in low or "can't challenge" in low or
+                      "cannot match" in low or "can't match" in low)
+        self.release_seek(f"FICS rechazó match: {line}")
         if restricted:
-            self.seek_suspended = True
-            log("🚫", "SEEK", "La cuenta no puede aceptar ofertas seek ajenas")
+            self.match_suspended = True
+            log("🚫", "SEEK", "FICS ha prohibido desafíos match; suspender durante la sesión")
         self.choose_seek()
         return True
 
@@ -1036,6 +1077,8 @@ class Bridge:
         if self.seek_pending is not None and self.seek_pending_since is not None:
             if now - self.seek_pending_since >= self.a.seek_timeout:
                 self.release_seek("Timeout esperando confirmación")
+        if self.throtle_active():
+            return  # Keep complete silence for seek discovery and requests.
         if self.seek_pending is None and now - self.last_seek_refresh >= self.a.seek_retry:
             self.last_seek_refresh = now
             self.fics.send("sought")
@@ -1285,7 +1328,7 @@ class Bridge:
                         self.ignore_seek_user(offer["player"], self.seek_pending)
                         self.release_seek("no-request", cooldown=False)
                     else:
-                        self.fics.send(f"play {self.seek_pending}")
+                        self.send_seek_match()
             self.maybe_search()
         elif line.startswith("bestmove "):
             match = re.match(r"bestmove\s+(\S+)", line)
