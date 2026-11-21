@@ -1,2 +1,0 @@
-﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
-bullet,sargon-plus,bullet,,24,24,0,31.452,1310.513,1347.147,2121.459,99.389,2703.571,80264,24,31412.000,2555.2,0.391861,OK,0,0

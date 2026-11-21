@@ -1,3 +1,0 @@
-﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
-dalma,picoAlpha,null,,24,24,0,0.399,16.631,16.861,18.993,11.261,20.177,1902507,24,325.000,5853867.7,0.000210,OK,0,0
-dalia,mctsp,mctse,,24,24,0,18.338,764.090,784.666,883.602,509.221,907.823,1726112,24,18183.000,94930.0,0.010624,OK,0,0

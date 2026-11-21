@@ -28,6 +28,8 @@ seek_timeout: 15
 seek_retry: 60
 # Milisegundos desde el fin de una partida hasta admitir otra; -1 desactiva la espera.
 throtle: -1
+# Minutos sin repetir rival tras cada partida (0 desactiva; valor por defecto 60).
+repeat: 60
 verbose: false
 
 # Usuarios excluidos (comparacion insensible a mayusculas/minusculas).

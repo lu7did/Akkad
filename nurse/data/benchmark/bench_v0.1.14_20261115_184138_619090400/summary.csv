@@ -1,2 +1,0 @@
-﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
-dalia,mctsp,mctse,,24,24,0,21.660,902.494,819.152,1487.633,545.327,1544.766,1726112,24,21484.000,80344.1,0.012548,OK,0,0

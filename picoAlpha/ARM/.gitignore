@@ -1,5 +1,0 @@
-/build-*/
-/include/wifi_secrets.h
-*.uf2
-*.elf
-*.map

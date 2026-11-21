@@ -27,7 +27,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.26"
+VERSION = "0.2.27"
 
 VERBOSE = False
 
@@ -600,6 +600,7 @@ class Bridge:
         self.match_suspended = False
         self.seek_match_sent = False
         self.seek_match_retry_after = {}  # per player to prevent flooding
+        self.repeat_until = {}  # opponent.casefold() -> monotonic expiry; session-only
         self.uci_connecting = False
         self.uci_deadline = None
         self.uci_retry_at = None
@@ -637,6 +638,44 @@ class Bridge:
         if number not in self.ignored_seek_numbers:
             log("🚫", "SEEK", f"User {player} ignored")
             self.ignored_seek_numbers.add(number)
+
+    def repeat_remaining_seconds(self, player):
+        """Per-opponent cooldown, independent of FICS game type and throtle."""
+        if not player or getattr(self.a, "repeat", 60) == 0:
+            return 0
+        key = player.strip().casefold()
+        remaining = self.repeat_until.get(key, 0.0) - time.monotonic()
+        if remaining <= 0:
+            self.repeat_until.pop(key, None)
+            return 0
+        return int(math.ceil(remaining))
+
+    def repeat_blocked(self, player):
+        return self.repeat_remaining_seconds(player) > 0
+
+    def repeat_record(self, white, black, *, finished=False):
+        """Record actual game opponents, not attempted or declined challenges.
+
+        A game start protects even an aborted game without an explicit FICS
+        result. Its normal result renews the timer from the end of the game.
+        """
+        if getattr(self.a, "repeat", 60) == 0 or not self.username:
+            return
+        own = self.username.casefold()
+        opponent = (black if white.casefold() == own else
+                    white if black.casefold() == own else None)
+        if not opponent:
+            return
+        self.repeat_until[opponent.casefold()] = time.monotonic() + getattr(self.a, "repeat", 60) * 60
+        if finished:
+            log("⏳", "BRIDGE", f"repeat: {opponent} bloqueado por {getattr(self.a, 'repeat', 60)} min "
+                "desde el fin de la partida (solo esta sesion)")
+
+    def repeat_decline(self, player):
+        remaining = self.repeat_remaining_seconds(player)
+        log("⏳", "BRIDGE", f"Rechazando desafio de {player}: repeat "
+            f"({remaining} s restantes)")
+        self.fics.send(f"decline {player}")
 
     def throtle_remaining_ms(self):
         """Remaining post-game pause; -1 disables the restriction entirely."""
@@ -827,6 +866,8 @@ class Bridge:
                     log("❌", "JSON", f"No se pudo guardar partida #{game}: {exc}")
         if UCI_MONITOR is not None:
             UCI_MONITOR.publish(f"info string monitor gameover {result}")
+        # The cooldown is refreshed from the end, irrespective of the result.
+        self.repeat_record(white, black, finished=True)
         self.last_game_finished_at = time.monotonic()
         self.reset_game()
         self.last_seek_refresh = 0
@@ -925,6 +966,9 @@ class Bridge:
         if self.throtle_active():
             log("⏳", "SEEK", f"No solicitar oferta #{number}: throtle "
                 f"({self.throtle_remaining_ms()} ms restantes)")
+        elif self.repeat_blocked(m["user"]):
+            log("⏳", "SEEK", f"No solicitar oferta #{number} de {m['user']}: repeat "
+                f"({self.repeat_remaining_seconds(m['user'])} s restantes)")
         self.choose_seek()
         return True
 
@@ -958,6 +1002,9 @@ class Bridge:
         if self.throtle_active():
             log("⏳", "SEEK", f"No solicitar oferta #{number}: throtle "
                 f"({self.throtle_remaining_ms()} ms restantes)")
+        elif self.repeat_blocked(offer["player"]):
+            log("⏳", "SEEK", f"No solicitar oferta #{number} de {offer['player']}: repeat "
+                f"({self.repeat_remaining_seconds(offer['player'])} s restantes)")
         self.choose_seek()
         return True
 
@@ -970,6 +1017,7 @@ class Bridge:
             and 0 <= offer["increment"] <= self.a.max_increment
             and (not self.username or offer["player"].lower() != self.username.lower())
             and not self.blocked_request(offer["player"])
+            and not self.repeat_blocked(offer["player"])
             and offer["type"] in ("lightning", "blitz", "standard")
             and time.monotonic() >= self.seek_retry_after.get(offer["number"], 0)
             and time.monotonic() >= self.seek_match_retry_after.get(offer["player"].casefold(), 0)
@@ -1100,6 +1148,11 @@ class Bridge:
             self.challenge_buffer = ""
             self.throtle_decline(m.group(1))
             return
+        if m and self.repeat_blocked(m.group(1)):
+            self.challenge_name = None
+            self.challenge_buffer = ""
+            self.repeat_decline(m.group(1))
+            return
         if not self.a.accept or self.seek_pending is not None:
             return
         if m:
@@ -1133,8 +1186,13 @@ class Bridge:
                 log("🚫", "BRIDGE", "Motor UCI inaccesible: rechazo")
                 self.fics.send(f"decline {who}")
             elif self.uci_ready:
-                log("🤝", "BRIDGE", f"Aceptando desafío de {who}")
-                self.fics.send(f"accept {who}")
+                if self.throtle_active():
+                    self.throtle_decline(who)
+                elif self.repeat_blocked(who):
+                    self.repeat_decline(who)
+                else:
+                    log("🤝", "BRIDGE", f"Aceptando desafío de {who}")
+                    self.fics.send(f"accept {who}")
             else:
                 self.pending_challenge = who
         else:
@@ -1203,6 +1261,7 @@ class Bridge:
                     return
                 log("⏳", "PARTIDA", "Motor sin conexión; se intentará recuperar")
             self.game_key = key
+            self.repeat_record(pos["white"], pos["black"])
             self.game_started = time.monotonic()
             self.game_started_utc = datetime.now(timezone.utc).isoformat()
             self.ratings = {name: self.ratings_pending.get(name) for name in (white, black)}
@@ -1316,6 +1375,8 @@ class Bridge:
                     self.decline_blocked_user(who)
                 elif self.throtle_active():
                     self.throtle_decline(who)
+                elif self.repeat_blocked(who):
+                    self.repeat_decline(who)
                 else:
                     self.fics.send(f"accept {who}")
             elif self.seek_pending is not None and self.game_key is None:
@@ -1421,6 +1482,8 @@ class Bridge:
         if re.search(r"\{Game\s+\d+.*\}\s+(?:1-0|0-1|1/2-1/2|\*)", line):
             log("✅", "PARTIDA", "Partida finalizada")
             if self.game_key is not None:
+                # Fallback for FICS result notices not handled by handle_result.
+                self.repeat_record(self.game_key[1], self.game_key[2], finished=True)
                 self.last_game_finished_at = time.monotonic()
                 if self.a.throtle >= 0:
                     log("⏳", "BRIDGE", f"throtle iniciado: {self.a.throtle} ms "
@@ -1520,6 +1583,7 @@ def main():
                    help="FICS: standard blitz lightning bullet classical untimed")
     a = p.parse_args()
     a.throtle = None  # Sólo YAML; -1 cuando está ausente.
+    a.repeat = None  # Sólo YAML; minutos, 60 cuando está ausente.
     a.no_accept = frozenset()
     a.no_request = frozenset()
     config_file = Path(a.config) if a.config else Path(__file__).resolve().parent / "config.yml"
@@ -1537,7 +1601,7 @@ def main():
         if not isinstance(config, dict):
             p.error(f"Configuracion YAML invalida (se esperaba mapa): {config_file}")
     defaults = dict(ip="127.0.0.1", port=6110, ip_fics="freechess.org", port_fics=5000,
-                    throtle=-1,
+                    throtle=-1, repeat=60,
                     user="guest", password="", accept=True, rated=True, unrated=True, verbose=False,
                     types=["standard", "blitz", "lightning", "bullet", "classical"],
                     movetime=0, engine_timeout=90.0, connect_timeout=15.0,
@@ -1557,6 +1621,8 @@ def main():
     # Deliberately spelled 'throtle' to match the YAML contract.
     if isinstance(a.throtle, bool) or not isinstance(a.throtle, int) or a.throtle < -1:
         p.error("config.yml: throtle debe ser un entero en milisegundos >= -1")
+    if isinstance(a.repeat, bool) or not isinstance(a.repeat, int) or a.repeat < 0:
+        p.error("config.yml: repeat debe ser un entero en minutos >= 0")
     a.type = str(config.get("type", "tcp")).strip().lower()
     if a.type not in ("tcp", "uci"):
         p.error("config.yml: type debe ser tcp o uci")
@@ -1619,7 +1685,9 @@ def main():
     log("⚙️", "APP", f"no-accept={sorted(a.no_accept)} no-request={sorted(a.no_request)}")
     log("⏳", "APP", ("throtle=-1 (desactivado)" if a.throtle == -1
                        else f"throtle={a.throtle} ms (espera después de última partida; "
-                            "bloquea desafíos entrantes y play saliente)"))
+                            "bloquea desafíos entrantes y match saliente)"))
+    log("⏳", "APP", ("repeat=0 (desactivado)" if a.repeat == 0
+                       else f"repeat={a.repeat} min (bloqueo por rival, solo sesion)"))
     global UCI_MONITOR
     UCI_MONITOR = UCIMonitor(a.monitor) if a.monitor is not None else None
     if UCI_MONITOR is not None and not UCI_MONITOR.start():

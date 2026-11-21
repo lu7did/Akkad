@@ -1,0 +1,199 @@
+﻿📁 C:\Users\pedro\github\bobby\akkad
+├── 📁 .vscode
+├── 📁 AlphaZero
+│   ├── 📁 debian
+│   │   └── 📁 build
+│   ├── 📁 macOS
+│   │   └── 📁 build
+│   ├── 📁 src
+│   ├── 📁 tests
+│   ├── 📁 tools
+│   │   ├── 📁 bash
+│   │   ├── 📁 macOS
+│   │   └── 📁 ps
+│   └── 📁 X86
+│       └── 📁 build
+├── 📁 challenger
+│   ├── 📁 .pytest_cache
+│   │   └── 📁 v
+│   │       └── 📁 cache
+│   ├── 📁 data
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   ├── 📁 scripts
+│   ├── 📁 src
+│   │   ├── 📁 __pycache__
+│   │   ├── 📁 challenger
+│   │   │   └── 📁 __pycache__
+│   │   └── 📁 challenger_chess.egg-info
+│   └── 📁 tests
+│       └── 📁 __pycache__
+├── 📁 docs
+│   └── 📁 NFA
+│       └── 📁 images
+├── 📁 fics-uci
+│   ├── 📁 __pycache__
+│   ├── 📁 data
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   ├── 📁 src
+│   ├── 📁 tests
+│   └── 📁 tools
+│       ├── 📁 bash
+│       ├── 📁 macOS
+│       └── 📁 ps
+├── 📁 nurse
+│   ├── 📁 assets
+│   ├── 📁 bullet
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   │   ├── 📁 bellman
+│   │   ├── 📁 brains
+│   │   └── 📁 examples
+│   ├── 📁 scripts
+│   ├── 📁 src
+│   │   ├── 📁 akkad_nurse.egg-info
+│   │   └── 📁 nurse
+│   │       ├── 📁 __pycache__
+│   │       ├── 📁 _genus_core
+│   │       │   └── 📁 __pycache__
+│   │       ├── 📁 _legacy
+│   │       │   ├── 📁 __pycache__
+│   │       │   ├── 📁 evaluators
+│   │       │   │   └── 📁 __pycache__
+│   │       │   └── 📁 players
+│   │       │       └── 📁 __pycache__
+│   │       ├── 📁 evaluators
+│   │       └── 📁 players
+│   │           └── 📁 __pycache__
+│   ├── 📁 tests
+│   │   └── 📁 __pycache__
+│   ├── 📁 tools
+│   └── 📁 train
+│       ├── 📁 __pycache__
+│       ├── 📁 docs
+│       └── 📁 tests
+├── 📁 picoAlpha
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   ├── 📁 src
+│   ├── 📁 tests
+│   └── 📁 X86
+├── 📁 picoBit
+│   ├── 📁 ARM
+│   ├── 📁 etc
+│   ├── 📁 src
+│   │   └── 📁 __pycache__
+│   ├── 📁 tests
+│   ├── 📁 tools
+│   │   ├── 📁 bash
+│   │   ├── 📁 ps
+│   │   └── 📁 train
+│   │       ├── 📁 __pycache__
+│   │       ├── 📁 grumpy_genesis
+│   │       └── 📁 picoBit_train_archive
+│   └── 📁 X86
+├── 📁 picoGen
+│   ├── 📁 data
+│   ├── 📁 docs
+│   ├── 📁 etc
+│   └── 📁 tools
+│       └── 📁 train
+│           ├── 📁 __pycache__
+│           └── 📁 tests
+├── 📁 picoKeras
+│   ├── 📁 ARM
+│   │   ├── 📁 assets
+│   │   ├── 📁 cmake
+│   │   ├── 📁 config
+│   │   ├── 📁 include
+│   │   ├── 📁 src
+│   │   └── 📁 tools
+│   ├── 📁 debian
+│   │   └── 📁 third_party
+│   │       └── 📁 tensorflow
+│   ├── 📁 docs
+│   ├── 📁 macOS
+│   │   └── 📁 third_party
+│   │       └── 📁 psimd
+│   ├── 📁 src
+│   ├── 📁 tests
+│   ├── 📁 tools
+│   │   ├── 📁 bash
+│   │   ├── 📁 macOS
+│   │   ├── 📁 ps
+│   │   └── 📁 scripts
+│   └── 📁 x86
+│       ├── 📁 include
+│       └── 📁 src
+├── 📁 picoPixie
+│   └── 📁 ARM
+│       ├── 📁 certs
+│       ├── 📁 config
+│       ├── 📁 include
+│       ├── 📁 src
+│       └── 📁 tests
+├── 📁 picoSargon
+│   ├── 📁 ARM
+│   │   ├── 📁 assets
+│   │   ├── 📁 config
+│   │   ├── 📁 include
+│   │   ├── 📁 reference
+│   │   ├── 📁 scripts
+│   │   ├── 📁 src
+│   │   └── 📁 tests
+│   ├── 📁 data
+│   ├── 📁 debian
+│   ├── 📁 macOS
+│   ├── 📁 tools
+│   │   ├── 📁 ARM
+│   │   ├── 📁 bash
+│   │   ├── 📁 macos
+│   │   ├── 📁 ps
+│   │   ├── 📁 tests
+│   │   └── 📁 train
+│   │       └── 📁 __pycache__
+│   └── 📁 x86
+│       ├── 📁 build
+│       │   ├── 📁 CMakeFiles
+│       │   │   ├── 📁 4.5.0-rc1
+│       │   │   │   ├── 📁 CompilerIdCXX
+│       │   │   │   │   └── 📁 Debug
+│       │   │   │   │       └── 📁 CompilerIdCXX.tlog
+│       │   │   │   └── 📁 VCTargetsPath
+│       │   │   │       └── 📁 x64
+│       │   │   │           └── 📁 Debug
+│       │   │   │               └── 📁 VCTargetsPath.tlog
+│       │   │   └── 📁 a239b85f9e8fd3edcf94de89314f14c1
+│       │   ├── 📁 picoSargon.dir
+│       │   │   └── 📁 Release
+│       │   │       └── 📁 picoSargon.tlog
+│       │   └── 📁 x64
+│       │       └── 📁 Release
+│       │           ├── 📁 ALL_BUILD
+│       │           │   └── 📁 ALL_BUILD.tlog
+│       │           └── 📁 ZERO_CHECK
+│       │               └── 📁 ZERO_CHECK.tlog
+│       ├── 📁 host_build_source
+│       ├── 📁 include
+│       └── 📁 src
+├── 📁 Sargon-NNUE
+│   ├── 📁 etc
+│   │   ├── 📁 bellman
+│   │   └── 📁 brains
+│   ├── 📁 scripts
+│   │   └── 📁 __pycache__
+│   ├── 📁 src
+│   │   ├── 📁 __pycache__
+│   │   ├── 📁 sargon_nnue
+│   │   │   ├── 📁 __pycache__
+│   │   │   ├── 📁 evaluators
+│   │   │   │   └── 📁 __pycache__
+│   │   │   └── 📁 players
+│   │   │       └── 📁 __pycache__
+│   │   └── 📁 sargon_nnue.egg-info
+│   ├── 📁 tests
+│   │   └── 📁 __pycache__
+│   └── 📁 tools
+│       └── 📁 powershell
+└── 📁 tools

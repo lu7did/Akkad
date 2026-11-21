@@ -1,3 +1,0 @@
-﻿brain,player,evaluator,backend,attempted,ok,failed,total_s,mean_ms,median_ms,p95_ms,min_ms,max_ms,nodes_total,nodes_samples,engine_ms_total,nodes_per_second,ms_per_node,status,bellman_table_decisions,nnue_fallback_decisions
-buddy,sargon,classic,,24,24,0,12.982,540.918,552.264,794.188,52.707,932.964,29143,24,12938.000,2252.5,0.445460,OK,0,0
-polly,sargon-plus,genus-pst,,24,24,0,34.017,1417.382,1489.880,2391.263,100.405,2449.884,82236,24,33977.000,2420.3,0.413653,OK,0,0

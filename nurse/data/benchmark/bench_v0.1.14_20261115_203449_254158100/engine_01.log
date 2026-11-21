@@ -1,9 +1,0 @@
-[20:34:49] \U0001f4bb sargon-nurse v0.1.36 brain=dalma type=uci ELO=400 tmax_ms=10000 timeout_ms=60000 warmup_movetime_ms=10000
-[20:34:49] \u2699\ufe0f UCI engine=C:\Users\pedro\github\bobby\akkad\picoAlpha\X86\build\picoAlpha.exe args=['--network', 'C:/RUTA/akkad/picoAlpha/assets/dalia_20261115B_int8.bin', '--depth', '12', '--timeout', '15000', '--sim', '2200'] options=[('UCI_LimitStrength', 'true'), ('UCI_Elo', '1800'), ('Threads', '1'), ('Hash', '64')]
-[20:34:49] \u2699\ufe0f timing efectivo tmax=10000ms timeout=60000ms warmup_movetime=10000ms
-[20:34:49] \U0001f680 subprocess pid=41288 cwd=C:\Users\pedro\github\bobby\akkad\picoAlpha\X86\build argv=['C:\\Users\\pedro\\github\\bobby\\akkad\\picoAlpha\\X86\\build\\picoAlpha.exe', '--network', 'C:/RUTA/akkad/picoAlpha/assets/dalia_20261115B_int8.bin', '--depth', '12', '--timeout', '15000', '--sim', '2200']
-[20:34:49] \u27a1\ufe0f UCI stdin uci
-[20:34:49] \U0001f4cb child [FATAL] Cannot open INT8 model: C:/RUTA/akkad/picoAlpha/assets/dalia_20261115B_int8.bin
-[20:34:49] \u27a1\ufe0f UCI stdin quit
-[20:34:49] \U0001f50c subprocess detenido pid=41288
-[20:34:49] \u274c brain=dalma TransportError: EOF inesperado
