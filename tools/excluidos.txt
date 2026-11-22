@@ -1,5 +1,7 @@
 # Rutas relativas a la raiz de Akkad. Directorios excluidos de Git (sin borrar del disco).
 # .git/ es metadato interno de Git y no pertenece a esta lista.
+.git
+Sargon-NNUE
 nurse/bullet
 picoBit/assets
 picoBit/data
