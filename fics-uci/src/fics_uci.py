@@ -27,7 +27,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.27"
+VERSION = "0.2.28"
 
 VERBOSE = False
 
@@ -572,6 +572,27 @@ def parse_user_blocklist(value, name):
     return frozenset(x.strip().casefold() for x in value)
 
 
+def parse_fics_elo(value):
+    """Player Elo announced by FICS (not the rated/unrated game flag).
+
+    Positive Elo, optionally followed by P for provisional, is known.
+    ++++, ----, Unr, rt=0P, missing and malformed values are unknown.
+    """
+    if value is None:
+        return None
+    text = str(value).strip()
+    if not re.fullmatch(r"[1-9][0-9]{0,4}[Pp]?", text):
+        return None
+    return int(text[:-1] if text.lower().endswith('p') else text)
+
+
+def challenge_elo(player, text):
+    """Elo immediately following the named challenger in FICS text."""
+    m = re.search(r"\bChallenge:\s*" + re.escape(player) +
+                  r"\s*\(([^)]*)\)", text, re.I)
+    return parse_fics_elo(m.group(1)) if m else None
+
+
 class Bridge:
     def __init__(self, args):
         self.a = args
@@ -605,6 +626,7 @@ class Bridge:
         self.uci_deadline = None
         self.uci_retry_at = None
         self.pending_challenge = None
+        self.pending_challenge_elo_ok = False
         self.uci_last_error = None
         self.game_type = None
         self.game_time_control = None
@@ -632,6 +654,10 @@ class Bridge:
 
     def decline_blocked_user(self, player):
         log("❌", "BRIDGE", f"User {player} request rejected")
+        self.fics.send(f"decline {player}")
+
+    def ratedonly_decline(self, player):
+        log("🚫", "BRIDGE", f"Rechazando desafío de {player}: ratedonly (Elo indefinido)")
         self.fics.send(f"decline {player}")
 
     def ignore_seek_user(self, player, number):
@@ -941,7 +967,7 @@ class Bridge:
     def seek_text_offer(self, line):
         """Anuncios humanos, por ejemplo: Name (++++) seeking 3 0 unrated blitz ("play 25" to respond)."""
         match = re.search(
-            r"(?P<user>[A-Za-z][\w-]*)\s+\([^)]*\)\s+seeking\s+"
+            r"(?P<user>[A-Za-z][\w-]*)\s+\((?P<elo>[^)]*)\)\s+seeking\s+"
             r"(?P<minutes>\d+)\s+(?P<increment>\d+)\s+"
             r"(?P<rating>unrated|rated)\s+(?P<kind>[A-Za-z]+)"
             r".*?\bplay\s+(?P<number>\d+)", line, re.I,
@@ -959,10 +985,12 @@ class Bridge:
         self.seeks[number] = dict(
             number=number, player=m["user"], minutes=int(m["minutes"]),
             increment=int(m["increment"]), rated=m["rating"].lower() == "rated",
-            type=kind, received=time.monotonic(),
+            type=kind, received=time.monotonic(), elo=parse_fics_elo(m["elo"]),
         )
         log("📢", "SEEK", f"#{number} {m['user']} {m['minutes']}+{m['increment']} "
             f"{m['rating']} {m['kind']}")
+        if getattr(self.a, "ratedonly", False) and self.seeks[number]["elo"] is None:
+            log("🚫", "SEEK", f"Oferta #{number} de {m['user']} ignorada: ratedonly (Elo indefinido)")
         if self.throtle_active():
             log("⏳", "SEEK", f"No solicitar oferta #{number}: throtle "
                 f"({self.throtle_remaining_ms()} ms restantes)")
@@ -988,6 +1016,7 @@ class Bridge:
                 "rated": fields["r"].lower() == "r",
                 "type": fields["tp"].lower(),
                 "received": time.monotonic(),
+                "elo": parse_fics_elo(fields.get("rt")),
             }
         except ValueError:
             log("⚠️", "SEEK", f"Campos inválidos en oferta #{number}")
@@ -999,6 +1028,8 @@ class Bridge:
         self.seeks[number] = offer
         label = "rated" if offer["rated"] else "unrated"
         log("📢", "SEEK", f"#{number} {offer['player']} {offer['minutes']}+{offer['increment']} {label} {offer['type']}")
+        if getattr(self.a, "ratedonly", False) and offer["elo"] is None:
+            log("🚫", "SEEK", f"Oferta #{number} de {offer['player']} ignorada: ratedonly (Elo indefinido)")
         if self.throtle_active():
             log("⏳", "SEEK", f"No solicitar oferta #{number}: throtle "
                 f"({self.throtle_remaining_ms()} ms restantes)")
@@ -1017,6 +1048,7 @@ class Bridge:
             and 0 <= offer["increment"] <= self.a.max_increment
             and (not self.username or offer["player"].lower() != self.username.lower())
             and not self.blocked_request(offer["player"])
+            and (not getattr(self.a, "ratedonly", False) or offer.get("elo") is not None)
             and not self.repeat_blocked(offer["player"])
             and offer["type"] in ("lightning", "blitz", "standard")
             and time.monotonic() >= self.seek_retry_after.get(offer["number"], 0)
@@ -1153,6 +1185,14 @@ class Bridge:
             self.challenge_buffer = ""
             self.repeat_decline(m.group(1))
             return
+        # Explicit non-numeric Elo: reject immediately, even on first challenge line.
+        if (m and getattr(self.a, "ratedonly", False) and
+                re.search(r"\bChallenge:\s*" + re.escape(m.group(1)) + r"\s*\([^)]*\)", line, re.I) and
+                challenge_elo(m.group(1), line) is None):
+            self.challenge_name = None
+            self.challenge_buffer = ""
+            self.ratedonly_decline(m.group(1))
+            return
         if not self.a.accept or self.seek_pending is not None:
             return
         if m:
@@ -1179,6 +1219,12 @@ class Bridge:
             and not re.search(r"\b(?:wild|bughouse|crazyhouse|atomic|suicide|losers|chess960)\b", terms)
         )
         if compatible:
+            who = self.challenge_name
+            if getattr(self.a, "ratedonly", False) and challenge_elo(who, self.challenge_buffer) is None:
+                self.ratedonly_decline(who)
+                self.challenge_name = None
+                self.challenge_buffer = ""
+                return
             self.challenge_type_pending = kind
             self.challenge_rated_pending = rated
             who = self.challenge_name
@@ -1195,6 +1241,7 @@ class Bridge:
                     self.fics.send(f"accept {who}")
             else:
                 self.pending_challenge = who
+                self.pending_challenge_elo_ok = challenge_elo(who, self.challenge_buffer) is not None
         else:
             log("🚫", "BRIDGE", f"Rechazando desafío de {self.challenge_name}")
             self.fics.send(f"decline {self.challenge_name}")
@@ -1370,8 +1417,12 @@ class Bridge:
             self.uci_deadline = None
             if self.pending_challenge:
                 who = self.pending_challenge
+                elo_ok = self.pending_challenge_elo_ok
                 self.pending_challenge = None
-                if self.blocked_accept(who):
+                self.pending_challenge_elo_ok = False
+                if getattr(self.a, "ratedonly", False) and not elo_ok:
+                    self.ratedonly_decline(who)
+                elif self.blocked_accept(who):
                     self.decline_blocked_user(who)
                 elif self.throtle_active():
                     self.throtle_decline(who)
@@ -1584,6 +1635,7 @@ def main():
     a = p.parse_args()
     a.throtle = None  # Sólo YAML; -1 cuando está ausente.
     a.repeat = None  # Sólo YAML; minutos, 60 cuando está ausente.
+    a.ratedonly = None  # Sólo YAML; exige Elo conocido del jugador, no partida rated.
     a.no_accept = frozenset()
     a.no_request = frozenset()
     config_file = Path(a.config) if a.config else Path(__file__).resolve().parent / "config.yml"
@@ -1601,7 +1653,7 @@ def main():
         if not isinstance(config, dict):
             p.error(f"Configuracion YAML invalida (se esperaba mapa): {config_file}")
     defaults = dict(ip="127.0.0.1", port=6110, ip_fics="freechess.org", port_fics=5000,
-                    throtle=-1, repeat=60,
+                    throtle=-1, repeat=60, ratedonly=False,
                     user="guest", password="", accept=True, rated=True, unrated=True, verbose=False,
                     types=["standard", "blitz", "lightning", "bullet", "classical"],
                     movetime=0, engine_timeout=90.0, connect_timeout=15.0,
@@ -1610,7 +1662,10 @@ def main():
         value = getattr(a, key)
         if value is None:
             value = config.get(key, default)
-        if key in ("accept", "rated", "unrated", "verbose"):
+        if key == "ratedonly":
+            if not isinstance(value, bool):
+                p.error("config.yml: ratedonly debe ser un booleano YAML (true/false)")
+        elif key in ("accept", "rated", "unrated", "verbose"):
             value = boolean(value)
         setattr(a, key, value)
     try:
@@ -1686,6 +1741,7 @@ def main():
     log("⏳", "APP", ("throtle=-1 (desactivado)" if a.throtle == -1
                        else f"throtle={a.throtle} ms (espera después de última partida; "
                             "bloquea desafíos entrantes y match saliente)"))
+    log("⚙️", "APP", f"ratedonly={'ON (solo rivales con Elo conocido)' if a.ratedonly else 'OFF'}")
     log("⏳", "APP", ("repeat=0 (desactivado)" if a.repeat == 0
                        else f"repeat={a.repeat} min (bloqueo por rival, solo sesion)"))
     global UCI_MONITOR
