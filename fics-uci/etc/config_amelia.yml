@@ -1,7 +1,10 @@
 
 # fics_uci.py v0.2.2 | prioridad: CLI > config.yml > defaults
-ip: 127.0.0.1
-port: 6200
+#ip: 127.0.0.1
+#port: 6200
+type: uci
+exec: "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero"
+args: '--weights "/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz" --cores 2'
 ip_fics: freechess.org
 port_fics: 5000
 user: guest

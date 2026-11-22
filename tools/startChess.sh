@@ -44,15 +44,12 @@ cancelar_proceso_screen() {
         return 1
     fi
 
-    echo "Enviando señal de cancelación (Ctrl+C) a la sesión: $screen_id"
+    echo "$(date) Cancelando (Ctrl+C) la sesión: $screen_id"
     
     # Envía la combinación Ctrl+C (\003) a la sesión indicada
     screen -S "$screen_id" -X stuff $'\003'
-    
-    # Opcional: Si también quieres cerrar/matar la ventana de screen después de cancelar el proceso,
-    # descomenta la siguiente línea:
-    # screen -S "$screen_id" -X quit
-}
+    screen -S "$screen_id" -X quit
+}    
 
 #=================================================================================================================*
 # Cancel all  currently running SCREEN processes
@@ -64,18 +61,19 @@ cancelar_todos_los_screens() {
     sesiones=$(screen -ls | grep -oE '[0-9]+\.[^[:space:]]+')
 
     if [[ -z "$sesiones" ]]; then
-        echo "No hay sesiones de screen corriendo actualmente."
+        echo "$(date) No hay sesiones de screen corriendo actualmente."
         return 0
     fi
 
-    echo "Sesiones encontradas. Iniciando cancelación..."
+    echo "$(date) Sesiones encontradas. Iniciando cancelación..."
     
     # Itera sobre cada ID encontrado
     while IFS= read -r id; do
+        echo "$(date) cancelando proceso PiD($id)"
         cancelar_proceso_screen "$id"
     done <<< "$sesiones"
 
-    echo "Proceso finalizado."
+    echo "$(date) Procesos finalizados."
 }
 #=================================================================================================================*
 # Wait till the host is alive (hostname|IP and max time to wait, -1 if forever
@@ -124,6 +122,8 @@ esperar_host() {
 # Launch a process within a screen
 #=================================================================================================================*
 lanzar_en_screen() {
+
+    echo "$(date) **** lanzar screen ****"
     # Validar que se haya pasado al menos un argumento (el comando)
     if [[ $# -eq 0 ]]; then
         echo "$(date) Uso: $0 <comando> [argumentos...]"
@@ -153,8 +153,10 @@ lanzar_en_screen() {
 # Launch serial port with port & velocity
 #=================================================================================================================*
 abrir_minicom() {
-    local device="$1"
-    local baudrate="$2"
+
+    local host="$1"
+    local device="$2"
+    local baudrate="$3"
 
     # Validar que se reciban ambos argumentos
     if [[ -z "$device" || -z "$baudrate" ]]; then
@@ -179,7 +181,9 @@ abrir_minicom() {
     
     # -D : Especifica el dispositivo serial (ej. /dev/ttyUSB0)
     # -b : Especifica la velocidad en baudios (ej. 9600, 115200)
-    minicom -D "$device" -b "$baudrate"
+
+    /usr/bin/screen -d -m -S $host minicom -D $device -b $baudrate
+    #minicom -D "$device" -b "$baudrate"
 }
 #=================================================================================================================*
 # Launch a python process
@@ -215,9 +219,21 @@ ejecutar_python() {
     # Ejecutar el intérprete con el script y los argumentos restantes intactos
     "$python_path" "$script_path" "$@"
 }
+# Función que se ejecutará al presionar Ctrl+C
+exitproc() {
+    echo ""
+    echo "$(date) Ctrl+C detectado. Limpiando y saliendo..."
+    # Aquí puedes borrar archivos temporales o matar procesos en segundo plano
+    exit 1
+}
+
 #=================================================================================================================*
 #                                                   MAIN 
 #=================================================================================================================*
+
+# Capturar SIGINT (Ctrl+C) y llamar a la función
+trap exitproc SIGINT
+
 # Obtener la ruta absoluta del directorio donde está guardado el script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
@@ -233,45 +249,68 @@ cancelar_todos_los_screens
 echo "$(date) Create TTY connections"
 BAUD="115200"
 
-TTY="ACM1"
-HOST="pS-lichess.local"
-echo "$(date) Connecting $HOST TTY($TTY) rc=($(abrir_minicom $TTY $BAUD))"
+echo "$(date) waiting ..."
+sleep 5
+TTY="/dev/ttyACM1"
+HOST="picoSargon_Lichess.local"
+echo "$(date) Connecting $HOST TTY($TTY)"
+abrir_minicom $HOST $TTY $BAUD
 
-TTY="ACM2"
-HOST="picopixie.local"
-echo "$(date) Connecting $HOST TTY($TTY) rc=($(abrir_minicom $TTY $BAUD))"
+echo "$(date) waiting ..."
+sleep 5
+TTY="/dev/ttyACM2"
+HOST="picoPixie_FICS.local"
+echo "$(date) Connecting $HOST TTY($TTY)"
+abrir_minicom $HOST $TTY $BAUD
 
-TTY="ACM0"
-HOST="pS-FICS.local"
-echo "$(date) Connecting $HOST TTY($TTY) rc=($(abrir_minicom $TTY $BAUD))"
+echo "$(date) waiting ..."
+sleep 5
+TTY="/dev/ttyACM0"
+HOST="picoSargon_FICS.local"
+echo "$(date) Connecting $HOST TTY($TTY)"
+abrir_minicom $HOST $TTY $BAUD
 
+sleep 5
+echo "$(date) waiting ..."
 echo "$(date) TTY port opening completed, all required ports has been connected"
 
 #--- Wait till all hosts are up
-
-esperar_host "pS-lichess.local" -1
-esperar_host "picopixie.local" -1
-esperar_host "pS-FICS.local" -1
+# pS-lichess 192.168.68.108
+# picopixie  192.168.68.104
+# pS-FICS    192.168.68.109
+esperar_host "192.168.68.108" 15
+esperar_host "192.168.68.104" 15
+esperar_host "192.168.68.109" 15
 
 echo "$(date) Host dependencies completed"
 
-#Ejecución ---
-#ejecutar_python "$@"
 
-# --- Ejecución ---
-# Pasa todos los argumentos recibidos por el script directamente a la función
-#lanzar_en_screen "$@"
+PYTHON="/home/pi/chess/picoSargon/bin/python"
+FICS_UCI="/home/pi/chess/akkad/fics-uci/src/fics_uci.py"
+FICS_PATH="/home/pi/chess/akkad/fics-uci"
+FICS_ARGS="--retry 60 --ip_fics freechess.org --port_fics 5000"
+ETC="/home/pi/chess/etc"
+LICHESS_BOT="/home/pi/chess/lichess-bot/lichess-bot.py"
 
-# --- Ejemplos de uso ---
+PS_LICHESS="$PYTHON $LICHESS_BOT --config $ETC/lichess_config.yml"
+PICOPIXIE_FICS="$PYTHON $FICS_UCI --json $FICS_PATH/data/picoPixie.json $FICS_ARGS --config $ETC/config_picoPixie.yml"
+PS_FICS="$PYTHON $FICS_UCI --json $FICS_PATH/data/picoSargon.json $FICS_ARGS --config $ETC/config_picoSargon.yml"
 
-# Ejemplo 1: Esperar máximo 10 segundos a que responda Google DNS
-#esperar_host "8.8.8.8" 10
-#echo "Código de retorno: $?"
+echo "/usr/bin/screen -d -m -S \"picoSargon_lichess\" $PS_LICHESS"
+/usr/bin/screen -d -m -S picoSargon_lichess $PS_LICHESS
+sleep 5
+echo "$(date) waiting ..."
 
-# Ejemplo 2: Esperar indefinidamente (-1)
-# esperar_host "192.168.1.50" -1
-# echo "Código de retorno: $?"
 
-# --- Ejecución ---
-# Llamamos a la función principal para barrer todos los procesos
+echo "/usr/bin/screen -d -m -S picopixie_fics $PICOPIXIE_FICS"
+/usr/bin/screen -d -m -S picoPixie_fics $PICOPIXIE_FICS
+sleep 5
+echo "$(date) waiting ..."
 
+echo "/usr/bin/screen -d -m -S ps_fics $PS_FICS" 
+/usr/bin/screen -d -m -S picoSargon_fics $PS_FICS
+sleep 5
+echo "$(date) waiting ..."
+
+echo "$(date) Screen launch completed!"
+/usr/bin/screen -ls
