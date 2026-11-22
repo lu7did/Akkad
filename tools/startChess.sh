@@ -86,24 +86,24 @@ esperar_host() {
 
     # Validar parámetros básicos
     if [[ -z "$host" || -z "$timeout" ]]; then
-        echo "Uso: esperar_host <host_o_ip> <tiempo_maximo_segundos|-1>"
+        echo "$(date) Uso: esperar_host <host_o_ip> <tiempo_maximo_segundos|-1>"
         return 1
     fi
 
     # Validar que el timeout sea un número entero válido (positivo, 0 o -1)
     if ! [[ "$timeout" =~ ^-?[0-9]+$ ]]; then
-        echo "Error: El tiempo máximo debe ser un número entero."
+        echo "$(date) Error: El tiempo máximo debe ser un número entero."
         return 1
     fi
 
     local tiempo_inicio=$SECONDS
 
-    echo "Verificando disponibilidad de $host..."
+    echo "$(date) Verificando disponibilidad de $host..."
 
     while true; do
         # Envía 1 paquete (-c 1) y espera máximo 1 segundo por respuesta (-W 1)
         if ping -c 1 -W 1 "$host" > /dev/null 2>&1; then
-            echo "¡Host $host disponible!"
+            echo "$(date) ¡Host $host disponible!"
             return 0
         fi
 
@@ -111,7 +111,7 @@ esperar_host() {
         if [[ "$timeout" -ne -1 ]]; then
             local tiempo_transcurrido=$((SECONDS - tiempo_inicio))
             if [[ "$tiempo_transcurrido" -ge "$timeout" ]]; then
-                echo "Tiempo de espera agotado ($timeout s) para $host."
+                echo "$(date) Tiempo de espera agotado ($timeout s) para $host."
                 return 16
             fi
         fi
@@ -126,14 +126,14 @@ esperar_host() {
 lanzar_en_screen() {
     # Validar que se haya pasado al menos un argumento (el comando)
     if [[ $# -eq 0 ]]; then
-        echo "Uso: $0 <comando> [argumentos...]"
+        echo "$(date) Uso: $0 <comando> [argumentos...]"
         return 1
     fi
 
     # Genera un nombre único para la sesión usando la fecha/hora y el PID actual
     local nombre_sesion="tarea_$(date +%Y%m%d_%H%M%S)_$$"
 
-    echo "Iniciando '$*' en la sesión screen: $nombre_sesion"
+    echo "$(date) Iniciando '$*' en la sesión screen: $nombre_sesion"
 
     # -d -m : Inicia screen en modo desacoplado (detached) y retorna inmediatamente
     # -S    : Asigna un nombre identificador a la sesión
@@ -142,9 +142,9 @@ lanzar_en_screen() {
 
     local estado=$?
     if [[ $estado -eq 0 ]]; then
-        echo "Proceso lanzado correctamente en segundo plano."
+        echo "$(date) Proceso lanzado correctamente en segundo plano."
     else
-        echo "Error al intentar lanzar la sesión screen."
+        echo "$(date) Error al intentar lanzar la sesión screen."
     fi
 
     return $estado
@@ -158,24 +158,24 @@ abrir_minicom() {
 
     # Validar que se reciban ambos argumentos
     if [[ -z "$device" || -z "$baudrate" ]]; then
-        echo "Uso: $0 <dispositivo> <velocidad_bauds>"
-        echo "Ejemplo: $0 /dev/ttyUSB0 115200"
+        echo "$(date) Uso: $0 <dispositivo> <velocidad_bauds>"
+        echo "$(date) Ejemplo: $0 /dev/ttyUSB0 115200"
         return 1
     fi
 
     # Validar que el archivo del dispositivo exista en el sistema
     if [[ ! -e "$device" ]]; then
-        echo "Error: El dispositivo '$device' no existe."
+        echo "$(date) Error: El dispositivo '$device' no existe."
         return 2
     fi
 
     # Validar que la velocidad sea un número entero positivo
     if ! [[ "$baudrate" =~ ^[0-9]+$ ]]; then
-        echo "Error: La velocidad en baudios debe ser un valor numérico."
+        echo "$(date) Error: La velocidad en baudios debe ser un valor numérico."
         return 3
     fi
 
-    echo "Iniciando minicom en $device a $baudrate bauds..."
+    echo "$(date) Iniciando minicom en $device a $baudrate bauds..."
     
     # -D : Especifica el dispositivo serial (ej. /dev/ttyUSB0)
     # -b : Especifica la velocidad en baudios (ej. 9600, 115200)
@@ -190,27 +190,27 @@ ejecutar_python() {
 
     # Validar que se reciban al menos los 2 primeros argumentos obligatorios
     if [[ -z "$python_path" || -z "$script_path" ]]; then
-        echo "Uso: $0 <path_python> <path_script_py> [argumentos_del_script...]"
-        echo "Ejemplo: $0 /usr/bin/python3 /home/user/app.py --puerto 8080 --debug"
+        echo "$(date) Uso: $0 <path_python> <path_script_py> [argumentos_del_script...]"
+        echo "$(date) Ejemplo: $0 /usr/bin/python3 /home/user/app.py --puerto 8080 --debug"
         return 1
     fi
 
     # Validar que el intérprete de Python exista y tenga permisos de ejecución
     if [[ ! -x "$python_path" ]]; then
-        echo "Error: El intérprete '$python_path' no existe o no es ejecutable."
+        echo "$(date) Error: El intérprete '$python_path' no existe o no es ejecutable."
         return 2
     fi
 
     # Validar que el archivo del script de Python exista
     if [[ ! -f "$script_path" ]]; then
-        echo "Error: El script de Python '$script_path' no existe."
+        echo "$(date) Error: El script de Python '$script_path' no existe."
         return 3
     fi
 
     # Desplazar los 2 primeros argumentos ($1 y $2) para que $@ contenga solo los argumentos del script
     shift 2
 
-    echo "Ejecutando: $python_path $script_path $*"
+    echo "$(date) Ejecutando: $python_path $script_path $*"
     
     # Ejecutar el intérprete con el script y los argumentos restantes intactos
     "$python_path" "$script_path" "$@"
@@ -218,11 +218,45 @@ ejecutar_python() {
 #=================================================================================================================*
 #                                                   MAIN 
 #=================================================================================================================*
-# --- Ejecución ---
-#ejecutar_python "$@"
+# Obtener la ruta absoluta del directorio donde está guardado el script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
-# --- Ejecución ---
-#abrir_minicom "$1" "$2"
+# Obtener únicamente el nombre del archivo del script
+SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+
+echo "$(date) Processing $SCRIPT_NAME at $SCRIPT_DIR"
+echo "$(date) Clean up existing SCREEN processes"
+cancelar_todos_los_screens
+
+#--- Create TTY connections 
+
+echo "$(date) Create TTY connections"
+BAUD="115200"
+
+TTY="ACM1"
+HOST="pS-lichess.local"
+echo "$(date) Connecting $HOST TTY($TTY) rc=($(abrir_minicom $TTY $BAUD))"
+
+TTY="ACM2"
+HOST="picopixie.local"
+echo "$(date) Connecting $HOST TTY($TTY) rc=($(abrir_minicom $TTY $BAUD))"
+
+TTY="ACM0"
+HOST="pS-FICS.local"
+echo "$(date) Connecting $HOST TTY($TTY) rc=($(abrir_minicom $TTY $BAUD))"
+
+echo "$(date) TTY port opening completed, all required ports has been connected"
+
+#--- Wait till all hosts are up
+
+esperar_host "pS-lichess.local" -1
+esperar_host "picopixie.local" -1
+esperar_host "pS-FICS.local" -1
+
+echo "$(date) Host dependencies completed"
+
+#Ejecución ---
+#ejecutar_python "$@"
 
 # --- Ejecución ---
 # Pasa todos los argumentos recibidos por el script directamente a la función
@@ -240,5 +274,4 @@ ejecutar_python() {
 
 # --- Ejecución ---
 # Llamamos a la función principal para barrer todos los procesos
-#cancelar_todos_los_screens
 
