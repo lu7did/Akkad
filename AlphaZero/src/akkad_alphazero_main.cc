@@ -712,10 +712,21 @@ int main(int argc,char**argv){
   az_lc0_telemetry::ScopedFilters lc0_diagnostic_filters;
   try{
     Engine engine;
-    for(int i=1;i<argc;++i){std::string a=argv[i];
-      if((a=="--weights"||a=="--backend"||a=="--backend-options")&&i+1<argc){auto v=std::string(argv[++i]);if(a=="--weights")engine.cmd_weights(v);else if(a=="--backend")engine.cmd_backend(v);else engine.cmd_backend_opts(v);}
-      else if((a=="--simulations" || a=="--cores" || a=="--batch-size" || a=="--max-tree-nodes" || a=="--tmax" || a=="--timeout" || a=="--cpuct" || a=="--verbose") && i+1<argc){
-        std::string v=argv[++i];
+    for(int i=1;i<argc;++i){
+      std::string a=argv[i];
+      std::string inline_value;
+      bool has_inline_value=false;
+      if(a.rfind("--",0)==0){
+        const auto eq=a.find('=');
+        if(eq!=std::string::npos){
+          inline_value=a.substr(eq+1);
+          a.resize(eq);
+          has_inline_value=true;
+        }
+      }
+      if((a=="--weights"||a=="--backend"||a=="--backend-options")&&(has_inline_value||i+1<argc)){auto v=has_inline_value?inline_value:std::string(argv[++i]);if(a=="--weights")engine.cmd_weights(v);else if(a=="--backend")engine.cmd_backend(v);else engine.cmd_backend_opts(v);}
+      else if((a=="--simulations" || a=="--cores" || a=="--batch-size" || a=="--max-tree-nodes" || a=="--tmax" || a=="--timeout" || a=="--cpuct" || a=="--verbose") && (has_inline_value||i+1<argc)){
+        std::string v=has_inline_value?inline_value:std::string(argv[++i]);
         if(a=="--batch-size")engine.cmd_batch_size(std::stoi(v));
         else if(a=="--cores")engine.cmd_cores(std::stoi(v));
         else if(a=="--simulations")engine.cmd_simulations(std::stoi(v));
@@ -725,11 +736,11 @@ int main(int argc,char**argv){
         else if(a=="--cpuct")engine.cmd_cpuct(std::stod(v));
         else engine.cmd_verbose(std::stoi(v));
       }
-      else if(a=="--version"){
+      else if(a=="--version" && !has_inline_value){
         std::cout << az_config::kUciName << " build=" << __DATE__ << " " << __TIME__ << std::endl;
         return 0;
       }
-      else if(a=="--help"){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--batch-size N] [--cores N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N] [--version]"<<std::endl;return 0;}
+      else if(a=="--help" && !has_inline_value){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--batch-size N] [--cores N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N] [--version]"<<std::endl;return 0;}
       else throw std::runtime_error("unknown CLI argument: "+a);
     }
     engine.report_startup(argc > 0 ? argv[0] : nullptr);
