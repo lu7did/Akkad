@@ -1,3 +1,18 @@
+#!/bin/bash
+#*================================================================================================================*
+#* Proyecto akkad
+#* Chess player using different Neural Networks as the game evaluation engine
+#*
+#* A new mind for the old buddy
+#* Created as a learning experience
+#*
+#* By Dr. Pedro E. Colla 2026 (UADER Teoria de la Comunicación / UFASTA Gestión de Redes)
+#* License: CC AS BY 4.0
+#*================================================================================================================*
+#* listChess.sh
+#* Scan all screen sessions and starts a new GUI terminal with each one
+#*
+#=================================================================================================================*
 # 1. Abre una nueva ventana de terminal y se conecta al ID de screen indicado
 abrir_screen() {
     local id="$1"

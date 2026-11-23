@@ -1,5 +1,18 @@
 #!/bin/bash
-
+#*================================================================================================================*
+#* Proyecto akkad
+#* Chess player using different Neural Networks as the game evaluation engine
+#*
+#* A new mind for the old buddy
+#* Created as a learning experience
+#*
+#* By Dr. Pedro E. Colla 2026 (UADER Teoria de la Comunicación / UFASTA Gestión de Redes)
+#* License: CC AS BY 4.0
+#*================================================================================================================*
+#* showPID.sh
+#* scans for a process given a RegEx part of the name and return the PID
+#*
+#=================================================================================================================*
 # Función: Busca un proceso por expresión regular y devuelve su(s) PID
 # Parámetro 1: Patrón o expresión regular a buscar
 obtener_pid_por_patron() {

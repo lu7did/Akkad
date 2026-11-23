@@ -3,30 +3,7 @@
 #* Proyecto akkad
 #*================================================================================================================*
 #* killChess.sh
-#* script to kill automatically competitive programs
-#*
-#*
-#*
-#=================================================================================================================*
-# Check current screen running processes
-#   screen -ls
-#
-# See a given screen (exit with Ctl A+D
-#   screen -d -r nnnn.Id
-#
-# Terminate a given screen
-#   screen -X -S nnnn.Id quit
-#
-# Launch a detached screen
-#   screen -d -m -S {path}{process}
-#
-# Gestión del servicio
-#
-#   sudo systemctl start  startSargon
-#   sudo systemctl status startSargon
-#   sudo systemctl stop startSargon
-#=================================================================================================================*
-# Receives a session ID and cancel it
+#* script to kill automatically competitive programs by cancelling the SCREEN session where they are running
 #=================================================================================================================*
 cancelar_proceso_screen() {
     local screen_id="$1"

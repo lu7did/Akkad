@@ -1,5 +1,19 @@
 #!/bin/bash
-
+#!/bin/bash
+#*================================================================================================================*
+#* Proyecto akkad
+#* Chess player using different Neural Networks as the game evaluation engine
+#*
+#* A new mind for the old buddy
+#* Created as a learning experience
+#*
+#* By Dr. Pedro E. Colla 2026 (UADER Teoria de la Comunicación / UFASTA Gestión de Redes)
+#* License: CC AS BY 4.0
+#*================================================================================================================*
+#* showProcess.sh
+#* script to scan for a process name using a RegEx and exclude the argument of the search
+#*
+#=================================================================================================================*
 buscar_proceso_detalle() {
     local patron="$1"
 

@@ -638,6 +638,28 @@
       "modalidad": "standard",
       "rated": true,
       "motor": "picoSargon v0.2.50"
+    },
+    {
+      "id": "2026-11-23T17:07:36.584262+00:00:7",
+      "fics_game": 7,
+      "fecha_inicio_utc": "2026-11-23T17:07:36.584262+00:00",
+      "fecha_fin_utc": "2026-11-23T17:23:29.766291+00:00",
+      "usuario_propio": "picoSargon",
+      "elo_propio": 1764,
+      "color_propio": "blancas",
+      "usuario_contrincante": "GriffySr",
+      "elo_contrincante": 2154,
+      "color_contrincante": "negras",
+      "resultado": 0.0,
+      "resultado_fics": "0-1",
+      "razon": "(picoSargon vs. GriffySr) picoSargon forfeits on time",
+      "cantidad_movidas": 59,
+      "cantidad_medias_jugadas": 118,
+      "tiempo_segundos": 953.182,
+      "control_tiempo": "15+0",
+      "modalidad": "standard",
+      "rated": true,
+      "motor": "picoSargon v0.2.50"
     }
   ]
 }
