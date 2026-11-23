@@ -146,6 +146,21 @@
     "timeout": 30000,
     "ELO": 1000
   },
+
+  "luminex": {
+    "type": "nurse",
+    "player": "sargon-plus",
+    "evaluator": {
+      "evaluator": "luminex",
+      "network": "../assets/luminex/luminex-nnue-32.bin"
+    },
+    "Depth": 4,
+    "QDepth": 4,
+    "tmax": 15000,
+    "timeout": 30000,
+    "ELO": 1000
+  },
+
   "polly": {
     "type": "nurse",
     "player": "sargon-plus",

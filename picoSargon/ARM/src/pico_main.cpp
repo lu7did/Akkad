@@ -39,10 +39,11 @@ namespace runtime_config = picoSargon::config;
 #include <unistd.h>
 using namespace picoSargon;
 namespace {
-#ifdef PICOSARGON_CLOUD_HOOK
-const char* VERSION=runtime_config::UCI_NAME;
-#else
-const char* VERSION="picoSargon v0.2.49";
+// Nunca duplicar la version: la telemetria debe mostrar el valor real de config.h.
+const char* VERSION = runtime_config::UCI_NAME;
+#if defined(PICOSARGON_EXPECTED_PLL_SYS)
+static_assert(runtime_config::PLL_SYS == PICOSARGON_EXPECTED_PLL_SYS,
+              "PLL_SYS de config.h no coincide con el valor leido por build.ps1");
 #endif
 // Serial log calls are compiled out when DEBUG=false. Search statistics remain collected.
 template<class... Args> void debug_log(const char* fmt, Args... args) {
@@ -415,7 +416,7 @@ int main(){
 #endif
  }
  catch(const std::exception& e){
-  debug_log("FATAL Grumpy: %s\n",e.what());
+  debug_log("FATAL Bashful: %s\n",e.what());
   status_led(LedState::Fatal);
   while(true){service();sleep_ms(10);}
  }

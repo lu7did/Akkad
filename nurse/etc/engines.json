@@ -315,6 +315,14 @@
       "players": "*",
       "requires_network": true,
       "factory": "nurse.bullet_eval:make_bullet"
+    },
+    {
+      "id": "luminex",
+      "type": "evaluator",
+      "python": "src/nurse/evaluators/luminex.py",
+      "players": "*",
+      "requires_network": true,
+      "factory": "nurse.luminex_eval:make_luminex"
     }
   ]
 }

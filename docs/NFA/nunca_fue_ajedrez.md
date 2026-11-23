@@ -6204,7 +6204,7 @@ En un Transformer con dimensión $d$, el conjunto de proyecciones de atención s
 
 $4d^2$
 
-pesos, considerando $Q$, $K$, $V$y la proyección de salida.
+pesos, considerando $Q$, $K$, $V$ y la proyección de salida.
 
 Si la capa feedforward utiliza dimensión intermedia:
 
@@ -7164,7 +7164,13 @@ con el fin de mitigar cambios pronunciados de varianza entre capas. No es un teo
 
 #### Leaky ReLU
 
-$f(x)=\begin{cases}x,&x\ge0\\\alpha x,&x<0,\end{cases}\qquad 0<\alpha<1.$
+$$
+f(x) = \begin{cases}
+x, & x \ge 0 \\
+\alpha x, & x < 0,
+\end{cases}
+\qquad 0 < \alpha < 1.
+$$
 
 Por ejemplo, con $\alpha=0,01$ una entrada $-2$ produce $-0,02$, mientras ReLU devuelve 0. Mantiene una vía de gradiente para entradas negativas; esto reduce algunas situaciones de neuronas bloqueadas, pero no asegura mejor precisión.
 
@@ -7204,7 +7210,12 @@ Su rama negativa es suave y está acotada inferiormente por $-\alpha$. Para $x$ 
 
 #### SELU (Scaled ELU)
 
-$\text{SELU}(x)=\lambda\begin{cases}x,&x>0\\\alpha(e^x-1),&x\le0,\end{cases}$
+$$
+\text{SELU}(x) = \lambda \begin{cases}
+x, & x > 0 \\
+\alpha(e^x - 1), & x \le 0,
+\end{cases}
+$$
 
 con constantes convencionales aproximadas $\alpha=1,673263$ y $\lambda=1,050701$. Forma parte de las **redes auto-normalizantes**, bajo supuestos de arquitectura e inicialización específicos. No se obtienen automáticamente esas propiedades sustituyendo ReLU por SELU en cualquier red.
 
@@ -7510,33 +7521,42 @@ $$\widehat a_{\theta}(s)=\begin{cases}
 
 La implementación contempla un valor terminal extraordinario para una jugada que da mate. Esta decisión de **un ply** se usa para entrenar la correspondencia de jugadas.
 
-Para $N$ posiciones y $P$ individuos se calculan dos métricas por individuo $j$:
+Para $N$ posiciones y $P$ individuos se calculan dos métricas por individuo $j$ :
 
 **a) Aciertos de jugada:**
 
-$$H_j=\sum_{i=1}^N\mathbf 1\big[\widehat a_j(s_i)=a_i^*\big],$$
+$$
+H_j = \sum_{i=1}^N \mathbf{1}\big[ \widehat{a}_j(s_i) = a_i^* \big],
+$$
 
-con $\mathbf 1[\cdot]$ igual a 1 cuando la condición es verdadera y 0 en caso contrario. Cada posición suma un acierto como máximo, aunque se puedan producir varias jugadas con evaluación idéntica (el desempate del programa depende del orden de las jugadas legales).
+con 
+$$\mathbf 1[\cdot]$$
+
+igual a 1 cuando la condición es verdadera y 0 en caso contrario. Cada posición suma un acierto como máximo, aunque se puedan producir varias jugadas con evaluación idéntica (el desempate del programa depende del orden de las jugadas legales).
 
 **b) Error cuadrático medio de valoración, expresado como RMSE:**
 
-$\text{RMSE}_j=\sqrt{\frac{1}{N}\sum_{i=1}^N\big(V_{\mathrm{PST}}(s_i;\theta_j)-y_i\big)^2}.$
+$$\text{RMSE}_j=\sqrt{\frac{1}{N}\sum_{i=1}^N\big(V_{\mathrm{PST}}(s_i;\theta_j)-y_i\big)^2}.$$
 
 La aptitud maximizada realmente en v0.1.1 es:
 
-$\boxed{F_j=\frac{(H_j+1)^2}{1+\text{RMSE}_j/400}.}$
+$$\boxed{F_j=\frac{(H_j+1)^2}{1+\text{RMSE}_j/400}.}$$
 
 Cada parte tiene una función específica:
 
 - $H_j$ recompensa la reproducción exacta de la mejor jugada de Stockfish en búsqueda de un ply.
 - El exponente 2 eleva la presión hacia individuos con más coincidencias, inspirado en el criterio descrito por David et al.
 - El sumando $+1$ evita un numerador nulo cuando no hay aciertos.
-- La división por $1+\frac{RMSE}{400}$ penaliza el desacuerdo en **valor**; 400 cp es una escala fija de cuatro peones en esta fórmula, **no** una cantidad ajustada automáticamente.
+- La división por 
 
-Ejemplo de dos candidatos con igual $H=20$:
+$1+\frac{RMSE}{400}$
 
-- A, RMSE = 200 cp: $F_A=\frac{21^2}{(1+0.5)}=294$.
-- B, RMSE = 400 cp: $F_B=\frac{21^2}{(1+1)}=220.5$.
+ penaliza el desacuerdo en **valor**; 400 cp es una escala fija de cuatro peones en esta fórmula, **no** una cantidad ajustada automáticamente.
+
+Ejemplo de dos candidatos con igual $H=20$ :
+
+- A, RMSE = 200 cp: $F_A=\frac{21^2}{(1+0.5)}=294$ .
+- B, RMSE = 400 cp: $F_B=\frac{21^2}{(1+1)}=220.5$ .
 
 A mayor error, menor aptitud. Pero una diferencia suficientemente grande de aciertos puede dominar la penalización de RMSE. Por eso el algoritmo no minimiza exclusivamente la distancia a la evaluación de Stockfish.
 
@@ -8214,22 +8234,22 @@ Desde el punto de vista del ajedrez computacional, su contribución principal no
 La incorporación de sus ideas a Akkad permite estudiar experimentalmente las diferencias entre heurísticas históricas, búsqueda tradicional y evaluación mediante redes neuronales.
 
 **[1] Jennings, Peter (1976).** *Microchess: A Chess Playing Program for the 6502 Microcomputer.* Micro-Ware Ltd., Toronto, Canadá. Manual del programa, documentación técnica, explicación de rutinas y listado de código fuente. Conservado por Computer History Museum.  
-[1]https://www.computerhistory.org/chess/doc-431614f6d8478/
+[1](https://www.computerhistory.org/chess/doc-431614f6d8478/)
 
 **[2] Jennings, Peter (1976).** *Microchess Programmer's Manual.* Documentación original de GNM, JANUS, STATE y STRATGY. Reproducida en la colección de documentación histórica 1976–1978 del Computer History Museum.  
-[2]https://archive.computerhistory.org/resources/access/text/2018/02/102775100-05-01-acc.pdf
+[2](https://archive.computerhistory.org/resources/access/text/2018/02/102775100-05-01-acc.pdf)
 
 **[3] Jennings, Peter.** *History of Microchess.* Relato del autor acerca del desarrollo, representación del tablero, limitaciones de memoria y comercialización del programa.  
-[3]https://www.benlo.com/microchess/
+[3](https://www.benlo.com/microchess/)
 
 **[4] Computer History Museum.** *Microchess Source Code, Version 1.0 (1976).* Registro del programa original para KIM-1 y su listado de 924 bytes.  
-[4]https://www.computerhistory.org/chess/sft-431e19dae0914/
+[4](https://www.computerhistory.org/chess/sft-431e19dae0914/)
 
 **[5] Computer History Museum.** *Early Microcomputer Chess.* Panorama histórico de los primeros programas comerciales de ajedrez para microcomputadoras.  
-[5]https://www.computerhistory.org/chess/early-microcomputer-chess/
+[5](https://www.computerhistory.org/chess/early-microcomputer-chess/)
 
 **[6] Computer History Museum (2005).** *Oral History of Peter Jennings.* Entrevista sobre el desarrollo de Microchess, las limitaciones del KIM-1 y las decisiones de diseño.  
-[6]https://archive.computerhistory.org/projects/chess/related_materials/oral-history/jennings.oral_history.2005.102630656/jennings.oral_history_transcrit.2005.102630656.pdf
+[6](https://archive.computerhistory.org/projects/chess/related_materials/oral-history/jennings.oral_history.2005.102630656/jennings.oral_history_transcrit.2005.102630656.pdf)
 
 
 # CAP 8 SARGON (1978) the **old buddy** 
@@ -9069,9 +9089,16 @@ El ajedrez es propenso a la "transposición", situaciones donde diferentes órde
 
 ## El Legado del Algoritmo
 
-Gracias a este diseño donde el algoritmo y el hardware eran una misma cosa, Belle lograba calcular de manera óptima profundidades promedio de 8 plies (8 niveles de jugadas por adelantado), extendiéndose aún más en jugadas forzadas (búsqueda de quietud o quiescence search). [1] (https://www.chess.com/article/view/computers-and-chess---a-history), [2] (https://www2.seas.gwu.edu/~simhaweb/champalg/chess/chess), [3] (https://www.scribd.com/document/444491656/ARTICULO-1-IBM-S-DEEP-BLUE-CHESS-GRANDMASTER-CHIPS)
+Gracias a este diseño donde el algoritmo y el hardware eran una misma cosa, Belle lograba calcular de manera óptima profundidades promedio de 8 plies (8 niveles de jugadas por adelantado), extendiéndose aún más en jugadas forzadas (búsqueda de quietud o quiescence search). 
+
+[1](https://www.chess.com/article/view/computers-and-chess---a-history) 
+[2](https://www2.seas.gwu.edu/~simhaweb/champalg/chess/chess)
+[3](https://www.scribd.com/document/444491656/ARTICULO-1-IBM-S-DEEP-BLUE-CHESS-GRANDMASTER-CHIPS)
+
 Esta arquitectura exacta sirvió de plano estructural directo para el proyecto ChipTest, el cual evolucionó posteriormente en Deep Thought y, finalmente, en IBM Deep Blue, la supercomputadora que derrotó a Garry Kasparov en 1997. 
-[1](https://en.wikipedia.org/wiki/Belle_(chess_machine)), [2](https://chessprogramming.org/Belle)
+
+[1](https://en.wikipedia.org/wiki/Belle_(chess_machine)) 
+[2](https://chessprogramming.org/Belle)
 
 En el ajedrez por computadora, el algoritmo Minimax con poda alfa-beta tiene un límite de profundidad fijo (por ejemplo, buscar exactamente hasta 8 jugadas de adelante). El grave peligro de detener la búsqueda rígidamente en ese límite es el llamado "efecto horizonte": la computadora puede realizar una jugada evaluándola como "excelente" solo porque la pérdida masiva de material ocurre en la jugada 9, justo más allá de su horizonte de visión.
 Para solucionar esto, Belle utilizaba la búsqueda de quietud (quiescence search). Técnicamente, consiste en una extensión selectiva del árbol de búsqueda que se activa únicamente cuando se alcanza el límite de profundidad planificado, con el objetivo de no evaluar posiciones "tormentosas" o inestables.
@@ -9143,7 +9170,7 @@ Los métodos Monte Carlo utilizan muestreo para estimar magnitudes difíciles de
 
 Si una variable aleatoria $X$representa un resultado de interés, su esperanza puede aproximarse mediante:
 
-$E[X]\approx\frac{1}{n}\sum_{i=1}^{n}X_i$
+$$E[X]\approx\frac{1}{n}\sum_{i=1}^{n}X_i$$
 
 Bajo condiciones estadísticas apropiadas, el estimador converge a la esperanza al aumentar el número de muestras.
 
@@ -9743,7 +9770,7 @@ El entrenamiento intenta convertir esa mejora local en conocimiento generalizabl
 
 La ecuación de Bellman para un juego de suma cero puede expresarse:
 
-$V^*(s)=\max_{a\in A(s)}\left[-V^*(T(s,a))\right]$
+$$V^*(s)=\max_{a\in A(s)}\left[-V^*(T(s,a))\right]$$
 
 AlphaZero no resuelve exactamente esta ecuación.
 
@@ -9753,7 +9780,7 @@ La red, a su vez, aprende a aproximar los resultados producidos durante el proce
 
 La relación puede describirse mediante:
 
-$
+$$
 \theta_k
 \longrightarrow
 \text{MCTS}_{\theta_k}
@@ -9761,7 +9788,7 @@ $
  D_k
 \longrightarrow
 \theta_{k+1}
-$
+$$
 
 No existe una garantía general de que la secuencia converja al equilibrio perfecto del ajedrez con recursos finitos, redes aproximadoras y entrenamiento estocástico.
 
@@ -9876,15 +9903,15 @@ Esta separación facilita la implementación de transposiciones sin confundir el
 
 Sea:
 
-- $n$: número de nodos almacenados.
-- $e$: número de aristas almacenadas.
-- $S_N$: tamaño de cada nodo.
-- $S_E$: tamaño de cada arista.
-- $M_{\mathrm{otros}}$: memoria auxiliar.
+- $n$ : número de nodos almacenados.
+- $e$ : número de aristas almacenadas.
+- $S_N$ : tamaño de cada nodo.
+- $S_E$ : tamaño de cada arista.
+- $M_{\mathrm{otros}}$ : memoria auxiliar.
 
 El consumo aproximado es:
 
-$\boxed{M=nS_N+eS_E+M_{\mathrm{otros}}}$
+$$\boxed{M=nS_N+eS_E+M_{\mathrm{otros}}}$$
 
 La memoria auxiliar incluye:
 
@@ -9919,9 +9946,9 @@ struct Node {
 
 En una disposición típica sin padding adicional, estas estructuras podrían ocupar aproximadamente:
 
-$S_E=20\text{ bytes}$
+$$S_E=20\text{ bytes}$$
 
-$S_N=24\text{ bytes}$
+$$S_N=24\text{ bytes}$$
 
 Los tamaños deben confirmarse con `sizeof` en el compilador y plataforma elegidos.
 
@@ -9949,7 +9976,7 @@ sin contar posiciones completas, alineación adicional, índices, cachés ni mem
 
 Si cada nodo conserva además una posición de 128 bytes:
 
-$M_{\mathrm{posiciones}}=12.8\text{ MB}$
+$$M_{\mathrm{posiciones}}=12.8\text{ MB}$$
 
 La diferencia es significativa.
 
@@ -10009,11 +10036,11 @@ Un nodo puede haber sido alcanzado y evaluado durante su primera expansión sin 
 
 Por ejemplo:
 
-$N_{\mathrm{nodo}}(s)=1$
+$$N_{\mathrm{nodo}}(s)=1$$
 
 mientras:
 
-$\sum_aN(s,a)=0$
+$$\sum_aN(s,a)=0$$
 
 Esto no constituye necesariamente un error.
 
@@ -10029,23 +10056,23 @@ Supongamos que una posición nueva tiene tres movimientos legales.
 
 La red devuelve:
 
-$P=(0.50,0.30,0.20)$
+$$P=(0.50,0.30,0.20)$$
 
 El nodo se expande creando tres aristas:
 
-$N_i=0$
+$$N_i=0$$
 
-$W_i=0$
+$$W_{i}=0$$
 
 El sistema debe establecer cómo seleccionar su primer movimiento en una futura visita.
 
 Con la expresión PUCT básica:
 
-$U_i=cP_i\frac{\sqrt{N_{\mathrm{total}}}}{1+N_i}$
+$$U_i=cP_i\frac{\sqrt{N_{\mathrm{total}}}}{1+N_i}$$
 
 si:
 
-$N_{\mathrm{total}}=0$
+$$N_{\mathrm{total}}=0$$
 
 todos los bonos resultan cero.
 
@@ -10065,9 +10092,9 @@ No existe una única política obligatoria para todos los motores MCTS.
 
 Por definición:
 
-$Q=\frac WN$
+$$Q=\frac WN$$
 
-Almacenar simultáneamente $W$, $N$y $Q$introduce redundancia.
+Almacenar simultáneamente $W$, $N$ y $Q$ introduce redundancia.
 
 Ventajas:
 
@@ -10082,7 +10109,7 @@ Desventaja:
 
 La media puede actualizarse incrementalmente:
 
-$Q_{n+1}=Q_n+\frac{v-Q_n}{n+1}$
+$$Q_{n+1}=Q_n+\frac{v-Q_n}{n+1}$$
 
 Ventaja:
 
@@ -10105,7 +10132,7 @@ Desventaja:
 - Más memoria.
 - Necesidad de mantener consistencia entre tres campos.
 
-Para una implementación compacta monohilo, almacenar $W$y $N$suele ser una solución razonable.
+Para una implementación compacta monohilo, almacenar $W$ y $N$ suele ser una solución razonable.
 
 ## Arenas de memoria
 
@@ -10147,7 +10174,7 @@ Los índices permiten reducir tamaños.
 
 Si:
 
-$MAX\_NODES<2^{16}$
+$$MAX\_NODES<2^{16}$$
 
 un índice de 16 bits puede representar cualquier nodo.
 
@@ -10288,7 +10315,7 @@ Dos secuencias de jugadas pueden conducir a una misma posición.
 
 Si:
 
-$T(s,a_1,a_2)=T(s,b_1,b_2)$
+$$T(s,a_{1},a_{2})=T(s,b_{1},b_{2})$
 
 puede existir una transposición.
 
@@ -10300,7 +10327,7 @@ Esto transforma conceptualmente el árbol en un grafo dirigido.
 
 Una tabla hash  puede almacenar:
 
-$H(K(s))\rightarrow \text{índice de nodo}$
+$$H(K(s))\rightarrow \text{índice de nodo}$$
 
 La clave debe identificar suficientemente el estado.
 
@@ -10310,7 +10337,7 @@ Supongamos que dos padres distintos conducen al mismo nodo.
 
 Las estadísticas de selección:
 
-$N(s,a),W(s,a),P(s,a)$
+$$N(s,a),W(s,a),P(s,a)$$
 
 están asociadas a la decisión desde el padre.
 
@@ -10326,7 +10353,7 @@ Además, algunas redes utilizan una secuencia de estados anteriores.
 
 Por tanto:
 
-$K(B)\neq K(s_{\mathrm{completo}})$
+$$K(B)\neq K(s_{\mathrm{completo}})$$
 
 Una clave que solamente codifique las piezas puede producir reutilizaciones incorrectas.
 
@@ -10336,7 +10363,7 @@ MCTS puede evaluar repetidamente posiciones equivalentes.
 
 Una caché de inferencia puede almacenar:
 
-$K(s,\theta)\rightarrow(p_\theta(s),v_\theta(s))$
+$$K(s,\theta)\rightarrow(p_\theta(s),v_\theta(s))$$
 
 donde la clave identifica el estado y la versión de la red.
 
@@ -10361,11 +10388,11 @@ No deben confundirse.
 
 La red produce:
 
-$(p,v)$
+$$(p,v)$$
 
 MCTS produce:
 
-$(N,W,Q,\pi)$
+$$(N,W,Q,\pi)$$
 
 Estos datos tienen significados y ciclos de vida diferentes.
 
@@ -10382,7 +10409,7 @@ La red neuronal requiere memoria para:
 
 El consumo total de un motor puede expresarse:
 
-$
+$$
 M_{\mathrm{total}}=
 M_{\mathrm{red}}
 +
@@ -10393,7 +10420,7 @@ M_{\mathrm{inferencia}}
 M_{\mathrm{caché}}
 +
 M_{\mathrm{auxiliar}}
-$
+$$
 
 Una red grande puede consumir mucha más memoria que el árbol.
 
@@ -10407,11 +10434,11 @@ Los aceleradores neuronales suelen procesar mejor lotes de posiciones que evalua
 
 Si el motor reúne $B$hojas para inferencia:
 
-$\{s_1,\ldots,s_B\}$
+$$\{s_1,\ldots,s_B\}$$
 
 puede ejecutar:
 
-$\{(p_i,v_i)\}_{i=1}^{B}=f_\theta(\{s_i\})$
+$$\{(p_i,v_i)\}_{i=1}^{B}=f_\theta(\{s_i\})$$
 
 El batching mejora potencialmente el rendimiento total de inferencia.
 
@@ -10435,9 +10462,9 @@ Virtual loss introduce temporalmente una penalización para reducir esa concentr
 
 Conceptualmente:
 
-$N'(s,a)=N(s,a)+v_N$
+$$N'(s,a)=N(s,a)+v_N$$
 
-$W'(s,a)=W(s,a)-v_W$
+$$W'(s,a)=W(s,a)-v_W$$
 
 donde $v_N$ y $v_W$ representan ajustes temporales.
 
@@ -10453,7 +10480,7 @@ Es fundamental distinguir dos formas de memoria.
 
 Contiene:
 
-$P,N,W,Q$
+$$P,N,W,Q$$
 
 y estructuras asociadas.
 
@@ -10463,7 +10490,7 @@ Puede descartarse después de una decisión o partida.
 
 La memoria de entrenamiento contiene ejemplos:
 
-$(s,\pi,z)$
+$$(s,\pi,z)$$
 
 Su finalidad es actualizar los parámetros neuronales.
 
@@ -10471,7 +10498,7 @@ Normalmente se conserva en un buffer o repositorio de entrenamiento.
 
 El cambio permanente de comportamiento se produce al modificar:
 
-$\theta$
+$$\theta$$
 
 No por el simple hecho de conservar indefinidamente las estadísticas de un árbol.
 
@@ -10489,9 +10516,9 @@ TrainingSample
 
 Si se almacenan políticas densas, cada ejemplo puede ocupar mucho espacio.
 
-Para una política "*densa*" con $A$acciones posibles y valores float32:
+Para una política "*densa*" con $A$ acciones posibles y valores float32:
 
-$M_\pi=4A$
+$$M_\pi=4A$$
 
 Si:
 
@@ -10499,7 +10526,7 @@ $A=4672$
 
 entonces:
 
-$M_\pi=18688\text{ bytes}$
+$$M_\pi=18688\text{ bytes}$$
 
 por ejemplo.
 
@@ -10515,7 +10542,7 @@ Puede almacenarse:
 
 El objetivo se reconstruye mediante:
 
-$\pi_i=\frac{N_i}{\sum_jN_j}$
+$$\pi_i=\frac{N_i}{\sum_jN_j}$$
 
 Este esquema puede reducir mucho el tamaño de los registros.
 
@@ -10550,9 +10577,9 @@ Sin embargo, esto no significa que el motor aprenda de manera permanente.
 
 Si se restauran estadísticas producidas con una red anterior:
 
-$
+$$
 \theta_{\mathrm{viejo}}\neq\theta_{\mathrm{nuevo}}
-$
+$$
 
 las medias acumuladas pueden dejar de ser consistentes con el evaluador actual.
 
@@ -10566,13 +10593,13 @@ Una base de datos global de árboles no es un sustituto del entrenamiento neuron
 
 Supongamos que el motor dispone de:
 
-$M_{\max}$
+$$M_{\max}$$
 
 bytes para el árbol.
 
 Debe garantizar:
 
-$M_{\mathrm{árbol}}\leq M_{\max}$
+$$M_{\mathrm{árbol}}\leq M_{\max}$$
 
 Cuando alcanza el límite, puede aplicar distintas políticas.
 
@@ -10649,7 +10676,7 @@ Conserva:
 
 Durante cada simulación conserva el camino recorrido:
 
-$[(n_0,a_0),(n_1,a_1),\ldots]$
+$$[(n_{0},a_{0}),(n_{1},a_{1}),\ldots]$
 
 No es necesario conservar permanentemente esta pila después del backup.
 
@@ -10697,13 +10724,13 @@ $Q(g1f3)=0.30$
 
 La política final con temperatura 1 es:
 
-$\pi=(0.50,0.30,0.20)$
+$$\pi=(0.50,0.30,0.20)$$
 
 La coincidencia con los priors es accidental en este ejemplo.
 
 En general:
 
-$\pi\neq P$
+$$\pi\neq P$$
 
 Cuando el motor ejecuta `e2e4`, puede transformar Node 1 en la nueva raíz.
 
@@ -10721,23 +10748,23 @@ El costo de una simulación depende de:
 
 Si una simulación recorre un camino de longitud $d$y cada selección examina $b_i$aristas:
 
-$
+$$
 T_{\mathrm{selección}}
 =
 O\left(\sum_{i=1}^{d}b_i\right)
-$
+$$
 
 El backup requiere aproximadamente:
 
-$O(d)$
+$$O(d)$$
 
 La evaluación neuronal añade:
 
-$T_{\mathrm{red}}$
+$$T_{\mathrm{red}}$$
 
 Por tanto:
 
-$T_{\mathrm{sim}}
+$$T_{\mathrm{sim}}
 \approx
 T_{\mathrm{selección}}
 +
@@ -10745,7 +10772,7 @@ T_{\mathrm{expansión}}
 +
 T_{\mathrm{red}}
 +
-T_{\mathrm{backup}}$
+T_{\mathrm{backup}}$$
 
 En motores neuronales, el costo de inferencia puede dominar ampliamente el resto.
 
@@ -10852,47 +10879,47 @@ Con recursos finitos, no existe garantía de que el movimiento más visitado sea
 
 **[1] Coulom, Rémi (2006).** *Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search.* International Conference on Computers and Games. Trabajo fundamental sobre selectividad y actualización de estadísticas en MCTS.
 
-https://doi.org/10.1007/978-3-540-75538-8_7
+[1](https://doi.org/10.1007/978-3-540-75538-8_7)
 
 **[2] Kocsis, Levente; Szepesvári, Csaba (2006).** *Bandit Based Monte-Carlo Planning.* European Conference on Machine Learning. Introducción de UCT.
 
-https://doi.org/10.1007/11871842_29
+[2](https://doi.org/10.1007/11871842_29)
 
 **[3] Browne, Cameron B., et al. (2012).** *A Survey of Monte Carlo Tree Search Methods.* IEEE Transactions on Computational Intelligence and AI in Games, 4(1), 1–43.
 
-https://doi.org/10.1109/TCIAIG.2012.2186810
+[3](https://doi.org/10.1109/TCIAIG.2012.2186810)
 
 **[4] Silver, David, et al. (2016).** *Mastering the Game of Go with Deep Neural Networks and Tree Search.* Nature, 529, 484–489.
 
-https://doi.org/10.1038/nature16961
+[4](https://doi.org/10.1038/nature16961)
 
 **[5] Silver, David, et al. (2017).** *Mastering the Game of Go without Human Knowledge.* Nature, 550, 354–359. Describe AlphaGo Zero.
 
-https://doi.org/10.1038/nature24270
+[5](https://doi.org/10.1038/nature24270)
 
 **[6] Silver, David, et al. (2017).** *Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm.* Prepublicación de AlphaZero.
 
-https://arxiv.org/abs/1712.01815
+[6](https://arxiv.org/abs/1712.01815)
 
 **[7] Silver, David, et al. (2018).** *A General Reinforcement Learning Algorithm that Masters Chess, Shogi, and Go through Self-Play.* Science, 362(6419), 1140–1144.
 
-https://doi.org/10.1126/science.aar6404
+[7](https://doi.org/10.1126/science.aar6404)
 
 **[8] IBM.** *Deep Blue.* Historia del sistema que derrotó a Garry Kasparov en 1997.
 
-https://www.ibm.com/history/deep-blue
+[8](https://www.ibm.com/history/deep-blue)
 
 **[9] Campbell, Murray; Hoane, A. Joseph Jr.; Hsu, Feng-Hsiung (2002).** *Deep Blue.* Artificial Intelligence, 134(1–2), 57–83.
 
-https://research.ibm.com/publications/deep-blue
+[9](https://research.ibm.com/publications/deep-blue)
 
 **[10] DeepMind (2018).** *AlphaZero: Shedding New Light on Chess, Shogi, and Go.* Explicación institucional del método y resultados.
 
-https://deepmind.google/blog/alphazero-shedding-new-light-on-chess-shogi-and-go/
+[10](https://deepmind.google/blog/alphazero-shedding-new-light-on-chess-shogi-and-go/)
 
 **[11] Pascutto, Gian-Carlo; Linscott, Gary y colaboradores.** *Leela Chess Zero.* Implementación abierta de búsqueda neuronal MCTS y redes compatibles con LC0.
 
-https://github.com/LeelaChessZero/lc0
+[11](https://github.com/LeelaChessZero/lc0)
 
 **[12] Chaslot, Guillaume, et al. (2008).** *Parallel Monte-Carlo Tree Search.* Computers and Games. Trabajo sobre paralelización de MCTS.
 
@@ -10965,7 +10992,7 @@ $V^*(s)$
 
 y seleccionar:
 
-$m^*=\arg\max_{m\in M(s)}\left[-V^*(T(s,m))\right]$
+$$m^*=\arg\max_{m\in M(s)}\left[-V^*(T(s,m))\right]$$
 
 cuando el valor se expresa desde la perspectiva del jugador que debe mover.
 
@@ -10973,7 +11000,7 @@ Sin embargo, el número de posiciones posibles y la amplitud del árbol impiden 
 
 Stockfish sustituye esa solución ideal por una aproximación de presupuesto finito:
 
-$\widehat V(s;C)=\text{Search}\left(s,C,E_{\mathrm{NNUE}},H,TT\right)$
+$$\widehat V(s;C)=\text{Search}\left(s,C,E_{\mathrm{NNUE}},H,TT\right)$$
 
 donde:
 
@@ -11062,19 +11089,19 @@ Se mantienen estructuras para tipos de piezas, colores y ocupación.
 
 Conceptualmente:
 
-$B_{\mathrm{ocupadas}}=B_{\mathrm{blancas}}\lor B_{\mathrm{negras}}$
+$$B_{\mathrm{ocupadas}}=B_{\mathrm{blancas}}\lor B_{\mathrm{negras}}$$
 
 La intersección de conjuntos de casillas puede calcularse mediante AND:
 
-$A\cap B=A\land B$
+$$A\cap B=A\land B$$
 
 Su unión mediante OR:
 
-$A\cup B=A\lor B$
+$$A\cup B=A\lor B$$
 
 Y la eliminación de determinadas casillas mediante:
 
-$A\setminus B=A\land\neg B$
+$$A\setminus B=A\land\neg B$$
 
 Esta arquitectura permite procesar múltiples casillas simultáneamente utilizando operaciones enteras de 64 bits.
 
@@ -11091,7 +11118,7 @@ La complejidad de muchas consultas se reduce a unas pocas instrucciones del proc
 
 Por ejemplo, el número de piezas presentes en un bitboard puede calcularse como:
 
-$n=\text{popcount}(B)$
+$$n=\text{popcount}(B)$$
 
 Para torres y alfiles es necesario determinar cómo afectan las piezas ocupantes a las líneas de ataque.
 
@@ -11099,7 +11126,7 @@ Stockfish utiliza tablas de ataques indexadas por configuraciones de ocupación 
 
 La idea general es:
 
-$A(p,s,O)=\text{AttackTable}\left(p,s,I(O)\right)$
+$$A(p,s,O)=\text{AttackTable}\left(p,s,I(O)\right)$$
 
 donde:
 
@@ -11126,7 +11153,7 @@ Stockfish mantiene también:
 
 La posición completa puede representarse conceptualmente como:
 
-$P=(B,C,R,EP,H,K,U)$
+$$P=(B,C,R,EP,H,K,U)$$
 
 donde $B$ representa la ocupación, $C$ el bando al turno, $R$ los derechos de enroque, $EP$ la captura al paso, $H$ el contador de la regla de cincuenta movimientos, $K$ la clave de Zobrist y $U$ el estado reversible.
 
@@ -11136,7 +11163,7 @@ El generador utiliza la representación bitboard y la información de ataques.
 
 Para una pieza $p$en la casilla $s$, el conjunto de destinos potenciales puede expresarse como:
 
-$D(p,s,P)=A(p,s,P)\setminus O_{\mathrm{propio}}$
+$$D(p,s,P)=A(p,s,P)\setminus O_{\mathrm{propio}}$$
 
 No todos los destinos potenciales son necesariamente legales.
 
@@ -11144,7 +11171,7 @@ Una jugada es legal solamente si, después de ejecutarla, el propio rey no queda
 
 En términos formales:
 
-$\text{Legal}(P,m)\iff\neg\text{Check}\left(T(P,m),c(P)\right)$
+$$\text{Legal}(P,m)\iff\neg\text{Check}\left(T(P,m),c(P)\right)$$
 
 La generación puede utilizar información de clavadas y de jaques para evitar comprobar reiteradamente movimientos evidentemente inválidos.
 
@@ -11158,11 +11185,11 @@ Stockfish aplica y deshace movimientos durante la exploración del árbol.
 
 Conceptualmente:
 
-$P'=T(P,m)$
+$$P'=T(P,m)$$
 
 Después de explorar la rama:
 
-$P=T^{-1}(P',m,U)$
+$$P=T^{-1}(P',m,U)$$
 
 La estructura $U$ registra la información necesaria para restaurar el estado.
 
@@ -11176,7 +11203,12 @@ La actualización incremental evita recalcular completamente determinadas estruc
 
 En un juego de suma cero, el valor ideal de una posición puede escribirse:
 
-$$V(s)=\begin{cases}\max_m V(T(s,m)), & \text{juegan blancas}\\\min_m V(T(s,m)), & \text{juegan negras}\end{cases}$$
+$$
+V(s) = \begin{cases}
+\max_m V(T(s,m)), & \text{juegan blancas} \\
+\min_m V(T(s,m)), & \text{juegan negras}
+\end{cases}
+$$
 
 suponiendo que los valores positivos favorecen a blancas.
 
@@ -11184,11 +11216,11 @@ Stockfish utiliza una formulación de búsqueda de tipo negamax, que aprovecha l
 
 Definiendo la evaluación desde la perspectiva del bando al turno:
 
-$N(s,d)=\max_{m\in M(s)}\left[-N(T(s,m),d-1)\right]$
+$$N(s,d)=\max_{m\in M(s)}\left[-N(T(s,m),d-1)\right]$$
 
 con:
 
-$N(s,0)=E(s)$
+$$N(s,0)=E(s)$$
 
 La negación transforma automáticamente la perspectiva entre jugadores.
 
@@ -11198,7 +11230,7 @@ Los resultados de mate y tablas tienen prioridad sobre la evaluación neuronal.
 
 Si el jugador al turno está en jaque mate:
 
-$N(s,d)=-M+\text{ply}$
+$$N(s,d)=-M+\text{ply}$$
 
 donde $M$ es una constante de mate suficientemente grande.
 
@@ -11210,13 +11242,13 @@ Las tablas reciben valores cercanos a cero, aunque el motor puede aplicar peque�
 
 Alfa-beta mantiene dos límites:
 
-$\alpha=\text{mejor valor inferior conocido}$
+$$\alpha=\text{mejor valor inferior conocido}$$
 
-$\beta=\text{límite superior relevante}$
+$$\beta=\text{límite superior relevante}$$
 
 La búsqueda puede detener una rama si:
 
-$\alpha\geq\beta$
+$$\alpha\geq\beta$$
 
 porque ya no puede modificar la decisión del antecesor.
 
@@ -11259,11 +11291,11 @@ El Stockfish real utiliza una implementación mucho más compleja, con reduccion
 
 Para un factor de ramificación $b$ y profundidad $d$ , una búsqueda completa tiene complejidad aproximada:
 
-$O(b^d)$
+$$O(b^d)$$
 
 Con ordenación ideal, alfa-beta puede aproximarse a:
 
-$O(b^{d/2})$
+$$O(b^{d/2})$$
 
 Esta reducción es teórica y depende fuertemente de la calidad del orden de exploración.
 
@@ -11276,9 +11308,9 @@ La PV representa la mejor secuencia de jugadas encontrada hasta ese momento, baj
 La técnica PVS utiliza ventanas estrechas para examinar candidatos que probablemente no mejoren la línea principal.
 En una búsqueda de valores enteros, una ventana nula puede representarse como:
 
-$[\alpha,\alpha+1)$
+$$[\alpha,\alpha+1)$$
 
-Si el movimiento no mejora $\alpha$, puede descartarse con una búsqueda relativamente económica.
+Si el movimiento no mejora $\alpha$ , puede descartarse con una búsqueda relativamente económica.
 
 Si produce un resultado superior, puede ser necesario repetirlo con una ventana mayor.
 
@@ -11366,7 +11398,7 @@ Se asignan valores pseudoaleatorios a características del estado, tales como pi
 
 La clave se obtiene combinándolos mediante XOR:
 
-$K(P)=\bigoplus_{i\in F(P)}Z_i$
+$$K(P)=\bigoplus_{i\in F(P)}Z_i$$
 
 donde $F(P)$ reúne las características relevantes.
 
@@ -11374,7 +11406,7 @@ Cuando se realiza una jugada, la clave puede actualizarse incrementalmente aplic
 
 Una entrada conceptual es:
 
-$TT[K(P)]=(d,v,B,m,g)$
+$$TT[K(P)]=(d,v,B,m,g)$$
 
 donde:
 
@@ -11386,11 +11418,11 @@ donde:
 
 Los tipos principales son:
 
-$EXACT:\quad V(P)=v$
+$$EXACT:\quad V(P)=v$$
 
-$LOWER:\quad V(P)\geq v$
+$$LOWER:\quad V(P)\geq v$$
 
-$UPPER:\quad V(P)\leq v$
+$$UPPER:\quad V(P)\leq v$$
 
 No todos los resultados almacenados son valores exactos.
 
@@ -11426,7 +11458,7 @@ El motor utiliza información como:
 
 Puede expresarse una prioridad conceptual:
 
-$P(m,s)=w_1H(m,s)+w_2C(m,s)+w_3T(m,s)+\cdots$
+$$P(m,s)=w_1H(m,s)+w_2C(m,s)+w_3T(m,s)+\cdots$$
 
 Esta expresión representa una combinación abstracta de señales.
 
@@ -11434,7 +11466,7 @@ No debe interpretarse como una fórmula literal de una versión específica.
 
 Es importante distinguir:
 
-$P(m,s)\neq V(T(s,m))$
+$$P(m,s)\neq V(T(s,m))$$
 
 La prioridad del movimiento no es necesariamente su valoración ajedrecística.
 
@@ -11448,7 +11480,7 @@ Sea $s$ la casilla donde se produce el intercambio.
 
 Una aproximación conceptual es:
 
-$SEE(P,s)=\max\left(0,v_{\mathrm{captura}}-SEE(P',s)\right)$
+$$SEE(P,s)=\max\left(0,v_{\mathrm{captura}}-SEE(P',s)\right)$$
 
 La evaluación considera el orden de capturas y recapturas, los valores de las piezas y restricciones como clavadas.
 
@@ -11468,7 +11500,7 @@ Si una jugada aparece tarde después de ordenar los candidatos, es razonable inv
 
 La profundidad reducida puede escribirse:
 
-$d'=d-1-r(d,n,c)$
+$$d'=d-1-r(d,n,c)$$
 
 donde:
 
@@ -11479,13 +11511,13 @@ donde:
 
 Una forma ilustrativa es:
 
-$r(d,n)\approx a+b\ln(d)\ln(n)$
+$$r(d,n)\approx a+b\ln(d)\ln(n)$$
 
 Los coeficientes reales y las correcciones dependen de la revisión del motor.
 
 Si la búsqueda reducida produce un resultado inesperadamente favorable:
 
-$v>\alpha$
+$$v>\alpha$$
 
 Stockfish puede efectuar una búsqueda con menor reducción o profundidad completa.
 
@@ -11511,17 +11543,17 @@ En muchas posiciones, si un jugador puede conservar una ventaja incluso cediendo
 
 Se examina una transición hipotética:
 
-$P'=T_{\mathrm{null}}(P)$
+$$P'=T_{\mathrm{null}}(P)$$
 
 que cambia el bando al turno sin desplazar ninguna pieza.
 
 Después se realiza una búsqueda reducida:
 
-$v_{\mathrm{null}}=-\text{Search}\left(P',d-R,-\beta,-\beta+1\right)$
+$$v_{\mathrm{null}}=-\text{Search}\left(P',d-R,-\beta,-\beta+1\right)$$
 
 Si:
 
-$v_{\mathrm{null}}\geq\beta$
+$$v_{\mathrm{null}}\geq\beta$$
 
 la rama puede considerarse candidata a poda.
 
@@ -11545,7 +11577,7 @@ Se intenta reconocer movimientos que, aun mejorando razonablemente la evaluació
 
 Una condición conceptual es:
 
-$E(P)+\Delta(d)<\alpha$
+$$E(P)+\Delta(d)<\alpha$$
 
 donde $\Delta(d)$ es un margen dependiente de la profundidad.
 
@@ -11553,7 +11585,7 @@ Si la evaluación estática supera ampliamente el límite beta a profundidad red
 
 Conceptualmente:
 
-$E(P)-\Delta(d)\geq\beta$
+$$E(P)-\Delta(d)\geq\beta$$
 
 ProbCut intenta identificar ramas que, mediante una búsqueda reducida con una ventana apropiada, probablemente superarían beta.
 
@@ -11581,7 +11613,7 @@ La búsqueda de quiescence prolonga selectivamente el análisis.
 
 Una formulación simplificada es:
 
-$Q(P,\alpha,\beta)=\max\left(E(P),\max_{m\in C(P)}[-Q(T(P,m),-\beta,-\alpha)]\right)$
+$$Q(P,\alpha,\beta)=\max\left(E(P),\max_{m\in C(P)}[-Q(T(P,m),-\beta,-\alpha)]\right)$$
 
 donde $C(P)$ es un subconjunto táctico de movimientos.
 
@@ -11603,7 +11635,7 @@ A diferencia de redes convolucionales grandes utilizadas por otros motores, NNUE
 
 La posición se transforma en un conjunto de características:
 
-$x(P)\in\{0,1\}^{N}$
+$$x(P)\in\{0,1\}^{N}$$
 
 El vector puede contener información relacionada con:
 
@@ -11618,7 +11650,7 @@ Las características exactas dependen de la versión de Stockfish.
 
 La primera transformación es:
 
-$a(P)=Wx(P)+b$
+$$a(P)=Wx(P)+b$$
 
 El vector $x(P)$ es disperso.
 
@@ -11626,7 +11658,7 @@ Si una característica está desactivada, no contribuye a la suma.
 
 Por ello puede escribirse:
 
-$a(P)=b+\sum_{i:x_i(P)=1}W_i$
+$$a(P)=b+\sum_{i:x_i(P)=1}W_i$$
 
 donde $W_i$ es la columna correspondiente de la matriz de pesos.
 
@@ -11636,25 +11668,25 @@ La ventaja esencial aparece cuando se ejecuta una jugada.
 
 Si:
 
-$x(P')=x(P)+\Delta x$
+$$x(P')=x(P)+\Delta x$$
 
 entonces:
 
-$a(P')=Wx(P')+b$
+$$a(P')=Wx(P')+b$$
 
 Sustituyendo:
 
-$a(P')=W(x(P)+\Delta x)+b$
+$$a(P')=W(x(P)+\Delta x)+b$$
 
 y por linealidad:
 
-$\boxed{a(P')=a(P)+W\Delta x}$
+$$\boxed{a(P')=a(P)+W\Delta x}$$
 
 Como una jugada normalmente modifica pocas características, $\Delta x$ contiene relativamente pocos elementos distintos de cero.
 
 Por tanto:
 
-$a(P')=a(P)+\sum_{i\in A}W_i-\sum_{j\in R}W_j$
+$$a(P')=a(P)+\sum_{i\in A}W_i-\sum_{j\in R}W_j$$
 
 donde:
 
@@ -11672,7 +11704,7 @@ En una representación simplificada:
 
 Entonces:
 
-$a(P')=a(P)-W_{\mathrm{Ra1}}+W_{\mathrm{Ra4}}$
+$$a(P')=a(P)-W_{\mathrm{Ra1}}+W_{\mathrm{Ra4}}$$
 
 La arquitectura real puede modificar más características, especialmente cuando intervienen perspectivas de rey, amenazas o relaciones entre piezas.
 
@@ -11722,17 +11754,17 @@ Las características declaradas incluyen conjuntos de piezas y casillas, amenaza
 
 Conceptualmente:
 
-$h_0=\text{FeatureTransform}(P)$
+$$h_{0}=\text{FeatureTransform}(P)$$
 
-$z_1=W_1h_0+b_1$
+$z_{1}=W_{1}h_{0}+b_{1}$
 
-$h_1=\phi(z_1)$
+$h_{1}=\phi(z_{1})$
 
-$z_2=W_2h_1+b_2$
+$z_{2}=W_{2}h_{1}+b_{2}$
 
-$h_2=\phi(z_2)$
+$h_{2}=\phi(z_{2})$
 
-$y=W_3h_2+b_3$
+$y=W_{3}h_{2}+b_{3}$
 
 Esta es una simplificación algebraica: la arquitectura real utiliza concatenaciones y combinaciones de activaciones que no quedan representadas completamente por una cadena densa convencional.
 
@@ -11752,19 +11784,19 @@ Para acelerar la inferencia, los parámetros y activaciones pueden representarse
 
 Una cuantización conceptual es:
 
-$q=\text{round}\left(\frac{x}{s}\right)$
+$$q=\text{round}\left(\frac{x}{s}\right)$$
 
 donde $s$ es una escala.
 
 La aproximación reconstruida es:
 
-$\widehat x=sq$
+$$\widehat x=sq$$
 
 La cuantización reduce costos de memoria y permite aprovechar instrucciones vectoriales de CPU.
 
 Sin embargo, introduce error numérico:
 
-$\varepsilon=x-\widehat x$
+$$\varepsilon=x-\widehat x$$
 
 El diseño debe controlar la acumulación de estos errores y evitar desbordamientos.
 
@@ -11798,7 +11830,7 @@ El entrenamiento utiliza conjuntos masivos de posiciones y objetivos de evaluaci
 
 Una formulación genérica puede combinar resultados de partidas y evaluaciones objetivo:
 
-$L(\theta)
+$$L(\theta)
 =
 \frac{1}{N}
 \sum_{i=1}^{N}
@@ -11807,7 +11839,7 @@ $L(\theta)
 f_\theta(P_i),
 y_i
 \right)
-$
+$$
 
 donde:
 
@@ -11848,16 +11880,16 @@ La evaluación puede ajustarse mediante información adicional sobre:
 
 Conceptualmente:
 
-$E_{\mathrm{final}}(P)
+$$E_{\mathrm{final}}(P)
 =
 S\left(
 E_{\mathrm{NNUE}}(P),
 M(P),
 R_{50}(P),
 O(P)
-\right)$
+\right)$$
 
-donde $S$representa la función de escalado.
+donde $S$ representa la función de escalado.
 
 Esto no equivale a volver al antiguo evaluador clásico.
 
@@ -11907,13 +11939,13 @@ Stockfish distingue entre evaluaciones internas y valores comunicados mediante U
 La evaluación utilizada por negamax suele expresarse desde la perspectiva del jugador al turno.
 Para normalizar una evaluación desde la perspectiva de blancas:
 
-$
+$$
 E_W(P)=
 \begin{cases}
 E_{\mathrm{stm}}(P), & \text{mueven blancas}\\
 -E_{\mathrm{stm}}(P), & \text{mueven negras}
 \end{cases}
-$
+$$
 
 Sin embargo, debe comprobarse la convención efectiva de la interfaz antes de aplicar conversiones.
 
@@ -11937,7 +11969,7 @@ Tampoco corresponde interpretar el valor como una probabilidad directa de victor
 
 ## Syzygy Tablebases
 
-Stockfish puede utilizar tablas de finales Syzygy.
+Stockfish puede utilizar tablas de finales *Syzygy*.
 
 >Las tablas de finales Syzygy son bases de datos informáticas de ajedrez que contienen la verdad absoluta y el cálculo perfecto para cualquier posición de final con 7 piezas o menos (incluyendo ambos reyes)
 >Estas bases proporcionan información exacta sobre determinados finales cubiertos por su configuración.
@@ -11951,13 +11983,13 @@ Cuando una posición está cubierta, el motor puede sustituir parte de su análi
 
 Conceptualmente:
 
-$
+$$
 V(P)=
 \begin{cases}
 V_{\mathrm{TB}}(P), & P\in D_{\mathrm{TB}}\\
 \widehat V(P), & \text{en otro caso}
 \end{cases}
-$
+$$
 
 Las consultas también pueden proporcionar información de cotas útil para podar.
 
@@ -12022,7 +12054,7 @@ La decisión depende de:
 
 Puede expresarse conceptualmente:
 
-$t_{\mathrm{jugada}}
+$$t_{\mathrm{jugada}}
 =
 t_{\mathrm{base}}
 \cdot
@@ -12030,7 +12062,7 @@ f_{\mathrm{estabilidad}}
 \cdot
 f_{\mathrm{valor}}
 \cdot
-f_{\mathrm{esfuerzo}}$
+f_{\mathrm{esfuerzo}}$$
 
 Esta expresión describe las familias de factores utilizadas, no una fórmula literal de la implementación.
 
@@ -12060,11 +12092,11 @@ $NPS=\frac{N}{t}$
 
 **Tiempo por nodo:**
 
-$t_n=\frac{t}{N}$
+$$t_n=\frac{t}{N}$$
 
 Si el tiempo se expresa en milisegundos:
 
-$t_n[\mathrm{ms}]=\frac{1000t[\mathrm{s}]}{N}$
+$$t_n[\mathrm{ms}]=\frac{1000t[\mathrm{s}]}{N}$$
 
 Un NPS elevado indica que el motor procesa muchos nodos por unidad de tiempo.
 
@@ -12082,7 +12114,7 @@ Una medida experimental más informativa es la calidad de decisión obtenida baj
 
 Por ejemplo:
 
-$Q(C)=\text{Performance}\left(\text{Engine},C\right)$
+$$Q(C)=\text{Performance}\left(\text{Engine},C\right)$$
 
 donde $C$puede representar tiempo por jugada, nodos o presupuesto computacional.
 
@@ -12098,13 +12130,13 @@ El objetivo es determinar si el cambio mejora la fuerza real del motor.
 
 Sea:
 
-$H_0:\Delta Elo\leq0$
+$$H_0:\Delta Elo\leq0$$
 
 la hipótesis de que la modificación no mejora el rendimiento.
 
 Y:
 
-$H_1:\Delta Elo>0$
+$$H_1:\Delta Elo>0$$
 
 la hipótesis alternativa.
 
@@ -12114,7 +12146,7 @@ El Sequential Probability Ratio Test permite evaluar evidencia acumulada y deten
 
 Una formulación abstracta utiliza:
 
-$\Lambda_n=\log\frac{L(\text{datos}_n\mid H_1)}{L(\text{datos}_n\mid H_0)}$
+$$\Lambda_n=\log\frac{L(\text{datos}_n\mid H_1)}{L(\text{datos}_n\mid H_0)}$$
 
 y compara este valor con umbrales de aceptación o rechazo.
 
@@ -12134,22 +12166,22 @@ Son parámetros obtenidos mediante optimización experimental.
 
 La política de Stockfish puede describirse mediante:
 
-$
+$$
 m^*=
 \arg\max_{m\in M(P)}
 \widehat Q(P,m)
-$
+$$
 
 donde:
 
-$
+$$
 \widehat Q(P,m)
 =
 -\text{Search}
 \left(
 T(P,m),C_m
 \right)
-$
+$$
 
 y $C_m$ representa el esfuerzo computacional asignado a la variante.
 
@@ -12191,7 +12223,7 @@ El movimiento finalmente seleccionado es el mejor encontrado por el proceso de b
 
 Stockfish combina numerosas técnicas que reducen drásticamente la cantidad de ramas examinadas respecto de una búsqueda exhaustiva.
 
-NNUE proporciona una representación aprendida de las características ajedrecísticas sin exigir una GPU para cada evaluación.
+El uso de una NNUE proporciona una representación aprendida de las características ajedrecísticas sin exigir una extensiva exploración de ramas para cada evaluación.
 
 La combinación de bitboards, SIMD, acumuladores y estructuras compactas permite procesar grandes cantidades de nodos.
 
@@ -12257,64 +12289,60 @@ La característica más importante de Stockfish es que distribuye el presupuesto
 
 Si:
 
-$C=\sum_i C_i$
+$$C=\sum_i C_i$$
 
 representa el presupuesto total, el motor asigna más recursos a ramas consideradas prometedoras.
 
 Idealmente, la asignación debería depender de la probabilidad de que una rama cambie la decisión:
 
-$
+$$
 C_i\propto
 \Pr\left(
 \text{rama }i\text{ altera la decisión}
 \mid I
 \right)
-$
-
-Esta ecuación es una interpretación conceptual, no un cálculo explícito de probabilidades en Stockfish.
+$$
 
 Las heurísticas de historia, las reducciones, la ordenación y las búsquedas de verificación funcionan como aproximaciones operativas a ese principio.
 
-Stockfish no intenta conocer perfectamente todas las ramas.
-
-Intenta invertir el esfuerzo necesario para identificar la mejor jugada con el menor costo posible.
+Stockfish no intenta conocer perfectamente todas las ramas, Intenta invertir el esfuerzo necesario para identificar la mejor jugada con el menor costo posible.
 
 
 **[1] Stockfish Developers.** *Stockfish: Official Source Code.* Repositorio oficial de desarrollo. Incluye el motor, algoritmos de búsqueda, representación, evaluación y comunicación UCI.  
-https://github.com/official-stockfish/Stockfish
+[1](https://github.com/official-stockfish/Stockfish)
 
 **[2] Stockfish Developers (2026).** *Stockfish 19.* Publicación oficial del 5 de septiembre de 2026. Describe SFNNv16, nuevas características neuronales y mejoras de entrenamiento.  
-https://stockfishchess.org/blog/2026/stockfish-19/
+[2](https://stockfishchess.org/blog/2026/stockfish-19/)
 
 **[3] Stockfish Developers (2026).** *Stockfish 19 — search.cpp.* Implementación de la búsqueda, profundización, podas, LMR, quiescence y heurísticas.  
-https://github.com/official-stockfish/Stockfish/blob/sf_19/src/search.cpp
+[3](https://github.com/official-stockfish/Stockfish/blob/sf_19/src/search.cpp)
 
 **[4] Stockfish Developers (2026).** *Stockfish 19 — position.cpp.* Representación de posiciones, aplicación y restauración de movimientos, reglas y estado.  
-https://github.com/official-stockfish/Stockfish/blob/sf_19/src/position.cpp
+[4](https://github.com/official-stockfish/Stockfish/blob/sf_19/src/position.cpp)
 
 **[5] Stockfish Developers (2026).** *Stockfish 19 — movepick.cpp.* Ordenación y selección de movimientos mediante estadísticas, SEE y otras heurísticas.  
-https://github.com/official-stockfish/Stockfish/blob/sf_19/src/movepick.cpp
+[5](https://github.com/official-stockfish/Stockfish/blob/sf_19/src/movepick.cpp)
 
 **[6] Stockfish Developers (2026).** *Stockfish 19 — evaluate.cpp.* Evaluación neuronal, escalado y representación de puntuaciones.  
-https://github.com/official-stockfish/Stockfish/blob/sf_19/src/evaluate.cpp
+[6](https://github.com/official-stockfish/Stockfish/blob/sf_19/src/evaluate.cpp)
 
 **[7] Stockfish Developers (2026).** *Stockfish 19 — nnue_architecture.h.* Arquitectura de capas neuronales, dimensiones y activaciones.  
-https://github.com/official-stockfish/Stockfish/blob/sf_19/src/nnue/nnue_architecture.h
+[7](https://github.com/official-stockfish/Stockfish/blob/sf_19/src/nnue/nnue_architecture.h)
 
 **[8] Stockfish Developers.** *NNUE PyTorch.* Herramientas y documentación del entrenamiento de redes NNUE.  
-https://github.com/official-stockfish/nnue-pytorch
+[8](https://github.com/official-stockfish/nnue-pytorch)
 
 **[9] Stockfish Developers.** *Stockfish Documentation.* Documentación oficial, terminología, configuración y funcionamiento.  
-https://official-stockfish.github.io/docs/stockfish-wiki/
+[9](https://official-stockfish.github.io/docs/stockfish-wiki/)
 
 **[10] Stockfish Developers.** *Fishtest.* Infraestructura distribuida de pruebas estadísticas para el desarrollo del motor.  
-https://github.com/official-stockfish/fishtest
+[10](https://github.com/official-stockfish/fishtest)
 
 **[11] Chess Programming Wiki.** *Alpha-Beta*, *Principal Variation Search*, *Late Move Reductions*, *Quiescence Search* y *Static Exchange Evaluation*. Referencias conceptuales para los algoritmos utilizados en motores de ajedrez.  
-https://www.chessprogramming.org/
+[11](https://www.chessprogramming.org/)
 
 **[12] Romstad, Tord; Costalba, Marco; Kiiski, Joona, y colaboradores.** *Stockfish Project History.* Historia del proyecto y evolución desde Glaurung.  
-https://stockfishchess.org/about/
+[12](https://stockfishchess.org/about/)
 
 
 # CAP 12 Leela Chess Zero (LC0)
@@ -12356,7 +12384,14 @@ En el motor, v0.32 introdujo una interfaz de búsqueda y otra de backend más de
 
 Sea `s` una posición con historial suficiente para evaluar reglas y repeticiones y `A(s)` sus jugadas legales. La red parametrizada por pesos `θ` aproxima
 
-$f_\theta(s) = \bigl(p_\theta(\cdot\mid s),\ v_\theta(s),\ m_\theta(s)\bigr).$
+Texto anterior.
+
+$$
+f_\theta(s) = \left(p_\theta(\cdot \mid s), \; v_\theta(s), \; m_\theta(s)\right).
+$$
+
+Texto siguiente.
+
 
 - `pθ(a|s)` es una política para elegir jugadas; la distribución se normaliza sobre las jugadas legales.
 - `vθ(s)` estima la perspectiva de resultado del jugador al turno. Si hay cabeza WDL, `W + D + L = 1` y un escalar frecuente es `Q = W − L` (equivalente a `2W + D − 1`).
@@ -12369,7 +12404,12 @@ La interfaz histórica de Lc0 declara **112 planos** de 8×8. Un plano se repres
 Formalmente:
 
 
-$X\in\mathbb{R}^{C\times8\times8},\quad C=112\quad\text{(formato histórico usual)},$
+Texto anterior del párrafo.
+
+$$
+X \in \mathbb{R}^{C \times 8 \times 8}, \quad C = 112 \quad \text{(formato histórico usual)},
+$$
+
 
 pero las reglas exactas de orientación, historial y transformaciones deben tomarse del `InputFormat` y del codificador de la versión concreta.
 
@@ -12378,37 +12418,37 @@ pero las reglas exactas de orientación, historial y transformaciones deben toma
 En cada nodo de búsqueda, para una acción `a` se mantienen visitas `N(s,a)`, valor acumulado/promedio `Q(s,a)` y prior neuronal `P(s,a)`. Una forma representativa de la regla PUCT es
 
 
-$a^*=\arg\max_{a\in A(s)}\left[Q(s,a)+c_{\rm puct}P(s,a)\frac{\sqrt{\sum_b N(s,b)}}{1+N(s,a)}\right]$
+$$a^*=\arg\max_{a\in A(s)}\left[Q(s,a)+c_{\rm puct}P(s,a)\frac{\sqrt{\sum_b N(s,b)}}{1+N(s,a)}\right]$$
 
 
 El algoritmo desciende por las acciones de máxima puntuación, evalúa con la red al alcanzar una hoja, expande acciones legales y propaga el resultado con inversión de perspectiva entre bandos. En búsqueda paralela aparecen técnicas como *virtual loss* y mecanismos de concurrencia. La fórmula anterior explica el principio, **no** sustituye la especificación exacta de las variantes y ajustes implementados en cada versión. [3][14]
 
 Tras las simulaciones se puede definir una política mejorada por visitas:
 
-$\pi(a\mid s)=\frac{N(s,a)^{1/\tau}}{\sum_{b\in A(s)}N(s,b)^{1/\tau}},$
+$$\pi(a\mid s)=\frac{N(s,a)^{1/\tau}}{\sum_{b\in A(s)}N(s,b)^{1/\tau}},$$
 
 con temperatura `τ` ajustable. Un `τ` pequeño favorece la acción más visitada, mientras que uno mayor incrementa diversidad.
 
 Un esquema canónico inspirado en AlphaZero minimiza
 
-$L(\theta)=
+$$L(\theta)=
  -\sum_a\pi(a\mid s)\log p_\theta(a\mid s)
- +(z-v_\theta(s))^2+\lambda\lVert\theta\rVert_2^2.$
+ +(z-v_\theta(s))^2+\lambda\lVert\theta\rVert_2^2.$$
 
 Para una cabeza WDL se reemplaza el término escalar por entropía cruzada:
 
-$L_{\rm WDL}=-\sum_{k\in\{W,D,L\}} y_k\log \hat y_k.$
+$$L_{\rm WDL}=-\sum_{k\in\{W,D,L\}} y_k\log \hat y_k.$$
 
 Y si se entrena una cabeza de duración se agrega, por ejemplo, `λ_m L_moves`. Los coeficientes y objetivos reales cambian entre *runs*: no hay una única función de costo inmutable del proyecto. El ciclo operativo consiste en autojuego → registros `(estado, π, resultado)` → entrenamiento de nueva red → pruebas → despliegue → nuevo autojuego. [9][15]
 
-**Límite fundamental:** mejorar la predicción de resultados en un conjunto de validación no garantiza mejorar la fuerza cuando la red interactúa con una búsqueda MCTS. La latencia, calibración de política y selección del conjunto de posiciones importan tanto como la pérdida de entrenamiento.
+Mejorar la predicción de resultados en un conjunto de validación no garantiza mejorar la fuerza cuando la red interactúa con una búsqueda MCTS. La latencia, calibración de política y selección del conjunto de posiciones importan tanto como la pérdida de entrenamiento.
 
 ## Familias de redes y evolución arquitectónica
 
 En las redes convolucionales residuales el núcleo clásico consiste en una transformación inicial a `F` canales y `B` bloques residuales. Para un bloque simple,
 
 
-$H_{k+1}=\sigma\!\big(H_k+\mathcal F_k(H_k;\theta_k)\big),$
+$$H_{k+1}=\sigma\!\big(H_k+\mathcal F_k(H_k;\theta_k)\big),$$
 
 con convoluciones 3×3 y normalización/activaciones según la generación. La suma residual facilita el flujo del gradiente en redes profundas. La carga computacional dominante crece aproximadamente como
 
@@ -12419,15 +12459,15 @@ A igualdad de condiciones, pasar de 10×128 a 24×320 multiplica el factor `B·F
 En el mecanismo denominado *squeeze and excitation* la activación de cada canal se repondera según un resumen global del tablero:
 
 
-$z_c=\frac1{64}\sum_{i,j}H_{cij},\quad
+$$z_c=\frac1{64}\sum_{i,j}H_{cij},\quad
  g=\sigma(W_2\delta(W_1z)),\quad
- \tilde H_{cij}=g_cH_{cij}.$
+ \tilde H_{cij}=g_cH_{cij}.$$
 
 Esto permite condicionar la importancia de patrones espaciales a la configuración global de la posición, con un costo paramétrico relativamente pequeño. Las descripciones clásicas del backend de Lc0 identifican explícitamente torres residuales SE y tamaños como 10×128, 20×256 o 24×320. [17]
 
 La **policy head** transforma la representación compartida en puntuaciones sobre jugadas posibles, posteriormente enmascaradas por legalidad:
 
-$P(a\mid s)=\frac{\exp(\ell_a/T)}{\sum_{b\in A(s)}\exp(\ell_b/T)}.$
+$$P(a\mid s)=\frac{\exp(\ell_a/T)}{\sum_{b\in A(s)}\exp(\ell_b/T)}.$$
 
 Históricamente hubo cabezas de política convolucionales y, después, basadas en atención. La cabeza de valor se amplió de un resultado esperado único a WDL. La cabeza de jugadas restantes sirve a decisiones de búsqueda/tiempo y no modifica por sí misma la política. Las opciones concretas están declaradas en la metadata `network_format` del archivo de pesos. [3][17]
 
@@ -12435,8 +12475,8 @@ Históricamente hubo cabezas de política convolucionales y, después, basadas e
 
 Una arquitectura Transformer representa casillas como tokens `H∈R^{64×d}` y calcula atención
 
-$\text{Attention}(Q,K,V)=
- \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}+B_{\rm geom}\right)V.$
+$$\text{Attention}(Q,K,V)=
+ \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}+B_{\rm geom}\right)V.$$
 
 `B_geom` es un sesgo dependiente de la geometría del ajedrez; **no** es simplemente la codificación posicional secuencial de un modelo de lenguaje. Una cabeza de política puede estimar interacciones entre casillas de origen y destino, teniendo en cuenta promociones y movimientos especiales en su codificación. Para `L` capas y ancho `d`, el costo de proyecciones y MLP es aproximadamente `O(L·64·d²)` y la atención entre tokens añade `O(L·64²·d)`; las constantes, batch y backend dominan el rendimiento práctico. [11][12]
 

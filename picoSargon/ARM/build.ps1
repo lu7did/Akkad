@@ -47,9 +47,17 @@ $Root = Split-Path -Parent $Arm
 $Build = Join-Path $Arm 'build'
 
 $Embed = Join-Path $Root 'tools\ARM\embed_grumpy.py'
-$Weights = Join-Path $Arm 'assets\grumpy.bin'
+$Weights = Join-Path $Arm 'assets\bashful.bin'
 $Header = Join-Path $Arm 'include\generated_grumpy.hpp'
 $Config = Join-Path $Arm 'include\config.h'
+# Leer el PLL efectivo del archivo de configuracion local: no alterar config.h.
+$ConfigText = Get-Content -LiteralPath $Config -Raw
+$PllMatch = [regex]::Match($ConfigText, '(?m)^\s*inline\s+constexpr\s+unsigned\s+PLL_SYS\s*=\s*(\d+)\s*;')
+if (!$PllMatch.Success) {
+    throw "No se encontro PLL_SYS numerico en $Config; no se compilara con una configuracion ambigua."
+}
+$ExpectedPll = [int]$PllMatch.Groups[1].Value
+
 
 foreach ($file in @(
     (Join-Path $Arm 'CMakeLists.txt'),
@@ -292,7 +300,7 @@ foreach ($folder in @(
 }
 
 # --------------------------------------------------
-# 5. Generacion de la red Grumpy en FLASH
+# 5. Generacion de la red Bashful en FLASH
 # --------------------------------------------------
 
 Write-Host '⚙️ picoSargon ARM' -ForegroundColor Cyan
@@ -300,11 +308,12 @@ Write-Host "BOARD=$Board STEROIDS=$Steroids TWINS=$Twins"
 Write-Host "SDK=$Sdk"
 Write-Host "GCC=$Gcc"
 Write-Host "BUILD=$Build"
+Write-Host "CONFIG=$Config PLL_SYS=$ExpectedPll MHz"
 
 & $Python $Embed --input $Weights --output $Header
 
 if ($LASTEXITCODE -ne 0) {
-    throw 'Fallo la generacion de generated_grumpy.hpp.'
+    throw 'Fallo la generacion de la red Bashful en FLASH.'
 }
 
 # --------------------------------------------------
@@ -330,6 +339,7 @@ $CMakeArgs = @(
     "-DPICO_BOARD=$Board",
     "-DSTEROIDS=$SteroidsFlag",
     "-DTWINS=$TwinsFlag",
+    "-DPICOSARGON_EXPECTED_PLL_SYS=$ExpectedPll",
     "-DPICO_SDK_PATH=$Sdk",
     "-DCMAKE_MAKE_PROGRAM=$Ninja",
     "-DCMAKE_C_COMPILER=$Gcc",

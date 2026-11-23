@@ -1,136 +1,210 @@
-[19:18:27] \U0001f4bb sargon-nurse v0.1.38 brain=polly type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
-[19:18:27] \u2699\ufe0f player=sargon-plus evaluator=genus-pst network=C:\Users\pedro\github\Bobby\Akkad\picoGen\assets\binpack-grumpy-pgpe-fp32-001\pst\best.json depth=2 qdepth=2 arguments={}
-[19:18:27] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
-[19:18:27] \U0001f680 subprocess pid=29924 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.sargon_plus', '--serve', '--config', '{"type": "nurse", "player": "sargon-plus", "evaluator": {"evaluator": "genus-pst", "network": "C:/Users/pedro/github/Bobby/Akkad/picoGen/assets/binpack-grumpy-pgpe-fp32-001/pst/best.json"}, "Depth": 2, "QDepth": 2, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\sargon_plus.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\genus_eval.py", "_player": "sargon-plus", "_evaluator": "genus-pst", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\picoGen\\\\assets\\\\binpack-grumpy-pgpe-fp32-001\\\\pst\\\\best.json", "_type": "nurse", "arguments": {}}']
-[19:18:27] \U0001f4cb child \u2699\ufe0f EXEC player=sargon-plus | evaluator=genus-pst | depth=2 [default=2] | qdepth=2 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x00/0 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
-[19:18:27] \U0001f4cb child \u26a1 TURBO mask=0x00 baseline=ON adaptive-actuators=OFF
-[19:18:27] \U0001f4cb child [19:18:27] \U0001f9e0 worker player=sargon-plus evaluator=genus-pst depth=2 qdepth=2 tmax=15000 timeout=30000 warmup_movetime=15000 network=C:\Users\pedro\github\Bobby\Akkad\picoGen\assets\binpack-grumpy-pgpe-fp32-001\pst\best.json arguments={}
-[19:18:27] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:28] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:29] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:30] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:32] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:34] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:36] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:38] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:40] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:42] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:45] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:48] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:51] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:54] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:18:58] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:02] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:05] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:09] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:11] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:13] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:15] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:17] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:18] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:21] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:22] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:24] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:25] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:26] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:27] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:28] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:29] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:30] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:32] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:34] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:35] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:37] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:39] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:41] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:41] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:42] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:44] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:46] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:48] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:50] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:52] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:54] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:19:57] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:00] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:02] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:05] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:08] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:12] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:16] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:20] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:23] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:25] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:28] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:31] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:35] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:38] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:39] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:41] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:42] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:43] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:45] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:46] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:48] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:48] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:48] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:50] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:51] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:52] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:53] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:54] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:55] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:57] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:20:58] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:00] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:02] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:03] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:05] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:07] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:10] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:12] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:14] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:17] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:17] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:19] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:21] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:22] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:24] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:26] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:28] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:30] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:31] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:32] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:33] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:34] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:34] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:35] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:36] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:36] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:36] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:37] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:37] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:38] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:38] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:39] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:40] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:40] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:41] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:41] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:42] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:42] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:43] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:43] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:45] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:45] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:46] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:47] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:48] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:50] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:53] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:55] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:21:58] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:22:01] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:22:04] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:22:06] \U0001f50e brain=polly go='go movetime 15000' tmax=15000ms timeout=30000ms
-[19:22:10] \U0001f4cb child [19:22:10] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[12:56:49] \U0001f4bb sargon-nurse v0.1.38 brain=luminex type=nurse ELO=1000 tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[12:56:49] \u2699\ufe0f player=sargon-plus evaluator=luminex network=C:\Users\pedro\github\Bobby\Akkad\nurse\assets\luminex\luminex-nnue-32.bin depth=4 qdepth=4 arguments={}
+[12:56:49] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[12:56:49] \U0001f680 subprocess pid=35948 cwd=C:\Users\pedro\github\bobby\akkad\nurse\scripts argv=['C:\\Users\\pedro\\ufasta\\scripts\\python.exe', '-u', '-m', 'nurse.players.sargon_plus', '--serve', '--config', '{"type": "nurse", "player": "sargon-plus", "evaluator": {"evaluator": "luminex", "network": "../assets/luminex/luminex-nnue-32.bin"}, "Depth": 4, "QDepth": 4, "tmax": 15000, "timeout": 30000, "ELO": 1000, "warmup_movetime": 15000, "_player_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\players\\\\sargon_plus.py", "_evaluator_python": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\src\\\\nurse\\\\evaluators\\\\luminex.py", "_player": "sargon-plus", "_evaluator": "luminex", "_network": "C:\\\\Users\\\\pedro\\\\github\\\\Bobby\\\\Akkad\\\\nurse\\\\assets\\\\luminex\\\\luminex-nnue-32.bin", "_type": "nurse", "arguments": {}}']
+[12:56:50] \U0001f4cb child \u2699\ufe0f EXEC player=sargon-plus | evaluator=luminex | depth=4 [default=2] | qdepth=4 [default=2] | tmax_ms=15000 [default=15000] | boost=0x0000/0 [default=0] | turbo=0x00/0 [default=0] | iterative_deepening=on | guardrail=normal-telemetry [levels/time]
+[12:56:50] \U0001f4cb child \u26a1 TURBO mask=0x00 baseline=ON adaptive-actuators=OFF
+[12:56:50] \U0001f4cb child [12:56:50] \U0001f9e0 worker player=sargon-plus evaluator=luminex depth=4 qdepth=4 tmax=15000 timeout=30000 warmup_movetime=15000 network=C:\Users\pedro\github\Bobby\Akkad\nurse\assets\luminex\luminex-nnue-32.bin arguments={}
+[12:56:50] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:56:56] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:57:03] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:57:15] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:57:30] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=20/27 root_pct=74.1% nodes=51493 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[12:57:30] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:57:45] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=17/30 root_pct=56.7% nodes=48858 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[12:57:45] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:58:00] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=8/28 root_pct=28.6% nodes=48107 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[12:58:00] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:58:15] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=5/29 root_pct=17.2% nodes=46331 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[12:58:15] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:58:16] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:58:31] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=9/21 root_pct=42.9% nodes=59653 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[12:58:32] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:58:33] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:58:48] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=7/18 root_pct=38.9% nodes=59436 elapsed_ms=15000.0 tmax_ms=15000 fallback=last-complete-level
+[12:58:48] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:59:03] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=3/24 root_pct=12.5% nodes=53138 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[12:59:03] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:59:18] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=5/24 root_pct=20.8% nodes=57948 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[12:59:18] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:59:33] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=6/24 root_pct=25.0% nodes=59994 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[12:59:33] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:59:38] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:59:41] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:59:56] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=9/26 root_pct=34.6% nodes=56457 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[12:59:56] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[12:59:59] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:00:14] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=4/16 root_pct=25.0% nodes=64419 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:00:14] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:00:29] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=3/15 root_pct=20.0% nodes=62658 elapsed_ms=15000.0 tmax_ms=15000 fallback=last-complete-level
+[13:00:29] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:00:44] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=5/13 root_pct=38.5% nodes=66076 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:00:44] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:00:48] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:03] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=5/11 root_pct=45.5% nodes=77036 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[13:01:03] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:04] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:05] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:06] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:13] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:21] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:34] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:01:49] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=14/28 root_pct=50.0% nodes=55156 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:01:49] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:02:04] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=18/27 root_pct=66.7% nodes=51777 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:02:04] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:02:19] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=13/31 root_pct=41.9% nodes=52520 elapsed_ms=15000.0 tmax_ms=15000 fallback=last-complete-level
+[13:02:19] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:02:34] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=7/21 root_pct=33.3% nodes=52276 elapsed_ms=15000.0 tmax_ms=15000 fallback=last-complete-level
+[13:02:34] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:02:49] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/20 root_pct=0.0% nodes=45854 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:02:49] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:03:04] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=4/24 root_pct=16.7% nodes=51409 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:03:04] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:03:19] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=8/22 root_pct=36.4% nodes=51332 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:03:19] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:03:34] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=10/24 root_pct=41.7% nodes=19614 elapsed_ms=15000.0 tmax_ms=15000 fallback=last-complete-level
+[13:03:34] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:03:49] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=16/20 root_pct=80.0% nodes=19886 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[13:03:49] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:04:04] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=10/16 root_pct=62.5% nodes=21432 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:04:04] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:04:19] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=7/13 root_pct=53.8% nodes=29061 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:04:19] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:04:34] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=3/23 root_pct=13.0% nodes=22937 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:04:34] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:04:49] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=25/32 root_pct=78.1% nodes=24487 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:04:49] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:05:04] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/17 root_pct=5.9% nodes=24294 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:05:04] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:05:19] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=22/24 root_pct=91.7% nodes=24069 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:05:19] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:05:34] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=4/23 root_pct=17.4% nodes=28641 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:05:34] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:05:49] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=13/14 root_pct=92.9% nodes=28397 elapsed_ms=15000.8 tmax_ms=15000 fallback=last-complete-level
+[13:05:50] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:06:05] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=5/16 root_pct=31.2% nodes=62685 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:06:05] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:06:20] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=14/15 root_pct=93.3% nodes=29629 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:06:20] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:06:22] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:06:37] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=5/8 root_pct=62.5% nodes=32186 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:06:37] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:06:52] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/9 root_pct=11.1% nodes=32389 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:06:52] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:07:07] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/7 root_pct=0.0% nodes=31673 elapsed_ms=15001.1 tmax_ms=15000 fallback=last-complete-level
+[13:07:07] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:07:22] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/8 root_pct=0.0% nodes=29859 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:07:22] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:07:37] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=7/8 root_pct=87.5% nodes=31121 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:07:37] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:07:52] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=7/8 root_pct=87.5% nodes=30872 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:07:52] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:08:07] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=4/7 root_pct=57.1% nodes=33885 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:08:07] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:08:22] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=1/6 root_pct=16.7% nodes=32458 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[13:08:23] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:08:38] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=1/2 root_pct=50.0% nodes=30817 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:08:38] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:08:53] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/2 root_pct=0.0% nodes=37544 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:08:54] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:09:09] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=19/20 root_pct=95.0% nodes=27520 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:09:09] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:09:24] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=16/21 root_pct=76.2% nodes=27081 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:09:24] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:09:39] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=16/19 root_pct=84.2% nodes=28720 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+[13:09:39] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:09:49] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:10:04] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=7/28 root_pct=25.0% nodes=21517 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+[13:10:04] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:10:19] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=6/32 root_pct=18.8% nodes=20415 elapsed_ms=15000.8 tmax_ms=15000 fallback=last-complete-level
+[13:10:19] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:10:34] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=7/33 root_pct=21.2% nodes=19779 elapsed_ms=15001.1 tmax_ms=15000 fallback=last-complete-level
+[13:10:34] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:10:49] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=13/32 root_pct=40.6% nodes=24104 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:10:49] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:11:00] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:11:13] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:11:28] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=17/29 root_pct=58.6% nodes=21338 elapsed_ms=15000.9 tmax_ms=15000 fallback=last-complete-level
+[13:11:28] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:11:43] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/34 root_pct=2.9% nodes=17600 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+[13:11:43] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:11:58] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/25 root_pct=4.0% nodes=22694 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+[13:11:58] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:12:13] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/19 root_pct=5.3% nodes=26368 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:12:13] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:12:28] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=9/17 root_pct=52.9% nodes=25845 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:12:29] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:12:43] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:12:52] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:13:07] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=11/17 root_pct=64.7% nodes=26798 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:13:08] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:13:10] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:13:25] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=7/13 root_pct=53.8% nodes=31227 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:13:25] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:13:27] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:13:42] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/10 root_pct=10.0% nodes=29329 elapsed_ms=15000.9 tmax_ms=15000 fallback=last-complete-level
+[13:13:42] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:13:57] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=6/10 root_pct=60.0% nodes=33657 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:13:57] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:14:12] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=2/3 root_pct=66.7% nodes=34448 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:14:12] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:14:27] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/1 root_pct=0.0% nodes=34609 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:14:27] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:14:35] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:14:41] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:14:56] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/2 root_pct=50.0% nodes=39157 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:14:56] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:15:11] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=16/20 root_pct=80.0% nodes=26770 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:15:12] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:15:27] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=12/30 root_pct=40.0% nodes=21945 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:15:27] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:15:42] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=3/28 root_pct=10.7% nodes=20992 elapsed_ms=15000.9 tmax_ms=15000 fallback=last-complete-level
+[13:15:42] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:15:57] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/26 root_pct=0.0% nodes=20819 elapsed_ms=15000.4 tmax_ms=15000 fallback=last-complete-level
+[13:15:57] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:16:12] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=5/27 root_pct=18.5% nodes=18819 elapsed_ms=15000.8 tmax_ms=15000 fallback=last-complete-level
+[13:16:12] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:16:27] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:16:42] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=6/24 root_pct=25.0% nodes=25171 elapsed_ms=15000.7 tmax_ms=15000 fallback=last-complete-level
+[13:16:42] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:16:57] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=9/25 root_pct=36.0% nodes=22425 elapsed_ms=15000.3 tmax_ms=15000 fallback=last-complete-level
+[13:16:57] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:17:12] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=9/22 root_pct=40.9% nodes=24531 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:17:12] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:17:27] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=1/4 root_pct=25.0% nodes=21867 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:17:27] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:17:42] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=4/28 root_pct=14.3% nodes=21044 elapsed_ms=15000.7 tmax_ms=15000 fallback=last-complete-level
+[13:17:42] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:17:57] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=3/33 root_pct=9.1% nodes=20740 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+[13:17:57] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:18:12] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=3/32 root_pct=9.4% nodes=19446 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:18:13] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:18:28] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/1 root_pct=0.0% nodes=21212 elapsed_ms=15000.8 tmax_ms=15000 fallback=last-complete-level
+[13:18:28] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:18:43] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/1 root_pct=0.0% nodes=21259 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:18:43] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:18:58] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=3/24 root_pct=12.5% nodes=24414 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:18:58] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:19:13] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=5/26 root_pct=19.2% nodes=22738 elapsed_ms=15000.7 tmax_ms=15000 fallback=last-complete-level
+[13:19:13] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:19:19] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:19:34] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=3/23 root_pct=13.0% nodes=24580 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:19:34] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:19:49] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=2/25 root_pct=8.0% nodes=25247 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:19:49] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:20:04] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=3/4 attempted=4 root=0/1 root_pct=0.0% nodes=24196 elapsed_ms=15000.5 tmax_ms=15000 fallback=last-complete-level
+[13:20:05] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:20:20] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=5/7 root_pct=71.4% nodes=23346 elapsed_ms=15000.6 tmax_ms=15000 fallback=last-complete-level
+[13:20:20] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:20:35] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=3/20 root_pct=15.0% nodes=26522 elapsed_ms=15000.1 tmax_ms=15000 fallback=last-complete-level
+[13:20:35] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:20:50] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=3/19 root_pct=15.8% nodes=26263 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:20:50] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:21:05] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=5/13 root_pct=38.5% nodes=27441 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:21:05] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:21:20] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=6/8 root_pct=75.0% nodes=28558 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:21:20] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:21:35] \U0001f50e brain=luminex go='go movetime 15000' tmax=15000ms timeout=30000ms
+[13:21:50] \U0001f4cb child \u26a0\ufe0f GUARDRAIL SARGON-PLUS time: levels=2/4 attempted=3 root=4/6 root_pct=66.7% nodes=30627 elapsed_ms=15000.2 tmax_ms=15000 fallback=last-complete-level
+[13:21:50] \U0001f4cb child [13:21:50] \u274c worker json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

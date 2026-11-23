@@ -33,10 +33,36 @@ else()
  endif()
  set(PICO_CXX_ENABLE_EXCEPTIONS 1)
  pico_sdk_init()
- add_executable(picoSargon src/pico_main.cpp)
+  # Regenerate FLASH images on every change to Bashful; also covers direct CMake builds.
+  find_package(Python3 COMPONENTS Interpreter REQUIRED)
+  set(BASHFUL_BIN "${CMAKE_CURRENT_SOURCE_DIR}/assets/bashful.bin")
+  set(EMBED_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/../tools/ARM/embed_grumpy.py")
+  set(BASHFUL_SINGLE "${CMAKE_CURRENT_SOURCE_DIR}/include/generated_grumpy.hpp")
+  set(BASHFUL_TWINS "${CMAKE_CURRENT_SOURCE_DIR}/include/twins_grumpy.hpp")
+  add_custom_command(
+    OUTPUT "${BASHFUL_SINGLE}" "${BASHFUL_TWINS}"
+    COMMAND "${Python3_EXECUTABLE}" "${EMBED_SCRIPT}"
+            --input "${BASHFUL_BIN}"
+            --output "${BASHFUL_SINGLE}"
+            --twins-output "${BASHFUL_TWINS}"
+    DEPENDS "${BASHFUL_BIN}" "${EMBED_SCRIPT}"
+    COMMENT "Embedding bashful.bin in Pico FLASH (single and TWINS)"
+    VERBATIM
+  )
+  add_custom_target(embed_bashful DEPENDS "${BASHFUL_SINGLE}" "${BASHFUL_TWINS}")
+
+  add_executable(picoSargon src/pico_main.cpp)
+  add_dependencies(picoSargon embed_bashful)
  target_include_directories(picoSargon PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/config)
  target_link_libraries(picoSargon PRIVATE sargon_core pico_stdlib pico_cyw43_arch_lwip_poll pico_multicore)
  target_compile_definitions(picoSargon PRIVATE PICO_CYW43_ARCH_POLL=1)
+ # Guardia para build.ps1: garantizar que el valor que se leyo de config.h
+ # es el mismo que ve el compilador al construir pico_main.cpp.
+ if(DEFINED PICOSARGON_EXPECTED_PLL_SYS)
+  target_compile_definitions(picoSargon PRIVATE
+      PICOSARGON_EXPECTED_PLL_SYS=${PICOSARGON_EXPECTED_PLL_SYS})
+  message(STATUS "picoSargon PLL_SYS esperado=${PICOSARGON_EXPECTED_PLL_SYS} MHz")
+ endif()
  # Reconfigure when config.h toggles mDNS (without affecting the non-mDNS build).
  set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/config.h")
  file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/include/config.h" _mdns_setting
