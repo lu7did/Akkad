@@ -11,8 +11,8 @@
 #*================================================================================================================*
 #* startChess.sh
 #* script to start automatically competitive programs
-#*
-#*
+#*   Free Chess (FICS)   freechess.org:5000
+#*   Lichess             lichess.org
 #*
 #=================================================================================================================*
 # Check current screen running processes
@@ -29,9 +29,9 @@
 #
 # Gestión del servicio
 #
-#   sudo systemctl start  startSargon
-#   sudo systemctl status startSargon
-#   sudo systemctl stop startSargon
+#   sudo systemctl start  startChess
+#   sudo systemctl status startChess
+#   sudo systemctl stop startChess
 #=================================================================================================================*
 # Receives a session ID and cancel it
 #=================================================================================================================*
@@ -241,6 +241,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 
 echo "$(date) Processing $SCRIPT_NAME at $SCRIPT_DIR"
+
+
+# Kill todos los procesos 
+echo "$(date) Removing AlphaZero instances"
+sudo kill $(/home/pi/chess/akkad/tools/showProcess.sh "/etc/AlphaZero_config.yml" | cut -f 1 -d " ")
+echo "$(date) waiting ..."
+sleep 5
+
+
+#--- Calncel all SCREEN processes
+
 echo "$(date) Clean up existing SCREEN processes"
 cancelar_todos_los_screens
 
@@ -275,15 +286,19 @@ echo "$(date) waiting ..."
 echo "$(date) TTY port opening completed, all required ports has been connected"
 
 #--- Wait till all hosts are up
+# Tech Debt
+# replace later with mDNS names
 # pS-lichess 192.168.68.108
 # picopixie  192.168.68.104
 # pS-FICS    192.168.68.109
+
 esperar_host "192.168.68.108" 15
 esperar_host "192.168.68.104" 15
 esperar_host "192.168.68.109" 15
 
 echo "$(date) Host dependencies completed"
 
+#---- Define names and paths
 
 PYTHON="/home/pi/chess/picoSargon/bin/python"
 FICS_UCI="/home/pi/chess/akkad/fics-uci/src/fics_uci.py"
@@ -295,6 +310,7 @@ LICHESS_BOT="/home/pi/chess/lichess-bot/lichess-bot.py"
 PS_LICHESS="$PYTHON $LICHESS_BOT --config $ETC/lichess_config.yml"
 PICOPIXIE_FICS="$PYTHON $FICS_UCI --json $FICS_PATH/data/picoPixie.json $FICS_ARGS --config $ETC/config_picoPixie.yml"
 PS_FICS="$PYTHON $FICS_UCI --json $FICS_PATH/data/picoSargon.json $FICS_ARGS --config $ETC/config_picoSargon.yml"
+AZ_LICHESS="$PYTHON $LICHESS_BOT --config $ETC/AlphaZero_config.yml"
 
 echo "/usr/bin/screen -d -m -S \"picoSargon_lichess\" $PS_LICHESS"
 /usr/bin/screen -d -m -S picoSargon_lichess $PS_LICHESS
@@ -309,6 +325,11 @@ echo "$(date) waiting ..."
 
 echo "/usr/bin/screen -d -m -S ps_fics $PS_FICS" 
 /usr/bin/screen -d -m -S picoSargon_fics $PS_FICS
+sleep 5
+echo "$(date) waiting ..."
+
+echo "/usr/bin/screen -d -m -S AlphaZero_lichess $AZ_LICHESS" 
+/usr/bin/screen -d -m -S AlphaZero_lichess $AZ_LICHESS
 sleep 5
 echo "$(date) waiting ..."
 
