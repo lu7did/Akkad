@@ -249,7 +249,6 @@ sudo kill $(/home/pi/chess/akkad/tools/showProcess.sh "/etc/AlphaZero_config.yml
 echo "$(date) waiting ..."
 sleep 5
 
-
 #--- Calncel all SCREEN processes
 
 echo "$(date) Clean up existing SCREEN processes"

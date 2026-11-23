@@ -12959,3 +12959,349 @@ pygame==2.6.1
 2026-11-23 13:57:24,262 lib.blocklist (blocklist.py:41) INFO Refreshing 0 online blocklists
 2026-11-23 13:57:24,265 lib.matchmaking (matchmaking.py:317) INFO Next challenge will be created after Mon Nov 23 14:07:24 2026
 2026-11-23 13:57:24,273 lib.blocklist (blocklist.py:41) INFO Refreshing 0 online blocklists
+2026-11-23 14:07:09,751 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'correspondence_ping'}
+2026-11-23 14:07:09,753 lib.matchmaking (matchmaking.py:278) INFO Challenging a random bot
+2026-11-23 14:07:11,786 lib.lichess (lichess.py:117) DEBUG Backing off 0.1 seconds after 1 tries calling function <function Lichess.api_get at 0x7f8cbe63e0> with args (<lib.lichess.Lichess object at 0x7f8c919550>, 'profile') and kwargs {'params': None}
+2026-11-23 14:07:11,812 lib.lichess (lichess.py:119) DEBUG Exception: Traceback (most recent call last):
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 540, in _make_request
+    response = conn.getresponse()
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connection.py", line 638, in getresponse
+    httplib_response = super().getresponse()
+  File "/usr/lib/python3.13/http/client.py", line 1430, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/lib/python3.13/ssl.py", line 1304, in recv_into
+    return self.read(nbytes, buffer)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/ssl.py", line 1138, in read
+    return self._sslobj.read(len, buffer)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/util/retry.py", line 510, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/util/util.py", line 39, in reraise
+    raise value
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 542, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 373, in _raise_timeout
+    raise ReadTimeoutError(
+        self, url, f"Read timed out. (read timeout={timeout_value})"
+    ) from err
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='lichess.org', port=443): Read timed out. (read timeout=2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/pi/chess/lichess-bot/lib/lichess.py", line 189, in api_get
+    response = self.session.get(url, params=params, timeout=timeout, stream=stream)
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/sessions.py", line 671, in get
+    return self.request("GET", url, params=params, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/adapters.py", line 742, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='lichess.org', port=443): Read timed out. (read timeout=2)
+
+2026-11-23 14:07:11,894 urllib3.connectionpool (connectionpool.py:1081) DEBUG Starting new HTTPS connection (2): lichess.org:443
+2026-11-23 14:07:12,405 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/account HTTP/1.1" 200 None
+2026-11-23 14:07:12,407 lib.matchmaking (matchmaking.py:180) INFO Using the default matchmaking configuration.
+2026-11-23 14:07:12,407 lib.matchmaking (matchmaking.py:208) INFO Seeking classical game with opponent rating in [-325, 3675] ...
+2026-11-23 14:07:12,408 lib.blocklist (blocklist.py:41) INFO Refreshing 0 online blocklists
+2026-11-23 14:07:12,693 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/bot/online?nb=512 HTTP/1.1" 200 378105
+2026-11-23 14:07:13,342 lib.matchmaking (matchmaking.py:219) INFO Found 448 online bots
+2026-11-23 14:07:13,348 lib.matchmaking (matchmaking.py:221) INFO Choosing from 285 suitable opponents
+2026-11-23 14:07:13,643 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/user/Goopis HTTP/1.1" 200 None
+2026-11-23 14:07:13,646 lib.matchmaking (matchmaking.py:287) INFO Will challenge Goopis for a standard game.
+2026-11-23 14:07:13,931 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/challenge/Goopis HTTP/1.1" 200 None
+2026-11-23 14:07:13,933 lib.matchmaking (matchmaking.py:289) INFO Challenge id is zzPEg3Bd.
+2026-11-23 14:07:13,946 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'challenge', 'challenge': {'id': 'zzPEg3Bd', 'url': 'https://lichess.org/game/zzPEg3Bd', 'status': 'created', 'challenger': {'name': 'picoSargon', 'title': 'BOT', 'id': 'picosargon', 'rating': 1675, 'online': True, 'lag': 3}, 'destUser': {'name': 'Goopis', 'title': 'BOT', 'id': 'goopis', 'rating': 1773, 'online': True}, 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'rated': True, 'speed': 'classical', 'timeControl': {'type': 'clock', 'limit': 1800, 'increment': 2, 'show': '30+2'}, 'color': 'random', 'finalColor': 'white', 'perf': {'icon': '\ue00a', 'name': 'Clásica'}}, 'compat': {'bot': True, 'board': True}}
+2026-11-23 14:07:25,384 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'correspondence_ping'}
+2026-11-23 14:07:25,388 lib.matchmaking (matchmaking.py:278) INFO Challenging a random bot
+2026-11-23 14:07:27,411 lib.lichess (lichess.py:117) DEBUG Backing off 0.1 seconds after 1 tries calling function <function Lichess.api_get at 0x7fbace63e0> with args (<lib.lichess.Lichess object at 0x7fbaa1aa50>, 'profile') and kwargs {'params': None}
+2026-11-23 14:07:27,435 lib.lichess (lichess.py:119) DEBUG Exception: Traceback (most recent call last):
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 540, in _make_request
+    response = conn.getresponse()
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connection.py", line 638, in getresponse
+    httplib_response = super().getresponse()
+  File "/usr/lib/python3.13/http/client.py", line 1430, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/lib/python3.13/ssl.py", line 1304, in recv_into
+    return self.read(nbytes, buffer)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/ssl.py", line 1138, in read
+    return self._sslobj.read(len, buffer)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/util/retry.py", line 510, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/util/util.py", line 39, in reraise
+    raise value
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 542, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/urllib3/connectionpool.py", line 373, in _raise_timeout
+    raise ReadTimeoutError(
+        self, url, f"Read timed out. (read timeout={timeout_value})"
+    ) from err
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='lichess.org', port=443): Read timed out. (read timeout=2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/backoff/_sync.py", line 105, in retry
+    ret = target(*args, **kwargs)
+  File "/home/pi/chess/lichess-bot/lib/lichess.py", line 189, in api_get
+    response = self.session.get(url, params=params, timeout=timeout, stream=stream)
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/sessions.py", line 671, in get
+    return self.request("GET", url, params=params, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/pi/chess/picoSargon/lib/python3.13/site-packages/requests/adapters.py", line 742, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='lichess.org', port=443): Read timed out. (read timeout=2)
+
+2026-11-23 14:07:27,512 urllib3.connectionpool (connectionpool.py:1081) DEBUG Starting new HTTPS connection (2): lichess.org:443
+2026-11-23 14:07:28,049 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/account HTTP/1.1" 200 None
+2026-11-23 14:07:28,050 lib.matchmaking (matchmaking.py:180) INFO Using the default matchmaking configuration.
+2026-11-23 14:07:28,051 lib.matchmaking (matchmaking.py:208) INFO Seeking classical game with opponent rating in [497, 4497] ...
+2026-11-23 14:07:28,051 lib.blocklist (blocklist.py:41) INFO Refreshing 0 online blocklists
+2026-11-23 14:07:28,322 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/bot/online?nb=512 HTTP/1.1" 200 378105
+2026-11-23 14:07:28,439 lib.matchmaking (matchmaking.py:219) INFO Found 448 online bots
+2026-11-23 14:07:28,445 lib.matchmaking (matchmaking.py:221) INFO Choosing from 285 suitable opponents
+2026-11-23 14:07:28,727 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/user/shrevenBOT HTTP/1.1" 200 None
+2026-11-23 14:07:28,730 lib.matchmaking (matchmaking.py:287) INFO Will challenge shrevenBOT for a standard game.
+2026-11-23 14:07:28,997 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/challenge/shrevenBOT HTTP/1.1" 200 None
+2026-11-23 14:07:28,998 lib.matchmaking (matchmaking.py:289) INFO Challenge id is nj7IoE0o.
+2026-11-23 14:07:29,021 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'challenge', 'challenge': {'id': 'nj7IoE0o', 'url': 'https://lichess.org/game/nj7IoE0o', 'status': 'created', 'challenger': {'name': 'bobby_pcolla', 'title': 'BOT', 'id': 'bobby_pcolla', 'rating': 2497, 'online': True}, 'destUser': {'name': 'shrevenBOT', 'title': 'BOT', 'flair': 'symbols.linux-tux-penguin', 'id': 'shrevenbot', 'rating': 1877, 'online': True}, 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'rated': True, 'speed': 'classical', 'timeControl': {'type': 'clock', 'limit': 1800, 'increment': 1, 'show': '30+1'}, 'color': 'random', 'finalColor': 'black', 'perf': {'icon': '\ue00a', 'name': 'Clásica'}}, 'compat': {'bot': True, 'board': True}}
+2026-11-23 14:07:29,345 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'gameStart', 'game': {'fullId': 'nj7IoE0ogdKi', 'gameId': 'nj7IoE0o', 'fen': 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', 'color': 'black', 'lastMove': '', 'source': 'friend', 'status': {'id': 20, 'name': 'started'}, 'variant': {'key': 'standard', 'name': 'Standard'}, 'speed': 'classical', 'perf': 'classical', 'rated': True, 'hasMoved': False, 'opponent': {'id': 'shrevenbot', 'username': 'BOT shrevenBOT', 'rating': 1877}, 'isMyTurn': False, 'secondsLeft': 1800, 'rating': 2497, 'compat': {'bot': True, 'board': True}, 'id': 'nj7IoE0o'}}
+2026-11-23 14:07:29,346 lib.lichess_bot (lichess_bot.py:319) INFO --- Process Used. Count: 1. IDs: {'nj7IoE0o'}
+2026-11-23 14:07:29,369 urllib3.connectionpool (connectionpool.py:1081) DEBUG Starting new HTTPS connection (1): lichess.org:443
+2026-11-23 14:07:29,838 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/bot/game/stream/nj7IoE0o HTTP/1.1" 200 None
+2026-11-23 14:07:29,840 lib.lichess_bot (lichess_bot.py:690) DEBUG Initial state: {'id': 'nj7IoE0o', 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'speed': 'classical', 'perf': {'name': 'Clásica'}, 'rated': True, 'createdAt': 1795453649199, 'white': {'id': 'shrevenbot', 'name': 'shrevenBOT', 'title': 'BOT', 'rating': 1877}, 'black': {'id': 'bobby_pcolla', 'name': 'bobby_pcolla', 'title': 'BOT', 'rating': 2497}, 'initialFen': 'startpos', 'clock': {'initial': 1800000, 'increment': 1000}, 'type': 'gameFull', 'state': {'type': 'gameState', 'moves': '', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}}
+2026-11-23 14:07:29,840 lib.engine_wrapper (engine_wrapper.py:70) DEBUG Starting engine: ['/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero', '--weights=/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz', '--backend=eigen', '--simulations=1200', '--cores=2', '--tmax=15000', '--timeout=60000', '--cpuct=1.5']
+2026-11-23 14:07:29,842 asyncio (selector_events.py:64) DEBUG Using selector: EpollSelector
+2026-11-23 14:07:29,848 asyncio (base_events.py:1729) DEBUG execute program '/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero' stdin=<pipe> stdout=<pipe>
+2026-11-23 14:07:29,851 asyncio (base_subprocess.py:53) DEBUG process '/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero' created: pid 1895
+2026-11-23 14:07:29,855 asyncio (base_events.py:1714) DEBUG Write pipe 13 connected: (<_UnixWritePipeTransport fd=13 idle bufsize=0>, <WriteSubprocessPipeProto fd=0 pipe=<_UnixWritePipeTransport fd=13 idle bufsize=0>>)
+2026-11-23 14:07:29,857 asyncio (base_events.py:1698) DEBUG Read pipe 15 connected: (<_UnixReadPipeTransport fd=15 polling>, <ReadSubprocessPipeProto fd=1 pipe=<_UnixReadPipeTransport fd=15 polling>>)
+2026-11-23 14:07:29,858 chess.engine (engine.py:928) DEBUG <UciProtocol (pid=1895)>: Connection made
+2026-11-23 14:07:29,859 asyncio (base_events.py:1798) INFO execute program '/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero': <_UnixSubprocessTransport pid=1895 running stdin=<_UnixWritePipeTransport fd=13 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=15 polling>>
+2026-11-23 14:07:29,862 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1895)>: << uci
+2026-11-23 14:07:29,871 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> id name AlphaZero v0.2.12
+2026-11-23 14:07:29,873 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> id author Dr. Pedro E. Colla
+2026-11-23 14:07:29,873 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name WeightsFile type string default /home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz
+2026-11-23 14:07:29,874 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name Backend type string default eigen
+2026-11-23 14:07:29,876 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name BackendOptions type string default 
+2026-11-23 14:07:29,876 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name BatchSize type spin default 8 min 1 max 256
+2026-11-23 14:07:29,877 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name Cores type spin default 2 min 1 max 256
+2026-11-23 14:07:29,877 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name Simulations type spin default 1200 min 1 max 10000000
+2026-11-23 14:07:29,878 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name MaxTreeNodes type spin default 0 min 0 max 10000000
+2026-11-23 14:07:29,878 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name Cpuct type string default 1.500000
+2026-11-23 14:07:29,878 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name TMax type spin default 15000 min 0 max 3600000
+2026-11-23 14:07:29,879 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name Timeout type spin default 60000 min 0 max 3600000
+2026-11-23 14:07:29,879 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> option name Verbose type spin default 1 min 0 max 2
+2026-11-23 14:07:29,880 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> uciok
+2026-11-23 14:07:29,886 lib.lichess_bot (lichess_bot.py:696) DEBUG The engine for game nj7IoE0o has pid=1895
+2026-11-23 14:07:29,887 lib.lichess_bot (lichess_bot.py:699) INFO +++ https://lichess.org/nj7IoE0o/black Clásica vs BOT shrevenBOT (1877) (nj7IoE0o)
+2026-11-23 14:07:29,888 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': '', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:07:39,942 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': 'd2d4', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:07:39,944 lib.conversation (conversation.py:100) INFO *** https://lichess.org/nj7IoE0o/black [player] bobby_pcolla: Hi! I'm a bot name bobby_pcolla.Type !help for a list of commands I can respond to.
+2026-11-23 14:07:39,950 urllib3.connectionpool (connectionpool.py:1081) DEBUG Starting new HTTPS connection (2): lichess.org:443
+2026-11-23 14:07:40,438 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/bot/game/nj7IoE0o/chat HTTP/1.1" 200 11
+2026-11-23 14:07:40,439 lib.conversation (conversation.py:100) INFO *** https://lichess.org/nj7IoE0o/black [spectator] bobby_pcolla: Hi! I'm bobby_pcolla my engine is based on a NNUE. Type !help for a list of commands
+2026-11-23 14:07:40,718 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/bot/game/nj7IoE0o/chat HTTP/1.1" 200 11
+2026-11-23 14:07:40,720 lib.lichess_bot (lichess_bot.py:855) INFO 
+2026-11-23 14:07:40,720 lib.lichess_bot (lichess_bot.py:856) INFO move: 1
+2026-11-23 14:07:40,721 lib.engine_wrapper (engine_wrapper.py:704) INFO Searching for time 10 seconds for game nj7IoE0o
+2026-11-23 14:07:40,723 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1895)>: << ucinewgame
+2026-11-23 14:07:40,724 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1895)>: << isready
+2026-11-23 14:07:41,214 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/challenge/zzPEg3Bd/cancel HTTP/1.1" 200 11
+2026-11-23 14:07:41,216 lib.matchmaking (matchmaking.py:90) INFO Challenge id zzPEg3Bd cancelled.
+2026-11-23 14:07:41,217 lib.matchmaking (matchmaking.py:317) INFO Next challenge will be created after Mon Nov 23 14:08:13 2026
+2026-11-23 14:07:41,236 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'challengeCanceled', 'challenge': {'id': 'zzPEg3Bd', 'url': 'https://lichess.org/game/zzPEg3Bd', 'status': 'canceled', 'challenger': {'name': 'picoSargon', 'title': 'BOT', 'id': 'picosargon', 'rating': 1675, 'online': True, 'lag': 3}, 'destUser': {'name': 'Goopis', 'title': 'BOT', 'id': 'goopis', 'rating': 1773, 'online': True}, 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'rated': True, 'speed': 'classical', 'timeControl': {'type': 'clock', 'limit': 1800, 'increment': 2, 'show': '30+2'}, 'color': 'random', 'finalColor': 'white', 'perf': {'icon': '\ue00a', 'name': 'Clásica'}}}
+2026-11-23 14:07:41,237 lib.lichess_bot (lichess_bot.py:319) INFO +++ Process Freed. Count: 0. IDs: None
+2026-11-23 14:07:41,490 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> readyok
+2026-11-23 14:07:41,491 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1895)>: << position startpos moves d2d4
+2026-11-23 14:07:41,492 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1895)>: << go movetime 10000
+2026-11-23 14:07:53,741 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> info ply 1 depth 0 score cp 25 nodes 114 time 11531 nps 9 string ALPHAZERO simulations=112 tree_nodes=114 elapsed_ms=11531 best_visits=34 q=-0.063498 batch_size=8 cores=2 batches=14 evals=112 nn_ms=22503 stop=time
+2026-11-23 14:07:53,742 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> bestmove d7d5
+2026-11-23 14:07:53,743 lib.engine_wrapper (engine_wrapper.py:334) INFO Source: Engine
+2026-11-23 14:07:53,744 lib.engine_wrapper (engine_wrapper.py:334) INFO Evaluation: 0.25
+2026-11-23 14:07:53,744 lib.engine_wrapper (engine_wrapper.py:334) INFO Depth: 0
+2026-11-23 14:07:53,744 lib.engine_wrapper (engine_wrapper.py:334) INFO Nodes: 114
+2026-11-23 14:07:53,745 lib.engine_wrapper (engine_wrapper.py:334) INFO Speed: 9nps
+2026-11-23 14:07:54,018 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/bot/game/nj7IoE0o/move/d7d5?offeringDraw=false HTTP/1.1" 200 11
+2026-11-23 14:07:54,020 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'chatLine', 'room': 'player', 'username': 'bobby_pcolla', 'text': "Hi! I'm a bot name bobby_pcolla.Type !help for a list of commands I can respond to."}
+2026-11-23 14:07:54,020 lib.conversation (conversation.py:58) INFO *** https://lichess.org/nj7IoE0o/black [player] bobby_pcolla: Hi! I'm a bot name bobby_pcolla.Type !help for a list of commands I can respond to.
+2026-11-23 14:07:54,021 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'chatLine', 'room': 'spectator', 'username': 'bobby_pcolla', 'text': "Hi! I'm bobby_pcolla my engine is based on a NNUE. Type !help for a list of commands"}
+2026-11-23 14:07:54,021 lib.conversation (conversation.py:58) INFO *** https://lichess.org/nj7IoE0o/black [spectator] bobby_pcolla: Hi! I'm bobby_pcolla my engine is based on a NNUE. Type !help for a list of commands
+2026-11-23 14:07:54,025 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': 'd2d4 d7d5', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:08:16,012 lib.matchmaking (matchmaking.py:278) INFO Challenging a random bot
+2026-11-23 14:08:16,012 lib.matchmaking (matchmaking.py:180) INFO Using the default matchmaking configuration.
+2026-11-23 14:08:16,012 lib.matchmaking (matchmaking.py:208) INFO Seeking classical game with opponent rating in [-325, 3675] ...
+2026-11-23 14:08:16,013 lib.blocklist (blocklist.py:41) INFO Refreshing 0 online blocklists
+2026-11-23 14:08:16,294 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/bot/online?nb=512 HTTP/1.1" 200 377498
+2026-11-23 14:08:16,644 lib.matchmaking (matchmaking.py:219) INFO Found 447 online bots
+2026-11-23 14:08:16,651 lib.matchmaking (matchmaking.py:221) INFO Choosing from 284 suitable opponents
+2026-11-23 14:08:16,939 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/user/colinbot HTTP/1.1" 200 None
+2026-11-23 14:08:16,942 lib.matchmaking (matchmaking.py:287) INFO Will challenge colinbot for a standard game.
+2026-11-23 14:08:17,211 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/challenge/colinbot HTTP/1.1" 200 None
+2026-11-23 14:08:17,213 lib.matchmaking (matchmaking.py:289) INFO Challenge id is fcRQpRWp.
+2026-11-23 14:08:17,229 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'challenge', 'challenge': {'id': 'fcRQpRWp', 'url': 'https://lichess.org/game/fcRQpRWp', 'status': 'created', 'challenger': {'name': 'picoSargon', 'title': 'BOT', 'id': 'picosargon', 'rating': 1675, 'online': True, 'lag': 3}, 'destUser': {'name': 'colinbot', 'title': 'BOT', 'flair': 'objects.hammer-and-pick', 'id': 'colinbot', 'rating': 2762, 'provisional': True, 'online': True}, 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'rated': False, 'speed': 'classical', 'timeControl': {'type': 'clock', 'limit': 1800, 'increment': 1, 'show': '30+1'}, 'color': 'random', 'finalColor': 'white', 'perf': {'icon': '\ue00a', 'name': 'Clásica'}}, 'compat': {'bot': True, 'board': True}}
+2026-11-23 14:08:19,976 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'challengeDeclined', 'challenge': {'id': 'fcRQpRWp', 'url': 'https://lichess.org/game/fcRQpRWp', 'status': 'declined', 'challenger': {'name': 'picoSargon', 'title': 'BOT', 'id': 'picosargon', 'rating': 1675, 'online': True, 'lag': 3}, 'destUser': {'name': 'colinbot', 'title': 'BOT', 'flair': 'objects.hammer-and-pick', 'id': 'colinbot', 'rating': 2762, 'provisional': True, 'online': True}, 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'rated': False, 'speed': 'classical', 'timeControl': {'type': 'clock', 'limit': 1800, 'increment': 1, 'show': '30+1'}, 'color': 'random', 'finalColor': 'white', 'perf': {'icon': '\ue00a', 'name': 'Clásica'}, 'declineReason': 'No acepto desafíos con ese control de tiempo.', 'declineReasonKey': 'timecontrol'}}
+2026-11-23 14:08:19,977 lib.matchmaking (matchmaking.py:374) INFO BOT colinbot (2762?) declined Clásica casual challenge from BOT picoSargon (1675) (fcRQpRWp): No acepto desafíos con ese control de tiempo.
+2026-11-23 14:09:19,140 lib.matchmaking (matchmaking.py:278) INFO Challenging a random bot
+2026-11-23 14:09:19,141 lib.matchmaking (matchmaking.py:180) INFO Using the default matchmaking configuration.
+2026-11-23 14:09:19,142 lib.matchmaking (matchmaking.py:208) INFO Seeking classical game with opponent rating in [-325, 3675] ...
+2026-11-23 14:09:19,143 lib.blocklist (blocklist.py:41) INFO Refreshing 0 online blocklists
+2026-11-23 14:09:19,438 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/bot/online?nb=512 HTTP/1.1" 200 376207
+2026-11-23 14:09:20,065 lib.matchmaking (matchmaking.py:219) INFO Found 445 online bots
+2026-11-23 14:09:20,074 lib.matchmaking (matchmaking.py:221) INFO Choosing from 284 suitable opponents
+2026-11-23 14:09:20,358 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/user/tomahawkBOT HTTP/1.1" 200 None
+2026-11-23 14:09:20,364 lib.matchmaking (matchmaking.py:287) INFO Will challenge tomahawkBOT for a standard game.
+2026-11-23 14:09:20,638 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/challenge/tomahawkBOT HTTP/1.1" 200 None
+2026-11-23 14:09:20,641 lib.matchmaking (matchmaking.py:289) INFO Challenge id is vIuUR3fl.
+2026-11-23 14:09:20,659 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'challenge', 'challenge': {'id': 'vIuUR3fl', 'url': 'https://lichess.org/game/vIuUR3fl', 'status': 'created', 'challenger': {'name': 'picoSargon', 'title': 'BOT', 'id': 'picosargon', 'rating': 1675, 'online': True, 'lag': 3}, 'destUser': {'name': 'tomahawkBOT', 'title': 'BOT', 'id': 'tomahawkbot', 'rating': 2384, 'online': True}, 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'rated': True, 'speed': 'classical', 'timeControl': {'type': 'clock', 'limit': 1800, 'increment': 1, 'show': '30+1'}, 'color': 'random', 'finalColor': 'black', 'perf': {'icon': '\ue00a', 'name': 'Clásica'}}, 'compat': {'bot': True, 'board': True}}
+2026-11-23 14:09:20,960 lib.lichess_bot (lichess_bot.py:459) DEBUG Event: {'type': 'gameStart', 'game': {'fullId': 'vIuUR3flrsux', 'gameId': 'vIuUR3fl', 'fen': 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', 'color': 'black', 'lastMove': '', 'source': 'friend', 'status': {'id': 20, 'name': 'started'}, 'variant': {'key': 'standard', 'name': 'Standard'}, 'speed': 'classical', 'perf': 'classical', 'rated': True, 'hasMoved': False, 'opponent': {'id': 'tomahawkbot', 'username': 'BOT tomahawkBOT', 'rating': 2384}, 'isMyTurn': False, 'secondsLeft': 1800, 'rating': 1675, 'compat': {'bot': True, 'board': True}, 'id': 'vIuUR3fl'}}
+2026-11-23 14:09:20,962 lib.lichess_bot (lichess_bot.py:319) INFO --- Process Used. Count: 1. IDs: {'vIuUR3fl'}
+2026-11-23 14:09:21,015 urllib3.connectionpool (connectionpool.py:1081) DEBUG Starting new HTTPS connection (1): lichess.org:443
+2026-11-23 14:09:21,540 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "GET /api/bot/game/stream/vIuUR3fl HTTP/1.1" 200 None
+2026-11-23 14:09:21,542 lib.lichess_bot (lichess_bot.py:690) DEBUG Initial state: {'id': 'vIuUR3fl', 'variant': {'key': 'standard', 'name': 'Standard', 'short': 'Std'}, 'speed': 'classical', 'perf': {'name': 'Clásica'}, 'rated': True, 'createdAt': 1795453760813, 'white': {'id': 'tomahawkbot', 'name': 'tomahawkBOT', 'title': 'BOT', 'rating': 2384}, 'black': {'id': 'picosargon', 'name': 'picoSargon', 'title': 'BOT', 'rating': 1675}, 'initialFen': 'startpos', 'clock': {'initial': 1800000, 'increment': 1000}, 'type': 'gameFull', 'state': {'type': 'gameState', 'moves': '', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}}
+2026-11-23 14:09:21,542 lib.engine_wrapper (engine_wrapper.py:70) DEBUG Starting engine: ['/home/pi/chess/picoSargon/bin/python', '/home/pi/chess/akkad/nurse/src/nurse/bridge.py', '--ip=192.168.68.108', '--port=6210']
+2026-11-23 14:09:21,543 asyncio (selector_events.py:64) DEBUG Using selector: EpollSelector
+2026-11-23 14:09:21,550 asyncio (base_events.py:1729) DEBUG execute program '/home/pi/chess/picoSargon/bin/python' stdin=<pipe> stdout=<pipe>
+2026-11-23 14:09:21,553 asyncio (base_subprocess.py:53) DEBUG process '/home/pi/chess/picoSargon/bin/python' created: pid 1982
+2026-11-23 14:09:21,557 asyncio (base_events.py:1714) DEBUG Write pipe 13 connected: (<_UnixWritePipeTransport fd=13 idle bufsize=0>, <WriteSubprocessPipeProto fd=0 pipe=<_UnixWritePipeTransport fd=13 idle bufsize=0>>)
+2026-11-23 14:09:21,560 asyncio (base_events.py:1698) DEBUG Read pipe 15 connected: (<_UnixReadPipeTransport fd=15 polling>, <ReadSubprocessPipeProto fd=1 pipe=<_UnixReadPipeTransport fd=15 polling>>)
+2026-11-23 14:09:21,561 chess.engine (engine.py:928) DEBUG <UciProtocol (pid=1982)>: Connection made
+2026-11-23 14:09:21,562 asyncio (base_events.py:1798) INFO execute program '/home/pi/chess/picoSargon/bin/python': <_UnixSubprocessTransport pid=1982 running stdin=<_UnixWritePipeTransport fd=13 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=15 polling>>
+2026-11-23 14:09:21,565 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1982)>: << uci
+2026-11-23 14:09:21,709 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1982)>: >> id name picoSargon v0.2.49
+2026-11-23 14:09:21,710 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1982)>: >> id author Dr. Pedro E. Colla
+2026-11-23 14:09:21,710 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1982)>: >> info string TWINS compiled ON cores=2 alpha=cooperative core1_ready=1
+2026-11-23 14:09:21,710 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1982)>: >> uciok
+2026-11-23 14:09:21,716 lib.lichess_bot (lichess_bot.py:696) DEBUG The engine for game vIuUR3fl has pid=1982
+2026-11-23 14:09:21,717 lib.lichess_bot (lichess_bot.py:699) INFO +++ https://lichess.org/vIuUR3fl/black Clásica vs BOT tomahawkBOT (2384) (vIuUR3fl)
+2026-11-23 14:09:21,718 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': '', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:09:21,777 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'chatLine', 'room': 'player', 'username': 'tomahawkBOT', 'text': "Hi! I'm tmhkNNUE. Good luck! Type !help for a list of commands I can respond to."}
+2026-11-23 14:09:21,778 lib.conversation (conversation.py:58) INFO *** https://lichess.org/vIuUR3fl/black [player] tomahawkBOT: Hi! I'm tmhkNNUE. Good luck! Type !help for a list of commands I can respond to.
+2026-11-23 14:09:21,920 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'chatLine', 'room': 'spectator', 'username': 'tomahawkBOT', 'text': "Hi! I'm tomahawkNNUE. Type !help for a list of commands I can respond to."}
+2026-11-23 14:09:21,921 lib.conversation (conversation.py:58) INFO *** https://lichess.org/vIuUR3fl/black [spectator] tomahawkBOT: Hi! I'm tomahawkNNUE. Type !help for a list of commands I can respond to.
+2026-11-23 14:09:23,273 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': 'e2e4', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:09:23,274 lib.conversation (conversation.py:100) INFO *** https://lichess.org/vIuUR3fl/black [player] picoSargon: Hi! I'm a bot name picoSargon.Type !help for a list of commands I can respond to.
+2026-11-23 14:09:23,276 urllib3.connectionpool (connectionpool.py:1081) DEBUG Starting new HTTPS connection (2): lichess.org:443
+2026-11-23 14:09:23,725 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/bot/game/vIuUR3fl/chat HTTP/1.1" 200 11
+2026-11-23 14:09:23,727 lib.conversation (conversation.py:100) INFO *** https://lichess.org/vIuUR3fl/black [spectator] picoSargon: Hi! I'm picoSargon my engine is based on a NNUE. Type !help for a list of commands
+2026-11-23 14:09:23,997 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/bot/game/vIuUR3fl/chat HTTP/1.1" 200 11
+2026-11-23 14:09:23,998 lib.lichess_bot (lichess_bot.py:855) INFO 
+2026-11-23 14:09:23,999 lib.lichess_bot (lichess_bot.py:856) INFO move: 1
+2026-11-23 14:09:23,999 lib.engine_wrapper (engine_wrapper.py:704) INFO Searching for time 10 seconds for game vIuUR3fl
+2026-11-23 14:09:24,002 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1982)>: << ucinewgame
+2026-11-23 14:09:24,003 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1982)>: << isready
+2026-11-23 14:09:24,203 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1982)>: >> readyok
+2026-11-23 14:09:24,204 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1982)>: << position startpos moves e2e4
+2026-11-23 14:09:24,205 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1982)>: << go movetime 10000
+2026-11-23 14:09:24,664 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': 'd2d4 d7d5 c1f4', 'wtime': 1710360, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:09:24,665 lib.lichess_bot (lichess_bot.py:855) INFO 
+2026-11-23 14:09:24,666 lib.lichess_bot (lichess_bot.py:856) INFO move: 2
+2026-11-23 14:09:24,666 lib.engine_wrapper (engine_wrapper.py:726) INFO Searching for wtime 1710360 btime 1797999 for game nj7IoE0o
+2026-11-23 14:09:24,669 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1895)>: << position startpos moves d2d4 d7d5 c1f4
+2026-11-23 14:09:24,669 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1895)>: << go wtime 1710360 btime 1797999 winc 1000 binc 1000
+2026-11-23 14:09:39,474 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1982)>: >> info ply 1 depth 5 score cp -130 nodes 35474 time 15013 nps 2362
+2026-11-23 14:09:39,476 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1982)>: >> bestmove b8c6
+2026-11-23 14:09:39,480 lib.engine_wrapper (engine_wrapper.py:334) INFO Source: Engine
+2026-11-23 14:09:39,481 lib.engine_wrapper (engine_wrapper.py:334) INFO Evaluation: -1.3
+2026-11-23 14:09:39,482 lib.engine_wrapper (engine_wrapper.py:334) INFO Depth: 5
+2026-11-23 14:09:39,483 lib.engine_wrapper (engine_wrapper.py:334) INFO Nodes: 35.5K
+2026-11-23 14:09:39,485 lib.engine_wrapper (engine_wrapper.py:334) INFO Speed: 2.4Knps
+2026-11-23 14:09:39,757 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/bot/game/vIuUR3fl/move/b8c6?offeringDraw=false HTTP/1.1" 200 11
+2026-11-23 14:09:39,761 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'chatLine', 'room': 'player', 'username': 'picoSargon', 'text': "Hi! I'm a bot name picoSargon.Type !help for a list of commands I can respond to."}
+2026-11-23 14:09:39,764 lib.conversation (conversation.py:58) INFO *** https://lichess.org/vIuUR3fl/black [player] picoSargon: Hi! I'm a bot name picoSargon.Type !help for a list of commands I can respond to.
+2026-11-23 14:09:39,765 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'chatLine', 'room': 'spectator', 'username': 'picoSargon', 'text': "Hi! I'm picoSargon my engine is based on a NNUE. Type !help for a list of commands"}
+2026-11-23 14:09:39,767 lib.conversation (conversation.py:58) INFO *** https://lichess.org/vIuUR3fl/black [spectator] picoSargon: Hi! I'm picoSargon my engine is based on a NNUE. Type !help for a list of commands
+2026-11-23 14:09:39,781 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': 'e2e4 b8c6', 'wtime': 1800000, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:09:40,255 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': 'e2e4 b8c6 g1f3', 'wtime': 1800530, 'btime': 1800000, 'winc': 1000, 'binc': 1000, 'status': 'started'}
+2026-11-23 14:09:40,257 lib.lichess_bot (lichess_bot.py:855) INFO 
+2026-11-23 14:09:40,258 lib.lichess_bot (lichess_bot.py:856) INFO move: 2
+2026-11-23 14:09:40,260 lib.engine_wrapper (engine_wrapper.py:726) INFO Searching for wtime 1800530 btime 1797997 for game vIuUR3fl
+2026-11-23 14:09:40,268 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1982)>: << position startpos moves e2e4 b8c6 g1f3
+2026-11-23 14:09:40,275 chess.engine (engine.py:950) DEBUG <UciProtocol (pid=1982)>: << go wtime 1800530 btime 1797997 winc 1000 binc 1000
+2026-11-23 14:09:40,920 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> info ply 3 depth 0 score cp 9 nodes 162 time 16249 nps 9 string ALPHAZERO simulations=160 tree_nodes=162 elapsed_ms=16249 best_visits=40 q=-0.0232667 batch_size=8 cores=2 batches=20 evals=160 nn_ms=31971 stop=time
+2026-11-23 14:09:40,921 chess.engine (engine.py:976) DEBUG <UciProtocol (pid=1895)>: >> bestmove c7c5
+2026-11-23 14:09:40,923 lib.engine_wrapper (engine_wrapper.py:334) INFO Source: Engine
+2026-11-23 14:09:40,924 lib.engine_wrapper (engine_wrapper.py:334) INFO Evaluation: 0.09
+2026-11-23 14:09:40,924 lib.engine_wrapper (engine_wrapper.py:334) INFO Depth: 0
+2026-11-23 14:09:40,924 lib.engine_wrapper (engine_wrapper.py:334) INFO Nodes: 162
+2026-11-23 14:09:40,925 lib.engine_wrapper (engine_wrapper.py:334) INFO Speed: 9nps
+2026-11-23 14:09:41,210 urllib3.connectionpool (connectionpool.py:550) DEBUG https://lichess.org:443 "POST /api/bot/game/nj7IoE0o/move/c7c5?offeringDraw=false HTTP/1.1" 200 11
+2026-11-23 14:09:41,221 lib.lichess_bot (lichess_bot.py:864) DEBUG Game state: {'type': 'gameState', 'moves': 'd2d4 d7d5 c1f4 c7c5', 'wtime': 1710360, 'btime': 1784440, 'winc': 1000, 'binc': 1000, 'status': 'started'}

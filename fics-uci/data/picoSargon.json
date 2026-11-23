@@ -616,6 +616,28 @@
       "modalidad": "standard",
       "rated": true,
       "motor": "picoSargon v0.2.49"
+    },
+    {
+      "id": "2026-11-23T16:57:19.273274+00:00:1",
+      "fics_game": 1,
+      "fecha_inicio_utc": "2026-11-23T16:57:19.273274+00:00",
+      "fecha_fin_utc": "2026-11-23T17:05:39.848665+00:00",
+      "usuario_propio": "picoSargon",
+      "elo_propio": 1764,
+      "color_propio": "negras",
+      "usuario_contrincante": "Horsian",
+      "elo_contrincante": 2973,
+      "color_contrincante": "blancas",
+      "resultado": 0.0,
+      "resultado_fics": "1-0",
+      "razon": "(Horsian vs. picoSargon) picoSargon checkmated",
+      "cantidad_movidas": 15,
+      "cantidad_medias_jugadas": 29,
+      "tiempo_segundos": 500.575,
+      "control_tiempo": "15+5",
+      "modalidad": "standard",
+      "rated": true,
+      "motor": "picoSargon v0.2.50"
     }
   ]
 }
