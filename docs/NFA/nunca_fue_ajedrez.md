@@ -1,5 +1,6 @@
 
 ![Portada NFA](images/NFA_Cover_tittle_Red.jpg)
+$\newcommand{\operatorname}[1]{\text{#1}}$
 
 # Prefacio
 
@@ -649,6 +650,42 @@ rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
 Donde la w indica que juegan blancas, y KQkq indica que ambos bandos aún pueden enrocar en ambos lados.
 
+## Notación EPD (Extended Position Description)
+
+La notación **EPD** (*Extended Position Description* o Descripción Extendida de Posición) es un estándar basado en texto utilizado en el ajedrez por computadora para describir una única posición en el tablero, acompañada de instrucciones adicionales o metadatos para los motores de análisis.
+
+Fue creada a principios de la década de 1990 por **Steven J. Edwards** (también creador del formato PGN) junto con **John Stanback**. Surgió como una evolución de la notación FEN (*Forsyth-Edwards Notation*) para facilitar las pruebas de rendimiento, la creación de libros de aperturas y el intercambio de posiciones de estudio entre motores de ajedrez.
+
+Una línea en formato EPD consta de **cuatro campos obligatorios** seguidos de **operaciones opcionales** separadas por punto y coma (`;`):
+
+1. **Colocación de piezas:** Fila por fila desde la 8 hasta la 1 (mayúsculas para blancas, minúsculas para negras y números para casillas vacías).
+2. **Turno activo:** `w` (juegan blancas) o `b` (juegan negras).
+3. **Disponibilidad de enroque:** `KQkq` (o `-` si ninguno está disponible).
+4. **Casilla de captura al paso (*en passant*):** En notación algebraica (o `-` si no aplica).
+5. **Operaciones (Opcionales):** Comandos específicos compuestos por un código de operación (*opcode*) y uno o más operandos, terminados en `;`.
+
+> **Nota:** A diferencia de la notación FEN, el formato EPD **omite** los contadores de medios movimientos y del número de jugada total, ya que se enfoca en posiciones independientes y no en el historial de una partida.
+
+### 1. Posición inicial estándar (sin operaciones)
+```text
+rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -
+```
+
+### 2. Posición de prueba táctica (con operaciones)
+En este ejemplo se indica la mejor jugada (`bm`) y un identificador de prueba (`id`):
+```text
+1r1q1rk1/2p2ppp/p1p5/4P3/2P5/1P3N2/P4PPP/3R1RK1 w - - bm Rxd8; id "Tactica 01";
+```
+* **`bm Rxd8;`** (*Best Move*): Indica que la mejor jugada para las blancas es Torre por Dama.
+* **`id "Tactica 01";`**: Etiqueta el nombre de la posición dentro de una base de datos.
+
+### 3. Posición con evaluación de motor y comentario
+```text
+r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - ce +25; c0 "Apertura Española o Italiana";
+```
+* **`ce +25;`** (*Centipawn Evaluation*): Indica una ventaja de +0.25 peones para el bando que juega.
+* **`c0 "...";`**: Añade un comentario descriptivo.
+
 ## Sistema ELO
 
 La utilización del sistema ELO es central para poder realizar comparaciones objetivas
@@ -1019,7 +1056,7 @@ Tienen nombre para que los jugadores no tengan que memorizar secuencias numéric
 * Por el apellido del jugador: En honor al ajedrecista que la descubrió o la llevó a la élite.
 	* Ejemplo: *La Defensa Alekhine* (1. e4 Cf6), nombrada por el campeón mundial Alexander Alekhine.
 
-### Partidas Históricas (Bautizos por su belleza o contexto)
+### Partidas Históricas por su belleza o contexto
 
 Cuando una partida alcanza un nivel de genialidad artística o drama político inigualable, la comunidad internacional le otorga un nombre propio.
 * La *Partida Inmortal* (1851): También conocida como *evergreen* donde Adolf Anderssen sacrificó casi todas sus piezas mayores (sus dos torres y la dama) para dar un jaque mate espectacular con sus tres piezas menores restantes. Se le llamó así porque su belleza vivirá para siempre.
@@ -1071,12 +1108,18 @@ Puntuación final	Nivel de juego / Rango de Elo estimado
 
 ### Posiciones más famosas del test
 
-Aunque el test completo está codificado en formato EPD (Extended Position Description) para computadoras, hay dos tipos de posiciones emblemáticas que definen la esencia del Bratko-Kopec [1](https://webdocs.cs.ualberta.ca/~tony/OldPapers/Workshop-BK-1989.pdf), [2](https://chessprogramming.org/Bratko-Kopec_Test), [3](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+Aunque el test completo está codificado en formato EPD (Extended Position Description) para computadoras, hay dos tipos de posiciones emblemáticas que definen la esencia del Bratko-Kopec 
+
+[1](https://webdocs.cs.ualberta.ca/~tony/OldPapers/Workshop-BK-1989.pdf)
+[2](https://chessprogramming.org/Bratko-Kopec_Test)
+[3](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 1. La posición de ruptura posicional (Posición "Lever" o Palanca):
 Varias de las 12 posiciones estratégicas obligan al evaluado a identificar rupturas de peones muy precisas. Son situaciones donde no hay un mate inmediato ni una ganancia material obvia, sino que se mide si el motor o el humano comprende cuándo y dónde abrir la posición para activar sus piezas a largo plazo. 
 
-[1](https://www.chess.com/es/blog/Nicator65/evaluacion-de-posiciones-parte-i-nivel-aficionado), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm), [3](https://webdocs.cs.ualberta.ca/~tony/OldPapers/Workshop-BK-1989.pdf)
+[1](https://www.chess.com/es/blog/Nicator65/evaluacion-de-posiciones-parte-i-nivel-aficionado)
+[2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+[3](https://webdocs.cs.ualberta.ca/~tony/OldPapers/Workshop-BK-1989.pdf)
 
 2. El sacrificio táctico profundo (Posiciones de combinación):
 Dentro del bloque táctico, existen posiciones clásicas donde la mejor jugada es un sacrificio intuitivo de pieza para destruir el enroque enemigo. Para los primeros motores de ajedrez de los años 80 y 90, estas posiciones eran un dolor de cabeza, ya que requerían calcular muchas líneas secundarias antes de ver la recompensa material o el mate. 
@@ -1090,9 +1133,11 @@ El factor B (o perfil de estilo) es un índice matemático diseñado por Ivan Br
 
 Sirve para medir si un ajedrecista se inclina marcadamente hacia la táctica (cálculo y combinaciones) o hacia lo posicional (estrategia y estructuras de peones). 
 
-[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test)
+[2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 La fórmula matemática exacta se define como: 
+
 [1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 $\(B=\frac{12\times (T-L)}{S}\)$
@@ -1104,18 +1149,26 @@ Los componentes de la fórmula son:
 • $\(S\)$: Puntuación total acumulada en el test (\(T + L\)).
 • $\(12\)$: Un factor constante multiplicador para normalizar y escalar el resultado final. 
 
-[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2] (https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test)
+[2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 ¿Cómo se interpretan los resultados?
 
 Para interpretar los resultados se toma el valor del factor $\(B\)$  que oscilará generalmente en un rango numérico que revela el "perfil psicológico y técnico" en el tablero: 
+
 [1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
-* Factor $\(B\)$ significativamente positivo (\(B > 0\)): Indica un perfil netamente táctico. El evaluado resuelve mucho mejor los problemas de cálculo, mates y combinaciones forzadas que los de comprensión posicional profunda. [1] (https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2] (https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+* Factor $\(B\)$ significativamente positivo (\(B > 0\)): Indica un perfil netamente táctico. El evaluado resuelve mucho mejor los problemas de cálculo, mates y combinaciones forzadas que los de comprensión posicional profunda. 
+
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test)
+[2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 * Factor $\(B\)$ significativamente negativo $(\(B < 0\))$: Indica un perfil netamente posicional / estratégico. El evaluado muestra una fuerte intuición para mejorar sus piezas y comprender las estructuras de peones, pero flaquea bajo presión combinatoria. 
-  [1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
-• Factor $\(B\)$ cercano a cero ($\(B \approx 0\)$) indicará un perfil equilibrado (universal). Las habilidades de cálculo y los conceptos estratégicos se encuentran al mismo nivel, que es el rasgo ideal de los jugadores de élite modernos.
+
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test)
+[2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+Factor $\(B\)$ cercano a cero ($\(B \approx 0\)$) indicará un perfil equilibrado (universal). Las habilidades de cálculo y los conceptos estratégicos se encuentran al mismo nivel, que es el rasgo ideal de los jugadores de élite modernos.
 
 Si se obtienen 7 puntos en el bloque táctico $(\(T = 7\))$ y 4 puntos en el bloque posicional $(\(L = 4\))$, tu puntuación total será de *11 puntos* $(\(S = 11\))$. Aplicando la fórmula:
 
@@ -1123,7 +1176,8 @@ $\(B=\frac{12\times (7-4)}{11}=\frac{12\times 3}{11}=\frac{36}{11}\approx +3.27\
 
 Al arrojar un resultado de *+3.27*, el test concluye que posees un estilo de juego predominantemente táctico y que tu principal área de mejora radica en la estrategia posicional. 
 
-[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+[1](https://www.chess.com/blog/B1ZMARK/bratko-kopec-test)
+[2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 
 Cuando [Ivan Bratko](https://www.google.com/search?kgmid=%2Fm%2F02vnx7k&q=Ivan+Bratko) y [Danny Kopec](https://www.google.com/search?kgmid=%2Fm%2F04954d&q=Danny+Kopec) aplicaron el test y calcularon el factor B en las computadoras de los años 80, confirmaron numéricamente lo que la comunidad ajedrecística sospechaba: las máquinas de esa época tenían un factor B fuertemente positivo. Esto revelaba un perfil extremadamente desequilibrado que sufría de graves deficiencias estructurales.
@@ -1136,7 +1190,8 @@ Los tipos de debilidades específicas que el factor B dejó al descubierto en lo
 
 Las computadoras de los 80 dependían casi exclusivamente de la "fuerza bruta" (calcular millones de jugadas por segundo en un árbol de variantes continuo). 
 
-[1](https://pages.mini.pw.edu.pl/~mandziukj/2015-01-13.pdf), [2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+[1](https://pages.mini.pw.edu.pl/~mandziukj/2015-01-13.pdf)
+[2](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 • La debilidad: En las posiciones posicionales (bloque Lever), la solución requería maniobras lentas o mantener la tensión de peones sin ganancias inmediatas.
 • Debido a que el beneficio estratégico real se encontraba más allá del número de jugadas que la máquina podía calcular (su "horizonte"), el motor no detectaba ninguna ventaja a corto plazo y descartaba la jugada correcta.
@@ -1145,8 +1200,10 @@ Las computadoras de los 80 dependían casi exclusivamente de la "fuerza bruta" (
 
 Para optimizar el tiempo de procesamiento, los programadores ordenaban las listas de jugadas candidatas priorizando los intercambios materiales. 
 [1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
 * La debilidad: Esto generaba una ansiedad por capturar piezas (eagerness for capture). El factor B penalizaba esto con dureza porque, en las posiciones estratégicas del test, la mejor jugada solía ser mantener la tensión o realizar una sutil jugada de profilaxis. Las computadoras preferían capturar inmediatamente o iniciar líneas tácticas estériles solo porque ganaban un peón temporalmente, destruyendo su propia estructura en el proceso. 
-  [1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
+
+[1](https://www.sci.brooklyn.cuny.edu/~kopec/Publications/THE%20BRATKO-KOPEC%20TEST%20RECALIBRATED.htm)
 
 1. Incapacidad para evaluar planes a largo plazo
 
@@ -1158,8 +1215,9 @@ Las funciones de evaluación de los años 80 asignaban valores numéricos rígid
 
 El test demostró que las máquinas fallaban en resolver ciertas posiciones de ataque donde el bando fuerte sacrificaba una pieza sin una variante forzada de mate a la vista. Un humano maestro encontraba la jugada de sacrificio por intuición y conceptos tácticos generales. La computadora, al no ver un mate en 5 o 6 jugadas forzadas, asumía erróneamente que perder material la dejaba en desventaja y decidía no sacrificar, perdiendo la oportunidad de ganar la partida.
 
-Gracias a los hallazgos del factor B en el set de Bratko-Kopec, la informática de los años 90 dio un vuelco. Los programadores entendieron que no bastaba con hacer procesadores más rápidos; tenían que reescribir las funciones de evaluación para enseñarle "conceptos estratégicos" a las computadoras, logrando eventualmente que el factor B de las máquinas bajara hasta un nivel equilibrado y universal $(\(B \approx 0\))$, tal como juegan los motores modernos hoy en día. [1] (https://chessprogramming.org/Bratko-Kopec_Test)
+Gracias a los hallazgos del factor B en el set de Bratko-Kopec, la informática de los años 90 dio un vuelco. Los programadores entendieron que no bastaba con hacer procesadores más rápidos; tenían que reescribir las funciones de evaluación para enseñarle "conceptos estratégicos" a las computadoras, logrando eventualmente que el factor B de las máquinas bajara hasta un nivel equilibrado y universal $(\(B \approx 0\))$, tal como juegan los motores modernos hoy en día. 
 
+[1] (https://chessprogramming.org/Bratko-Kopec_Test)
 
 
 ## Métodos de aprendizaje
@@ -1213,6 +1271,84 @@ El juego se vuelve un deporte psicológico y de resistencia. El entrenamiento se
 * Paso 1: Gestión del tiempo y psicología. Aprender a jugar bajo la presión del reloj, gestionar los nervios tras un error y aprender a "recular" o defender posiciones inferiores (resiliencia en el tablero).
 * Paso 2: Estudio de Clásicos. Analizar partidas de los Campeones Mundiales (Capablanca para la sencillez posicional, Alekhine o Kasparov para el ataque dinámico, Carlsen para los finales). El cerebro absorbe la "intuición" de los maestros.
 * Paso 3: Transición al Ajedrez Presencial (Over the Board). Jugar torneos oficiales con relojes físicos y piezas reales. El salto del tablero bidimensional de la pantalla al tablero tridimensional real requiere una adaptación visual y espacial crucial.
+
+Para elevar tu nivel de juego más allá del conocimiento básico de las reglas, la clave reside en aplicar un protocolo de pensamiento sistemático basado en la evaluación posicional, la detección de motivos tácticos y la ejecución de planes a largo plazo.
+
+El detallar un enfoque metodológico que cubra todos los aspectos del juego escapa largamente al objetivo de éste trabajo, pero se puede articular un resumen sobre  una metodología estructurada en cuatro fases secuenciales para aplicar en cada turno durante el medio juego.
+
+### 1️⃣ Diagnóstico de Seguridad y Táctica Inmediata (El "Escáner" de Corto Plazo)
+
+Antes de pensar en grandes estrategias, hay que garantizar la supervivencia y buscar golpes tácticos inmediatos. La táctica siempre tiene prioridad sobre la estrategia.
+
+* Seguridad de los Reyes: Evalúa la exposición de ambos monarcas. Revisa el escudo de peones, columnas abiertas cercanas y diagonales peligrosas.
+* Detección de Amenazas del Rival: Pregúntate siempre: ¿Qué pretende mi oponente con su última jugada? Identifica piezas atacadas, piezas sin defensa ("en el aire") y amenazas de mate.
+* Búsqueda de Motivos Tácticos (Jaque, Captura, Amenaza): Analiza las jugadas forzadas en ese orden estricto. Busca patrones clásicos:
+	* Clavadas (absolutas y relativas).
+	* Ataques dobles o tenedores.
+	* Ataques a la descubierta y jaques dobles.
+	* Desviación y atracción de piezas defensoras.
+	* Rayos X y sobrecarga de piezas.
+
+### 2️⃣ Evaluación Estratégica (Los Pilares de Steinitz)
+
+Si no existen golpes tácticos inmediatos, debes diagnosticar la posición utilizando los factores estratégicos permanentes y temporales para determinar quién tiene ventaja y dónde reside.
+
+* Factor Estratégico	
+  * Qué debes observar en el tablero	
+    * Impacto en el juego
+    * Material	
+    * Conteo de piezas y calidad (ej. Torre por Alfil + Peón).
+    * Determina si conviene simplificar (cambiar piezas) o complicar.
+  * Estructura de Peones
+    * Peones doblados, aislados, retrasados, pasados o cadenas de peones.
+    * Define las rutas de ataque, las casillas débiles y el plan para el final.
+  * Actividad de Piezas	Piezas bien ubicadas (puestos avanzados) vs. piezas pasivas o encerradas.
+    * Quien tiene más piezas activas suele dominar la iniciativa.
+  * Control del Centro y Espacio
+    * Dominio de las casillas e4, d4, e5, d5 y territorio ganado por los peones.
+    * Más espacio facilita trasladar piezas de un flanco a otro rápidamente.
+  * Debilidades de Casillas	Casillas que ya no pueden ser defendidas por peones (ej. complejos de color).
+    * Son puntos de anclaje ideales para caballos o infiltración de damas.
+
+
+### 3️⃣ Formulación del Plan de Medio Juego
+
+Con el diagnóstico hecho, el siguiente paso es elegir una dirección concreta. Un mal plan es mejor que jugar sin plan.
+
+1. Selección del Sector de Juego
+
+La estructura de peones dicta dónde debes atacar:
+
+* Centro cerrado: Ataca en los flancos (siguiendo la dirección hacia donde apuntan tus cadenas de peones).
+* Centro abierto: Prioriza el desarrollo rápido, el control de columnas abiertas y el juego activo de piezas en el centro.
+* Flancos opuestos (enroques heterogéneos): Lanza una "tormenta de peones" contra el enroque rival; aquí prima la velocidad sobre el material.
+
+2. Maniobras Típicas de Medio Juego
+
+* Mejorar la peor pieza: Identifica tu pieza menos activa y traza una ruta de 2 o 3 jugadas para llevarla a una casilla óptima.
+* Rupturas de peones: Prepara el avance de un peón para abrir líneas (columnas o diagonales) a favor de tus torres y alfiles.
+* Profilaxis: Antecípate al plan del rival y neutralízalo antes de ejecutar el tuyo (ej. hacer una jugada de espera útil o controlar una casilla clave de ruptura del oponente).
+* Intercambio favorable: Cambia tu "alfil malo" (bloqueado por tus propios peones) por el "alfil bueno" o el caballo activo del rival.
+
+### 4️⃣ Proceso de Cálculo y Toma de Decisiones (Árbol de Variantes)
+
+Una vez definido el objetivo estratégico, debes traducirlo en jugadas concretas sin caer en errores de cálculo.
+
+1. Selección de Jugadas Candidatas: Elige entre 2 y 3 movimientos posibles que respondan a tu plan o a las necesidades tácticas de la posición.
+2. Cálculo Secuencial: Analiza cada jugada candidata profundizando en las respuestas más fuertes del rival (no asumas que el oponente jugará mal).
+3. Visualización de la Posición Final: Al terminar de calcular una variante, detente mentalmente y evalúa la posición resultante usando nuevamente la Fase 1 (asegurándote de no dejar una pieza indefensa al final de la secuencia).
+4. Verificación Anti-Blunder (Control de Calidad): Antes de soltar la pieza o confirmar el movimiento, haz un último chequeo visual rápido sobre las piezas de tu oponente para descartar errores graves de un solo movimiento.
+
+### Resumen Operativo por Turno
+
+Para aplicarlo en partida real, sigue este bucle mental:
+
+1. ¿Qué amenaza el rival? (Defensa/Profilaxis)
+2. ¿Tengo algún golpe táctico? (Jaques, capturas, amenazas)
+3. ¿Cuál es la debilidad principal de la posición? (Evaluación posicional)
+4. ¿Cómo mejoro mi peor pieza o ejecuto mi ruptura? (Planificación)
+5. Calculo variantes y verifico seguridad. (Ejecución)
+
 
 # CAP 3 Algoritmo Minimax con poda Alfa-Beta
 
@@ -2811,11 +2947,11 @@ Cada elemento indica la presencia o ausencia de una determinada pieza en una cas
 
 Por ejemplo, el plano correspondiente a los peones blancos puede representarse como:
 
-$X\_{\text{peones blancos}}\in\\{0,1\\}^{8\times8}$
+$X_{\text{peones blancos}}\in\\{0,1\\}^{8\times8}$
 
 donde:
 
-$X\_{ij}= \begin{cases} 1 & \text{si existe un peón blanco en }(i,j)\\ 0 & \text{en otro caso} \end{cases}$
+$X_{ij}= \begin{cases} 1 & \text{si existe un peón blanco en }(i,j) \\ 0 & \text{en otro caso} \end{cases}$
 
 La representación básica tiene:
 
@@ -3476,7 +3612,10 @@ Esto no contradice el uso de Bellman: modifica la inicialización y la distribuc
 
 Para evitar que el sistema repita exclusivamente las jugadas consideradas mejores, puede utilizarse una política $\varepsilon$ -greedy:
 
-$\pi\_\varepsilon(a\mid s)= \begin{cases} \text{acción óptima estimada} & \text{con probabilidad }1-\varepsilon\\ \text{acción legal aleatoria} & \text{con probabilidad }\varepsilon \end{cases}$
+$\pi_\varepsilon(a \mid s) = \begin{cases} 
+\text{acción óptima estimada} & \text{con probabilidad } 1-\varepsilon \\ 
+\text{acción legal aleatoria} & \text{con probabilidad } \varepsilon 
+\end{cases}$
 
 En caso de empates entre acciones, puede establecerse una regla de desempate aleatoria.
 
@@ -4124,9 +4263,7 @@ Esta combinación permite separar dos problemas:
 - Aprender patrones generales de valoración.
 - Verificar consecuencias concretas de movimientos.
 
-## Posible experimento
-
-Para investigar seriamente la viabilidad de utilizar Bellman en ajedrez, convendría diseñar un experimento con controles que permitan distinguir la mejora real del aprendizaje de los efectos provocados por una búsqueda adicional.
+Para investigar seriamente la viabilidad de utilizar Bellman en ajedrez, hay diseñar una implementación con controles que permitan distinguir la mejora real del aprendizaje de los efectos provocados por una búsqueda adicional.
 
 Una comparación razonable utilizaría cuatro agentes:
 
@@ -4233,16 +4370,16 @@ $\boxed{\hat y=f\_\theta(x)}$
 
 donde:
 
-- $x$representa los datos de entrada.
-- $\hat y$representa la salida calculada.
-- $f$es una composición de transformaciones matemáticas.
-- $\theta$es el conjunto de parámetros ajustables, principalmente pesos y sesgos.
+- $x$ representa los datos de entrada.
+- $\hat y$ representa la salida calculada.
+- $f$ es una composición de transformaciones matemáticas.
+- $\theta$ es el conjunto de parámetros ajustables, principalmente pesos y sesgos.
 
 El aprendizaje consiste en determinar:
 
 $\boxed{\theta^\*=\arg\min\_\theta \mathcal L(\theta)}$
 
-donde $\mathcal L$mide la discrepancia entre lo que produce la red y el comportamiento esperado.
+donde $\mathcal L$ mide la discrepancia entre lo que produce la red y el comportamiento esperado.
 
 La simplicidad de esta formulación es engañosa. En las redes modernas, $\theta$puede contener desde algunos cientos hasta miles de millones de parámetros. Además, la función $f\_\theta$puede incluir operaciones lineales, no linealidades, convoluciones, mecanismos de atención, normalización, conexiones residuales y múltiples salidas especializadas.
 
@@ -4273,9 +4410,9 @@ $w_1,w_2,\ldots,w_n$
 
 La activación podía representarse conceptualmente mediante:
 
-$y= \begin{cases} 1 & \sum_i w_ix_i\geq\vartheta\\\ 0 & \sum_i w_ix_i<\vartheta \end{cases}$
+$y= \begin{cases} 1 & \sum_i w_ix_i\geq\vartheta\\ 0 & \sum_i w_ix_i<\vartheta \end{cases}$
 
-donde $\vartheta$es un umbral.
+donde $\vartheta$ es un umbral.
 
 Este modelo permitió demostrar que combinaciones de neuronas formales podían representar operaciones lógicas.
 
@@ -4291,9 +4428,9 @@ $\boxed{\Delta w\_{ij}=\eta x_i y_j}$
 
 donde:
 
-- $x_i$es la actividad presináptica.
-- $y_j$es la actividad postsináptica.
-- $\eta$es un coeficiente de aprendizaje.
+- $x_i$ es la actividad presináptica.
+- $y_j$ es la actividad postsináptica.
+- $\eta$ es un coeficiente de aprendizaje.
 
 La idea es que la correlación entre las actividades de dos unidades puede fortalecer su conexión.
 
@@ -4444,7 +4581,7 @@ Sin activaciones no lineales, agregar capas no amplía la familia de funciones l
 
 ## Funciones de activación
 
-Sigmoide logística:
+### Sigmoide logística
 
 $\sigma(x)=\frac{1}{1+e^{-x}}$
 
@@ -4454,7 +4591,7 @@ $\boxed{\sigma'(x)=\sigma(x)(1-\sigma(x))}$
 
 Produce valores en $(0,1)$, apropiados para determinadas salidas probabilísticas.
 
-Tangente hiperbólica:
+### Tangente hiperbólica
 
 $\tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$
 
@@ -4464,7 +4601,7 @@ $\boxed{\frac{d}{dx}\tanh(x)=1-\tanh^2(x)}$
 
 Produce valores en $(-1,1)$, convenientes para funciones de valoración del resultado de una partida.
 
-ReLU:
+### ReLU
 
 $\boxed{\text{ReLU}(x)=\max(0,x)}$
 
@@ -4472,23 +4609,23 @@ Su derivada, salvo en el punto de no diferenciabilidad, es:
 
 $\text{ReLU}'(x)= \begin{cases} 0 & x<0\\\ 1 & x>0 \end{cases}$
 
-En $x=0$puede elegirse un subgradiente convencional.
+En $x=0$ puede elegirse un subgradiente convencional.
 
-Clipped ReLU:
+### Clipped ReLU
 
 $\text{CReLU}(x)=\min(c,\max(0,x))$
 
 La saturación superior facilita el empleo de aritmética entera y cuantización en determinados evaluadores NNUE.
 
-GELU:
+### GELU
 
 $\text{GELU}(x)=x\Phi(x)$
 
-donde $\Phi$es la función de distribución acumulada de una normal estándar.
+donde $\Phi$ es la función de distribución acumulada de una normal estándar.
 
 GELU es habitual en arquitecturas Transformer.
 
-Funciones de activación habituales
+### Funciones de activación habituales
 
 Comparación de ReLU, tanh y sigmoide.
 
@@ -4702,7 +4839,7 @@ Conceptualmente:
 
 $\frac{\partial\mathcal L}{\partial a^{(0)}} = J_1^\top J_2^\top\cdots J_L^\top \frac{\partial\mathcal L}{\partial a^{(L)}}$
 
-donde $J\_\ell$es el jacobiano local de una capa.
+donde $J\_\ell$ es el jacobiano local de una capa.
 
 Si las normas relevantes de esos jacobianos tienden a ser menores que uno, el producto puede disminuir rápidamente y producir vanishing gradients.
 
@@ -4724,9 +4861,9 @@ Este procedimiento se denomina descenso por gradiente.
 
 ## Learning rate
 
-El parámetro $\eta$, denominado learning rate, determina el tamaño del paso de actualización.
+El parámetro $\eta$ , denominado learning rate, determina el tamaño del paso de actualización.
 
-Si $\eta$es demasiado pequeño, el entrenamiento puede progresar muy lentamente.
+Si $\eta$ es demasiado pequeño, el entrenamiento puede progresar muy lentamente.
 
 Si es demasiado grande, el procedimiento puede oscilar, divergir o atravesar regiones de baja pérdida sin estabilizarse.
 
@@ -4774,7 +4911,7 @@ Los conceptos son:
 - Iteration o step: actualización de parámetros.
 - Epoch: recorrido de los ejemplos del conjunto de entrenamiento, normalmente una vez por época.
 
-Para $N$ejemplos y un batch de tamaño $B$, la cantidad aproximada de pasos por época es:
+Para $N$ ejemplos y un batch de tamaño $B$, la cantidad aproximada de pasos por época es:
 
 $\left\lceil\frac NB\right\rceil$
 
@@ -4992,7 +5129,7 @@ características.
 
 Una característica puede definirse:
 
-$x\_{p,c,s}= \begin{cases} 1 & \text{si existe una pieza de tipo }p,\text{ color }c,\text{ en }s\\ 0 & \text{en otro caso} \end{cases}$
+$x_{p,c,s}= \begin{cases} 1 & \text{si existe una pieza de tipo }p,\text{ color }c,\text{ en }s\\ 0 & \text{en otro caso} \end{cases}$
 
 Por ejemplo, si una torre blanca está en a1, la característica correspondiente a torre blanca en a1 vale 1.
 
@@ -5325,7 +5462,7 @@ La salida es:
 
 $\boxed{ v=h^\top w_2+b_2+w_h\frac{hmc}{50} }$
 
-donde $hmc$representa el contador de medias jugadas sin captura ni movimiento de peón.
+donde $hmc$ representa el contador de medias jugadas sin captura ni movimiento de peón.
 
 La evaluación se convierte posteriormente a centipeones mediante un factor de calibración de 400:
 
@@ -5369,7 +5506,7 @@ Se necesita un conjunto de pares:
 
 $D=\\{(s_i,y_i)\\}\_{i=1}^{N}$
 
-donde $y_i$puede representar una evaluación de un motor de referencia, una etiqueta posicional o una transformación del resultado de la partida.
+donde $y_i$ puede representar una evaluación de un motor de referencia, una etiqueta posicional o una transformación del resultado de la partida.
 
 Una pérdida sencilla:
 
@@ -5620,7 +5757,7 @@ Esto introduce un mecanismo de atención por canales, diferente de la autoatenci
 
 Leela Chess Zero (LC0) se desarrolló utilizando inicialmente arquitecturas relacionadas con AlphaZero, basadas en torres residuales profundas.
 
-Su documentación describe arquitecturas con convoluciones, bloques residuales y mecanismos SE, con configuraciones como $10\times128$, $20\times256$y $24\times320$.&#x20;
+Su documentación describe arquitecturas con convoluciones, bloques residuales y mecanismos SE, con configuraciones como $10\times128$ , $20\times256$ y $24\times320$
 
 La notación:
 
@@ -5822,7 +5959,11 @@ Supongamos que un conjunto de datos contiene posiciones y jugadas elegidas por u
 
 La jugada objetivo se representa mediante una distribución one-hot:
 
-$y_a= \begin{cases} 1 & a=a^\*\\ 0 & a\neq a^\* \end{cases}$
+
+$y_a = \begin{cases} 
+1 & a = a^* \\ 
+0 & a \neq a^* 
+\end{cases}$
 
 La pérdida de política es:
 
@@ -6807,11 +6948,9 @@ Un archivo `.onnx` incluye principalmente:
 - **Operadores:** convoluciones, multiplicaciones matriciales, normalizaciones, activaciones, atención y otras operaciones.
 - **Versionado de operadores (opsets):** define la semántica de las operaciones empleadas.
 
-La representación está estandarizada mediante una especificación formal.&#x20;
+La representación está estandarizada mediante una especificación formal.
 
-[image](https://www.google.com/s2/favicons?domain=https://github.com\&sz=32)
-
-MODELO A — Red totalmente conectada
+[MODELO A — Red totalmente conectada
 
 Entrada (768)
 
@@ -6858,9 +6997,7 @@ La diferencia de arquitectura está definida en los archivos, no en la lógica e
 
 El formato `.pt` merece especial atención: **la extensión no garantiza qué información contiene**. Un archivo PyTorch puede contener simplemente un `state_dict`, un checkpoint más elaborado o una representación exportada mediante otras herramientas.
 
-TensorFlow SavedModel y PyTorch Export también contienen una representación computacional del modelo, además de sus parámetros.&#x20;
-
-[image](https://www.google.com/s2/favicons?domain=https://www.tensorflow.org\&sz=32)
+TensorFlow SavedModel y PyTorch Export también contienen una representación computacional del modelo, además de sus parámetros.
 
 ### Secuencias, contadores y recurrencia
 
@@ -6872,10 +7009,7 @@ Dispone de operadores de control de flujo como:
 - `Loop`: iteraciones y actualización de variables entre iteraciones.
 - `Scan`: procesamiento secuencial, especialmente útil para modelos recurrentes.
 
-Esto permite representar, por ejemplo, redes RNN y LSTM y determinados mecanismos de memoria interna.&#x20;
-
-[image](https://www.google.com/s2/favicons?domain=https://onnx.ai\&sz=32)
-
+Esto permite representar, por ejemplo, redes RNN y LSTM y determinados mecanismos de memoria interna.
 ONNX 1.24.0 documentation+1
 
 Sin embargo, hay una restricción importante: el grafo describe **la computación de la red**, no necesariamente la lógica completa del programa que la utiliza.
@@ -6922,10 +7056,7 @@ Evaluación
 
 .onnx
 
-ONNX Runtime permite ejecutar los modelos mediante una API común, seleccionando proveedores de ejecución para CPU, GPU y otros aceleradores.&#x20;
-
-[image](https://www.google.com/s2/favicons?domain=https://onnxruntime.ai\&sz=32)
-
+ONNX Runtime permite ejecutar los modelos mediante una API común, seleccionando proveedores de ejecución para CPU, GPU y otros aceleradores.
 El problema más importante no sería la compatibilidad entre arquitecturas, sino la **compatibilidad semántica de sus entradas y salidas**.
 
 Por ejemplo, dos redes pueden recibir tensores con la misma dimensión y, sin embargo, representar las piezas, colores o casillas de manera distinta. Un runtime no puede deducir automáticamente esa semántica a partir de las dimensiones.
@@ -6980,7 +7111,7 @@ $\Rightarrow\quad \mathbf y=(W_2W_1)\mathbf x+(W_2\mathbf b_1+\mathbf b_2).$
 
 La composición sigue siendo afín, aunque existan muchas capas. Insertar ReLU rompe esa equivalencia global:
 
-$\mathbf y=W_2\operatorname{ReLU}(W_1\mathbf x+\mathbf b_1)+\mathbf b_2.$
+$\mathbf y=W_2\text{ReLU}(W_1\mathbf x+\mathbf b_1)+\mathbf b_2.$
 
 La nueva función es **lineal por tramos**: en regiones de entrada donde se mantiene el mismo patrón de neuronas encendidas/apagadas, se comporta como una transformación afín diferente. Las fronteras aparecen donde $w_i^T\mathbf x+b_i=0$.
 
@@ -6990,16 +7121,16 @@ La nueva función es **lineal por tramos**: en regiones de entrada donde se mant
 
 La universalidad aproximadora requiere condiciones sobre anchura, arquitectura, dominio y activaciones: no significa que cualquier red pequeña represente automáticamente cualquier función.
 
-Para $z\neq0$:
-$\text{ReLU}'(z)=\begin{cases}0,&z<0\\1,&z>0.\end{cases}$
+Para $z\neq 0 : \text{ReLU}'(z)=\begin{cases}0,&z<0\\1,&z>0.\end{cases}$
 
 En $z=0$ la derivada clásica **no existe** porque las pendientes laterales difieren. En aprendizaje automático suele asignarse la subderivada 0, una convención de implementación; cualquier valor entre 0 y 1 es una subderivada admisible de la función convexa en el origen.
 
 ![Derivada de ReLU](images/02_gradiente.png)
 
-**Figura 3.** Gradiente nulo para entradas negativas y unitario para entradas positivas. El valor puntual en cero responde a una convención.
+**Figura 3.** Gradiente nulo para entradas negativas y unitario para entradas positivas. 
+El valor puntual en cero responde a una convención.
 
-Sea $\mathcal L$ la pérdida de la red. Para $z=\mathbf w^T\mathbf x+b$ y $a=\operatorname{ReLU}(z)$, aplicamos la regla de la cadena:
+Sea $\mathcal L$ la pérdida de la red. Para $z=\mathbf w^T\mathbf x+b$ y $a=\text{ReLU}(z)$, aplicamos la regla de la cadena:
 
 $\frac{\partial\mathcal L}{\partial w_i}=\frac{\partial\mathcal L}{\partial a}\,\text{ReLU}'(z)\,x_i,\qquad \frac{\partial\mathcal L}{\partial b}=\frac{\partial\mathcal L}{\partial a}\,\text{ReLU}'(z).$
 
@@ -7101,7 +7232,7 @@ donde $\Phi$ es la función de distribución acumulada de una normal estándar. 
 
 #### Mish
 
-$\text{Mish}(x)=x\tanh(\operatorname{Softplus}(x)).$
+$\text{Mish}(x)=x\tanh(\text{Softplus}(x)).$
 
 Es suave, permite valores ligeramente negativos y añade costo computacional. Puede ser competitiva en algunas arquitecturas, pero no es una sustitución universalmente superior.
 
@@ -7220,7 +7351,7 @@ Como en otros casos similares empezaremos por definir
 
 $V(s)\in R$
 
-la **función de evaluación estática**, expresada en **centipeones (cp)** desde el punto de vista de las blancas: $V(s)>0$ favorece a blancas; $V(s)<0$ favorece a negras. Por convención, 100 cp equivalen a un peón de referencia, pero **no representan una probabilidad de victoria del 100 % ni una ganancia garantizada**.
+la **función de evaluación estática**, expresada en **centipeones (cp)** desde el punto de vista de las blancas: $V(s)>0$ favorece a blancas; $V(s)<0$ favorece a negras. Por convención, 100 cp equivalen a un peón de referencia, pero **no representan una probabilidad de victoria del 100 % ni una ganancia de partida sin riesgos**.
 
 Un posible enfoque es tratar de aproximar la evaluación que proporciona una fuente de juego confiable, por ejemplo
 la evaluación que realiza Stockfish, para un conjunto de posiciones $s_i$. La referencia se denomina $y_i$:
@@ -7237,7 +7368,7 @@ Ambas señales están correlacionadas, pero no son equivalentes. Dos funciones p
 Es posible abordar la generación de un mecanismo de evaluación mediante dos estrategias:
 
 - **PST / heurístico:** una función lineal de características de ajedrez diseñadas explícitamente, con 34 coeficientes evolucionables y el valor del peón fijo en 100 cp.
-- **NNUE pequeña:** una red de 768 entradas binarias dispersas, 16 neuronas ocultas y una salida escalar, con 12.321 genes enteros que se optimizan por evolución genética.
+- **NNUE pequeña:** una red NNUE como las revisadas que se optimizan por evolución genética.
 
 En ambos casos no se resuelve la búsqueda en si, solo la evaluación, por lo tanto la jugada en si y la búsqueda de la mejor solución pertenece al algoritmo jugador, cualquiera sea el que se elija, por lo tanto mejorar el error de evaluación no implica necesariamente mejorar la elección final de jugadas.
 
@@ -7276,7 +7407,7 @@ Como una generación puede considerarse la similitud a un ciclo evolutivo donde 
 
 En términos abstractos:
 
-$P_{t+1}=\operatorname{Elite}(P_t)\ \cup\ \operatorname{Mutar}(\operatorname{Cruzar}(\operatorname{Seleccionar}( P_t))).$$
+$P_{t+1}=\text{Elite}(P_t)\ \cup\ \text{Mutar}(\text{Cruzar}(\text{Seleccionar}( P_t))).$$
 
 La igualdad se interpreta como construcción de una población nueva, no como una operación algebraica exacta sobre conjuntos.
 
@@ -7389,43 +7520,43 @@ con $\mathbf 1[\cdot]$ igual a 1 cuando la condición es verdadera y 0 en caso c
 
 **b) Error cuadrático medio de valoración, expresado como RMSE:**
 
-$$\operatorname{RMSE}_j=\sqrt{\frac{1}{N}\sum_{i=1}^N\big(V_{\mathrm{PST}}(s_i;\theta_j)-y_i\big)^2}.$$
+$\text{RMSE}_j=\sqrt{\frac{1}{N}\sum_{i=1}^N\big(V_{\mathrm{PST}}(s_i;\theta_j)-y_i\big)^2}.$
 
 La aptitud maximizada realmente en v0.1.1 es:
 
-$$\boxed{F_j=\frac{(H_j+1)^2}{1+\operatorname{RMSE}_j/400}.}$$
+$\boxed{F_j=\frac{(H_j+1)^2}{1+\text{RMSE}_j/400}.}$
 
 Cada parte tiene una función específica:
 
 - $H_j$ recompensa la reproducción exacta de la mejor jugada de Stockfish en búsqueda de un ply.
 - El exponente 2 eleva la presión hacia individuos con más coincidencias, inspirado en el criterio descrito por David et al.
 - El sumando $+1$ evita un numerador nulo cuando no hay aciertos.
-- La división por $1+\mathrm{RMSE}/400$ penaliza el desacuerdo en **valor**; 400 cp es una escala fija de cuatro peones en esta fórmula, **no** una cantidad ajustada automáticamente.
+- La división por $1+\frac{RMSE}{400}$ penaliza el desacuerdo en **valor**; 400 cp es una escala fija de cuatro peones en esta fórmula, **no** una cantidad ajustada automáticamente.
 
 Ejemplo de dos candidatos con igual $H=20$:
 
-- A, RMSE = 200 cp: $F_A=21^2/(1+0.5)=294$.
-- B, RMSE = 400 cp: $F_B=21^2/(1+1)=220.5$.
+- A, RMSE = 200 cp: $F_A=\frac{21^2}{(1+0.5)}=294$.
+- B, RMSE = 400 cp: $F_B=\frac{21^2}{(1+1)}=220.5$.
 
 A mayor error, menor aptitud. Pero una diferencia suficientemente grande de aciertos puede dominar la penalización de RMSE. Por eso el algoritmo no minimiza exclusivamente la distancia a la evaluación de Stockfish.
 
 Para una población de 100 cromosomas ("individuos") y 500 generaciones.
 
 1. **Inicio:** para cada individuo y cada bit se sortea 0 o 1, de forma independiente.
-2. **Fitness:** se decodifican todos los individuos y se calculan $H_j$, RMSE y $F_j$.
+2. **Fitness:** se decodifican todos los individuos y se calculan $H_j$ , RMSE y $F_j$ .
 3. **Elitismo:** el mejor cromosoma de la generación se copia íntegramente.
 4. **Selección proporcional (ruleta):** el individuo $j$ es elegido como progenitor con probabilidad
 
-   $p_j=\frac{F_j}{\sum_{k=1}^P F_k},$
+   $$p_j=\frac{F_j}{\sum_{k=1}^P F_k}$$
 
    usando selección uniforme como contingencia si la suma fuera cero.
 5. **Cruzamiento:** con probabilidad **0,75** se construye una máscara aleatoria bit a bit, escogiendo para cada posición un bit de uno u otro padre con probabilidad 0,5. En caso contrario se copia el primer progenitor.
 6. **Mutación:** cada bit del hijo se invierte independientemente con probabilidad **0,005**.
 7. **Reemplazo:** se repite hasta reconstruir la población y comienza la generación siguiente.
 
-El **número esperado** de bits mutados por hijo —sin contar el individuo élite— es $224\times0.005=1.12$; no significa que todo individuo tenga exactamente un cambio.
+El **número esperado** de bits mutados por hijo —sin contar el individuo élite— es $224\times0.005=1.12$ ; no significa que todo individuo tenga exactamente un cambio.
 
-El algoritmo onserva el mejor cromosoma global según $F_j$, no solamente el último mejor, los parámetros del mismo
+El algoritmo onserva el mejor cromosoma global según $F_j$ , no solamente el último mejor, los parámetros del mismo
 son guardados junto con los valores decodificados, su cadena de 224 bits, fitness, parámetros de ejecución y semilla.
 
 ## NNUE pequeña: estructura, inferencia y valor
@@ -7437,21 +7568,26 @@ $\boxed{768\longrightarrow16\longrightarrow1.}$
 
 No tiene cabeza de política; produce exclusivamente una valoración estática. La selección de jugada exige evaluarla para cada sucesor, o bien integrarla en un jugador que realiza búsqueda.
 
-Para una pieza de tipo $p\in\{1,\ldots,6\}$ (peón, caballo, alfil, torre, dama, rey), color $c\in\{0,1\}$ (0 blancas, 1 negras) y casilla $q\in\{0,\ldots,63\}$ con a1=0, se define:
+Para una pieza de tipo 
+* $p\in\{1,\ldots,6\}$ (peón, caballo, alfil, torre, dama, rey)
+* color $c\in\{0,1\}$ (0 blancas, 1 negras)
+* casilla $q\in\{0,\ldots,63\}$ con a1=0
 
-$\text{idx}(c,p,q)=64(6c+p-1)+q.$
+se define:
 
-El vector $x(s)\in\{0,1\}^{768}$ indica qué combinaciones pieza-color-casilla están presentes. Por ejemplo, un peón blanco en e2 ($q=12$) activa la entrada 12; un caballo negro en g8 ($q=62$) activa $64(6+2-1)+62=510$.
+$$\text{idx}(c,p,q)=64(6c+p-1)+q.$$
+
+El vector $x(s)\in\{0,1\}^{768}$ indica qué combinaciones pieza-color-casilla están presentes. Por ejemplo, un peón blanco en e2 ($q=12$) activa la entrada 12; un caballo negro en g8 ($q=62$) activa $64(6+2-1)+62=510$ .
 
 Hay como máximo 32 entradas activas en una posición ordinaria. Para procesarlas eficientemente, el programa prepara una tabla de índices de tamaño $N\times32$ y una máscara de igual longitud, cuyos elementos distinguen las entradas reales del relleno.
 
-El cromosoma de la NNUE es un vector $g\in\mathbb Z^{12321}$, cuyos valores se almacenan como `numpy.int8`:
+El cromosoma de la NNUE es un vector $g\in\mathbb Z^{12321}$ , cuyos valores se almacenan como `numpy.int8`:
 
 $g=\text{vec}(W_1)\ \Vert\ b_1\ \Vert\ w_2\ \Vert\ b_2,$
 
 con:
 
-$W_1\in\mathbb Z^{768\times16},\quad b_1\in\mathbb Z^{16},\quad w_2\in\mathbb Z^{16},\quad b_2\in\mathbb Z.$
+$W_1 \in \mathbb{Z}^{768 \times 16}, \quad b_1 \in \mathbb{Z}^{16}, \quad w_2 \in \mathbb{Z}^{16}, \quad b_2 \in \mathbb{Z}.$
 
 El total es:
 
@@ -7459,9 +7595,9 @@ $$768\cdot16+16+16+1=12\,321\ \text{parámetros}.$$
 
 La representación del checkpoint es un **vector plano INT8**, no un modelo PyTorch ni una red de dos cabezas. El evaluador comparte la misma forma y orden de parámetros que los scripts de entrenamiento.
 
-Se agrega entonces un paso para adelante, **Capa de entrada dispersa.** Para cada neurona oculta $j\in\{1,\ldots,16\}$, la preactivación es:
+Se agrega entonces un paso para adelante, **Capa de entrada dispersa.** Para cada neurona oculta $j\in\{1,\ldots,16\}$ , la preactivación es:
 
-$z_j(s)=b_{1,j}+\sum_{i\in\mathcal I(s)}W_{1,i,j},$
+$z_j(s) = b_{1,j} + \sum_{i \in \mathcal{I}(s)} W_{1,i,j},$
 
 donde $I(s)$ es el conjunto de índices de las piezas presentes. Esta expresión es equivalente a $b_{1,j}+\sum_{i=1}^{768}x_i(s)W_{1,i,j}$, pero evita 768 multiplicaciones por valores casi siempre nulos.
 
@@ -7489,13 +7625,17 @@ En PST, $V(s)$ es una combinación lineal de características prefijadas. En NNU
 
 No obstante, la arquitectura es pequeña y sólo utiliza 16 neuronas ocultas. Eso reduce memoria y trabajo de inferencia, pero limita su capacidad para representar interacciones complejas. Asimismo, la entrada absoluta de piezas no incorpora simetrías explícitas ni actualización incremental, por lo que la red no aprovecha automáticamente todas las mejoras de evaluadores NNUE modernos.
 
-Para cada posición de entrenamiento $s_i$ existe una referencia $y_i$ derivada de Stockfish. La NNUE genera $\widehat y_i(g)=V_{\mathrm{NNUE}}(s_i;g)$. Su error es:
+Para cada posición de entrenamiento $s_i$ existe una referencia $y_i$ derivada de Stockfish. La NNUE genera 
+
+$\widehat y_i(g)=V_{\mathrm{NNUE}}(s_i;g)$
+
+Su error es:
 
 $e_i(g)=\widehat y_i(g)-y_i.$
 
 La pérdida empleada es el **error cuadrático medio**:
 
-$\boxed{J(g)=\operatorname{MSE}(g)=\frac1N\sum_{i=1}^N\left(V_{\mathrm{NNUE}}(s_i;g)-y_i\right)^2.}$
+$\boxed{J(g)=\text{MSE}(g)=\frac1N\sum_{i=1}^N\left(V_{\mathrm{NNUE}}(s_i;g)-y_i\right)^2.}$
 
 El objetivo es:
 
@@ -7503,13 +7643,25 @@ $g^*=\arg\min_{g\in\mathcal G}J(g),$
 
 con $G$ el conjunto de genomas INT8 permitidos. Es una optimización combinatoria de 12.321 coordenadas, cada una con un rango discreto.
 
-Puede definirse de forma equivalente una aptitud $F(g)=-J(g)$ a **maximizar**. La implementación no calcula expresamente $-J$: calcula MSE y ordena de menor a mayor.
+Puede definirse de forma equivalente una aptitud 
+
+$F(g)=-J(g)$ 
+
+a **maximizar**. La implementación no calcula expresamente 
+
+$-J$
+
+calcula MSE y ordena de menor a mayor.
 
 La métrica interpretativa se obtiene por raíz cuadrada:
 
-$\operatorname{RMSE}(g)=\sqrt{J(g)}.$
+$\text{RMSE}(g)=\sqrt{J(g)}.$
 
-Al tener unidades de cp, RMSE se interpreta más fácilmente que MSE, cuyas unidades son cp². Ejemplo: errores de $+100$ y $-200$ cp producen $\operatorname{MSE}=(10\,000+40\,000)/2=25\,000\ \mathrm{cp}^2$ y RMSE aproximado de 158,1 cp.
+Al tener unidades de cp, RMSE se interpreta más fácilmente que MSE, cuyas unidades son cp². Ejemplo: errores de $+100$ y $-200$ cp producen 
+
+$\text{MSE}=(10\,000+40\,000)/2=25\,000\ \mathrm{cp}^2$
+
+y RMSE aproximado de 158,1 cp.
 
 En entrenamiento convencional se ajustan parámetros reales mediante:
 
@@ -7519,13 +7671,13 @@ con tasa de aprendizaje $\eta$ y gradiente calculado mediante *backpropagation*.
 
 Este cálculo implica que **no se calculan derivadas**, no se utiliza optimizador Adam/AdamW ni existe una tasa de aprendizaje diferenciable. La siguiente generación se determina por selección, cruzamiento y mutación:
 
-$g_{t+1}=\operatorname{Mutar}(\operatorname{Cruzar}(g^{(a)}_t,g^{(b)}_t)).$
+$g_{t+1}=\text{Mutar}(\text{Cruzar}(g^{(a)}_t,g^{(b)}_t)).$
 
 Esta elección permite optimizar directamente genes cuantizados y componentes no diferenciables, pero sacrifica la información local que un gradiente podría proporcionar. En un espacio de 12.321 dimensiones, la carga computacional y la dificultad de convergencia pueden ser importantes.
 
 Cada uno de los 12.321 genes empieza de forma aleatoria, uniforme entre **−15 y +15 inclusive**:
 
-$g_k^{(0)}\sim\operatorname{UniformeDiscreta}\{-15,\ldots,15\}.$
+$g_k^{(0)}\sim\text{UniformeDiscreta}\{-15,\ldots,15\}.$
 
 Esta escala inicial es mucho menor que el rango representable por INT8, lo que evita empezar con todos los pesos saturados. Los individuos se generan a partir de un generador aleatorio NumPy con semilla configurable (`--seed`, 42 por defecto).
 
@@ -7543,9 +7695,19 @@ Se preservan sin mutar los **mejores cuatro** individuos, o menos si la poblaci�
 
 A diferencia de PST, **no se realiza ruleta proporcional al fitness** en NNUE: los reproductores se eligen entre el subconjunto superior según su MSE. Dentro del subconjunto, el sorteo es uniforme. Esto introduce una presión selectiva mediante el umbral de pertenencia, no mediante probabilidades distintas para cada valor de error.
 
-Para cada coordenada $k$, se sortea una variable Bernoulli $m_k\sim\operatorname{Bernoulli}(0.5)$. El gen heredado es:
+Para cada coordenada $k$, se sortea una variable Bernoulli 
 
-$c_k=\begin{cases}g^{(a)}_k,&m_k=1,\\g^{(b)}_k,&m_k=0.\end{cases}$
+$m_k\sim\text{Bernoulli}(0.5)$
+
+El gen heredado es:
+
+$$
+c_k = \begin{cases}
+g^{(a)}_k, & m_k = 1, \\
+g^{(b)}_k, & m_k = 0.
+\end{cases}
+$$
+
 
 El "*hijo*" combina pesos de ambos progenitores sin exigir que los pesos estén en posiciones contiguas. La probabilidad de elección de cada padre para cada gen es 0,5.
 
@@ -7553,11 +7715,11 @@ Esta operación **puede romper combinaciones coordinadas de pesos**: por ejemplo
 
 Cada gen muta independientemente con probabilidad **0,02**. Si muta, se suma un entero aleatorio entre −4 y +4 inclusive:
 
-$\widetilde c_k=c_k+M_k\Delta_k,\quad M_k\sim\operatorname{Bernoulli}(0.02),\quad\Delta_k\sim U\{-4,\ldots,4\}.$
+$\widetilde c_k=c_k+M_k\Delta_k,\quad M_k\sim\text{Bernoulli}(0.02),\quad\Delta_k\sim U\{-4,\ldots,4\}.$
 
 Finalmente se limita:
 
-$g^{\mathrm{hijo}}_k=\operatorname{clip}(\widetilde c_k,-127,127),$
+$g^{\mathrm{hijo}}_k=\text{clip}(\widetilde c_k,-127,127),$
 
 y se almacena como `int8`.
 
@@ -7595,9 +7757,11 @@ La red no podrá llevar el MSE a cero sobre un conjunto que contenga valores obj
 
 Los cuatro valores materiales evolucionan libremente entre 0 y 2047, en lugar de conservar relaciones tradicionales entre piezas. Esto favorece la exploración, pero permite soluciones materialmente extrañas. Los otros 30 coeficientes son no negativos, lo que impide invertir el signo propio de una característica. Además, varias aproximaciones pueden estar correlacionadas; por ejemplo, las características de movilidad y centralidad pueden contribuir a decisiones similares.
 
-El hecho de que un coeficiente sea grande **no demuestra que represente por sí solo una idea ajedrecística importante**; su contribución depende de la distribución y de la escala de $\phi_k(s)$.
+El hecho de que un coeficiente sea grande **no demuestra que represente por sí solo una idea ajedrecística importante**; su contribución depende de la distribución y de la escala de 
 
-Con $P=100$, $G=500$ y $N=10\,000$, se requieren del orden de **500 millones de inferencias de valor por modelo**, sin contar operaciones de preparación, búsqueda de un ply ni movimientos legales. En PST, el producto por sucesores legales puede incrementar aún más la carga. Aunque cada inferencia sea pequeña, el experimento puede resultar costoso en CPU y memoria.
+$\phi_k(s)$
+
+Con $P=100$  $G=500$ y $N=10\,000$ se requieren del orden de **500 millones de inferencias de valor por modelo**, sin contar operaciones de preparación, búsqueda de un ply ni movimientos legales. En PST, el producto por sucesores legales puede incrementar aún más la carga. Aunque cada inferencia sea pequeña, el experimento puede resultar costoso en CPU y memoria.
 
 Es necesario realizar primero un ensayo piloto, medir posiciones/segundo y estimar el presupuesto de una corrida completa. La existencia de diez millones de registros en una base etiquetada no implica que tenga sentido utilizarlos todos en cada generación.
 
@@ -7676,24 +7840,22 @@ Microchess utilizaba una representación numérica compacta de las 64 casillas, 
 
 Una casilla podía expresarse mediante:
 
-$
-s=8r+f
-$
+$s=8r+f$
 
 donde:
 
-- $r$ es la fila, entre 0 y 7.
-- $f$ es la columna, entre 0 y 7.
-- $s$ es la posición codificada, entre 0 y 63.
+* $r$ es la fila, entre 0 y 7.
+* $f$ es la columna, entre 0 y 7.
+* $s$ es la posición codificada, entre 0 y 63.
 
 La representación permitía utilizar desplazamientos numéricos para calcular movimientos.
 
 | Pieza o desplazamiento | Incrementos |
 |---|---|
-| Horizontal | $\pm 1$|
-| Vertical | $\pm 8$|
-| Diagonal | $\pm 7,\pm 9$|
-| Caballo | $\pm 6,\pm 10,\pm 15,\pm 17$|
+| Horizontal | $\pm 1$ |
+| Vertical | $\pm 8$ |
+| Diagonal | $\pm 7,\pm 9$ |
+| Caballo | $\pm 6,\pm 10,\pm 15,\pm 17$ |
 
 Estos desplazamientos necesitaban comprobaciones de los límites del tablero para impedir movimientos que atravesaran incorrectamente sus bordes.
 
@@ -7701,7 +7863,7 @@ Una decisión fundamental fue mantener información sobre las posiciones de las 
 
 Conceptualmente, puede representarse mediante:
 
-$L=(s_0,s_1,\ldots,s_{31})$
+$$L=(s_0,s_1,\ldots,s_{31})$$
 
 Cada entrada indica la casilla ocupada por una pieza determinada.
 
@@ -7715,7 +7877,7 @@ Microchess utilizaba una pila de movimientos que permitía explorar posiciones h
 
 Para un movimiento:
 
-$m=(p,a,b,c)$
+$$m=(p,a,b,c)$$
 
 donde $p$ identifica la pieza, $a$ su origen, $b$ su destino y $c$ una eventual captura, el procedimiento conceptual era:
 
@@ -7819,17 +7981,17 @@ La documentación indicaba que los movimientos de dama se contaban dos veces.
 
 Conceptualmente:
 
-$M(P,c)=\sum_{m\in M(P,c)}w(m)$
+$$M(P,c)=\sum_{m\in M(P,c)}w(m)$$
 
 con:
 
-$w(m)=\begin{cases}2 & \text{si mueve una dama}\\1 & \text{en otro caso}\end{cases}$
+$$w(m)=\begin{cases}2 & \text{si mueve una dama}\\1 & \text{en otro caso}\end{cases}$$
 
 **MAXC — máxima captura**
 
 Representaba el valor de la pieza más importante que podía capturarse.
 
-$MAXC(P,c)=\max_{m\in C(P,c)}v(m)$
+$$MAXC(P,c)=\max_{m\in C(P,c)}v(m)$$
 
 donde $v(m)$ es el valor de la pieza capturable.
 
@@ -7837,7 +7999,7 @@ donde $v(m)$ es el valor de la pieza capturable.
 
 Representaba la suma del valor de las piezas adversarias amenazadas.
 
-$CC(P,c)=\sum_{p\in A(P,c)}v(p)$
+$$CC(P,c)=\sum_{p\in A(P,c)}v(p)$$
 
 Estas variables permitían diferenciar una amenaza individual importante del conjunto de oportunidades ofensivas.
 
@@ -7875,27 +8037,31 @@ Esta expresión es un ejemplo de intercambio neto moderno; el Microchess histór
 
 La función documentada puede expresarse como:
 
-$\begin{aligned}V={}&4WCAP0+1.25WCAP1\\&+0.75(WMAXC+WCC)\\
-&+0.25(WMOB+WCAP2)\\
-&-2.50BMAXC-2BCC\\
-&-1.25BCAP1-0.50BMAXC\\
-&-0.25(PMAXC+PCC+PMOB\\
-&\qquad+BCAP0+BCAP2+BMOB)
-\end{aligned}$
+$$
+\begin{aligned}
+V = {} & 4 WCAP0 + 1.25 WCAP1 \\
+& + 0.75(WMAXC + WCC) \\
+& + 0.25(WMOB + WCAP2) \\
+& - 2.50 BMAXC - 2 BCC \\
+& - 1.25 BCAP1 - 0.50 BMAXC \\
+& - 0.25(PMAXC + PCC + PMOB \\
+& \qquad + BCAP0 + BCAP2 + BMOB)
+\end{aligned}
+$$
 
 En la transcripción del manual utilizada como referencia, `BMAXC` figura dos veces, con coeficientes diferentes. Se conserva esa particularidad sin atribuirla automáticamente a un error tipográfico.
 
 Reuniendo ambos términos y multiplicando por cuatro se obtiene:
 
 
-$\begin{aligned}
+$$\begin{aligned}
 4V={}&16WCAP0+5WCAP1\\
 &+3(WMAXC+WCC)\\
 &+WMOB+WCAP2\\
 &-12BMAXC-8BCC-5BCAP1\\
 &-(PMAXC+PCC+PMOB\\
 &\qquad+BCAP0+BCAP2+BMOB)
-\end{aligned}$
+\end{aligned}$$
 
 
 Esta transformación permite expresar los coeficientes mediante operaciones enteras.
@@ -7910,7 +8076,7 @@ Además de la ecuación, la documentación describe bonificaciones por:
 
 Una bonificación documentada era:
 
-$V\leftarrow V+2$
+$$V\leftarrow V+2$$
 
 También se utilizaban valores especiales para penalizar movimientos ilegales y premiar posiciones de jaque mate.
 
@@ -7960,7 +8126,7 @@ Esta política anticipa conceptualmente la búsqueda de quiescence utilizada en 
 
 Una formulación moderna de *quiescence* es:
 
-$Q(P,d)=\max\left(E(P),\max_{m\in C(P)}[-Q(T(P,m),d-1)]\right)$
+$$Q(P,d)=\max\left(E(P),\max_{m\in C(P)}[-Q(T(P,m),d-1)]\right)$$
 
 donde:
 
@@ -8048,22 +8214,22 @@ Desde el punto de vista del ajedrez computacional, su contribución principal no
 La incorporación de sus ideas a Akkad permite estudiar experimentalmente las diferencias entre heurísticas históricas, búsqueda tradicional y evaluación mediante redes neuronales.
 
 **[1] Jennings, Peter (1976).** *Microchess: A Chess Playing Program for the 6502 Microcomputer.* Micro-Ware Ltd., Toronto, Canadá. Manual del programa, documentación técnica, explicación de rutinas y listado de código fuente. Conservado por Computer History Museum.  
-https://www.computerhistory.org/chess/doc-431614f6d8478/
+[1]https://www.computerhistory.org/chess/doc-431614f6d8478/
 
 **[2] Jennings, Peter (1976).** *Microchess Programmer's Manual.* Documentación original de GNM, JANUS, STATE y STRATGY. Reproducida en la colección de documentación histórica 1976–1978 del Computer History Museum.  
-https://archive.computerhistory.org/resources/access/text/2018/02/102775100-05-01-acc.pdf
+[2]https://archive.computerhistory.org/resources/access/text/2018/02/102775100-05-01-acc.pdf
 
 **[3] Jennings, Peter.** *History of Microchess.* Relato del autor acerca del desarrollo, representación del tablero, limitaciones de memoria y comercialización del programa.  
-https://www.benlo.com/microchess/
+[3]https://www.benlo.com/microchess/
 
 **[4] Computer History Museum.** *Microchess Source Code, Version 1.0 (1976).* Registro del programa original para KIM-1 y su listado de 924 bytes.  
-https://www.computerhistory.org/chess/sft-431e19dae0914/
+[4]https://www.computerhistory.org/chess/sft-431e19dae0914/
 
 **[5] Computer History Museum.** *Early Microcomputer Chess.* Panorama histórico de los primeros programas comerciales de ajedrez para microcomputadoras.  
-https://www.computerhistory.org/chess/early-microcomputer-chess/
+[5]https://www.computerhistory.org/chess/early-microcomputer-chess/
 
 **[6] Computer History Museum (2005).** *Oral History of Peter Jennings.* Entrevista sobre el desarrollo de Microchess, las limitaciones del KIM-1 y las decisiones de diseño.  
-https://archive.computerhistory.org/projects/chess/related_materials/oral-history/jennings.oral_history.2005.102630656/jennings.oral_history_transcrit.2005.102630656.pdf
+[6]https://archive.computerhistory.org/projects/chess/related_materials/oral-history/jennings.oral_history.2005.102630656/jennings.oral_history_transcrit.2005.102630656.pdf
 
 
 # CAP 8 SARGON (1978) the **old buddy** 
@@ -8093,7 +8259,7 @@ SARGON dio origen a una familia de programas que continuó evolucionando durante
 
 Es importante distinguir estas versiones: sus algoritmos, evaluadores, capacidades tácticas y plataformas no eran necesariamente idénticos.
 
-El presente documento se concentra en **SARGON I, versión original de 1978**.
+Si bien existieron numerosas evoluciones del programa original dispersas en casi una década, el presente documento se concentra en **SARGON I, versión original de 1978**.
 
 ## Arquitectura original
 
@@ -8132,7 +8298,7 @@ Esta representación se conoce actualmente como *mailbox 10×12*.
 
 Conceptualmente:
 
-$B[0],B[1],\ldots,B[119]$
+$$B[0],B[1],\ldots,B[119]$$
 
 La codificación de una casilla válida puede expresarse mediante:
 
@@ -8154,20 +8320,20 @@ Por ejemplo:
 
 | Desplazamiento | Incremento |
 |---|---:|
-| Horizontal | $\pm1$|
-| Vertical | $\pm10$|
-| Diagonal | $\pm9,\pm11$|
-| Caballo | $\pm8,\pm12,\pm19,\pm21$|
+| Horizontal | $\pm1$ |
+| Vertical | $\pm10$ |
+| Diagonal | $\pm9,\pm11$ |
+| Caballo | $\pm8,\pm12,\pm19,\pm21$ |
 
 Para examinar un desplazamiento:
 
-$s'=s+\Delta$
+$$s'=s+\Delta$$
 
 bastaba consultar el contenido de la casilla de destino.
 
 Si:
 
-$B[s']=FF_{16}$
+$$B[s']=FF_{16}$$
 
 el movimiento había alcanzado el borde artificial y debía descartarse.
 
@@ -8195,7 +8361,7 @@ $$c=\begin{cases}0 & \text{blancas}\\128 & \text{negras}\end{cases}$$
 
 Por tanto, una pieza podía codificarse como:
 
-$p=c+t$
+$$p=c+t$$
 
 donde $t$ es el tipo de pieza.
 
@@ -8251,13 +8417,13 @@ La combinación permitía explorar sucesivamente ramas del árbol sin almacenar 
 
 Conceptualmente:
 
-$P'=T(P,m)$
+$$P'=T(P,m)$$
 
 y, después de analizar la posición:
 
-$P=T^{-1}(P',m,u)$
+$$P=T^{-1}(P',m,u)$$
 
-donde $u$representa la información necesaria para deshacer exactamente la jugada.
+donde $u$ representa la información necesaria para deshacer exactamente la jugada.
 
 `PINFND` identificaba piezas clavadas contra el rey o la dama.
 
@@ -8351,11 +8517,15 @@ Estos valores son los del código original y no una reconstrucción aproximada.
 
 El valor asignado al rey debe interpretarse en el contexto de las rutinas internas de captura y evaluación, no como el valor real de sacrificar un rey. Su pérdida sigue estando sujeta a las reglas especiales del juego.
 
-Sea $n_{c,p}(P)$ el número de piezas de tipo $p$pertenecientes al color $c$.
+Sea 
+
+$$n_{c,p}(P)$$
+
+el número de piezas de tipo $p$pertenecientes al color $c$
 
 La diferencia material puede expresarse como:
 
-$M(P)=\sum_p v_p\left[n_{W,p}(P)-n_{B,p}(P)\right]$
+$$M(P)=\sum_p v_p\left[n_{W,p}(P)-n_{B,p}(P)\right]$$
 
 donde $v_p$ corresponde a la tabla histórica.
 
@@ -8384,7 +8554,7 @@ SARGON buscaba estimar los resultados de los intercambios examinando atacantes y
 
 Una formulación moderna útil para expresar la idea es:
 
-$SEE(P,s)=\max\left(0,\,v_0-SEE(P',s)\right)$
+$$SEE(P,s)=\max\left(0,\,v_0-SEE(P',s)\right)$$
 
 donde:
 
@@ -8420,14 +8590,14 @@ El sistema analizaba principalmente la dinámica material de los intercambios, n
 
 El evaluador de SARGON puede describirse mediante el esquema:
 
-$E(P)=M(P)+C(P)+D(P)+X(P)$
+$$E(P)=M(P)+C(P)+D(P)+X(P)$$
 
 donde:
 
-- $M(P)$: diferencia material.
-- $C(P)$: control del tablero.
-- $D(P)$: desarrollo.
-- $X(P)$: ajustes asociados a intercambios.
+- $M(P)$ : diferencia material.
+- $C(P)$ : control del tablero.
+- $D(P)$ : desarrollo.
+- $X(P)$ : ajustes asociados a intercambios.
 
 El código real combina mediciones, comparaciones, restricciones y condiciones específicas.
 
@@ -8435,9 +8605,9 @@ Para cada casilla, SARGON calculaba información de atacantes blancos y negros.
 
 Una medida conceptual de control es:
 
-$C(P)=\sum_{s\in B}\left[A_W(P,s)-A_B(P,s)\right]$
+$$C(P)=\sum_{s\in B}\left[A_W(P,s)-A_B(P,s)\right]$$
 
-donde $A_W$y $A_B$ representan los números de atacantes de cada bando.
+donde $A_W$ y $A_B$ representan los números de atacantes de cada bando.
 
 El listado muestra explícitamente que se acumulaba la diferencia entre cantidades de atacantes.
 
@@ -8459,7 +8629,7 @@ SARGON aplicaba la rutina `LIMIT` para restringir la influencia de las ventajas 
 
 Conceptualmente:
 
-$E(P)=M(P)+\text{clip}\big(C(P)+D(P),-L,L\big)+X(P)$
+$$E(P)=M(P)+\text{clip}\big(C(P)+D(P),-L,L\big)+X(P)$$
 
 La expresión anterior ilustra el principio de limitar contribuciones posicionales; no reproduce exactamente el orden de operaciones del ensamblador.
 
@@ -8473,21 +8643,27 @@ A diferencia del diseño de Microchess, SARGON utilizaba explícitamente un árb
 
 Sea:
 
-- $P$: posición.
-- $d$: profundidad restante.
-- $E(P)$: evaluación estática.
-- $T(P,m)$: posición resultante de ejecutar $m$.
-- $M(P)$: movimientos legales.
+- $P$ : posición.
+- $d$ : profundidad restante.
+- $E(P)$ : evaluación estática.
+- $T(P,m)$ : posición resultante de ejecutar $m$.
+- $M(P)$ : movimientos legales.
 
 Desde la perspectiva de blancas:
 
-$V(P,d)=\begin{cases}E(P), & d=0\\\displaystyle\max_{m\in M(P)}V(T(P,m),d-1), & \text{juegan blancas}\\\displaystyle\min{m\inM(P)}V(T(P,m),d-1), & \text{juegan negras}\end{cases}$
+$$
+V(P,d) = \begin{cases}
+E(P), & d = 0 \\
+\displaystyle \max_{m \in M(P)} V(T(P,m), d-1), & \text{juegan blancas} \\
+\displaystyle \min_{m \in M(P)} V(T(P,m), d-1), & \text{juegan negras}
+\end{cases}
+$$
 
 Los estados terminales requieren valores especiales para mate y tablas.
 
 Una formulación simétrica moderna es negamax:
 
-$N(P,d)=\max_{m\in M(P)}\left[-N(T(P,m),d-1)\right]$
+$$N(P,d)=\max_{m\in M(P)}\left[-N(T(P,m),d-1)\right]$$
 
 con la evaluación expresada desde el punto de vista del bando que mueve.
 
@@ -8505,17 +8681,17 @@ Por ejemplo, tres plies representan:
 
 La cantidad de nodos crece aproximadamente como:
 
-$N(d)\approx b^d$
+$$N(d)\approx b^d$$
 
 donde $b$ representa el factor de ramificación medio.
 
 Si suponemos $b=30$:
 
-$N(3)\approx 27\,000$
+$$N(3)\approx 27\,000$$
 
-$N(4)\approx 810\,000$
+$$N(4)\approx 810\,000$$
 
-$N(5)\approx 24\,300\,000$
+$$N(5)\approx 24\,300\,000$$
 
 Estos valores son ilustrativos y corresponden a un árbol completo uniforme, no a mediciones del SARGON original.
 
@@ -8525,13 +8701,13 @@ La poda alfa-beta evita explorar ramas que no pueden mejorar la decisión del ju
 
 Mantiene dos límites:
 
-$\alpha=\text{mejor valor garantizado para MAX}$
+$$\alpha=\text{mejor valor garantizado para MAX}$$
 
-$\beta=\text{mejor valor garantizado para MIN}$
+$$\beta=\text{mejor valor garantizado para MIN}$$
 
 Cuando:
 
-$\alpha\geq\beta$
+$$\alpha\geq\beta$$
 
 la rama restante puede descartarse.
 
@@ -8599,7 +8775,7 @@ $O(b^d)$
 
 Con ordenación ideal de movimientos, alfa-beta puede reducir considerablemente el número de nodos examinados, aproximándose en el caso favorable a:
 
-$O(b^{d/2})$
+$$O(b^{d/2})$$
 
 Esta es una propiedad teórica de alfa-beta y no una garantía del rendimiento obtenido por SARGON.
 
@@ -8623,7 +8799,7 @@ Para obtener una estimación preliminar, `SORTM` recurría a `EVAL`, que:
 
 Conceptualmente, la ordenación puede representarse como:
 
-$m_1,m_2,\ldots,m_n=\text{sort}_{\downarrow}\left(\widehat V(P,m)\right)$
+$$m_1,m_2,\ldots,m_n=\text{sort}_{\downarrow}\left(\widehat V(P,m)\right)$$
 
 donde $\widehat V$representa una valoración preliminar.
 
@@ -8639,7 +8815,7 @@ Buscaba maximizar el resultado esperado bajo la hipótesis de que el adversario 
 
 Su criterio conceptual era:
 
-$m^*=\underset{m\in M(P)}{\text{argmax}}\left[-N(T(P,m),d-1)\right]$
+$$m^*=\underset{m\in M(P)}{\text{argmax}}\left[-N(T(P,m),d-1)\right]$$
 
 La selección comprendía:
 
@@ -8672,7 +8848,7 @@ Minimax considera la respuesta del adversario.
 
 Suponiendo que las cifras finales representan los valores minimax de cada rama:
 
-$V(A)=-2,\quad V(B)=+1,\quad V(C)=+1$
+$$V(A)=-2,\quad V(B)=+1,\quad V(C)=+1$$
 
 SARGON preferiría B o C frente a A.
 
@@ -8814,7 +8990,7 @@ Su principal limitación era la capacidad de procesamiento disponible, que restr
 
 Desde una perspectiva actual, SARGON demuestra que la fuerza ajedrecística depende de la interacción entre tres elementos:
 
-$\boxed{\text{Fuerza de juego}=f(\text{Búsqueda},\text{Evaluación},\text{Recursos})}$
+$$\boxed{\text{Fuerza de juego}=f(\text{Búsqueda},\text{Evaluación},\text{Recursos})}$$
 
 No existe una relación lineal simple entre estos componentes.
 
@@ -8824,31 +9000,31 @@ La importancia de SARGON consiste precisamente en haber alcanzado un equilibrio 
 
 **[1] Spracklen, Dan y Spracklen, Kathe (1978).** *Sargon: A Computer Chess Program.* Hayden Book Company, Rochelle Park, New Jersey. ISBN 0-8104-5155-4. Obra primaria que contiene la descripción del programa, sus estructuras de datos, rutinas principales y código fuente en ensamblador Z80.
 
-https://openlibrary.org/books/OL4747033M/Sargon_a_computer_chess_program
+[1]https://openlibrary.org/books/OL4747033M/Sargon_a_computer_chess_program
 
 **[2] Computer History Museum.** *Sargon: A Computer Chess Program.* Registro histórico de la versión 1.0, publicada en 1978, y de su participación en el torneo de microcomputadoras de la West Coast Computer Faire.
 
-https://www.computerhistory.org/chess/sft-431614f63c4c/
+[2]https://www.computerhistory.org/chess/sft-431614f63c4c/
 
 **[3] Spracklen, Dan y Spracklen, Kathe (1978).** *An Exchange Evaluator for Computer Chess.* BYTE, noviembre de 1978. Artículo técnico sobre la evaluación de intercambios y su importancia en el ajedrez computacional para microprocesadores.
 
-https://www.worldradiohistory.com/Archive-Byte/70s/Byte-1978-11.pdf
+[3]https://www.worldradiohistory.com/Archive-Byte/70s/Byte-1978-11.pdf
 
 **[4] Computer History Museum (1978).** *First Steps in Computer Chess Programming.* BYTE Publications. Material histórico relacionado con los conceptos de programación de ajedrez utilizados por los Spracklen.
 
-https://www.computerhistory.org/chess/doc-431614f6da6d4/
+[4]https://www.computerhistory.org/chess/doc-431614f6da6d4/
 
 **[5] Computer History Museum.** *Micros Become Masters.* Historia de la evolución de los programas de ajedrez para microprocesadores y su crecimiento en fuerza de juego.
 
-https://www.computerhistory.org/chess/micros-become-masters/
+[5]https://www.computerhistory.org/chess/micros-become-masters/
 
 **[6] Forster, Bill.** *Retro Sargon.* Proyecto de recuperación y adaptación del código fuente del SARGON de 1978, basado en el listado original publicado por Hayden.
 
-https://github.com/billforsternz/retro-sargon
+[6]https://github.com/billforsternz/retro-sargon
 
 **[7] ChessBase.** *Sargon — A Chess Program from the Past.* Artículo histórico sobre las versiones de SARGON y las características de la implementación original.
 
-https://en.chessbase.com/post/sargon-a-che-program-from-the-past/820
+[6]https://en.chessbase.com/post/sargon-a-che-program-from-the-past/820
 
 # CAP 9 Belle *El poder de la fuerza bruta*
 
