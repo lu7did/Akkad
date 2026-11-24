@@ -27,7 +27,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.29"
+VERSION = "0.2.30"
 
 VERBOSE = False
 
@@ -1637,6 +1637,7 @@ def main():
     p.add_argument("--types", nargs="+", default=None,
                    help="FICS: standard blitz lightning bullet classical untimed")
     a = p.parse_args()
+    a.interface = None  # Sólo YAML; vacío cuando está ausente.
     a.throtle = None  # Sólo YAML; -1 cuando está ausente.
     a.repeat = None  # Sólo YAML; minutos, 60 cuando está ausente.
     a.ratedonly = None  # Sólo YAML; exige Elo conocido del jugador, no partida rated.
@@ -1744,6 +1745,7 @@ def main():
     log("⚙️", "APP", f"Configuracion: {config_file} ({'cargada' if config_file.is_file() else 'defaults'})")
     log("⚙️", "APP", (f"Motor UCI local: {a.exec} args={a.uci_argv!r}"
                        if a.type == "uci" else f"Motor UCI TCP: {a.ip}:{a.port}"))
+    log("⚙️", "APP", f"interface={a.interface!r}" if a.interface else "interface=(no configurada)")
     log("⚙️", "APP", f"Verbose={'ON' if VERBOSE else 'OFF'}")
     log("⚙️", "APP", f"no-accept={sorted(a.no_accept)} no-request={sorted(a.no_request)}")
     log("⏳", "APP", ("throtle=-1 (desactivado)" if a.throtle == -1
