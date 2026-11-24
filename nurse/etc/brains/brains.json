@@ -376,11 +376,11 @@
         },   
         "ELO": 1000
     },
- "picoSargon": {
+ "mombee": {
       "type" : "external",
       "player": "external",
       "evaluator": "null",
-      "url": "picosargon.local:6110",
+      "url": "localhost:6250",
       "rating_elo": 1000
  },
  "pixie": {

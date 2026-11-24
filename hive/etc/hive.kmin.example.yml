@@ -1,0 +1,15 @@
+# Ejemplo independiente: no sustituye hive.yml del usuario.
+# Añadir kmin a los motores en el bloque engines del hive.yml existente.
+engines:
+  - name: alphazero
+    type: uci
+    path: 'C:/engines/AlphaZero.exe'
+    kmin: 0.3
+  - name: stockfish
+    type: uci
+    path: 'C:/engines/stockfish.exe'
+    kmin: 0.3
+  - name: picoSargon
+    type: uci
+    path: 'C:/engines/picoSargon.exe'
+    # Sin kmin: participa en el reparto del remanente (0.4).

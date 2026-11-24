@@ -1,7 +1,7 @@
-﻿# picoSargon Windows x86 build v0.2.58
+﻿# picoSargon Windows x86 build v0.2.65
 # Windows PowerShell 5.1 compatible. Do not install IDEs or compilers implicitly.
 $ErrorActionPreference = 'Stop'
-$Version = '0.2.58'
+$Version = '0.2.65'
 $Steroids = 'ON'
 $Multicore = 'ON'
 $Clean = $false
@@ -10,7 +10,7 @@ $Jobs = [Math]::Max(1, [Environment]::ProcessorCount)
 
 function Show-Help {
 @'
-picoSargon x86 Windows build v0.2.58
+picoSargon x86 Windows build v0.2.65
 Uso: .\picoSargon\tools\ps\build.ps1 [opciones]
 
   --help                  Muestra esta ayuda
@@ -184,14 +184,38 @@ if ($Clean -and (Test-Path -LiteralPath $build)) {
     Remove-Item -LiteralPath $build -Recurse -Force
 }
 Write-Host ('[BUILD] picoSargon x86 v' + $Version + ' STEROIDS=' + $Steroids + ' MULTICORE=' + $Multicore)
-$configure=@('-S',$source,'-B',$build,'-G',$generator,'-DSTEROIDS='+$Steroids,'-DMULTICORE='+$Multicore)
+$configure = @("-S", $source, "-B", $build, "-G", $generator, "-DSTEROIDS=$Steroids", "-DMULTICORE=$Multicore")
 if ($generator.StartsWith('Visual Studio')) { $configure+=@('-A','x64') }
 elseif (-not $cachedGenerator) { $configure+='-DCMAKE_BUILD_TYPE=Release' }
+Write-Host ('[CONFIG] ' + ($configure -join ' | '))
 & $cmake @configure
 if ($LASTEXITCODE -ne 0) { Fail ('CMake configure fallo: ' + $LASTEXITCODE) }
+# The requested option MUST reach the actual CMake cache; do not trust script defaults.
+$effective = Select-String -LiteralPath $cache -Pattern '^MULTICORE:BOOL=(ON|OFF)$' | Select-Object -First 1
+if (-not $effective) { Fail ('No se encontro MULTICORE:BOOL en ' + $cache) }
+$actualMulticore = $effective.Matches[0].Groups[1].Value
+Write-Host ('[CHECK] CMakeCache MULTICORE=' + $actualMulticore + ' (requested ' + $Multicore + ')')
+if ($actualMulticore -ne $Multicore) { Fail ('CMake no aplico MULTICORE=' + $Multicore + ': verificar cache/configuracion') }
+# Remove the previous executable so a build that does not produce a new one cannot pass.
+$exe=Join-Path $build 'picoSargon.exe'
+if (Test-Path -LiteralPath $exe -PathType Leaf) {
+    Remove-Item -LiteralPath $exe -Force
+    Write-Host '[CHECK] Retirado el ejecutable anterior antes de compilar'
+}
 & $cmake --build $build --config Release --parallel $Jobs
 if ($LASTEXITCODE -ne 0) { Fail ('CMake build fallo: ' + $LASTEXITCODE) }
 $exe=Join-Path $build 'picoSargon.exe'
 if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { Fail ('No se encuentra el ejecutable: ' + $exe) }
-Write-Host ('[OK] Ejecutable: ' + $exe)
+# Mandatory smoke test of the exact executable that run_uci.py will launch.
+$helpText = (& $exe --help 2>&1) -join "`n"
+if ($LASTEXITCODE -ne 0) { Fail ('El ejecutable nuevo no responde a --help: ' + $helpText) }
+if ($Multicore -eq 'ON' -and $helpText -notmatch '--cores\s+1\.\.1024') {
+    Fail ('El ejecutable compilado NO reconoce --cores, aunque CMake dice MULTICORE=ON. Verificar las definiciones y el binario: ' + $exe)
+}
+if ($Multicore -eq 'OFF' -and $helpText -match '--cores\s+1\.\.1024') {
+    Fail ('El ejecutable incluye --cores cuando MULTICORE=OFF: ' + $exe)
+}
+$exeInfo = Get-Item -LiteralPath $exe
+Write-Host ('[OK] Ejecutable verificado: ' + $exe)
+Write-Host ('[OK] Fecha: ' + $exeInfo.LastWriteTime.ToString('yyyy-MM-dd HH:mm:ss') + ' SHA256: ' + (Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash)
 Write-Host ('[OK] STEROIDS=' + $Steroids + ' MULTICORE=' + $Multicore)

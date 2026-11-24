@@ -12,6 +12,9 @@ ip_fics: freechess.org
 port_fics: 5000
 user: guest
 password: ""
+# Identidad FICS opcional: tras el login envía "set interface <texto>".
+# interface: "Akkad fics-uci"
+interface: ""
 accept: true
 rated: true
 unrated: true

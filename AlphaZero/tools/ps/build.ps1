@@ -283,8 +283,14 @@ Write-Host "Direct import libraries: $($names -join ', ')"
 
 # Validate the deployed binary after copying, not just Meson exit status.
 $builtEngine = Join-Path $build 'AlphaZero.exe'
+$configHeader = Join-Path $here 'src/config.h'
+$configSource = Get-Content -LiteralPath $configHeader -Raw
+if ($configSource -notmatch 'kVersion\s*=\s*"(v[0-9]+\.[0-9]+\.[0-9]+)"') {
+    throw "Cannot read AlphaZero version from $configHeader"
+}
+$expectedIdentity = "AlphaZero $($Matches[1]) build="
 $reportedVersion = (& $builtEngine --version 2>$null | Out-String).Trim()
-if ($LASTEXITCODE -ne 0 -or -not $reportedVersion.StartsWith('AlphaZero v0.2.12 build=')) {
+if ($LASTEXITCODE -ne 0 -or -not $reportedVersion.StartsWith($expectedIdentity)) {
     throw "AlphaZero build identity mismatch: $builtEngine ($reportedVersion)"
 }
 Write-Host "⚙️ build verified: $builtEngine ($reportedVersion)"

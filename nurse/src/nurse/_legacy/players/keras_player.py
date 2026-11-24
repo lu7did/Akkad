@@ -82,8 +82,8 @@ class KerasPlayer(Player):
         best = moves[index]
         if best not in board.legal_moves:
             raise PlayerError('bestmove ilegal')
-        score = int(vals[index]) if side == chess.WHITE else -int(vals[index])
+        score = int(vals[index])  # MoveChoice contract: WHITE-relative cp; UCI boundary converts to STM.
         elapsed = (time.perf_counter() - started) * 1000
         if self.telemetry:
-            self.telemetry(f'♟️ KERAS plies={self.plies} legal={len(moves)} nodes={stats["nodes"]} evals={stats["evals"]} batches={stats["batches"]} best={best.uci()} cp={score} ms={elapsed:.1f}')
+            self.telemetry(f'♟️ KERAS plies={self.plies} legal={len(moves)} nodes={stats["nodes"]} evals={stats["evals"]} batches={stats["batches"]} best={best.uci()} cp_white={score} ms={elapsed:.1f}')
         return MoveChoice(best, score, self.plies, stats['nodes'], elapsed, 'KERAS')

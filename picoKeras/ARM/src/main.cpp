@@ -61,11 +61,12 @@ struct Session {
    // atanh is an explicitly heuristic mapping to centipawns, not calibrated cp.
    const double q=std::clamp(-r.rival_value,-0.999,0.999);
    const long cp_side=std::lround(400.0*std::atanh(q));
-   const long cp_white=(b.turn==1?cp_side:-cp_side);
+   // The UCI score is relative to the root side to move.
+   const long cp_stm=cp_side;
    const int ply=2*(b.fullmove-1)+(b.turn==-1?1:0);
    const auto nps=r.ms>0 ? static_cast<long long>(r.inspected)*1000/r.ms : 0LL;
    std::ostringstream info;
-   info<<"info ply "<<ply<<" depth 1 score cp "<<cp_white
+   info<<"info ply "<<ply<<" depth 1 score cp "<<cp_stm
        <<" nodes "<<r.inspected<<" time "<<r.ms<<" nps "<<nps
        <<" string cp_heuristic_atanh eval_rival "<<std::fixed<<std::setprecision(4)<<r.rival_value;
    send(info.str());send(std::string("bestmove ")+(r.found?Board::notation(r.move):"(none)"));

@@ -24,6 +24,7 @@ import chess
 
 from .base import Player, PlayerError
 from ..types import MoveChoice, MATE_CP
+from ..score_perspective import stm_to_white
 
 _INFO_DEPTH_RE = re.compile(r"\bdepth\s+(\d+)\b", re.IGNORECASE)
 _INFO_NODES_RE = re.compile(r"\bnodes\s+(\d+)\b", re.IGNORECASE)
@@ -99,12 +100,40 @@ class ExternalUCIPlayer(Player):
         t0 = time.monotonic()
         self._send("position fen " + board.fen())
         self._send(f"go movetime {self.movetime_ms}")
-        line = self._wait("bestmove ")
+        # Generic UCI engines emit STM scores. Legacy MoveChoice expects White.
+        # Consume only this search's info frames; never reuse a previous score.
+        depth = nodes = score_stm = 0
+        deadline = t0 + self.timeout_ms / 1000
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError(f"timeout esperando bestmove de {self.name}")
+            try:
+                line = self.q.get(timeout=remaining)
+            except queue.Empty as exc:
+                raise TimeoutError(f"timeout esperando bestmove de {self.name}") from exc
+            if line is None:
+                raise PlayerError(f"{self.name} cerró UCI antes de bestmove")
+            if line.startswith("bestmove "):
+                break
+            if not line.startswith("info "):
+                continue
+            match = _INFO_DEPTH_RE.search(line)
+            if match:
+                depth = int(match.group(1))
+            match = _INFO_NODES_RE.search(line)
+            if match:
+                nodes = int(match.group(1))
+            match = _INFO_SCORE_RE.search(line)
+            if match:
+                kind, raw = match.group(1).lower(), int(match.group(2))
+                score_stm = raw if kind == "cp" else (MATE_CP - abs(raw)) * (1 if raw > 0 else -1)
         parts = line.split()
-        move = None if len(parts) < 2 or parts[1] == "(none)" else chess.Move.from_uci(parts[1])
+        move = None if len(parts) < 2 or parts[1] in ("(none)", "0000") else chess.Move.from_uci(parts[1])
         if move is not None and move not in board.legal_moves:
             raise PlayerError(f"{self.name} devolvió jugada ilegal: {move}")
-        return MoveChoice(move, 0, 0, 0, (time.monotonic()-t0)*1000, self.name)
+        return MoveChoice(move, stm_to_white(score_stm, board.turn), depth, nodes,
+                          (time.monotonic()-t0)*1000, self.name)
 
     def close(self):
         if self.proc.poll() is None:

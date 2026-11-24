@@ -7,6 +7,7 @@ import chess
 from .uci_external import ExternalUCIPlayer
 from .base import PlayerError
 from ..types import MoveChoice
+from ..score_perspective import stm_to_white
 
 class PicoSargonUCIPlayer(ExternalUCIPlayer):
     name = "PICOSARGON"
@@ -77,7 +78,8 @@ class PicoSargonUCIPlayer(ExternalUCIPlayer):
         move=None if best in ('0000','(none)') else chess.Move.from_uci(best)
         if move is not None and move not in board.legal_moves:
             raise PlayerError(f"picoSargon devolvió movimiento ilegal: {best}")
-        return MoveChoice(move, score, depth, nodes, (time.monotonic()-start)*1000, self.name)
+        # UCI score cp is STM; legacy MoveChoice.score_cp is WHITE-relative.
+        return MoveChoice(move, stm_to_white(score, board.turn), depth, nodes, (time.monotonic()-start)*1000, self.name)
 
     def _wait_any(self, deadline):
         import queue

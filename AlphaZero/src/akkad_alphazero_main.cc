@@ -170,6 +170,7 @@ struct Result {
   std::vector<std::string> root_moves;
   std::vector<int> root_visits;
   std::vector<double> root_sums;
+  std::vector<double> root_fallback_q; // Direct NN values for unvisited requested roots.
 };
 class MCTS {
   using Clock=std::chrono::steady_clock;
@@ -236,6 +237,7 @@ class MCTS {
   MCTS(LC0Inference& eval,double cpuct,std::atomic<bool>& stop,int max_nodes,int batch_size)
     :eval_(eval),cpuct_(cpuct),stop_(stop),max_nodes_(max_nodes),batch_size_(std::max(1,batch_size)){}
   Result choose(PositionHistory h,int simulations,int ms_limit,
+                const std::vector<std::string>& searchmoves={},
                 const std::vector<float>* shared_root_priors=nullptr){
     auto start=Clock::now();
     Result r;
@@ -243,18 +245,32 @@ class MCTS {
     bool terminal_state=false;terminal(h,terminal_state);
     if(terminal_state){r.stop_reason="terminal";return r;}
     auto legal=h.Last().GetBoard().GenerateLegalMoves();
-    std::vector<Move> lm(legal.begin(),legal.end());
-    if(lm.empty()){r.stop_reason="no_moves";return r;}
+    std::vector<Move> all_moves(legal.begin(),legal.end());
+    if(all_moves.empty()){r.stop_reason="no_moves";return r;}
     auto t=Clock::now();
-    std::vector<float> priors;
-    if(shared_root_priors && shared_root_priors->size()==lm.size()){
-      priors=*shared_root_priors;
+    std::vector<float> all_priors;
+    if(shared_root_priors && shared_root_priors->size()==all_moves.size()){
+      all_priors=*shared_root_priors;
     }else{
-      auto first=eval_.eval(h,lm);
+      auto first=eval_.eval(h,all_moves);
       r.nn_ms+=milliseconds(Clock::now()-t);
       ++r.evaluations;++r.batches;r.peak_batch=1;
-      priors=std::move(first.second);
+      all_priors=std::move(first.second);
     }
+    std::vector<Move> lm;
+    std::vector<float> priors;
+    for(size_t i=0;i<all_moves.size();++i){
+      const auto notation=move_uci(all_moves[i],h.IsBlackToMove());
+      if(searchmoves.empty() ||
+         std::find(searchmoves.begin(),searchmoves.end(),notation)!=searchmoves.end()){
+        lm.push_back(all_moves[i]);
+        priors.push_back(all_priors[i]);
+      }
+    }
+    if(lm.empty())throw std::runtime_error("no legal searchmoves at MCTS root");
+    double prior_total=0.;for(float x:priors)prior_total+=x;
+    if(prior_total>0.)for(auto& x:priors)x=static_cast<float>(x/prior_total);
+    else for(auto& x:priors)x=1.f/static_cast<float>(priors.size());
     root.expand(std::move(lm),std::move(priors));++nodes_;
     auto deadline=(ms_limit>0) ? start+std::chrono::milliseconds(ms_limit) : Clock::time_point::max();
     while(r.simulations<simulations && !stop_.load()){
@@ -329,6 +345,36 @@ class MCTS {
     }
     r.best=move_uci(root.moves[best],h.IsBlackToMove());r.visits=root.visits[best];r.nodes=nodes_;
     r.q=r.visits?root.sums[best]/r.visits:0.;
+    r.root_fallback_q.assign(root.moves.size(),0.);
+    // Some legal roots may be unvisited at short time/simulation budgets.
+    // For explicitly restricted searches supply a real network evaluation,
+    // rather than inventing a zero CP score for those roots.
+    if(!searchmoves.empty()){
+      std::vector<PositionHistory> pending_histories;
+      std::vector<std::vector<Move>> pending_moves;
+      std::vector<size_t> pending_indices;
+      for(size_t i=0;i<root.moves.size();++i){
+        if(root.visits[i])continue;
+        auto child=h;child.Append(root.moves[i]);
+        bool done=false;
+        double v=terminal(child,done);
+        if(done){r.root_fallback_q[i]=-v;continue;}
+        auto legal_child=child.Last().GetBoard().GenerateLegalMoves();
+        std::vector<Move> child_moves(legal_child.begin(),legal_child.end());
+        if(child_moves.empty())continue;
+        pending_indices.push_back(i);
+        pending_histories.push_back(std::move(child));
+        pending_moves.push_back(std::move(child_moves));
+      }
+      if(!pending_histories.empty()){
+        auto eval_start=Clock::now();
+        auto values=eval_.eval_batch(pending_histories,pending_moves);
+        r.nn_ms+=milliseconds(Clock::now()-eval_start);
+        r.evaluations+=static_cast<int>(values.size());++r.batches;
+        r.peak_batch=std::max(r.peak_batch,static_cast<int>(values.size()));
+        for(size_t i=0;i<values.size();++i)r.root_fallback_q[pending_indices[i]]=-values[i].first;
+      }
+    }
     for(size_t i=0;i<root.moves.size();++i){
       r.root_moves.push_back(move_uci(root.moves[i],h.IsBlackToMove()));
       r.root_visits.push_back(root.visits[i]);
@@ -360,13 +406,14 @@ static int effective_cores(const Settings& cfg){
 static Result run_root_parallel(const PositionHistory& h,LC0Inference& initial,const Settings& cfg,
                                 std::atomic<bool>& stop,int simulations,int ms,
                                 std::vector<CoreResult>& per_core,
-                                const std::vector<LC0Inference*>& inference_pool){
+                                const std::vector<LC0Inference*>& inference_pool,
+                                const std::vector<std::string>& searchmoves){
   using Clock=std::chrono::steady_clock;
   const auto start=Clock::now();
   const int cores=effective_cores(cfg);
   if(cores==1){
     MCTS m(initial,cfg.cpuct,stop,cfg.max_tree_nodes,cfg.batch_size);
-    auto result=m.choose(h,simulations,ms);
+    auto result=m.choose(h,simulations,ms,searchmoves);
     per_core.push_back({result,0,simulations,result.ms});
     return result;
   }
@@ -404,7 +451,7 @@ static Result run_root_parallel(const PositionHistory& h,LC0Inference& initial,c
       try{
         MCTS m(*inference_pool[static_cast<size_t>(i)],cfg.cpuct,stop,node_cap,cfg.batch_size);
         auto t=Clock::now();
-        work[i].result=m.choose(h,allocation,remaining_ms,&priors);
+        work[i].result=m.choose(h,allocation,remaining_ms,searchmoves,&priors);
         work[i].wall_ms=std::chrono::duration<double,std::milli>(Clock::now()-t).count();
       }catch(...){errors[i]=std::current_exception();stop.store(true);}
     });
@@ -416,6 +463,7 @@ static Result run_root_parallel(const PositionHistory& h,LC0Inference& initial,c
   aggregate.root_moves=work[0].result.root_moves;
   aggregate.root_visits.assign(aggregate.root_moves.size(),0);
   aggregate.root_sums.assign(aggregate.root_moves.size(),0.);
+  aggregate.root_fallback_q=work[0].result.root_fallback_q;
   for(int i=0;i<started;++i){
     const auto& r=work[i].result;
     aggregate.simulations+=r.simulations;
@@ -564,8 +612,23 @@ class Engine {
       int wtime=-1,btime=-1,winc=0,binc=0,movestogo=0;
       int movetime=-1;
       bool infinite=false;
+      std::vector<std::string> searchmoves;
+      bool restricted=false;
       std::istringstream in(line.substr(2));std::string t;
       while(in>>t){
+        if(t=="searchmoves"){
+          restricted=true;
+          // UCI searchmoves consumes the move list. Other options must precede it.
+          while(in>>t)searchmoves.push_back(t);
+          break;
+        }
+        if(t=="depth" || t=="qdepth"){
+          // MCTS has no alpha-beta depth or quiescence search. Accept the
+          // parameters for interoperable UCI, but don't misreport them.
+          int ignored=0;
+          if(!(in>>ignored))throw std::runtime_error("go: missing integer after "+t);
+          continue;
+        }
         if(t=="infinite"){infinite=true;continue;}
         if(t=="nodes" || t=="movetime" || t=="wtime" || t=="btime" ||
            t=="winc" || t=="binc" || t=="movestogo"){
@@ -579,6 +642,17 @@ class Engine {
           else if(t=="winc")winc=v;
           else if(t=="binc")binc=v;
           else movestogo=v;
+        }
+      }
+      if(restricted){
+        if(searchmoves.empty())throw std::runtime_error("go searchmoves: no moves supplied");
+        auto legal=history_.Last().GetBoard().GenerateLegalMoves();
+        for(const auto& move:searchmoves){
+          auto parsed=history_.Last().GetBoard().ParseMove(move);
+          if(std::find(legal.begin(),legal.end(),parsed)==legal.end())
+            throw std::runtime_error("go searchmoves: illegal move "+move);
+          if(std::count(searchmoves.begin(),searchmoves.end(),move)!=1)
+            throw std::runtime_error("go searchmoves: duplicate move "+move);
         }
       }
       const bool black=history_.IsBlackToMove();
@@ -607,7 +681,6 @@ class Engine {
                 " cores="+std::to_string(settings_.cores)+"/"+
                 std::to_string(effective_cores(settings_)));
       auto snapshot=history_;auto cfg=settings_;const int root_ply=current_ply_;
-      const bool root_black=snapshot.IsBlackToMove();
       // Create the pool once and retain it across searches and new games.
       // Preparation is serialized in the UCI command thread, outside MCTS threads.
       std::vector<LC0Inference*> pool;
@@ -619,10 +692,11 @@ class Engine {
         say(std::string("info string ERROR backend pool: ")+e.what());
         say("bestmove 0000");return;
       }
-      search_=std::thread([this,snapshot=std::move(snapshot),sims,ms,cfg,root_ply,root_black,pool=std::move(pool)]()mutable{
+      search_=std::thread([this,snapshot=std::move(snapshot),sims,ms,cfg,root_ply,
+                           searchmoves=std::move(searchmoves),pool=std::move(pool)]()mutable{
         try{
           std::vector<CoreResult> per_core;
-          auto r=run_root_parallel(snapshot,*eval_,cfg,stop_,sims,ms,per_core,pool);
+          auto r=run_root_parallel(snapshot,*eval_,cfg,stop_,sims,ms,per_core,pool,searchmoves);
           for(const auto& core:per_core){
             const auto& cr=core.result;
             std::ostringstream core_log;
@@ -635,19 +709,50 @@ class Engine {
             telemetry(core_log.str());
           }
           if(true){
-            auto q=std::clamp(r.q,-0.999,0.999);
-            int cp=int(400*std::atanh(q));
-            std::ostringstream info;
             const auto elapsed=std::max(0LL,static_cast<long long>(r.ms));
             const auto nps=elapsed>0 ? (static_cast<long long>(r.nodes)*1000/elapsed) : 0LL;
-            info<<"info ply "<<root_ply<<" depth 0 score cp "<<(root_black?-cp:cp)
+            const auto cp_from_q=[](double value){
+              return static_cast<int>(400*std::atanh(std::clamp(value,-0.999,0.999)));
+            };
+            // Emit an independently identifiable scored UCI frame per root.
+            // A root with no MCTS visits has a direct NN evaluation (not 0 CP).
+            std::vector<size_t> ranks;
+            if(!searchmoves.empty()){
+              ranks.resize(r.root_moves.size());
+              for(size_t k=0;k<ranks.size();++k)ranks[k]=k;
+            }else if(r.best!="0000"){
+              auto found=std::find(r.root_moves.begin(),r.root_moves.end(),r.best);
+              if(found!=r.root_moves.end())
+                ranks.push_back(static_cast<size_t>(found-r.root_moves.begin()));
+            }
+            auto root_q=[&](size_t k){
+              return r.root_visits[k] ? r.root_sums[k]/r.root_visits[k]
+                   : (k<r.root_fallback_q.size()?r.root_fallback_q[k]:0.);
+            };
+            std::stable_sort(ranks.begin(),ranks.end(),[&](size_t a,size_t b){
+              return root_q(a)>root_q(b);
+            });
+            for(size_t k=0;k<ranks.size();++k){
+              const size_t idx=ranks[k];
+              std::ostringstream info;
+              info<<"info depth 0 multipv "<<(k+1)
+                  <<" score cp "<<cp_from_q(root_q(idx))
+                  <<" nodes "<<r.nodes<<" time "<<elapsed<<" nps "<<nps
+                  <<" pv "<<r.root_moves[idx]
+                  <<" string ALPHAZERO root_visits="<<r.root_visits[idx]
+                  <<" root_source="<<(r.root_visits[idx]?"mcts":"nnue-fallback")
+                  <<" simulations="<<r.simulations;
+              say(info.str());
+            }
+            std::ostringstream info;
+            info<<"info ply "<<root_ply<<" depth 0 score cp "<<cp_from_q(r.q)
                 <<" nodes "<<r.nodes<<" time "<<elapsed<<" nps "<<nps
-                <<" string ALPHAZERO simulations="<<r.simulations<<" tree_nodes="<<r.nodes<<" elapsed_ms="<<int(r.ms)<<" best_visits="<<r.visits<<" q="<<r.q
-                <<" batch_size="<<cfg.batch_size<<" cores="<<per_core.size()<<" batches="<<r.batches
-                <<" evals="<<r.evaluations<<" nn_ms="<<int(r.nn_ms)
-                <<" stop="<<r.stop_reason;
-            // Keep the complete UCI info frame machine-readable. Human-friendly
-            // short/extended renderings are emitted by the TCP listener on stderr.
+                <<" string ALPHAZERO simulations="<<r.simulations
+                <<" tree_nodes="<<r.nodes<<" elapsed_ms="<<int(r.ms)
+                <<" best_visits="<<r.visits<<" q="<<r.q
+                <<" batch_size="<<cfg.batch_size<<" cores="<<per_core.size()
+                <<" batches="<<r.batches<<" evals="<<r.evaluations
+                <<" nn_ms="<<int(r.nn_ms)<<" stop="<<r.stop_reason;
             say(info.str());
             std::ostringstream detail;
             detail << "🧠 AlphaZero analysis ply=" << root_ply
@@ -712,21 +817,10 @@ int main(int argc,char**argv){
   az_lc0_telemetry::ScopedFilters lc0_diagnostic_filters;
   try{
     Engine engine;
-    for(int i=1;i<argc;++i){
-      std::string a=argv[i];
-      std::string inline_value;
-      bool has_inline_value=false;
-      if(a.rfind("--",0)==0){
-        const auto eq=a.find('=');
-        if(eq!=std::string::npos){
-          inline_value=a.substr(eq+1);
-          a.resize(eq);
-          has_inline_value=true;
-        }
-      }
-      if((a=="--weights"||a=="--backend"||a=="--backend-options")&&(has_inline_value||i+1<argc)){auto v=has_inline_value?inline_value:std::string(argv[++i]);if(a=="--weights")engine.cmd_weights(v);else if(a=="--backend")engine.cmd_backend(v);else engine.cmd_backend_opts(v);}
-      else if((a=="--simulations" || a=="--cores" || a=="--batch-size" || a=="--max-tree-nodes" || a=="--tmax" || a=="--timeout" || a=="--cpuct" || a=="--verbose") && (has_inline_value||i+1<argc)){
-        std::string v=has_inline_value?inline_value:std::string(argv[++i]);
+    for(int i=1;i<argc;++i){std::string a=argv[i];
+      if((a=="--weights"||a=="--backend"||a=="--backend-options")&&i+1<argc){auto v=std::string(argv[++i]);if(a=="--weights")engine.cmd_weights(v);else if(a=="--backend")engine.cmd_backend(v);else engine.cmd_backend_opts(v);}
+      else if((a=="--simulations" || a=="--cores" || a=="--batch-size" || a=="--max-tree-nodes" || a=="--tmax" || a=="--timeout" || a=="--cpuct" || a=="--verbose") && i+1<argc){
+        std::string v=argv[++i];
         if(a=="--batch-size")engine.cmd_batch_size(std::stoi(v));
         else if(a=="--cores")engine.cmd_cores(std::stoi(v));
         else if(a=="--simulations")engine.cmd_simulations(std::stoi(v));
@@ -736,18 +830,21 @@ int main(int argc,char**argv){
         else if(a=="--cpuct")engine.cmd_cpuct(std::stod(v));
         else engine.cmd_verbose(std::stoi(v));
       }
-      else if(a=="--version" && !has_inline_value){
+      else if(a=="--version"){
         std::cout << az_config::kUciName << " build=" << __DATE__ << " " << __TIME__ << std::endl;
         return 0;
       }
-      else if(a=="--help" && !has_inline_value){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--batch-size N] [--cores N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N] [--version]"<<std::endl;return 0;}
+      else if(a=="--help"){std::cerr<<"AlphaZero --weights FILE.pb.gz [--backend onnx-dml|eigen] [--backend-options OPTIONS] [--simulations N] [--batch-size N] [--cores N] [--max-tree-nodes N] [--tmax MS] [--timeout MS] [--cpuct C] [--verbose N] [--version]"<<std::endl;return 0;}
       else throw std::runtime_error("unknown CLI argument: "+a);
     }
     engine.report_startup(argc > 0 ? argv[0] : nullptr);
     std::string line;while(std::getline(std::cin,line)){
       line=trim(line);if(line=="quit")break;
       telemetry("⬅️ UCI " + line);
-      try{engine.process(line);}catch(const std::exception& e){say(std::string("info string ERROR command: ")+e.what());}
+      try{engine.process(line);}catch(const std::exception& e){
+        say(std::string("info string ERROR command: ")+e.what());
+        if(line=="go" || line.rfind("go ",0)==0)say("bestmove 0000");
+      }
     }
     engine.close();return 0;
   }catch(const std::exception& e){std::cerr<<"AlphaZero fatal: "<<e.what()<<std::endl;return 1;}

@@ -172,7 +172,7 @@ void Engine::prepare_buffers(Board& board){
  }
  board.reserve_search(MAX_PLY+8);
 }
-SearchResult Engine::search(Board& b,int max_depth,uint64_t time_limit_ms){
+SearchResult Engine::search(Board& b,int max_depth,uint64_t time_limit_ms,const std::vector<Move>& allowed_roots){
  prepare_buffers(b);
  SearchResult r;r.levels.reserve(static_cast<size_t>(std::max(0,max_depth)));auto begin=clock_();nodes_=qnodes_=tt_hits_=tt_stores_=cutoffs_=0;
  deadline_=time_limit_ms?begin+time_limit_ms:0;
@@ -180,26 +180,41 @@ SearchResult Engine::search(Board& b,int max_depth,uint64_t time_limit_ms){
  asp_attempts_=asp_retries_=asp_fail_low_=asp_fail_high_=see_calls_=see_rejected_=razor_attempts_=razor_cuts_=0;
 #endif
  std::vector<Move> roots;roots.reserve(256);
- std::vector<Move> pseudo;pseudo.reserve(256);b.legal(roots,pseudo);if(roots.empty())return r;
+ std::vector<Move> pseudo;pseudo.reserve(256);b.legal(roots,pseudo);
+ if(!allowed_roots.empty()){
+  roots.erase(std::remove_if(roots.begin(),roots.end(),[&](Move m){
+   return std::find(allowed_roots.begin(),allowed_roots.end(),m)==allowed_roots.end();
+  }),roots.end());
+ }
+ if(roots.empty())return r;
+ for(Move m:roots)r.roots.push_back({m});
  r.best=roots.front();r.has_move=true;
  for(int depth=1;depth<=max_depth;++depth){
+  const auto previous_roots=r.roots;
   auto start=clock_(),n0=nodes_,q0=qnodes_;int top=-INF;Move choice=roots[0];bool complete=false;
   // Favor previous iteration's principal move at root.
   if(depth>1){auto it=std::find(roots.begin(),roots.end(),r.best);if(it!=roots.end())std::iter_swap(roots.begin(),it);}
   try{
 #ifdef PICOSARGON_STEROIDS
    int window=60;
-   int low=depth>=3?std::max(-INF,r.score-window):-INF;
-   int high=depth>=3?std::min(INF,r.score+window):INF;
-   if(depth>=3)++asp_attempts_;
+   int low=depth>=3&&allowed_roots.empty()?std::max(-INF,r.score-window):-INF;
+   int high=depth>=3&&allowed_roots.empty()?std::min(INF,r.score+window):INF;
+   if(depth>=3&&allowed_roots.empty())++asp_attempts_;
    while(true){
     top=-INF;choice=roots[0];int alpha=low,beta=high,i=0;
-    for(Move m:roots){check();b.push(m);int val;
-     try{if(i==0)val=-negamax(b,depth-1,qdepth_,-beta,-alpha,1,true);
+    for(Move m:roots){check();
+     const uint64_t root_start=clock_(),root_nodes=nodes_,root_qnodes=qnodes_;
+     b.push(m);int val;
+     try{if(!allowed_roots.empty()||i==0)val=-negamax(b,depth-1,qdepth_,
+        allowed_roots.empty()?-beta:-INF,allowed_roots.empty()?-alpha:INF,1,true);
       else{val=-negamax(b,depth-1,qdepth_,-alpha-1,-alpha,1,false);
        if(val>alpha&&val<beta)val=-negamax(b,depth-1,qdepth_,-beta,-alpha,1,true);}}
      catch(...){b.pop();throw;}
-     b.pop();if(val>top){top=val;choice=m;}if(val>alpha)alpha=val;++i;
+     b.pop();
+     auto root=std::find_if(r.roots.begin(),r.roots.end(),[&](const RootEvaluation& x){return x.move==m;});
+     root->elapsed_ms+=clock_()-root_start;root->nodes+=nodes_-root_nodes;root->qnodes+=qnodes_-root_qnodes;
+     root->score=val;root->depth=depth;
+     if(val>top){top=val;choice=m;}if(val>alpha)alpha=val;++i;
     }
     if(depth<3||(top>low&&top<high)||(low==-INF&&high==INF))break;
     ++asp_retries_;window=std::min(INF/2,window*2);
@@ -209,19 +224,26 @@ SearchResult Engine::search(Board& b,int max_depth,uint64_t time_limit_ms){
    }
 #else
    int alpha=-INF,beta=INF,i=0;
-   for(Move m:roots){check();b.push(m);int val;
-    try{if(i==0)val=-negamax(b,depth-1,qdepth_,-beta,-alpha,1,true);
+   for(Move m:roots){check();
+    const uint64_t root_start=clock_(),root_nodes=nodes_,root_qnodes=qnodes_;
+    b.push(m);int val;
+    try{if(!allowed_roots.empty()||i==0)val=-negamax(b,depth-1,qdepth_,
+       allowed_roots.empty()?-beta:-INF,allowed_roots.empty()?-alpha:INF,1,true);
      else{val=-negamax(b,depth-1,qdepth_,-alpha-1,-alpha,1,false);
        if(val>alpha&&val<beta)val=-negamax(b,depth-1,qdepth_,-beta,-alpha,1,true);}}
     catch(...){b.pop();throw;}
-    b.pop();if(val>top){top=val;choice=m;}if(val>alpha)alpha=val;++i;
+    b.pop();
+    auto root=std::find_if(r.roots.begin(),r.roots.end(),[&](const RootEvaluation& x){return x.move==m;});
+    root->elapsed_ms+=clock_()-root_start;root->nodes+=nodes_-root_nodes;root->qnodes+=qnodes_-root_qnodes;
+    root->score=val;root->depth=depth;
+    if(val>top){top=val;choice=m;}if(val>alpha)alpha=val;++i;
    }
 #endif
    complete=true;
   }catch(const StopSignal&){r.reason="stop";}
   Level lv;lv.depth=depth;lv.ms=clock_()-start;lv.nodes=nodes_-n0;lv.qnodes=qnodes_-q0;lv.complete=complete;if(memory_)lv.mem=memory_();
   r.levels.push_back(lv);
-  if(complete){r.best=choice;r.score=top;r.depth=depth;}else break;
+  if(complete){r.best=choice;r.score=top;r.depth=depth;}else {r.roots=previous_roots;break;}
  }
  r.elapsed_ms=clock_()-begin;r.nodes=nodes_;r.qnodes=qnodes_;r.tt_hits=tt_hits_;r.tt_stores=tt_stores_;r.cutoffs=cutoffs_;
 #ifdef PICOSARGON_STEROIDS
@@ -260,14 +282,18 @@ void core_telemetry(unsigned core,int depth,bool completed,const CoreCounters& c
  std::fflush(stderr);
 }
 }
-SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t time_limit_ms,unsigned requested_cores){
+SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t time_limit_ms,unsigned requested_cores,const std::vector<Move>& allowed_roots){
  SearchResult result;result.levels.reserve(static_cast<size_t>(std::max(0,max_depth)));
  const uint64_t begin=clock_();
  const uint64_t deadline=time_limit_ms?begin+time_limit_ms:0;
  Board seed=board;seed.reserve_search(MAX_PLY+8);
  std::vector<Move> moves,pseudo;moves.reserve(256);pseudo.reserve(256);
  seed.legal(moves,pseudo);
+ if(!allowed_roots.empty())moves.erase(std::remove_if(moves.begin(),moves.end(),[&](Move m){
+  return std::find(allowed_roots.begin(),allowed_roots.end(),m)==allowed_roots.end();
+ }),moves.end());
  if(moves.empty())return result;
+ for(Move m:moves)result.roots.push_back({m});
  result.best=moves.front();result.has_move=true;
  const unsigned workers=std::min<unsigned>(std::max(1u,requested_cores),static_cast<unsigned>(moves.size()));
  // Worker state and NNUE copies are allocated exactly once per search.
@@ -276,7 +302,8 @@ SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t t
   Grumpy net;
   std::unique_ptr<Engine> engine;
   Board board;
-  CoreCounters initial{},delta{};
+  CoreCounters delta{};
+  unsigned processed=0;
   uint64_t started=0,elapsed=0;
   bool completed=false;
   Worker(const Grumpy& weights,const Board& position,Engine& owner,
@@ -294,6 +321,7 @@ SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t t
  std::atomic<size_t> next{0};
  std::atomic<int> root_alpha{-INF};
  std::mutex task_mutex,result_mutex;
+ std::vector<RootEvaluation> latest(moves.size());
  std::condition_variable task_cv,done_cv;
  unsigned generation=0,finished=0;
  bool terminate=false;
@@ -318,6 +346,7 @@ SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t t
     ra0=w.engine->razor_attempts_,rc0=w.engine->razor_cuts_;
 #endif
    bool finished_normally=true;
+   w.processed=0;
    try{
     while(!cancelled.load(std::memory_order_relaxed)){
      const size_t idx=next.fetch_add(1,std::memory_order_relaxed);
@@ -325,11 +354,32 @@ SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t t
      w.engine->check();
      w.board=board; // Preserved pre-reserved vector capacities.
      w.board.push(moves[idx]);
+     const uint64_t move_start=clock_(),n_before=w.engine->nodes_,q_before=w.engine->qnodes_;
+     // The global alpha contains VERIFIED exact root scores only.  Use a
+     // zero-window scout to reject moves that cannot beat the current leader.
+     // Such scout results are UPPER BOUNDS, not exact CP evaluations.  A move
+     // that can beat alpha is re-searched with a full window before publication.
      const int alpha=root_alpha.load(std::memory_order_acquire);
-     int score=-w.engine->negamax(w.board,depth_to_search-1,qdepth_,-INF,-alpha,1,true);
-     if(alpha!=-INF&&score>alpha)
+     bool upperbound=false;
+     int score;
+     if(alpha==-INF){
       score=-w.engine->negamax(w.board,depth_to_search-1,qdepth_,-INF,INF,1,true);
-     {
+     }else{
+      score=-w.engine->negamax(w.board,depth_to_search-1,qdepth_,
+                               -alpha-1,-alpha,1,false);
+      if(score<=alpha){
+       upperbound=true;
+      }else{
+       score=-w.engine->negamax(w.board,depth_to_search-1,qdepth_,
+                                -INF,INF,1,true);
+      }
+     }
+     const uint64_t move_elapsed=clock_()-move_start;
+     latest[idx]={moves[idx],score,depth_to_search,move_elapsed,
+       w.engine->nodes_-n_before,w.engine->qnodes_-q_before,id,upperbound};
+     ++w.processed;
+     // Upper bounds must not displace an exact root winner or enter alpha.
+     if(!upperbound){
       std::lock_guard<std::mutex> lock(result_mutex);
       if(score>best||(score==best&&idx<best_index)){
        best=score;best_index=idx;
@@ -365,6 +415,7 @@ SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t t
   if((deadline&&level_start>=deadline)||(stop_&&stop_())){result.reason="stop";break;}
   if(depth>1){auto it=std::find(moves.begin(),moves.end(),result.best);if(it!=moves.end())std::iter_swap(moves.begin(),it);}
   next.store(0,std::memory_order_relaxed);root_alpha.store(-INF,std::memory_order_relaxed);
+  for(size_t i=0;i<moves.size();++i)latest[i]={moves[i]};
   best=-INF;best_index=moves.size();depth_to_search=depth;
   {
    std::lock_guard<std::mutex> lock(task_mutex);finished=0;++generation;
@@ -379,6 +430,8 @@ SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t t
   for(unsigned id=0;id<workers;++id){
    const auto& w=*pool[id];const auto& c=w.delta;
    core_telemetry(id,depth,complete&&w.completed,c,w.elapsed);
+   std::fprintf(stderr,"CORE_WORK core[%u] depth=%d moves=%u elapsed_ms=%llu\n",
+    id,depth,w.processed,(unsigned long long)w.elapsed);
    level_nodes+=c.nodes;level_qnodes+=c.qnodes;
    result.tt_hits+=c.tt_hits;result.tt_stores+=c.tt_stores;result.cutoffs+=c.cutoffs;
 #ifdef PICOSARGON_STEROIDS
@@ -393,6 +446,12 @@ SearchResult Engine::search_parallel(const Board& board,int max_depth,uint64_t t
   result.levels.push_back(lv);
   if(!complete){result.reason="stop";break;}
   result.best=moves[best_index];result.score=best;result.depth=depth;
+  for(const auto& ev:latest){
+   auto old=std::find_if(result.roots.begin(),result.roots.end(),[&](const RootEvaluation& x){return x.move==ev.move;});
+   old->elapsed_ms+=ev.elapsed_ms;old->nodes+=ev.nodes;old->qnodes+=ev.qnodes;
+   old->score=ev.score;old->depth=depth;
+   old->worker=ev.worker;old->upperbound=ev.upperbound;
+  }
  }
  {
   std::lock_guard<std::mutex> lock(task_mutex);terminate=true;

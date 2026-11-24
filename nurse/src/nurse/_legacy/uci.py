@@ -80,7 +80,7 @@ class UCISession:
                         # There is no calibrated CP equivalent of a WDL statistic.
                         self.send(f"info depth 0 nodes {choice.nodes} time {max(1,round(choice.elapsed_ms))} nps {round(1000*choice.nodes/choice.elapsed_ms) if choice.elapsed_ms>0 else 0}")
                     else:
-                        self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp} time {int(choice.elapsed_ms)}")
+                        self.send(f"info depth {choice.depth} nodes {choice.nodes} score cp {choice.score_cp if board.turn == chess.WHITE else -choice.score_cp} time {int(choice.elapsed_ms)}")
                     self.send("bestmove "+bestmove)
                 elif line=="stop": pass
                 elif line.startswith("setoption name SargonResult"): pass

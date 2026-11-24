@@ -27,7 +27,7 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.28"
+VERSION = "0.2.29"
 
 VERBOSE = False
 
@@ -909,6 +909,10 @@ class Bridge:
         self.login = "authenticated"
         self.fics_ready = True
         log("👤", "FICS", f"Identidad asignada: {name}")
+        # Send interface identity once, before other FICS session settings.
+        interface = getattr(self.a, "interface", "")
+        if interface:
+            self.fics.send(f"set interface {interface}")
         for command in (
             "iset nowrap 1", "set style 12", "set seek 1",
             "iset seekremove 1", "iset seekinfo 1",
@@ -1654,7 +1658,7 @@ def main():
             p.error(f"Configuracion YAML invalida (se esperaba mapa): {config_file}")
     defaults = dict(ip="127.0.0.1", port=6110, ip_fics="freechess.org", port_fics=5000,
                     throtle=-1, repeat=60, ratedonly=False,
-                    user="guest", password="", accept=True, rated=True, unrated=True, verbose=False,
+                    user="guest", password="", interface="", accept=True, rated=True, unrated=True, verbose=False,
                     types=["standard", "blitz", "lightning", "bullet", "classical"],
                     movetime=0, engine_timeout=90.0, connect_timeout=15.0,
                     min_time=0, max_time=180, max_increment=180, seek_timeout=15.0, seek_retry=60.0)
@@ -1662,6 +1666,10 @@ def main():
         value = getattr(a, key)
         if value is None:
             value = config.get(key, default)
+        if key == "interface":
+            if not isinstance(value, str) or "\r" in value or "\n" in value or "\x00" in value:
+                p.error("config.yml: interface debe ser un texto de una sola línea")
+            value = value.strip()
         if key == "ratedonly":
             if not isinstance(value, bool):
                 p.error("config.yml: ratedonly debe ser un booleano YAML (true/false)")

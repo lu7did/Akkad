@@ -9,7 +9,8 @@
 namespace picoSargon {
 struct MemoryStat {int32_t heap_used=-1,heap_free=-1,stack_margin=-1;};
 struct Level {int depth=0; uint64_t ms=0,nodes=0,qnodes=0;bool complete=false;MemoryStat mem{};};
-struct SearchResult {Move best{};bool has_move=false;int score=0,depth=0;uint64_t elapsed_ms=0,nodes=0,qnodes=0,tt_hits=0,tt_stores=0,cutoffs=0;
+struct RootEvaluation {Move move{};int score=0,depth=0;uint64_t elapsed_ms=0,nodes=0,qnodes=0;unsigned worker=0;bool upperbound=false;};
+struct SearchResult {std::vector<RootEvaluation> roots;Move best{};bool has_move=false;int score=0,depth=0;uint64_t elapsed_ms=0,nodes=0,qnodes=0,tt_hits=0,tt_stores=0,cutoffs=0;
 #ifdef PICOSARGON_STEROIDS
  uint64_t asp_attempts=0,asp_retries=0,asp_fail_low=0,asp_fail_high=0,see_calls=0,see_rejected=0,razor_attempts=0,razor_cuts=0;
 #endif
@@ -40,9 +41,9 @@ class Engine {
  bool buffers_ready_=false;
 public:
  Engine(const Grumpy& net,ClockFn clock,StopFn stop,MemoryFn memory={},int qdepth=2):net_(net),clock_(clock),stop_(stop),memory_(memory),qdepth_(qdepth){}
- SearchResult search(Board& board,int max_depth=4,uint64_t time_limit_ms=0);
+ SearchResult search(Board& board,int max_depth=4,uint64_t time_limit_ms=0,const std::vector<Move>& allowed_roots={});
 #ifdef PICOSARGON_MULTICORE
- SearchResult search_parallel(const Board& board,int max_depth,uint64_t time_limit_ms,unsigned requested_cores);
+ SearchResult search_parallel(const Board& board,int max_depth,uint64_t time_limit_ms,unsigned requested_cores,const std::vector<Move>& allowed_roots={});
 #endif
 };
 }

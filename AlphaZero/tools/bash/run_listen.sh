@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AlphaZero debian TCP/UCI listener v0.2.12
+# AlphaZero debian TCP/UCI listener v0.2.16
 set -Eeuo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 AKKAD="$(cd -- "$HERE/../../.." && pwd -P)"
@@ -11,7 +11,7 @@ PYTHON="${PYTHON_BIN:-python3}"
 CORES=1
 usage() {
  cat <<'HELP'
-AlphaZero debian TCP/UCI listener v0.2.12
+AlphaZero debian TCP/UCI listener v0.2.16
 Uso: ./run_listen.sh [--ip IP] [--port NUM] [--brain ID] [--python PATH] [--cores N] [--help]
 IP por defecto: 0.0.0.0; puerto: 6200; brain: amelie.
 La configuración del motor y red proviene de Sargon-NNUE/etc/brains/brains.json.
@@ -36,8 +36,12 @@ command -v "$PYTHON" >/dev/null 2>&1 || { echo "ERROR: Python no encontrado: $PY
 [[ -x "$AKKAD/AlphaZero/debian/build/AlphaZero" ]] || { echo 'ERROR: motor sin compilar, ejecutar tools/bash/build.sh' >&2; exit 2; }
 ENGINE="$AKKAD/AlphaZero/debian/build/AlphaZero"
 ENGINE_ID="$("$ENGINE" --version 2>/dev/null || true)"
+CONFIG_HEADER="$AKKAD/AlphaZero/src/config.h"
+[[ -f "$CONFIG_HEADER" ]] || { printf 'ERROR: missing %s\n' "$CONFIG_HEADER" >&2; exit 2; }
+SOURCE_VERSION="$(sed -nE 's/.*kVersion[[:space:]]*=[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)".*/\1/p' "$CONFIG_HEADER" | head -n 1)"
+[[ -n "$SOURCE_VERSION" ]] || { printf 'ERROR: cannot read AlphaZero source version\n' >&2; exit 2; }
 case "$ENGINE_ID" in
-  'AlphaZero v0.2.12 build='*) ;;
+  "AlphaZero $SOURCE_VERSION build="*) ;;
   *) printf 'ERROR: binario incompatible: %s (version=%s)\n' "$ENGINE" "$ENGINE_ID" >&2; exit 2 ;;
 esac
 printf '⚙️ AlphaZero launcher executable=%s\n' "$ENGINE" >&2

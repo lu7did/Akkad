@@ -97,7 +97,8 @@ static void command(Session& s,const std::string& cmd) {
     }
     const auto ms=(time_us_64()-start)/1000;
     const double q=std::clamp(-bestval,-0.999,0.999);
-    const int score=static_cast<int>(std::lround(400*std::atanh(q)))*(s.board.turn==1?1:-1);
+    // The score emitted over UCI is from the root side-to-move perspective.
+    const int score=static_cast<int>(std::lround(400*std::atanh(q)));
     const int ply=2*(s.board.fullmove-1)+(s.board.turn==-1?1:0);
     char buf[180];std::snprintf(buf,sizeof(buf),"info ply %d depth 1 score cp %d nodes %d time %llu nps %llu",
       ply,score,inspected,static_cast<unsigned long long>(ms),

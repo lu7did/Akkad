@@ -154,7 +154,7 @@ void run_search(){
              if(connected&&!request_quit){
                const uint64_t ply=uint64_t(board.fullmove>0?board.fullmove-1:0)*2ULL+(board.turn==-1?1ULL:0ULL);
                send_line("info ply "+std::to_string(ply)+" depth "+std::to_string(result.depth)+
-                         " score cp "+std::to_string(result.cp)+" string source=lichess-cloud");
+                         " score cp "+std::to_string(board.turn==1?result.cp:-result.cp)+" string source=lichess-cloud");
                send_line("bestmove "+result.move);
              }
              status_led(LedState::Ready);
@@ -281,11 +281,11 @@ void run_search(){
    // UCI contract: ply = half-move index since the initial position; cp always from White's perspective.
    const uint64_t ply = uint64_t(board.fullmove > 0 ? board.fullmove - 1 : 0)*2ULL
                         + (board.turn == -1 ? 1ULL : 0ULL);
-   const int cp_white = board.turn == 1 ? r.score : -r.score;
+   const int cp_stm = r.score;
    const uint64_t elapsed_ms = r.elapsed_ms;
    const uint64_t nps = elapsed_ms ? r.nodes*1000ULL/elapsed_ms : 0ULL;
    send_line("info ply "+std::to_string(ply)+" depth "+std::to_string(r.depth)
-             +" score cp "+std::to_string(cp_white)
+             +" score cp "+std::to_string(cp_stm)
              +" nodes "+std::to_string(r.nodes)
              +" time "+std::to_string(elapsed_ms)
              +" nps "+std::to_string(nps));

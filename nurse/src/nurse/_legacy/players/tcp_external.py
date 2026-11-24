@@ -125,7 +125,9 @@ class TCPExternalUCIPlayer(Player):
             try: move=chess.Move.from_uci(token)
             except ValueError as exc: raise PlayerError(f'external: bestmove inválido: {token}') from exc
             if move not in board.legal_moves: raise PlayerError(f'external: bestmove ilegal: {token}')
-        return MoveChoice(move, stats['score_cp'], stats['depth'], stats['nodes'], (time.monotonic()-start)*1000, self.name)
+        # External UCI reports STM CP; the legacy MoveChoice contract is White CP.
+        score_white = stats['score_cp'] if board.turn == chess.WHITE else -stats['score_cp']
+        return MoveChoice(move, score_white, stats['depth'], stats['nodes'], (time.monotonic()-start)*1000, self.name)
 
     def close(self):
         if self._closed: return

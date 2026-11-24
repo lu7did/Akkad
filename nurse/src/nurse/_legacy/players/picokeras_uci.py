@@ -10,6 +10,7 @@ import chess
 from .base import PlayerError
 from .uci_external import ExternalUCIPlayer
 from ..types import MoveChoice
+from ..score_perspective import stm_to_white
 
 
 class PicoKerasUCIPlayer(ExternalUCIPlayer):
@@ -43,6 +44,7 @@ class PicoKerasUCIPlayer(ExternalUCIPlayer):
         best = None
         nodes = 0
         depth = 0
+        score_stm = 0
         deadline = started + self.timeout_ms / 1000
         while time.monotonic() < deadline:
             try:
@@ -63,6 +65,13 @@ class PicoKerasUCIPlayer(ExternalUCIPlayer):
                                 depth = value
                         except (ValueError, IndexError):
                             pass
+                if 'score' in tokens:
+                    try:
+                        at = tokens.index('score')
+                        if tokens[at + 1] == 'cp':
+                            score_stm = int(tokens[at + 2])
+                    except (ValueError, IndexError):
+                        pass
             if line.startswith('bestmove '):
                 parts = line.split()
                 best = parts[1] if len(parts) > 1 else '(none)'
@@ -72,5 +81,6 @@ class PicoKerasUCIPlayer(ExternalUCIPlayer):
         move = None if best in ('0000', '(none)') else chess.Move.from_uci(best)
         if move is not None and move not in board.legal_moves:
             raise PlayerError(f'picoKeras: movimiento ilegal: {best}')
-        # Native info exposes eval_rival (not UCI score cp); avoid inventing cp.
-        return MoveChoice(move, 0, depth, nodes, (time.monotonic() - started) * 1000, self.name)
+        # Native UCI score cp is STM; legacy MoveChoice.score_cp is WHITE-relative.
+        return MoveChoice(move, stm_to_white(score_stm, board.turn), depth, nodes,
+                          (time.monotonic() - started) * 1000, self.name)

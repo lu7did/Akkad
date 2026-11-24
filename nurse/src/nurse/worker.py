@@ -80,7 +80,7 @@ class Worker:
         if result.move is not None and result.move not in board.legal_moves:raise ValueError(f"jugada ilegal: {move}")
         nodes=int(getattr(result,"nodes",0) or 0)
         tm=int(getattr(result,"elapsed_ms",0) or elapsed)
-        return dict(bestmove=move,score_cp=int(getattr(result,"score_cp",0)),
+        return dict(bestmove=move,score_cp=int(getattr(result,"score_cp",0)) * (1 if board.turn==chess.WHITE else -1),
                     depth=int(getattr(result,"depth",0)),qdepth=int(self.config.get("QDepth",0)),
                     nodes=nodes,time=tm,nps=round(nodes*1000/max(1,tm)),turn_white=board.turn==chess.WHITE)
     def close(self):

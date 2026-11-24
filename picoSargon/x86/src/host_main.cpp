@@ -113,7 +113,7 @@ struct HostOptions {
  int depth=4, qdepth=2;
  uint64_t timeout=15000;
 #ifdef PICOSARGON_MULTICORE
- unsigned cores=2;
+ unsigned cores=1;
 #endif
 };
 int checked_number(const std::string& raw,const std::string& name,int lo,int hi){
@@ -313,7 +313,7 @@ int main(int argc,char**argv){
    if(cmd=="uci"){
     std::cout<<"id name "<<uci_identity()<<"\nid author Dr. Pedro E. Colla\noption name QDepth type spin default "<<qdepth<<" min 0 max 32\n"
 #ifdef PICOSARGON_MULTICORE
-             <<"option name Cores type spin default 2 min 1 max 1024\n"
+             <<"option name Cores type spin default 1 min 1 max 1024\n"
 #endif
              <<"uciok\n";
    }else if(cmd=="isready")std::cout<<"readyok\n";
@@ -337,30 +337,95 @@ int main(int argc,char**argv){
     }else throw std::runtime_error("position expects fen/startpos");
     while(ss>>t){if(t=="moves")continue;board.push(board.parse(t));}
    }else if(cmd=="go"){
-    int depth=options.depth;uint64_t timelimit=options.timeout;std::string t;
-    while(ss>>t){if(t=="depth")ss>>depth;else if(t=="movetime")ss>>timelimit;}
-    if(depth<1||depth>40)throw std::runtime_error("depth out of range");
-    if(timelimit==0||timelimit>2147483647ULL)throw std::runtime_error("movetime fuera de rango");
-    Engine engine(net,milliseconds,[]{return false;},{},qdepth);
+    try {
+    int depth=options.depth,search_qdepth=qdepth;
+    uint64_t timelimit=options.timeout;
+    std::vector<Move> requested;
+    bool restricted=false;
+    std::string token;
+    std::vector<std::string> args;
+    while(ss>>token)args.push_back(token);
+    for(size_t i=0;i<args.size();++i){
+     const auto& t=args[i];
+     if(t=="searchmoves"){
+      if(restricted)throw std::runtime_error("go: searchmoves duplicado");
+      restricted=true;
+      while(++i<args.size()){
+       const auto& move_name=args[i];
+       // UCI searchmoves is a variable-length list of legal root moves.
+       // Options after the list are allowed for convenience.
+       if(move_name=="depth"||move_name=="movetime"||move_name=="qdepth"){
+        --i;break;
+       }
+       Move move=board.parse(move_name);
+       if(std::find(requested.begin(),requested.end(),move)!=requested.end())
+        throw std::runtime_error("go: searchmoves duplicada: "+move_name);
+       requested.push_back(move);
+      }
+      continue;
+     }
+     if(t=="depth"||t=="movetime"||t=="qdepth"){
+      if(++i>=args.size())throw std::runtime_error("go: falta valor para "+t);
+      size_t used=0;long long value=0;
+      try{value=std::stoll(args[i],&used);}catch(...){throw std::runtime_error("go: valor invalido para "+t);}
+      if(used!=args[i].size()||value<0)throw std::runtime_error("go: valor invalido para "+t);
+      if(t=="depth"){
+       if(value<1||value>40)throw std::runtime_error("go: depth fuera de rango 1..40");
+       depth=static_cast<int>(value);
+      }else if(t=="qdepth"){
+       if(value>32)throw std::runtime_error("go: qdepth fuera de rango 0..32");
+       search_qdepth=static_cast<int>(value);
+      }else{
+       if(value<1||value>2147483647LL)throw std::runtime_error("go: movetime fuera de rango");
+       timelimit=static_cast<uint64_t>(value);
+      }
+     }
+     // Preserve previous behavior for unrelated UCI go parameters.
+    }
+    if(restricted&&requested.empty())throw std::runtime_error("go: searchmoves sin movimientos");
+    Engine engine(net,milliseconds,[]{return false;},{},search_qdepth);
     const auto search_start=std::chrono::steady_clock::now();
 #ifdef PICOSARGON_MULTICORE
-    auto result=cores>1?engine.search_parallel(board,depth,timelimit,std::min(cores,physical_cores())):engine.search(board,depth,timelimit);
+    auto result=cores>1?engine.search_parallel(board,depth,timelimit,
+      std::min(cores,physical_cores()),requested):engine.search(board,depth,timelimit,requested);
 #else
-    auto result=engine.search(board,depth,timelimit);
+    auto result=engine.search(board,depth,timelimit,requested);
 #endif
     const auto elapsed_ms=std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::steady_clock::now()-search_start).count();
     const int ply=2*(board.fullmove-1)+(board.turn==-1?1:0);
-    const int white_cp=(board.turn==1?result.score:-result.score);
+    // UCI score is relative to side-to-move, not to White.
     const auto nps=elapsed_ms>0 ? (result.nodes*1000ULL/static_cast<unsigned long long>(elapsed_ms)) : 0ULL;
-    // Build once. Only these two unadorned lines enter UCI stdout.
+    if(restricted&&result.depth>0){
+     // One completed-depth evaluation per requested legal root, ordered by score.
+     auto roots=result.roots;
+     std::stable_sort(roots.begin(),roots.end(),[&](const RootEvaluation& a,const RootEvaluation& b){
+      if(a.score!=b.score)return a.score>b.score;
+      if(a.upperbound!=b.upperbound)return !a.upperbound;
+      if(a.move==result.best)return true;
+      if(b.move==result.best)return false;
+      return false;
+     });
+     for(size_t k=0;k<roots.size();++k){
+      const auto& v=roots[k];
+      const auto root_nps=v.elapsed_ms>0?v.nodes*1000ULL/v.elapsed_ms:0ULL;
+      std::cout<<"info depth "<<v.depth<<" multipv "<<(k+1)
+               <<" score cp "<<v.score<<(v.upperbound?" upperbound":"")
+               <<" nodes "<<v.nodes
+               <<" time "<<v.elapsed_ms<<" nps "<<root_nps
+               <<" pv "<<Board::notation(v.move)
+               <<" string qdepth "<<search_qdepth<<" qnodes "<<v.qnodes
+               <<" core "<<v.worker
+               <<" root "<<Board::notation(v.move)<<"\n";
+     }
+    }else if(restricted){
+     std::cout<<"info string searchmoves: ninguna profundidad completada\n";
+    }
     std::ostringstream info_line;
-    info_line<<"info ply "<<ply<<" depth "<<result.depth<<" score cp "<<white_cp
-             <<" nodes "<<result.nodes<<" time "<<elapsed_ms<<" nps "<<nps;
+    info_line<<"info ply "<<ply<<" depth "<<result.depth<<" score cp "<<result.score
+             <<" nodes "<<result.nodes<<" time "<<elapsed_ms<<" nps "<<nps
+             <<" string qdepth "<<search_qdepth<<" qnodes "<<result.qnodes;
     const std::string best_line="bestmove "+(result.has_move?Board::notation(result.best):"0000");
-    // Worker telemetry was printed to stderr by the coordinator before
-    // search_parallel returned. Publish these human diagnostics on the SAME
-    // stderr stream, preserving core[] -> info -> bestmove order.
     const auto diagnostic=[&](const std::string& text){
       std::time_t now=std::time(nullptr);std::tm tm{};
 #if defined(_WIN32)
@@ -377,6 +442,11 @@ int main(int argc,char**argv){
     diagnostic(best_line);
     std::cout<<info_line.str()<<"\n";
     std::cout<<best_line<<"\n";
+    }catch(const std::exception& e){
+      std::cerr<<"[picoSargon UCI] go rejected: "<<e.what()<<"\n";
+      std::cout<<"info string ERROR go: "<<e.what()<<"\n";
+      std::cout<<"bestmove 0000\n";
+    }
    }else if(cmd=="quit")break;
    std::cout.flush();
   }

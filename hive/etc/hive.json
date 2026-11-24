@@ -1,0 +1,9 @@
+{
+  "engines": [
+    {"name": "stockfish-local-tcp", "host": "127.0.0.1", "port": 6200},
+    {"name": "picoSargon-remote", "host": "192.168.68.117", "port": 6210}
+  ],
+  "reconnect_seconds": 5,
+  "max_movetime_ms": 15000,
+  "adaptive_alpha": 0.10
+}

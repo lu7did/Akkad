@@ -1,0 +1,71 @@
+# Hive v0.2.0 - keep a copy named hive.yml in your working directory or use --hive PATH
+name: Hive-local
+# Strongly recommended persistent 32-digit lower-case hexadecimal UUID.
+node_id: ''  # generate on boot; set a unique stable UUID for persistent Hive topology
+listen_ip: '0.0.0.0'
+tcp_port: 6250
+udp_port: 6251
+broadcast: false
+broadcast_seconds: 5
+advertise_ip: null
+hive_network: false
+retry_seconds: 5
+connect_timeout_s: 3
+handshake_timeout_s: 5
+search_grace_s: 1.5
+verbose: false
+depth: 9
+qdepth: 2
+timeout_ms: 10000
+# Single-move UCI probe; called once per local process and every TCP reconnection.
+test:
+  fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+  move: e2e4
+  depth: 3
+  qdepth: 2
+  movetime_ms: 1500
+# Configure workers under `engines:` (do not add top-level '- name').
+# UCI options are sent after handshake through setoption.
+engines: []
+# Example local executable:
+# engines:
+#   - name: stockfish
+#     type: uci
+#     path: 'C:/Chess/stockfish.exe'
+#     args: ''
+#     options:
+#       Threads: 4
+#   - name: picoSargon
+#     type: uci
+#     path: 'C:/Akkad/picoSargon/x86/build/picoSargon.exe'
+#     args: '--cores 4 --depth 9 --qdepth 9 --weights C:/Akkad/picoSargon/assets/bashful.bin'
+#   - name: alphazero
+#     type: uci
+#     path: 'C:/Akkad/AlphaZero/X86/build/AlphaZero.exe'
+#     args: '--cores 4 --weights C:/Akkad/AlphaZero/assets/network.pb.gz'
+#   - name: sargon-tcp
+#     type: tcp
+#     host: '192.168.1.50'
+#     port: 6210
+# Limit the number of concurrent probe sessions sent to an advertised Hive.
+engines:
+  - name: stockfish
+    type: uci
+    path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
+    args: ""
+    options:
+      Threads: 4
+    kmin: 0.4
+
+  - name: alphazero
+    type: uci
+    path: "C:/Users/pedro/github/bobby/akkad/alphazero/X86/build/AlphaZero.exe"
+    args: '--cores 4 --backend onnx-dml --simulations 1200 --verbose 1 --cpuct 1.5 --tmax 15000 --timeout 60000 --weights "C:/Users/pedro/github/Bobby/Akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"'
+    kmin: 0.4
+
+  - name: picoSargon
+    type: uci
+    path: "C:/Users/pedro/github/bobby/akkad/picoSargon/X86/build/picoSargon.exe"
+    args: '--cores 4 --depth 9 --qdepth 9 --weights "C:/Users/pedro/github/Bobby/Akkad/picoSargon/assets/bashful.bin"'
+
+max_hive_probe_jobs: 32

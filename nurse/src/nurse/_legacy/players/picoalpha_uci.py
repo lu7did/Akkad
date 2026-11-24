@@ -7,6 +7,7 @@ import chess
 from .uci_external import ExternalUCIPlayer
 from .base import PlayerError
 from ..types import MoveChoice
+from ..score_perspective import stm_to_white
 
 class PicoAlphaUCIPlayer(ExternalUCIPlayer):
     name = 'PICOALPHA'
@@ -74,4 +75,5 @@ class PicoAlphaUCIPlayer(ExternalUCIPlayer):
         if best is None:raise PlayerError('picoAlpha timed out waiting for bestmove')
         move=None if best in ('0000','(none)') else chess.Move.from_uci(best)
         if move is not None and move not in board.legal_moves:raise PlayerError(f'picoAlpha illegal move: {best}')
-        return MoveChoice(move,score,depth,nodes,(time.monotonic()-start)*1000,self.name)
+        # UCI score cp is STM; legacy MoveChoice.score_cp is WHITE-relative.
+        return MoveChoice(move, stm_to_white(score, board.turn), depth, nodes, (time.monotonic()-start)*1000, self.name)

@@ -1,4 +1,4 @@
-﻿# AlphaZero Windows TCP/UCI listener v0.2.14
+# AlphaZero Windows TCP/UCI listener v0.2.14
 # Parser explicito: PowerShell no interpreta --cores como -Cores.
 $ErrorActionPreference = 'Stop'
 $Ip = '0.0.0.0'
@@ -67,8 +67,14 @@ if (!(Test-Path $exe)) { throw "Motor no compilado: $exe" }
 if (!(Test-Path $brains)) { throw "Falta $brains" }
 if (!(Get-Command $Python -ErrorAction SilentlyContinue)) { throw "Python no encontrado: $Python" }
 $engineVersion = (& $exe --version 2>$null | Out-String).Trim()
-if ($LASTEXITCODE -ne 0 -or -not $engineVersion.StartsWith('AlphaZero v0.2.12 build=')) {
-    throw "Binario incompatible: $exe ($engineVersion); se esperaba AlphaZero v0.2.12"
+$sourceHeader = Join-Path $PSScriptRoot '../../src/config.h'
+$sourceText = Get-Content -LiteralPath $sourceHeader -Raw
+if ($sourceText -notmatch 'kVersion\s*=\s*"(v[0-9]+\.[0-9]+\.[0-9]+)"') {
+    throw "No se pudo leer la version desde $sourceHeader"
+}
+$expectedIdentity = "AlphaZero $($Matches[1]) build="
+if ($LASTEXITCODE -ne 0 -or -not $engineVersion.StartsWith($expectedIdentity)) {
+    throw "Binario incompatible: $exe ($engineVersion); se esperaba $expectedIdentity...
 }
 [Console]::Error.WriteLine("$gear AlphaZero launcher executable=$exe")
 [Console]::Error.WriteLine("$gear AlphaZero launcher version=$engineVersion")
