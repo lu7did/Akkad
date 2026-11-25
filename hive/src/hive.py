@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hive v0.2.6 - dual-front-end UCI concentrator, persistent UCI workers.
+"""Hive v0.2.12 - dual-front-end UCI concentrator, persistent UCI workers.
 
 No chess evaluation occurs here. Root scores follow side-to-move UCI convention.
 All diagnostics go to stderr, never to either UCI output channel.
@@ -31,17 +31,23 @@ except ImportError as exc:
     sys.stderr.write(f'Hive: dependency missing: {exc}; install requirements.txt\n')
     raise SystemExit(2)
 
+VERSION = '0.2.12'
 LOG = logging.getLogger('hive')
 
 # All Hive observability is directed to stderr, never to either UCI wire.
 # One lock protects the entire line from concurrent sessions and workers.
 _TELEMETRY_LOCK = threading.RLock()
 _TELEMETRY_WIDTH = 12
-_TELEMETRY_VERBOSE = False
+_TELEMETRY_VERBOSE = 1
 
 
 def telemetry(symbol, name='', message='', *, verbose=False):
-    if verbose and not _TELEMETRY_VERBOSE:
+    # Client-facing UCI is always visible; worker wire and diagnostics are level 2.
+    # Worker bestmove is represented by its consolidated summary, never twice.
+    if symbol == '📮' and re.match(r'^\s*(?:info|bestmove)(?:\s|$)', str(message)):
+        return
+    level = 0 if symbol in ('➡️', '⬅️') else 2 if verbose or symbol in ('✉️', '📮', 'ℹ️') else 1
+    if _TELEMETRY_VERBOSE < level:
         return
     stamp = datetime.datetime.now().strftime('%H:%M:%S')
     label = f'{str(name):<{_TELEMETRY_WIDTH}} ' if name else ''
@@ -189,13 +195,14 @@ class Transport:
             try:line=self.q.get(timeout=min(.1,remain))
             except queue.Empty:continue
             if line is None:raise EOFError('engine disconnected; '+self.failure_detail())
-            if line.startswith('info '):
+            if re.match(r'^\s*info(?:\s|$)', line):
                 # UCI info has its own marker; never repeat it as a generic response.
                 telemetry('ℹ️', self.name, line)
+            elif re.match(r'^\s*bestmove(?:\s|$)', line):
+                # Search results are logged once, after validation in analyze().
+                pass
             else:
                 telemetry('📮', self.name, line)
-                if line.startswith('bestmove '):
-                    telemetry('🧠', self.name, line)
             return line
 
     def until(self,word,seconds):
@@ -328,6 +335,10 @@ class Endpoint:
             if best not in infos and recent and len(moves)==1 and numeric_score(recent) is not None:
                 infos[best]=dict(recent,move=best)
             if best not in infos:raise ValueError('bestmove without usable UCI score')
+            inf=infos[best]
+            score=f'mate {inf["mate"]}' if inf['mate'] is not None else f'cp {inf["cp"]}'
+            bound='' if inf['bound']=='exact' else ' '+inf['bound']
+            telemetry('🧠', self.name, f'{line} score {score}{bound} depth {inf["depth"] if inf["depth"] is not None else "?"} nodes {last_nodes} time {last_time if last_time is not None else "?"} nps {last_nps}')
             return WorkResult(self.name,best,infos,round((time.monotonic()-started)*1000),last_nps,last_nodes,last_time,last_simulations)
         except Exception:
             # Flush/discard an interrupted transaction; otherwise late bestmove
@@ -737,7 +748,7 @@ class Session:
         work=[(e,buckets[e.name]) for e in eps if buckets[e.name]]
         for e in eps:
             if not buckets[e.name]:self.hive.registry.release(e)
-        LOG.info('ASSIGN %s %s',self.label,[(e.name,len(ms),round(e.priority,5)) for e,ms in work])
+        telemetry('⚙️', self.label, 'assigned '+str(sum(len(ms) for _,ms in work))+'/'+str(len(moves))+' '+ ' '.join(f'{e.name}={len(ms)} ({weights[e.name]:.3f})' for e,ms in work))
         replies=queue.Queue()
         def run(ep,assigned):
             try:r=ep.analyze(position,assigned,depth,qdepth,budget,self.stop);replies.put(r)
@@ -767,7 +778,7 @@ class Session:
         for idx,(move,inf) in enumerate(sorted(candidates,key=lambda x:numeric_score(x[1]),reverse=True),1):
             val=('mate '+str(inf['mate'])) if inf['mate'] is not None else ('cp '+str(inf['cp']))
             b=(' '+inf['bound']) if inf['bound']!='exact' else ''
-            self.send('info depth '+str(inf['depth'] or 0)+' multipv '+str(idx)+' score '+val+b+
+            telemetry('ℹ️', self.label, 'info depth '+str(inf['depth'] or 0)+' multipv '+str(idx)+' score '+val+b+
                  ' nodes '+str(inf['nodes'] or 0)+' time '+str(inf['time'] or 0)+' pv '+move)
         if not group:
             self.send('info string Hive no valid scored result');self.send('bestmove 0000')
@@ -945,6 +956,14 @@ class Hive:
         finally:self.shutdown()
 
 
+def verbosity_level(value):
+    # Legacy YAML booleans map naturally to levels 0 and 1.
+    if isinstance(value, bool): return int(value)
+    if isinstance(value, int) and value in (0,1,2): return value
+    if isinstance(value, str) and value in ('0','1','2'): return int(value)
+    raise ValueError('verbose must be 0, 1 or 2')
+
+
 def load_config(path):
     p=Path(path)
     if not p.is_file():raise ValueError('configuration not found: '+str(p))
@@ -953,9 +972,10 @@ def load_config(path):
     defaults=dict(name='Hive',node_id='',listen_ip='0.0.0.0',tcp_port=6250,udp_port=6251,
         broadcast=False,hive_network=False,broadcast_seconds=5,retry_seconds=5,
         connect_timeout_s=3,handshake_timeout_s=5,search_grace_s=1.5,max_hive_probe_jobs=32,
-        depth=8,qdepth=2,timeout_ms=15000,verbose=False,
+        depth=8,qdepth=2,timeout_ms=15000,verbose=1,
         test=dict(fen=chess.STARTING_FEN,move='e2e4',depth=3,qdepth=2,movetime_ms=3000),engines=[])
     defaults.update(c)
+    defaults['verbose']=verbosity_level(defaults['verbose'])
     if not isinstance(defaults['engines'],list):raise ValueError('engines must be a list')
     names=set()
     for e in defaults['engines']:
@@ -1002,15 +1022,18 @@ def load_config(path):
 def main(argv=None):
     ap=argparse.ArgumentParser(description='Hive recursive UCI concentrator')
     ap.add_argument('--hive',default='hive.yml',help='YAML configuration; default ./hive.yml')
+    ap.add_argument('--verbose',type=int,choices=(0,1,2),default=None,help='0: client UCI; 1: summaries (default); 2: all')
     args=ap.parse_args(argv)
     try:cfg=load_config(args.hive)
     except Exception as ex:
         sys.stderr.write('Hive configuration ERROR: '+str(ex)+'\n');return 2
     global _TELEMETRY_VERBOSE, _TELEMETRY_WIDTH
-    _TELEMETRY_VERBOSE=bool(cfg['verbose'])
-    _TELEMETRY_WIDTH=max(12, *(len(str(e['name'])) for e in cfg['engines']))
-    logging.basicConfig(level=logging.WARNING,
+    _TELEMETRY_VERBOSE=cfg['verbose'] if args.verbose is None else args.verbose
+    cfg['verbose']=_TELEMETRY_VERBOSE
+    _TELEMETRY_WIDTH=max([12]+[len(str(e['name'])) for e in cfg['engines']])
+    logging.basicConfig(level=(logging.CRITICAL+1 if _TELEMETRY_VERBOSE==0 else logging.WARNING if _TELEMETRY_VERBOSE==1 else logging.DEBUG),
         format='⛔[%(asctime)s] %(message)s',datefmt='%H:%M:%S',stream=sys.stderr)
+    telemetry('⚙️', 'Hive', f'v{VERSION} verbose={_TELEMETRY_VERBOSE} {Path(__file__).resolve()}')
     try:Hive(cfg).run();return 0
     except Exception:
         LOG.exception('fatal Hive error');return 1

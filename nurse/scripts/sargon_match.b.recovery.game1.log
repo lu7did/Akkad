@@ -1,0 +1,4 @@
+[20:53:19] \U0001f4bb sargon-nurse v0.1.38 brain=mombee type=external ELO=n/a tmax_ms=15000 timeout_ms=30000 warmup_movetime_ms=15000
+[20:53:19] \u2699\ufe0f TCP endpoint=localhost:6250 retry_seconds=5.0
+[20:53:19] \u2699\ufe0f timing efectivo tmax=15000ms timeout=30000ms warmup_movetime=15000ms
+[20:53:19] \U0001f310 TCP DNS host='localhost' port=6250 resolved=['::1', '127.0.0.1']

@@ -1,0 +1,33 @@
+
+# fics_uci.py v0.2.2 | prioridad: CLI > config.yml > defaults
+ip: 127.0.0.1
+port: 6250
+type: tcp
+#exec: "/home/pi/chess/akkad/AlphaZero/debian/build/AlphaZero"
+#args: '--weights "/home/pi/chess/akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz" --cores 2'
+ip_fics: freechess.org
+port_fics: 5000
+user: guest
+password: ""
+accept: true
+rated: true
+unrated: true
+# Tipos FICS: standard, blitz, lightning, untimed.
+# Alias aceptados: classical -> standard; bullet -> lightning.
+types: [standard, blitz]
+min_time: 0
+max_time: 180
+max_increment: 180
+movetime: 0
+connect_timeout: 15
+engine_timeout: 90
+seek_timeout: 15
+seek_retry: 60
+# Milisegundos desde el fin de una partida hasta admitir otra; -1 desactiva la espera.
+throtle: 60000
+repeat: 60
+verbose: false
+
+# Usuarios excluidos (comparacion insensible a mayusculas/minusculas).
+no-accept: []
+no-request: []
