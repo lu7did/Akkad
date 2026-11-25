@@ -55,13 +55,13 @@ engines:
     args: ""
     options:
       Threads: 4
-    kmin: 0.4
+    kmin: 0.45
 
   - name: alphazero
     type: uci
     path: "C:/Users/pedro/github/bobby/akkad/alphazero/X86/build/AlphaZero.exe"
     args: '--cores 4 --backend onnx-dml --simulations 1200 --verbose 1 --cpuct 1.5 --tmax 15000 --timeout 60000 --weights "C:/Users/pedro/github/Bobby/Akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"'
-    kmin: 0.4
+    kmin: 0.45
 
   - name: picoSargon
     type: uci

@@ -1,0 +1,2 @@
+# Hive v0.2.13
+Based on v0.2.12. Accepts wtime/btime/winc/binc/movestogo. Uses side-to-move clock, default horizon 30, 75% increment, existing timeout_ms cap, and clock reserve 10–250 ms. Explicit movetime retains precedence subject to remaining clock. Clock mode includes endpoint waiting in its deadline; fixed movetime behavior unchanged. No change to candidate ranking or telemetry levels. Endpoint cleanup and blocking connection operations may overrun the deadline; no live-engine test performed. No-result behavior remains bestmove 0000.

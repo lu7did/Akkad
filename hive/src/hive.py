@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hive v0.2.12 - dual-front-end UCI concentrator, persistent UCI workers.
+"""Hive v0.2.13 - dual-front-end UCI concentrator, persistent UCI workers.
 
 No chess evaluation occurs here. Root scores follow side-to-move UCI convention.
 All diagnostics go to stderr, never to either UCI output channel.
@@ -31,7 +31,7 @@ except ImportError as exc:
     sys.stderr.write(f'Hive: dependency missing: {exc}; install requirements.txt\n')
     raise SystemExit(2)
 
-VERSION = '0.2.12'
+VERSION = '0.2.13'
 LOG = logging.getLogger('hive')
 
 # All Hive observability is directed to stderr, never to either UCI wire.
@@ -675,18 +675,41 @@ class Session:
 
     def go(self,text):
         tokens=text.split();i=0;depth=self.hive.cfg['depth'];qdepth=getattr(self,'qdepth_override',self.hive.cfg['qdepth']);budget=self.hive.cfg['timeout_ms'];restricted=None
+        clock={};explicit_movetime=False
+        keys=('depth','qdepth','movetime','wtime','btime','winc','binc','movestogo')
         while i<len(tokens):
             key=tokens[i]
-            if key=='searchmoves':restricted=tokens[i+1:];break
-            if key in ('depth','qdepth','movetime'):
+            if key=='searchmoves':
+                restricted=[];i+=1
+                while i<len(tokens) and tokens[i] not in keys:
+                    restricted.append(tokens[i]);i+=1
+                continue
+            if key in keys:
                 if i+1>=len(tokens):raise ValueError('go '+key+' missing value')
                 n=int(tokens[i+1]);i+=2
-                if n<1 and key!='qdepth':raise ValueError('go '+key+' invalid')
-                if n<0:raise ValueError('go '+key+' invalid')
+                if n<0 or (n==0 and key in ('depth','movetime','movestogo')):raise ValueError('go '+key+' invalid')
                 if key=='depth':depth=min(depth,n)
                 elif key=='qdepth':qdepth=min(qdepth,n)
-                else:budget=min(budget,n)
+                elif key=='movetime':budget=min(budget,n);explicit_movetime=True
+                else:clock[key]=n
             else:raise ValueError('unsupported go parameter: '+key)
+        clock_deadline=None
+        side='w' if self.board.turn else 'b'
+        if side+'time' in clock:
+            remaining=clock[side+'time'];increment=clock.get(side+'inc',0)
+            # Keep time for transport and final response; never spend the increment
+            # before it has actually been credited by the external chess clock.
+            reserve=min(250,max(10,remaining//10))
+            usable=max(1,remaining-reserve)
+            if not explicit_movetime:
+                horizon=clock.get('movestogo',30)
+                budget=min(budget,max(1,remaining//horizon+increment*3//4))
+            budget=min(budget,usable)
+            grace=min(int(float(self.hive.cfg['search_grace_s'])*1000),max(0,usable-budget))
+            clock_deadline=time.monotonic()+(budget+grace)/1000
+            telemetry('⚙️',self.label,f'clock side={side} remaining={remaining} increment={increment} budget={budget} ms')
+        elif 'wtime' in clock or 'btime' in clock:
+            raise ValueError('go missing clock for side to move: '+side+'time')
         valid={m.uci() for m in self.board.legal_moves}
         if restricted is None:moves=sorted(valid)
         else:
@@ -697,16 +720,17 @@ class Session:
             if self.search_thread and self.search_thread.is_alive():raise RuntimeError('session busy')
             self.stop.clear()
             if not moves:self.send('bestmove 0000');return
-            t=threading.Thread(target=self._search,args=(self.position,moves,depth,qdepth,budget),daemon=True)
+            t=threading.Thread(target=self._search,args=(self.position,moves,depth,qdepth,budget,clock_deadline),daemon=True)
             self.search_thread=t;t.start()
 
-    def _search(self,position,moves,depth,qdepth,budget):
+    def _search(self,position,moves,depth,qdepth,budget,clock_deadline=None):
         start=time.monotonic();eps=[]
         # Reservation is per UCI session. Never place work on busy endpoints.
         # TCP-only contention waits for resources even beyond the UCI movetime;
         # the actual search budget begins once a resource is acquired.
         # Local UCI engines can be replicated into independent processes.
         while not self.stop.is_set() and not self.hive.stopped.is_set() and not self.closed:
+            if clock_deadline is not None and time.monotonic()>=clock_deadline:break
             eps=self.hive.registry.claim()
             if eps:break
             if any(e.static and e.spec['type']=='uci' for e in self.hive.registry.snapshot()):
@@ -721,6 +745,8 @@ class Session:
             self.send('info string Hive search cancelled while waiting for an engine');self.send('bestmove 0000');return
         # Waiting for a busy TCP engine is outside the requested thinking budget.
         search_start=time.monotonic()
+        if clock_deadline is not None:
+            budget=min(budget,max(1,int((clock_deadline-search_start)*1000)))
         # The specified k=delta/sum(delta) grows for slow engines; to allocate
         # more work to faster engines use reciprocal k, never k directly.
         # Refresh preference indices from all currently connected clients,
@@ -756,6 +782,7 @@ class Session:
             finally:self.hive.registry.release(ep)
         for ep,assigned in work:threading.Thread(target=run,args=(ep,assigned),daemon=True).start()
         pending=len(work);results=[];deadline=search_start+budget/1000+float(self.hive.cfg['search_grace_s'])
+        if clock_deadline is not None:deadline=min(deadline,clock_deadline)
         while pending and not self.stop.is_set() and time.monotonic()<deadline:
             try:r=replies.get(timeout=min(.1,max(.01,deadline-time.monotonic())))
             except queue.Empty:continue
