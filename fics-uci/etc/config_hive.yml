@@ -31,3 +31,20 @@ verbose: false
 # Usuarios excluidos (comparacion insensible a mayusculas/minusculas).
 no-accept: []
 no-request: []
+
+draw:
+  cooldown_ms: 60000
+
+  accept:
+    enabled: false
+    min_mov: 20
+    cp_min: -infinity
+    cp_max: 25
+    pctclock: 90
+
+  offer:
+    enabled: false
+    min_mov: 30
+    cp_min: -150
+    cp_max: 10
+    pctclock: 90

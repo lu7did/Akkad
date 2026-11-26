@@ -1,0 +1,9 @@
+# Hive v0.2.23 — team evaluator
+Base: v0.2.22. Replace hive/src/hive.py, add the example and test.
+
+- A team has at least two UCI/TCP members, explicit finite reliability in [0,1], sum 1 within 1e-9. Configuration errors abort startup. No nested teams.
+- Team Kmin/Kmax, calibration, allocation and beacon are single-resource quantities. Members do not enter the global allocator. All members must be connected; loss withdraws the team, closes remaining transports and reconnects/retests it as a unit. No degraded single-member fallback. TCP members use conventional UCI and retain the pre-existing prohibition on static Hive links.
+- All members receive identical root position and single restricted move concurrently. Multiple assigned moves are evaluated serially as a team within the shared budget; remaining time is divided by remaining moves. UCI stop/drain uses the existing endpoint logic. No partial weighted mean: all exact scores required. A cancelled search may return completed joint scores only. If there is no scored candidate, existing Hive fallback applies.
+- Fusion: weighted numeric UCI score, rounded to integer cp. Existing numeric_score maps mate to signed approximately 100000; a fused numeric estimate is never emitted as a forced mate. No WDL normalization or scale calibration. This is a heuristic, especially when mate and cp mix. Node counts are summed, time is joint wall time; depth is minimum reported depth. The witness is the ordinary registry test through TeamEndpoint, including concurrent execution and fusion. Broadcast reports one effective time for the team, never individual member capacities.
+- No operational YAML overwritten. No changes to other motors or existing allocator.
+- Validation: unittest discover -s hive/tests -v. Mock chess dependency and mock member searches in new tests; physical engines/Windows remain untested.

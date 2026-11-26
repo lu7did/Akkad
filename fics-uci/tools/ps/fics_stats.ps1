@@ -1,1 +1,1 @@
-python ..\..\src\fics_stats.py --json ..\..\data\fics_picoPixie.json --stats --ELO 1000
+python ..\..\src\fics_stats.py --json ..\..\data\fics_hive.json --stats --ELO 1000

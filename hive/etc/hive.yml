@@ -49,23 +49,48 @@ engines: []
 #     port: 6210
 # Limit the number of concurrent probe sessions sent to an advertised Hive.
 engines:
-  - name: stockfish
+  - name: SF_001
     type: uci
     path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
     args: ""
     options:
       Threads: 4
-    kmin: 0.45
+    kmin: 0.10
+    core: 1
 
-  - name: alphazero
+  - name: SF_002
+    type: uci
+    path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
+    args: ""
+    options:
+      Threads: 4
+    kmin: 0.10
+    core: 1
+
+  - name: SF_003
+    type: uci
+    path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
+    args: ""
+    options:
+      Threads: 4
+    kmin: 0.10
+    core: 1
+
+  - name: AZ_001
     type: uci
     path: "C:/Users/pedro/github/bobby/akkad/alphazero/X86/build/AlphaZero.exe"
     args: '--cores 4 --backend onnx-dml --simulations 1200 --verbose 1 --cpuct 1.5 --tmax 15000 --timeout 60000 --weights "C:/Users/pedro/github/Bobby/Akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"'
-    kmin: 0.45
+    kmin: 0.30
 
-  - name: picoSargon
+  - name: pS_001
     type: uci
     path: "C:/Users/pedro/github/bobby/akkad/picoSargon/X86/build/picoSargon.exe"
     args: '--cores 4 --depth 9 --qdepth 9 --weights "C:/Users/pedro/github/Bobby/Akkad/picoSargon/assets/bashful.bin"'
+    kmax: 0.05
 
 max_hive_probe_jobs: 32
+# Add these top-level keys to the existing hive.yml.
+# The defaults are also applied by hive.py if the keys are absent.
+recalibration_min: 30
+# -1 disables mandatory recalibration; idle recalibration remains enabled.
+recalibration_max: -1

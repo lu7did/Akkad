@@ -69,11 +69,10 @@ int Engine::see(Board& b,Move first,int limit){
 void Engine::twin_prepare_buffers(){
  if(twin_see_moves_.capacity()<128){twin_see_moves_.reserve(128);++twin_allocations_;}
  if(twin_see_candidates_.capacity()<128){twin_see_candidates_.reserve(128);++twin_allocations_;}
- for(auto& f:twin_frames_){
-  if(f.moves.capacity()<96){f.moves.reserve(96);++twin_allocations_;}
-  if(f.candidates.capacity()<128){f.candidates.reserve(128);++twin_allocations_;}
-  if(f.rated.capacity()<96){f.rated.reserve(96);++twin_allocations_;}
- }
+ // Allocate recursive scratch lazily in the frame that actually needs it.
+ // Reserving all 56 frames in both workers at the first go consumes SRAM
+ // even at depth 1. Vectors retain their capacity for subsequent searches.
+
 }
 #endif
 void Engine::order(Board& b,std::vector<Move>& ms,int ply,Move ttmove){
@@ -149,6 +148,11 @@ int Engine::negamax(Board& b,int depth,int qleft,int alpha,int beta,int ply,bool
  if(frame>=TWIN_FRAMES) return net_.evaluate(b)*b.turn;
  FrameGuard guard(twin_frame_depth_);
  auto& scratch=twin_frames_[frame];
+ if(scratch.moves.capacity()<96){scratch.moves.reserve(96);++twin_allocations_;}
+ if(scratch.candidates.capacity()<128){scratch.candidates.reserve(128);++twin_allocations_;}
+#ifdef PICOSARGON_STEROIDS
+ if(scratch.rated.capacity()<96){scratch.rated.reserve(96);++twin_allocations_;}
+#endif
  auto& moves=scratch.moves;
  const size_t move_cap=moves.capacity(),candidate_cap=scratch.candidates.capacity();
  b.legal(moves,scratch.candidates);

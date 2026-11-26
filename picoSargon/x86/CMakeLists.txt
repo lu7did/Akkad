@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(picoSargon VERSION 0.2.65 LANGUAGES CXX)
+project(picoSargon VERSION 0.2.67 LANGUAGES CXX)
 option(STEROIDS "Enable aspiration windows, SEE and razoring (experimental)" ON)
 option(MULTICORE "Enable parallel root search on host platforms" ON)
 set(CMAKE_CXX_STANDARD 17)
@@ -26,9 +26,9 @@ set_target_properties(picoSargon PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}"
 )
 
+find_package(Threads REQUIRED)
+target_link_libraries(picoSargon PRIVATE Threads::Threads)
 if(MULTICORE)
- find_package(Threads REQUIRED)
- target_link_libraries(picoSargon PRIVATE Threads::Threads)
  target_compile_definitions(picoSargon PRIVATE PICOSARGON_MULTICORE=1)
 endif()
 message(STATUS "picoSargon MULTICORE=${MULTICORE}")

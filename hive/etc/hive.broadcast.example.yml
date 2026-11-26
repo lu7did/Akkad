@@ -1,0 +1,10 @@
+# Merge these top-level keys into the existing hive.yml; do not replace engines.
+# Exactly one Hive in the group must use master: true.
+master: false
+# Periodic UDP beacon interval, in minutes (positive number, not boolean).
+broadcast: 5
+# Same UDP discovery port on every Hive in the group.
+# Existing udp_port is accepted; broadcast_port is its optional alias.
+udp_port: 6251
+# Optional when the machine has multiple network interfaces:
+# advertise_ip: 192.168.68.117

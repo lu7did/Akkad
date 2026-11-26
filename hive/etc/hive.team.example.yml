@@ -1,0 +1,20 @@
+# Example only. Copy a team definition into the existing hive.yml.
+engines:
+  - name: SF-LC0
+    type: team
+    kmin: 0.0
+    kmax: 1.0
+    fusion: mean
+    members:
+      - name: stockfish
+        type: uci
+        path: C:/stockfish/stockfish.exe
+        core: 4
+        reliability: 0.5
+        options:
+          Threads: 4
+      - name: lc0
+        type: tcp
+        host: 192.168.68.108
+        port: 6200
+        reliability: 0.5

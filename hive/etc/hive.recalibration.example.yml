@@ -1,0 +1,10 @@
+# Add these top-level keys to the existing hive.yml.
+# The defaults are also applied by hive.py if the keys are absent.
+recalibration_min: 30
+# -1 disables mandatory recalibration; idle recalibration remains enabled.
+recalibration_max: 60
+# Each existing engine accepts the following optional fields:
+#   kmin: 0.0
+#   kmax: 1.0
+# Individual bounds: 0 <= kmin < kmax <= 1.
+# Global bounds: sum(kmin) <= 1 <= sum(kmax).

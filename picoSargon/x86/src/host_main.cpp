@@ -15,6 +15,9 @@
 #include <map>
 #include <iomanip>
 #include <algorithm>
+#include <atomic>
+#include <thread>
+#include <mutex>
 #ifdef PICOSARGON_MULTICORE
 #include <thread>
 #include <set>
@@ -31,7 +34,7 @@
 #include <sys/sysctl.h>
 #endif
 #ifndef PICOSARGON_VERSION
-#define PICOSARGON_VERSION "0.2.51"
+#define PICOSARGON_VERSION "0.2.67"
 #endif
 // Minimal JSON reader restricted to strings/objects/arrays and scalar skipping.
 // No LC0 dependency; only retrieves brains[brain]["network"].
@@ -308,8 +311,22 @@ int main(int argc,char**argv){
             << "; TCP=no (usar picoSargon/tools/macos/run_listen.sh para escuchar)" << std::endl;
 #endif
   int qdepth=options.qdepth;std::string line;
+  std::atomic<bool> stop_requested{false};
+  std::mutex output_mutex;
+  std::thread search_worker;
+  struct SearchGuard {
+   std::thread& worker; std::atomic<bool>& stop;
+   ~SearchGuard(){stop.store(true);if(worker.joinable())worker.join();}
+  } guard{search_worker,stop_requested};
   while(std::getline(std::cin,line)){
    std::istringstream ss(line);std::string cmd;ss>>cmd;
+   if(cmd=="stop"){stop_requested.store(true);continue;}
+   if(cmd=="quit"){stop_requested.store(true);break;}
+   if(cmd=="isready"){
+    std::lock_guard<std::mutex> lock(output_mutex);
+    std::cout<<"readyok\n"<<std::flush;continue;
+   }
+   if(search_worker.joinable())search_worker.join();
    if(cmd=="uci"){
     std::cout<<"id name "<<uci_identity()<<"\nid author Dr. Pedro E. Colla\noption name QDepth type spin default "<<qdepth<<" min 0 max 32\n"
 #ifdef PICOSARGON_MULTICORE
@@ -337,6 +354,8 @@ int main(int argc,char**argv){
     }else throw std::runtime_error("position expects fen/startpos");
     while(ss>>t){if(t=="moves")continue;board.push(board.parse(t));}
    }else if(cmd=="go"){
+    stop_requested.store(false);
+    search_worker=std::thread([&,ss=std::move(ss)]() mutable {
     try {
     int depth=options.depth,search_qdepth=qdepth;
     uint64_t timelimit=options.timeout;
@@ -383,7 +402,7 @@ int main(int argc,char**argv){
      // Preserve previous behavior for unrelated UCI go parameters.
     }
     if(restricted&&requested.empty())throw std::runtime_error("go: searchmoves sin movimientos");
-    Engine engine(net,milliseconds,[]{return false;},{},search_qdepth);
+    Engine engine(net,milliseconds,[&]{return stop_requested.load();},{},search_qdepth);
     const auto search_start=std::chrono::steady_clock::now();
 #ifdef PICOSARGON_MULTICORE
     auto result=cores>1?engine.search_parallel(board,depth,timelimit,
@@ -396,6 +415,7 @@ int main(int argc,char**argv){
     const int ply=2*(board.fullmove-1)+(board.turn==-1?1:0);
     // UCI score is relative to side-to-move, not to White.
     const auto nps=elapsed_ms>0 ? (result.nodes*1000ULL/static_cast<unsigned long long>(elapsed_ms)) : 0ULL;
+    std::lock_guard<std::mutex> output_lock(output_mutex);
     if(restricted&&result.depth>0){
      // One completed-depth evaluation per requested legal root, ordered by score.
      auto roots=result.roots;
@@ -440,14 +460,17 @@ int main(int argc,char**argv){
     };
     diagnostic(info_line.str());
     diagnostic(best_line);
-    std::cout<<info_line.str()<<"\n";
-    std::cout<<best_line<<"\n";
+    if(result.depth>0)std::cout<<info_line.str()<<"\n";
+    std::cout<<best_line<<"\n"<<std::flush;
     }catch(const std::exception& e){
+      std::lock_guard<std::mutex> output_lock(output_mutex);
       std::cerr<<"[picoSargon UCI] go rejected: "<<e.what()<<"\n";
       std::cout<<"info string ERROR go: "<<e.what()<<"\n";
-      std::cout<<"bestmove 0000\n";
+      std::cout<<"bestmove 0000\n"<<std::flush;
     }
-   }else if(cmd=="quit")break;
+    });
+    continue;
+   }
    std::cout.flush();
   }
   return 0;

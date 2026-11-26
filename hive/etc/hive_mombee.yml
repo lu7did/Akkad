@@ -1,0 +1,142 @@
+# Hive v0.2.0 - keep a copy named hive.yml in your working directory or use --hive PATH
+name: Hive-mom
+# Strongly recommended persistent 32-digit lower-case hexadecimal UUID.
+node_id: ''  # generate on boot; set a unique stable UUID for persistent Hive topology
+listen_ip: '0.0.0.0'
+tcp_port: 6250
+udp_port: 6251
+broadcast: false
+broadcast_seconds: 5
+advertise_ip: null
+hive_network: false
+retry_seconds: 5
+connect_timeout_s: 3
+handshake_timeout_s: 5
+search_grace_s: 1.5
+verbose: false
+depth: 9
+qdepth: 2
+timeout_ms: 10000
+# Single-move UCI probe; called once per local process and every TCP reconnection.
+test:
+  fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+  move: e2e4
+  depth: 3
+  qdepth: 2
+  movetime_ms: 15000
+# Configure workers under `engines:` (do not add top-level '- name').
+# UCI options are sent after handshake through setoption.
+#engines: []
+# Merge these top-level keys into the existing hive.yml; do not replace engines.
+# Exactly one Hive in the group must use master: true.
+master: true
+# Periodic UDP beacon interval, in minutes (positive number, not boolean).
+broadcast: 5
+# Same UDP discovery port on every Hive in the group.
+# Existing udp_port is accepted; broadcast_port is its optional alias.
+udp_port: 6251
+# Optional when the machine has multiple network interfaces:
+# advertise_ip: 192.168.68.117
+
+# Example local executable:
+# engines:
+#   - name: stockfish
+#     type: uci
+#     path: 'C:/Chess/stockfish.exe'
+#     args: ''
+#     options:
+#       Threads: 4
+#   - name: picoSargon
+#     type: uci
+#     path: 'C:/Akkad/picoSargon/x86/build/picoSargon.exe'
+#     args: '--cores 4 --depth 9 --qdepth 9 --weights C:/Akkad/picoSargon/assets/bashful.bin'
+#   - name: alphazero
+#     type: uci
+#     path: 'C:/Akkad/AlphaZero/X86/build/AlphaZero.exe'
+#     args: '--cores 4 --weights C:/Akkad/AlphaZero/assets/network.pb.gz'
+#   - name: sargon-tcp
+#     type: tcp
+#     host: '192.168.1.50'
+#     port: 6210
+# Limit the number of concurrent probe sessions sent to an advertised Hive.
+engines:
+  - name: SF_001
+    type: uci
+    path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
+    args: ""
+    options:
+      Threads: 4
+    kmin: 0.10
+    core: 1
+
+  - name: SF_002
+    type: uci
+    path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
+    args: ""
+    options:
+      Threads: 4
+    kmin: 0.10
+    core: 1
+
+#  - name: SF_003
+#    type: uci
+#    path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
+#    args: ""
+#    options:
+#      Threads: 4
+#    kmin: 0.10
+#    core: 1
+# Example only. Copy a team definition into the existing hive.yml.
+  - name: SF-LC0
+    type: team
+    kmin: 0.3
+    kmax: 1.0
+    fusion: mean
+    members:
+      - name: stockfish
+        type: uci
+        path: "C:/Users/pedro/github/Bobby/stockfish/stockfish.exe"
+        args: ""
+        core: 4
+        reliability: 0.5
+        options:
+          Threads: 4
+      - name: leela
+        type: uci
+        path: "C:/Users/pedro/github/Bobby/lc0/lc0.exe"
+        args: >-
+          --backend=onnx-dml
+          --backend-opts=gpu=0
+          --threads=2
+          --minibatch-size=8
+          --preload
+          --weights=C:/Users/pedro/github/Bobby/Akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz
+        core: 4
+        reliability: 0.5
+        options:
+          Threads: 4
+
+#      - name: lc0
+#        type: tcp
+#        host: 192.168.68.108
+#        port: 6200
+#        reliability: 0.5
+
+  - name: AZ_001
+    type: uci
+    path: "C:/Users/pedro/github/bobby/akkad/alphazero/X86/build/AlphaZero.exe"
+    args: '--cores 4 --backend onnx-dml --simulations 1200 --verbose 1 --cpuct 1.5 --tmax 15000 --timeout 60000 --weights "C:/Users/pedro/github/Bobby/Akkad/AlphaZero/assets/t1-256x10-distilled-swa-2432500.pb.gz"'
+    kmin: 0.30
+
+  - name: pS_001
+    type: uci
+    path: "C:/Users/pedro/github/bobby/akkad/picoSargon/X86/build/picoSargon.exe"
+    args: '--cores 4 --depth 9 --qdepth 9 --weights "C:/Users/pedro/github/Bobby/Akkad/picoSargon/assets/bashful.bin"'
+    kmax: 0.05
+
+max_hive_probe_jobs: 32
+# Add these top-level keys to the existing hive.yml.
+# The defaults are also applied by hive.py if the keys are absent.
+recalibration_min: 30
+# -1 disables mandatory recalibration; idle recalibration remains enabled.
+recalibration_max: -1

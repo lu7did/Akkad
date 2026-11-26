@@ -27,7 +27,9 @@ try:
 except ImportError:
     sys.exit("Instalá python-chess: python -m pip install python-chess")
 
-VERSION = "0.2.30"
+from draw_policy import parse_policy, clock_pct, parse_score
+
+VERSION = "0.2.33"
 
 VERBOSE = False
 
@@ -44,6 +46,8 @@ def log(emoji, source, message, detail=False):
         message.startswith("User ") and (message.endswith(" request rejected") or message.endswith(" ignored"))
     ):
         pass  # Etiquetas explicitas para filtros de usuarios.
+    elif origin == "DRAW":
+        emoji = "🤝"
     elif origin == "FICS":
         emoji = "➡️"
     elif origin == "UCI":
@@ -202,11 +206,27 @@ class UCIMonitor:
 UCI_MONITOR = None
 
 
+class LinkSendError(OSError):
+    def __init__(self, link, error):
+        super().__init__(str(error))
+        self.link = link
+
+
 class SocketLink:
     def __init__(self, name, host, port, events, telnet=False):
         self.name, self.events, self.telnet = name, events, telnet
         self.sock = socket.create_connection((host, port), timeout=15)
         self.sock.settimeout(None)
+        try:
+            self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+            if hasattr(socket, "SIO_KEEPALIVE_VALS"):
+                self.sock.ioctl(socket.SIO_KEEPALIVE_VALS, (1, 60000, 15000))
+            else:
+                for option, value in (("TCP_KEEPIDLE", 60), ("TCP_KEEPINTVL", 15), ("TCP_KEEPCNT", 4)):
+                    if hasattr(socket, option):
+                        self.sock.setsockopt(socket.IPPROTO_TCP, getattr(socket, option), value)
+        except OSError as exc:
+            log("⚠️", name, f"TCP keepalive: {exc}")
         self.lock = threading.Lock()
         self.running = True
         self.telnet_state = 0
@@ -217,8 +237,11 @@ class SocketLink:
         log("🔌", name, f"Conectado a {host}:{port}")
 
     def send(self, text, secret=False):
-        with self.lock:
-            self.sock.sendall((text + "\n").encode("utf-8"))
+        try:
+            with self.lock:
+                self.sock.sendall((text + "\n").encode("utf-8"))
+        except OSError as exc:
+            raise LinkSendError(self, exc) from exc
         if self.name == "UCI" and UCI_MONITOR is not None and not secret:
             UCI_MONITOR.publish(text)
         if not secret:
@@ -479,6 +502,7 @@ def style12(line):
         "wtime": max(0, int(fields[23])) * 1000, "btime": max(0, int(fields[24])) * 1000,
         "increment": max(0, int(fields[20])) * 1000,
         "initial_minutes": max(0, int(fields[19])),
+        "clock_snapshot": time.monotonic(),
     }
 
 
@@ -596,10 +620,15 @@ def challenge_elo(player, text):
 class Bridge:
     def __init__(self, args):
         self.a = args
+        self.draw_policy = getattr(args, "draw_policy", parse_policy({}))
+        self.draw_reset()
         self.events = queue.Queue()
         self.uci = self.fics = None
         self.username = None
         self.login = "waiting"
+        self.fics_retry_at = None
+        self.fics_login_deadline = None
+        self.fics_resync = False
         self.fics_ready = self.uci_ok = self.uci_ready = False
         self.engine_name = "Desconocido"
         self.history = History()
@@ -645,6 +674,119 @@ class Bridge:
         # Un único reintento por posición ante bestmove (none) no terminal.
         self.empty_bestmove_fen = None
         self.empty_bestmove_retries = 0
+
+    def draw_reset(self):
+        self.draw_until = 0.0
+        self.draw_in = False
+        self.draw_out_ply = None
+        self.draw_accept_deadline = None
+        self.draw_score = None
+        self.draw_search_start = None
+
+    def draw_cooldown(self):
+        self.draw_until = time.monotonic() + self.draw_policy.cooldown_ms / 1000
+        log("🤝", "DRAW", f"cooldown started ms={self.draw_policy.cooldown_ms}")
+
+    def draw_tick(self):
+        now = time.monotonic()
+        if self.draw_until and now >= self.draw_until:
+            self.draw_until = 0.0
+            log("🤝", "DRAW", "cooldown expired")
+        if self.draw_accept_deadline is not None and now >= self.draw_accept_deadline:
+            self.draw_accept_deadline = None
+            self.draw_cooldown()
+            self.fics_connection_lost("Timeout confirmación de tablas; resincronizando")
+
+    def draw_event(self, response):
+        if not self.draw_policy.enabled or not self.game_key or not self.position or not self.username or self.history.locked:
+            return False
+        opponent = next((n for n in self.game_key[1:] if n != self.username.lower()), "")
+        prefix = r"^" + re.escape(opponent) + r"\s+"
+        if re.search(prefix + r"(?:offers you a draw|offers a draw|requests a draw)\b", response, re.I):
+            log("🤝", "DRAW", f"received opponent={opponent}")
+            if self.draw_accept_deadline is not None:
+                return True  # existing negotiation awaits authoritative result
+            if self.draw_out_ply is not None:
+                # Our offer is already pending; never turn a new request into
+                # an acceptance when accepting is disabled.
+                self.fics.send("decline draw")
+                return True
+            if time.monotonic() < self.draw_until or not self.draw_policy.accept.enabled:
+                inhibited = time.monotonic() < self.draw_until
+                self.fics.send("decline draw")
+                log("🤝", "DRAW", "DECLINE reason=" + ("cooldown" if inhibited else "disabled"))
+                if not inhibited:
+                    self.draw_cooldown()
+            else:
+                self.draw_in = True
+            return True
+        if re.search(prefix + r"(?:declines (?:your |the )?draw (?:request|offer)|declines your draw)\b", response, re.I):
+            if self.draw_out_ply is not None:
+                self.draw_out_ply = None
+                self.draw_cooldown()
+                log("🤝", "DRAW", "declined by opponent")
+            return True
+        if re.search(prefix + r"withdraws (?:the |his |her )?draw (?:request|offer)\b", response, re.I):
+            if self.draw_in:
+                self.draw_in = False
+                self.draw_cooldown()
+            return True
+        if self.draw_accept_deadline is not None and re.search(r"^\s*(?:you have no .*?offers?|there (?:is|are) no .*?offers?|no .*?pending .*?offers?)", response, re.I):
+            self.draw_accept_deadline = None
+            self.draw_cooldown()
+            self.maybe_search()
+            return True
+        return False
+
+    def draw_position_changed(self, status):
+        if not self.draw_policy.enabled:
+            return
+        ply = len(self.history.moves)
+        if status == "rewind":
+            self.draw_in = False
+            self.draw_out_ply = None
+            self.draw_score = None
+        if self.draw_out_ply is not None and ply >= self.draw_out_ply + 2:
+            self.draw_out_ply = None
+            self.draw_cooldown()
+            log("🤝", "DRAW", "offer expired: opponent continued playing")
+
+    def draw_before_move(self, move_text):
+        if not self.draw_policy.enabled or not self.position:
+            return False
+        cp, pv = self.draw_score or (None, None)
+        if pv is not None and pv != move_text:
+            cp = None
+        pos = self.position
+        ply = len(self.history.moves)
+        white = self.username.lower() == pos["white"].lower()
+        own_moves = (ply + 1)//2 if white else ply//2
+        remaining = pos["wtime" if white else "btime"]
+        # Style12 is a snapshot at the beginning of our search; subtract elapsed time.
+        snapshot = pos.get("clock_snapshot", self.draw_search_start)
+        if snapshot is not None:
+            remaining = max(0, remaining - max(0, time.monotonic()-snapshot)*1000)
+        pct = clock_pct(pos["initial_minutes"]*60000, pos["increment"], own_moves, remaining)
+        info = f"cp={cp} mov={ply//2} clock={pct}"
+        inhibited = time.monotonic() < self.draw_until
+        if self.draw_in:
+            self.draw_in = False
+            if not inhibited and self.draw_policy.accept.decide(cp, ply//2, pct):
+                # Unlike draw, accept draw cannot create a new offer if the old one vanished.
+                self.fics.send("accept draw")
+                self.draw_accept_deadline = time.monotonic() + 5
+                log("🤝", "DRAW", "ACCEPT " + info)
+                return True
+            self.fics.send("decline draw")
+            if not inhibited:
+                self.draw_cooldown()
+            log("🤝", "DRAW", "DECLINE " + info)
+            return False
+        if not inhibited and self.draw_out_ply is None and self.draw_policy.offer.decide(cp, ply//2, pct):
+            self.fics.send("draw")
+            self.draw_out_ply = ply
+            log("🤝", "DRAW", "OFFER " + info)
+        return False
 
     def blocked_accept(self, player):
         return player.strip().casefold() in getattr(self.a, "no_accept", ())
@@ -775,7 +917,7 @@ class Bridge:
         self.disconnect_uci(reason="Conexión perdida")
         if self.a.retry is not None:
             self.schedule_uci_retry("Motor UCI desconectado")
-        elif self.game_key is not None:
+        elif self.game_key is not None and self.fics_ready and not self.fics_resync:
             log("⚠️", "PARTIDA", "Sin --retry: abandonando la partida")
             self.fics.send("resign")
 
@@ -902,6 +1044,60 @@ class Bridge:
                 f"{self.a.throtle} ms sin aceptar ni solicitar partidas")
         return True
 
+    def fics_connection_lost(self, reason):
+        old, self.fics = self.fics, None
+        if old:
+            old.close()
+        self.fics_ready = False
+        self.login = "waiting"
+        self.fics_login_deadline = None
+        self.fics_resync = True
+        self.pending_challenge = None
+        self.pending_challenge_elo_ok = False
+        self.challenge_name = None
+        self.challenge_buffer = ""
+        self.seeks.clear()
+        self.ignored_seek_numbers.clear()
+        self.seek_pending = self.seek_pending_since = None
+        self.seek_match_sent = False
+        self.offer_type_pending = self.offer_rated_pending = None
+        self.challenge_type_pending = self.challenge_rated_pending = None
+        if self.draw_in or self.draw_out_ply is not None or self.draw_accept_deadline is not None:
+            self.draw_cooldown()
+        self.draw_in = False
+        self.draw_out_ply = self.draw_accept_deadline = None
+        self.draw_score = None
+        self.position = None  # no search using an obsolete clock or board
+        try:
+            self.cancel_search("FICS desconectado; suspendiendo búsqueda")
+        except OSError:
+            self.disconnect_uci("No se pudo detener el motor tras perder FICS")
+            self.schedule_uci_retry("Recuperación UCI", recover=True)
+        delay = max(1.0, self.a.retry if self.a.retry is not None else 5.0)
+        self.fics_retry_at = time.monotonic() + delay
+        log("❌", "FICS", f"{reason}; reconexión en {delay:g}s; UCI preservado si está operativo")
+
+    def retry_fics_tick(self):
+        now = time.monotonic()
+        if self.fics is not None:
+            if self.fics_login_deadline is not None and now >= self.fics_login_deadline:
+                self.fics_connection_lost("Timeout resincronización FICS" if self.fics_ready and self.fics_resync else "Timeout login FICS")
+            return
+        if self.fics_retry_at is not None and now < self.fics_retry_at:
+            return
+        try:
+            self.fics = SocketLink("FICS", self.a.ip_fics, self.a.port_fics, self.events, telnet=True)
+            self.fics_retry_at = None
+            self.fics_login_deadline = time.monotonic() + 60
+        except OSError as exc:
+            self.fics_connection_lost(f"Fallo de conexión: {exc}")
+
+    def finish_fics_resync(self):
+        self.fics_resync = False
+        self.fics_login_deadline = None
+        self.awaiting_confirmation = None
+        log("✅", "SYNC", "Estado FICS actualizado")
+
     def authenticated(self, name):
         if self.fics_ready:
             return
@@ -921,8 +1117,12 @@ class Bridge:
         ):
             self.fics.send(command)
         self.last_seek_refresh = time.monotonic()
+        if self.fics_resync:
+            self.fics.send("refresh")
+        else:
+            self.fics_login_deadline = None
         log("📡", "SEEK", f"Anuncios activados: unrated standard, {self.a.min_time}-{self.a.max_time} min")
-        if self.a.accept:
+        if self.a.accept and not self.fics_resync:
             self.fics.send("sought")
 
     def login_line(self, line):
@@ -1066,7 +1266,7 @@ class Bridge:
         if number is None:
             return
         offer = self.seeks.get(number)
-        if (self.game_key is not None or not self.fics_ready or
+        if (self.game_key is not None or not self.fics_ready or self.fics_resync or
                 self.match_suspended or self.throtle_active() or
                 self.challenge_name is not None or self.pending_challenge is not None or
                 offer is None or not self.eligible_seek(offer)):
@@ -1090,7 +1290,7 @@ class Bridge:
         log("🤝", "SEEK", f"Desafío directo por oferta #{number}: {command}")
 
     def choose_seek(self):
-        if (not self.a.accept or not self.fics_ready or self.game_key is not None
+        if (not self.a.accept or not self.fics_ready or self.fics_resync or self.game_key is not None
                 or self.seek_pending is not None or self.match_suspended
                 or self.challenge_name is not None or self.pending_challenge is not None):
             return
@@ -1155,7 +1355,7 @@ class Bridge:
         return True
 
     def seek_tick(self):
-        if not self.a.accept or not self.fics_ready or self.game_key is not None:
+        if not self.a.accept or not self.fics_ready or self.fics_resync or self.game_key is not None:
             return
         now = time.monotonic()
         if self.seek_pending is not None and self.seek_pending_since is not None:
@@ -1169,7 +1369,7 @@ class Bridge:
         self.choose_seek()
 
     def challenge_line(self, line):
-        if not self.fics_ready or self.game_key is not None:
+        if not self.fics_ready or self.fics_resync or self.game_key is not None:
             return
         m = re.search(r"\bChallenge:\s*([A-Za-z][\w-]*)", line, re.I)
         # FICS may send a challenge description across several lines. Decline as
@@ -1261,6 +1461,7 @@ class Bridge:
             self.search_fen = self.search_since = None
 
     def reset_game(self):
+        self.draw_reset()
         self.empty_bestmove_fen = None
         self.empty_bestmove_retries = 0
         self.cancel_search("Cambio/finalización de partida")
@@ -1295,7 +1496,19 @@ class Bridge:
             return
         my_color = chess.WHITE if name == white else chess.BLACK
         key = (pos["game"], white, black)
+        if self.fics_resync:
+            if key == self.game_key and self.history.reconcile(pos["board"]) == "missing":
+                self.position = pos
+                self.last_clock = (pos["game"], pos["wtime"], pos["btime"])
+                self.finish_fics_resync()
+                self.lock_history("Reconexión FICS: historial divergente; no se emitirán movimientos")
+                return
+            self.finish_fics_resync()
+            if key == self.game_key and self.uci is None:
+                if not self.ensure_uci():
+                    self.schedule_uci_retry("Motor ausente durante resincronización", recover=True)
         if key != self.game_key:
+            self.draw_reset()
             if self.seek_pending is not None:
                 self.release_seek("Partida iniciada", cooldown=False)
             self.seeks.clear()
@@ -1359,6 +1572,7 @@ class Bridge:
             log("↩️", "SYNC", "Retroceso confirmado")
             self.cancel_search("Takeback")
             self.awaiting_confirmation = None
+        self.draw_position_changed(status)
         if self.awaiting_confirmation:
             latest = self.history.moves[-1] if self.history.moves else None
             if latest == self.awaiting_confirmation:
@@ -1378,9 +1592,10 @@ class Bridge:
 
     def maybe_search(self):
         pos = self.position
-        if (pos is None or self.game_key is None or self.history.locked
+        if (not self.fics_ready or self.fics_resync or pos is None or self.game_key is None or self.history.locked
                 or not self.uci_ok or not self.uci_ready or self.stopping
-                or self.search_fen is not None or self.awaiting_confirmation is not None):
+                or self.search_fen is not None or self.awaiting_confirmation is not None
+                or self.draw_accept_deadline is not None):
             return
         my_color = chess.WHITE if self.username.lower() == pos["white"].lower() else chess.BLACK
         if self.history.board.turn != my_color:
@@ -1395,6 +1610,8 @@ class Bridge:
             )
         self.search_fen = self.history.board.fen()
         self.search_since = time.monotonic()
+        self.draw_search_start = self.search_since
+        self.draw_score = None
         log("🧠", "UCI", f"Búsqueda | ply={len(self.history.moves)}")
 
     def engine_line(self, line):
@@ -1409,6 +1626,10 @@ class Bridge:
             ))
             log("🧠", "UCI", line,
                 detail=(self.a.type != "uci" and ((line.startswith("info ") and not is_metrics) or not line)))
+        if self.draw_policy.enabled and self.search_fen is not None and not self.stopping:
+            score = parse_score(line)
+            if score is not None:
+                self.draw_score = score
         if line.startswith("id name "):
             self.engine_name = normalize_brain_name(line[8:])
         elif line.strip() == "uciok":
@@ -1456,7 +1677,7 @@ class Bridge:
                 self.uci_ready = False
                 self.uci.send("isready")
                 return
-            if self.search_fen is None or self.history.locked:
+            if not self.fics_ready or self.fics_resync or self.search_fen is None or self.history.locked:
                 return
             move_text = match.group(1).lower()
             fen = self.search_fen
@@ -1498,6 +1719,8 @@ class Bridge:
             if move not in self.history.board.legal_moves:
                 self.lock_history(f"Jugada UCI ilegal: {move_text}")
                 return
+            if self.draw_before_move(move_text):
+                return
             # FICS admite notacion de computadora origen-destino (help intro_moving).
             # Evita ambiguedades entre piezas del mismo tipo. Las promociones
             # conservan SAN (e8=Q, exd8=N) para explicitar la pieza elegida.
@@ -1523,9 +1746,36 @@ class Bridge:
             self.lock_history(f"FICS rechazó {rejected}: {line.strip()}")
             return
         if not self.fics_ready:
+            if re.search(r"already logged in", line, re.I) and self.fics_resync:
+                self.fics_connection_lost("Sesión anterior todavía activa")
+                return
             if re.search(r"invalid password|invalid login|already logged in", line, re.I):
                 raise RuntimeError(f"FICS rechazó login: {line}")
             self.login_line(line)
+        # FICS may prepend its prompt to the response to refresh. Keep the
+        # original line for logging and login processing; normalize for resync.
+        response = re.sub(r"^\s*(?:fics%\s*)+", "", line, flags=re.I)
+        if self.fics_resync and self.fics_ready and re.search(
+                r"^\s*(?:you(?: are|'re) not (?:currently )?playing\b|"
+                r"you are not involved in a game\b|"
+                r"you are neither playing(?:\s+nor observing\b|"
+                r",\s*observing\s+nor examining\s+a game\b))",
+                response, re.I):
+            # The server confirms no active game. Do not fabricate a result.
+            self.game_key = self.position = None
+            self.draw_reset()
+            self.empty_bestmove_fen = None
+            self.empty_bestmove_retries = 0
+            self.history.reset()
+            self.finish_fics_resync()
+            self.last_seek_refresh = 0
+            return
+        if self.fics_resync and not line.startswith("<12> "):
+            if self.fics_ready and self.handle_result(line):
+                self.finish_fics_resync()
+            return
+        if self.draw_event(response):
+            return
         if self.seek_clear(line) or self.seek_remove(line) or self.seek_offer(line) or self.seek_text_offer(line) or self.seek_response(line):
             return
         if line.startswith("<12> "):
@@ -1549,53 +1799,62 @@ class Bridge:
     def run(self):
         log("🚀", "APP", f"fics_uci v{VERSION}")
         try:
-            self.fics = SocketLink("FICS", self.a.ip_fics, self.a.port_fics, self.events, telnet=True)
             while True:
                 try:
-                    source, link, line = self.events.get(timeout=0.25)
-                except queue.Empty:
-                    source = None
-                if source:
-                    # Descartar datos del socket anterior luego de reconectar.
-                    if link is not (self.uci if source == "UCI" else self.fics):
-                        continue
-                    if line.startswith("__DISCONNECT__"):
-                        if source == "UCI":
-                            if self.uci is not None:
-                                suffix = line.partition(" ")[2]
-                                prefix = ("Proceso UCI cerrado" if self.a.type == "uci"
-                                          else "Conexión TCP cerrada")
-                                self.uci_connection_lost(f"{prefix}: {suffix}".rstrip(": "))
+                    self.retry_fics_tick()
+                    try:
+                        source, link, line = self.events.get(timeout=0.25)
+                    except queue.Empty:
+                        source = None
+                    if source:
+                        # Descartar datos del socket anterior luego de reconectar.
+                        if link is not (self.uci if source == "UCI" else self.fics):
                             continue
-                        raise ConnectionError(f"Conexión cerrada: {source}")
-                    if line.startswith("__ERROR__"):
-                        if source == "UCI":
-                            if self.uci is not None:
-                                self.uci_connection_lost(line)
+                        if line.startswith("__DISCONNECT__"):
+                            if source == "UCI":
+                                if self.uci is not None:
+                                    suffix = line.partition(" ")[2]
+                                    prefix = ("Proceso UCI cerrado" if self.a.type == "uci"
+                                              else "Conexión TCP cerrada")
+                                    self.uci_connection_lost(f"{prefix}: {suffix}".rstrip(": "))
+                                continue
+                            self.fics_connection_lost("Conexión TCP cerrada")
                             continue
-                        raise ConnectionError(f"{source}: {line}")
-                    if source == "UCI":
-                        self.engine_line(line)
-                    elif source == "FICS":
-                        self.fics_line(line)
-                if (self.search_since is not None
-                        and time.monotonic() - self.search_since > self.a.engine_timeout):
-                    self.recover_uci_stall("Timeout bestmove sin respuesta")
-                if (self.stopping and self.stop_since is not None
-                        and time.monotonic() - self.stop_since > self.a.stop_timeout):
-                    self.recover_uci_stall("Timeout esperando bestmove tras stop")
-                self.retry_uci_tick()
-                self.maybe_search()
-                self.seek_tick()
-                if self.uci_deadline and time.monotonic() > self.uci_deadline:
-                    log("❌", "UCI", ("ERROR: motor no devolvió uciok/readyok dentro del timeout de apertura"
-                                     f" (uciok={self.uci_ok}, readyok={self.uci_ready})"))
-                    if self.pending_challenge:
-                        self.fics.send(f"decline {self.pending_challenge}")
-                        self.pending_challenge = None
-                    self.release_seek("Motor UCI sin readyok")
-                    self.disconnect_uci(reason="Timeout de inicialización")
-                    self.schedule_uci_retry("Handshake UCI agotado")
+                        if line.startswith("__ERROR__"):
+                            if source == "UCI":
+                                if self.uci is not None:
+                                    self.uci_connection_lost(line)
+                                continue
+                            self.fics_connection_lost(line)
+                            continue
+                        if source == "UCI":
+                            self.engine_line(line)
+                        elif source == "FICS":
+                            self.fics_line(line)
+                    if (self.search_since is not None
+                            and time.monotonic() - self.search_since > self.a.engine_timeout):
+                        self.recover_uci_stall("Timeout bestmove sin respuesta")
+                    if (self.stopping and self.stop_since is not None
+                            and time.monotonic() - self.stop_since > self.a.stop_timeout):
+                        self.recover_uci_stall("Timeout esperando bestmove tras stop")
+                    self.draw_tick()
+                    self.retry_uci_tick()
+                    self.maybe_search()
+                    self.seek_tick()
+                    if self.uci_deadline and time.monotonic() > self.uci_deadline:
+                        log("❌", "UCI", ("ERROR: motor no devolvió uciok/readyok dentro del timeout de apertura"
+                                         f" (uciok={self.uci_ok}, readyok={self.uci_ready})"))
+                        if self.pending_challenge:
+                            self.fics.send(f"decline {self.pending_challenge}")
+                            self.pending_challenge = None
+                        self.release_seek("Motor UCI sin readyok")
+                        self.disconnect_uci(reason="Timeout de inicialización")
+                        self.schedule_uci_retry("Handshake UCI agotado")
+                except LinkSendError as exc:
+                    if exc.link is self.fics:
+                        self.fics_connection_lost(f"Fallo de envío: {exc}")
+                    elif exc.link is self.uci:
+                        self.uci_connection_lost(f"Fallo de envío: {exc}")
         finally:
             for conn in (self.uci, self.fics):
                 if conn:
@@ -1678,6 +1937,7 @@ def main():
             value = boolean(value)
         setattr(a, key, value)
     try:
+        a.draw_policy = parse_policy(config.get("draw", {}))
         a.no_accept = parse_user_blocklist(config.get("no-accept", []), "no-accept")
         a.no_request = parse_user_blocklist(config.get("no-request", []), "no-request")
     except ValueError as exc:
@@ -1754,6 +2014,10 @@ def main():
     log("⚙️", "APP", f"ratedonly={'ON (solo rivales con Elo conocido)' if a.ratedonly else 'OFF'}")
     log("⏳", "APP", ("repeat=0 (desactivado)" if a.repeat == 0
                        else f"repeat={a.repeat} min (bloqueo por rival, solo sesion)"))
+    log("🤝", "DRAW", f"cooldown_ms={a.draw_policy.cooldown_ms}")
+    for name in ("accept", "offer"):
+        rule = getattr(a.draw_policy, name)
+        log("🤝", "DRAW", f"{name} enabled={rule.enabled} min_mov={rule.min_mov} cp=[{rule.cp_min},{rule.cp_max}] pctclock={rule.pctclock}")
     global UCI_MONITOR
     UCI_MONITOR = UCIMonitor(a.monitor) if a.monitor is not None else None
     if UCI_MONITOR is not None and not UCI_MONITOR.start():

@@ -1,0 +1,2 @@
+# Hive v0.2.15
+Base: v0.2.14. Diagnostics only: record exclusion reasons during the atomic claim and report zero assignments, including unclaimed engines. Visible at verbose >= 1, stderr only. No changes to allocation or UCI wire. CONNECTING is reported if observable when the endpoint lock is obtained; the connection routine holds that lock during handshake. Tests cover claim reasons and verbosity with simulated transports; real engines not tested.

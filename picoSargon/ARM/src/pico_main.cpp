@@ -42,7 +42,7 @@ namespace {
 #ifdef PICOSARGON_CLOUD_HOOK
 const char* VERSION=runtime_config::UCI_NAME;
 #else
-const char* VERSION="picoSargon v0.2.49";
+const char* VERSION="picoSargon v0.2.51";
 #endif
 // Serial log calls are compiled out when DEBUG=false. Search statistics remain collected.
 template<class... Args> void debug_log(const char* fmt, Args... args) {
@@ -85,6 +85,7 @@ uint32_t search_sequence=0;
 uint32_t led_last=0; bool led_on=false;enum class LedState {Init,NoWiFi,Ready,Thinking,Fatal,Recoverable};LedState led_state=LedState::Init;
 bool wifi_up=false, wifi_attempt_active=false; uint64_t next_wifi_attempt=0, wifi_attempt_deadline=0;
 constexpr uint64_t WIFI_CONNECT_TIMEOUT_MS=30000;
+constexpr uint64_t TWIN_STOP_GRACE_MS=1000;
 uint64_t millis(){return to_ms_since_boot(get_absolute_time());}
 MemoryStat read_memory(){
  MemoryStat s;struct mallinfo m=mallinfo();s.heap_used=m.uordblks;s.heap_free=m.fordblks;
@@ -128,8 +129,11 @@ send_line("uciok");}else if(line=="isready")send_line("readyok");else if(line=="
 void run_search(){
  go_pending=false;
  if(!connected||!valid_position)return;
- status_led(LedState::Thinking);
  const uint32_t search_id=++search_sequence;
+#ifndef PICOSARGON_CLOUD_HOOK
+ send_line("info string SEARCH begin id="+std::to_string(search_id)+" budget_ms="+std::to_string(runtime_config::TIMEOUT_MS));
+#endif
+ status_led(LedState::Thinking);
 #ifdef PICOSARGON_CLOUD_HOOK
  // Only picoLichess compiles this optional hook. picoSargon's standalone
  // firmware follows its original UCI/TCP/NNUE path unchanged.
@@ -206,26 +210,50 @@ void run_search(){
    if(request_stop||request_quit||!connected||(deadline&&millis()>=deadline))break;
    twin_alpha.store(-1000000,std::memory_order_release);
    twin_stop.store(false,std::memory_order_release);
+   // Finish all potentially throwing job setup before publishing the mailbox.
    twin_board=board;twin_board.reserve_search(128);twin_roots=right;twin_depth=depth;twin_deadline=deadline;
-   // Start other core before working on the local partition.
+   Board own=board;own.reserve_search(128);
+   SearchResult a;
+   std::exception_ptr local_error;
+   debug_log("TWINS depth=%d dispatch heap_free=%ld\n",depth,(long)read_memory().heap_free);
    twin_job.store(1,std::memory_order_release);
    const auto core0_start=millis();
-   Board own=board;own.reserve_search(128);
-   auto a=e.search_partition(own,left,depth,deadline,twin_alpha);
+   try { a=e.search_partition(own,left,depth,deadline,twin_alpha); }
+   catch(...) { local_error=std::current_exception();twin_stop.store(true,std::memory_order_release); }
    const uint64_t core0_ms=millis()-core0_start;
    const auto barrier_start=millis();
    // The other core must finish before we compare any result. Core 0
    // continues to service lwIP and watchdog during the barrier.
+   uint64_t cancel_started=0;
+   bool cancelling=false;
    while(twin_job.load(std::memory_order_acquire)!=2){
     service();
-    if(request_stop||request_quit||!connected||(deadline&&millis()>=deadline))
+    const auto now=millis();
+    if(local_error||request_stop||request_quit||!connected||(deadline&&now>=deadline)){
       twin_stop.store(true,std::memory_order_release);
+      if(!cancelling){cancelling=true;cancel_started=now;debug_log("TWINS depth=%d stop requested; waiting for core1\n",depth);}
+      if(now-cancel_started>=TWIN_STOP_GRACE_MS){
+       // Core 1 still owns mutable state. Never reuse its mailbox or engine.
+       // An explicit reboot is safer than continuing with a wedged worker.
+       debug_log("TWINS FATAL core1 stop timeout depth=%d; reboot\n",depth);
+       if(connected&&!request_quit){
+        send_line("info string TWINS ERROR core1 stop timeout; rebooting");
+        send_line("bestmove "+(r.depth>0?Board::notation(r.best):std::string("0000")));
+       }
+       const auto flush_until=millis()+100;
+       while(millis()<flush_until){service();sleep_ms(1);}
+       watchdog_reboot(0,0,0);
+       while(true)tight_loop_contents();
+      }
+    }
     tight_loop_contents();
    }
    const uint64_t sync_wait_ms=millis()-barrier_start;
    const auto& b=twin_result;
       // Telemetria TWINS/LEVEL conjunta: emitir ambas lineas al completar el nivel.
    twin_job.store(0,std::memory_order_release);
+   if(local_error)std::rethrow_exception(local_error);
+   if(b.reason=="worker-exception")throw std::runtime_error("TWINS core1 worker exception");
    r.nodes+=a.nodes+b.nodes;r.qnodes+=a.qnodes+b.qnodes;
    r.tt_hits+=a.tt_hits+b.tt_hits;r.tt_stores+=a.tt_stores+b.tt_stores;
    r.cutoffs+=a.cutoffs+b.cutoffs;
@@ -373,6 +401,7 @@ void wifi_tick(){
 }
 } // namespace anonimo: wifi_tick y service comparten el mismo ambito
 int main(){
+ const bool recovered_from_watchdog=watchdog_caused_reboot();
  // Configurar el reloj antes de inicializar USB y WiFi.
  // No todas las frecuencias enteras dentro del rango son alcanzables exactamente.
  bool pll_applied = false;
@@ -382,8 +411,9 @@ int main(){
  }
  stdio_init_all();
  if constexpr(runtime_config::DEBUG){
-  while(!stdio_usb_connected())sleep_ms(100);
-  sleep_ms(100);
+  // A watchdog recovery must not wait forever for an absent USB console.
+  if(!recovered_from_watchdog)while(!stdio_usb_connected())sleep_ms(100);
+  if(stdio_usb_connected())sleep_ms(100);
   debug_log("%s BOOT (USB debug connected)\n",VERSION);
   if (pll_requested != 0u) {
    if (pll_requested < 120u || pll_requested > 250u) {
@@ -404,7 +434,7 @@ int main(){
   while(true)sleep_ms(100);
  }
  status_led(LedState::Init);
- debug_log("BOOT watchdog_reboot=%d\n",int(watchdog_caused_reboot()));
+ debug_log("BOOT watchdog_reboot=%d\n",int(recovered_from_watchdog));
  watchdog_enable(8000,true);
  try{
 #ifdef PICOSARGON_TWINS
